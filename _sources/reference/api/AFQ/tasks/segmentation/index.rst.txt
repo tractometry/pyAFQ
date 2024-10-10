@@ -1,0 +1,239 @@
+:py:mod:`AFQ.tasks.segmentation`
+================================
+
+.. py:module:: AFQ.tasks.segmentation
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   AFQ.tasks.segmentation.segment
+   AFQ.tasks.segmentation.export_bundles
+   AFQ.tasks.segmentation.export_sl_counts
+   AFQ.tasks.segmentation.export_bundle_lengths
+   AFQ.tasks.segmentation.export_density_maps
+   AFQ.tasks.segmentation.tract_profiles
+   AFQ.tasks.segmentation.get_scalar_dict
+   AFQ.tasks.segmentation.get_segmentation_plan
+
+
+
+Attributes
+~~~~~~~~~~
+
+.. autoapisummary::
+
+   AFQ.tasks.segmentation.has_trx
+   AFQ.tasks.segmentation.logger
+
+
+.. py:data:: has_trx
+   :value: True
+
+   
+
+.. py:data:: logger
+
+   
+
+.. py:function:: segment(data_imap, mapping_imap, tractography_imap, segmentation_params)
+
+   
+   full path to a trk/trx file containing containing
+   segmented streamlines, labeled by bundle
+
+
+   :Parameters:
+
+       **segmentation_params** : dict, optional
+           The parameters for segmentation.
+           Default: use the default behavior of the seg.Segmentation object.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: export_bundles(base_fname, output_dir, bundles, tracking_params, segmentation_params)
+
+   
+   dictionary of paths, where each path is
+   a full path to a trk file containing the streamlines of a given bundle.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: export_sl_counts(bundles)
+
+   
+   full path to a JSON file containing streamline counts
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: export_bundle_lengths(bundles)
+
+   
+   full path to a JSON file containing median bundle lengths
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: export_density_maps(bundles, data_imap)
+
+   
+   full path to 4d nifti file containing streamline counts per voxel
+   per bundle, where the 4th dimension encodes the bundle
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: tract_profiles(bundles, scalar_dict, data_imap, profile_weights='gauss', n_points_profile=100)
+
+   
+   full path to a CSV file containing tract profiles
+
+
+   :Parameters:
+
+       **profile_weights** : str, 1D array, 2D array callable, optional
+           How to weight each streamline (1D) or each node (2D)
+           when calculating the tract-profiles. If callable, this is a
+           function that calculates weights. If None, no weighting will
+           be applied. If "gauss", gaussian weights will be used.
+           If "median", the median of values at each node will be used
+           instead of a mean or weighted mean.
+           Default: "gauss"
+
+       **n_points_profile** : int, optional
+           Number of points to resample each streamline to before
+           calculating the tract-profiles.
+           Default: 100
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: get_scalar_dict(data_imap, mapping_imap, scalars=['dti_fa', 'dti_md'])
+
+   
+   dicionary mapping scalar names
+   to their respective file paths
+
+
+   :Parameters:
+
+       **scalars** : list of strings and/or scalar definitions, optional
+           List of scalars to use.
+           Can be any of: "dti_fa", "dti_md", "dki_fa", "dki_md", "dki_awf",
+           "dki_mk". Can also be a scalar from AFQ.definitions.image.
+           Default: ["dti_fa", "dti_md"]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: get_segmentation_plan(kwargs)
+
+

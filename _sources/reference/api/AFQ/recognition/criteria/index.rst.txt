@@ -1,0 +1,109 @@
+:py:mod:`AFQ.recognition.criteria`
+==================================
+
+.. py:module:: AFQ.recognition.criteria
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   AFQ.recognition.criteria.prob_map
+   AFQ.recognition.criteria.cross_midline
+   AFQ.recognition.criteria.start
+   AFQ.recognition.criteria.end
+   AFQ.recognition.criteria.length
+   AFQ.recognition.criteria.primary_axis
+   AFQ.recognition.criteria.include
+   AFQ.recognition.criteria.curvature
+   AFQ.recognition.criteria.exclude
+   AFQ.recognition.criteria.recobundles
+   AFQ.recognition.criteria.qb_thresh
+   AFQ.recognition.criteria.mahalanobis
+   AFQ.recognition.criteria.run_bundle_rec_plan
+
+
+
+Attributes
+~~~~~~~~~~
+
+.. autoapisummary::
+
+   AFQ.recognition.criteria.bundle_criterion_order
+   AFQ.recognition.criteria.logger
+
+
+.. py:data:: bundle_criterion_order
+   :value: ['prob_map', 'cross_midline', 'start', 'end', 'length', 'primary_axis', 'include', 'exclude',...
+
+   
+
+.. py:data:: logger
+
+   
+
+.. py:function:: prob_map(b_sls, bundle_def, preproc_imap, prob_threshold, **kwargs)
+
+
+.. py:function:: cross_midline(b_sls, bundle_def, preproc_imap, **kwargs)
+
+
+.. py:function:: start(b_sls, bundle_def, preproc_imap, **kwargs)
+
+
+.. py:function:: end(b_sls, bundle_def, preproc_imap, **kwargs)
+
+
+.. py:function:: length(b_sls, bundle_def, preproc_imap, **kwargs)
+
+
+.. py:function:: primary_axis(b_sls, bundle_def, **kwargs)
+
+
+.. py:function:: include(b_sls, bundle_def, preproc_imap, max_includes, parallel_segmentation, **kwargs)
+
+
+.. py:function:: curvature(b_sls, bundle_def, mapping, img, save_intermediates, **kwargs)
+
+   
+   Filters streamlines by how well they match
+   a curve in orientation and shape but not scale
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: exclude(b_sls, bundle_def, preproc_imap, **kwargs)
+
+
+.. py:function:: recobundles(b_sls, mapping, bundle_def, reg_template, img, refine_reco, save_intermediates, rng, rb_recognize_params, **kwargs)
+
+
+.. py:function:: qb_thresh(b_sls, bundle_def, preproc_imap, clip_edges, **kwargs)
+
+
+.. py:function:: mahalanobis(b_sls, bundle_def, clip_edges, cleaning_params, **kwargs)
+
+
+.. py:function:: run_bundle_rec_plan(bundle_dict, tg, mapping, img, reg_template, preproc_imap, bundle_name, bundle_idx, bundle_to_flip, bundle_roi_dists, bundle_decisions, **segmentation_params)
+
+

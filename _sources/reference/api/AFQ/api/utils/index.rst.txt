@@ -1,0 +1,26 @@
+:py:mod:`AFQ.api.utils`
+=======================
+
+.. py:module:: AFQ.api.utils
+
+
+Module Contents
+---------------
+
+.. py:data:: methods_descriptors
+
+   
+
+.. py:data:: kwargs_descriptors
+
+   
+
+.. py:data:: AFQclass_doc
+   :value: 'Here are the arguments you can pass to kwargs, to customize the tractometry pipeline. They are...'
+
+   
+
+.. py:data:: AFQclass_doc
+
+   
+

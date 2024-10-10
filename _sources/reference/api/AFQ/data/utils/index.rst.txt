@@ -1,0 +1,17 @@
+:py:mod:`AFQ.data.utils`
+========================
+
+.. py:module:: AFQ.data.utils
+
+
+Module Contents
+---------------
+
+.. py:data:: BUNDLE_RECO_2_AFQ
+
+   
+
+.. py:data:: BUNDLE_MAT_2_PYTHON
+
+   
+

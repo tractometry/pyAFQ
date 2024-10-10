@@ -1,0 +1,740 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AFQ.recognition.utils &#8212; AFQ 1.3.5 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/design-tabs.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/AFQ/recognition/utils';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.5 documentation - Home"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.5 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../tutorials/index.html">
+    Getting started with pyAFQ
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../howto/index.html">
+    How To
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../reference/index.html">
+    Reference Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../reference/api/index.html">
+    API Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/tractometry/pyAFQ" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../tutorials/index.html">
+    Getting started with pyAFQ
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../howto/index.html">
+    How To
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../reference/index.html">
+    Reference Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../reference/api/index.html">
+    API Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/tractometry/pyAFQ" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../AFQ.html" class="nav-link">AFQ</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">AFQ.recognit...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for AFQ.recognition.utils</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">os.path</span> <span class="k">as</span> <span class="nn">op</span>
+<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span>
+
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">from</span> <span class="nn">dipy.io.stateful_tractogram</span> <span class="kn">import</span> <span class="n">StatefulTractogram</span><span class="p">,</span> <span class="n">Space</span>
+<span class="kn">from</span> <span class="nn">dipy.io.streamline</span> <span class="kn">import</span> <span class="n">save_tractogram</span>
+<span class="kn">import</span> <span class="nn">dipy.tracking.streamlinespeed</span> <span class="k">as</span> <span class="nn">dps</span>
+<span class="kn">import</span> <span class="nn">dipy.tracking.streamline</span> <span class="k">as</span> <span class="nn">dts</span>
+<span class="kn">from</span> <span class="nn">dipy.tracking.distances</span> <span class="kn">import</span> <span class="n">bundles_distances_mdf</span>
+
+
+<span class="kn">from</span> <span class="nn">AFQ.definitions.mapping</span> <span class="kn">import</span> <span class="n">ConformedFnirtMapping</span>
+
+
+<div class="viewcode-block" id="logger"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.logger">[docs]</a><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;AFQ&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="flip_sls"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.flip_sls">[docs]</a><span class="k">def</span> <span class="nf">flip_sls</span><span class="p">(</span><span class="n">select_sl</span><span class="p">,</span> <span class="n">idx_to_flip</span><span class="p">,</span> <span class="n">in_place</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Helper function to flip streamlines</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">in_place</span><span class="p">:</span>
+        <span class="n">flipped_sl</span> <span class="o">=</span> <span class="n">select_sl</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">flipped_sl</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">select_sl</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">ii</span><span class="p">,</span> <span class="n">sl</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">select_sl</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">idx_to_flip</span><span class="p">[</span><span class="n">ii</span><span class="p">]:</span>
+            <span class="n">flipped_sl</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="n">sl</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">flipped_sl</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="n">sl</span>
+    <span class="k">return</span> <span class="n">flipped_sl</span></div>
+
+
+<div class="viewcode-block" id="cut_sls_by_dist"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.cut_sls_by_dist">[docs]</a><span class="k">def</span> <span class="nf">cut_sls_by_dist</span><span class="p">(</span><span class="n">select_sl</span><span class="p">,</span> <span class="n">roi_dists</span><span class="p">,</span> <span class="n">roi_idxs</span><span class="p">,</span>
+                    <span class="n">in_place</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Helper function to cut streamlines according to which points</span>
+<span class="sd">    are closest to certain rois.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    select_sl, streamlines to cut</span>
+<span class="sd">    roi_dists, distances from a given streamline to a given inclusion roi</span>
+<span class="sd">    roi_idxs, two indices into the list of inclusion rois to use for the cut</span>
+<span class="sd">    in_place, whether to modify select_sl</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">in_place</span><span class="p">:</span>
+        <span class="n">cut_sl</span> <span class="o">=</span> <span class="n">select_sl</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">cut_sl</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">select_sl</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">this_sl</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">select_sl</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">roi_idxs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">min0</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">min0</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">roi_dists</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="n">roi_idxs</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+        <span class="k">if</span> <span class="n">roi_idxs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">min1</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">this_sl</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">min1</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">roi_dists</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="n">roi_idxs</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+
+        <span class="c1"># handle if sls not flipped</span>
+        <span class="k">if</span> <span class="n">min0</span> <span class="o">&gt;</span> <span class="n">min1</span><span class="p">:</span>
+            <span class="n">min0</span><span class="p">,</span> <span class="n">min1</span> <span class="o">=</span> <span class="n">min1</span><span class="p">,</span> <span class="n">min0</span>
+
+        <span class="c1"># If the point that is closest to the first ROI</span>
+        <span class="c1"># is the same as the point closest to the second ROI,</span>
+        <span class="c1"># include the surrounding points to make a streamline.</span>
+        <span class="k">if</span> <span class="n">min0</span> <span class="o">==</span> <span class="n">min1</span><span class="p">:</span>
+            <span class="n">min1</span> <span class="o">=</span> <span class="n">min1</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">min0</span> <span class="o">=</span> <span class="n">min0</span> <span class="o">-</span> <span class="mi">1</span>
+
+        <span class="n">cut_sl</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">this_sl</span><span class="p">[</span><span class="n">min0</span><span class="p">:</span><span class="n">min1</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">cut_sl</span></div>
+
+
+<div class="viewcode-block" id="read_tg"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.read_tg">[docs]</a><span class="k">def</span> <span class="nf">read_tg</span><span class="p">(</span><span class="n">tg</span><span class="p">,</span> <span class="n">nb_streamlines</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">nb_streamlines</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">tg</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">nb_streamlines</span><span class="p">:</span>
+        <span class="n">tg</span> <span class="o">=</span> <span class="n">StatefulTractogram</span><span class="o">.</span><span class="n">from_sft</span><span class="p">(</span>
+            <span class="n">dts</span><span class="o">.</span><span class="n">select_random_set_of_streamlines</span><span class="p">(</span>
+                <span class="n">tg</span><span class="o">.</span><span class="n">streamlines</span><span class="p">,</span>
+                <span class="n">nb_streamlines</span>
+            <span class="p">),</span>
+            <span class="n">tg</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">tg</span></div>
+
+
+<div class="viewcode-block" id="orient_by_streamline"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.orient_by_streamline">[docs]</a><span class="k">def</span> <span class="nf">orient_by_streamline</span><span class="p">(</span><span class="n">sls</span><span class="p">,</span> <span class="n">template_sl</span><span class="p">):</span>
+    <span class="n">DM</span> <span class="o">=</span> <span class="n">bundles_distances_mdf</span><span class="p">(</span>
+        <span class="n">sls</span><span class="p">,</span>
+        <span class="p">[</span><span class="n">template_sl</span><span class="p">,</span> <span class="n">template_sl</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+    <span class="k">return</span> <span class="n">DM</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">DM</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="move_streamlines"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.move_streamlines">[docs]</a><span class="k">def</span> <span class="nf">move_streamlines</span><span class="p">(</span><span class="n">tg</span><span class="p">,</span> <span class="n">to</span><span class="p">,</span> <span class="n">mapping</span><span class="p">,</span> <span class="n">img</span><span class="p">,</span> <span class="n">save_intermediates</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Move streamlines to or from template space.</span>
+
+<span class="sd">    to : str</span>
+<span class="sd">        Either &quot;template&quot; or &quot;subject&quot;.</span>
+<span class="sd">    mapping : ConformedMapping</span>
+<span class="sd">        Mapping to use to move streamlines.</span>
+<span class="sd">    img : Nifti1Image</span>
+<span class="sd">        Space to move streamlines to.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">tg_og_space</span> <span class="o">=</span> <span class="n">tg</span><span class="o">.</span><span class="n">space</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mapping</span><span class="p">,</span> <span class="n">ConformedFnirtMapping</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">to</span> <span class="o">!=</span> <span class="s2">&quot;subject&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Attempted to transform streamlines to template using &quot;</span>
+                <span class="s2">&quot;unsupported mapping. &quot;</span>
+                <span class="s2">&quot;Use something other than Fnirt.&quot;</span><span class="p">)</span>
+        <span class="n">tg</span><span class="o">.</span><span class="n">to_vox</span><span class="p">()</span>
+        <span class="n">moved_sl</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">sl</span> <span class="ow">in</span> <span class="n">tg</span><span class="o">.</span><span class="n">streamlines</span><span class="p">:</span>
+            <span class="n">moved_sl</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mapping</span><span class="o">.</span><span class="n">transform_inverse_pts</span><span class="p">(</span><span class="n">sl</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">tg</span><span class="o">.</span><span class="n">to_rasmm</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">to</span> <span class="o">==</span> <span class="s2">&quot;template&quot;</span><span class="p">:</span>
+            <span class="n">volume</span> <span class="o">=</span> <span class="n">mapping</span><span class="o">.</span><span class="n">forward</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">volume</span> <span class="o">=</span> <span class="n">mapping</span><span class="o">.</span><span class="n">backward</span>
+        <span class="n">delta</span> <span class="o">=</span> <span class="n">dts</span><span class="o">.</span><span class="n">values_from_volume</span><span class="p">(</span>
+            <span class="n">volume</span><span class="p">,</span>
+            <span class="n">tg</span><span class="o">.</span><span class="n">streamlines</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+        <span class="n">moved_sl</span> <span class="o">=</span> <span class="n">dts</span><span class="o">.</span><span class="n">Streamlines</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">d</span> <span class="o">+</span> <span class="n">s</span> <span class="k">for</span> <span class="n">d</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">delta</span><span class="p">,</span> <span class="n">tg</span><span class="o">.</span><span class="n">streamlines</span><span class="p">)])</span>
+    <span class="n">moved_sft</span> <span class="o">=</span> <span class="n">StatefulTractogram</span><span class="p">(</span>
+        <span class="n">moved_sl</span><span class="p">,</span>
+        <span class="n">img</span><span class="p">,</span>
+        <span class="n">Space</span><span class="o">.</span><span class="n">RASMM</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">save_intermediates</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">save_tractogram</span><span class="p">(</span>
+            <span class="n">moved_sft</span><span class="p">,</span>
+            <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">save_intermediates</span><span class="p">,</span>
+                    <span class="sa">f</span><span class="s1">&#39;sls_in_</span><span class="si">{</span><span class="n">to</span><span class="si">}</span><span class="s1">.trk&#39;</span><span class="p">),</span>
+            <span class="n">bbox_valid_check</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">tg</span><span class="o">.</span><span class="n">to_space</span><span class="p">(</span><span class="n">tg_og_space</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">moved_sft</span></div>
+
+
+<div class="viewcode-block" id="resample_tg"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.resample_tg">[docs]</a><span class="k">def</span> <span class="nf">resample_tg</span><span class="p">(</span><span class="n">tg</span><span class="p">,</span> <span class="n">n_points</span><span class="p">):</span>
+    <span class="c1"># reformat for dipy&#39;s set_number_of_points</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tg</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tg</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">streamlines</span> <span class="o">=</span> <span class="n">tg</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+            <span class="n">streamlines</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">streamlines</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">tg</span><span class="p">,</span> <span class="s2">&quot;streamlines&quot;</span><span class="p">):</span>
+        <span class="n">streamlines</span> <span class="o">=</span> <span class="n">tg</span><span class="o">.</span><span class="n">streamlines</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">streamlines</span> <span class="o">=</span> <span class="n">tg</span>
+
+    <span class="k">return</span> <span class="n">dps</span><span class="o">.</span><span class="n">set_number_of_points</span><span class="p">(</span><span class="n">streamlines</span><span class="p">,</span> <span class="n">n_points</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SlsBeingRecognized"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.SlsBeingRecognized">[docs]</a><span class="k">class</span> <span class="nc">SlsBeingRecognized</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sls</span><span class="p">,</span> <span class="n">logger</span><span class="p">,</span> <span class="n">save_intermediates</span><span class="p">,</span> <span class="n">b_name</span><span class="p">,</span> <span class="n">ref</span><span class="p">,</span>
+                 <span class="n">n_roi_dists</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">oriented_yet</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">selected_fiber_idxs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sls</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sls_flipped</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sls</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">bool8</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logger</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start_time</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">save_intermediates</span> <span class="o">=</span> <span class="n">save_intermediates</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">b_name</span> <span class="o">=</span> <span class="n">b_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ref_sls</span> <span class="o">=</span> <span class="n">sls</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ref</span> <span class="o">=</span> <span class="n">ref</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_roi_dists</span> <span class="o">=</span> <span class="n">n_roi_dists</span>
+
+<div class="viewcode-block" id="SlsBeingRecognized.initiate_selection"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.SlsBeingRecognized.initiate_selection">[docs]</a>    <span class="k">def</span> <span class="nf">initiate_selection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">clean_name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Filtering by </span><span class="si">{</span><span class="n">clean_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">selected_fiber_idxs</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">bool8</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SlsBeingRecognized.select"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.SlsBeingRecognized.select">[docs]</a>    <span class="k">def</span> <span class="nf">select</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">clean_name</span><span class="p">,</span> <span class="n">cut</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">selected_fiber_idxs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">selected_fiber_idxs</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sls_flipped</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sls_flipped</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;roi_dists&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">roi_dists</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">roi_dists</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="n">time_taken</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;After filtering by </span><span class="si">{</span><span class="n">clean_name</span><span class="si">}</span><span class="s2"> (time: </span><span class="si">{</span><span class="n">time_taken</span><span class="si">}</span><span class="s2">s), &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="si">}</span><span class="s2"> streamlines remain.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_intermediates</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">save_tractogram</span><span class="p">(</span>
+                <span class="n">StatefulTractogram</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">get_selected_sls</span><span class="p">(</span><span class="n">cut</span><span class="o">=</span><span class="n">cut</span><span class="p">),</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">ref</span><span class="p">,</span> <span class="n">Space</span><span class="o">.</span><span class="n">VOX</span><span class="p">),</span>
+                <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">save_intermediates</span><span class="p">,</span>
+                        <span class="sa">f</span><span class="s1">&#39;sls_after_</span><span class="si">{</span><span class="n">clean_name</span><span class="si">}</span><span class="s1">_for_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">b_name</span><span class="si">}</span><span class="s1">.trk&#39;</span><span class="p">),</span>
+                <span class="n">bbox_valid_check</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SlsBeingRecognized.get_selected_sls"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.SlsBeingRecognized.get_selected_sls">[docs]</a>    <span class="k">def</span> <span class="nf">get_selected_sls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cut</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">flip</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">selected_sls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ref_sls</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">selected_fiber_idxs</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">cut</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;roi_dists&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_roi_dists</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">selected_sls</span> <span class="o">=</span> <span class="n">cut_sls_by_dist</span><span class="p">(</span>
+                <span class="n">selected_sls</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">roi_dists</span><span class="p">,</span>
+                <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_roi_dists</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="n">in_place</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">flip</span><span class="p">:</span>
+            <span class="n">selected_sls</span> <span class="o">=</span> <span class="n">flip_sls</span><span class="p">(</span>
+                <span class="n">selected_sls</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sls_flipped</span><span class="p">,</span>
+                <span class="n">in_place</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">selected_sls</span></div>
+
+<div class="viewcode-block" id="SlsBeingRecognized.reorient"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.SlsBeingRecognized.reorient">[docs]</a>    <span class="k">def</span> <span class="nf">reorient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">oriented_yet</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">((</span>
+                <span class="s2">&quot;Attempted to oriented streamlines &quot;</span>
+                <span class="s2">&quot;that were already oriented. &quot;</span>
+                <span class="s2">&quot;This is a bug in the implementation of a &quot;</span>
+                <span class="s2">&quot;bundle recognition procedure. &quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">oriented_yet</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sls_flipped</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="SlsBeingRecognized.__bool__"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.SlsBeingRecognized.__bool__">[docs]</a>    <span class="k">def</span> <span class="fm">__bool__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span></div>
+
+<div class="viewcode-block" id="SlsBeingRecognized.__len__"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.SlsBeingRecognized.__len__">[docs]</a>    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">selected_fiber_idxs</span><span class="p">)</span></div></div>
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2018--, The pyAFQ Contributors.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-156363454-2");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+  </body>
+</html>

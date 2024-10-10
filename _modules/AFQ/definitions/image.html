@@ -1,0 +1,1282 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AFQ.definitions.image &#8212; AFQ 1.3.5 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/design-tabs.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/AFQ/definitions/image';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.5 documentation - Home"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.5 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../tutorials/index.html">
+    Getting started with pyAFQ
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../howto/index.html">
+    How To
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../reference/index.html">
+    Reference Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../reference/api/index.html">
+    API Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/tractometry/pyAFQ" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../tutorials/index.html">
+    Getting started with pyAFQ
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../howto/index.html">
+    How To
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../reference/index.html">
+    Reference Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../reference/api/index.html">
+    API Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/tractometry/pyAFQ" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../AFQ.html" class="nav-link">AFQ</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">AFQ.definiti...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for AFQ.definitions.image</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">import</span> <span class="nn">nibabel</span> <span class="k">as</span> <span class="nn">nib</span>
+
+<span class="kn">from</span> <span class="nn">dipy.segment.mask</span> <span class="kn">import</span> <span class="n">median_otsu</span>
+<span class="kn">from</span> <span class="nn">dipy.align</span> <span class="kn">import</span> <span class="n">resample</span>
+
+<span class="kn">from</span> <span class="nn">AFQ.definitions.utils</span> <span class="kn">import</span> <span class="n">Definition</span><span class="p">,</span> <span class="n">find_file</span><span class="p">,</span> <span class="n">name_from_path</span>
+
+<span class="kn">from</span> <span class="nn">skimage.morphology</span> <span class="kn">import</span> <span class="n">convex_hull_image</span><span class="p">,</span> <span class="n">binary_opening</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;ImageFile&quot;</span><span class="p">,</span> <span class="s2">&quot;FullImage&quot;</span><span class="p">,</span> <span class="s2">&quot;RoiImage&quot;</span><span class="p">,</span> <span class="s2">&quot;B0Image&quot;</span><span class="p">,</span> <span class="s2">&quot;LabelledImageFile&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ThresholdedImageFile&quot;</span><span class="p">,</span> <span class="s2">&quot;ScalarImage&quot;</span><span class="p">,</span> <span class="s2">&quot;ThresholdedScalarImage&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;TemplateImage&quot;</span><span class="p">,</span> <span class="s2">&quot;GQImage&quot;</span><span class="p">]</span>
+
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;AFQ&#39;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_resample_image</span><span class="p">(</span><span class="n">image_data</span><span class="p">,</span> <span class="n">dwi_data</span><span class="p">,</span> <span class="n">image_affine</span><span class="p">,</span> <span class="n">dwi_affine</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Helper function</span>
+<span class="sd">    Resamples image to dwi if necessary</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">image_type</span> <span class="o">=</span> <span class="n">image_data</span><span class="o">.</span><span class="n">dtype</span>
+    <span class="k">if</span> <span class="p">((</span><span class="n">dwi_data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="ow">and</span> <span class="p">(</span><span class="n">dwi_affine</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="p">(</span><span class="n">dwi_data</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">image_data</span><span class="o">.</span><span class="n">shape</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">resample</span><span class="p">(</span>
+            <span class="n">image_data</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">),</span>
+            <span class="n">dwi_data</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="n">image_affine</span><span class="p">,</span>
+            <span class="n">dwi_affine</span><span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">())</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">image_type</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">image_data</span>
+
+
+<span class="k">class</span> <span class="nc">ImageDefinition</span><span class="p">(</span><span class="n">Definition</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    All Image Definitions should inherit this.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Please implement a get_name method&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_image_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_name</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="s2">&quot;Please implement a get_image_getter method&quot;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">CombineImageMixin</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Helper Class</span>
+<span class="sd">    Useful for making an image by combining different conditions</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">combine</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">combine</span> <span class="o">=</span> <span class="n">combine</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">reset_image_draft</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shape</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">combine</span> <span class="o">==</span> <span class="s2">&quot;or&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">image_draft</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">combine</span> <span class="o">==</span> <span class="s2">&quot;and&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">image_draft</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">combine_illdefined</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other_image</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">combine</span> <span class="o">==</span> <span class="s2">&quot;or&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">image_draft</span><span class="p">,</span> <span class="n">other_image</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">combine</span> <span class="o">==</span> <span class="s2">&quot;and&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">image_draft</span><span class="p">,</span> <span class="n">other_image</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">combine_illdefined</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">combine_illdefined</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">((</span>
+            <span class="sa">f</span><span class="s2">&quot;combine should be either &#39;or&#39; or &#39;and&#39;,&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot; you set combine to </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">combine</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
+
+
+<div class="viewcode-block" id="ImageFile"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ImageFile">[docs]</a><span class="k">class</span> <span class="nc">ImageFile</span><span class="p">(</span><span class="n">ImageDefinition</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Define an image based on a file.</span>
+<span class="sd">    Does not apply any labels or thresholds;</span>
+<span class="sd">    Generates image with floating point data.</span>
+<span class="sd">    Useful for seed and stop images, where threshold can be applied</span>
+<span class="sd">    after interpolation (see example).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    path : str, optional</span>
+<span class="sd">        path to file to get image from. Use this or suffix.</span>
+<span class="sd">        Default: None</span>
+<span class="sd">    suffix : str, optional</span>
+<span class="sd">        suffix to pass to bids_layout.get() to identify the file.</span>
+<span class="sd">        Default: None</span>
+<span class="sd">    filters : str, optional</span>
+<span class="sd">        Additional filters to pass to bids_layout.get() to identify</span>
+<span class="sd">        the file.</span>
+<span class="sd">        Default: {}</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    seed_image = ImageFile(</span>
+<span class="sd">        suffix=&quot;WM&quot;,</span>
+<span class="sd">        filters={&quot;scope&quot;:&quot;dmriprep&quot;})</span>
+<span class="sd">    api.GroupAFQ(tracking_params={&quot;seed_image&quot;: seed_image,</span>
+<span class="sd">                                &quot;seed_threshold&quot;: 0.1})</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="p">{}):</span>
+        <span class="k">if</span> <span class="n">path</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">suffix</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">((</span>
+                <span class="s2">&quot;One of `path` or `suffix` must set to &quot;</span>
+                <span class="s2">&quot;a value other than None.&quot;</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_from_path</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fname</span> <span class="o">=</span> <span class="n">path</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_from_path</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">suffix</span> <span class="o">=</span> <span class="n">suffix</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">filters</span> <span class="o">=</span> <span class="n">filters</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fnames</span> <span class="o">=</span> <span class="p">{}</span>
+
+<div class="viewcode-block" id="ImageFile.find_path"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ImageFile.find_path">[docs]</a>    <span class="k">def</span> <span class="nf">find_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bids_layout</span><span class="p">,</span> <span class="n">from_path</span><span class="p">,</span>
+                  <span class="n">subject</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_from_path</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="n">nearest_image</span> <span class="o">=</span> <span class="n">find_file</span><span class="p">(</span>
+            <span class="n">bids_layout</span><span class="p">,</span> <span class="n">from_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">suffix</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span>
+            <span class="n">subject</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="n">required</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">nearest_image</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">fnames</span><span class="p">[</span><span class="n">from_path</span><span class="p">]</span> <span class="o">=</span> <span class="n">nearest_image</span></div>
+
+<div class="viewcode-block" id="ImageFile.get_path_data_affine"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ImageFile.get_path_data_affine">[docs]</a>    <span class="k">def</span> <span class="nf">get_path_data_affine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dwi_path</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_from_path</span><span class="p">:</span>
+            <span class="n">image_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fname</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">image_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fnames</span><span class="p">[</span><span class="n">dwi_path</span><span class="p">]</span>
+        <span class="n">image_img</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">image_file</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">image_file</span><span class="p">,</span> <span class="n">image_img</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">(),</span> <span class="n">image_img</span><span class="o">.</span><span class="n">affine</span></div>
+
+    <span class="c1"># This function is set up to be overriden by other images</span>
+<div class="viewcode-block" id="ImageFile.apply_conditions"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ImageFile.apply_conditions">[docs]</a>    <span class="k">def</span> <span class="nf">apply_conditions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image_data_orig</span><span class="p">,</span> <span class="n">image_file</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">image_data_orig</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">image_file</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ImageFile.get_name"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ImageFile.get_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">name_from_path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_from_path</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">suffix</span></div>
+
+<div class="viewcode-block" id="ImageFile.get_image_getter"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ImageFile.get_image_getter">[docs]</a>    <span class="k">def</span> <span class="nf">get_image_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_name</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">_image_getter_helper</span><span class="p">(</span><span class="n">dwi</span><span class="p">,</span> <span class="n">dwi_data_file</span><span class="p">):</span>
+            <span class="c1"># Load data</span>
+            <span class="n">image_file</span><span class="p">,</span> <span class="n">image_data_orig</span><span class="p">,</span> <span class="n">image_affine</span> <span class="o">=</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">get_path_data_affine</span><span class="p">(</span><span class="n">dwi_data_file</span><span class="p">)</span>
+
+            <span class="c1"># Apply any conditions on the data</span>
+            <span class="n">image_data</span><span class="p">,</span> <span class="n">meta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">apply_conditions</span><span class="p">(</span>
+                <span class="n">image_data_orig</span><span class="p">,</span> <span class="n">image_file</span><span class="p">)</span>
+
+            <span class="c1"># Resample to DWI data:</span>
+            <span class="n">image_data</span> <span class="o">=</span> <span class="n">_resample_image</span><span class="p">(</span>
+                <span class="n">image_data</span><span class="p">,</span>
+                <span class="n">dwi</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">(),</span>
+                <span class="n">image_affine</span><span class="p">,</span>
+                <span class="n">dwi</span><span class="o">.</span><span class="n">affine</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">nib</span><span class="o">.</span><span class="n">Nifti1Image</span><span class="p">(</span>
+                <span class="n">image_data</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span>
+                <span class="n">dwi</span><span class="o">.</span><span class="n">affine</span><span class="p">),</span> <span class="n">meta</span>
+        <span class="k">if</span> <span class="n">task_name</span> <span class="o">==</span> <span class="s2">&quot;data&quot;</span><span class="p">:</span>
+            <span class="k">def</span> <span class="nf">image_getter</span><span class="p">(</span><span class="n">dwi</span><span class="p">,</span> <span class="n">dwi_data_file</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">_image_getter_helper</span><span class="p">(</span><span class="n">dwi</span><span class="p">,</span> <span class="n">dwi_data_file</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">def</span> <span class="nf">image_getter</span><span class="p">(</span><span class="n">data_imap</span><span class="p">,</span> <span class="n">dwi_data_file</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">_image_getter_helper</span><span class="p">(</span><span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;dwi&quot;</span><span class="p">],</span> <span class="n">dwi_data_file</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">image_getter</span></div></div>
+
+
+<div class="viewcode-block" id="FullImage"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.FullImage">[docs]</a><span class="k">class</span> <span class="nc">FullImage</span><span class="p">(</span><span class="n">ImageDefinition</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Define an image which covers a full volume.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    brain_image_definition = FullImage()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+<div class="viewcode-block" id="FullImage.get_name"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.FullImage.get_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;entire_volume&quot;</span></div>
+
+<div class="viewcode-block" id="FullImage.get_image_getter"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.FullImage.get_image_getter">[docs]</a>    <span class="k">def</span> <span class="nf">get_image_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_name</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">_image_getter_helper</span><span class="p">(</span><span class="n">dwi</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">nib</span><span class="o">.</span><span class="n">Nifti1Image</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">dwi</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span>
+                <span class="n">dwi</span><span class="o">.</span><span class="n">affine</span><span class="p">),</span> <span class="nb">dict</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="s2">&quot;Entire Volume&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">task_name</span> <span class="o">==</span> <span class="s2">&quot;data&quot;</span><span class="p">:</span>
+            <span class="k">def</span> <span class="nf">image_getter</span><span class="p">(</span><span class="n">dwi</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">_image_getter_helper</span><span class="p">(</span><span class="n">dwi</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">def</span> <span class="nf">image_getter</span><span class="p">(</span><span class="n">data_imap</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">_image_getter_helper</span><span class="p">(</span><span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;dwi&quot;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">image_getter</span></div></div>
+
+
+<div class="viewcode-block" id="RoiImage"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.RoiImage">[docs]</a><span class="k">class</span> <span class="nc">RoiImage</span><span class="p">(</span><span class="n">ImageDefinition</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Define an image which is all include ROIs or&#39;d together.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    use_waypoints : bool</span>
+<span class="sd">        Whether to use the include ROIs to generate the image.</span>
+<span class="sd">    use_presegment : bool</span>
+<span class="sd">        Whether to use presegment bundle dict from segmentation params</span>
+<span class="sd">        to get ROIs.</span>
+<span class="sd">    use_endpoints : bool</span>
+<span class="sd">        Whether to use the endpoints (&quot;start&quot; and &quot;end&quot;) to generate</span>
+<span class="sd">        the image.</span>
+<span class="sd">    tissue_property : str or None</span>
+<span class="sd">        Tissue property from `scalars` to multiply the ROI image with.</span>
+<span class="sd">        Can be useful to limit seed mask to the core white matter.</span>
+<span class="sd">        Note: this must be a built-in tissue property.</span>
+<span class="sd">        Default: None</span>
+<span class="sd">    tissue_property_n_voxel : int or None</span>
+<span class="sd">        Threshold `tissue_property` to a boolean mask with </span>
+<span class="sd">        tissue_property_n_voxel number of voxels set to True.</span>
+<span class="sd">        Default: None</span>
+<span class="sd">    tissue_property_threshold : int or None</span>
+<span class="sd">        Threshold to threshold `tissue_property` if a boolean mask is</span>
+<span class="sd">        desired. This threshold is interpreted as a percentile.</span>
+<span class="sd">        Overrides tissue_property_n_voxel.</span>
+<span class="sd">        Default: None</span>
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    seed_image = RoiImage()</span>
+<span class="sd">    api.GroupAFQ(tracking_params={&quot;seed_image&quot;: seed_image})</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">use_waypoints</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                 <span class="n">use_presegment</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">use_endpoints</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">tissue_property</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">tissue_property_n_voxel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">tissue_property_threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_waypoints</span> <span class="o">=</span> <span class="n">use_waypoints</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_presegment</span> <span class="o">=</span> <span class="n">use_presegment</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_endpoints</span> <span class="o">=</span> <span class="n">use_endpoints</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tissue_property</span> <span class="o">=</span> <span class="n">tissue_property</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tissue_property_n_voxel</span> <span class="o">=</span> <span class="n">tissue_property_n_voxel</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tissue_property_threshold</span> <span class="o">=</span> <span class="n">tissue_property_threshold</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">use_waypoints</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">use_endpoints</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_presegment</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">((</span>
+                <span class="s2">&quot;One of use_waypoints, use_presegment, &quot;</span>
+                <span class="s2">&quot;use_endpoints, must be True&quot;</span><span class="p">))</span>
+
+<div class="viewcode-block" id="RoiImage.get_name"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.RoiImage.get_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;roi&quot;</span></div>
+
+<div class="viewcode-block" id="RoiImage.get_image_getter"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.RoiImage.get_image_getter">[docs]</a>    <span class="k">def</span> <span class="nf">get_image_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_name</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">_image_getter_helper</span><span class="p">(</span><span class="n">mapping</span><span class="p">,</span>
+                                 <span class="n">data_imap</span><span class="p">,</span> <span class="n">segmentation_params</span><span class="p">):</span>
+            <span class="n">image_data</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">bundle_dict</span> <span class="o">=</span> <span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;bundle_dict&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_presegment</span><span class="p">:</span>
+                <span class="n">bundle_dict</span> <span class="o">=</span> \
+                    <span class="n">segmentation_params</span><span class="p">[</span><span class="s2">&quot;presegment_bundle_dict&quot;</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">bundle_dict</span> <span class="o">=</span> <span class="n">bundle_dict</span>
+
+            <span class="k">for</span> <span class="n">bundle_name</span> <span class="ow">in</span> <span class="n">bundle_dict</span><span class="p">:</span>
+                <span class="n">bundle_entry</span> <span class="o">=</span> <span class="n">bundle_dict</span><span class="o">.</span><span class="n">transform_rois</span><span class="p">(</span>
+                    <span class="n">bundle_name</span><span class="p">,</span>
+                    <span class="n">mapping</span><span class="p">,</span>
+                    <span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;dwi_affine&quot;</span><span class="p">])</span>
+                <span class="n">rois</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_endpoints</span><span class="p">:</span>
+                    <span class="n">rois</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+                        <span class="p">[</span><span class="n">bundle_entry</span><span class="p">[</span><span class="n">end_type</span><span class="p">]</span> <span class="k">for</span> <span class="n">end_type</span> <span class="ow">in</span>
+                            <span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">,</span> <span class="s2">&quot;end&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="n">end_type</span> <span class="ow">in</span> <span class="n">bundle_entry</span><span class="p">])</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_waypoints</span><span class="p">:</span>
+                    <span class="n">rois</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">bundle_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;include&#39;</span><span class="p">,</span> <span class="p">[]))</span>
+                <span class="k">for</span> <span class="n">roi</span> <span class="ow">in</span> <span class="n">rois</span><span class="p">:</span>
+                    <span class="n">warped_roi</span> <span class="o">=</span> <span class="n">roi</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="n">image_data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">image_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">warped_roi</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+                    <span class="n">image_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span>
+                        <span class="n">image_data</span><span class="p">,</span>
+                        <span class="n">warped_roi</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">))</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tissue_property</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">tp</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">data_imap</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">tissue_property</span><span class="p">])</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
+                <span class="n">image_data</span> <span class="o">=</span> <span class="n">image_data</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span> <span class="o">*</span> <span class="n">tp</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tissue_property_threshold</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">zero_mask</span> <span class="o">=</span> <span class="n">image_data</span> <span class="o">==</span> <span class="mi">0</span>
+                    <span class="n">image_data</span><span class="p">[</span><span class="n">zero_mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+                    <span class="n">tp_thresh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanpercentile</span><span class="p">(</span>
+                        <span class="n">image_data</span><span class="p">,</span>
+                        <span class="mi">100</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">tissue_property_threshold</span><span class="p">)</span>
+                    <span class="n">image_data</span><span class="p">[</span><span class="n">zero_mask</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="n">image_data</span> <span class="o">=</span> <span class="n">image_data</span> <span class="o">&gt;</span> <span class="n">tp_thresh</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">tissue_property_n_voxel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">tp_thresh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">image_data</span><span class="o">.</span><span class="n">flatten</span><span class="p">())[</span>
+                        <span class="o">-</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">tissue_property_n_voxel</span><span class="p">]</span>
+                    <span class="n">image_data</span> <span class="o">=</span> <span class="n">image_data</span> <span class="o">&gt;</span> <span class="n">tp_thresh</span>
+            <span class="k">if</span> <span class="n">image_data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">((</span>
+                    <span class="s2">&quot;BundleDict does not have enough ROIs to generate &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;an ROI Image: </span><span class="si">{</span><span class="n">bundle_dict</span><span class="o">.</span><span class="n">_dict</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">nib</span><span class="o">.</span><span class="n">Nifti1Image</span><span class="p">(</span>
+                <span class="n">image_data</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span>
+                <span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;dwi_affine&quot;</span><span class="p">]),</span> <span class="nb">dict</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="s2">&quot;ROIs&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">task_name</span> <span class="o">==</span> <span class="s2">&quot;data&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">((</span>
+                <span class="s2">&quot;RoiImage cannot be used in this context, as they&quot;</span>
+                <span class="s2">&quot;require later derivatives to be calculated&quot;</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">task_name</span> <span class="o">==</span> <span class="s2">&quot;mapping&quot;</span><span class="p">:</span>
+            <span class="k">def</span> <span class="nf">image_getter</span><span class="p">(</span>
+                    <span class="n">mapping</span><span class="p">,</span>
+                    <span class="n">data_imap</span><span class="p">,</span> <span class="n">segmentation_params</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">_image_getter_helper</span><span class="p">(</span>
+                    <span class="n">mapping</span><span class="p">,</span>
+                    <span class="n">data_imap</span><span class="p">,</span> <span class="n">segmentation_params</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">def</span> <span class="nf">image_getter</span><span class="p">(</span>
+                    <span class="n">mapping_imap</span><span class="p">,</span>
+                    <span class="n">data_imap</span><span class="p">,</span> <span class="n">segmentation_params</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">_image_getter_helper</span><span class="p">(</span>
+                    <span class="n">mapping_imap</span><span class="p">[</span><span class="s2">&quot;mapping&quot;</span><span class="p">],</span>
+                    <span class="n">data_imap</span><span class="p">,</span> <span class="n">segmentation_params</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">image_getter</span></div></div>
+
+
+<div class="viewcode-block" id="GQImage"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.GQImage">[docs]</a><span class="k">class</span> <span class="nc">GQImage</span><span class="p">(</span><span class="n">ImageDefinition</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Threshold the anisotropic diffusion component of the </span>
+<span class="sd">    Generalized Q-Sampling Model to generate a brain mask</span>
+<span class="sd">    which will include the eyes, optic nerve, and cerebrum</span>
+<span class="sd">    but will exclude most or all of the skull.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    api.GroupAFQ(brain_mask_definition=GQImage())</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+<div class="viewcode-block" id="GQImage.get_name"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.GQImage.get_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;GQ&quot;</span></div>
+
+<div class="viewcode-block" id="GQImage.get_image_getter"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.GQImage.get_image_getter">[docs]</a>    <span class="k">def</span> <span class="nf">get_image_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_name</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">image_getter_helper</span><span class="p">(</span><span class="n">gq_aso</span><span class="p">):</span>
+            <span class="n">gq_aso_img</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">gq_aso</span><span class="p">)</span>
+            <span class="n">gq_aso_data</span> <span class="o">=</span> <span class="n">gq_aso_img</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
+            <span class="n">ASO_mask</span> <span class="o">=</span> <span class="n">convex_hull_image</span><span class="p">(</span>
+                <span class="n">binary_opening</span><span class="p">(</span>
+                    <span class="n">gq_aso_data</span> <span class="o">&gt;</span> <span class="mf">0.1</span><span class="p">))</span>
+
+            <span class="k">return</span> <span class="n">nib</span><span class="o">.</span><span class="n">Nifti1Image</span><span class="p">(</span>
+                <span class="n">ASO_mask</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span>
+                <span class="n">gq_aso_img</span><span class="o">.</span><span class="n">affine</span><span class="p">),</span> <span class="nb">dict</span><span class="p">(</span>
+                    <span class="n">source</span><span class="o">=</span><span class="n">gq_aso</span><span class="p">,</span>
+                    <span class="n">technique</span><span class="o">=</span><span class="s2">&quot;GQ ASO thresholded maps&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">task_name</span> <span class="o">==</span> <span class="s2">&quot;data&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">image_getter_helper</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="k">lambda</span> <span class="n">data_imap</span><span class="p">:</span> <span class="n">image_getter_helper</span><span class="p">(</span>
+                <span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;gq_aso&quot;</span><span class="p">])</span></div></div>
+
+
+<div class="viewcode-block" id="B0Image"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.B0Image">[docs]</a><span class="k">class</span> <span class="nc">B0Image</span><span class="p">(</span><span class="n">ImageDefinition</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Define an image using b0 and dipy&#39;s median_otsu.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    median_otsu_kwargs: dict, optional</span>
+<span class="sd">        Optional arguments to pass into dipy&#39;s median_otsu.</span>
+<span class="sd">        Default: {}</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    brain_image_definition = B0Image()</span>
+<span class="sd">    api.GroupAFQ(brain_image_definition=brain_image_definition)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">median_otsu_kwargs</span><span class="o">=</span><span class="p">{}):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">median_otsu_kwargs</span> <span class="o">=</span> <span class="n">median_otsu_kwargs</span>
+
+<div class="viewcode-block" id="B0Image.get_name"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.B0Image.get_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;b0&quot;</span></div>
+
+<div class="viewcode-block" id="B0Image.get_image_getter"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.B0Image.get_image_getter">[docs]</a>    <span class="k">def</span> <span class="nf">get_image_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_name</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">image_getter_helper</span><span class="p">(</span><span class="n">b0</span><span class="p">):</span>
+            <span class="n">mean_b0_img</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">b0</span><span class="p">)</span>
+            <span class="n">mean_b0</span> <span class="o">=</span> <span class="n">mean_b0_img</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">((</span>
+                <span class="s2">&quot;It is reccomended that you provide a brain mask. &quot;</span>
+                <span class="s2">&quot;It is provided with the brain_mask_definition argument. &quot;</span>
+                <span class="s2">&quot;Otherwise, the default brain mask is calculated &quot;</span>
+                <span class="s2">&quot;by using OTSU on the median-filtered B0 image. &quot;</span>
+                <span class="s2">&quot;This can be unreliable. &quot;</span><span class="p">))</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">image_data</span> <span class="o">=</span> <span class="n">median_otsu</span><span class="p">(</span><span class="n">mean_b0</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">median_otsu_kwargs</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">nib</span><span class="o">.</span><span class="n">Nifti1Image</span><span class="p">(</span>
+                <span class="n">image_data</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span>
+                <span class="n">mean_b0_img</span><span class="o">.</span><span class="n">affine</span><span class="p">),</span> <span class="nb">dict</span><span class="p">(</span>
+                    <span class="n">source</span><span class="o">=</span><span class="n">b0</span><span class="p">,</span>
+                    <span class="n">technique</span><span class="o">=</span><span class="s2">&quot;median_otsu applied to b0&quot;</span><span class="p">,</span>
+                    <span class="n">median_otsu_kwargs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">median_otsu_kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">task_name</span> <span class="o">==</span> <span class="s2">&quot;data&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">image_getter_helper</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="k">lambda</span> <span class="n">data_imap</span><span class="p">:</span> <span class="n">image_getter_helper</span><span class="p">(</span><span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;b0&quot;</span><span class="p">])</span></div></div>
+
+
+<div class="viewcode-block" id="LabelledImageFile"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.LabelledImageFile">[docs]</a><span class="k">class</span> <span class="nc">LabelledImageFile</span><span class="p">(</span><span class="n">ImageFile</span><span class="p">,</span> <span class="n">CombineImageMixin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Define an image based on labels in a file.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    path : str, optional</span>
+<span class="sd">        path to file to get image from. Use this or suffix.</span>
+<span class="sd">        Default: None</span>
+<span class="sd">    suffix : str, optional</span>
+<span class="sd">        suffix to pass to bids_layout.get() to identify the file.</span>
+<span class="sd">        Default: None</span>
+<span class="sd">    filters : str, optional</span>
+<span class="sd">        Additional filters to pass to bids_layout.get() to identify</span>
+<span class="sd">        the file.</span>
+<span class="sd">        Default: {}</span>
+<span class="sd">    inclusive_labels : list of ints, optional</span>
+<span class="sd">        The labels from the file to include from the boolean image.</span>
+<span class="sd">        If None, no inclusive labels are applied.</span>
+<span class="sd">    exclusive_labels : list of ints, optional</span>
+<span class="sd">        The labels from the file to exclude from the boolean image.</span>
+<span class="sd">        If None, no exclusive labels are applied.</span>
+<span class="sd">        Default: None.</span>
+<span class="sd">    combine : str, optional</span>
+<span class="sd">        How to combine the boolean images generated by inclusive_labels</span>
+<span class="sd">        and exclusive_labels. If &quot;and&quot;, they will be and&#39;d together.</span>
+<span class="sd">        If &quot;or&quot;, they will be or&#39;d.</span>
+<span class="sd">        Note: in this class, you will most likely want to either set</span>
+<span class="sd">        inclusive_labels or exclusive_labels, not both,</span>
+<span class="sd">        so combine will not matter.</span>
+<span class="sd">        Default: &quot;or&quot;</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    brain_image_definition = LabelledImageFile(</span>
+<span class="sd">        suffix=&quot;aseg&quot;,</span>
+<span class="sd">        filters={&quot;scope&quot;: &quot;dmriprep&quot;},</span>
+<span class="sd">        exclusive_labels=[0])</span>
+<span class="sd">    api.GroupAFQ(brain_image_definition=brain_image_definition)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="p">{},</span>
+                 <span class="n">inclusive_labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">exclusive_labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">combine</span><span class="o">=</span><span class="s2">&quot;or&quot;</span><span class="p">):</span>
+        <span class="n">ImageFile</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">suffix</span><span class="p">,</span> <span class="n">filters</span><span class="p">)</span>
+        <span class="n">CombineImageMixin</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">combine</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inclusive_labels</span> <span class="o">=</span> <span class="n">inclusive_labels</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exclusive_labels</span> <span class="o">=</span> <span class="n">exclusive_labels</span>
+
+    <span class="c1"># overrides ImageFile</span>
+<div class="viewcode-block" id="LabelledImageFile.apply_conditions"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.LabelledImageFile.apply_conditions">[docs]</a>    <span class="k">def</span> <span class="nf">apply_conditions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image_data_orig</span><span class="p">,</span> <span class="n">image_file</span><span class="p">):</span>
+        <span class="c1"># For different sets of labels, extract all the voxels that</span>
+        <span class="c1"># have any / all of these values:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset_image_draft</span><span class="p">(</span><span class="n">image_data_orig</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">inclusive_labels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">inclusive_labels</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">image_draft</span> <span class="o">=</span> <span class="bp">self</span> <span class="o">*</span> <span class="p">(</span><span class="n">image_data_orig</span> <span class="o">==</span> <span class="n">label</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">exclusive_labels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">exclusive_labels</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">image_draft</span> <span class="o">=</span> <span class="bp">self</span> <span class="o">*</span> <span class="p">(</span><span class="n">image_data_orig</span> <span class="o">!=</span> <span class="n">label</span><span class="p">)</span>
+
+        <span class="n">meta</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">image_file</span><span class="p">,</span>
+                    <span class="n">inclusive_labels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">inclusive_labels</span><span class="p">,</span>
+                    <span class="n">exclusive_lavels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">exclusive_labels</span><span class="p">,</span>
+                    <span class="n">combined_with</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">combine</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">image_draft</span><span class="p">,</span> <span class="n">meta</span></div></div>
+
+
+<div class="viewcode-block" id="ThresholdedImageFile"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ThresholdedImageFile">[docs]</a><span class="k">class</span> <span class="nc">ThresholdedImageFile</span><span class="p">(</span><span class="n">ImageFile</span><span class="p">,</span> <span class="n">CombineImageMixin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Define an image based on thresholding a file.</span>
+<span class="sd">    Note that this should not be used to directly make a seed image</span>
+<span class="sd">    or a stop image. In those cases, consider thresholding after</span>
+<span class="sd">    interpolation, as in the example for ImageFile.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    path : str, optional</span>
+<span class="sd">        path to file to get image from. Use this or suffix.</span>
+<span class="sd">        Default: None</span>
+<span class="sd">    suffix : str, optional</span>
+<span class="sd">        suffix to pass to bids_layout.get() to identify the file.</span>
+<span class="sd">        Default: None</span>
+<span class="sd">    filters : str, optional</span>
+<span class="sd">        Additional filters to pass to bids_layout.get() to identify</span>
+<span class="sd">        the file.</span>
+<span class="sd">        Default: {}</span>
+<span class="sd">    lower_bound : float, optional</span>
+<span class="sd">        Lower bound to generate boolean image from data in the file.</span>
+<span class="sd">        If None, no lower bound is applied.</span>
+<span class="sd">        Default: None.</span>
+<span class="sd">    upper_bound : float, optional</span>
+<span class="sd">        Upper bound to generate boolean image from data in the file.</span>
+<span class="sd">        If None, no upper bound is applied.</span>
+<span class="sd">        Default: None.</span>
+<span class="sd">    as_percentage : bool, optional</span>
+<span class="sd">        Interpret lower_bound and upper_bound as percentages of the</span>
+<span class="sd">        total non-nan voxels in the image to include (between 0 and 100),</span>
+<span class="sd">        instead of as a threshold on the values themselves.</span>
+<span class="sd">        Default: False</span>
+<span class="sd">    combine : str, optional</span>
+<span class="sd">        How to combine the boolean images generated by lower_bound</span>
+<span class="sd">        and upper_bound. If &quot;and&quot;, they will be and&#39;d together.</span>
+<span class="sd">        If &quot;or&quot;, they will be or&#39;d.</span>
+<span class="sd">        Default: &quot;and&quot;</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    brain_image_definition = ThresholdedImageFile(</span>
+<span class="sd">        suffix=&quot;BM&quot;,</span>
+<span class="sd">        filters={&quot;scope&quot;:&quot;dmriprep&quot;},</span>
+<span class="sd">        lower_bound=0.1)</span>
+<span class="sd">    api.GroupAFQ(brain_image_definition=brain_image_definition)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="p">{},</span> <span class="n">lower_bound</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">upper_bound</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">as_percentage</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">combine</span><span class="o">=</span><span class="s2">&quot;and&quot;</span><span class="p">):</span>
+        <span class="n">ImageFile</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">suffix</span><span class="p">,</span> <span class="n">filters</span><span class="p">)</span>
+        <span class="n">CombineImageMixin</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">combine</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lower_bound</span> <span class="o">=</span> <span class="n">lower_bound</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">upper_bound</span> <span class="o">=</span> <span class="n">upper_bound</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">as_percentage</span> <span class="o">=</span> <span class="n">as_percentage</span>
+
+    <span class="c1"># overrides ImageFile</span>
+<div class="viewcode-block" id="ThresholdedImageFile.apply_conditions"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ThresholdedImageFile.apply_conditions">[docs]</a>    <span class="k">def</span> <span class="nf">apply_conditions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image_data_orig</span><span class="p">,</span> <span class="n">image_file</span><span class="p">):</span>
+        <span class="c1"># Apply thresholds</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset_image_draft</span><span class="p">(</span><span class="n">image_data_orig</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">upper_bound</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">as_percentage</span><span class="p">:</span>
+                <span class="n">upper_bound</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanpercentile</span><span class="p">(</span>
+                    <span class="n">image_data_orig</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">upper_bound</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">upper_bound</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">upper_bound</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">image_draft</span> <span class="o">=</span> <span class="bp">self</span> <span class="o">*</span> <span class="p">(</span><span class="n">image_data_orig</span> <span class="o">&lt;</span> <span class="n">upper_bound</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lower_bound</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">as_percentage</span><span class="p">:</span>
+                <span class="n">lower_bound</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanpercentile</span><span class="p">(</span>
+                    <span class="n">image_data_orig</span><span class="p">,</span>
+                    <span class="mi">100</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">lower_bound</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">lower_bound</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lower_bound</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">image_draft</span> <span class="o">=</span> <span class="bp">self</span> <span class="o">*</span> <span class="p">(</span><span class="n">image_data_orig</span> <span class="o">&gt;</span> <span class="n">lower_bound</span><span class="p">)</span>
+
+        <span class="n">meta</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">image_file</span><span class="p">,</span>
+                    <span class="n">upper_bound</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">upper_bound</span><span class="p">,</span>
+                    <span class="n">lower_bound</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">lower_bound</span><span class="p">,</span>
+                    <span class="n">combined_with</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">combine</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">image_draft</span><span class="p">,</span> <span class="n">meta</span></div></div>
+
+
+<div class="viewcode-block" id="ScalarImage"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ScalarImage">[docs]</a><span class="k">class</span> <span class="nc">ScalarImage</span><span class="p">(</span><span class="n">ImageDefinition</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Define an image based on a scalar.</span>
+<span class="sd">    Does not apply any labels or thresholds;</span>
+<span class="sd">    Generates image with floating point data.</span>
+<span class="sd">    Useful for seed and stop images, where threshold can be applied</span>
+<span class="sd">    after interpolation (see example).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    scalar : str</span>
+<span class="sd">        Scalar to threshold.</span>
+<span class="sd">        Can be one of &quot;dti_fa&quot;, &quot;dti_md&quot;, &quot;dki_fa&quot;, &quot;dki_md&quot;.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    seed_image = ScalarImage(</span>
+<span class="sd">        &quot;dti_fa&quot;)</span>
+<span class="sd">    api.GroupAFQ(tracking_params={</span>
+<span class="sd">        &quot;seed_image&quot;: seed_image,</span>
+<span class="sd">        &quot;seed_threshold&quot;: 0.2})</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scalar</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scalar</span> <span class="o">=</span> <span class="n">scalar</span>
+
+<div class="viewcode-block" id="ScalarImage.get_name"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ScalarImage.get_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scalar</span></div>
+
+<div class="viewcode-block" id="ScalarImage.get_image_getter"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ScalarImage.get_image_getter">[docs]</a>    <span class="k">def</span> <span class="nf">get_image_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_name</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">task_name</span> <span class="o">==</span> <span class="s2">&quot;data&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">((</span>
+                <span class="s2">&quot;ScalarImage cannot be used in this context, as they&quot;</span>
+                <span class="s2">&quot;require later derivatives to be calculated&quot;</span><span class="p">))</span>
+
+        <span class="k">def</span> <span class="nf">image_getter</span><span class="p">(</span><span class="n">data_imap</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">data_imap</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">scalar</span><span class="p">]),</span> <span class="nb">dict</span><span class="p">(</span>
+                <span class="n">FromScalar</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">scalar</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">image_getter</span></div></div>
+
+
+<div class="viewcode-block" id="ThresholdedScalarImage"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ThresholdedScalarImage">[docs]</a><span class="k">class</span> <span class="nc">ThresholdedScalarImage</span><span class="p">(</span><span class="n">ThresholdedImageFile</span><span class="p">,</span> <span class="n">ScalarImage</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Define an image based on thresholding a scalar image.</span>
+<span class="sd">    Note that this should not be used to directly make a seed image</span>
+<span class="sd">    or a stop image. In those cases, consider thresholding after</span>
+<span class="sd">    interpolation, as in the example for ScalarImage.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    scalar : str</span>
+<span class="sd">        Scalar to threshold.</span>
+<span class="sd">        Can be one of &quot;dti_fa&quot;, &quot;dti_md&quot;, &quot;dki_fa&quot;, &quot;dki_md&quot;.</span>
+<span class="sd">    lower_bound : float, optional</span>
+<span class="sd">        Lower bound to generate boolean image from data in the file.</span>
+<span class="sd">        If None, no lower bound is applied.</span>
+<span class="sd">        Default: None.</span>
+<span class="sd">    upper_bound : float, optional</span>
+<span class="sd">        Upper bound to generate boolean image from data in the file.</span>
+<span class="sd">        If None, no upper bound is applied.</span>
+<span class="sd">        Default: None.</span>
+<span class="sd">    combine : str, optional</span>
+<span class="sd">        How to combine the boolean images generated by lower_bound</span>
+<span class="sd">        and upper_bound. If &quot;and&quot;, they will be and&#39;d together.</span>
+<span class="sd">        If &quot;or&quot;, they will be or&#39;d.</span>
+<span class="sd">        Default: &quot;and&quot;</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    seed_image = ThresholdedScalarImage(</span>
+<span class="sd">        &quot;dti_fa&quot;,</span>
+<span class="sd">        lower_bound=0.2)</span>
+<span class="sd">    api.GroupAFQ(tracking_params={&quot;seed_image&quot;: seed_image})</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scalar</span><span class="p">,</span> <span class="n">lower_bound</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">upper_bound</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">combine</span><span class="o">=</span><span class="s2">&quot;and&quot;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scalar</span> <span class="o">=</span> <span class="n">scalar</span>
+        <span class="n">CombineImageMixin</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">combine</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lower_bound</span> <span class="o">=</span> <span class="n">lower_bound</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">upper_bound</span> <span class="o">=</span> <span class="n">upper_bound</span></div>
+
+
+<span class="k">class</span> <span class="nc">PFTImage</span><span class="p">(</span><span class="n">ImageDefinition</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Define an image for use in PFT tractography. Only use</span>
+<span class="sd">    if tracker set to &#39;pft&#39; in tractography.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    WM_probseg : ImageFile</span>
+<span class="sd">        White matter segmentation file.</span>
+<span class="sd">    GM_probseg : ImageFile</span>
+<span class="sd">        Gray matter segmentation file.</span>
+<span class="sd">    CSF_probseg : ImageFile</span>
+<span class="sd">        Corticospinal fluid segmentation file.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    stop_image = PFTImage(</span>
+<span class="sd">        afm.ImageFile(suffix=&quot;WMprobseg&quot;),</span>
+<span class="sd">        afm.ImageFile(suffix=&quot;GMprobseg&quot;),</span>
+<span class="sd">        afm.ImageFile(suffix=&quot;CSFprobseg&quot;))</span>
+<span class="sd">    api.GroupAFQ(tracking_params={</span>
+<span class="sd">        &quot;stop_image&quot;: stop_image,</span>
+<span class="sd">        &quot;stop_threshold&quot;: &quot;CMC&quot;,</span>
+<span class="sd">        &quot;tracker&quot;: &quot;pft&quot;})</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">WM_probseg</span><span class="p">,</span> <span class="n">GM_probseg</span><span class="p">,</span> <span class="n">CSF_probseg</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">probsegs</span> <span class="o">=</span> <span class="p">(</span><span class="n">WM_probseg</span><span class="p">,</span> <span class="n">GM_probseg</span><span class="p">,</span> <span class="n">CSF_probseg</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">find_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bids_layout</span><span class="p">,</span> <span class="n">from_path</span><span class="p">,</span>
+                  <span class="n">subject</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">required</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;PFTImage cannot be used in this context&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">probseg</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">probsegs</span><span class="p">:</span>
+            <span class="n">probseg</span><span class="o">.</span><span class="n">find_path</span><span class="p">(</span>
+                <span class="n">bids_layout</span><span class="p">,</span> <span class="n">from_path</span><span class="p">,</span> <span class="n">subject</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span>
+                <span class="n">required</span><span class="o">=</span><span class="n">required</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;pft&quot;</span>
+
+    <span class="k">def</span> <span class="nf">get_image_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_name</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">task_name</span> <span class="o">==</span> <span class="s2">&quot;data&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;PFTImage cannot be used in this context&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">probseg</span><span class="o">.</span><span class="n">get_image_getter</span><span class="p">(</span><span class="n">task_name</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">probseg</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">probsegs</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="TemplateImage"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.TemplateImage">[docs]</a><span class="k">class</span> <span class="nc">TemplateImage</span><span class="p">(</span><span class="n">ImageDefinition</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Define a scalar based on a template.</span>
+<span class="sd">    This template will be transformed into subject space before use.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    path : str</span>
+<span class="sd">        path to the template.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    my_scalar = TemplateImage(</span>
+<span class="sd">        &quot;path/to/my_scalar_in_MNI.nii.gz&quot;)</span>
+<span class="sd">    api.GroupAFQ(scalars=[&quot;dti_fa&quot;, &quot;dti_md&quot;, my_scalar])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">path</span>
+
+<div class="viewcode-block" id="TemplateImage.get_name"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.TemplateImage.get_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">name_from_path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TemplateImage.get_image_getter"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.TemplateImage.get_image_getter">[docs]</a>    <span class="k">def</span> <span class="nf">get_image_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_name</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">_image_getter_helper</span><span class="p">(</span><span class="n">mapping</span><span class="p">,</span> <span class="n">reg_template</span><span class="p">,</span> <span class="n">reg_subject</span><span class="p">):</span>
+            <span class="n">img</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+            <span class="n">img_data</span> <span class="o">=</span> <span class="n">resample</span><span class="p">(</span>
+                <span class="n">img</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">(),</span>
+                <span class="n">reg_template</span><span class="p">,</span>
+                <span class="n">img</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span>
+                <span class="n">reg_template</span><span class="o">.</span><span class="n">affine</span><span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
+
+            <span class="n">scalar_data</span> <span class="o">=</span> <span class="n">mapping</span><span class="o">.</span><span class="n">transform_inverse</span><span class="p">(</span>
+                <span class="n">img_data</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">nib</span><span class="o">.</span><span class="n">Nifti1Image</span><span class="p">(</span>
+                <span class="n">scalar_data</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span>
+                <span class="n">reg_subject</span><span class="o">.</span><span class="n">affine</span><span class="p">),</span> <span class="nb">dict</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">task_name</span> <span class="o">==</span> <span class="s2">&quot;data&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">((</span>
+                <span class="s2">&quot;TemplateImage cannot be used in this context, as they&quot;</span>
+                <span class="s2">&quot;require later derivatives to be calculated&quot;</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">task_name</span> <span class="o">==</span> <span class="s2">&quot;mapping&quot;</span><span class="p">:</span>
+            <span class="k">def</span> <span class="nf">image_getter</span><span class="p">(</span><span class="n">mapping</span><span class="p">,</span> <span class="n">reg_subject</span><span class="p">,</span> <span class="n">data_imap</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">_image_getter_helper</span><span class="p">(</span>
+                    <span class="n">mapping</span><span class="p">,</span> <span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;reg_template&quot;</span><span class="p">],</span>
+                    <span class="n">reg_subject</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">def</span> <span class="nf">image_getter</span><span class="p">(</span><span class="n">mapping_imap</span><span class="p">,</span> <span class="n">data_imap</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">_image_getter_helper</span><span class="p">(</span>
+                    <span class="n">mapping_imap</span><span class="p">[</span><span class="s2">&quot;mapping&quot;</span><span class="p">],</span> <span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;reg_template&quot;</span><span class="p">],</span>
+                    <span class="n">mapping_imap</span><span class="p">[</span><span class="s2">&quot;reg_subject&quot;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">image_getter</span></div></div>
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2018--, The pyAFQ Contributors.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-156363454-2");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+  </body>
+</html>

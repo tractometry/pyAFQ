@@ -1,0 +1,164 @@
+:py:mod:`AFQ.recognition.utils`
+===============================
+
+.. py:module:: AFQ.recognition.utils
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   AFQ.recognition.utils.SlsBeingRecognized
+
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   AFQ.recognition.utils.flip_sls
+   AFQ.recognition.utils.cut_sls_by_dist
+   AFQ.recognition.utils.read_tg
+   AFQ.recognition.utils.orient_by_streamline
+   AFQ.recognition.utils.move_streamlines
+   AFQ.recognition.utils.resample_tg
+
+
+
+Attributes
+~~~~~~~~~~
+
+.. autoapisummary::
+
+   AFQ.recognition.utils.logger
+
+
+.. py:data:: logger
+
+   
+
+.. py:function:: flip_sls(select_sl, idx_to_flip, in_place=False)
+
+   
+   Helper function to flip streamlines
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: cut_sls_by_dist(select_sl, roi_dists, roi_idxs, in_place=False)
+
+   
+   Helper function to cut streamlines according to which points
+   are closest to certain rois.
+
+
+   :Parameters:
+
+       **select_sl, streamlines to cut**
+           ..
+
+       **roi_dists, distances from a given streamline to a given inclusion roi**
+           ..
+
+       **roi_idxs, two indices into the list of inclusion rois to use for the cut**
+           ..
+
+       **in_place, whether to modify select_sl**
+           ..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: read_tg(tg, nb_streamlines=None)
+
+
+.. py:function:: orient_by_streamline(sls, template_sl)
+
+
+.. py:function:: move_streamlines(tg, to, mapping, img, save_intermediates=None)
+
+   
+   Move streamlines to or from template space.
+
+   to : str
+       Either "template" or "subject".
+   mapping : ConformedMapping
+       Mapping to use to move streamlines.
+   img : Nifti1Image
+       Space to move streamlines to.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: resample_tg(tg, n_points)
+
+
+.. py:class:: SlsBeingRecognized(sls, logger, save_intermediates, b_name, ref, n_roi_dists)
+
+
+   .. py:method:: initiate_selection(clean_name)
+
+
+   .. py:method:: select(idx, clean_name, cut=False)
+
+
+   .. py:method:: get_selected_sls(cut=False, flip=False)
+
+
+   .. py:method:: reorient(idx)
+
+
+   .. py:method:: __bool__()
+
+
+   .. py:method:: __len__()
+
+
+

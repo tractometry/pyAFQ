@@ -1,0 +1,21 @@
+:py:mod:`AFQ.recognition`
+=========================
+
+.. py:module:: AFQ.recognition
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   cleaning/index.rst
+   criteria/index.rst
+   curvature/index.rst
+   preprocess/index.rst
+   recognize/index.rst
+   roi/index.rst
+   utils/index.rst
+
+

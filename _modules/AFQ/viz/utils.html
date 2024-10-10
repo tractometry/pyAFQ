@@ -1,0 +1,1157 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AFQ.viz.utils &#8212; AFQ 1.3.5 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/design-tabs.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/AFQ/viz/utils';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.5 documentation - Home"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.5 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../tutorials/index.html">
+    Getting started with pyAFQ
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../howto/index.html">
+    How To
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../reference/index.html">
+    Reference Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../reference/api/index.html">
+    API Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/tractometry/pyAFQ" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../tutorials/index.html">
+    Getting started with pyAFQ
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../howto/index.html">
+    How To
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../reference/index.html">
+    Reference Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../reference/api/index.html">
+    API Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/tractometry/pyAFQ" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../AFQ.html" class="nav-link">AFQ</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">AFQ.viz.utils</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for AFQ.viz.utils</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
+<span class="kn">import</span> <span class="nn">os.path</span> <span class="k">as</span> <span class="nn">op</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">imageio</span> <span class="k">as</span> <span class="nn">io</span>
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span><span class="p">,</span> <span class="n">ImageChops</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.patches</span> <span class="k">as</span> <span class="nn">mpatches</span>
+<span class="kn">import</span> <span class="nn">matplotlib.transforms</span> <span class="k">as</span> <span class="nn">mtransforms</span>
+
+<span class="kn">import</span> <span class="nn">nibabel</span> <span class="k">as</span> <span class="nn">nib</span>
+<span class="kn">import</span> <span class="nn">dipy.tracking.streamlinespeed</span> <span class="k">as</span> <span class="nn">dps</span>
+<span class="kn">from</span> <span class="nn">dipy.align</span> <span class="kn">import</span> <span class="n">resample</span>
+
+<span class="kn">import</span> <span class="nn">AFQ.utils.volume</span> <span class="k">as</span> <span class="nn">auv</span>
+<span class="kn">import</span> <span class="nn">AFQ.registration</span> <span class="k">as</span> <span class="nn">reg</span>
+<span class="kn">import</span> <span class="nn">AFQ.utils.streamlines</span> <span class="k">as</span> <span class="nn">aus</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Viz&quot;</span><span class="p">]</span>
+
+<span class="n">viz_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;AFQ&quot;</span><span class="p">)</span>
+<span class="n">tableau_20</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="mf">0.12156862745098039</span><span class="p">,</span> <span class="mf">0.4666666666666667</span><span class="p">,</span> <span class="mf">0.7058823529411765</span><span class="p">),</span>
+    <span class="p">(</span><span class="mf">0.6823529411764706</span><span class="p">,</span> <span class="mf">0.7803921568627451</span><span class="p">,</span> <span class="mf">0.9098039215686274</span><span class="p">),</span>
+    <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.4980392156862745</span><span class="p">,</span> <span class="mf">0.054901960784313725</span><span class="p">),</span>
+    <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.7333333333333333</span><span class="p">,</span> <span class="mf">0.47058823529411764</span><span class="p">),</span>
+    <span class="p">(</span><span class="mf">0.17254901960784313</span><span class="p">,</span> <span class="mf">0.6274509803921569</span><span class="p">,</span> <span class="mf">0.17254901960784313</span><span class="p">),</span>
+    <span class="p">(</span><span class="mf">0.596078431372549</span><span class="p">,</span> <span class="mf">0.8745098039215686</span><span class="p">,</span> <span class="mf">0.5411764705882353</span><span class="p">),</span>
+    <span class="p">(</span><span class="mf">0.8392156862745098</span><span class="p">,</span> <span class="mf">0.15294117647058825</span><span class="p">,</span> <span class="mf">0.1568627450980392</span><span class="p">),</span>
+    <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.596078431372549</span><span class="p">,</span> <span class="mf">0.5882352941176471</span><span class="p">),</span>
+    <span class="p">(</span><span class="mf">0.5803921568627451</span><span class="p">,</span> <span class="mf">0.403921568627451</span><span class="p">,</span> <span class="mf">0.7411764705882353</span><span class="p">),</span>
+    <span class="p">(</span><span class="mf">0.7725490196078432</span><span class="p">,</span> <span class="mf">0.6901960784313725</span><span class="p">,</span> <span class="mf">0.8352941176470589</span><span class="p">),</span>
+    <span class="p">(</span><span class="mf">0.5490196078431373</span><span class="p">,</span> <span class="mf">0.33725490196078434</span><span class="p">,</span> <span class="mf">0.29411764705882354</span><span class="p">),</span>
+    <span class="p">(</span><span class="mf">0.7686274509803922</span><span class="p">,</span> <span class="mf">0.611764705882353</span><span class="p">,</span> <span class="mf">0.5803921568627451</span><span class="p">),</span>
+    <span class="p">(</span><span class="mf">0.8901960784313725</span><span class="p">,</span> <span class="mf">0.4666666666666667</span><span class="p">,</span> <span class="mf">0.7607843137254902</span><span class="p">),</span>
+    <span class="p">(</span><span class="mf">0.9686274509803922</span><span class="p">,</span> <span class="mf">0.7137254901960784</span><span class="p">,</span> <span class="mf">0.8235294117647058</span><span class="p">),</span>
+    <span class="p">(</span><span class="mf">0.4980392156862745</span><span class="p">,</span> <span class="mf">0.4980392156862745</span><span class="p">,</span> <span class="mf">0.4980392156862745</span><span class="p">),</span>
+    <span class="p">(</span><span class="mf">0.7803921568627451</span><span class="p">,</span> <span class="mf">0.7803921568627451</span><span class="p">,</span> <span class="mf">0.7803921568627451</span><span class="p">),</span>
+    <span class="p">(</span><span class="mf">0.7372549019607844</span><span class="p">,</span> <span class="mf">0.7411764705882353</span><span class="p">,</span> <span class="mf">0.13333333333333333</span><span class="p">),</span>
+    <span class="p">(</span><span class="mf">0.8588235294117647</span><span class="p">,</span> <span class="mf">0.8588235294117647</span><span class="p">,</span> <span class="mf">0.5529411764705883</span><span class="p">),</span>
+    <span class="p">(</span><span class="mf">0.09019607843137255</span><span class="p">,</span> <span class="mf">0.7450980392156863</span><span class="p">,</span> <span class="mf">0.8117647058823529</span><span class="p">),</span>
+    <span class="p">(</span><span class="mf">0.6196078431372549</span><span class="p">,</span> <span class="mf">0.8549019607843137</span><span class="p">,</span> <span class="mf">0.8980392156862745</span><span class="p">)]</span>
+<span class="n">tableau_extension</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="mf">0.95</span><span class="p">,</span> <span class="mf">0.85</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">),</span>  <span class="c1"># Warm, Soft Yellow</span>
+    <span class="p">(</span><span class="mf">0.98</span><span class="p">,</span> <span class="mf">0.92</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+    <span class="p">(</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">),</span>  <span class="c1"># Cool, Muted Blue</span>
+    <span class="p">(</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">)]</span>
+<span class="n">large_font</span> <span class="o">=</span> <span class="mi">28</span>
+<span class="n">medium_font</span> <span class="o">=</span> <span class="mi">24</span>
+<span class="n">small_font</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">marker_size</span> <span class="o">=</span> <span class="mi">200</span>
+
+<span class="n">COLOR_DICT</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">({</span>
+    <span class="s2">&quot;Left Anterior Thalamic&quot;</span><span class="p">:</span> <span class="n">tableau_20</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;C_L&quot;</span><span class="p">:</span> <span class="n">tableau_20</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="s2">&quot;Right Anterior Thalamic&quot;</span><span class="p">:</span> <span class="n">tableau_20</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;C_R&quot;</span><span class="p">:</span> <span class="n">tableau_20</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="s2">&quot;Left Corticospinal&quot;</span><span class="p">:</span> <span class="n">tableau_20</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+    <span class="s2">&quot;Right Corticospinal&quot;</span><span class="p">:</span> <span class="n">tableau_20</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span>
+    <span class="s2">&quot;Left Cingulum Cingulate&quot;</span><span class="p">:</span> <span class="n">tableau_20</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="s2">&quot;MCP&quot;</span><span class="p">:</span> <span class="n">tableau_20</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span>
+    <span class="s2">&quot;Right Cingulum Cingulate&quot;</span><span class="p">:</span> <span class="n">tableau_20</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="s2">&quot;CCMid&quot;</span><span class="p">:</span> <span class="n">tableau_20</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span>
+    <span class="s2">&quot;Forceps Minor&quot;</span><span class="p">:</span> <span class="n">tableau_20</span><span class="p">[</span><span class="mi">8</span><span class="p">],</span> <span class="s2">&quot;CC_ForcepsMinor&quot;</span><span class="p">:</span> <span class="n">tableau_20</span><span class="p">[</span><span class="mi">8</span><span class="p">],</span>
+    <span class="s2">&quot;Forceps Major&quot;</span><span class="p">:</span> <span class="n">tableau_20</span><span class="p">[</span><span class="mi">9</span><span class="p">],</span> <span class="s2">&quot;CC_ForcepsMajor&quot;</span><span class="p">:</span> <span class="n">tableau_20</span><span class="p">[</span><span class="mi">9</span><span class="p">],</span>
+    <span class="s2">&quot;Left Inferior Fronto-occipital&quot;</span><span class="p">:</span> <span class="n">tableau_20</span><span class="p">[</span><span class="mi">10</span><span class="p">],</span>
+    <span class="s2">&quot;IFOF_L&quot;</span><span class="p">:</span> <span class="n">tableau_20</span><span class="p">[</span><span class="mi">10</span><span class="p">],</span>
+    <span class="s2">&quot;Right Inferior Fronto-occipital&quot;</span><span class="p">:</span> <span class="n">tableau_20</span><span class="p">[</span><span class="mi">11</span><span class="p">],</span>
+    <span class="s2">&quot;IFOF_R&quot;</span><span class="p">:</span> <span class="n">tableau_20</span><span class="p">[</span><span class="mi">11</span><span class="p">],</span>
+    <span class="s2">&quot;Left Inferior Longitudinal&quot;</span><span class="p">:</span> <span class="n">tableau_20</span><span class="p">[</span><span class="mi">12</span><span class="p">],</span> <span class="s2">&quot;F_L&quot;</span><span class="p">:</span> <span class="n">tableau_20</span><span class="p">[</span><span class="mi">12</span><span class="p">],</span>
+    <span class="s2">&quot;Right Inferior Longitudinal&quot;</span><span class="p">:</span> <span class="n">tableau_20</span><span class="p">[</span><span class="mi">13</span><span class="p">],</span> <span class="s2">&quot;F_R&quot;</span><span class="p">:</span> <span class="n">tableau_20</span><span class="p">[</span><span class="mi">13</span><span class="p">],</span>
+    <span class="s2">&quot;Left Superior Longitudinal&quot;</span><span class="p">:</span> <span class="n">tableau_20</span><span class="p">[</span><span class="mi">14</span><span class="p">],</span>
+    <span class="s2">&quot;Right Superior Longitudinal&quot;</span><span class="p">:</span> <span class="n">tableau_20</span><span class="p">[</span><span class="mi">15</span><span class="p">],</span>
+    <span class="s2">&quot;Left Uncinate&quot;</span><span class="p">:</span> <span class="n">tableau_20</span><span class="p">[</span><span class="mi">16</span><span class="p">],</span> <span class="s2">&quot;UF_L&quot;</span><span class="p">:</span> <span class="n">tableau_20</span><span class="p">[</span><span class="mi">16</span><span class="p">],</span>
+    <span class="s2">&quot;Right Uncinate&quot;</span><span class="p">:</span> <span class="n">tableau_20</span><span class="p">[</span><span class="mi">17</span><span class="p">],</span> <span class="s2">&quot;UF_R&quot;</span><span class="p">:</span> <span class="n">tableau_20</span><span class="p">[</span><span class="mi">17</span><span class="p">],</span>
+    <span class="s2">&quot;Left Arcuate&quot;</span><span class="p">:</span> <span class="n">tableau_20</span><span class="p">[</span><span class="mi">18</span><span class="p">],</span> <span class="s2">&quot;AF_L&quot;</span><span class="p">:</span> <span class="n">tableau_20</span><span class="p">[</span><span class="mi">18</span><span class="p">],</span>
+    <span class="s2">&quot;Right Arcuate&quot;</span><span class="p">:</span> <span class="n">tableau_20</span><span class="p">[</span><span class="mi">19</span><span class="p">],</span> <span class="s2">&quot;AF_R&quot;</span><span class="p">:</span> <span class="n">tableau_20</span><span class="p">[</span><span class="mi">19</span><span class="p">],</span>
+    <span class="s2">&quot;Left Posterior Arcuate&quot;</span><span class="p">:</span> <span class="n">tableau_20</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span>
+    <span class="s2">&quot;Right Posterior Arcuate&quot;</span><span class="p">:</span> <span class="n">tableau_20</span><span class="p">[</span><span class="mi">7</span><span class="p">],</span>
+    <span class="s2">&quot;Left Vertical Occipital&quot;</span><span class="p">:</span> <span class="n">tableau_extension</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="s2">&quot;Right Vertical Occipital&quot;</span><span class="p">:</span> <span class="n">tableau_extension</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="s2">&quot;median&quot;</span><span class="p">:</span> <span class="n">tableau_20</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span>
+    <span class="c1"># Paul Tol&#39;s palette for callosal bundles</span>
+    <span class="s2">&quot;Callosum Orbital&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.13</span><span class="p">,</span> <span class="mf">0.53</span><span class="p">),</span>
+    <span class="s2">&quot;Callosum Anterior Frontal&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.07</span><span class="p">,</span> <span class="mf">0.47</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">),</span>
+    <span class="s2">&quot;Callosum Superior Frontal&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.27</span><span class="p">,</span> <span class="mf">0.67</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">),</span>
+    <span class="s2">&quot;Callosum Motor&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.53</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.93</span><span class="p">),</span>
+    <span class="s2">&quot;Callosum Superior Parietal&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.87</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.47</span><span class="p">),</span>
+    <span class="s2">&quot;Callosum Posterior Parietal&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.47</span><span class="p">),</span>
+    <span class="s2">&quot;Callosum Occipital&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.67</span><span class="p">,</span> <span class="mf">0.27</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">),</span>
+    <span class="s2">&quot;Callosum Temporal&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.53</span><span class="p">,</span> <span class="mf">0.13</span><span class="p">,</span> <span class="mf">0.33</span><span class="p">)})</span>
+
+<span class="n">POSITIONS</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">({</span>
+    <span class="s2">&quot;Left Anterior Thalamic&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="s2">&quot;Right Anterior Thalamic&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+    <span class="s2">&quot;C_L&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="s2">&quot;C_R&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+    <span class="s2">&quot;Left Corticospinal&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="s2">&quot;Right Corticospinal&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+    <span class="s2">&quot;Left Cingulum Cingulate&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="s2">&quot;Right Cingulum Cingulate&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+    <span class="s2">&quot;MCP&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="s2">&quot;CCMid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+    <span class="s2">&quot;Forceps Minor&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="s2">&quot;Forceps Major&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+    <span class="s2">&quot;CC_ForcepsMinor&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="s2">&quot;CC_ForcepsMajor&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+    <span class="s2">&quot;Left Inferior Fronto-occipital&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="s2">&quot;Right Inferior Fronto-occipital&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+    <span class="s2">&quot;IFOF_L&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="s2">&quot;IFOF_R&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+    <span class="s2">&quot;Left Inferior Longitudinal&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+    <span class="s2">&quot;Right Inferior Longitudinal&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+    <span class="s2">&quot;F_L&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="s2">&quot;F_R&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+    <span class="s2">&quot;Left Superior Longitudinal&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="s2">&quot;Right Superior Longitudinal&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+    <span class="s2">&quot;Left Arcuate&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="s2">&quot;Right Arcuate&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+    <span class="s2">&quot;AF_L&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="s2">&quot;AF_R&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+    <span class="s2">&quot;Left Uncinate&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="s2">&quot;Right Uncinate&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+    <span class="s2">&quot;UF_L&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="s2">&quot;UF_R&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)})</span>
+
+<span class="n">CSV_MAT_2_PYTHON</span> <span class="o">=</span> \
+    <span class="p">{</span><span class="s1">&#39;fa&#39;</span><span class="p">:</span> <span class="s1">&#39;dti_fa&#39;</span><span class="p">,</span> <span class="s1">&#39;md&#39;</span><span class="p">:</span> <span class="s1">&#39;dti_md&#39;</span><span class="p">}</span>
+
+<span class="n">SCALE_MAT_2_PYTHON</span> <span class="o">=</span> \
+    <span class="p">{</span><span class="s1">&#39;dti_md&#39;</span><span class="p">:</span> <span class="mf">0.001</span><span class="p">}</span>
+
+<span class="n">SCALAR_REMOVE_MODEL</span> <span class="o">=</span> \
+    <span class="p">{</span><span class="s1">&#39;dti_md&#39;</span><span class="p">:</span> <span class="s1">&#39;MD&#39;</span><span class="p">,</span> <span class="s1">&#39;dki_md&#39;</span><span class="p">:</span> <span class="s1">&#39;MD&#39;</span><span class="p">,</span> <span class="s1">&#39;dki_fa&#39;</span><span class="p">:</span> <span class="s1">&#39;FA&#39;</span><span class="p">,</span> <span class="s1">&#39;dti_fa&#39;</span><span class="p">:</span> <span class="s1">&#39;FA&#39;</span><span class="p">}</span>
+
+<span class="n">RECO_FLIP</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;IFO_L&quot;</span><span class="p">,</span> <span class="s2">&quot;IFO_R&quot;</span><span class="p">,</span> <span class="s2">&quot;UNC_L&quot;</span><span class="p">,</span> <span class="s2">&quot;ILF_L&quot;</span><span class="p">,</span> <span class="s2">&quot;ILF_R&quot;</span><span class="p">]</span>
+
+<span class="n">BEST_BUNDLE_ORIENTATIONS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;Left Anterior Thalamic&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;Sagittal&quot;</span><span class="p">,</span> <span class="s2">&quot;Left&quot;</span><span class="p">),</span>
+    <span class="s2">&quot;Right Anterior Thalamic&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;Sagittal&quot;</span><span class="p">,</span> <span class="s2">&quot;Right&quot;</span><span class="p">),</span>
+    <span class="s2">&quot;Left Corticospinal&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;Sagittal&quot;</span><span class="p">,</span> <span class="s2">&quot;Left&quot;</span><span class="p">),</span>
+    <span class="s2">&quot;Right Corticospinal&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;Sagittal&quot;</span><span class="p">,</span> <span class="s2">&quot;Right&quot;</span><span class="p">),</span>
+    <span class="s2">&quot;Left Cingulum Cingulate&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;Sagittal&quot;</span><span class="p">,</span> <span class="s2">&quot;Left&quot;</span><span class="p">),</span>
+    <span class="s2">&quot;Right Cingulum Cingulate&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;Sagittal&quot;</span><span class="p">,</span> <span class="s2">&quot;Right&quot;</span><span class="p">),</span>
+    <span class="s2">&quot;Forceps Minor&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;Axial&quot;</span><span class="p">,</span> <span class="s2">&quot;Top&quot;</span><span class="p">),</span>
+    <span class="s2">&quot;Forceps Major&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;Axial&quot;</span><span class="p">,</span> <span class="s2">&quot;Top&quot;</span><span class="p">),</span>
+    <span class="s2">&quot;Left Inferior Fronto-occipital&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;Sagittal&quot;</span><span class="p">,</span> <span class="s2">&quot;Left&quot;</span><span class="p">),</span>
+    <span class="s2">&quot;Right Inferior Fronto-occipital&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;Sagittal&quot;</span><span class="p">,</span> <span class="s2">&quot;Right&quot;</span><span class="p">),</span>
+    <span class="s2">&quot;Left Inferior Longitudinal&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;Sagittal&quot;</span><span class="p">,</span> <span class="s2">&quot;Left&quot;</span><span class="p">),</span>
+    <span class="s2">&quot;Right Inferior Longitudinal&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;Sagittal&quot;</span><span class="p">,</span> <span class="s2">&quot;Right&quot;</span><span class="p">),</span>
+    <span class="s2">&quot;Left Superior Longitudinal&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;Axial&quot;</span><span class="p">,</span> <span class="s2">&quot;Top&quot;</span><span class="p">),</span>
+    <span class="s2">&quot;Right Superior Longitudinal&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;Axial&quot;</span><span class="p">,</span> <span class="s2">&quot;Top&quot;</span><span class="p">),</span>
+    <span class="s2">&quot;Left Uncinate&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;Axial&quot;</span><span class="p">,</span> <span class="s2">&quot;Bottom&quot;</span><span class="p">),</span>
+    <span class="s2">&quot;Right Uncinate&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;Axial&quot;</span><span class="p">,</span> <span class="s2">&quot;Bottom&quot;</span><span class="p">),</span>
+    <span class="s2">&quot;Left Arcuate&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;Sagittal&quot;</span><span class="p">,</span> <span class="s2">&quot;Left&quot;</span><span class="p">),</span>
+    <span class="s2">&quot;Right Arcuate&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;Sagittal&quot;</span><span class="p">,</span> <span class="s2">&quot;Right&quot;</span><span class="p">),</span>
+    <span class="s2">&quot;Left Vertical Occipital&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;Coronal&quot;</span><span class="p">,</span> <span class="s2">&quot;Back&quot;</span><span class="p">),</span>
+    <span class="s2">&quot;Right Vertical Occipital&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;Coronal&quot;</span><span class="p">,</span> <span class="s2">&quot;Back&quot;</span><span class="p">),</span>
+    <span class="s2">&quot;Left Posterior Arcuate&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;Coronal&quot;</span><span class="p">,</span> <span class="s2">&quot;Back&quot;</span><span class="p">),</span>
+    <span class="s2">&quot;Right Posterior Arcuate&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;Coronal&quot;</span><span class="p">,</span> <span class="s2">&quot;Back&quot;</span><span class="p">)}</span>
+
+
+<span class="k">class</span> <span class="nc">PanelFigure</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Super useful class for organizing existing images</span>
+<span class="sd">    into subplots using matplotlib</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_rows</span><span class="p">,</span> <span class="n">num_cols</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span>
+                 <span class="n">panel_label_kwargs</span><span class="o">=</span><span class="p">{}):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize PanelFigure.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        num_rows : int</span>
+<span class="sd">            Number of rows in figure</span>
+<span class="sd">        num_cols : int</span>
+<span class="sd">            Number of columns in figure</span>
+<span class="sd">        width : int</span>
+<span class="sd">            Width of figure in inches</span>
+<span class="sd">        height : int</span>
+<span class="sd">            Height of figure in inches</span>
+<span class="sd">        panel_label_kwargs : dict</span>
+<span class="sd">            Additional arguments for matplotlib&#39;s text method,</span>
+<span class="sd">            which is used to add panel labels to each subplot</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">GridSpec</span><span class="p">(</span><span class="n">num_rows</span><span class="p">,</span> <span class="n">num_cols</span><span class="p">,</span> <span class="n">hspace</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">wspace</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">subplot_count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">panel_label_kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+            <span class="n">fontfamily</span><span class="o">=</span><span class="s2">&quot;Helvetica-Bold&quot;</span><span class="p">,</span>
+            <span class="n">fontsize</span><span class="o">=</span><span class="s2">&quot;xx-large&quot;</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">,</span>
+            <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">,</span>
+            <span class="n">verticalalignment</span><span class="o">=</span><span class="s2">&quot;top&quot;</span><span class="p">,</span>
+            <span class="n">bbox</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+                <span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span>
+                <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">panel_label_kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">panel_label_kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">add_img</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">x_coord</span><span class="p">,</span> <span class="n">y_coord</span><span class="p">,</span> <span class="n">reduct_count</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="n">subplot_label_pos</span><span class="o">=</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="n">legend</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">legend_kwargs</span><span class="o">=</span><span class="p">{},</span>
+                <span class="n">add_panel_label</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">panel_label_kwargs</span><span class="o">=</span><span class="p">{}):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add image from fname into figure as a panel.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        fname : str</span>
+<span class="sd">            path to image file to add to subplot</span>
+<span class="sd">        x_coord : int or slice</span>
+<span class="sd">            x coordinate(s) of subplot in matlotlib figure</span>
+<span class="sd">        y_coord : int or slice</span>
+<span class="sd">            y coordinate(s) of subplot in matlotlib figure</span>
+<span class="sd">        reduct_count : int</span>
+<span class="sd">            number of times to trim whitespace around image</span>
+<span class="sd">            Default: 1</span>
+<span class="sd">        subplot_label_pos : tuple of floats</span>
+<span class="sd">            position of subplot label</span>
+<span class="sd">            Default: (0.1, 1.0)</span>
+<span class="sd">        legend : dict</span>
+<span class="sd">            dictionary of legend items, where keys are labels</span>
+<span class="sd">            and values are colors</span>
+<span class="sd">            Default: None</span>
+<span class="sd">        legend_kwargs : dict</span>
+<span class="sd">            ADditional arguments for matplotlib&#39;s legend method</span>
+<span class="sd">        add_panel_label : bool</span>
+<span class="sd">            Whether or not to add a panel label to the subplot</span>
+<span class="sd">            Default: True</span>
+<span class="sd">        panel_label_kwargs : dict</span>
+<span class="sd">            Additional arguments for matplotlib&#39;s text method,</span>
+<span class="sd">            which is used to add panel labels to each subplot.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="p">[</span><span class="n">y_coord</span><span class="p">,</span> <span class="n">x_coord</span><span class="p">])</span>
+        <span class="n">im1</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">reduct_count</span><span class="p">):</span>
+            <span class="n">im1</span> <span class="o">=</span> <span class="n">trim</span><span class="p">(</span><span class="n">im1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">legend</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">patches</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">value</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="n">legend</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">patches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mpatches</span><span class="o">.</span><span class="n">Patch</span><span class="p">(</span>
+                    <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
+                    <span class="n">label</span><span class="o">=</span><span class="n">value</span><span class="p">))</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="n">patches</span><span class="p">,</span> <span class="n">borderaxespad</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="o">**</span><span class="n">legend_kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">add_panel_label</span><span class="p">:</span>
+            <span class="n">trans</span> <span class="o">=</span> <span class="n">mtransforms</span><span class="o">.</span><span class="n">ScaledTranslation</span><span class="p">(</span>
+                <span class="mi">10</span> <span class="o">/</span> <span class="mi">72</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span> <span class="o">/</span> <span class="mi">72</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">dpi_scale_trans</span><span class="p">)</span>
+            <span class="n">this_pl_kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel_label_kwargs</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">this_pl_kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">panel_label_kwargs</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+                <span class="n">subplot_label_pos</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">subplot_label_pos</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">chr</span><span class="p">(</span><span class="mi">65</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">subplot_count</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">transform</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">transAxes</span> <span class="o">+</span> <span class="n">trans</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">this_pl_kwargs</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">im1</span><span class="p">),</span> <span class="n">aspect</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">subplot_count</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">subplot_count</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">ax</span>
+
+    <span class="k">def</span> <span class="nf">format_and_save_figure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">trim_final</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Format and save figure to fname.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        fname : str</span>
+<span class="sd">            Path to save figure to</span>
+<span class="sd">        trim : bool</span>
+<span class="sd">            Whether or not to trim whitespace around figure.</span>
+<span class="sd">            Default: True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">trim_final</span><span class="p">:</span>
+            <span class="n">im1</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+            <span class="n">im1</span> <span class="o">=</span> <span class="n">trim</span><span class="p">(</span><span class="n">im1</span><span class="p">)</span>
+            <span class="n">im1</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">300</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">get_eye</span><span class="p">(</span><span class="n">view</span><span class="p">,</span> <span class="n">direc</span><span class="p">):</span>
+    <span class="n">direc</span> <span class="o">=</span> <span class="n">direc</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="n">view</span> <span class="o">=</span> <span class="n">view</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">view</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;sagital&quot;</span><span class="p">,</span> <span class="s2">&quot;saggital&quot;</span><span class="p">]:</span>
+        <span class="n">viz_logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;You don&#39;t know how to spell sagggitttal!&quot;</span><span class="p">)</span>
+        <span class="n">view</span> <span class="o">=</span> <span class="s2">&quot;sagittal&quot;</span>
+
+    <span class="k">if</span> <span class="n">view</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;sagittal&quot;</span><span class="p">,</span> <span class="s2">&quot;coronal&quot;</span><span class="p">,</span> <span class="s2">&quot;axial&quot;</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;View must be one of: sagittal, coronal, or axial&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">direc</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="s2">&quot;top&quot;</span><span class="p">,</span> <span class="s2">&quot;bottom&quot;</span><span class="p">,</span> <span class="s2">&quot;front&quot;</span><span class="p">,</span> <span class="s2">&quot;back&quot;</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;View must be one of: left, right, top, bottom, front, back&quot;</span><span class="p">)</span>
+
+    <span class="n">eye</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="n">view</span> <span class="o">==</span> <span class="s2">&quot;sagittal&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">direc</span> <span class="o">==</span> <span class="s2">&quot;left&quot;</span><span class="p">:</span>
+            <span class="n">eye</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">eye</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">eye</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">eye</span><span class="p">[</span><span class="s2">&quot;z&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">elif</span> <span class="n">view</span> <span class="o">==</span> <span class="s2">&quot;coronal&quot;</span><span class="p">:</span>
+        <span class="n">eye</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="n">direc</span> <span class="o">==</span> <span class="s2">&quot;front&quot;</span><span class="p">:</span>
+            <span class="n">eye</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">eye</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">eye</span><span class="p">[</span><span class="s2">&quot;z&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">elif</span> <span class="n">view</span> <span class="o">==</span> <span class="s2">&quot;axial&quot;</span><span class="p">:</span>
+        <span class="n">eye</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">eye</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="n">direc</span> <span class="o">==</span> <span class="s2">&quot;top&quot;</span><span class="p">:</span>
+            <span class="n">eye</span><span class="p">[</span><span class="s2">&quot;z&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">eye</span><span class="p">[</span><span class="s2">&quot;z&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="k">return</span> <span class="n">eye</span>
+
+
+<span class="k">def</span> <span class="nf">display_string</span><span class="p">(</span><span class="n">scalar_name</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">scalar_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">scalar_name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">sn</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">sn</span> <span class="ow">in</span> <span class="n">scalar_name</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">gen_color_dict</span><span class="p">(</span><span class="n">bundles</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Helper function.</span>
+<span class="sd">    Generate a color dict given a list of bundles.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">incr_color_idx</span><span class="p">(</span><span class="n">color_idx</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">color_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">20</span>
+    <span class="n">custom_color_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">color_idx</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">bundle</span> <span class="ow">in</span> <span class="n">bundles</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">bundle</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">custom_color_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">bundle</span> <span class="ow">in</span> <span class="n">COLOR_DICT</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">custom_color_dict</span><span class="p">[</span><span class="n">bundle</span><span class="p">]</span> <span class="o">=</span> <span class="n">COLOR_DICT</span><span class="p">[</span><span class="n">bundle</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">other_bundle</span> <span class="o">=</span> <span class="n">bundle</span>
+                <span class="k">if</span> <span class="n">bundle</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;Left &quot;</span><span class="p">):</span>
+                    <span class="n">other_bundle</span> <span class="o">=</span> <span class="s2">&quot;Right&quot;</span> <span class="o">+</span> <span class="n">other_bundle</span><span class="p">[</span><span class="mi">5</span><span class="p">:]</span>
+                <span class="k">elif</span> <span class="n">bundle</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;Right &quot;</span><span class="p">):</span>
+                    <span class="n">other_bundle</span> <span class="o">=</span> <span class="s2">&quot;Left&quot;</span> <span class="o">+</span> <span class="n">other_bundle</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span>
+                <span class="n">other_bundle</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">other_bundle</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">other_bundle</span> <span class="o">==</span> <span class="n">bundle</span><span class="p">:</span>  <span class="c1"># lone bundle</span>
+                    <span class="n">custom_color_dict</span><span class="p">[</span><span class="n">bundle</span><span class="p">]</span> <span class="o">=</span> <span class="n">tableau_20</span><span class="p">[</span><span class="n">color_idx</span><span class="p">]</span>
+                    <span class="n">color_idx</span> <span class="o">=</span> <span class="n">incr_color_idx</span><span class="p">(</span><span class="n">color_idx</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>  <span class="c1"># right left pair</span>
+                    <span class="k">if</span> <span class="n">color_idx</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">color_idx</span> <span class="o">=</span> <span class="n">incr_color_idx</span><span class="p">(</span><span class="n">color_idx</span><span class="p">)</span>
+                    <span class="n">custom_color_dict</span><span class="p">[</span><span class="n">bundle</span><span class="p">]</span> <span class="o">=</span>\
+                        <span class="n">tableau_20</span><span class="p">[</span><span class="n">color_idx</span><span class="p">]</span>
+                    <span class="n">custom_color_dict</span><span class="p">[</span><span class="n">other_bundle</span><span class="p">]</span> <span class="o">=</span>\
+                        <span class="n">tableau_20</span><span class="p">[</span><span class="n">color_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+                    <span class="n">color_idx</span> <span class="o">=</span> <span class="n">incr_color_idx</span><span class="p">(</span><span class="n">incr_color_idx</span><span class="p">(</span><span class="n">color_idx</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">custom_color_dict</span>
+
+
+<span class="k">def</span> <span class="nf">viz_import_msg_error</span><span class="p">(</span><span class="n">module</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Alerts user to install the appropriate viz module &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">module</span> <span class="o">==</span> <span class="s2">&quot;plot&quot;</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;To make plots in pyAFQ, you will need to install &quot;</span>
+        <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot;the relevant plotting software packages.&quot;</span>
+        <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot;You can do that by installing pyAFQ with &quot;</span>
+        <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot;`pip install AFQ[plot]`&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;To use </span><span class="si">{</span><span class="n">module</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2"> visualizations in pyAFQ, you will &quot;</span>
+        <span class="n">msg</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;need to have </span><span class="si">{</span><span class="n">module</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2"> installed. &quot;</span>
+        <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot;You can do that by installing pyAFQ with &quot;</span>
+        <span class="n">msg</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;`pip install AFQ[</span><span class="si">{</span><span class="n">module</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">]`, or by &quot;</span>
+        <span class="n">msg</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;separately installing </span><span class="si">{</span><span class="n">module</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2">: &quot;</span>
+        <span class="n">msg</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;`pip install </span><span class="si">{</span><span class="n">module</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">`.&quot;</span>
+    <span class="k">return</span> <span class="n">msg</span>
+
+
+<span class="k">def</span> <span class="nf">tract_generator</span><span class="p">(</span><span class="n">trk_file</span><span class="p">,</span> <span class="n">bundle</span><span class="p">,</span> <span class="n">colors</span><span class="p">,</span> <span class="n">n_points</span><span class="p">,</span>
+                    <span class="n">n_sls_viz</span><span class="o">=</span><span class="mi">3600</span><span class="p">,</span> <span class="n">n_sls_min</span><span class="o">=</span><span class="mi">75</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generates bundles of streamlines from the tractogram.</span>
+<span class="sd">    Only generates from relevant bundle if bundle is set.</span>
+<span class="sd">    Otherwise, returns all streamlines.</span>
+
+<span class="sd">    Helper function</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    trk_file : str or SegmentedSFT</span>
+<span class="sd">        Path to a trk file or SegmentedSFT</span>
+
+<span class="sd">    bundle : str</span>
+<span class="sd">        The name of a bundle to select from the trk metadata.</span>
+
+<span class="sd">    colors : dict or list</span>
+<span class="sd">        If this is a dict, keys are bundle names and values are RGB tuples.</span>
+<span class="sd">        If this is a list, each item is an RGB tuple. Defaults to a list</span>
+<span class="sd">        with Tableau 20 RGB values</span>
+
+<span class="sd">    n_points : int or None</span>
+<span class="sd">        n_points to resample streamlines to before plotting. If None, no</span>
+<span class="sd">        resampling is done.</span>
+
+<span class="sd">    n_sls_viz : int</span>
+<span class="sd">        Number of streamlines to randomly select if plotting</span>
+<span class="sd">        all bundles. Selections will be proportional to the original number of</span>
+<span class="sd">        streamlines per bundle.</span>
+<span class="sd">        Default: 3600</span>
+<span class="sd">    n_sls_min : int</span>
+<span class="sd">        Minimun number of streamlines to display per bundle.</span>
+<span class="sd">        Default: 75</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Statefule Tractogram streamlines, RGB numpy array, str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">viz_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Loading Stateful Tractogram...&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">trk_file</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">seg_sft</span> <span class="o">=</span> <span class="n">aus</span><span class="o">.</span><span class="n">SegmentedSFT</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="n">trk_file</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">seg_sft</span> <span class="o">=</span> <span class="n">trk_file</span>
+
+    <span class="k">if</span> <span class="n">colors</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">colors</span> <span class="o">=</span> <span class="n">gen_color_dict</span><span class="p">(</span><span class="n">seg_sft</span><span class="o">.</span><span class="n">bundle_names</span><span class="p">)</span>
+
+    <span class="n">seg_sft</span><span class="o">.</span><span class="n">sft</span><span class="o">.</span><span class="n">to_vox</span><span class="p">()</span>
+    <span class="n">streamlines</span> <span class="o">=</span> <span class="n">seg_sft</span><span class="o">.</span><span class="n">sft</span><span class="o">.</span><span class="n">streamlines</span>
+    <span class="n">viz_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Generating colorful lines from tractography...&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">seg_sft</span><span class="o">.</span><span class="n">bundle_names</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>\
+            <span class="ow">and</span> <span class="n">seg_sft</span><span class="o">.</span><span class="n">bundle_names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;whole_brain&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">colors</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">colors</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">colors</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="c1"># There are no bundles in here:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">streamlines</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">n_sls_viz</span><span class="p">:</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">streamlines</span><span class="p">))</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span>
+                <span class="n">idx</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n_sls_viz</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">streamlines</span> <span class="o">=</span> <span class="n">streamlines</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">n_points</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">streamlines</span> <span class="o">=</span> <span class="n">dps</span><span class="o">.</span><span class="n">set_number_of_points</span><span class="p">(</span><span class="n">streamlines</span><span class="p">,</span> <span class="n">n_points</span><span class="p">)</span>
+        <span class="k">yield</span> <span class="n">streamlines</span><span class="p">,</span> <span class="n">colors</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;all_bundles&quot;</span><span class="p">,</span> <span class="n">seg_sft</span><span class="o">.</span><span class="n">sft</span><span class="o">.</span><span class="n">dimensions</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">bundle</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># No selection: visualize all of them:</span>
+            <span class="k">for</span> <span class="n">bundle_name</span> <span class="ow">in</span> <span class="n">seg_sft</span><span class="o">.</span><span class="n">bundle_names</span><span class="p">:</span>
+                <span class="n">idx</span> <span class="o">=</span> <span class="n">seg_sft</span><span class="o">.</span><span class="n">bundle_idxs</span><span class="p">[</span><span class="n">bundle_name</span><span class="p">]</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">n_sl_viz</span> <span class="o">=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span> <span class="o">*</span> <span class="n">n_sls_viz</span><span class="p">)</span> <span class="o">//</span>\
+                    <span class="nb">len</span><span class="p">(</span><span class="n">streamlines</span><span class="p">)</span>
+                <span class="n">n_sl_viz</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">n_sls_min</span><span class="p">,</span> <span class="n">n_sl_viz</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">n_sl_viz</span><span class="p">:</span>
+                    <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n_sl_viz</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">these_sls</span> <span class="o">=</span> <span class="n">streamlines</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">n_points</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">these_sls</span> <span class="o">=</span> <span class="n">dps</span><span class="o">.</span><span class="n">set_number_of_points</span><span class="p">(</span><span class="n">these_sls</span><span class="p">,</span> <span class="n">n_points</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">colors</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                    <span class="n">color</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="n">bundle_name</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">color</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">yield</span> <span class="n">these_sls</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">bundle_name</span><span class="p">,</span> <span class="n">seg_sft</span><span class="o">.</span><span class="n">sft</span><span class="o">.</span><span class="n">dimensions</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">these_sls</span> <span class="o">=</span> <span class="n">seg_sft</span><span class="o">.</span><span class="n">get_bundle</span><span class="p">(</span><span class="n">bundle</span><span class="p">)</span><span class="o">.</span><span class="n">streamlines</span>
+            <span class="k">if</span> <span class="n">n_points</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">these_sls</span> <span class="o">=</span> <span class="n">dps</span><span class="o">.</span><span class="n">set_number_of_points</span><span class="p">(</span><span class="n">these_sls</span><span class="p">,</span> <span class="n">n_points</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">colors</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="n">color</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="n">bundle</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">color</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">yield</span> <span class="n">these_sls</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">bundle</span><span class="p">,</span> <span class="n">seg_sft</span><span class="o">.</span><span class="n">sft</span><span class="o">.</span><span class="n">dimensions</span>
+
+
+<span class="k">def</span> <span class="nf">bbox</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">cols</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">rmin</span><span class="p">,</span> <span class="n">rmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">rows</span><span class="p">)[</span><span class="mi">0</span><span class="p">][[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
+    <span class="n">cmin</span><span class="p">,</span> <span class="n">cmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">cols</span><span class="p">)[</span><span class="mi">0</span><span class="p">][[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
+
+    <span class="k">return</span> <span class="n">cmin</span><span class="p">,</span> <span class="n">rmin</span><span class="p">,</span> <span class="n">cmax</span><span class="p">,</span> <span class="n">rmax</span>
+
+
+<span class="k">def</span> <span class="nf">trim</span><span class="p">(</span><span class="n">im</span><span class="p">):</span>
+    <span class="n">bg</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">im</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span> <span class="n">im</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">im</span><span class="o">.</span><span class="n">getpixel</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))</span>
+    <span class="n">diff</span> <span class="o">=</span> <span class="n">ImageChops</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">bg</span><span class="p">)</span>
+    <span class="n">diff</span> <span class="o">=</span> <span class="n">ImageChops</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">diff</span><span class="p">,</span> <span class="n">diff</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">diff</span><span class="o">.</span><span class="n">getbbox</span>
+    <span class="n">this_bbox</span> <span class="o">=</span> <span class="n">bbox</span><span class="p">(</span><span class="n">diff</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">this_bbox</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">im</span><span class="o">.</span><span class="n">crop</span><span class="p">(</span><span class="n">this_bbox</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">gif_from_pngs</span><span class="p">(</span><span class="n">tdir</span><span class="p">,</span> <span class="n">gif_fname</span><span class="p">,</span> <span class="n">n_frames</span><span class="p">,</span>
+                  <span class="n">png_fname</span><span class="o">=</span><span class="s2">&quot;tgif&quot;</span><span class="p">,</span> <span class="n">add_zeros</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Helper function</span>
+<span class="sd">        Stitches together gif from screenshots</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">add_zeros</span><span class="p">:</span>
+        <span class="n">fname_suffix10</span> <span class="o">=</span> <span class="s2">&quot;00000&quot;</span>
+        <span class="n">fname_suffix100</span> <span class="o">=</span> <span class="s2">&quot;0000&quot;</span>
+        <span class="n">fname_suffix1000</span> <span class="o">=</span> <span class="s2">&quot;000&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">fname_suffix10</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">fname_suffix100</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">fname_suffix1000</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">angles</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">n_frame_copies</span> <span class="o">=</span> <span class="mi">60</span> <span class="o">//</span> <span class="n">n_frames</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_frames</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+            <span class="n">angle_fname</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">png_fname</span><span class="si">}{</span><span class="n">fname_suffix10</span><span class="si">}{</span><span class="n">i</span><span class="si">}</span><span class="s2">.png&quot;</span>
+        <span class="k">elif</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">:</span>
+            <span class="n">angle_fname</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">png_fname</span><span class="si">}{</span><span class="n">fname_suffix100</span><span class="si">}{</span><span class="n">i</span><span class="si">}</span><span class="s2">.png&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">angle_fname</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">png_fname</span><span class="si">}{</span><span class="n">fname_suffix1000</span><span class="si">}{</span><span class="n">i</span><span class="si">}</span><span class="s2">.png&quot;</span>
+        <span class="n">frame</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tdir</span><span class="p">,</span> <span class="n">angle_fname</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_frame_copies</span><span class="p">):</span>
+            <span class="n">angles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+
+    <span class="n">io</span><span class="o">.</span><span class="n">mimsave</span><span class="p">(</span><span class="n">gif_fname</span><span class="p">,</span> <span class="n">angles</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">prepare_roi</span><span class="p">(</span><span class="n">roi</span><span class="p">,</span> <span class="n">affine_or_mapping</span><span class="p">,</span> <span class="n">static_img</span><span class="p">,</span>
+                <span class="n">roi_affine</span><span class="p">,</span> <span class="n">static_affine</span><span class="p">,</span> <span class="n">reg_template</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Load the ROI</span>
+<span class="sd">    Possibly perform a transformation on an ROI</span>
+<span class="sd">    Helper function</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    roi : str or Nifti1Image</span>
+<span class="sd">        The ROI information.</span>
+<span class="sd">        If str, ROI will be loaded using the str as a path.</span>
+
+<span class="sd">    affine_or_mapping : ndarray, Nifti1Image, or str</span>
+<span class="sd">       An affine transformation or mapping to apply to the ROI before</span>
+<span class="sd">       visualization. Default: no transform.</span>
+
+<span class="sd">    static_img: str or Nifti1Image</span>
+<span class="sd">        Template to resample roi to.</span>
+
+<span class="sd">    roi_affine: ndarray</span>
+
+<span class="sd">    static_affine: ndarray</span>
+
+<span class="sd">    reg_template: str or Nifti1Image</span>
+<span class="sd">        Template to use for registration.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ndarray</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">viz_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Preparing ROI...&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">roi</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">roi</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">roi</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">roi</span><span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">roi</span> <span class="o">=</span> <span class="n">roi</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">affine_or_mapping</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">affine_or_mapping</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="c1"># This is an affine:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">static_img</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">roi_affine</span> <span class="ow">is</span> <span class="kc">None</span>
+                    <span class="ow">or</span> <span class="n">static_affine</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;If using an affine to transform an ROI, &quot;</span>
+                                 <span class="s2">&quot;need to also specify all of the following&quot;</span><span class="p">,</span>
+                                 <span class="s2">&quot;inputs: `static_img`, `roi_affine`, &quot;</span><span class="p">,</span>
+                                 <span class="s2">&quot;`static_affine`&quot;</span><span class="p">)</span>
+            <span class="n">roi</span> <span class="o">=</span> <span class="n">resample</span><span class="p">(</span><span class="n">roi</span><span class="p">,</span> <span class="n">static_img</span><span class="p">,</span> <span class="n">roi_affine</span><span class="p">,</span>
+                           <span class="n">static_affine</span><span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Assume it is  a mapping:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">affine_or_mapping</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+                    <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">affine_or_mapping</span><span class="p">,</span> <span class="n">nib</span><span class="o">.</span><span class="n">Nifti1Image</span><span class="p">)):</span>
+                <span class="k">if</span> <span class="n">reg_template</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">static_img</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="s2">&quot;If using a mapping to transform an ROI, need to &quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;also specify all of the following inputs: &quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;`reg_template`, `static_img`&quot;</span><span class="p">)</span>
+                <span class="n">affine_or_mapping</span> <span class="o">=</span> <span class="n">reg</span><span class="o">.</span><span class="n">read_mapping</span><span class="p">(</span><span class="n">affine_or_mapping</span><span class="p">,</span>
+                                                     <span class="n">static_img</span><span class="p">,</span>
+                                                     <span class="n">reg_template</span><span class="p">)</span>
+
+            <span class="n">roi</span> <span class="o">=</span> <span class="n">auv</span><span class="o">.</span><span class="n">transform_inverse_roi</span><span class="p">(</span>
+                <span class="n">roi</span><span class="p">,</span>
+                <span class="n">affine_or_mapping</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">roi</span>
+
+
+<span class="k">def</span> <span class="nf">load_volume</span><span class="p">(</span><span class="n">volume</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Load a volume</span>
+<span class="sd">    Helper function</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    volume : ndarray or str</span>
+<span class="sd">        3d volume to load.</span>
+<span class="sd">        If string, it is used as a file path.</span>
+<span class="sd">        If it is an ndarray, it is simply returned.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ndarray</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">viz_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Loading Volume...&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">volume</span><span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">volume</span>
+
+
+<div class="viewcode-block" id="Viz"><a class="viewcode-back" href="../../../reference/api/AFQ/viz/utils/index.html#AFQ.viz.utils.Viz">[docs]</a><span class="k">class</span> <span class="nc">Viz</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;fury&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set up visualization preferences.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">            backend : str, optional</span>
+<span class="sd">                Should be either &quot;fury&quot; or &quot;plotly&quot;.</span>
+<span class="sd">                Default: &quot;fury&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">backend</span> <span class="o">=</span> <span class="n">backend</span>
+        <span class="k">if</span> <span class="s2">&quot;fury&quot;</span> <span class="ow">in</span> <span class="n">backend</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="kn">import</span> <span class="nn">AFQ.viz.fury_backend</span>
+            <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="n">viz_import_msg_error</span><span class="p">(</span><span class="s2">&quot;fury&quot;</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">visualize_bundles</span> <span class="o">=</span> <span class="n">AFQ</span><span class="o">.</span><span class="n">viz</span><span class="o">.</span><span class="n">fury_backend</span><span class="o">.</span><span class="n">visualize_bundles</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">visualize_roi</span> <span class="o">=</span> <span class="n">AFQ</span><span class="o">.</span><span class="n">viz</span><span class="o">.</span><span class="n">fury_backend</span><span class="o">.</span><span class="n">visualize_roi</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">visualize_volume</span> <span class="o">=</span> <span class="n">AFQ</span><span class="o">.</span><span class="n">viz</span><span class="o">.</span><span class="n">fury_backend</span><span class="o">.</span><span class="n">visualize_volume</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">create_gif</span> <span class="o">=</span> <span class="n">AFQ</span><span class="o">.</span><span class="n">viz</span><span class="o">.</span><span class="n">fury_backend</span><span class="o">.</span><span class="n">create_gif</span>
+        <span class="k">elif</span> <span class="s2">&quot;plotly&quot;</span> <span class="ow">in</span> <span class="n">backend</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="kn">import</span> <span class="nn">AFQ.viz.plotly_backend</span>
+            <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="n">viz_import_msg_error</span><span class="p">(</span><span class="s2">&quot;plotly&quot;</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">visualize_bundles</span> <span class="o">=</span> <span class="n">AFQ</span><span class="o">.</span><span class="n">viz</span><span class="o">.</span><span class="n">plotly_backend</span><span class="o">.</span><span class="n">visualize_bundles</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">visualize_roi</span> <span class="o">=</span> <span class="n">AFQ</span><span class="o">.</span><span class="n">viz</span><span class="o">.</span><span class="n">plotly_backend</span><span class="o">.</span><span class="n">visualize_roi</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">visualize_volume</span> <span class="o">=</span> <span class="n">AFQ</span><span class="o">.</span><span class="n">viz</span><span class="o">.</span><span class="n">plotly_backend</span><span class="o">.</span><span class="n">visualize_volume</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">create_gif</span> <span class="o">=</span> <span class="n">AFQ</span><span class="o">.</span><span class="n">viz</span><span class="o">.</span><span class="n">plotly_backend</span><span class="o">.</span><span class="n">create_gif</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">single_bundle_viz</span> <span class="o">=</span> <span class="n">AFQ</span><span class="o">.</span><span class="n">viz</span><span class="o">.</span><span class="n">plotly_backend</span><span class="o">.</span><span class="n">single_bundle_viz</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Visualization backend contain&quot;</span>
+                            <span class="o">+</span> <span class="s2">&quot; either &#39;plotly&#39; or &#39;fury&#39;. &quot;</span>
+                            <span class="o">+</span> <span class="s2">&quot;It is currently set to </span><span class="si">%s</span><span class="s2">&quot;</span>
+                            <span class="o">%</span> <span class="n">backend</span><span class="p">)</span></div>
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2018--, The pyAFQ Contributors.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-156363454-2");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+  </body>
+</html>

@@ -1,0 +1,210 @@
+:py:mod:`AFQ.tasks.mapping`
+===========================
+
+.. py:module:: AFQ.tasks.mapping
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   AFQ.tasks.mapping.export_registered_b0
+   AFQ.tasks.mapping.template_xform
+   AFQ.tasks.mapping.export_rois
+   AFQ.tasks.mapping.mapping
+   AFQ.tasks.mapping.sls_mapping
+   AFQ.tasks.mapping.get_reg_subject
+   AFQ.tasks.mapping.get_mapping_plan
+
+
+
+Attributes
+~~~~~~~~~~
+
+.. autoapisummary::
+
+   AFQ.tasks.mapping.logger
+
+
+.. py:data:: logger
+
+   
+
+.. py:function:: export_registered_b0(data_imap, mapping)
+
+   
+   full path to a nifti file containing
+   b0 transformed to template space
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: template_xform(mapping, data_imap)
+
+   
+   full path to a nifti file containing
+   registration template transformed to subject space
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: export_rois(base_fname, output_dir, data_imap, mapping)
+
+   
+   dictionary of full paths to Nifti1Image files of ROIs
+   transformed to subject space
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: mapping(base_fname, dwi_data_file, reg_subject, data_imap, mapping_definition=None)
+
+   
+   mapping from subject to template space.
+
+
+   :Parameters:
+
+       **mapping_definition** : instance of `AFQ.definitions.mapping`, optional
+           This defines how to either create a mapping from
+           each subject space to template space or load a mapping from
+           another software. If creating a map, will register reg_subject and
+           reg_template.
+           If None, use SynMap()
+           Default: None
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: sls_mapping(base_fname, dwi_data_file, reg_subject, data_imap, tractography_imap, mapping_definition=None)
+
+   
+   mapping from subject to template space.
+
+
+   :Parameters:
+
+       **mapping_definition** : instance of `AFQ.definitions.mapping`, optional
+           This defines how to either create a mapping from
+           each subject space to template space or load a mapping from
+           another software. If creating a map, will register reg_subject and
+           reg_template.
+           If None, use SynMap()
+           Default: None
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: get_reg_subject(data_imap, reg_subject_spec='power_map')
+
+   
+   Nifti1Image which represents this subject
+   when registering the subject to the template
+
+
+   :Parameters:
+
+       **reg_subject_spec** : str, instance of `AFQ.definitions.ImageDefinition`, optional  # noqa
+           The source image data to be registered.
+           Can either be a Nifti1Image, an ImageFile, or str.
+           if "b0", "dti_fa_subject", "subject_sls", or "power_map,"
+           image data will be loaded automatically.
+           If "subject_sls" is used, slr registration will be used
+           and reg_template should be "hcp_atlas".
+           Default: "power_map"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: get_mapping_plan(kwargs, use_sls=False)
+
+

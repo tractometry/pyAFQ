@@ -1,0 +1,219 @@
+:py:mod:`AFQ.recognition.recognize`
+===================================
+
+.. py:module:: AFQ.recognition.recognize
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   AFQ.recognition.recognize.recognize
+   AFQ.recognition.recognize._return_empty
+   AFQ.recognition.recognize._add_bundle_to_fiber_group
+   AFQ.recognition.recognize._add_bundle_to_meta
+
+
+
+Attributes
+~~~~~~~~~~
+
+.. autoapisummary::
+
+   AFQ.recognition.recognize.logger
+
+
+.. py:data:: logger
+
+   
+
+.. py:function:: recognize(tg, img, mapping, bundle_dict, reg_template, nb_points=False, nb_streamlines=False, clip_edges=False, parallel_segmentation={'engine': 'serial'}, rb_recognize_params=dict(model_clust_thr=1.25, reduction_thr=25, pruning_thr=12), refine_reco=False, prob_threshold=0, dist_to_waypoint=None, rng=None, return_idx=False, filter_by_endpoints=True, dist_to_atlas=4, save_intermediates=None, cleaning_params={})
+
+   
+   Segment streamlines into bundles.
+
+
+   :Parameters:
+
+       **tg** : str, StatefulTractogram
+           Tractogram to segment.
+
+       **img** : str, nib.Nifti1Image
+           Image for reference.
+
+       **mapping** : MappingDefinition
+           Mapping from subject to template.
+
+       **bundle_dict** : dict or AFQ.api.BundleDict
+           Dictionary of bundles to segment.
+
+       **reg_template** : str, nib.Nifti1Image
+           Template image for registration.
+
+       **nb_points** : int, boolean
+           Resample streamlines to nb_points number of points.
+           If False, no resampling is done. Default: False
+
+       **nb_streamlines** : int, boolean
+           Subsample streamlines to nb_streamlines.
+           If False, no subsampling is don. Default: False
+
+       **clip_edges** : bool
+           Whether to clip the streamlines to be only in between the ROIs.
+           Default: False
+
+       **parallel_segmentation** : dict or AFQ.api.BundleDict
+           How to parallelize segmentation across processes when performing
+           waypoint ROI segmentation. Set to {"engine": "serial"} to not
+           perform parallelization. Some engines may cause errors, depending
+           on the system. See ``dipy.utils.parallel.paramap`` for
+           details.
+           Default: {"engine": "serial"}
+
+       **rb_recognize_params** : dict
+           RecoBundles parameters for the recognize function.
+           Default: dict(model_clust_thr=1.25, reduction_thr=25, pruning_thr=12)
+
+       **refine_reco** : bool
+           Whether to refine the RecoBundles segmentation.
+           Default: False
+
+       **prob_threshold** : float.
+           Using AFQ Algorithm.
+           Initial cleaning of fiber groups is done using probability maps
+           from [R1b00de68c4c9-Hua2008]_. Here, we choose an average probability that
+           needs to be exceeded for an individual streamline to be retained.
+           Default: 0.
+
+       **dist_to_waypoint** : float.
+           The distance that a streamline node has to be from the waypoint
+           ROI in order to be included or excluded.
+           If set to None (default), will be calculated as the
+           center-to-corner distance of the voxel in the diffusion data.
+           If a bundle has inc_addtol or exc_addtol in its bundle_dict, that
+           tolerance will be added to this distance.
+           For example, if you wanted to increase tolerance for the right
+           arcuate waypoint ROIs by 3 each, you could make the following
+           modification to your bundle_dict:
+           bundle_dict["Right Arcuate"]["inc_addtol"] = [3, 3]
+           Additional tolerances can also be negative.
+           Default: None.
+
+       **rng** : RandomState or int
+           If None, creates RandomState.
+           If int, creates RandomState with seed rng.
+           Used in RecoBundles Algorithm.
+           Default: None.
+
+       **return_idx** : bool
+           Whether to return the indices in the original streamlines as part
+           of the output of segmentation.
+           Default: False.
+
+       **filter_by_endpoints: bool**
+           Whether to filter the bundles based on their endpoints.
+           Default: True.
+
+       **dist_to_atlas** : float
+           If filter_by_endpoints is True, this is the required distance
+           from the endpoints to the atlas ROIs.
+           Default: 4
+
+       **save_intermediates** : str, optional
+           The full path to a folder into which intermediate products
+           are saved. Default: None, means no saving of intermediates.
+
+       **cleaning_params** : dict, optional
+           Cleaning params to pass to seg.clean_bundle. This will
+           override the default parameters of that method. However, this
+           can be overriden by setting the cleaning parameters in the
+           bundle_dict. Default: {}.
+
+
+
+
+
+
+
+
+
+
+   .. rubric:: References
+
+   .. [R1b00de68c4c9-Hua2008] Hua K, Zhang J, Wakana S, Jiang H, Li X, et al. (2008)
+   Tract probability maps in stereotaxic spaces: analyses of white
+   matter anatomy and tract-specific quantification. Neuroimage 39:
+   336-347
+   .. [R1b00de68c4c9-Yeatman2012] Yeatman, Jason D., Robert F. Dougherty, Nathaniel J.
+   Myall, Brian A. Wandell, and Heidi M. Feldman. 2012. "Tract Profiles of
+   White Matter Properties: Automating Fiber-Tract Quantification"
+   PloS One 7 (11): e49790.
+   .. [R1b00de68c4c9-Garyfallidis17] Garyfallidis et al. Recognition of white matter
+   bundles using local and global streamline-based registration and
+   clustering, Neuroimage, 2017.
+
+   .. only:: latex
+
+      [R1b00de68c4c9-Hua2008]_, [R1b00de68c4c9-Yeatman2012]_, [R1b00de68c4c9-Garyfallidis17]_
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: _return_empty(bundle_name, return_idx, fiber_groups, img)
+
+   
+   Helper function to return an empty dict under
+   some conditions.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: _add_bundle_to_fiber_group(b_name, sl, idx, to_flip, return_idx, fiber_groups, img)
+
+   
+   Helper function to add a bundle to a fiber group.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: _add_bundle_to_meta(bundle_name, b_def, meta)
+
+

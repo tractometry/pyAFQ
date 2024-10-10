@@ -1,0 +1,82 @@
+
+:orphan:
+
+.. _sphx_glr_sg_execution_times:
+
+
+Computation times
+=================
+**169:26.104** total execution time for 16 files **from all galleries**:
+
+.. container::
+
+  .. raw:: html
+
+    <style scoped>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+    </style>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script type="text/javascript" class="init">
+    $(document).ready( function () {
+        $('table.sg-datatable').DataTable({order: [[1, 'desc']]});
+    } );
+    </script>
+
+  .. list-table::
+   :header-rows: 1
+   :class: table table-striped sg-datatable
+
+   * - Example
+     - Time
+     - Mem (MB)
+   * - :ref:`sphx_glr_howto_howto_examples_plot_acoustic_radiations.py` (``../../examples/howto_examples/plot_acoustic_radiations.py``)
+     - 34:34.460
+     - 4602.0
+   * - :ref:`sphx_glr_howto_howto_examples_plot_afq_fwdti.py` (``../../examples/howto_examples/plot_afq_fwdti.py``)
+     - 30:46.230
+     - 3842.1
+   * - :ref:`sphx_glr_howto_howto_examples_plot_optic_radiations.py` (``../../examples/howto_examples/plot_optic_radiations.py``)
+     - 27:23.208
+     - 4124.0
+   * - :ref:`sphx_glr_howto_howto_examples_plot_stages_of_tractometry.py` (``../../examples/howto_examples/plot_stages_of_tractometry.py``)
+     - 26:05.637
+     - 4607.8
+   * - :ref:`sphx_glr_tutorials_tutorial_examples_plot_002_bids_layout.py` (``../../examples/tutorial_examples/plot_002_bids_layout.py``)
+     - 16:09.340
+     - 2176.0
+   * - :ref:`sphx_glr_howto_howto_examples_plot_recobundles.py` (``../../examples/howto_examples/plot_recobundles.py``)
+     - 15:41.235
+     - 2537.3
+   * - :ref:`sphx_glr_howto_howto_examples_plot_afq_callosal.py` (``../../examples/howto_examples/plot_afq_callosal.py``)
+     - 14:43.237
+     - 2638.5
+   * - :ref:`sphx_glr_tutorials_tutorial_examples_plot_001_afq_api.py` (``../../examples/tutorial_examples/plot_001_afq_api.py``)
+     - 03:41.026
+     - 1859.0
+   * - :ref:`sphx_glr_tutorials_tutorial_examples_plot_003_viz.py` (``../../examples/tutorial_examples/plot_003_viz.py``)
+     - 00:21.731
+     - 540.8
+   * - :ref:`sphx_glr_howto_howto_examples_add_custom_bundle.py` (``../../examples/howto_examples/add_custom_bundle.py``)
+     - 00:00.000
+     - 0.0
+   * - :ref:`sphx_glr_howto_howto_examples_baby_afq.py` (``../../examples/howto_examples/baby_afq.py``)
+     - 00:00.000
+     - 0.0
+   * - :ref:`sphx_glr_howto_howto_examples_cerebellar_peduncles.py` (``../../examples/howto_examples/cerebellar_peduncles.py``)
+     - 00:00.000
+     - 0.0
+   * - :ref:`sphx_glr_howto_howto_examples_cloudknot_example.py` (``../../examples/howto_examples/cloudknot_example.py``)
+     - 00:00.000
+     - 0.0
+   * - :ref:`sphx_glr_howto_howto_examples_cloudknot_hcp_example.py` (``../../examples/howto_examples/cloudknot_hcp_example.py``)
+     - 00:00.000
+     - 0.0
+   * - :ref:`sphx_glr_howto_howto_examples_use_subject_space_rois_from_freesurfer.py` (``../../examples/howto_examples/use_subject_space_rois_from_freesurfer.py``)
+     - 00:00.000
+     - 0.0
+   * - :ref:`sphx_glr_howto_howto_examples_vof_example.py` (``../../examples/howto_examples/vof_example.py``)
+     - 00:00.000
+     - 0.0

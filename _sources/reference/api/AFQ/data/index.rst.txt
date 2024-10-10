@@ -1,0 +1,16 @@
+:py:mod:`AFQ.data`
+==================
+
+.. py:module:: AFQ.data
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   fetch/index.rst
+   utils/index.rst
+
+

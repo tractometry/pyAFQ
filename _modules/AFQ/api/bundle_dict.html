@@ -1,0 +1,1641 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AFQ.api.bundle_dict &#8212; AFQ 1.3.5 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/design-tabs.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/AFQ/api/bundle_dict';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.5 documentation - Home"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.5 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../tutorials/index.html">
+    Getting started with pyAFQ
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../howto/index.html">
+    How To
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../reference/index.html">
+    Reference Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../reference/api/index.html">
+    API Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/tractometry/pyAFQ" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../tutorials/index.html">
+    Getting started with pyAFQ
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../howto/index.html">
+    How To
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../reference/index.html">
+    Reference Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../reference/api/index.html">
+    API Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/tractometry/pyAFQ" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../AFQ.html" class="nav-link">AFQ</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">AFQ.api.bundle_dict</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for AFQ.api.bundle_dict</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">MutableMapping</span><span class="p">,</span> <span class="n">Mapping</span>
+
+<span class="kn">import</span> <span class="nn">AFQ.data.fetch</span> <span class="k">as</span> <span class="nn">afd</span>
+<span class="kn">import</span> <span class="nn">AFQ.utils.volume</span> <span class="k">as</span> <span class="nn">auv</span>
+<span class="kn">from</span> <span class="nn">AFQ.tasks.utils</span> <span class="kn">import</span> <span class="n">get_fname</span><span class="p">,</span> <span class="n">str_to_desc</span>
+<span class="kn">from</span> <span class="nn">AFQ.definitions.utils</span> <span class="kn">import</span> <span class="n">find_file</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">nibabel</span> <span class="k">as</span> <span class="nn">nib</span>
+
+<span class="kn">from</span> <span class="nn">dipy.io.streamline</span> <span class="kn">import</span> <span class="n">load_tractogram</span>
+
+<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;BundleDict&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;default18_bd&quot;</span><span class="p">,</span> <span class="s2">&quot;reco_bd&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;callosal_bd&quot;</span><span class="p">,</span> <span class="s2">&quot;cerebellar_bd&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;baby_bd&quot;</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">do_preprocessing</span><span class="p">():</span>
+    <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+
+<span class="k">def</span> <span class="nf">append_l_r</span><span class="p">(</span><span class="n">bundle_list</span><span class="p">,</span> <span class="n">no_lr_list</span><span class="p">):</span>
+    <span class="n">new_bundle_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">bundle</span> <span class="ow">in</span> <span class="n">bundle_list</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">bundle</span> <span class="ow">in</span> <span class="n">no_lr_list</span><span class="p">:</span>
+            <span class="n">new_bundle_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bundle</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">new_bundle_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bundle</span> <span class="o">+</span> <span class="s2">&quot;_L&quot;</span><span class="p">)</span>
+            <span class="n">new_bundle_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bundle</span> <span class="o">+</span> <span class="s2">&quot;_R&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">new_bundle_list</span>
+
+
+<span class="n">RECO_UNIQUE</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;CCMid&#39;</span><span class="p">,</span> <span class="s1">&#39;CC_ForcepsMajor&#39;</span><span class="p">,</span> <span class="s1">&#39;CC_ForcepsMinor&#39;</span><span class="p">,</span> <span class="s1">&#39;MCP&#39;</span><span class="p">,</span> <span class="s1">&#39;AC&#39;</span><span class="p">,</span> <span class="s1">&#39;PC&#39;</span><span class="p">,</span> <span class="s1">&#39;SCP&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;V&#39;</span><span class="p">,</span> <span class="s1">&#39;CC&#39;</span><span class="p">,</span> <span class="s1">&#39;F_L_R&#39;</span><span class="p">]</span>
+
+<span class="n">RECO_BUNDLES_16</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;CST&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="s1">&#39;UF&#39;</span><span class="p">,</span> <span class="s1">&#39;MCP&#39;</span><span class="p">,</span> <span class="s1">&#39;AF&#39;</span><span class="p">,</span> <span class="s1">&#39;CCMid&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;CC_ForcepsMajor&#39;</span><span class="p">,</span> <span class="s1">&#39;CC_ForcepsMinor&#39;</span><span class="p">,</span> <span class="s1">&#39;IFOF&#39;</span><span class="p">]</span>
+<span class="n">RECO_BUNDLES_16</span> <span class="o">=</span> <span class="n">append_l_r</span><span class="p">(</span><span class="n">RECO_BUNDLES_16</span><span class="p">,</span> <span class="n">RECO_UNIQUE</span><span class="p">)</span>
+
+<span class="n">RECO_BUNDLES_80</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;AC&quot;</span><span class="p">,</span> <span class="s2">&quot;AF&quot;</span><span class="p">,</span> <span class="s2">&quot;AR&quot;</span><span class="p">,</span> <span class="s2">&quot;AST&quot;</span><span class="p">,</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span> <span class="s2">&quot;CB&quot;</span><span class="p">,</span> <span class="s2">&quot;CC_ForcepsMajor&quot;</span><span class="p">,</span>
+                   <span class="s2">&quot;CC_ForcepsMinor&quot;</span><span class="p">,</span> <span class="s2">&quot;CC&quot;</span><span class="p">,</span> <span class="s2">&quot;CCMid&quot;</span><span class="p">,</span> <span class="s2">&quot;CNII&quot;</span><span class="p">,</span> <span class="s2">&quot;CNIII&quot;</span><span class="p">,</span>
+                   <span class="s2">&quot;CNIV&quot;</span><span class="p">,</span> <span class="s2">&quot;CNV&quot;</span><span class="p">,</span> <span class="s2">&quot;CNVII&quot;</span><span class="p">,</span> <span class="s2">&quot;CNVIII&quot;</span><span class="p">,</span> <span class="s2">&quot;CS&quot;</span><span class="p">,</span> <span class="s2">&quot;CST&quot;</span><span class="p">,</span> <span class="s2">&quot;CT&quot;</span><span class="p">,</span>
+                   <span class="s2">&quot;CTT&quot;</span><span class="p">,</span> <span class="s2">&quot;DLF&quot;</span><span class="p">,</span> <span class="s2">&quot;EMC&quot;</span><span class="p">,</span> <span class="s2">&quot;F_L_R&quot;</span><span class="p">,</span> <span class="s2">&quot;FPT&quot;</span><span class="p">,</span> <span class="s2">&quot;ICP&quot;</span><span class="p">,</span> <span class="s2">&quot;IFOF&quot;</span><span class="p">,</span> <span class="s2">&quot;ILF&quot;</span><span class="p">,</span>
+                   <span class="s2">&quot;LL&quot;</span><span class="p">,</span> <span class="s2">&quot;MCP&quot;</span><span class="p">,</span> <span class="s2">&quot;MdLF&quot;</span><span class="p">,</span> <span class="s2">&quot;ML&quot;</span><span class="p">,</span> <span class="s2">&quot;MLF&quot;</span><span class="p">,</span> <span class="s2">&quot;OPT&quot;</span><span class="p">,</span> <span class="s2">&quot;OR&quot;</span><span class="p">,</span> <span class="s2">&quot;PC&quot;</span><span class="p">,</span> <span class="s2">&quot;PPT&quot;</span><span class="p">,</span>
+                   <span class="s2">&quot;RST&quot;</span><span class="p">,</span> <span class="s2">&quot;SCP&quot;</span><span class="p">,</span> <span class="s2">&quot;SLF&quot;</span><span class="p">,</span> <span class="s2">&quot;STT&quot;</span><span class="p">,</span> <span class="s2">&quot;TPT&quot;</span><span class="p">,</span> <span class="s2">&quot;UF&quot;</span><span class="p">,</span> <span class="s2">&quot;V&quot;</span><span class="p">,</span> <span class="s2">&quot;VOF&quot;</span><span class="p">]</span>
+<span class="n">RECO_BUNDLES_80</span> <span class="o">=</span> <span class="n">append_l_r</span><span class="p">(</span><span class="n">RECO_BUNDLES_80</span><span class="p">,</span> <span class="n">RECO_UNIQUE</span><span class="p">)</span>
+<span class="c1"># See: https://www.cmu.edu/dietrich/psychology/cognitiveaxon/documents/yeh_etal_2018.pdf  # noqa</span>
+
+
+<span class="n">DIPY_GH</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/dipy/dipy/blob/master/dipy/&quot;</span>
+
+
+<div class="viewcode-block" id="default18_bd"><a class="viewcode-back" href="../../../reference/api/AFQ/api/bundle_dict/index.html#AFQ.api.bundle_dict.default18_bd">[docs]</a><span class="k">def</span> <span class="nf">default18_bd</span><span class="p">():</span>
+    <span class="n">templates</span> <span class="o">=</span> <span class="n">afd</span><span class="o">.</span><span class="n">read_templates</span><span class="p">(</span><span class="n">as_img</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ARC_roi1_L&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;SLF_roi1_L&#39;</span><span class="p">]</span>
+    <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ARC_roi1_R&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;SLF_roi1_R&#39;</span><span class="p">]</span>
+    <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ARC_roi2_L&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;SLFt_roi2_L&#39;</span><span class="p">]</span>
+    <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ARC_roi2_R&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;SLFt_roi2_R&#39;</span><span class="p">]</span>
+    <span class="n">callosal_templates</span> <span class="o">=</span>\
+        <span class="n">afd</span><span class="o">.</span><span class="n">read_callosum_templates</span><span class="p">(</span><span class="n">as_img</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">BundleDict</span><span class="p">({</span>
+        <span class="s1">&#39;Left Anterior Thalamic&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ATR_roi1_L&#39;</span><span class="p">],</span>
+                <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ATR_roi2_L&#39;</span><span class="p">]],</span>
+            <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;prob_map&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ATR_L_prob_map&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ATR_L_start&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;end&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ATR_L_end&#39;</span><span class="p">]},</span>
+        <span class="s1">&#39;Right Anterior Thalamic&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ATR_roi1_R&#39;</span><span class="p">],</span>
+                        <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ATR_roi2_R&#39;</span><span class="p">]],</span>
+            <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;prob_map&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ATR_R_prob_map&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ATR_R_start&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;end&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ATR_R_end&#39;</span><span class="p">]},</span>
+        <span class="s1">&#39;Left Cingulum Cingulate&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;CGC_roi2_L&#39;</span><span class="p">],</span>
+                        <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;CGC_roi1_L&#39;</span><span class="p">]],</span>
+            <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;prob_map&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;CGC_L_prob_map&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;end&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;CGC_L_start&#39;</span><span class="p">]},</span>
+        <span class="s1">&#39;Right Cingulum Cingulate&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;CGC_roi2_R&#39;</span><span class="p">],</span>
+                        <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;CGC_roi1_R&#39;</span><span class="p">]],</span>
+            <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;prob_map&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;CGC_R_prob_map&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;end&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;CGC_R_start&#39;</span><span class="p">]},</span>
+        <span class="s1">&#39;Left Corticospinal&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;CST_roi2_L&#39;</span><span class="p">],</span>
+                        <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;CST_roi1_L&#39;</span><span class="p">]],</span>
+            <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;prob_map&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;CST_L_prob_map&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;end&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;CST_L_start&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;CST_L_end&#39;</span><span class="p">]},</span>
+        <span class="s1">&#39;Right Corticospinal&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;CST_roi2_R&#39;</span><span class="p">],</span>
+                        <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;CST_roi1_R&#39;</span><span class="p">]],</span>
+            <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;prob_map&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;CST_R_prob_map&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;end&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;CST_R_start&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;CST_R_end&#39;</span><span class="p">]},</span>
+        <span class="s1">&#39;Left Inferior Fronto-occipital&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;IFO_roi2_L&#39;</span><span class="p">],</span>
+                        <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;IFO_roi1_L&#39;</span><span class="p">]],</span>
+            <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ARC_roi1_L&#39;</span><span class="p">]],</span>
+            <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;prob_map&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;IFO_L_prob_map&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;end&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;IFO_L_start&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;IFO_L_end&#39;</span><span class="p">]},</span>
+        <span class="s1">&#39;Right Inferior Fronto-occipital&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;IFO_roi2_R&#39;</span><span class="p">],</span>
+                        <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;IFO_roi1_R&#39;</span><span class="p">]],</span>
+            <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ARC_roi1_R&#39;</span><span class="p">]],</span>
+            <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;prob_map&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;IFO_R_prob_map&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;end&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;IFO_R_start&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;IFO_R_end&#39;</span><span class="p">]},</span>
+        <span class="s1">&#39;Left Inferior Longitudinal&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ILF_roi2_L&#39;</span><span class="p">],</span>
+                        <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ILF_roi1_L&#39;</span><span class="p">]],</span>
+            <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;prob_map&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ILF_L_prob_map&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ILF_L_end&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;end&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ILF_L_start&#39;</span><span class="p">]},</span>
+        <span class="s1">&#39;Right Inferior Longitudinal&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ILF_roi2_R&#39;</span><span class="p">],</span>
+                        <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ILF_roi1_R&#39;</span><span class="p">]],</span>
+            <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;prob_map&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ILF_R_prob_map&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ILF_R_end&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;end&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ILF_R_start&#39;</span><span class="p">]},</span>
+        <span class="s1">&#39;Left Superior Longitudinal&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;SLF_roi1_L&#39;</span><span class="p">],</span>
+                        <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;SLF_roi2_L&#39;</span><span class="p">]],</span>
+            <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;SLFt_roi2_L&#39;</span><span class="p">]],</span>
+            <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;prob_map&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;SLF_L_prob_map&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;SLF_L_start&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;end&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;SLF_L_end&#39;</span><span class="p">]},</span>
+        <span class="s1">&#39;Right Superior Longitudinal&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;SLF_roi1_R&#39;</span><span class="p">],</span>
+                        <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;SLF_roi2_R&#39;</span><span class="p">]],</span>
+            <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;SLFt_roi2_R&#39;</span><span class="p">]],</span>
+            <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;prob_map&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;SLF_R_prob_map&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;SLF_R_start&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;end&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;SLF_R_end&#39;</span><span class="p">]},</span>
+        <span class="s1">&#39;Left Arcuate&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                         <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;SLF_roi1_L&#39;</span><span class="p">],</span>
+                                     <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;SLFt_roi2_L&#39;</span><span class="p">]],</span>
+                         <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[],</span>
+                         <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+                         <span class="s1">&#39;prob_map&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ARC_L_prob_map&#39;</span><span class="p">],</span>
+                         <span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ARC_L_start&#39;</span><span class="p">],</span>
+                         <span class="s1">&#39;end&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ARC_L_end&#39;</span><span class="p">]},</span>
+        <span class="s1">&#39;Right Arcuate&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                          <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;SLF_roi1_R&#39;</span><span class="p">],</span>
+                                      <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;SLFt_roi2_R&#39;</span><span class="p">]],</span>
+                          <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[],</span>
+                          <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+                          <span class="s1">&#39;prob_map&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ARC_R_prob_map&#39;</span><span class="p">],</span>
+                          <span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ARC_R_start&#39;</span><span class="p">],</span>
+                          <span class="s1">&#39;end&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ARC_R_end&#39;</span><span class="p">]},</span>
+        <span class="s1">&#39;Left Uncinate&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                          <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;UNC_roi2_L&#39;</span><span class="p">],</span>
+                                      <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;UNC_roi1_L&#39;</span><span class="p">]],</span>
+                          <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[],</span>
+                          <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+                          <span class="s1">&#39;prob_map&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;UNC_L_prob_map&#39;</span><span class="p">],</span>
+                          <span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;UNC_L_end&#39;</span><span class="p">],</span>
+                          <span class="s1">&#39;end&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;UNC_L_start&#39;</span><span class="p">]},</span>
+        <span class="s1">&#39;Right Uncinate&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                           <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;UNC_roi2_R&#39;</span><span class="p">],</span>
+                                       <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;UNC_roi1_R&#39;</span><span class="p">]],</span>
+                           <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[],</span>
+                           <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+                           <span class="s1">&#39;prob_map&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;UNC_R_prob_map&#39;</span><span class="p">],</span>
+                           <span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;UNC_R_end&#39;</span><span class="p">],</span>
+                           <span class="s1">&#39;end&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;UNC_R_start&#39;</span><span class="p">]},</span>
+        <span class="s1">&#39;Forceps Minor&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                          <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;FA_L&#39;</span><span class="p">],</span>
+                                      <span class="n">callosal_templates</span><span class="p">[</span><span class="s1">&#39;Callosum_midsag&#39;</span><span class="p">],</span>
+                                      <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;FA_R&#39;</span><span class="p">]],</span>
+                          <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[],</span>
+                          <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+                          <span class="s1">&#39;prob_map&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;FA_prob_map&#39;</span><span class="p">],</span>
+                          <span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;FA_start&#39;</span><span class="p">],</span>
+                          <span class="s1">&#39;end&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;FA_end&#39;</span><span class="p">]},</span>
+        <span class="s1">&#39;Forceps Major&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                          <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;FP_L&#39;</span><span class="p">],</span>
+                                      <span class="n">callosal_templates</span><span class="p">[</span><span class="s1">&#39;Callosum_midsag&#39;</span><span class="p">],</span>
+                                      <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;FP_R&#39;</span><span class="p">]],</span>
+                          <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[],</span>
+                          <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+                          <span class="s1">&#39;prob_map&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;FP_prob_map&#39;</span><span class="p">],</span>
+                          <span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;FP_start&#39;</span><span class="p">],</span>
+                          <span class="s1">&#39;end&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;FP_end&#39;</span><span class="p">]},</span>
+        <span class="s1">&#39;Left Posterior Arcuate&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                                   <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;SLFt_roi2_L&#39;</span><span class="p">]],</span>
+                                   <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;SLF_roi1_L&#39;</span><span class="p">]],</span>
+                                   <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+                                   <span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;pARC_L_start&#39;</span><span class="p">],</span>
+                                   <span class="s1">&#39;primary_axis&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+                                   <span class="s1">&#39;primary_axis_percentage&#39;</span><span class="p">:</span> <span class="mi">40</span><span class="p">},</span>
+        <span class="s1">&#39;Right Posterior Arcuate&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                                    <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;SLFt_roi2_R&#39;</span><span class="p">]],</span>
+                                    <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;SLF_roi1_R&#39;</span><span class="p">]],</span>
+                                    <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+                                    <span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;pARC_R_start&#39;</span><span class="p">],</span>
+                                    <span class="s1">&#39;primary_axis&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+                                    <span class="s1">&#39;primary_axis_percentage&#39;</span><span class="p">:</span> <span class="mi">40</span><span class="p">},</span>
+        <span class="s1">&#39;Left Vertical Occipital&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                                    <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+                                    <span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;VOF_L_start&#39;</span><span class="p">],</span>
+                                    <span class="s1">&#39;end&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;VOF_L_end&#39;</span><span class="p">],</span>
+                                    <span class="s1">&#39;inc_addtol&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                                    <span class="s1">&#39;primary_axis&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+                                    <span class="s1">&#39;primary_axis_percentage&#39;</span><span class="p">:</span> <span class="mi">40</span><span class="p">},</span>
+        <span class="s1">&#39;Right Vertical Occipital&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                                     <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+                                     <span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;VOF_R_start&#39;</span><span class="p">],</span>
+                                     <span class="s1">&#39;end&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;VOF_R_end&#39;</span><span class="p">],</span>
+                                     <span class="s1">&#39;inc_addtol&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                                     <span class="s1">&#39;primary_axis&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+                                     <span class="s1">&#39;primary_axis_percentage&#39;</span><span class="p">:</span> <span class="mi">40</span><span class="p">}})</span></div>
+
+
+<div class="viewcode-block" id="baby_bd"><a class="viewcode-back" href="../../../reference/api/AFQ/api/bundle_dict/index.html#AFQ.api.bundle_dict.baby_bd">[docs]</a><span class="k">def</span> <span class="nf">baby_bd</span><span class="p">():</span>
+    <span class="c1"># Pediatric bundles differ from adult bundles:</span>
+    <span class="c1">#   - A third ROI has been introduced for curvy tracts:</span>
+    <span class="c1">#     ARC, ATR, CGC, IFO, and UCI</span>
+    <span class="c1">#   - ILF posterior ROI has been split into two</span>
+    <span class="c1">#     to separate ILF and mdLF</span>
+    <span class="c1">#   - Addition of pAF and VOF ROIs</span>
+    <span class="c1">#   - SLF ROIs are restricted to parietal cortex</span>
+    <span class="n">templates</span> <span class="o">=</span> <span class="n">afd</span><span class="o">.</span><span class="n">read_pediatric_templates</span><span class="p">()</span>
+
+    <span class="c1"># pediatric probability maps</span>
+    <span class="n">prob_map_order</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;ATR_L&quot;</span><span class="p">,</span> <span class="s2">&quot;ATR_R&quot;</span><span class="p">,</span> <span class="s2">&quot;CST_L&quot;</span><span class="p">,</span> <span class="s2">&quot;CST_R&quot;</span><span class="p">,</span> <span class="s2">&quot;CGC_L&quot;</span><span class="p">,</span> <span class="s2">&quot;CGC_R&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;MdLF_L&quot;</span><span class="p">,</span> <span class="s2">&quot;MdLF_R&quot;</span><span class="p">,</span> <span class="s2">&quot;FP&quot;</span><span class="p">,</span> <span class="s2">&quot;FA&quot;</span><span class="p">,</span> <span class="s2">&quot;IFO_L&quot;</span><span class="p">,</span> <span class="s2">&quot;IFO_R&quot;</span><span class="p">,</span> <span class="s2">&quot;ILF_L&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ILF_R&quot;</span><span class="p">,</span> <span class="s2">&quot;SLF_L&quot;</span><span class="p">,</span> <span class="s2">&quot;SLF_R&quot;</span><span class="p">,</span> <span class="s2">&quot;UNC_L&quot;</span><span class="p">,</span> <span class="s2">&quot;UNC_R&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ARC_L&quot;</span><span class="p">,</span> <span class="s2">&quot;ARC_R&quot;</span><span class="p">]</span>
+
+    <span class="n">prob_maps</span> <span class="o">=</span> <span class="n">templates</span><span class="p">[</span>
+        <span class="s1">&#39;UNCNeo_JHU_tracts_prob-for-babyAFQ&#39;</span><span class="p">]</span>
+    <span class="n">prob_map_data</span> <span class="o">=</span> <span class="n">prob_maps</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">bundle_name</span> <span class="ow">in</span> <span class="n">prob_map_order</span><span class="p">:</span>
+        <span class="n">templates</span><span class="p">[</span><span class="n">bundle_name</span> <span class="o">+</span> <span class="s2">&quot;_prob_map&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">Nifti1Image</span><span class="p">(</span>
+            <span class="n">prob_map_data</span><span class="p">[</span>
+                <span class="o">...</span><span class="p">,</span>
+                <span class="n">prob_map_order</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">bundle_name</span><span class="p">)],</span> <span class="n">prob_maps</span><span class="o">.</span><span class="n">affine</span><span class="p">)</span>
+
+    <span class="c1"># reuse probability map from ILF</span>
+    <span class="n">templates</span><span class="p">[</span><span class="s2">&quot;MdLF_L_prob_map&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">templates</span><span class="p">[</span><span class="s2">&quot;ILF_L_prob_map&quot;</span><span class="p">]</span>
+    <span class="n">templates</span><span class="p">[</span><span class="s2">&quot;MdLF_R_prob_map&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">templates</span><span class="p">[</span><span class="s2">&quot;ILF_R_prob_map&quot;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">BundleDict</span><span class="p">({</span>
+        <span class="s1">&#39;Left Anterior Thalamic&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ATR_roi3_L&#39;</span><span class="p">],</span>
+                <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ATR_roi2_L&#39;</span><span class="p">],</span>
+                <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ATR_roi1_L&#39;</span><span class="p">]],</span>
+            <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;prob_map&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ATR_L_prob_map&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;mahal&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;distance_threshold&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}},</span>
+        <span class="s1">&#39;Right Anterior Thalamic&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                                    <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span>
+                                        <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ATR_roi3_R&#39;</span><span class="p">],</span>
+                                        <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ATR_roi2_R&#39;</span><span class="p">],</span>
+                                        <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ATR_roi1_R&#39;</span><span class="p">]],</span>
+                                    <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[],</span>
+                                    <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+                                    <span class="s1">&#39;prob_map&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ATR_R_prob_map&#39;</span><span class="p">],</span>
+                                    <span class="s1">&#39;mahal&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;distance_threshold&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}},</span>
+        <span class="s1">&#39;Left Cingulum Cingulate&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;CGC_roi3_L&#39;</span><span class="p">],</span>
+                        <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;CGC_roi2_L&#39;</span><span class="p">],</span>
+                        <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;CGC_roi1_L&#39;</span><span class="p">]],</span>
+            <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;prob_map&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;CGC_L_prob_map&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;mahal&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;distance_threshold&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}},</span>
+        <span class="s1">&#39;Right Cingulum Cingulate&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;CGC_roi3_R&#39;</span><span class="p">],</span>
+                        <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;CGC_roi2_R&#39;</span><span class="p">],</span>
+                        <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;CGC_roi1_R&#39;</span><span class="p">]],</span>
+            <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;prob_map&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;CGC_R_prob_map&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;mahal&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;distance_threshold&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}},</span>
+        <span class="s1">&#39;Left Corticospinal&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                               <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;CST_roi2_L&#39;</span><span class="p">],</span>
+                                           <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;CST_roi1_L&#39;</span><span class="p">]],</span>
+                               <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[],</span>
+                               <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+                               <span class="s1">&#39;prob_map&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;CST_L_prob_map&#39;</span><span class="p">],</span>
+                               <span class="s1">&#39;mahal&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;distance_threshold&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}},</span>
+        <span class="s1">&#39;Right Corticospinal&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                                <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;CST_roi2_R&#39;</span><span class="p">],</span>
+                                            <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;CST_roi1_R&#39;</span><span class="p">]],</span>
+                                <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[],</span>
+                                <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+                                <span class="s1">&#39;prob_map&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;CST_R_prob_map&#39;</span><span class="p">],</span>
+                                <span class="s1">&#39;mahal&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;distance_threshold&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}},</span>
+        <span class="s1">&#39;Left Inferior Fronto-occipital&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;IFO_roi3_L&#39;</span><span class="p">],</span>
+                        <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;IFO_roi2_L&#39;</span><span class="p">],</span>
+                        <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;IFO_roi1_L&#39;</span><span class="p">]],</span>
+            <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;prob_map&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;IFO_L_prob_map&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;mahal&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;distance_threshold&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}},</span>
+        <span class="s1">&#39;Right Inferior Fronto-occipital&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;IFO_roi3_R&#39;</span><span class="p">],</span>
+                        <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;IFO_roi2_R&#39;</span><span class="p">],</span>
+                        <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;IFO_roi1_R&#39;</span><span class="p">]],</span>
+            <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;prob_map&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;IFO_R_prob_map&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;mahal&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;distance_threshold&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}},</span>
+        <span class="s1">&#39;Left Inferior Longitudinal&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ILF_roi2_L&#39;</span><span class="p">],</span>
+                        <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ILF_roi1_L&#39;</span><span class="p">]],</span>
+            <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;prob_map&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ILF_L_prob_map&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;mahal&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;distance_threshold&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}},</span>
+        <span class="s1">&#39;Right Inferior Longitudinal&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ILF_roi2_R&#39;</span><span class="p">],</span>
+                        <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ILF_roi1_R&#39;</span><span class="p">]],</span>
+            <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;prob_map&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ILF_R_prob_map&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;mahal&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;distance_threshold&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}},</span>
+        <span class="s1">&#39;Left Middle Longitudinal&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;MdLF_roi2_L&#39;</span><span class="p">],</span>
+                        <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;MdLF_roi1_L&#39;</span><span class="p">]],</span>
+            <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;prob_map&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;MdLF_L_prob_map&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;mahal&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;distance_threshold&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}},</span>
+        <span class="s1">&#39;Right Middle Longitudinal&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;MdLF_roi2_R&#39;</span><span class="p">],</span>
+                        <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;MdLF_roi1_R&#39;</span><span class="p">]],</span>
+            <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;prob_map&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;MdLF_R_prob_map&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;mahal&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;distance_threshold&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}},</span>
+        <span class="s1">&#39;Left Superior Longitudinal&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;SLF_roi1_L&#39;</span><span class="p">],</span>
+                        <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;SLF_roi2_L&#39;</span><span class="p">]],</span>
+            <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;SLFt_roi2_L&#39;</span><span class="p">]],</span>
+            <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;prob_map&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;SLF_L_prob_map&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;mahal&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;distance_threshold&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}},</span>
+        <span class="s1">&#39;Right Superior Longitudinal&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;SLF_roi1_R&#39;</span><span class="p">],</span>
+                        <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;SLF_roi2_R&#39;</span><span class="p">]],</span>
+            <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;SLFt_roi2_R&#39;</span><span class="p">]],</span>
+            <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;prob_map&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;SLF_R_prob_map&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;mahal&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;distance_threshold&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}},</span>
+        <span class="s1">&#39;Left Arcuate&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                         <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ARC_roi1_L&#39;</span><span class="p">],</span>
+                                     <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ARC_roi2_L&#39;</span><span class="p">],</span>
+                                     <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ARC_roi3_L&#39;</span><span class="p">]],</span>
+                         <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[],</span>
+                         <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+                         <span class="s1">&#39;prob_map&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ARC_L_prob_map&#39;</span><span class="p">],</span>
+                         <span class="s1">&#39;mahal&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;distance_threshold&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}},</span>
+        <span class="s1">&#39;Right Arcuate&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                          <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ARC_roi1_R&#39;</span><span class="p">],</span>
+                                      <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ARC_roi2_R&#39;</span><span class="p">],</span>
+                                      <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ARC_roi3_R&#39;</span><span class="p">]],</span>
+                          <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[],</span>
+                          <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+                          <span class="s1">&#39;prob_map&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;ARC_R_prob_map&#39;</span><span class="p">],</span>
+                          <span class="s1">&#39;mahal&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;distance_threshold&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}},</span>
+        <span class="s1">&#39;Left Uncinate&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                          <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;UNC_roi3_L&#39;</span><span class="p">],</span>
+                                      <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;UNC_roi2_L&#39;</span><span class="p">],</span>
+                                      <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;UNC_roi1_L&#39;</span><span class="p">]],</span>
+                          <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[],</span>
+                          <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+                          <span class="s1">&#39;prob_map&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;UNC_L_prob_map&#39;</span><span class="p">],</span>
+                          <span class="s1">&#39;mahal&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;distance_threshold&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}},</span>
+        <span class="s1">&#39;Right Uncinate&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                           <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;UNC_roi3_R&#39;</span><span class="p">],</span>
+                                       <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;UNC_roi2_R&#39;</span><span class="p">],</span>
+                                       <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;UNC_roi1_R&#39;</span><span class="p">]],</span>
+                           <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[],</span>
+                           <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+                           <span class="s1">&#39;prob_map&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;UNC_R_prob_map&#39;</span><span class="p">],</span>
+                           <span class="s1">&#39;mahal&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;distance_threshold&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}},</span>
+        <span class="s1">&#39;Forceps Minor&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                          <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;FA_R&#39;</span><span class="p">],</span>
+                                      <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;mid-saggital&#39;</span><span class="p">],</span>
+                                      <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;FA_L&#39;</span><span class="p">]],</span>
+                          <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[],</span>
+                          <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+                          <span class="s1">&#39;prob_map&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;FA_prob_map&#39;</span><span class="p">],</span>
+                          <span class="s1">&#39;mahal&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;distance_threshold&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}},</span>
+        <span class="s1">&#39;Forceps Major&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                          <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;FP_R&#39;</span><span class="p">],</span>
+                                      <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;mid-saggital&#39;</span><span class="p">],</span>
+                                      <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;FP_L&#39;</span><span class="p">]],</span>
+                          <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[],</span>
+                          <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+                          <span class="s1">&#39;prob_map&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;FP_prob_map&#39;</span><span class="p">],</span>
+                          <span class="s1">&#39;mahal&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;distance_threshold&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}},</span>
+        <span class="s1">&#39;Left Optic Radiation&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;include&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s2">&quot;OR_left_roi3&quot;</span><span class="p">]],</span>
+            <span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s2">&quot;OR_leftThal&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;end&quot;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s2">&quot;OR_leftV1&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;cross_midline&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s2">&quot;mahal&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;distance_threshold&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}},</span>
+        <span class="s1">&#39;Right Optic Radiation&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;include&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s2">&quot;OR_right_roi3&quot;</span><span class="p">]],</span>
+            <span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s2">&quot;OR_rightThal&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;end&quot;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s2">&quot;OR_rightV1&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;cross_midline&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s2">&quot;mahal&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;distance_threshold&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}},</span>
+        <span class="s1">&#39;Left Posterior Arcuate&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;include&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s2">&quot;SLFt_roi2_L&quot;</span><span class="p">]],</span>
+            <span class="s2">&quot;exclude&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s2">&quot;SLF_roi1_L&quot;</span><span class="p">]],</span>
+            <span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s2">&quot;pARC_L_start&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;end&quot;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s2">&quot;VOF_box_small_L&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;primary_axis&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="s2">&quot;primary_axis_percentage&quot;</span><span class="p">:</span> <span class="mi">40</span><span class="p">,</span>
+            <span class="s2">&quot;cross_midline&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s2">&quot;mahal&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;distance_threshold&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}},</span>
+        <span class="s1">&#39;Right Posterior Arcuate&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;include&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s2">&quot;SLFt_roi2_R&quot;</span><span class="p">]],</span>
+            <span class="s2">&quot;exclude&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">templates</span><span class="p">[</span><span class="s2">&quot;SLF_roi1_R&quot;</span><span class="p">]],</span>
+            <span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s2">&quot;pARC_R_start&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;end&quot;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s2">&quot;VOF_box_small_R&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;primary_axis&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="s2">&quot;primary_axis_percentage&quot;</span><span class="p">:</span> <span class="mi">40</span><span class="p">,</span>
+            <span class="s2">&quot;cross_midline&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s2">&quot;mahal&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;distance_threshold&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}},</span>
+        <span class="s1">&#39;Left Vertical Occipital&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s2">&quot;VOF_L_start&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;end&quot;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s2">&quot;VOF_box_small_L&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;primary_axis&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="s2">&quot;primary_axis_percentage&quot;</span><span class="p">:</span> <span class="mi">40</span><span class="p">,</span>
+            <span class="s2">&quot;cross_midline&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s2">&quot;mahal&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;distance_threshold&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}},</span>
+        <span class="s1">&#39;Right Vertical Occipital&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s2">&quot;VOF_R_start&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;end&quot;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s2">&quot;VOF_box_small_R&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;primary_axis&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="s2">&quot;primary_axis_percentage&quot;</span><span class="p">:</span> <span class="mi">40</span><span class="p">,</span>
+            <span class="s2">&quot;cross_midline&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s2">&quot;mahal&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;distance_threshold&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}}},</span>
+        <span class="n">resample_to</span><span class="o">=</span><span class="n">afd</span><span class="o">.</span><span class="n">read_pediatric_templates</span><span class="p">()[</span>
+            <span class="s1">&#39;UNCNeo-withCerebellum-for-babyAFQ&#39;</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="callosal_bd"><a class="viewcode-back" href="../../../reference/api/AFQ/api/bundle_dict/index.html#AFQ.api.bundle_dict.callosal_bd">[docs]</a><span class="k">def</span> <span class="nf">callosal_bd</span><span class="p">():</span>
+    <span class="n">callosal_templates</span> <span class="o">=</span>\
+        <span class="n">afd</span><span class="o">.</span><span class="n">read_callosum_templates</span><span class="p">(</span><span class="n">as_img</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">BundleDict</span><span class="p">({</span>
+        <span class="s1">&#39;Callosum Anterior Frontal&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">callosal_templates</span><span class="p">[</span><span class="s1">&#39;R_AntFrontal&#39;</span><span class="p">],</span>
+                        <span class="n">callosal_templates</span><span class="p">[</span><span class="s1">&#39;Callosum_midsag&#39;</span><span class="p">],</span>
+                        <span class="n">callosal_templates</span><span class="p">[</span><span class="s1">&#39;L_AntFrontal&#39;</span><span class="p">]],</span>
+            <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">},</span>
+        <span class="s1">&#39;Callosum Motor&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">callosal_templates</span><span class="p">[</span><span class="s1">&#39;R_Motor&#39;</span><span class="p">],</span>
+                        <span class="n">callosal_templates</span><span class="p">[</span><span class="s1">&#39;Callosum_midsag&#39;</span><span class="p">],</span>
+                        <span class="n">callosal_templates</span><span class="p">[</span><span class="s1">&#39;L_Motor&#39;</span><span class="p">]],</span>
+            <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">},</span>
+        <span class="s1">&#39;Callosum Occipital&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">callosal_templates</span><span class="p">[</span><span class="s1">&#39;R_Occipital&#39;</span><span class="p">],</span>
+                        <span class="n">callosal_templates</span><span class="p">[</span><span class="s1">&#39;Callosum_midsag&#39;</span><span class="p">],</span>
+                        <span class="n">callosal_templates</span><span class="p">[</span><span class="s1">&#39;L_Occipital&#39;</span><span class="p">]],</span>
+            <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">},</span>
+        <span class="s1">&#39;Callosum Orbital&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">callosal_templates</span><span class="p">[</span><span class="s1">&#39;R_Orbital&#39;</span><span class="p">],</span>
+                        <span class="n">callosal_templates</span><span class="p">[</span><span class="s1">&#39;Callosum_midsag&#39;</span><span class="p">],</span>
+                        <span class="n">callosal_templates</span><span class="p">[</span><span class="s1">&#39;L_Orbital&#39;</span><span class="p">]],</span>
+            <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">},</span>
+        <span class="s1">&#39;Callosum Posterior Parietal&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">callosal_templates</span><span class="p">[</span><span class="s1">&#39;R_PostParietal&#39;</span><span class="p">],</span>
+                        <span class="n">callosal_templates</span><span class="p">[</span><span class="s1">&#39;Callosum_midsag&#39;</span><span class="p">],</span>
+                        <span class="n">callosal_templates</span><span class="p">[</span><span class="s1">&#39;L_PostParietal&#39;</span><span class="p">]],</span>
+            <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">},</span>
+        <span class="s1">&#39;Callosum Superior Frontal&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">callosal_templates</span><span class="p">[</span><span class="s1">&#39;R_SupFrontal&#39;</span><span class="p">],</span>
+                        <span class="n">callosal_templates</span><span class="p">[</span><span class="s1">&#39;Callosum_midsag&#39;</span><span class="p">],</span>
+                        <span class="n">callosal_templates</span><span class="p">[</span><span class="s1">&#39;L_SupFrontal&#39;</span><span class="p">]],</span>
+            <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">},</span>
+        <span class="s1">&#39;Callosum Superior Parietal&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">callosal_templates</span><span class="p">[</span><span class="s1">&#39;R_SupParietal&#39;</span><span class="p">],</span>
+                        <span class="n">callosal_templates</span><span class="p">[</span><span class="s1">&#39;Callosum_midsag&#39;</span><span class="p">],</span>
+                        <span class="n">callosal_templates</span><span class="p">[</span><span class="s1">&#39;L_SupParietal&#39;</span><span class="p">]],</span>
+            <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">},</span>
+        <span class="s1">&#39;Callosum Temporal&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">callosal_templates</span><span class="p">[</span><span class="s1">&#39;R_Temporal&#39;</span><span class="p">],</span>
+                        <span class="n">callosal_templates</span><span class="p">[</span><span class="s1">&#39;Callosum_midsag&#39;</span><span class="p">],</span>
+                        <span class="n">callosal_templates</span><span class="p">[</span><span class="s1">&#39;L_Temporal&#39;</span><span class="p">]],</span>
+            <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">}})</span></div>
+
+
+<div class="viewcode-block" id="reco_bd"><a class="viewcode-back" href="../../../reference/api/AFQ/api/bundle_dict/index.html#AFQ.api.bundle_dict.reco_bd">[docs]</a><span class="k">def</span> <span class="nf">reco_bd</span><span class="p">(</span><span class="n">n_bundles</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    n_bundles: int</span>
+<span class="sd">        Selects between 16 or 80 bundle atlas</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">templates</span> <span class="o">=</span> <span class="n">afd</span><span class="o">.</span><span class="n">read_hcp_atlas</span><span class="p">(</span><span class="n">n_bundles</span><span class="p">,</span> <span class="n">as_file</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">BundleDict</span><span class="p">(</span><span class="n">templates</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="cerebellar_bd"><a class="viewcode-back" href="../../../reference/api/AFQ/api/bundle_dict/index.html#AFQ.api.bundle_dict.cerebellar_bd">[docs]</a><span class="k">def</span> <span class="nf">cerebellar_bd</span><span class="p">():</span>
+    <span class="n">cp_rois</span> <span class="o">=</span> <span class="n">afd</span><span class="o">.</span><span class="n">read_cp_templates</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">BundleDict</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;Left Inferior Cerebellar Peduncle&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;include&quot;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="n">cp_rois</span><span class="p">[</span><span class="s2">&quot;ICP_L_inferior_prob&quot;</span><span class="p">],</span>
+                    <span class="n">cp_rois</span><span class="p">[</span><span class="s2">&quot;ICP_L_superior_prob&quot;</span><span class="p">],</span>
+                <span class="p">],</span>
+                <span class="s2">&quot;cross_midline&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;Right Inferior Cerebellar Peduncle&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;include&quot;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="n">cp_rois</span><span class="p">[</span><span class="s2">&quot;ICP_R_inferior_prob&quot;</span><span class="p">],</span>
+                    <span class="n">cp_rois</span><span class="p">[</span><span class="s2">&quot;ICP_R_superior_prob&quot;</span><span class="p">],</span>
+                <span class="p">],</span>
+                <span class="s2">&quot;cross_midline&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;Left Middle Cerebellar Peduncle&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;include&quot;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="n">cp_rois</span><span class="p">[</span><span class="s2">&quot;MCP_L_inferior_prob&quot;</span><span class="p">],</span>
+                    <span class="n">cp_rois</span><span class="p">[</span><span class="s2">&quot;MCP_R_superior_prob&quot;</span><span class="p">],</span>
+                <span class="p">],</span>
+                <span class="s2">&quot;exclude&quot;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="n">cp_rois</span><span class="p">[</span><span class="s2">&quot;SCP_L_inter_prob&quot;</span><span class="p">],</span>
+                <span class="p">],</span>
+                <span class="s2">&quot;cross_midline&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;Right Middle Cerebellar Peduncle&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;include&quot;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="n">cp_rois</span><span class="p">[</span><span class="s2">&quot;MCP_R_inferior_prob&quot;</span><span class="p">],</span>
+                    <span class="n">cp_rois</span><span class="p">[</span><span class="s2">&quot;MCP_L_superior_prob&quot;</span><span class="p">],</span>
+                <span class="p">],</span>
+                <span class="s2">&quot;exclude&quot;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="n">cp_rois</span><span class="p">[</span><span class="s2">&quot;SCP_R_inter_prob&quot;</span><span class="p">],</span>
+                <span class="p">],</span>
+                <span class="s2">&quot;cross_midline&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;Left Superior Cerebellar Peduncle&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;include&quot;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="n">cp_rois</span><span class="p">[</span><span class="s2">&quot;SCP_L_inferior_prob&quot;</span><span class="p">],</span>
+                    <span class="n">cp_rois</span><span class="p">[</span><span class="s2">&quot;SCP_L_inter_prob&quot;</span><span class="p">],</span>
+                    <span class="n">cp_rois</span><span class="p">[</span><span class="s2">&quot;SCP_R_superior_prob&quot;</span><span class="p">],</span>
+                <span class="p">],</span>
+                <span class="s2">&quot;exclude&quot;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="n">cp_rois</span><span class="p">[</span><span class="s2">&quot;SCP_L_superior_prob&quot;</span><span class="p">],</span>
+                <span class="p">],</span>
+                <span class="s2">&quot;cross_midline&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;Right Superior Cerebellar Peduncle&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;include&quot;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="n">cp_rois</span><span class="p">[</span><span class="s2">&quot;SCP_R_inferior_prob&quot;</span><span class="p">],</span>
+                    <span class="n">cp_rois</span><span class="p">[</span><span class="s2">&quot;SCP_R_inter_prob&quot;</span><span class="p">],</span>
+                    <span class="n">cp_rois</span><span class="p">[</span><span class="s2">&quot;SCP_L_superior_prob&quot;</span><span class="p">],</span>
+                <span class="p">],</span>
+                <span class="s2">&quot;exclude&quot;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="n">cp_rois</span><span class="p">[</span><span class="s2">&quot;SCP_R_superior_prob&quot;</span><span class="p">],</span>
+                <span class="p">],</span>
+                <span class="s2">&quot;cross_midline&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}})</span></div>
+
+
+<span class="k">def</span> <span class="nf">OR_bd</span><span class="p">():</span>
+    <span class="n">or_rois</span> <span class="o">=</span> <span class="n">afd</span><span class="o">.</span><span class="n">read_or_templates</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">BundleDict</span><span class="p">({</span>
+        <span class="s2">&quot;Left Optic Radiation&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;include&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="n">or_rois</span><span class="p">[</span><span class="s2">&quot;left_OR_1&quot;</span><span class="p">],</span>
+                <span class="n">or_rois</span><span class="p">[</span><span class="s2">&quot;left_OR_2&quot;</span><span class="p">]],</span>
+            <span class="s2">&quot;exclude&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="n">or_rois</span><span class="p">[</span><span class="s2">&quot;left_OP_MNI&quot;</span><span class="p">],</span>
+                <span class="n">or_rois</span><span class="p">[</span><span class="s2">&quot;left_TP_MNI&quot;</span><span class="p">],</span>
+                <span class="n">or_rois</span><span class="p">[</span><span class="s2">&quot;left_pos_thal_MNI&quot;</span><span class="p">]],</span>
+            <span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="n">or_rois</span><span class="p">[</span><span class="s1">&#39;left_thal_MNI&#39;</span><span class="p">],</span>
+            <span class="s2">&quot;end&quot;</span><span class="p">:</span> <span class="n">or_rois</span><span class="p">[</span><span class="s1">&#39;left_V1_MNI&#39;</span><span class="p">],</span>
+            <span class="s2">&quot;cross_midline&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;Right Optic Radiation&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;include&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="n">or_rois</span><span class="p">[</span><span class="s2">&quot;right_OR_1&quot;</span><span class="p">],</span>
+                <span class="n">or_rois</span><span class="p">[</span><span class="s2">&quot;right_OR_2&quot;</span><span class="p">]],</span>
+            <span class="s2">&quot;exclude&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="n">or_rois</span><span class="p">[</span><span class="s2">&quot;right_OP_MNI&quot;</span><span class="p">],</span>
+                <span class="n">or_rois</span><span class="p">[</span><span class="s2">&quot;right_TP_MNI&quot;</span><span class="p">],</span>
+                <span class="n">or_rois</span><span class="p">[</span><span class="s2">&quot;right_pos_thal_MNI&quot;</span><span class="p">]],</span>
+            <span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="n">or_rois</span><span class="p">[</span><span class="s1">&#39;right_thal_MNI&#39;</span><span class="p">],</span>
+            <span class="s2">&quot;end&quot;</span><span class="p">:</span> <span class="n">or_rois</span><span class="p">[</span><span class="s1">&#39;right_V1_MNI&#39;</span><span class="p">],</span>
+            <span class="s2">&quot;cross_midline&quot;</span><span class="p">:</span> <span class="kc">False</span>
+        <span class="p">}</span>
+    <span class="p">})</span>
+
+
+<span class="k">class</span> <span class="nc">_BundleEntry</span><span class="p">(</span><span class="n">Mapping</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Describes how to recognize a single bundle, immutable&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">data</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">((</span>
+            <span class="s2">&quot;You cannot modify the properties of a bundle&#39;s definition. &quot;</span>
+            <span class="s2">&quot;To modify a bundle&#39;s definition, replace that bundle&#39;s entry &quot;</span>
+            <span class="s2">&quot;in the BundleDict.&quot;</span><span class="p">))</span>
+
+
+<div class="viewcode-block" id="BundleDict"><a class="viewcode-back" href="../../../reference/api/AFQ/api/bundle_dict/index.html#AFQ.api.bundle_dict.BundleDict">[docs]</a><span class="k">class</span> <span class="nc">BundleDict</span><span class="p">(</span><span class="n">MutableMapping</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a bundle dictionary, needed for the segmentation.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    bundle_info : dict,</span>
+<span class="sd">        A dictionary defining</span>
+<span class="sd">        custom bundles. See `Defining Custom Bundle Dictionaries`</span>
+<span class="sd">        in the `usage` section of pyAFQ&#39;s documentation for details.</span>
+
+<span class="sd">    resample_to : Nifti1Image or bool, optional</span>
+<span class="sd">        If there are bundles in bundle_info with the &#39;space&#39; attribute</span>
+<span class="sd">        set to &#39;template&#39;, or with no &#39;space&#39; attribute,</span>
+<span class="sd">        their images (all ROIs and probability maps)</span>
+<span class="sd">        will be resampled to the affine and shape of this image.</span>
+<span class="sd">        If None, the MNI template will be used.</span>
+<span class="sd">        If False, no resampling will be done.</span>
+<span class="sd">        Default: None</span>
+
+<span class="sd">    resample_subject_to : Nifti1Image or bool, optional</span>
+<span class="sd">        If there are bundles in bundle_info with the &#39;space&#39; attribute</span>
+<span class="sd">        set to &#39;subject&#39;, their images (all ROIs and probability maps)</span>
+<span class="sd">        will be resampled to the affine and shape of this image.</span>
+<span class="sd">        If False, no resampling will be done.</span>
+<span class="sd">        Default: None</span>
+
+<span class="sd">    keep_in_memory : bool, optional</span>
+<span class="sd">        Whether, once loaded, all ROIs and probability maps will stay</span>
+<span class="sd">        loaded in memory within this object. By default, ROIs are loaded</span>
+<span class="sd">        into memory on demand and no references to ROIs are kept, other</span>
+<span class="sd">        than their paths. The default 18 bundles use ~6GB when all loaded.</span>
+<span class="sd">        Default: False</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    # import OR ROIs and create a custom bundle dict</span>
+<span class="sd">    # from them</span>
+<span class="sd">    import AFQ.data.fetch as afd</span>
+<span class="sd">    or_rois = afd.read_or_templates()</span>
+
+<span class="sd">    bundles = BundleDict({</span>
+<span class="sd">        &quot;L_OR&quot;: {</span>
+<span class="sd">            &quot;include&quot;: [</span>
+<span class="sd">                or_rois[&quot;left_OR_1&quot;],  # these can be paths to Nifti files</span>
+<span class="sd">                or_rois[&quot;left_OR_2&quot;]],  # or they can Nifti images</span>
+<span class="sd">            &quot;exclude&quot;: [</span>
+<span class="sd">                or_rois[&quot;left_OP_MNI&quot;],</span>
+<span class="sd">                or_rois[&quot;left_TP_MNI&quot;],</span>
+<span class="sd">                or_rois[&quot;left_pos_thal_MNI&quot;]],</span>
+<span class="sd">            &quot;start&quot;: or_rois[&#39;left_thal_MNI&#39;],</span>
+<span class="sd">            &quot;end&quot;: or_rois[&#39;left_V1_MNI&#39;],</span>
+<span class="sd">            &quot;cross_midline&quot;: False,</span>
+<span class="sd">        },</span>
+<span class="sd">        &quot;R_OR&quot;: {</span>
+<span class="sd">            &quot;include&quot;: [</span>
+<span class="sd">                or_rois[&quot;right_OR_1&quot;],</span>
+<span class="sd">                or_rois[&quot;right_OR_2&quot;]],</span>
+<span class="sd">            &quot;exclude&quot;: [</span>
+<span class="sd">                or_rois[&quot;right_OP_MNI&quot;],</span>
+<span class="sd">                or_rois[&quot;right_TP_MNI&quot;],</span>
+<span class="sd">                or_rois[&quot;right_pos_thal_MNI&quot;]],</span>
+<span class="sd">            &quot;start&quot;: or_rois[&#39;right_thal_MNI&#39;],</span>
+<span class="sd">            &quot;end&quot;: or_rois[&#39;right_V1_MNI&#39;],</span>
+<span class="sd">            &quot;cross_midline&quot;: False</span>
+<span class="sd">        }</span>
+<span class="sd">    })</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">bundle_info</span><span class="p">,</span>
+                 <span class="n">resample_to</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">resample_subject_to</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">keep_in_memory</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">bundle_info</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">((</span>
+                <span class="sa">f</span><span class="s2">&quot;bundle_info must be a dict,&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot; currently a </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">bundle_info</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">resample_to</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">resample_to</span> <span class="o">=</span> <span class="n">afd</span><span class="o">.</span><span class="n">read_mni_template</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">resample_to</span> <span class="o">=</span> <span class="n">resample_to</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">resample_subject_to</span> <span class="o">=</span> <span class="n">resample_subject_to</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">keep_in_memory</span> <span class="o">=</span> <span class="n">keep_in_memory</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_includes</span> <span class="o">=</span> <span class="mi">3</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bundle_names</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">bundle_info</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="fm">__setitem__</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;AFQ&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;Forceps Major&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bundle_names</span>\
+                <span class="ow">and</span> <span class="s2">&quot;Callosum Occipital&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bundle_names</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">((</span>
+                <span class="s2">&quot;Forceps Major and Callosum Occipital bundles&quot;</span>
+                <span class="s2">&quot; are co-located, and AFQ&quot;</span>
+                <span class="s2">&quot; assigns each streamline to only one bundle.&quot;</span>
+                <span class="s2">&quot; Only Callosum Occipital will be used.&quot;</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bundle_names</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;Forceps Major&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;Forceps Minor&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bundle_names</span>\
+                <span class="ow">and</span> <span class="s2">&quot;Callosum Orbital&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bundle_names</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">((</span>
+                <span class="s2">&quot;Forceps Minor and Callosum Orbital bundles&quot;</span>
+                <span class="s2">&quot; are co-located, and AFQ&quot;</span>
+                <span class="s2">&quot; assigns each streamline to only one bundle.&quot;</span>
+                <span class="s2">&quot; Only Callosum Orbital will be used.&quot;</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bundle_names</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;Forceps Minor&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;Forceps Minor&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bundle_names</span>\
+                <span class="ow">and</span> <span class="s2">&quot;Callosum Anterior Frontal&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bundle_names</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">((</span>
+                <span class="s2">&quot;Forceps Minor and Callosum Anterior Frontal bundles&quot;</span>
+                <span class="s2">&quot; are co-located, and AFQ&quot;</span>
+                <span class="s2">&quot; assigns each streamline to only one bundle.&quot;</span>
+                <span class="s2">&quot; Only Callosum Anterior Frontal will be used.&quot;</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bundle_names</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;Forceps Minor&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="BundleDict.update_max_includes"><a class="viewcode-back" href="../../../reference/api/AFQ/api/bundle_dict/index.html#AFQ.api.bundle_dict.BundleDict.update_max_includes">[docs]</a>    <span class="k">def</span> <span class="nf">update_max_includes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_max</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">new_max</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_includes</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">max_includes</span> <span class="o">=</span> <span class="n">new_max</span></div>
+
+<div class="viewcode-block" id="BundleDict._use_bids_info"><a class="viewcode-back" href="../../../reference/api/AFQ/api/bundle_dict/index.html#AFQ.api.bundle_dict.BundleDict._use_bids_info">[docs]</a>    <span class="k">def</span> <span class="nf">_use_bids_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">roi_or_sl</span><span class="p">,</span> <span class="n">bids_layout</span><span class="p">,</span> <span class="n">bids_path</span><span class="p">,</span>
+                       <span class="n">subject</span><span class="p">,</span> <span class="n">session</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">roi_or_sl</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">suffix</span> <span class="o">=</span> <span class="n">roi_or_sl</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;suffix&quot;</span><span class="p">,</span> <span class="s2">&quot;dwi&quot;</span><span class="p">)</span>
+            <span class="n">roi_or_sl</span> <span class="o">=</span> <span class="n">find_file</span><span class="p">(</span>
+                <span class="n">bids_layout</span><span class="p">,</span> <span class="n">bids_path</span><span class="p">,</span>
+                <span class="n">roi_or_sl</span><span class="p">,</span>
+                <span class="n">suffix</span><span class="p">,</span>
+                <span class="n">session</span><span class="p">,</span> <span class="n">subject</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">roi_or_sl</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">roi_or_sl</span></div>
+
+<div class="viewcode-block" id="BundleDict._cond_load"><a class="viewcode-back" href="../../../reference/api/AFQ/api/bundle_dict/index.html#AFQ.api.bundle_dict.BundleDict._cond_load">[docs]</a>    <span class="k">def</span> <span class="nf">_cond_load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">roi_or_sl</span><span class="p">,</span> <span class="n">resample_to</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Load ROI or streamline if not already loaded</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">roi_or_sl</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">if</span> <span class="s2">&quot;.nii&quot;</span> <span class="ow">in</span> <span class="n">roi_or_sl</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">afd</span><span class="o">.</span><span class="n">read_resample_roi</span><span class="p">(</span>
+                    <span class="n">roi_or_sl</span><span class="p">,</span>
+                    <span class="n">resample_to</span><span class="o">=</span><span class="n">resample_to</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">load_tractogram</span><span class="p">(</span>
+                    <span class="n">roi_or_sl</span><span class="p">,</span>
+                    <span class="s1">&#39;same&#39;</span><span class="p">,</span>
+                    <span class="n">bbox_valid_check</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">streamlines</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">roi_or_sl</span><span class="p">,</span> <span class="n">nib</span><span class="o">.</span><span class="n">Nifti1Image</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">afd</span><span class="o">.</span><span class="n">read_resample_roi</span><span class="p">(</span>
+                <span class="n">roi_or_sl</span><span class="p">,</span>
+                <span class="n">resample_to</span><span class="o">=</span><span class="n">resample_to</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">roi_or_sl</span></div>
+
+<div class="viewcode-block" id="BundleDict.get_b_info"><a class="viewcode-back" href="../../../reference/api/AFQ/api/bundle_dict/index.html#AFQ.api.bundle_dict.BundleDict.get_b_info">[docs]</a>    <span class="k">def</span> <span class="nf">get_b_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b_name</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="p">[</span><span class="n">b_name</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="BundleDict.__getitem__"><a class="viewcode-back" href="../../../reference/api/AFQ/api/bundle_dict/index.html#AFQ.api.bundle_dict.BundleDict.__getitem__">[docs]</a>    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="c1"># Generates a copy of this BundleDict with only the bundle names</span>
+            <span class="c1"># from the tuple/list</span>
+            <span class="n">new_bd</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">b_name</span> <span class="ow">in</span> <span class="n">key</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">b_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="p">:</span>
+                    <span class="n">new_bd</span><span class="p">[</span><span class="n">b_name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="p">[</span><span class="n">b_name</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">b_name</span><span class="si">}</span><span class="s2"> is not in this BundleDict&quot;</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span>
+                <span class="n">new_bd</span><span class="p">,</span>
+                <span class="n">resample_to</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">resample_to</span><span class="p">,</span>
+                <span class="n">resample_subject_to</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">resample_subject_to</span><span class="p">,</span>
+                <span class="n">keep_in_memory</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">keep_in_memory</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">keep_in_memory</span><span class="p">:</span>
+                <span class="n">_item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+                <span class="n">_res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cond_load_bundle</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">dry_run</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">_res</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">_item</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">_res</span><span class="p">)</span>
+                <span class="n">_item</span> <span class="o">=</span> <span class="n">_BundleEntry</span><span class="p">(</span><span class="n">_item</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="s2">&quot;loaded&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="ow">or</span>\
+                        <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;loaded&quot;</span><span class="p">]:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_cond_load_bundle</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;loaded&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">if</span> <span class="s2">&quot;resampled&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="p">[</span>
+                        <span class="n">key</span><span class="p">][</span><span class="s2">&quot;resampled&quot;</span><span class="p">]:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_resample_roi</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                <span class="n">_item</span> <span class="o">=</span> <span class="n">_BundleEntry</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+            <span class="k">return</span> <span class="n">_item</span></div>
+
+<div class="viewcode-block" id="BundleDict.__setitem__"><a class="viewcode-back" href="../../../reference/api/AFQ/api/bundle_dict/index.html#AFQ.api.bundle_dict.BundleDict.__setitem__">[docs]</a>    <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="s2">&quot;get&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">update_max_includes</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;include&quot;</span><span class="p">,</span> <span class="p">[])))</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bundle_names</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bundle_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BundleDict.__len__"><a class="viewcode-back" href="../../../reference/api/AFQ/api/bundle_dict/index.html#AFQ.api.bundle_dict.BundleDict.__len__">[docs]</a>    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bundle_names</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BundleDict.__delitem__"><a class="viewcode-back" href="../../../reference/api/AFQ/api/bundle_dict/index.html#AFQ.api.bundle_dict.BundleDict.__delitem__">[docs]</a>    <span class="k">def</span> <span class="fm">__delitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dict</span> <span class="ow">and</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bundle_names</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> not found&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="p">:</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">((</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> not found in internal dictionary, &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;but found in bundle_names&quot;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bundle_names</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bundle_names</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">((</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> not found in bundle_names, &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;but found in internal dictionary&quot;</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="BundleDict.__iter__"><a class="viewcode-back" href="../../../reference/api/AFQ/api/bundle_dict/index.html#AFQ.api.bundle_dict.BundleDict.__iter__">[docs]</a>    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BundleDict.copy"><a class="viewcode-back" href="../../../reference/api/AFQ/api/bundle_dict/index.html#AFQ.api.bundle_dict.BundleDict.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generates a copy of this BundleDict where the internal dictionary</span>
+<span class="sd">        is a copy of this BundleDict&#39;s internal dictionary.</span>
+<span class="sd">        Useful if you want to add or remove bundles from a copy</span>
+<span class="sd">        of a BundleDict.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        ---------</span>
+<span class="sd">        bundle_dict : BundleDict</span>
+<span class="sd">            Euclidean norms of vectors.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span>
+            <span class="n">resample_to</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">resample_to</span><span class="p">,</span>
+            <span class="n">resample_subject_to</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">resample_subject_to</span><span class="p">,</span>
+            <span class="n">keep_in_memory</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">keep_in_memory</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BundleDict.apply_to_rois"><a class="viewcode-back" href="../../../reference/api/AFQ/api/bundle_dict/index.html#AFQ.api.bundle_dict.BundleDict.apply_to_rois">[docs]</a>    <span class="k">def</span> <span class="nf">apply_to_rois</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b_name</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+                      <span class="n">dry_run</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">apply_to_recobundles</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                      <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Applies some transformation to all ROIs (include, exclude, end, start)</span>
+<span class="sd">        and the prob_map in a given bundle.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        b_name : name</span>
+<span class="sd">            bundle name of bundle whose ROIs will be transformed.</span>
+<span class="sd">        func : function</span>
+<span class="sd">            function whose first argument must be a Nifti1Image and which</span>
+<span class="sd">            returns a Nifti1Image</span>
+<span class="sd">        dry_run : bool</span>
+<span class="sd">            Whether to actually apply changes returned by `func` to the ROIs.</span>
+<span class="sd">            If has_return is False, dry_run is not used.</span>
+<span class="sd">        apply_to_recobundles : bool, optional</span>
+<span class="sd">            Whether to apply the transformation to recobundles</span>
+<span class="sd">            TRKs as well.</span>
+<span class="sd">            Default: False</span>
+
+<span class="sd">        *args :</span>
+<span class="sd">            Additional arguments for func</span>
+<span class="sd">        **kwargs</span>
+<span class="sd">            Optional arguments for func</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        A dictionary where keys are</span>
+<span class="sd">        the roi type and values are the transformed ROIs.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">return_vals</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">roi_type</span> <span class="ow">in</span> <span class="p">[</span>
+                <span class="s2">&quot;include&quot;</span><span class="p">,</span> <span class="s2">&quot;exclude&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;start&quot;</span><span class="p">,</span> <span class="s2">&quot;end&quot;</span><span class="p">,</span> <span class="s2">&quot;prob_map&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">roi_type</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="p">[</span><span class="n">b_name</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">roi_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">,</span> <span class="s2">&quot;end&quot;</span><span class="p">,</span> <span class="s2">&quot;prob_map&quot;</span><span class="p">]:</span>
+                    <span class="n">return_vals</span><span class="p">[</span><span class="n">roi_type</span><span class="p">]</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="p">[</span><span class="n">b_name</span><span class="p">][</span><span class="n">roi_type</span><span class="p">],</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">changed_rois</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="k">for</span> <span class="n">_roi</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="p">[</span><span class="n">b_name</span><span class="p">][</span><span class="n">roi_type</span><span class="p">]:</span>
+                        <span class="n">changed_rois</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">func</span><span class="p">(</span>
+                            <span class="n">_roi</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
+                    <span class="n">return_vals</span><span class="p">[</span><span class="n">roi_type</span><span class="p">]</span> <span class="o">=</span> <span class="n">changed_rois</span>
+        <span class="k">if</span> <span class="n">apply_to_recobundles</span> <span class="ow">and</span> <span class="s2">&quot;recobundles&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="p">[</span><span class="n">b_name</span><span class="p">]:</span>
+            <span class="n">return_vals</span><span class="p">[</span><span class="s2">&quot;recobundles&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">sl_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;sl&quot;</span><span class="p">,</span> <span class="s2">&quot;centroid&quot;</span><span class="p">]:</span>
+                <span class="n">return_vals</span><span class="p">[</span><span class="s2">&quot;recobundles&quot;</span><span class="p">][</span><span class="n">sl_type</span><span class="p">]</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="p">[</span><span class="n">b_name</span><span class="p">][</span><span class="s2">&quot;recobundles&quot;</span><span class="p">][</span><span class="n">sl_type</span><span class="p">],</span>
+                    <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">dry_run</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">roi_type</span><span class="p">,</span> <span class="n">roi</span> <span class="ow">in</span> <span class="n">return_vals</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="p">[</span><span class="n">b_name</span><span class="p">][</span><span class="n">roi_type</span><span class="p">]</span> <span class="o">=</span> <span class="n">roi</span>
+        <span class="k">return</span> <span class="n">return_vals</span></div>
+
+<div class="viewcode-block" id="BundleDict._cond_load_bundle"><a class="viewcode-back" href="../../../reference/api/AFQ/api/bundle_dict/index.html#AFQ.api.bundle_dict.BundleDict._cond_load_bundle">[docs]</a>    <span class="k">def</span> <span class="nf">_cond_load_bundle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b_name</span><span class="p">,</span> <span class="n">dry_run</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Given a bundle name, resample all ROIs and prob maps</span>
+<span class="sd">        into either template or subject space for that bundle,</span>
+<span class="sd">        depending on its &quot;space&quot; attribute.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        b_name : str</span>
+<span class="sd">            Name of the bundle to be resampled.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_bundle_in_template</span><span class="p">(</span><span class="n">b_name</span><span class="p">):</span>
+            <span class="n">resample_to</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resample_to</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">resample_to</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resample_subject_to</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">apply_to_rois</span><span class="p">(</span>
+            <span class="n">b_name</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cond_load</span><span class="p">,</span>
+            <span class="n">resample_to</span><span class="p">,</span>
+            <span class="n">dry_run</span><span class="o">=</span><span class="n">dry_run</span><span class="p">,</span>
+            <span class="n">apply_to_recobundles</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BundleDict.is_bundle_in_template"><a class="viewcode-back" href="../../../reference/api/AFQ/api/bundle_dict/index.html#AFQ.api.bundle_dict.BundleDict.is_bundle_in_template">[docs]</a>    <span class="k">def</span> <span class="nf">is_bundle_in_template</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bundle_name</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;space&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="p">[</span><span class="n">bundle_name</span><span class="p">]</span>\
+            <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="p">[</span><span class="n">bundle_name</span><span class="p">][</span><span class="s2">&quot;space&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;template&quot;</span></div>
+
+<div class="viewcode-block" id="BundleDict._roi_transform_helper"><a class="viewcode-back" href="../../../reference/api/AFQ/api/bundle_dict/index.html#AFQ.api.bundle_dict.BundleDict._roi_transform_helper">[docs]</a>    <span class="k">def</span> <span class="nf">_roi_transform_helper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">roi_or_sl</span><span class="p">,</span> <span class="n">mapping</span><span class="p">,</span>
+                              <span class="n">new_affine</span><span class="p">,</span> <span class="n">bundle_name</span><span class="p">):</span>
+        <span class="n">roi_or_sl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cond_load</span><span class="p">(</span><span class="n">roi_or_sl</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">resample_to</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">roi_or_sl</span><span class="p">,</span> <span class="n">nib</span><span class="o">.</span><span class="n">Nifti1Image</span><span class="p">):</span>
+            <span class="n">warped_img</span> <span class="o">=</span> <span class="n">auv</span><span class="o">.</span><span class="n">transform_inverse_roi</span><span class="p">(</span>
+                <span class="n">roi_or_sl</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">(),</span>
+                <span class="n">mapping</span><span class="p">,</span>
+                <span class="n">bundle_name</span><span class="o">=</span><span class="n">bundle_name</span><span class="p">)</span>
+            <span class="n">warped_img</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">Nifti1Image</span><span class="p">(</span><span class="n">warped_img</span><span class="p">,</span> <span class="n">new_affine</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">warped_img</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">roi_or_sl</span></div>
+
+<div class="viewcode-block" id="BundleDict.transform_rois"><a class="viewcode-back" href="../../../reference/api/AFQ/api/bundle_dict/index.html#AFQ.api.bundle_dict.BundleDict.transform_rois">[docs]</a>    <span class="k">def</span> <span class="nf">transform_rois</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bundle_name</span><span class="p">,</span> <span class="n">mapping</span><span class="p">,</span> <span class="n">new_affine</span><span class="p">,</span>
+                       <span class="n">base_fname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">apply_to_recobundles</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the bundle definition with transformed ROIs</span>
+<span class="sd">        for a given bundle into a</span>
+<span class="sd">        given subject space using a given mapping.</span>
+<span class="sd">        Will only run on bundles which are in template</span>
+<span class="sd">        space, otherwise will just return the bundle</span>
+<span class="sd">        definition without transformation.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        bundle_name : str</span>
+<span class="sd">            Name of the bundle to be transformed.</span>
+<span class="sd">        mapping : DiffeomorphicMap object</span>
+<span class="sd">            A mapping between DWI space and a template.</span>
+<span class="sd">        new_affine : array</span>
+<span class="sd">            Affine of space transformed into.</span>
+<span class="sd">        base_fname : str, optional</span>
+<span class="sd">            Base file path to save ROIs too. Additional BIDS</span>
+<span class="sd">            descriptors will be added to this file path. If None,</span>
+<span class="sd">            do not save the ROIs.</span>
+<span class="sd">        apply_to_recobundles : bool, optional</span>
+<span class="sd">            Whether to apply the transformation to recobundles</span>
+<span class="sd">            TRKs as well.</span>
+<span class="sd">            Default: False</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        If base_fname is None, a dictionary where keys are</span>
+<span class="sd">        the roi type and values are the transformed ROIs.</span>
+<span class="sd">        Otherwise, a list of file names where the transformed</span>
+<span class="sd">        ROIs are saved.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_bundle_in_template</span><span class="p">(</span><span class="n">bundle_name</span><span class="p">):</span>
+            <span class="n">transformed_rois</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">apply_to_rois</span><span class="p">(</span>
+                <span class="n">bundle_name</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_roi_transform_helper</span><span class="p">,</span>
+                <span class="n">mapping</span><span class="p">,</span>
+                <span class="n">new_affine</span><span class="p">,</span>
+                <span class="n">bundle_name</span><span class="p">,</span>
+                <span class="n">dry_run</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">apply_to_recobundles</span><span class="o">=</span><span class="n">apply_to_recobundles</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">transformed_rois</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">apply_to_rois</span><span class="p">(</span>
+                <span class="n">bundle_name</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_cond_load</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">resample_subject_to</span><span class="p">,</span>
+                <span class="n">dry_run</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">apply_to_recobundles</span><span class="o">=</span><span class="n">apply_to_recobundles</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">base_fname</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">fnames</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">roi_type</span><span class="p">,</span> <span class="n">rois</span> <span class="ow">in</span> <span class="n">transformed_rois</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rois</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                    <span class="n">rois</span> <span class="o">=</span> <span class="p">[</span><span class="n">rois</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">ii</span><span class="p">,</span> <span class="n">roi</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">rois</span><span class="p">):</span>
+                    <span class="n">fname</span> <span class="o">=</span> <span class="n">get_fname</span><span class="p">(</span>
+                        <span class="n">base_fname</span><span class="p">,</span>
+                        <span class="s2">&quot;_space-subject_desc-&quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">str_to_desc</span><span class="p">(</span><span class="n">bundle_name</span><span class="p">)</span><span class="si">}{</span><span class="n">roi_type</span><span class="si">}{</span><span class="n">ii</span><span class="si">}</span><span class="s2">&quot;</span>
+                        <span class="s2">&quot;_mask.nii.gz&quot;</span><span class="p">)</span>
+                    <span class="n">nib</span><span class="o">.</span><span class="n">save</span><span class="p">(</span>
+                        <span class="n">nib</span><span class="o">.</span><span class="n">Nifti1Image</span><span class="p">(</span>
+                            <span class="n">roi</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span>
+                            <span class="n">roi</span><span class="o">.</span><span class="n">affine</span><span class="p">),</span> <span class="n">fname</span><span class="p">)</span>
+                    <span class="n">fnames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">fnames</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">transformed_rois</span></div>
+
+<div class="viewcode-block" id="BundleDict.__add__"><a class="viewcode-back" href="../../../reference/api/AFQ/api/bundle_dict/index.html#AFQ.api.bundle_dict.BundleDict.__add__">[docs]</a>    <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">resample</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;resample_to&quot;</span><span class="p">,</span> <span class="s2">&quot;resample_subject_to&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resample</span><span class="p">)</span>\
+                    <span class="ow">or</span> <span class="ow">not</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">resample</span><span class="p">)</span>\
+                    <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resample</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>\
+                    <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">resample</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resample</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">resample</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">((</span>
+                        <span class="sa">f</span><span class="s2">&quot;Adding BundleDicts where </span><span class="si">{</span><span class="n">resample</span><span class="si">}</span><span class="s2"> do not match.&quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resample</span><span class="si">}</span><span class="s2">&#39;s are </span><span class="si">{</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">resample</span><span class="p">)</span><span class="si">}</span><span class="s2"> and &quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">getattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span><span class="w"> </span><span class="n">resample</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span>
+                        <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resample</span><span class="p">)</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span>
+                        <span class="nb">getattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">resample</span><span class="p">)</span><span class="o">.</span><span class="n">affine</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">((</span>
+                        <span class="sa">f</span><span class="s2">&quot;Adding BundleDicts where </span><span class="si">{</span><span class="n">resample</span><span class="si">}</span><span class="s2"> affines&quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot; do not match. </span><span class="si">{</span><span class="n">resample</span><span class="si">}</span><span class="s2"> affines are&quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">resample</span><span class="p">)</span><span class="o">.</span><span class="n">affine</span><span class="si">}</span><span class="s2"> and &quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">getattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span><span class="w"> </span><span class="n">resample</span><span class="p">)</span><span class="o">.</span><span class="n">affine</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span>
+                        <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resample</span><span class="p">)</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;dim&#39;</span><span class="p">],</span>
+                        <span class="nb">getattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">resample</span><span class="p">)</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;dim&#39;</span><span class="p">]):</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">((</span>
+                        <span class="sa">f</span><span class="s2">&quot;Adding BundleDicts where </span><span class="si">{</span><span class="n">resample</span><span class="si">}</span><span class="s2"> dimensions&quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot; do not match. </span><span class="si">{</span><span class="n">resample</span><span class="si">}</span><span class="s2"> dimensions are&quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">resample</span><span class="p">)</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;dim&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> and &quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">getattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span><span class="w"> </span><span class="n">resample</span><span class="p">)</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;dim&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span>
+            <span class="p">{</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="p">,</span> <span class="o">**</span><span class="n">other</span><span class="o">.</span><span class="n">_dict</span><span class="p">},</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">resample_to</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">resample_subject_to</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">keep_in_memory</span><span class="p">)</span></div></div>
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2018--, The pyAFQ Contributors.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-156363454-2");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+  </body>
+</html>

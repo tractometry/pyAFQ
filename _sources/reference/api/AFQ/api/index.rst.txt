@@ -1,0 +1,18 @@
+:py:mod:`AFQ.api`
+=================
+
+.. py:module:: AFQ.api
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   bundle_dict/index.rst
+   group/index.rst
+   participant/index.rst
+   utils/index.rst
+
+

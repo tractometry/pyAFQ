@@ -1,0 +1,285 @@
+:orphan:
+
+.. _howto_examples:
+
+How to examples
+================
+
+These examples provide details of various advanced and more complex usage
+of pyAFQ. These are intended to provide a reference and answer questions
+about the variety of pyAFQ functionality that is available.
+
+.. toctree::
+    :maxdepth: 2
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="pyAFQ is designed to be customizable and extensible. This example shows how you can customize it to define a new bundle based on a definition of waypoint and endpoint ROIs of your design.">
+
+.. only:: html
+
+  .. image:: /howto/howto_examples/images/thumb/sphx_glr_add_custom_bundle_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_howto_howto_examples_add_custom_bundle.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">How to add new bundles into pyAFQ (SLF 1/2/3 Example)</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="The following is an example of tractometry for infant bundles. This example and resulting pyAFQ support for pediatric bundles was inspired by and largely due to the work of Grotheer et al. [Grotheer2022]_, as implemented in [Grotheer2023]_.">
+
+.. only:: html
+
+  .. image:: /howto/howto_examples/images/thumb/sphx_glr_baby_afq_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_howto_howto_examples_baby_afq.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">BabyAFQ : tractometry for infant dMRI data</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="The cerebellar peduncles are white matter tracts that connect the cerebellum to the brainstem and cortex. In this example, we show how to delineate the cerebellar peduncles using a subject from the Healthy Brain Network dataset.">
+
+.. only:: html
+
+  .. image:: /howto/howto_examples/images/thumb/sphx_glr_cerebellar_peduncles_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_howto_howto_examples_cerebellar_peduncles.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Delineating cerebellar peduncles</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="To analyze these datasets, large amounts of compute are needed. One way to gain access to massive computational power is by using cloud computing. Here, we will demonstrate how to use pyAFQ in the Amazon Web Services cloud.">
+
+.. only:: html
+
+  .. image:: /howto/howto_examples/images/thumb/sphx_glr_cloudknot_example_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_howto_howto_examples_cloudknot_example.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Using cloudknot to run pyAFQ on AWS batch:</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="AFQ with HCP data">
+
+.. only:: html
+
+  .. image:: /howto/howto_examples/images/thumb/sphx_glr_cloudknot_hcp_example_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_howto_howto_examples_cloudknot_hcp_example.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">AFQ with HCP data</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="pyAFQ is designed to be customizable and extensible. This example shows how you can customize it to define a new bundle based on a definition of waypoint and endpoint ROIs of your design. In this case, we add the acoustic radiations.">
+
+.. only:: html
+
+  .. image:: /howto/howto_examples/images/thumb/sphx_glr_plot_acoustic_radiations_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_howto_howto_examples_plot_acoustic_radiations.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">How to add new bundles into pyAFQ (Acoustic Radiations Example)</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Callosal bundles using AFQ API">
+
+.. only:: html
+
+  .. image:: /howto/howto_examples/images/thumb/sphx_glr_plot_afq_callosal_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_howto_howto_examples_plot_afq_callosal.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Callosal bundles using AFQ API</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="The free-water DTI model [1, 2]_ fits a two compartment model to dMRI data with more than one non-zero shell. One compartment is a spherical compartment with the diffusivity of water, which accounts for free water in the tissue. The other compartment is the standard diffusion tensor.">
+
+.. only:: html
+
+  .. image:: /howto/howto_examples/images/thumb/sphx_glr_plot_afq_fwdti_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_howto_howto_examples_plot_afq_fwdti.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">How to use Free water DTI</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="pyAFQ is designed to be customizable and extensible. This example shows how you can customize it to define a new bundle based on a definition of waypoint and endpoint ROIs of your design.">
+
+.. only:: html
+
+  .. image:: /howto/howto_examples/images/thumb/sphx_glr_plot_optic_radiations_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_howto_howto_examples_plot_optic_radiations.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">How to add new bundles into pyAFQ(Optic Radiations Example)</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="For bundle recognition, pyAFQ defaults to use the waypoint ROI approach described in [Yeatman2012]_. However, as an alternative approach, pyAFQ also supports using the RecoBundles algorithm [Garyfallidis2017]_, which uses an atlas of bundles in streamlines. This example shows how to use RecoBundles for bundle recognition.">
+
+.. only:: html
+
+  .. image:: /howto/howto_examples/images/thumb/sphx_glr_plot_recobundles_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_howto_howto_examples_plot_recobundles.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Using RecoBundles for bundle recognition</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Two-dimensional figures of anatomical data are somewhat limited, because of the complex three-dimensional configuration of the brain. Therefored, dynamic videos of anatomical data are useful for exploring the data, as well as for creating dynamic presentations of the results. This example visualizes various stages of tractometry, from preprocessed diffusion data to the final tract profiles. We will use the Fury software library to visualize individual frames of the results of each stage, and then create videos of each stage of the process using the Python Image Library (PIL, also known as pillow).">
+
+.. only:: html
+
+  .. image:: /howto/howto_examples/images/thumb/sphx_glr_plot_stages_of_tractometry_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_howto_howto_examples_plot_stages_of_tractometry.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Making videos the different stages of tractometry</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="An example using the AFQ API to find bundles as defined by endpoint ROIs from freesurfer. This example can be modified to work with ROIs in subject space from pipelines other than freesurfer.">
+
+.. only:: html
+
+  .. image:: /howto/howto_examples/images/thumb/sphx_glr_use_subject_space_rois_from_freesurfer_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_howto_howto_examples_use_subject_space_rois_from_freesurfer.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Using Subject Space ROIs from Freesurfer</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="The pyAFQ software can be configured to find all of its default set of white matter pathways, or bundles. Alternatively, it can be configured to find only some bundles. This example shows how to track and recognize only certain bundles that you are interested in, though note that ARC, pARC and VOF are all also part of the set of bundles that are segmented per default.">
+
+.. only:: html
+
+  .. image:: /howto/howto_examples/images/thumb/sphx_glr_vof_example_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_howto_howto_examples_vof_example.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">How to segment out only some bundles</div>
+    </div>
+
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /howto/howto_examples/add_custom_bundle
+   /howto/howto_examples/baby_afq
+   /howto/howto_examples/cerebellar_peduncles
+   /howto/howto_examples/cloudknot_example
+   /howto/howto_examples/cloudknot_hcp_example
+   /howto/howto_examples/plot_acoustic_radiations
+   /howto/howto_examples/plot_afq_callosal
+   /howto/howto_examples/plot_afq_fwdti
+   /howto/howto_examples/plot_optic_radiations
+   /howto/howto_examples/plot_recobundles
+   /howto/howto_examples/plot_stages_of_tractometry
+   /howto/howto_examples/use_subject_space_rois_from_freesurfer
+   /howto/howto_examples/vof_example
+
+
+.. only:: html
+
+  .. container:: sphx-glr-footer sphx-glr-footer-gallery
+
+    .. container:: sphx-glr-download sphx-glr-download-python
+
+      :download:`Download all examples in Python source code: howto_examples_python.zip </howto/howto_examples/howto_examples_python.zip>`
+
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
+
+      :download:`Download all examples in Jupyter notebooks: howto_examples_jupyter.zip </howto/howto_examples/howto_examples_jupyter.zip>`
+
+
+.. only:: html
+
+ .. rst-class:: sphx-glr-signature
+
+    `Gallery generated by Sphinx-Gallery <https://sphinx-gallery.github.io>`_

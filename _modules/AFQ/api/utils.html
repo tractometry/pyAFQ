@@ -1,0 +1,658 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AFQ.api.utils &#8212; AFQ 1.3.5 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/design-tabs.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/AFQ/api/utils';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.5 documentation - Home"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.5 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../tutorials/index.html">
+    Getting started with pyAFQ
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../howto/index.html">
+    How To
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../reference/index.html">
+    Reference Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../reference/api/index.html">
+    API Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/tractometry/pyAFQ" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../tutorials/index.html">
+    Getting started with pyAFQ
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../howto/index.html">
+    How To
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../reference/index.html">
+    Reference Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../reference/api/index.html">
+    API Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/tractometry/pyAFQ" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../AFQ.html" class="nav-link">AFQ</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">AFQ.api.utils</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for AFQ.api.utils</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">contextlib</span>
+<span class="kn">from</span> <span class="nn">importlib</span> <span class="kn">import</span> <span class="n">import_module</span>
+<span class="kn">from</span> <span class="nn">AFQ.viz.utils</span> <span class="kn">import</span> <span class="n">viz_import_msg_error</span>
+<span class="kn">import</span> <span class="nn">pimms</span>
+<span class="kn">from</span> <span class="nn">funcargparse</span> <span class="kn">import</span> <span class="n">FuncArgParser</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">from</span> <span class="nn">dipy.io.stateful_tractogram</span> <span class="kn">import</span> <span class="n">set_sft_logger_level</span>
+
+
+<span class="k">with</span> <span class="n">contextlib</span><span class="o">.</span><span class="n">suppress</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>  <span class="c1"># only works on python 3.9</span>
+    <span class="kn">from</span> <span class="nn">outdated</span> <span class="kn">import</span> <span class="n">OutdatedPackageWarning</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">OutdatedPackageWarning</span><span class="p">)</span>
+
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;methods_descriptors&quot;</span><span class="p">,</span> <span class="s2">&quot;kwargs_descriptors&quot;</span><span class="p">,</span> <span class="s2">&quot;AFQclass_doc&quot;</span><span class="p">]</span>
+
+
+<span class="n">set_sft_logger_level</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">)</span>
+
+
+<span class="n">task_modules</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;mapping&quot;</span><span class="p">,</span> <span class="s2">&quot;segmentation&quot;</span><span class="p">,</span> <span class="s2">&quot;tractography&quot;</span><span class="p">,</span> <span class="s2">&quot;viz&quot;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="methods_descriptors"><a class="viewcode-back" href="../../../reference/api/AFQ/api/utils/index.html#AFQ.api.utils.methods_descriptors">[docs]</a><span class="n">methods_descriptors</span> <span class="o">=</span> <span class="p">{}</span></div>
+<span class="n">methods_sections</span> <span class="o">=</span> <span class="p">{}</span>
+<div class="viewcode-block" id="kwargs_descriptors"><a class="viewcode-back" href="../../../reference/api/AFQ/api/utils/index.html#AFQ.api.utils.kwargs_descriptors">[docs]</a><span class="n">kwargs_descriptors</span> <span class="o">=</span> <span class="p">{}</span></div>
+<span class="k">for</span> <span class="n">task_module</span> <span class="ow">in</span> <span class="n">task_modules</span><span class="p">:</span>
+    <span class="n">kwargs_descriptors</span><span class="p">[</span><span class="n">task_module</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">calc_obj</span> <span class="ow">in</span> <span class="n">import_module</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;AFQ.tasks.</span><span class="si">{</span><span class="n">task_module</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">calc_obj</span><span class="p">,</span> <span class="n">pimms</span><span class="o">.</span><span class="n">calculation</span><span class="o">.</span><span class="n">Calc</span><span class="p">):</span>
+            <span class="n">docstr_parser</span> <span class="o">=</span> <span class="n">FuncArgParser</span><span class="p">()</span>
+            <span class="n">docstr_parser</span><span class="o">.</span><span class="n">setup_args</span><span class="p">(</span><span class="n">calc_obj</span><span class="o">.</span><span class="n">function</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">calc_obj</span><span class="o">.</span><span class="n">efferents</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">eff_descs</span> <span class="o">=</span> <span class="n">docstr_parser</span><span class="o">.</span><span class="n">description</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">eff_descs</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">calc_obj</span><span class="o">.</span><span class="n">efferents</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">((</span>
+                        <span class="s2">&quot;If calc method has mutliple outputs, &quot;</span>
+                        <span class="s2">&quot;their descriptions must be divided by commas.&quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">calc_obj</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> has </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">eff_descs</span><span class="p">)</span><span class="si">}</span><span class="s2"> comma-divided&quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;sections but </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">calc_obj</span><span class="o">.</span><span class="n">efferents</span><span class="p">)</span><span class="si">}</span><span class="s2"> outputs&quot;</span><span class="p">))</span>
+                <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">calc_obj</span><span class="o">.</span><span class="n">efferents</span><span class="p">)):</span>
+                    <span class="k">if</span> <span class="n">eff_descs</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">]:</span>
+                        <span class="n">eff_descs</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="n">eff_descs</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="mi">1</span><span class="p">:]</span>
+                    <span class="k">if</span> <span class="n">eff_descs</span><span class="p">[</span><span class="n">ii</span><span class="p">][:</span><span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;and&quot;</span><span class="p">:</span>
+                        <span class="n">eff_descs</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="n">eff_descs</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="mi">3</span><span class="p">:]</span>
+                    <span class="k">if</span> <span class="n">eff_descs</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">]:</span>
+                        <span class="n">eff_descs</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="n">eff_descs</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="mi">1</span><span class="p">:]</span>
+                    <span class="n">methods_descriptors</span><span class="p">[</span>
+                        <span class="n">calc_obj</span><span class="o">.</span><span class="n">efferents</span><span class="p">[</span><span class="n">ii</span><span class="p">]]</span> <span class="o">=</span>\
+                        <span class="n">eff_descs</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
+                    <span class="n">methods_sections</span><span class="p">[</span><span class="n">calc_obj</span><span class="o">.</span><span class="n">efferents</span><span class="p">[</span><span class="n">ii</span><span class="p">]]</span> <span class="o">=</span>\
+                        <span class="n">task_module</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">methods_descriptors</span><span class="p">[</span>
+                    <span class="n">calc_obj</span><span class="o">.</span><span class="n">efferents</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span>\
+                    <span class="n">docstr_parser</span><span class="o">.</span><span class="n">description</span>
+                <span class="n">methods_sections</span><span class="p">[</span><span class="n">calc_obj</span><span class="o">.</span><span class="n">efferents</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span>\
+                    <span class="n">task_module</span>
+            <span class="k">for</span> <span class="n">arg</span><span class="p">,</span> <span class="n">info</span> <span class="ow">in</span> <span class="n">docstr_parser</span><span class="o">.</span><span class="n">unfinished_arguments</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="s2">&quot;help&quot;</span> <span class="ow">in</span> <span class="n">info</span><span class="p">:</span>
+                    <span class="n">default</span> <span class="o">=</span> <span class="n">info</span><span class="p">[</span><span class="s2">&quot;default&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;default&quot;</span> <span class="ow">in</span> <span class="n">info</span> <span class="k">else</span> <span class="kc">None</span>
+                    <span class="n">kwargs_descriptors</span><span class="p">[</span><span class="n">task_module</span><span class="p">][</span><span class="n">arg</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+                        <span class="n">desc</span><span class="o">=</span><span class="n">info</span><span class="p">[</span><span class="s2">&quot;help&quot;</span><span class="p">],</span>
+                        <span class="n">kind</span><span class="o">=</span><span class="n">info</span><span class="p">[</span><span class="s2">&quot;metavar&quot;</span><span class="p">],</span>
+                        <span class="n">default</span><span class="o">=</span><span class="n">default</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">arg</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">methods_sections</span><span class="p">:</span>
+                    <span class="n">methods_sections</span><span class="p">[</span><span class="n">arg</span><span class="p">]</span> <span class="o">=</span> <span class="n">task_module</span>
+
+
+<span class="n">AFQclass_doc</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">&quot;Here are the arguments you can pass to kwargs,&quot;</span>
+    <span class="s2">&quot; to customize the tractometry pipeline. They are organized&quot;</span>
+    <span class="s2">&quot; into 5 sections.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">task_module</span> <span class="ow">in</span> <span class="n">task_modules</span><span class="p">:</span>
+<div class="viewcode-block" id="AFQclass_doc"><a class="viewcode-back" href="../../../reference/api/AFQ/api/utils/index.html#AFQ.api.utils.AFQclass_doc">[docs]</a>    <span class="n">AFQclass_doc</span> <span class="o">=</span> <span class="n">AFQclass_doc</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span></div>
+    <span class="n">AFQclass_doc</span> <span class="o">=</span> <span class="n">AFQclass_doc</span> <span class="o">+</span>\
+        <span class="s2">&quot;==========================================================</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="n">AFQclass_doc</span> <span class="o">=</span> <span class="n">AFQclass_doc</span> <span class="o">+</span> <span class="n">task_module</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="n">AFQclass_doc</span> <span class="o">=</span> <span class="n">AFQclass_doc</span> <span class="o">+</span>\
+        <span class="s2">&quot;==========================================================</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="k">for</span> <span class="n">arg</span><span class="p">,</span> <span class="n">info</span> <span class="ow">in</span> <span class="n">kwargs_descriptors</span><span class="p">[</span><span class="n">task_module</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">AFQclass_doc</span> <span class="o">=</span> <span class="n">AFQclass_doc</span> <span class="o">+</span> <span class="n">arg</span> <span class="o">+</span> <span class="s2">&quot;: &quot;</span> <span class="o">+</span> <span class="n">info</span><span class="p">[</span><span class="s2">&quot;kind&quot;</span><span class="p">]</span>
+        <span class="n">AFQclass_doc</span> <span class="o">=</span> <span class="n">AFQclass_doc</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n\t</span><span class="s2">&quot;</span>
+        <span class="n">AFQclass_doc</span> <span class="o">=</span> <span class="n">AFQclass_doc</span> <span class="o">+</span> <span class="n">info</span><span class="p">[</span><span class="s2">&quot;desc&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+            <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n\t</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">AFQclass_doc</span> <span class="o">=</span> <span class="n">AFQclass_doc</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+
+
+<span class="n">valid_exports_string</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">&quot;Here is a list of valid attributes &quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;to export: </span><span class="si">{</span><span class="n">methods_sections</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">check_attribute</span><span class="p">(</span><span class="n">attr_name</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">attr_name</span> <span class="o">==</span> <span class="s2">&quot;help&quot;</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">valid_exports_string</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="n">attr_name</span> <span class="ow">in</span> <span class="n">methods_sections</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">methods_sections</span><span class="p">[</span><span class="n">attr_name</span><span class="p">]</span> <span class="o">==</span> <span class="n">task_modules</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">methods_sections</span><span class="p">[</span><span class="n">attr_name</span><span class="p">]</span><span class="si">}</span><span class="s2">_imap&quot;</span>
+
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">attr_name</span><span class="si">}</span><span class="s2"> not found for export. </span><span class="si">{</span><span class="n">valid_exports_string</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">export_all_helper</span><span class="p">(</span><span class="n">api_afq_object</span><span class="p">,</span> <span class="n">xforms</span><span class="p">,</span> <span class="n">indiv</span><span class="p">,</span> <span class="n">viz</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">xforms</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">api_afq_object</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;b0_warped&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">api_afq_object</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">((</span>
+                <span class="s2">&quot;Failed to export warped b0. This could be because your &quot;</span>
+                <span class="s2">&quot;mapping type is only compatible with transformation &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;from template to subject space. The error is: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
+        <span class="n">api_afq_object</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;template_xform&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">indiv</span><span class="p">:</span>
+        <span class="n">api_afq_object</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;indiv_bundles&quot;</span><span class="p">)</span>
+        <span class="n">api_afq_object</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;rois&quot;</span><span class="p">)</span>
+    <span class="n">api_afq_object</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;sl_counts&quot;</span><span class="p">)</span>
+    <span class="n">api_afq_object</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;median_bundle_lengths&quot;</span><span class="p">)</span>
+    <span class="n">api_afq_object</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;profiles&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">viz</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">api_afq_object</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;tract_profile_plots&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">plot_err_message</span> <span class="o">=</span> <span class="n">viz_import_msg_error</span><span class="p">(</span><span class="s2">&quot;plot&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="o">!=</span> <span class="n">plot_err_message</span><span class="p">:</span>
+                <span class="k">raise</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">api_afq_object</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">plot_err_message</span><span class="p">)</span>
+        <span class="n">api_afq_object</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;all_bundles_figure&quot;</span><span class="p">)</span>
+        <span class="n">api_afq_object</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;indiv_bundles_figures&quot;</span><span class="p">)</span>
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2018--, The pyAFQ Contributors.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-156363454-2");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+  </body>
+</html>

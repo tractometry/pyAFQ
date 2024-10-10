@@ -1,0 +1,903 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AFQ.api.participant &#8212; AFQ 1.3.5 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/design-tabs.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/AFQ/api/participant';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.5 documentation - Home"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.5 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../tutorials/index.html">
+    Getting started with pyAFQ
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../howto/index.html">
+    How To
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../reference/index.html">
+    Reference Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../reference/api/index.html">
+    API Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/tractometry/pyAFQ" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../tutorials/index.html">
+    Getting started with pyAFQ
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../howto/index.html">
+    How To
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../reference/index.html">
+    Reference Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../reference/api/index.html">
+    API Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/tractometry/pyAFQ" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../AFQ.html" class="nav-link">AFQ</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">AFQ.api.participant</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for AFQ.api.participant</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">nibabel</span> <span class="k">as</span> <span class="nn">nib</span>
+<span class="kn">import</span> <span class="nn">os.path</span> <span class="k">as</span> <span class="nn">op</span>
+<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">tempfile</span>
+<span class="kn">import</span> <span class="nn">math</span>
+
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span><span class="p">,</span> <span class="n">ImageDraw</span><span class="p">,</span> <span class="n">ImageFont</span>
+
+<span class="kn">from</span> <span class="nn">AFQ.definitions.mapping</span> <span class="kn">import</span> <span class="n">SlrMap</span>
+<span class="kn">from</span> <span class="nn">AFQ.api.utils</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">check_attribute</span><span class="p">,</span> <span class="n">AFQclass_doc</span><span class="p">,</span>
+    <span class="n">export_all_helper</span><span class="p">,</span> <span class="n">valid_exports_string</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">AFQ.tasks.data</span> <span class="kn">import</span> <span class="n">get_data_plan</span>
+<span class="kn">from</span> <span class="nn">AFQ.tasks.mapping</span> <span class="kn">import</span> <span class="n">get_mapping_plan</span>
+<span class="kn">from</span> <span class="nn">AFQ.tasks.tractography</span> <span class="kn">import</span> <span class="n">get_tractography_plan</span>
+<span class="kn">from</span> <span class="nn">AFQ.tasks.segmentation</span> <span class="kn">import</span> <span class="n">get_segmentation_plan</span>
+<span class="kn">from</span> <span class="nn">AFQ.tasks.viz</span> <span class="kn">import</span> <span class="n">get_viz_plan</span>
+<span class="kn">from</span> <span class="nn">AFQ.tasks.utils</span> <span class="kn">import</span> <span class="n">get_base_fname</span>
+<span class="kn">from</span> <span class="nn">AFQ.utils.path</span> <span class="kn">import</span> <span class="n">apply_cmd_to_afq_derivs</span>
+<span class="kn">from</span> <span class="nn">AFQ.viz.utils</span> <span class="kn">import</span> <span class="n">BEST_BUNDLE_ORIENTATIONS</span><span class="p">,</span> <span class="n">trim</span><span class="p">,</span> <span class="n">get_eye</span>
+
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;ParticipantAFQ&quot;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="ParticipantAFQ"><a class="viewcode-back" href="../../../reference/api/AFQ/api/participant/index.html#AFQ.api.participant.ParticipantAFQ">[docs]</a><span class="k">class</span> <span class="nc">ParticipantAFQ</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="si">{</span><span class="n">AFQclass_doc</span><span class="si">}</span><span class="s2">&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">dwi_data_file</span><span class="p">,</span>
+                 <span class="n">bval_file</span><span class="p">,</span> <span class="n">bvec_file</span><span class="p">,</span>
+                 <span class="n">output_dir</span><span class="p">,</span>
+                 <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a ParticipantAFQ object.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dwi_data_file : str</span>
+<span class="sd">            Path to DWI data file.</span>
+<span class="sd">        bval_file : str</span>
+<span class="sd">            Path to bval file.</span>
+<span class="sd">        bvec_file : str</span>
+<span class="sd">            Path to bvec file.</span>
+<span class="sd">        output_dir : str</span>
+<span class="sd">            Path to output directory.</span>
+<span class="sd">        kwargs : additional optional parameters</span>
+<span class="sd">            You can set additional parameters for any step</span>
+<span class="sd">            of the process. See :ref:`usage/kwargs` for more details.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        api.ParticipantAFQ(</span>
+<span class="sd">            dwi_data_file, bval_file, bvec_file, output_dir,</span>
+<span class="sd">            csd_sh_order=4)</span>
+<span class="sd">        api.ParticipantAFQ(</span>
+<span class="sd">            dwi_data_file, bval_file, bvec_file, output_dir,</span>
+<span class="sd">            reg_template_spec=&quot;mni_t2&quot;, reg_subject_spec=&quot;b0&quot;)</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        In tracking_params, parameters with the suffix mask which are also</span>
+<span class="sd">        an image from AFQ.definitions.image will be handled automatically by</span>
+<span class="sd">        the api.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s2">&quot;output_dir must be a str&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dwi_data_file</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s2">&quot;dwi_data_file must be a str&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bval_file</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s2">&quot;bval_file must be a str&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bvec_file</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s2">&quot;bvec_file must be a str&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">op</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">output_dir</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;output_dir does not exist: </span><span class="si">{</span><span class="n">output_dir</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;tractography_params&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">((</span>
+                <span class="s2">&quot;unrecognized parameter tractography_params, &quot;</span>
+                <span class="s2">&quot;did you mean tracking_params ?&quot;</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;AFQ&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+            <span class="n">dwi_data_file</span><span class="o">=</span><span class="n">dwi_data_file</span><span class="p">,</span>
+            <span class="n">bval_file</span><span class="o">=</span><span class="n">bval_file</span><span class="p">,</span>
+            <span class="n">bvec_file</span><span class="o">=</span><span class="n">bvec_file</span><span class="p">,</span>
+            <span class="n">output_dir</span><span class="o">=</span><span class="n">output_dir</span><span class="p">,</span>
+            <span class="n">base_fname</span><span class="o">=</span><span class="n">get_base_fname</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">dwi_data_file</span><span class="p">),</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">make_workflow</span><span class="p">()</span>
+
+<div class="viewcode-block" id="ParticipantAFQ.make_workflow"><a class="viewcode-back" href="../../../reference/api/AFQ/api/participant/index.html#AFQ.api.participant.ParticipantAFQ.make_workflow">[docs]</a>    <span class="k">def</span> <span class="nf">make_workflow</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># construct pimms plans</span>
+        <span class="k">if</span> <span class="s2">&quot;mapping_definition&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;mapping_definition&quot;</span><span class="p">],</span> <span class="n">SlrMap</span><span class="p">):</span>
+            <span class="n">plans</span> <span class="o">=</span> <span class="p">{</span>  <span class="c1"># if using SLR map, do tractography first</span>
+                <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">get_data_plan</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">),</span>
+                <span class="s2">&quot;tractography&quot;</span><span class="p">:</span> <span class="n">get_tractography_plan</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span>
+                <span class="p">),</span>
+                <span class="s2">&quot;mapping&quot;</span><span class="p">:</span> <span class="n">get_mapping_plan</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">,</span>
+                    <span class="n">use_sls</span><span class="o">=</span><span class="kc">True</span>
+                <span class="p">),</span>
+                <span class="s2">&quot;segmentation&quot;</span><span class="p">:</span> <span class="n">get_segmentation_plan</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">),</span>
+                <span class="s2">&quot;viz&quot;</span><span class="p">:</span> <span class="n">get_viz_plan</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">plans</span> <span class="o">=</span> <span class="p">{</span>  <span class="c1"># Otherwise, do mapping first</span>
+                <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">get_data_plan</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">),</span>
+                <span class="s2">&quot;mapping&quot;</span><span class="p">:</span> <span class="n">get_mapping_plan</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">),</span>
+                <span class="s2">&quot;tractography&quot;</span><span class="p">:</span> <span class="n">get_tractography_plan</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span>
+                <span class="p">),</span>
+                <span class="s2">&quot;segmentation&quot;</span><span class="p">:</span> <span class="n">get_segmentation_plan</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">),</span>
+                <span class="s2">&quot;viz&quot;</span><span class="p">:</span> <span class="n">get_viz_plan</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)}</span>
+
+        <span class="c1"># chain together a complete plan from individual plans</span>
+        <span class="n">previous_data</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">plan</span> <span class="ow">in</span> <span class="n">plans</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">previous_data</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">_imap&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">plan</span><span class="p">(</span>
+                <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">previous_data</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">wf_dict</span> <span class="o">=</span>\
+            <span class="n">previous_data</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">_imap&quot;</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="ParticipantAFQ.export"><a class="viewcode-back" href="../../../reference/api/AFQ/api/participant/index.html#AFQ.api.participant.ParticipantAFQ.export">[docs]</a>    <span class="k">def</span> <span class="nf">export</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr_name</span><span class="o">=</span><span class="s2">&quot;help&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Export a specific output. To print a list of available outputs,</span>
+<span class="sd">        call export without arguments.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        attr_name : str</span>
+<span class="sd">            Name of the output to export. Default: &quot;help&quot;</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        output : any</span>
+<span class="sd">            The specific output, or None if called without arguments.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">section</span> <span class="o">=</span> <span class="n">check_attribute</span><span class="p">(</span><span class="n">attr_name</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">section</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wf_dict</span><span class="p">[</span><span class="n">attr_name</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wf_dict</span><span class="p">[</span><span class="n">section</span><span class="p">][</span><span class="n">attr_name</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="ParticipantAFQ.export_up_to"><a class="viewcode-back" href="../../../reference/api/AFQ/api/participant/index.html#AFQ.api.participant.ParticipantAFQ.export_up_to">[docs]</a>    <span class="k">def</span> <span class="nf">export_up_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr_name</span><span class="o">=</span><span class="s2">&quot;help&quot;</span><span class="p">):</span>
+        <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        Export all derivatives necessary for a specific output.</span>
+<span class="s2">        To print a list of available outputs,</span>
+<span class="s2">        call export_up_to without arguments.</span>
+<span class="s2">        </span><span class="si">{</span><span class="n">valid_exports_string</span><span class="si">}</span>
+
+<span class="s2">        Parameters</span>
+<span class="s2">        ----------</span>
+<span class="s2">        attr_name : str</span>
+<span class="s2">            Name of the output to export up to. Default: &quot;help&quot;</span>
+<span class="s2">        &quot;&quot;&quot;</span>
+        <span class="n">section</span> <span class="o">=</span> <span class="n">check_attribute</span><span class="p">(</span><span class="n">attr_name</span><span class="p">)</span>
+        <span class="n">wf_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">wf_dict</span>
+        <span class="k">if</span> <span class="n">section</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">wf_dict</span> <span class="o">=</span> <span class="n">wf_dict</span><span class="p">[</span><span class="n">section</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">dependent</span> <span class="ow">in</span> <span class="n">wf_dict</span><span class="o">.</span><span class="n">plan</span><span class="o">.</span><span class="n">dependencies</span><span class="p">[</span><span class="n">attr_name</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">dependent</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ParticipantAFQ.export_all"><a class="viewcode-back" href="../../../reference/api/AFQ/api/participant/index.html#AFQ.api.participant.ParticipantAFQ.export_all">[docs]</a>    <span class="k">def</span> <span class="nf">export_all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">viz</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">xforms</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                   <span class="n">indiv</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sa">f</span><span class="s2">&quot;&quot;&quot; Exports all the possible outputs</span>
+<span class="s2">        </span><span class="si">{</span><span class="n">valid_exports_string</span><span class="si">}</span>
+
+<span class="s2">        Parameters</span>
+<span class="s2">        ----------</span>
+<span class="s2">        viz : bool</span>
+<span class="s2">            Whether to output visualizations. This includes tract profile</span>
+<span class="s2">            plots, a figure containing all bundles, and, if using the AFQ</span>
+<span class="s2">            segmentation algorithm, individual bundle figures.</span>
+<span class="s2">            Default: True</span>
+<span class="s2">        xforms : bool</span>
+<span class="s2">            Whether to output the reg_template image in subject space and,</span>
+<span class="s2">            depending on if it is possible based on the mapping used, to</span>
+<span class="s2">            output the b0 in template space.</span>
+<span class="s2">            Default: True</span>
+<span class="s2">        indiv : bool</span>
+<span class="s2">            Whether to output individual bundles in their own files, in</span>
+<span class="s2">            addition to the one file containing all bundles. If using</span>
+<span class="s2">            the AFQ segmentation algorithm, individual ROIs are also</span>
+<span class="s2">            output.</span>
+<span class="s2">            Default: True</span>
+<span class="s2">        &quot;&quot;&quot;</span>
+        <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+        <span class="n">export_all_helper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xforms</span><span class="p">,</span> <span class="n">indiv</span><span class="p">,</span> <span class="n">viz</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Time taken for export all: </span><span class="si">{</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start_time</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ParticipantAFQ.participant_montage"><a class="viewcode-back" href="../../../reference/api/AFQ/api/participant/index.html#AFQ.api.participant.ParticipantAFQ.participant_montage">[docs]</a>    <span class="k">def</span> <span class="nf">participant_montage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">images_per_row</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate montage of all bundles for a given subject.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        images_per_row : int</span>
+<span class="sd">            Number of bundle images per row in output file.</span>
+<span class="sd">            Default: 2</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        filename of montage images</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tdir</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">gettempdir</span><span class="p">()</span>
+
+        <span class="n">all_fnames</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">bundle_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;bundle_dict&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Generating Montage...&quot;</span><span class="p">)</span>
+        <span class="n">viz_backend</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;viz_backend&quot;</span><span class="p">)</span>
+        <span class="n">best_scalar</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;best_scalar&quot;</span><span class="p">))</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="n">images_per_row</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">bundle_dict</span><span class="p">)</span> <span class="o">/</span> <span class="n">images_per_row</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">ii</span><span class="p">,</span> <span class="n">bundle_name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tqdm</span><span class="p">(</span><span class="n">bundle_dict</span><span class="p">)):</span>
+            <span class="n">flip_axes</span> <span class="o">=</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+                <span class="n">flip_axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;dwi_affine&quot;</span><span class="p">)[</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+
+            <span class="n">figure</span> <span class="o">=</span> <span class="n">viz_backend</span><span class="o">.</span><span class="n">visualize_volume</span><span class="p">(</span>
+                <span class="n">best_scalar</span><span class="p">,</span>
+                <span class="n">flip_axes</span><span class="o">=</span><span class="n">flip_axes</span><span class="p">,</span>
+                <span class="n">interact</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">inline</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">figure</span> <span class="o">=</span> <span class="n">viz_backend</span><span class="o">.</span><span class="n">visualize_bundles</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;bundles&quot;</span><span class="p">),</span>
+                <span class="n">shade_by_volume</span><span class="o">=</span><span class="n">best_scalar</span><span class="p">,</span>
+                <span class="n">color_by_direction</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">flip_axes</span><span class="o">=</span><span class="n">flip_axes</span><span class="p">,</span>
+                <span class="n">bundle</span><span class="o">=</span><span class="n">bundle_name</span><span class="p">,</span>
+                <span class="n">figure</span><span class="o">=</span><span class="n">figure</span><span class="p">,</span>
+                <span class="n">interact</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">inline</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+            <span class="n">view</span><span class="p">,</span> <span class="n">direc</span> <span class="o">=</span> <span class="n">BEST_BUNDLE_ORIENTATIONS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                <span class="n">bundle_name</span><span class="p">,</span> <span class="p">(</span><span class="s2">&quot;Axial&quot;</span><span class="p">,</span> <span class="s2">&quot;Top&quot;</span><span class="p">))</span>
+            <span class="n">eye</span> <span class="o">=</span> <span class="n">get_eye</span><span class="p">(</span><span class="n">view</span><span class="p">,</span> <span class="n">direc</span><span class="p">)</span>
+
+            <span class="n">this_fname</span> <span class="o">=</span> <span class="n">tdir</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;/t</span><span class="si">{</span><span class="n">ii</span><span class="si">}</span><span class="s2">.png&quot;</span>
+            <span class="k">if</span> <span class="s2">&quot;plotly&quot;</span> <span class="ow">in</span> <span class="n">viz_backend</span><span class="o">.</span><span class="n">backend</span><span class="p">:</span>
+                <span class="n">figure</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
+                    <span class="n">scene_camera</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+                        <span class="n">projection</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;orthographic&quot;</span><span class="p">),</span>
+                        <span class="n">up</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+                        <span class="n">eye</span><span class="o">=</span><span class="n">eye</span><span class="p">,</span>
+                        <span class="n">center</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="mi">0</span><span class="p">)),</span>
+                    <span class="n">showlegend</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">figure</span><span class="o">.</span><span class="n">write_image</span><span class="p">(</span><span class="n">this_fname</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+                <span class="c1"># temporary fix for memory leak</span>
+                <span class="kn">import</span> <span class="nn">plotly.io</span> <span class="k">as</span> <span class="nn">pio</span>
+                <span class="n">pio</span><span class="o">.</span><span class="n">kaleido</span><span class="o">.</span><span class="n">scope</span><span class="o">.</span><span class="n">_shutdown_kaleido</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="kn">from</span> <span class="nn">dipy.viz</span> <span class="kn">import</span> <span class="n">window</span>
+                <span class="n">direc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span><span class="n">eye</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+                <span class="n">data_shape</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
+                    <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;b0&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+                <span class="n">figure</span><span class="o">.</span><span class="n">set_camera</span><span class="p">(</span>
+                    <span class="n">position</span><span class="o">=</span><span class="n">direc</span> <span class="o">*</span> <span class="n">data_shape</span><span class="p">,</span>
+                    <span class="n">focal_point</span><span class="o">=</span><span class="n">data_shape</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span>
+                    <span class="n">view_up</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+                <span class="n">figure</span><span class="o">.</span><span class="n">zoom</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+                <span class="n">window</span><span class="o">.</span><span class="n">snapshot</span><span class="p">(</span><span class="n">figure</span><span class="p">,</span> <span class="n">fname</span><span class="o">=</span><span class="n">this_fname</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span> <span class="mi">600</span><span class="p">))</span>
+
+        <span class="k">def</span> <span class="nf">_save_file</span><span class="p">(</span><span class="n">curr_img</span><span class="p">):</span>
+            <span class="n">save_path</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;output_dir&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;bundle_montage.png&quot;</span><span class="p">))</span>
+            <span class="n">curr_img</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">save_path</span><span class="p">)</span>
+            <span class="n">all_fnames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">save_path</span><span class="p">)</span>
+
+        <span class="n">this_img_trimmed</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">max_height</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">max_width</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">ii</span><span class="p">,</span> <span class="n">bundle_name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">bundle_dict</span><span class="p">):</span>
+            <span class="n">this_img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">tdir</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;/t</span><span class="si">{</span><span class="n">ii</span><span class="si">}</span><span class="s2">.png&quot;</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">this_img_trimmed</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="n">trim</span><span class="p">(</span><span class="n">this_img</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>  <span class="c1"># this_img is a picture of nothing</span>
+                <span class="n">this_img_trimmed</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="n">this_img</span>
+
+            <span class="n">text_sz</span> <span class="o">=</span> <span class="mi">70</span>
+            <span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="n">this_img_trimmed</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span><span class="o">.</span><span class="n">size</span>
+            <span class="n">height</span> <span class="o">=</span> <span class="n">height</span> <span class="o">+</span> <span class="n">text_sz</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span>
+                <span class="n">this_img_trimmed</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span> <span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">),</span>
+                <span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">))</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">paste</span><span class="p">(</span><span class="n">this_img_trimmed</span><span class="p">[</span><span class="n">ii</span><span class="p">],</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">text_sz</span><span class="p">))</span>
+            <span class="n">this_img_trimmed</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span>
+
+            <span class="n">draw</span> <span class="o">=</span> <span class="n">ImageDraw</span><span class="o">.</span><span class="n">Draw</span><span class="p">(</span><span class="n">this_img_trimmed</span><span class="p">[</span><span class="n">ii</span><span class="p">])</span>
+            <span class="n">draw</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+                <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">bundle_name</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                <span class="n">font</span><span class="o">=</span><span class="n">ImageFont</span><span class="o">.</span><span class="n">truetype</span><span class="p">(</span>
+                    <span class="s2">&quot;Arial&quot;</span><span class="p">,</span> <span class="n">text_sz</span><span class="p">))</span>
+
+            <span class="k">if</span> <span class="n">this_img_trimmed</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">max_width</span><span class="p">:</span>
+                <span class="n">max_width</span> <span class="o">=</span> <span class="n">this_img_trimmed</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">this_img_trimmed</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">max_height</span><span class="p">:</span>
+                <span class="n">max_height</span> <span class="o">=</span> <span class="n">this_img_trimmed</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="n">curr_img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span>
+            <span class="s1">&#39;RGB&#39;</span><span class="p">,</span>
+            <span class="p">(</span><span class="n">max_width</span> <span class="o">*</span> <span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">max_height</span> <span class="o">*</span> <span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+            <span class="n">color</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">bundle_dict</span><span class="p">)):</span>
+            <span class="n">x_pos</span> <span class="o">=</span> <span class="n">ii</span> <span class="o">%</span> <span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">_ii</span> <span class="o">=</span> <span class="n">ii</span> <span class="o">//</span> <span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">y_pos</span> <span class="o">=</span> <span class="n">_ii</span> <span class="o">%</span> <span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">_ii</span> <span class="o">=</span> <span class="n">_ii</span> <span class="o">//</span> <span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">this_img</span> <span class="o">=</span> <span class="n">this_img_trimmed</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span><span class="o">.</span><span class="n">resize</span><span class="p">((</span><span class="n">max_width</span><span class="p">,</span> <span class="n">max_height</span><span class="p">))</span>
+            <span class="n">curr_img</span><span class="o">.</span><span class="n">paste</span><span class="p">(</span>
+                <span class="n">this_img</span><span class="p">,</span>
+                <span class="p">(</span><span class="n">x_pos</span> <span class="o">*</span> <span class="n">max_width</span><span class="p">,</span> <span class="n">y_pos</span> <span class="o">*</span> <span class="n">max_height</span><span class="p">))</span>
+
+        <span class="n">_save_file</span><span class="p">(</span><span class="n">curr_img</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">all_fnames</span></div>
+
+<div class="viewcode-block" id="ParticipantAFQ.cmd_outputs"><a class="viewcode-back" href="../../../reference/api/AFQ/api/participant/index.html#AFQ.api.participant.ParticipantAFQ.cmd_outputs">[docs]</a>    <span class="k">def</span> <span class="nf">cmd_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmd</span><span class="o">=</span><span class="s2">&quot;rm&quot;</span><span class="p">,</span> <span class="n">dependent_on</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exceptions</span><span class="o">=</span><span class="p">[],</span>
+                    <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Perform some command some or all outputs of pyafq.</span>
+<span class="sd">        This is useful if you change a parameter and need</span>
+<span class="sd">        to recalculate derivatives that depend on it.</span>
+<span class="sd">        Some examples: cp, mv, rm .</span>
+<span class="sd">        -r will be automtically added when necessary.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        cmd : str</span>
+<span class="sd">            Command to run on outputs. Default: &#39;rm&#39;</span>
+<span class="sd">        dependent_on : str or None</span>
+<span class="sd">            Which derivatives to perform command on .</span>
+<span class="sd">            If None, perform on all.</span>
+<span class="sd">            If &quot;track&quot;, perform on all derivatives that depend on the</span>
+<span class="sd">            tractography.</span>
+<span class="sd">            If &quot;recog&quot;, perform on all derivatives that depend on the</span>
+<span class="sd">            bundle recognition.</span>
+<span class="sd">            If &quot;prof&quot;, perform on all derivatives that depend on the</span>
+<span class="sd">            bundle profiling.</span>
+<span class="sd">            Default: None</span>
+<span class="sd">        exceptions : list of str</span>
+<span class="sd">            Name outputs that the command should not be applied to.</span>
+<span class="sd">            Default: []</span>
+<span class="sd">        suffix : str</span>
+<span class="sd">            Parts of command that are used after the filename.</span>
+<span class="sd">            Default: &quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">exception_file_names</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">exception</span> <span class="ow">in</span> <span class="n">exceptions</span><span class="p">:</span>
+            <span class="n">file_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="n">exception_file_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">((</span>
+                    <span class="sa">f</span><span class="s2">&quot;The exception &#39;</span><span class="si">{</span><span class="n">exception</span><span class="si">}</span><span class="s2">&#39; does not correspond&quot;</span>
+                    <span class="s2">&quot; to a filename and will be ignored.&quot;</span><span class="p">))</span>
+
+        <span class="n">apply_cmd_to_afq_derivs</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;output_dir&quot;</span><span class="p">],</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;base_fname&quot;</span><span class="p">),</span>
+            <span class="n">cmd</span><span class="o">=</span><span class="n">cmd</span><span class="p">,</span>
+            <span class="n">exception_file_names</span><span class="o">=</span><span class="n">exception_file_names</span><span class="p">,</span>
+            <span class="n">suffix</span><span class="o">=</span><span class="n">suffix</span><span class="p">,</span>
+            <span class="n">dependent_on</span><span class="o">=</span><span class="n">dependent_on</span>
+        <span class="p">)</span>
+
+        <span class="c1"># do not assume previous calculations are still valid</span>
+        <span class="c1"># after file operations</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">make_workflow</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="ParticipantAFQ.clobber"><a class="viewcode-back" href="../../../reference/api/AFQ/api/participant/index.html#AFQ.api.participant.ParticipantAFQ.clobber">[docs]</a>    <span class="n">clobber</span> <span class="o">=</span> <span class="n">cmd_outputs</span>  <span class="c1"># alias for default of cmd_outputs</span></div></div>
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2018--, The pyAFQ Contributors.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-156363454-2");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+  </body>
+</html>
