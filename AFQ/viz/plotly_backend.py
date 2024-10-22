@@ -229,7 +229,7 @@ def _plot_profiles(profiles, bundle_name, color, fig, scalar):
             yaxis_title=dict(text=vut.display_string(scalar), font=font)))
 
 
-def visualize_bundles(sft, n_points=None,
+def visualize_bundles(seg_sft, n_points=None,
                       bundle=None, colors=None, shade_by_volume=None,
                       color_by_streamline=None, n_sls_viz=3600,
                       sbv_lims=[None, None], include_profiles=(None, None),
@@ -241,12 +241,9 @@ def visualize_bundles(sft, n_points=None,
 
     Parameters
     ----------
-    sft : Stateful Tractogram, str
-        A Stateful Tractogram containing streamline information
-        or a path to a trk file.
-        In order to visualize individual bundles, the Stateful Tractogram
-        must contain a bundle key in it's data_per_streamline which is a list
-        of bundle `'uid'`.
+    seg_sft : SegmentedSFT, str
+        A SegmentedSFT containing streamline information
+        or a path to a segmented trk file.
 
     n_points : int or None
         n_points to resample streamlines to before plotting. If None, no
@@ -347,7 +344,7 @@ def visualize_bundles(sft, n_points=None,
     set_layout(figure, color=_color_arr2str(background))
 
     for (sls, color, name, dimensions) in vut.tract_generator(
-            sft, bundle, colors, n_points,
+            seg_sft, bundle, colors, n_points,
             n_sls_viz=n_sls_viz):
         if isinstance(color_by_streamline, dict):
             if name in color_by_streamline:
@@ -731,7 +728,7 @@ def _draw_core(sls, n_points, figure, bundle_name, indiv_profile,
     return line_color_untouched
 
 
-def single_bundle_viz(indiv_profile, sft,
+def single_bundle_viz(indiv_profile, seg_sft,
                       bundle, scalar_name,
                       flip_axes=[False, False, False],
                       labelled_nodes=[0, -1],
@@ -745,13 +742,9 @@ def single_bundle_viz(indiv_profile, sft,
     indiv_profile : ndarray
         A numpy array containing a tract profile for this bundle for a scalar.
 
-    sft : Stateful Tractogram, str
-        A Stateful Tractogram containing streamline information.
-        If bundle is an int, the Stateful Tractogram
-        must contain a bundle key in it's data_per_streamline which is a list
-        of bundle `'uid'.
-        Otherwise, the entire Stateful Tractogram will be used as the bundle
-        for the visualization.
+    seg_sft : SegmentedSFT, str
+        A SegmentedSFT containing streamline information
+        or a path to a segmented trk file.
 
     bundle : str or int
         The name of the bundle to be used as the label for the plot,
@@ -795,7 +788,7 @@ def single_bundle_viz(indiv_profile, sft,
 
     n_points = len(indiv_profile)
     sls, _, bundle_name, dimensions = next(vut.tract_generator(
-        sft, bundle, None, n_points))
+        seg_sft, bundle, None, n_points))
 
     line_color = _draw_core(
         sls, n_points, figure, bundle_name, indiv_profile,
