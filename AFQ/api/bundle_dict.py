@@ -799,6 +799,9 @@ class BundleDict(MutableMapping):
                 " Only Callosum Anterior Frontal will be used."))
             self.bundle_names.remove("Forceps Minor")
 
+    def __print__(self):
+        print(self._dict)
+    
     def update_max_includes(self, new_max):
         if new_max > self.max_includes:
             self.max_includes = new_max
