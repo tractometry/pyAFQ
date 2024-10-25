@@ -408,7 +408,7 @@ class B0Image(ImageDefinition):
             mean_b0_img = nib.load(b0)
             mean_b0 = mean_b0_img.get_fdata()
             logger.warning((
-                "It is reccomended that you provide a brain mask. "
+                "It is recommended that you provide a brain mask. "
                 "It is provided with the brain_mask_definition argument. "
                 "Otherwise, the default brain mask is calculated "
                 "by using OTSU on the median-filtered B0 image. "
