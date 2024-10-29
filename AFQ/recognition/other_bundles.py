@@ -24,7 +24,7 @@ def clean_by_other_density_map(this_bundle_sls,
     return cleaned_idx
 
 
-def clean_relative_to_other_core(core, this_fgarray, other_fgarray):
+def clean_relative_to_other_core(core, this_fgarray, other_fgarray, affine):
     """
     Remove any fibers that are on the wrong side of the core
     """
@@ -46,6 +46,10 @@ def clean_relative_to_other_core(core, this_fgarray, other_fgarray):
     elif core == 'left':
         core_axis = 0
         core_direc = 1
+
+    for ii in range(3):
+        if affine[ii, ii] < 0:
+            core_direc = -core_direc
 
     core_bundle = np.median(other_fgarray, axis=0)
     cleaned_idx_core = np.zeros(this_fgarray.shape[0], dtype=np.bool8)

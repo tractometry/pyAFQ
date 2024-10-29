@@ -31,7 +31,8 @@ def test_clean_relative_to_other_core():
         cleaned_idx_core = abo.clean_relative_to_other_core(
             core,
             this_bundle_sls_sample,
-            other_bundle_sls_sample
+            other_bundle_sls_sample,
+            np.eye(4)
         )
 
         assert isinstance(cleaned_idx_core, np.ndarray)
