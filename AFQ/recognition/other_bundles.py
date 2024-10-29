@@ -47,9 +47,8 @@ def clean_relative_to_other_core(core, this_fgarray, other_fgarray, affine):
         core_axis = 0
         core_direc = 1
 
-    for ii in range(3):
-        if affine[ii, ii] < 0:
-            core_direc = -core_direc
+    if affine[core_axis, core_axis] < 0:
+        core_direc = -core_direc
 
     core_bundle = np.median(other_fgarray, axis=0)
     cleaned_idx_core = np.zeros(this_fgarray.shape[0], dtype=np.bool8)
