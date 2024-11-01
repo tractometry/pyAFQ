@@ -22,6 +22,9 @@ bundle_criterion_order = [
     "length", "primary_axis", "include", "exclude",
     "recobundles", "qb_thresh"]
 
+valid_noncriterion = [
+    "space"]
+
 
 logger = logging.getLogger('AFQ')
 
@@ -357,6 +360,18 @@ def run_bundle_rec_plan(
     inputs["reg_template"] = reg_template
     for key, value in segmentation_params.items():
         inputs[key] = value
+
+    for potential_criterion in bundle_def.keys():
+        if (potential_criterion not in bundle_criterion_order) and\
+            (potential_criterion not in bundle_dict.bundle_names) and\
+                (potential_criterion not in valid_noncriterion):
+            raise ValueError((
+                "Invalid criterion in bundle definition:\n"
+                f"{potential_criterion} in bundle {bundle_name}.\n"
+                "Valid criteria are:\n"
+                f"{bundle_criterion_order}\n"
+                f"{bundle_dict.bundle_names}\n"
+                f"{valid_noncriterion}\n"))
 
     for criterion in bundle_criterion_order:
         if b_sls and criterion in bundle_def:
