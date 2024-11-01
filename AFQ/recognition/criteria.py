@@ -23,7 +23,8 @@ bundle_criterion_order = [
     "curvature", "recobundles", "qb_thresh"]
 
 valid_noncriterion = [
-    "space", "mahal", "primary_axis_percentage"]
+    "space", "mahal", "primary_axis_percentage",
+    "inc_addtol", "exc_addtol"]
 
 
 logger = logging.getLogger('AFQ')
