@@ -20,10 +20,10 @@ import AFQ.recognition.other_bundles as abo
 bundle_criterion_order = [
     "prob_map", "cross_midline", "start", "end",
     "length", "primary_axis", "include", "exclude",
-    "recobundles", "qb_thresh"]
+    "curvature", "recobundles", "qb_thresh"]
 
 valid_noncriterion = [
-    "space"]
+    "space", "mahal"]
 
 
 logger = logging.getLogger('AFQ')
