@@ -1,9 +1,9 @@
 ###############################################################################
-# Dockerfile to build pyAFQ 
+# Dockerfile to build pyAFQ
 ###############################################################################
 
 # Use python base image
-FROM python:3.9
+FROM python:3.11
 
 ARG COMMIT
 
