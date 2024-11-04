@@ -1,6 +1,5 @@
 import nibabel.tmpdirs as nbtmp
 import nibabel as nib
-from nibabel.streamlines import ArraySequence as Streamlines
 
 import numpy as np
 
@@ -12,9 +11,10 @@ from dipy.data import default_sphere
 from dipy.reconst.gqi import GeneralizedQSamplingModel
 
 from AFQ._fixes import gaussian_weights as gaussian_weights_fast
+import AFQ.data.fetch as afd
 
 from AFQ.utils.testing import make_dki_data
-from AFQ._fixes import gwi_odf
+from AFQ._fixes import gwi_odf, gaussian_weights
 
 
 def test_GQI_fix():
@@ -35,6 +35,12 @@ def test_GQI_fix():
         odf_theirs = gqmodel.fit(data).odf(default_sphere)
 
         npt.assert_array_almost_equal(odf_ours, odf_theirs)
+
+
+def test_gaussian_weights():
+    file_dict = afd.read_stanford_hardi_tractography()
+    streamlines = file_dict['tractography_subsampled.trk']
+    assert not np.any(np.isnan(gaussian_weights(streamlines[76:92])))
 
 
 def test_mahal_fix():
