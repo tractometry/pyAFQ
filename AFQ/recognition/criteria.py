@@ -15,11 +15,16 @@ import AFQ.recognition.utils as abu
 import AFQ.recognition.cleaning as abc
 import AFQ.recognition.curvature as abv
 import AFQ.recognition.roi as abr
+import AFQ.recognition.other_bundles as abo
 
 bundle_criterion_order = [
     "prob_map", "cross_midline", "start", "end",
     "length", "primary_axis", "include", "exclude",
-    "recobundles", "qb_thresh"]
+    "curvature", "recobundles", "qb_thresh"]
+
+valid_noncriterion = [
+    "space", "mahal", "primary_axis_percentage",
+    "inc_addtol", "exc_addtol"]
 
 
 logger = logging.getLogger('AFQ')
@@ -283,6 +288,33 @@ def qb_thresh(b_sls, bundle_def, preproc_imap, clip_edges, **kwargs):
     b_sls.select(cleaned_idx, "qb_thresh", cut=cut)
 
 
+def clean_by_other_bundle(b_sls, bundle_def,
+                          img,
+                          preproc_imap,
+                          other_bundle_name,
+                          other_bundle_sls, **kwargs):
+    cleaned_idx = b_sls.initiate_selection(other_bundle_name)
+    cleaned_idx = 1
+
+    if 'node_thresh' in bundle_def[other_bundle_name]:
+        cleaned_idx_node_thresh = abo.clean_by_other_density_map(
+            b_sls.get_selected_sls(),
+            other_bundle_sls,
+            bundle_def[other_bundle_name]["node_thresh"],
+            img)
+        cleaned_idx = np.logical_and(cleaned_idx, cleaned_idx_node_thresh)
+
+    if 'core' in bundle_def[other_bundle_name]:
+        cleaned_idx_core = abo.clean_relative_to_other_core(
+            bundle_def[other_bundle_name]['core'].lower(),
+            preproc_imap["fgarray"][b_sls.selected_fiber_idxs],
+            np.array(abu.resample_tg(other_bundle_sls, 20)),
+            img.affine)
+        cleaned_idx = np.logical_and(cleaned_idx, cleaned_idx_core)
+
+    b_sls.select(cleaned_idx, other_bundle_name)
+
+
 def mahalanobis(b_sls, bundle_def, clip_edges, cleaning_params, **kwargs):
     b_sls.initiate_selection("Mahalanobis")
     clean_params = bundle_def.get("mahal", {})
@@ -330,9 +362,29 @@ def run_bundle_rec_plan(
     for key, value in segmentation_params.items():
         inputs[key] = value
 
+    for potential_criterion in bundle_def.keys():
+        if (potential_criterion not in bundle_criterion_order) and\
+            (potential_criterion not in bundle_dict.bundle_names) and\
+                (potential_criterion not in valid_noncriterion):
+            raise ValueError((
+                "Invalid criterion in bundle definition:\n"
+                f"{potential_criterion} in bundle {bundle_name}.\n"
+                "Valid criteria are:\n"
+                f"{bundle_criterion_order}\n"
+                f"{bundle_dict.bundle_names}\n"
+                f"{valid_noncriterion}\n"))
+
     for criterion in bundle_criterion_order:
         if b_sls and criterion in bundle_def:
             inputs[criterion] = globals()[criterion](**inputs)
+    if b_sls:
+        for ii, bundle_name in enumerate(bundle_dict.bundle_names):
+            if bundle_name in bundle_def.keys():
+                idx = np.where(bundle_decisions[:, ii])[0]
+                clean_by_other_bundle(
+                    **inputs,
+                    other_bundle_name=bundle_name,
+                    other_bundle_sls=tg.streamlines[idx])
     if b_sls:
         mahalanobis(**inputs)
 

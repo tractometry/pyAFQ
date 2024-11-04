@@ -2,6 +2,7 @@ import numpy as np
 import logging
 
 from scipy.special import lpmv, gammaln
+from scipy.linalg import pinvh
 
 from tqdm import tqdm
 
@@ -215,17 +216,20 @@ def gaussian_weights(bundle, n_points=100, return_mahalnobis=False,
     for i in range(n_nodes):
         # This should come back as a 3D covariance matrix with the spatial
         # variance covariance of this node across the different streamlines,
-        # reorganized as an upper diagonal matrix for expected Mahalanobis
+        # converted to a positive semi-definite matrix if necessary
         cov = np.cov(sls[:, i, :].T, ddof=0)
-        while np.any(np.linalg.eigvals(cov) < 0):
-            cov += np.eye(cov.shape[0]) * 1e-12
+        if np.any(np.linalg.eigvals(cov) < 0):
+            eigenvalues, eigenvectors = np.linalg.eigh((cov + cov.T) / 2)
+            eigenvalues[eigenvalues < 0] = 0
+            cov = eigenvectors @ np.diag(eigenvalues) @ eigenvectors.T
 
         # calculate Mahalanobis for node in every fiber
         if np.any(cov > 0):
-            ci = np.linalg.inv(cov)
-
-            dist = (diff[:, i, :] @ ci) * diff[:, i, :]
-            weights[:, i] = np.sqrt(np.sum(dist, axis=1))
+            weights[:, i] = np.sqrt(np.einsum(
+                'ij,jk,ik->i',
+                diff[:, i, :],
+                pinvh(cov),
+                diff[:, i, :]))
 
         # In the special case where all the streamlines have the exact same
         # coordinate in this node, the covariance matrix is all zeros, so
