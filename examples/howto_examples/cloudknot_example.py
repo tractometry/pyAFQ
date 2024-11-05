@@ -114,7 +114,7 @@ subjects = ["123456", "123457", "123458"]
 knot = ck.Knot(
     name='afq-process-subject-201009-0',
     func=afq_process_subject,
-    base_image='python:3.8',
+    base_image='python:3.11',
     image_github_installs="https://github.com/tractometry/pyAFQ.git",
     pars_policies=('AmazonS3FullAccess',),
     bid_percentage=100)
@@ -158,7 +158,7 @@ def afq_combine_profiles(dummy_argument):
 knot2 = ck.Knot(
     name='afq_combine_subjects-201009-0',
     func=afq_combine_profiles,
-    base_image='python:3.8',
+    base_image='python:3.11',
     image_github_installs="https://github.com/tractometry/pyAFQ.git",
     pars_policies=('AmazonS3FullAccess',),
     bid_percentage=100)
