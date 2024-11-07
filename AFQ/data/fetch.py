@@ -203,8 +203,6 @@ def read_callosum_templates(as_img=True, resample_to=False):
 #
 # - atlas: https://www.nitrc.org/projects/pediatricatlas
 #
-# - pediatric templates: https://github.com/tractometry/AFQ/tree/babyAFQ
-#
 # Templates downloaded from:
 #
 # - https://figshare.com/articles/dataset/ROIs_probabilistic_maps_and_transform_data_for_pediatric_automated_fiber_quantification/13027487  # noqa
