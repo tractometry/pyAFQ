@@ -165,7 +165,7 @@ ax.axis("off")
 myafq.export('profiles')
 
 ##########################################################################
-# Visualizing the bundles and calculating act profiles:
+# Visualizing the bundles and calculating tract profiles:
 # -----------------------------------------------------
 # The pyAFQ API provides several ways to visualize bundles and profiles.
 #
