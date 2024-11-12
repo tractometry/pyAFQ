@@ -1,9 +1,11 @@
 import numpy as np
+import logging
 
 import dipy.tracking.utils as dtu
 import dipy.tracking.streamline as dts
 
 from scipy.spatial.distance import cdist
+logger = logging.getLogger('AFQ')
 
 
 def clean_by_other_density_map(this_bundle_sls, other_bundle_sls,
@@ -98,6 +100,10 @@ def clean_relative_to_other_core(core, this_fgarray, other_fgarray, affine):
     >>> cleaned_streamlines = [s for i, s in enumerate(streamlines1) 
     ...                        if cleaned_core_idx[i]]
     """
+    if len(other_fgarray) == 0:
+        logger.warning("Cleaning relative to core skipped, no core found.")
+        return np.ones(this_fgarray.shape[0], dtype=np.bool8)
+
     if core == 'anterior':
         core_axis, core_direc = 1, -1
     elif core == 'posterior':
