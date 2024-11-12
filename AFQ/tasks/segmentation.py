@@ -32,6 +32,8 @@ from dipy.tracking.streamline import set_number_of_points, values_from_volume
 
 import gzip
 import shutil
+import os.path as op
+from tempfile import mkdtemp
 
 logger = logging.getLogger('AFQ')
 
@@ -65,7 +67,7 @@ def segment(data_imap, mapping_imap,
         tg = trx.to_sft()
     elif streamlines.endswith(".tck.gz"):
         # uncompress tck.gz to a temporary tck:
-        temp_tck = streamlines.replace(".gz", "")
+        temp_tck = op.join(mkdtemp(), streamlines.replace(".gz", ""))
         with gzip.open(streamlines, 'rb') as f_in:
             with open(temp_tck, 'wb') as f_out:
                 shutil.copyfileobj(f_in, f_out)
