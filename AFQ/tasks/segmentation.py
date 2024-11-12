@@ -68,6 +68,7 @@ def segment(data_imap, mapping_imap,
     elif streamlines.endswith(".tck.gz"):
         # uncompress tck.gz to a temporary tck:
         temp_tck = op.join(mkdtemp(), streamlines.replace(".gz", ""))
+        print(temp_tck)
         with gzip.open(streamlines, 'rb') as f_in:
             with open(temp_tck, 'wb') as f_out:
                 shutil.copyfileobj(f_in, f_out)
