@@ -1,4 +1,5 @@
 import numpy as np
+import nibabel as nib
 import logging
 
 import dipy.tracking.utils as dtu
@@ -104,19 +105,24 @@ def clean_relative_to_other_core(core, this_fgarray, other_fgarray, affine):
         logger.warning("Cleaning relative to core skipped, no core found.")
         return np.ones(this_fgarray.shape[0], dtype=np.bool8)
 
-    if core == 'anterior':
-        core_axis, core_direc = 1, -1
-    elif core == 'posterior':
-        core_axis, core_direc = 1, 1
-    elif core == 'superior':
-        core_axis, core_direc = 2, -1
-    elif core == 'inferior':
-        core_axis, core_direc = 2, 1
-    elif core == 'right':
-        core_axis, core_direc = 0, -1
-    elif core == 'left':
-        core_axis, core_direc = 0, 1
+    # find dimension of core axis
+    orientation = nib.orientations.aff2axcodes(affine)
+    core_axis = None
+    core_upper = core[0].upper()
+    for idx, axis_label in enumerate(orientation):
+        if axis_label == core_upper:
+            core_axis = idx
+            break
+    if core_axis is None:
+        raise ValueError(f"Invalid core axis: {core}")
 
+    # RAS
+    if core_upper == 'R' or core_upper == 'A' or core_upper == 'S':
+        core_direc = -1
+    else:
+        core_direc = 1
+
+    # flip from RAS depending on affine
     if affine[core_axis, core_axis] < 0:
         core_direc = -core_direc
 
