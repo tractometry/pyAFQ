@@ -110,17 +110,32 @@ def clean_relative_to_other_core(core, this_fgarray, other_fgarray, affine):
     core_axis = None
     core_upper = core[0].upper()
     for idx, axis_label in enumerate(orientation):
-        if axis_label == core_upper:
-            core_axis = idx
-            break
+        if axis_label in ["L", "R"]:
+            if core_upper in ["L", "R"]:
+                core_axis = idx
+                if core_upper == 'R':
+                    core_direc = -1
+                else:
+                    core_direc = 1
+                break
+        elif axis_label in ["P", "A"]:
+            if core_upper in ["P", "A"]:
+                core_axis = idx
+                if core_upper == 'A':
+                    core_direc = -1
+                else:
+                    core_direc = 1
+                break
+        elif axis_label in ["I", "S"]:
+            if core_upper in ["I", "S"]:
+                core_axis = idx
+                if core_upper == 'S':
+                    core_direc = -1
+                else:
+                    core_direc = 1
+                break
     if core_axis is None:
         raise ValueError(f"Invalid core axis: {core}")
-
-    # RAS
-    if core_upper == 'R' or core_upper == 'A' or core_upper == 'S':
-        core_direc = -1
-    else:
-        core_direc = 1
 
     # flip from RAS depending on affine
     if affine[core_axis, core_axis] < 0:
