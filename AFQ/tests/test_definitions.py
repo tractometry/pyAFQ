@@ -9,6 +9,7 @@ import AFQ.definitions.image as afm
 from AFQ.definitions.image import *  # interprets images from eval
 from AFQ.definitions.mapping import *  # interprets mappings from eval
 from AFQ.tests.test_api import create_dummy_bids_path
+from AFQ.definitions.utils import name_from_path
 
 
 def test_str_instantiates_mixin():
@@ -21,6 +22,15 @@ def test_str_instantiates_mixin():
                 thresh_image_from_str.lower_bound)
     npt.assert_(thresh_image.upper_bound ==
                 thresh_image_from_str.upper_bound)
+
+
+def test_name_from_path():
+    path = "/data/sub-01/ses-01/dwi/sub-01_ses-01_desc-icvf_dwi.nii.gz"
+    assert name_from_path(path) == "icvf"
+    path = "/data/sub-01/ses-01/dwi/sub-01_ses-01_desc-od_dwi.nii.gz"
+    assert name_from_path(path) == "od"
+    path = "/data/sub-01/ses-01/anat/sub-01_ses-01_T1w.nii.gz"
+    assert name_from_path(path) == "T1w"
 
 
 def test_resample_image():
