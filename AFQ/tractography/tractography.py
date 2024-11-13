@@ -92,7 +92,7 @@ def track(params_file, directions="prob", max_angle=30., sphere=None,
     maxlen: int, optional
         The miminal length (mm) in a streamline. Default: 250
     odf_model : str, optional
-        One of {"DTI", "CSD", "DKI"}. Defaults to use "DTI"
+        One of {"DTI", "CSD", "DKI"}. Defaults to use "CSD"
     tracker : str, optional
         Which strategy to use in tracking. This can be the standard local
         tracking ("local") or Particle Filtering Tracking ([Girard2014]_).
