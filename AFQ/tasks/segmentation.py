@@ -30,6 +30,10 @@ from dipy.io.stateful_tractogram import Space
 from dipy.stats.analysis import afq_profile
 from dipy.tracking.streamline import set_number_of_points, values_from_volume
 
+import gzip
+import shutil
+import os.path as op
+from tempfile import mkdtemp
 
 logger = logging.getLogger('AFQ')
 
@@ -61,6 +65,19 @@ def segment(data_imap, mapping_imap,
         trx = load_trx(streamlines, data_imap["dwi"])
         trx.streamlines._data = trx.streamlines._data.astype(np.float32)
         tg = trx.to_sft()
+    elif streamlines.endswith(".tck.gz"):
+        # uncompress tck.gz to a temporary tck:
+        temp_tck = op.join(mkdtemp(), op.split(streamlines.replace(".gz", ""))[1])
+        logger.info(f"Temporary tck file created at: {temp_tck}")
+        with gzip.open(streamlines, 'rb') as f_in:
+            with open(temp_tck, 'wb') as f_out:
+                shutil.copyfileobj(f_in, f_out)
+        # initialize stateful tractogram from tck file:
+        tg = load_tractogram(
+            temp_tck, data_imap["dwi"], Space.VOX, 
+            bbox_valid_check=False)
+        is_trx = False
+
 
     indices_to_remove, _ = tg.remove_invalid_streamlines()
     if len(indices_to_remove) > 0:
