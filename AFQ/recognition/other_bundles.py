@@ -109,37 +109,33 @@ def clean_relative_to_other_core(core, this_fgarray, other_fgarray, affine):
     orientation = nib.orientations.aff2axcodes(affine)
     core_axis = None
     core_upper = core[0].upper()
+    axis_groups = {
+        'L': ('L', 'R'),
+        'R': ('L', 'R'),
+        'P': ('P', 'A'),
+        'A': ('P', 'A'),
+        'I': ('I', 'S'),
+        'S': ('I', 'S'),
+    }
+
+    direction_signs = {
+        'L': 1,
+        'R': -1,
+        'P': 1,
+        'A': -1,
+        'I': 1,
+        'S': -1,
+    }
+
+    core_axis = None
     for idx, axis_label in enumerate(orientation):
-        if axis_label in ["L", "R"]:
-            if core_upper in ["L", "R"]:
-                core_axis = idx
-                if core_upper == 'R':
-                    core_direc = -1
-                else:
-                    core_direc = 1
-                break
-        elif axis_label in ["P", "A"]:
-            if core_upper in ["P", "A"]:
-                core_axis = idx
-                if core_upper == 'A':
-                    core_direc = -1
-                else:
-                    core_direc = 1
-                break
-        elif axis_label in ["I", "S"]:
-            if core_upper in ["I", "S"]:
-                core_axis = idx
-                if core_upper == 'S':
-                    core_direc = -1
-                else:
-                    core_direc = 1
-                break
+        if core_upper in axis_groups[axis_label]:
+            core_axis = idx
+            core_direc = direction_signs[core_upper]
+            break
+
     if core_axis is None:
         raise ValueError(f"Invalid core axis: {core}")
-
-    # flip from RAS depending on affine
-    if affine[core_axis, core_axis] < 0:
-        core_direc = -core_direc
 
     core_bundle = np.median(other_fgarray, axis=0)
     cleaned_idx_core = np.zeros(this_fgarray.shape[0], dtype=np.bool8)
