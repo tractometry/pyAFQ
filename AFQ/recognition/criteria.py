@@ -106,11 +106,12 @@ def length(b_sls, bundle_def, preproc_imap, **kwargs):
     b_sls.select(accept_idx, "length")
 
 
-def primary_axis(b_sls, bundle_def, **kwargs):
+def primary_axis(b_sls, bundle_def, img, **kwargs):
     b_sls.initiate_selection("orientation")
     accept_idx = abc.clean_by_orientation(
         b_sls.get_selected_sls(),
         bundle_def["primary_axis"],
+        img.affine,
         bundle_def.get(
             "primary_axis_percentage", None))
     b_sls.select(accept_idx, "orientation")

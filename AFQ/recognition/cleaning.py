@@ -1,4 +1,5 @@
 import numpy as np
+import nibabel as nib
 import logging
 
 from scipy.stats import zscore
@@ -13,7 +14,7 @@ from AFQ._fixes import gaussian_weights
 logger = logging.getLogger('AFQ')
 
 
-def clean_by_orientation(streamlines, primary_axis, tol=None):
+def clean_by_orientation(streamlines, primary_axis, affine, tol=None):
     """
     Compute the cardinal orientation of each streamline
 
@@ -27,6 +28,16 @@ def clean_by_orientation(streamlines, primary_axis, tol=None):
     -------
     cleaned_idx, indicies of streamlines that passed cleaning
     """
+    axes_names = ["L/R", "P/A", "I/S"]
+    if primary_axis not in axes_names:
+        raise ValueError(
+            f"Primary axis must be one of {axes_names}, got {primary_axis}")
+    orientation = nib.orientations.aff2axcodes(affine)
+    for idx, axis_label in enumerate(orientation):
+        if axis_label in primary_axis:
+            primary_axis = idx
+            break
+
     axis_diff = np.zeros((len(streamlines), 3))
     endpoint_diff = np.zeros((len(streamlines), 3))
     for ii, sl in enumerate(streamlines):
