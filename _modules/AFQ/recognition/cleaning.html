@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.recognition.cleaning &#8212; AFQ 1.3.5 documentation</title>
+    <title>AFQ.recognition.cleaning &#8212; AFQ 1.3.6 documentation</title>
   
   
   
@@ -132,8 +132,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.5 documentation - Home"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.5 documentation - Home"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.6 documentation - Home"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.6 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -433,6 +433,7 @@ document.write(`
                   
   <h1>Source code for AFQ.recognition.cleaning</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">nibabel</span> <span class="k">as</span> <span class="nn">nib</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 
 <span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">zscore</span>
@@ -447,7 +448,7 @@ document.write(`
 <div class="viewcode-block" id="logger"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/cleaning/index.html#AFQ.recognition.cleaning.logger">[docs]</a><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;AFQ&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="clean_by_orientation"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/cleaning/index.html#AFQ.recognition.cleaning.clean_by_orientation">[docs]</a><span class="k">def</span> <span class="nf">clean_by_orientation</span><span class="p">(</span><span class="n">streamlines</span><span class="p">,</span> <span class="n">primary_axis</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="clean_by_orientation"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/cleaning/index.html#AFQ.recognition.cleaning.clean_by_orientation">[docs]</a><span class="k">def</span> <span class="nf">clean_by_orientation</span><span class="p">(</span><span class="n">streamlines</span><span class="p">,</span> <span class="n">primary_axis</span><span class="p">,</span> <span class="n">affine</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute the cardinal orientation of each streamline</span>
 
@@ -461,6 +462,16 @@ document.write(`
 <span class="sd">    -------</span>
 <span class="sd">    cleaned_idx, indicies of streamlines that passed cleaning</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">axes_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;L/R&quot;</span><span class="p">,</span> <span class="s2">&quot;P/A&quot;</span><span class="p">,</span> <span class="s2">&quot;I/S&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">primary_axis</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">axes_names</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Primary axis must be one of </span><span class="si">{</span><span class="n">axes_names</span><span class="si">}</span><span class="s2">, got </span><span class="si">{</span><span class="n">primary_axis</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">orientation</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">orientations</span><span class="o">.</span><span class="n">aff2axcodes</span><span class="p">(</span><span class="n">affine</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">axis_label</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">orientation</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">axis_label</span> <span class="ow">in</span> <span class="n">primary_axis</span><span class="p">:</span>
+            <span class="n">primary_axis</span> <span class="o">=</span> <span class="n">idx</span>
+            <span class="k">break</span>
+
     <span class="n">axis_diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">streamlines</span><span class="p">),</span> <span class="mi">3</span><span class="p">))</span>
     <span class="n">endpoint_diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">streamlines</span><span class="p">),</span> <span class="mi">3</span><span class="p">))</span>
     <span class="k">for</span> <span class="n">ii</span><span class="p">,</span> <span class="n">sl</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">streamlines</span><span class="p">):</span>
@@ -558,13 +569,7 @@ document.write(`
     <span class="c1"># We&#39;ll only do this for clean_rounds</span>
     <span class="n">rounds_elapsed</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">idx_belong</span> <span class="o">=</span> <span class="n">idx</span>
-    <span class="k">while</span> <span class="p">(</span><span class="n">rounds_elapsed</span> <span class="o">&lt;</span> <span class="n">clean_rounds</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">idx_belong</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">min_sl</span><span class="p">):</span>
-        <span class="c1"># Update by selection:</span>
-        <span class="n">idx</span> <span class="o">=</span> <span class="n">idx</span><span class="p">[</span><span class="n">idx_belong</span><span class="p">]</span>
-        <span class="n">fgarray</span> <span class="o">=</span> <span class="n">fgarray</span><span class="p">[</span><span class="n">idx_belong</span><span class="p">]</span>
-        <span class="n">lengths</span> <span class="o">=</span> <span class="n">lengths</span><span class="p">[</span><span class="n">idx_belong</span><span class="p">]</span>
-        <span class="n">rounds_elapsed</span> <span class="o">+=</span> <span class="mi">1</span>
-
+    <span class="k">while</span> <span class="n">rounds_elapsed</span> <span class="o">&lt;</span> <span class="n">clean_rounds</span><span class="p">:</span>
         <span class="c1"># This calculates the Mahalanobis for each streamline/node:</span>
         <span class="n">m_dist</span> <span class="o">=</span> <span class="n">gaussian_weights</span><span class="p">(</span>
             <span class="n">fgarray</span><span class="p">,</span> <span class="n">return_mahalnobis</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -584,8 +589,8 @@ document.write(`
             <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">length_z</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span>
-                <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">m_dist</span> <span class="o">&gt;</span> <span class="n">distance_threshold</span><span class="p">)</span>
-                <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">length_z</span> <span class="o">&gt;</span> <span class="n">length_threshold</span><span class="p">)):</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">m_dist</span> <span class="o">&gt;=</span> <span class="n">distance_threshold</span><span class="p">)</span>
+                <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">length_z</span> <span class="o">&gt;=</span> <span class="n">length_threshold</span><span class="p">)):</span>
             <span class="k">break</span>
         <span class="c1"># Select the fibers that have Mahalanobis smaller than the</span>
         <span class="c1"># threshold for all their nodes:</span>
@@ -595,17 +600,22 @@ document.write(`
 
         <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">idx_belong</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">min_sl</span><span class="p">:</span>
             <span class="c1"># need to sort and return exactly min_sl:</span>
-            <span class="n">idx_belong</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
-                <span class="n">m_dist</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">))[:</span><span class="n">min_sl</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="n">idx</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
+                <span class="n">m_dist</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">))[:</span><span class="n">min_sl</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)]</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">((</span>
                 <span class="sa">f</span><span class="s2">&quot;At rounds elapsed </span><span class="si">{</span><span class="n">rounds_elapsed</span><span class="si">}</span><span class="s2">, &quot;</span>
                 <span class="s2">&quot;minimum streamlines reached&quot;</span><span class="p">))</span>
+            <span class="k">break</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">idx_removed</span> <span class="o">=</span> <span class="n">idx_belong</span> <span class="o">==</span> <span class="mi">0</span>
+            <span class="c1"># Update by selection:</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="n">idx</span><span class="p">[</span><span class="n">idx_belong</span><span class="p">]</span>
+            <span class="n">fgarray</span> <span class="o">=</span> <span class="n">fgarray</span><span class="p">[</span><span class="n">idx_belong</span><span class="p">]</span>
+            <span class="n">lengths</span> <span class="o">=</span> <span class="n">lengths</span><span class="p">[</span><span class="n">idx_belong</span><span class="p">]</span>
+            <span class="n">rounds_elapsed</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">((</span>
                 <span class="sa">f</span><span class="s2">&quot;Rounds elapsed: </span><span class="si">{</span><span class="n">rounds_elapsed</span><span class="si">}</span><span class="s2">, &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;num removed: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">idx_removed</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Removed indicies: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">idx_removed</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="sa">f</span><span class="s2">&quot;num kept: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Kept indicies: </span><span class="si">{</span><span class="n">idx</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="c1"># Select based on the variable that was keeping track of things for us:</span>
     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">tg</span><span class="p">,</span> <span class="s2">&quot;streamlines&quot;</span><span class="p">):</span>

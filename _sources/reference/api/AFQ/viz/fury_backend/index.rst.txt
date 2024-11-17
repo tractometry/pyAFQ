@@ -59,7 +59,7 @@ Attributes
    ..
        !! processed by numpydoc !!
 
-.. py:function:: visualize_bundles(sft, n_points=None, bundle_dict=None, bundle=None, colors=None, color_by_direction=False, opacity=1.0, line_width=2.0, flip_axes=[False, False, False], figure=None, background=(1, 1, 1), interact=False, inline=False, **kwargs)
+.. py:function:: visualize_bundles(seg_sft, n_points=None, bundle=None, colors=None, color_by_direction=False, opacity=1.0, line_width=2.0, flip_axes=[False, False, False], figure=None, background=(1, 1, 1), interact=False, inline=False, **kwargs)
 
    
    Visualize bundles in 3D using VTK.
@@ -68,21 +68,13 @@ Attributes
 
    :Parameters:
 
-       **sft** : Stateful Tractogram, str
-           A Stateful Tractogram containing streamline information
-           or a path to a trk file
-           In order to visualize individual bundles, the Stateful Tractogram
-           must contain a bundle key in it's data_per_streamline which is a list
-           of bundle `'uid'`.
+       **seg_sft** : SegmentedSFT, str
+           A SegmentedSFT containing streamline information
+           or a path to a segmented trk file.
 
        **n_points** : int or None
            n_points to resample streamlines to before plotting. If None, no
            resampling is done.
-
-       **bundle_dict** : dict, optional
-           Keys are names of bundles and values are dicts that specify them.
-           Default: bundles are either not identified, or identified
-           only as unique integers in the metadata.
 
        **bundle** : str or int, optional
            The name of a bundle to select from among the keys in `bundle_dict`
@@ -317,7 +309,7 @@ Attributes
 .. py:function:: _draw_core(sls, n_points, figure, bundle_name, indiv_profile, labelled_points, dimensions, flip_axes)
 
 
-.. py:function:: single_bundle_viz(indiv_profile, sft, bundle, scalar_name, bundle_dict=None, flip_axes=[False, False, False], labelled_nodes=[0, -1], figure=None, include_profile=False)
+.. py:function:: single_bundle_viz(indiv_profile, seg_sft, bundle, scalar_name, flip_axes=[False, False, False], labelled_nodes=[0, -1], figure=None, include_profile=False)
 
    
    Visualize a single bundle in 3D with core bundle and associated profile
@@ -328,13 +320,9 @@ Attributes
        **indiv_profile** : ndarray
            A numpy array containing a tract profile for this bundle for a scalar.
 
-       **sft** : Stateful Tractogram, str
-           A Stateful Tractogram containing streamline information.
-           If bundle is an int, the Stateful Tractogram
-           must contain a bundle key in it's data_per_streamline which is a list
-           of bundle `'uid'.
-           Otherwise, the entire Stateful Tractogram will be used as the bundle
-           for the visualization.
+       **seg_sft** : SegmentedSFT, str
+           A SegmentedSFT containing streamline information
+           or a path to a segmented trk file.
 
        **bundle** : str or int
            The name of the bundle to be used as the label for the plot,
@@ -342,12 +330,6 @@ Attributes
 
        **scalar_name** : str
            The name of the scalar being used.
-
-       **bundle_dict** : dict, optional
-           This parameter is used if bundle is an int.
-           Keys are names of bundles and values are dicts that specify them.
-           Default: Either the entire sft is treated as a bundle,
-           or identified only as unique integers in the metadata.
 
        **flip_axes** : ndarray
            Which axes to flip, to orient the image as RAS, which is how we

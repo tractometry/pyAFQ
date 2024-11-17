@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.recognition.criteria &#8212; AFQ 1.3.5 documentation</title>
+    <title>AFQ.recognition.criteria &#8212; AFQ 1.3.6 documentation</title>
   
   
   
@@ -132,8 +132,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.5 documentation - Home"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.5 documentation - Home"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.6 documentation - Home"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.6 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -449,11 +449,16 @@ document.write(`
 <span class="kn">import</span> <span class="nn">AFQ.recognition.cleaning</span> <span class="k">as</span> <span class="nn">abc</span>
 <span class="kn">import</span> <span class="nn">AFQ.recognition.curvature</span> <span class="k">as</span> <span class="nn">abv</span>
 <span class="kn">import</span> <span class="nn">AFQ.recognition.roi</span> <span class="k">as</span> <span class="nn">abr</span>
+<span class="kn">import</span> <span class="nn">AFQ.recognition.other_bundles</span> <span class="k">as</span> <span class="nn">abo</span>
 
 <div class="viewcode-block" id="bundle_criterion_order"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/criteria/index.html#AFQ.recognition.criteria.bundle_criterion_order">[docs]</a><span class="n">bundle_criterion_order</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">&quot;prob_map&quot;</span><span class="p">,</span> <span class="s2">&quot;cross_midline&quot;</span><span class="p">,</span> <span class="s2">&quot;start&quot;</span><span class="p">,</span> <span class="s2">&quot;end&quot;</span><span class="p">,</span>
     <span class="s2">&quot;length&quot;</span><span class="p">,</span> <span class="s2">&quot;primary_axis&quot;</span><span class="p">,</span> <span class="s2">&quot;include&quot;</span><span class="p">,</span> <span class="s2">&quot;exclude&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;recobundles&quot;</span><span class="p">,</span> <span class="s2">&quot;qb_thresh&quot;</span><span class="p">]</span></div>
+    <span class="s2">&quot;curvature&quot;</span><span class="p">,</span> <span class="s2">&quot;recobundles&quot;</span><span class="p">,</span> <span class="s2">&quot;qb_thresh&quot;</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="valid_noncriterion"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/criteria/index.html#AFQ.recognition.criteria.valid_noncriterion">[docs]</a><span class="n">valid_noncriterion</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;space&quot;</span><span class="p">,</span> <span class="s2">&quot;mahal&quot;</span><span class="p">,</span> <span class="s2">&quot;primary_axis_percentage&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;inc_addtol&quot;</span><span class="p">,</span> <span class="s2">&quot;exc_addtol&quot;</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="logger"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/criteria/index.html#AFQ.recognition.criteria.logger">[docs]</a><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;AFQ&#39;</span><span class="p">)</span></div>
@@ -535,11 +540,12 @@ document.write(`
     <span class="n">b_sls</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">accept_idx</span><span class="p">,</span> <span class="s2">&quot;length&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="primary_axis"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/criteria/index.html#AFQ.recognition.criteria.primary_axis">[docs]</a><span class="k">def</span> <span class="nf">primary_axis</span><span class="p">(</span><span class="n">b_sls</span><span class="p">,</span> <span class="n">bundle_def</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="primary_axis"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/criteria/index.html#AFQ.recognition.criteria.primary_axis">[docs]</a><span class="k">def</span> <span class="nf">primary_axis</span><span class="p">(</span><span class="n">b_sls</span><span class="p">,</span> <span class="n">bundle_def</span><span class="p">,</span> <span class="n">img</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="n">b_sls</span><span class="o">.</span><span class="n">initiate_selection</span><span class="p">(</span><span class="s2">&quot;orientation&quot;</span><span class="p">)</span>
     <span class="n">accept_idx</span> <span class="o">=</span> <span class="n">abc</span><span class="o">.</span><span class="n">clean_by_orientation</span><span class="p">(</span>
         <span class="n">b_sls</span><span class="o">.</span><span class="n">get_selected_sls</span><span class="p">(),</span>
         <span class="n">bundle_def</span><span class="p">[</span><span class="s2">&quot;primary_axis&quot;</span><span class="p">],</span>
+        <span class="n">img</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span>
         <span class="n">bundle_def</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
             <span class="s2">&quot;primary_axis_percentage&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
     <span class="n">b_sls</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">accept_idx</span><span class="p">,</span> <span class="s2">&quot;orientation&quot;</span><span class="p">)</span></div>
@@ -717,6 +723,33 @@ document.write(`
     <span class="n">b_sls</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">cleaned_idx</span><span class="p">,</span> <span class="s2">&quot;qb_thresh&quot;</span><span class="p">,</span> <span class="n">cut</span><span class="o">=</span><span class="n">cut</span><span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="clean_by_other_bundle"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/criteria/index.html#AFQ.recognition.criteria.clean_by_other_bundle">[docs]</a><span class="k">def</span> <span class="nf">clean_by_other_bundle</span><span class="p">(</span><span class="n">b_sls</span><span class="p">,</span> <span class="n">bundle_def</span><span class="p">,</span>
+                          <span class="n">img</span><span class="p">,</span>
+                          <span class="n">preproc_imap</span><span class="p">,</span>
+                          <span class="n">other_bundle_name</span><span class="p">,</span>
+                          <span class="n">other_bundle_sls</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">cleaned_idx</span> <span class="o">=</span> <span class="n">b_sls</span><span class="o">.</span><span class="n">initiate_selection</span><span class="p">(</span><span class="n">other_bundle_name</span><span class="p">)</span>
+    <span class="n">cleaned_idx</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="k">if</span> <span class="s1">&#39;node_thresh&#39;</span> <span class="ow">in</span> <span class="n">bundle_def</span><span class="p">[</span><span class="n">other_bundle_name</span><span class="p">]:</span>
+        <span class="n">cleaned_idx_node_thresh</span> <span class="o">=</span> <span class="n">abo</span><span class="o">.</span><span class="n">clean_by_other_density_map</span><span class="p">(</span>
+            <span class="n">b_sls</span><span class="o">.</span><span class="n">get_selected_sls</span><span class="p">(),</span>
+            <span class="n">other_bundle_sls</span><span class="p">,</span>
+            <span class="n">bundle_def</span><span class="p">[</span><span class="n">other_bundle_name</span><span class="p">][</span><span class="s2">&quot;node_thresh&quot;</span><span class="p">],</span>
+            <span class="n">img</span><span class="p">)</span>
+        <span class="n">cleaned_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">cleaned_idx</span><span class="p">,</span> <span class="n">cleaned_idx_node_thresh</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="s1">&#39;core&#39;</span> <span class="ow">in</span> <span class="n">bundle_def</span><span class="p">[</span><span class="n">other_bundle_name</span><span class="p">]:</span>
+        <span class="n">cleaned_idx_core</span> <span class="o">=</span> <span class="n">abo</span><span class="o">.</span><span class="n">clean_relative_to_other_core</span><span class="p">(</span>
+            <span class="n">bundle_def</span><span class="p">[</span><span class="n">other_bundle_name</span><span class="p">][</span><span class="s1">&#39;core&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span>
+            <span class="n">preproc_imap</span><span class="p">[</span><span class="s2">&quot;fgarray&quot;</span><span class="p">][</span><span class="n">b_sls</span><span class="o">.</span><span class="n">selected_fiber_idxs</span><span class="p">],</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">abu</span><span class="o">.</span><span class="n">resample_tg</span><span class="p">(</span><span class="n">other_bundle_sls</span><span class="p">,</span> <span class="mi">20</span><span class="p">)),</span>
+            <span class="n">img</span><span class="o">.</span><span class="n">affine</span><span class="p">)</span>
+        <span class="n">cleaned_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">cleaned_idx</span><span class="p">,</span> <span class="n">cleaned_idx_core</span><span class="p">)</span>
+
+    <span class="n">b_sls</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">cleaned_idx</span><span class="p">,</span> <span class="n">other_bundle_name</span><span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="mahalanobis"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/criteria/index.html#AFQ.recognition.criteria.mahalanobis">[docs]</a><span class="k">def</span> <span class="nf">mahalanobis</span><span class="p">(</span><span class="n">b_sls</span><span class="p">,</span> <span class="n">bundle_def</span><span class="p">,</span> <span class="n">clip_edges</span><span class="p">,</span> <span class="n">cleaning_params</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="n">b_sls</span><span class="o">.</span><span class="n">initiate_selection</span><span class="p">(</span><span class="s2">&quot;Mahalanobis&quot;</span><span class="p">)</span>
     <span class="n">clean_params</span> <span class="o">=</span> <span class="n">bundle_def</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;mahal&quot;</span><span class="p">,</span> <span class="p">{})</span>
@@ -764,9 +797,29 @@ document.write(`
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">segmentation_params</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="n">inputs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
 
+    <span class="k">for</span> <span class="n">potential_criterion</span> <span class="ow">in</span> <span class="n">bundle_def</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">potential_criterion</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">bundle_criterion_order</span><span class="p">)</span> <span class="ow">and</span>\
+            <span class="p">(</span><span class="n">potential_criterion</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">bundle_dict</span><span class="o">.</span><span class="n">bundle_names</span><span class="p">)</span> <span class="ow">and</span>\
+                <span class="p">(</span><span class="n">potential_criterion</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_noncriterion</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">((</span>
+                <span class="s2">&quot;Invalid criterion in bundle definition:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">potential_criterion</span><span class="si">}</span><span class="s2"> in bundle </span><span class="si">{</span><span class="n">bundle_name</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="s2">&quot;Valid criteria are:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bundle_criterion_order</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bundle_dict</span><span class="o">.</span><span class="n">bundle_names</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">valid_noncriterion</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">))</span>
+
     <span class="k">for</span> <span class="n">criterion</span> <span class="ow">in</span> <span class="n">bundle_criterion_order</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">b_sls</span> <span class="ow">and</span> <span class="n">criterion</span> <span class="ow">in</span> <span class="n">bundle_def</span><span class="p">:</span>
             <span class="n">inputs</span><span class="p">[</span><span class="n">criterion</span><span class="p">]</span> <span class="o">=</span> <span class="nb">globals</span><span class="p">()[</span><span class="n">criterion</span><span class="p">](</span><span class="o">**</span><span class="n">inputs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">b_sls</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">ii</span><span class="p">,</span> <span class="n">bundle_name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">bundle_dict</span><span class="o">.</span><span class="n">bundle_names</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">bundle_name</span> <span class="ow">in</span> <span class="n">bundle_def</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">bundle_decisions</span><span class="p">[:,</span> <span class="n">ii</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">clean_by_other_bundle</span><span class="p">(</span>
+                    <span class="o">**</span><span class="n">inputs</span><span class="p">,</span>
+                    <span class="n">other_bundle_name</span><span class="o">=</span><span class="n">bundle_name</span><span class="p">,</span>
+                    <span class="n">other_bundle_sls</span><span class="o">=</span><span class="n">tg</span><span class="o">.</span><span class="n">streamlines</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
     <span class="k">if</span> <span class="n">b_sls</span><span class="p">:</span>
         <span class="n">mahalanobis</span><span class="p">(</span><span class="o">**</span><span class="n">inputs</span><span class="p">)</span>
 

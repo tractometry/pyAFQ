@@ -137,7 +137,7 @@ See an example configuration file below::
     # The miminal length (mm) in a streamline. Default: 250
     maxlen = 250
     
-    # One of {"DTI", "CSD", "DKI"}. Defaults to use "DTI"
+    # One of {"DTI", "CSD", "DKI"}. Defaults to use "CSD"
     odf_model = "CSD"
     
     # Which strategy to use in tracking. This can be the standard local
@@ -438,6 +438,8 @@ See an example configuration file below::
     # Number of GPUs to use in tractography. If non-0,
     # this algorithm is used for tractography,
     # https://github.com/dipy/GPUStreamlines
+    # PTT, Prob can be used with any SHM model.
+    # Bootstrapped can be done with CSA/OPDT.
     # Default: 0
     tractography_ngpus = 0
     

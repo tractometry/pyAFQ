@@ -94,7 +94,7 @@ Attributes
 .. py:function:: _plot_profiles(profiles, bundle_name, color, fig, scalar)
 
 
-.. py:function:: visualize_bundles(sft, n_points=None, bundle=None, colors=None, shade_by_volume=None, color_by_streamline=None, n_sls_viz=3600, sbv_lims=[None, None], include_profiles=(None, None), flip_axes=[False, False, False], opacity=1.0, figure=None, background=(1, 1, 1), interact=False, inline=False, **kwargs)
+.. py:function:: visualize_bundles(seg_sft, n_points=None, bundle=None, colors=None, shade_by_volume=None, color_by_streamline=None, n_sls_viz=3600, sbv_lims=[None, None], include_profiles=(None, None), flip_axes=[False, False, False], opacity=1.0, figure=None, background=(1, 1, 1), interact=False, inline=False, **kwargs)
 
    
    Visualize bundles in 3D
@@ -102,12 +102,9 @@ Attributes
 
    :Parameters:
 
-       **sft** : Stateful Tractogram, str
-           A Stateful Tractogram containing streamline information
-           or a path to a trk file.
-           In order to visualize individual bundles, the Stateful Tractogram
-           must contain a bundle key in it's data_per_streamline which is a list
-           of bundle `'uid'`.
+       **seg_sft** : SegmentedSFT, str
+           A SegmentedSFT containing streamline information
+           or a path to a segmented trk file.
 
        **n_points** : int or None
            n_points to resample streamlines to before plotting. If None, no
@@ -464,7 +461,7 @@ Attributes
 .. py:function:: _draw_core(sls, n_points, figure, bundle_name, indiv_profile, labelled_points, dimensions, flip_axes)
 
 
-.. py:function:: single_bundle_viz(indiv_profile, sft, bundle, scalar_name, flip_axes=[False, False, False], labelled_nodes=[0, -1], figure=None, include_profile=False)
+.. py:function:: single_bundle_viz(indiv_profile, seg_sft, bundle, scalar_name, flip_axes=[False, False, False], labelled_nodes=[0, -1], figure=None, include_profile=False)
 
    
    Visualize a single bundle in 3D with core bundle and associated profile
@@ -475,13 +472,9 @@ Attributes
        **indiv_profile** : ndarray
            A numpy array containing a tract profile for this bundle for a scalar.
 
-       **sft** : Stateful Tractogram, str
-           A Stateful Tractogram containing streamline information.
-           If bundle is an int, the Stateful Tractogram
-           must contain a bundle key in it's data_per_streamline which is a list
-           of bundle `'uid'.
-           Otherwise, the entire Stateful Tractogram will be used as the bundle
-           for the visualization.
+       **seg_sft** : SegmentedSFT, str
+           A SegmentedSFT containing streamline information
+           or a path to a segmented trk file.
 
        **bundle** : str or int
            The name of the bundle to be used as the label for the plot,

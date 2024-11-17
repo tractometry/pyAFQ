@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.viz.fury_backend &#8212; AFQ 1.3.5 documentation</title>
+    <title>AFQ.viz.fury_backend &#8212; AFQ 1.3.6 documentation</title>
   
   
   
@@ -132,8 +132,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.5 documentation - Home"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.5 documentation - Home"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.6 documentation - Home"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.6 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -470,7 +470,7 @@ document.write(`
     <span class="k">return</span> <span class="n">scene</span></div>
 
 
-<div class="viewcode-block" id="visualize_bundles"><a class="viewcode-back" href="../../../reference/api/AFQ/viz/fury_backend/index.html#AFQ.viz.fury_backend.visualize_bundles">[docs]</a><span class="k">def</span> <span class="nf">visualize_bundles</span><span class="p">(</span><span class="n">sft</span><span class="p">,</span> <span class="n">n_points</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bundle_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<div class="viewcode-block" id="visualize_bundles"><a class="viewcode-back" href="../../../reference/api/AFQ/viz/fury_backend/index.html#AFQ.viz.fury_backend.visualize_bundles">[docs]</a><span class="k">def</span> <span class="nf">visualize_bundles</span><span class="p">(</span><span class="n">seg_sft</span><span class="p">,</span> <span class="n">n_points</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                       <span class="n">bundle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                       <span class="n">color_by_direction</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                       <span class="n">opacity</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
@@ -484,21 +484,13 @@ document.write(`
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    sft : Stateful Tractogram, str</span>
-<span class="sd">        A Stateful Tractogram containing streamline information</span>
-<span class="sd">        or a path to a trk file</span>
-<span class="sd">        In order to visualize individual bundles, the Stateful Tractogram</span>
-<span class="sd">        must contain a bundle key in it&#39;s data_per_streamline which is a list</span>
-<span class="sd">        of bundle `&#39;uid&#39;`.</span>
+<span class="sd">    seg_sft : SegmentedSFT, str</span>
+<span class="sd">        A SegmentedSFT containing streamline information</span>
+<span class="sd">        or a path to a segmented trk file.</span>
 
 <span class="sd">    n_points : int or None</span>
 <span class="sd">        n_points to resample streamlines to before plotting. If None, no</span>
 <span class="sd">        resampling is done.</span>
-
-<span class="sd">    bundle_dict : dict, optional</span>
-<span class="sd">        Keys are names of bundles and values are dicts that specify them.</span>
-<span class="sd">        Default: bundles are either not identified, or identified</span>
-<span class="sd">        only as unique integers in the metadata.</span>
 
 <span class="sd">    bundle : str or int, optional</span>
 <span class="sd">        The name of a bundle to select from among the keys in `bundle_dict`</span>
@@ -544,7 +536,7 @@ document.write(`
     <span class="n">figure</span><span class="o">.</span><span class="n">SetBackground</span><span class="p">(</span><span class="n">background</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">background</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">background</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
 
     <span class="k">for</span> <span class="p">(</span><span class="n">sls</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">dimensions</span><span class="p">)</span> <span class="ow">in</span> <span class="n">vut</span><span class="o">.</span><span class="n">tract_generator</span><span class="p">(</span>
-            <span class="n">sft</span><span class="p">,</span> <span class="n">bundle</span><span class="p">,</span> <span class="n">bundle_dict</span><span class="p">,</span> <span class="n">colors</span><span class="p">,</span> <span class="n">n_points</span><span class="p">):</span>
+            <span class="n">seg_sft</span><span class="p">,</span> <span class="n">bundle</span><span class="p">,</span> <span class="n">colors</span><span class="p">,</span> <span class="n">n_points</span><span class="p">):</span>
         <span class="n">sls</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sls</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;all_bundles&quot;</span><span class="p">:</span>
             <span class="n">color</span> <span class="o">=</span> <span class="n">line_colors</span><span class="p">(</span><span class="n">sls</span><span class="p">)</span>
@@ -935,9 +927,8 @@ document.write(`
     <span class="k">return</span> <span class="n">line_color_untouched</span></div>
 
 
-<div class="viewcode-block" id="single_bundle_viz"><a class="viewcode-back" href="../../../reference/api/AFQ/viz/fury_backend/index.html#AFQ.viz.fury_backend.single_bundle_viz">[docs]</a><span class="k">def</span> <span class="nf">single_bundle_viz</span><span class="p">(</span><span class="n">indiv_profile</span><span class="p">,</span> <span class="n">sft</span><span class="p">,</span>
+<div class="viewcode-block" id="single_bundle_viz"><a class="viewcode-back" href="../../../reference/api/AFQ/viz/fury_backend/index.html#AFQ.viz.fury_backend.single_bundle_viz">[docs]</a><span class="k">def</span> <span class="nf">single_bundle_viz</span><span class="p">(</span><span class="n">indiv_profile</span><span class="p">,</span> <span class="n">seg_sft</span><span class="p">,</span>
                       <span class="n">bundle</span><span class="p">,</span> <span class="n">scalar_name</span><span class="p">,</span>
-                      <span class="n">bundle_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                       <span class="n">flip_axes</span><span class="o">=</span><span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span>
                       <span class="n">labelled_nodes</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
                       <span class="n">figure</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -950,13 +941,9 @@ document.write(`
 <span class="sd">    indiv_profile : ndarray</span>
 <span class="sd">        A numpy array containing a tract profile for this bundle for a scalar.</span>
 
-<span class="sd">    sft : Stateful Tractogram, str</span>
-<span class="sd">        A Stateful Tractogram containing streamline information.</span>
-<span class="sd">        If bundle is an int, the Stateful Tractogram</span>
-<span class="sd">        must contain a bundle key in it&#39;s data_per_streamline which is a list</span>
-<span class="sd">        of bundle `&#39;uid&#39;.</span>
-<span class="sd">        Otherwise, the entire Stateful Tractogram will be used as the bundle</span>
-<span class="sd">        for the visualization.</span>
+<span class="sd">    seg_sft : SegmentedSFT, str</span>
+<span class="sd">        A SegmentedSFT containing streamline information</span>
+<span class="sd">        or a path to a segmented trk file.</span>
 
 <span class="sd">    bundle : str or int</span>
 <span class="sd">        The name of the bundle to be used as the label for the plot,</span>
@@ -964,12 +951,6 @@ document.write(`
 
 <span class="sd">    scalar_name : str</span>
 <span class="sd">        The name of the scalar being used.</span>
-
-<span class="sd">    bundle_dict : dict, optional</span>
-<span class="sd">        This parameter is used if bundle is an int.</span>
-<span class="sd">        Keys are names of bundles and values are dicts that specify them.</span>
-<span class="sd">        Default: Either the entire sft is treated as a bundle,</span>
-<span class="sd">        or identified only as unique integers in the metadata.</span>
 
 <span class="sd">    flip_axes : ndarray</span>
 <span class="sd">        Which axes to flip, to orient the image as RAS, which is how we</span>
@@ -998,7 +979,7 @@ document.write(`
 
     <span class="n">n_points</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">indiv_profile</span><span class="p">)</span>
     <span class="n">sls</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">bundle_name</span><span class="p">,</span> <span class="n">dimensions</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">vut</span><span class="o">.</span><span class="n">tract_generator</span><span class="p">(</span>
-        <span class="n">sft</span><span class="p">,</span> <span class="n">bundle</span><span class="p">,</span> <span class="n">bundle_dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">n_points</span><span class="p">))</span>
+        <span class="n">seg_sft</span><span class="p">,</span> <span class="n">bundle</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">n_points</span><span class="p">))</span>
 
     <span class="n">_draw_core</span><span class="p">(</span>
         <span class="n">sls</span><span class="p">,</span> <span class="n">n_points</span><span class="p">,</span> <span class="n">figure</span><span class="p">,</span> <span class="n">bundle_name</span><span class="p">,</span> <span class="n">indiv_profile</span><span class="p">,</span>

@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.definitions.utils &#8212; AFQ 1.3.5 documentation</title>
+    <title>AFQ.definitions.utils &#8212; AFQ 1.3.6 documentation</title>
   
   
   
@@ -132,8 +132,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.5 documentation - Home"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.5 documentation - Home"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.6 documentation - Home"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.6 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -506,9 +506,12 @@ document.write(`
 <div class="viewcode-block" id="name_from_path"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/utils/index.html#AFQ.definitions.utils.name_from_path">[docs]</a><span class="k">def</span> <span class="nf">name_from_path</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
     <span class="n">file_name</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>  <span class="c1"># get file name</span>
     <span class="n">file_name</span> <span class="o">=</span> <span class="n">drop_extension</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>  <span class="c1"># remove extension</span>
-    <span class="k">if</span> <span class="s2">&quot;-&quot;</span> <span class="ow">in</span> <span class="n">file_name</span><span class="p">:</span>
-        <span class="n">file_name</span> <span class="o">=</span> <span class="n">file_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># get suffix if exists</span>
-    <span class="k">return</span> <span class="n">file_name</span></div>
+    <span class="k">if</span> <span class="s2">&quot;desc-&quot;</span> <span class="ow">in</span> <span class="n">file_name</span><span class="p">:</span>  <span class="c1"># get desc if exists</span>
+        <span class="k">return</span> <span class="n">file_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;desc-&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="s2">&quot;_&quot;</span> <span class="ow">in</span> <span class="n">file_name</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">file_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># get suffix if exists</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">file_name</span></div>
 
 
 <span class="k">def</span> <span class="nf">_ff_helper</span><span class="p">(</span><span class="n">required</span><span class="p">,</span> <span class="n">err_msg</span><span class="p">):</span>

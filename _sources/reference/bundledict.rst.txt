@@ -33,8 +33,8 @@ key-value pairs::
       key. The 'sl' key should be the reference streamline and the 'centroid'
       key should be the centroid threshold for Recobundles.
     - 'qb_thresh': Float which is the threshold for Quickbundles cleaning.
-    - 'primary_axis': int which is the index of the primary axis the
-      bundle should travel in.
+    - 'primary_axis': string which is the primary axis the
+      bundle should travel in. Can be one of: 'L/R', 'P/A', 'I/S'.
     - 'primary_axis_percentage': Used with primary_axis, defines what fraction
       of a streamlines movement should be in the primary axis.
     - 'length': dicitonary containing 'min_len' and 'max_len'
@@ -87,7 +87,7 @@ be included as keys in the same dictionary for that tract. For example::
                                         'core': 'Posterior'},
                                     'Left Inferior Longitudinal': {
                                         'core': 'Left'},
-                                    'primary_axis': 2,
+                                    'primary_axis': 'I/S',
                                     'primary_axis_percentage': 40}
                             })
 

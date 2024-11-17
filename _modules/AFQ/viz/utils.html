@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.viz.utils &#8212; AFQ 1.3.5 documentation</title>
+    <title>AFQ.viz.utils &#8212; AFQ 1.3.6 documentation</title>
   
   
   
@@ -132,8 +132,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.5 documentation - Home"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.5 documentation - Home"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.6 documentation - Home"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.6 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -906,8 +906,6 @@ document.write(`
 <span class="k">def</span> <span class="nf">trim</span><span class="p">(</span><span class="n">im</span><span class="p">):</span>
     <span class="n">bg</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">im</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span> <span class="n">im</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">im</span><span class="o">.</span><span class="n">getpixel</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))</span>
     <span class="n">diff</span> <span class="o">=</span> <span class="n">ImageChops</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">bg</span><span class="p">)</span>
-    <span class="n">diff</span> <span class="o">=</span> <span class="n">ImageChops</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">diff</span><span class="p">,</span> <span class="n">diff</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">)</span>
-    <span class="n">diff</span><span class="o">.</span><span class="n">getbbox</span>
     <span class="n">this_bbox</span> <span class="o">=</span> <span class="n">bbox</span><span class="p">(</span><span class="n">diff</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">this_bbox</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">im</span><span class="o">.</span><span class="n">crop</span><span class="p">(</span><span class="n">this_bbox</span><span class="p">)</span>

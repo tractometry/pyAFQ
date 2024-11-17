@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.viz.fury_backend &#8212; AFQ 1.3.5 documentation</title>
+    <title>AFQ.viz.fury_backend &#8212; AFQ 1.3.6 documentation</title>
   
   
   
@@ -134,8 +134,8 @@
       
     
     
-    <img src="../../../../../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.5 documentation - Home"/>
-    <script>document.write(`<img src="../../../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.5 documentation - Home"/>`);</script>
+    <img src="../../../../../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.6 documentation - Home"/>
+    <script>document.write(`<img src="../../../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.6 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -415,6 +415,7 @@ document.write(`
 <li class="toctree-l4"><a class="reference internal" href="../../recognition/cleaning/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.recognition.cleaning</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../recognition/criteria/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.recognition.criteria</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../recognition/curvature/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.recognition.curvature</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../recognition/other_bundles/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.recognition.other_bundles</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../recognition/preprocess/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.recognition.preprocess</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../recognition/recognize/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.recognition.recognize</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../recognition/roi/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.recognition.roi</span></code></a></li>
@@ -547,7 +548,7 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="#AFQ.viz.fury_backend._inline_interact" title="AFQ.viz.fury_backend._inline_interact"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_inline_interact</span></code></a>(scene, inline, interact)</p></td>
 <td><p>Helper function to reuse across viz functions</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AFQ.viz.fury_backend.visualize_bundles" title="AFQ.viz.fury_backend.visualize_bundles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">visualize_bundles</span></code></a>(sft[, n_points, bundle_dict, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#AFQ.viz.fury_backend.visualize_bundles" title="AFQ.viz.fury_backend.visualize_bundles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">visualize_bundles</span></code></a>(seg_sft[, n_points, bundle, colors, ...])</p></td>
 <td><p>Visualize bundles in 3D using VTK.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#AFQ.viz.fury_backend.scene_rotate_forward" title="AFQ.viz.fury_backend.scene_rotate_forward"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scene_rotate_forward</span></code></a>(scene)</p></td>
@@ -565,7 +566,7 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="#AFQ.viz.fury_backend._draw_core" title="AFQ.viz.fury_backend._draw_core"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_draw_core</span></code></a>(sls, n_points, figure, bundle_name, ...)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AFQ.viz.fury_backend.single_bundle_viz" title="AFQ.viz.fury_backend.single_bundle_viz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">single_bundle_viz</span></code></a>(indiv_profile, sft, bundle, scalar_name)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#AFQ.viz.fury_backend.single_bundle_viz" title="AFQ.viz.fury_backend.single_bundle_viz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">single_bundle_viz</span></code></a>(indiv_profile, seg_sft, bundle, ...)</p></td>
 <td><p>Visualize a single bundle in 3D with core bundle and associated profile</p></td>
 </tr>
 </tbody>
@@ -599,24 +600,17 @@ document.write(`
 
 <dl class="py function">
 <dt class="sig sig-object py" id="AFQ.viz.fury_backend.visualize_bundles">
-<span class="sig-prename descclassname"><span class="pre">AFQ.viz.fury_backend.</span></span><span class="sig-name descname"><span class="pre">visualize_bundles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sft</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_by_direction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opacity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flip_axes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[False,</span> <span class="pre">False,</span> <span class="pre">False]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">background</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(1,</span> <span class="pre">1,</span> <span class="pre">1)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interact</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inline</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/viz/fury_backend.html#visualize_bundles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.viz.fury_backend.visualize_bundles" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">AFQ.viz.fury_backend.</span></span><span class="sig-name descname"><span class="pre">visualize_bundles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seg_sft</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_by_direction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opacity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flip_axes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[False,</span> <span class="pre">False,</span> <span class="pre">False]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">background</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(1,</span> <span class="pre">1,</span> <span class="pre">1)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interact</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inline</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/viz/fury_backend.html#visualize_bundles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.viz.fury_backend.visualize_bundles" title="Permalink to this definition">#</a></dt>
 <dd><p>Visualize bundles in 3D using VTK.
 Parameters not described below are extras to conform fury and plotly APIs.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>sft</strong><span class="classifier">Stateful Tractogram, str</span></dt><dd><p>A Stateful Tractogram containing streamline information
-or a path to a trk file
-In order to visualize individual bundles, the Stateful Tractogram
-must contain a bundle key in it’s data_per_streamline which is a list
-of bundle <cite>‘uid’</cite>.</p>
+<dt><strong>seg_sft</strong><span class="classifier">SegmentedSFT, str</span></dt><dd><p>A SegmentedSFT containing streamline information
+or a path to a segmented trk file.</p>
 </dd>
 <dt><strong>n_points</strong><span class="classifier">int or None</span></dt><dd><p>n_points to resample streamlines to before plotting. If None, no
 resampling is done.</p>
-</dd>
-<dt><strong>bundle_dict</strong><span class="classifier">dict, optional</span></dt><dd><p>Keys are names of bundles and values are dicts that specify them.
-Default: bundles are either not identified, or identified
-only as unique integers in the metadata.</p>
 </dd>
 <dt><strong>bundle</strong><span class="classifier">str or int, optional</span></dt><dd><p>The name of a bundle to select from among the keys in <cite>bundle_dict</cite>
 or an integer for selection from the sft metadata.</p>
@@ -780,29 +774,20 @@ in the notebook context. Default: False.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="AFQ.viz.fury_backend.single_bundle_viz">
-<span class="sig-prename descclassname"><span class="pre">AFQ.viz.fury_backend.</span></span><span class="sig-name descname"><span class="pre">single_bundle_viz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">indiv_profile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sft</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scalar_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flip_axes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[False,</span> <span class="pre">False,</span> <span class="pre">False]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labelled_nodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0,</span> <span class="pre">-1]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_profile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/viz/fury_backend.html#single_bundle_viz"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.viz.fury_backend.single_bundle_viz" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">AFQ.viz.fury_backend.</span></span><span class="sig-name descname"><span class="pre">single_bundle_viz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">indiv_profile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seg_sft</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scalar_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flip_axes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[False,</span> <span class="pre">False,</span> <span class="pre">False]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labelled_nodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0,</span> <span class="pre">-1]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_profile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/viz/fury_backend.html#single_bundle_viz"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.viz.fury_backend.single_bundle_viz" title="Permalink to this definition">#</a></dt>
 <dd><p>Visualize a single bundle in 3D with core bundle and associated profile</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>indiv_profile</strong><span class="classifier">ndarray</span></dt><dd><p>A numpy array containing a tract profile for this bundle for a scalar.</p>
 </dd>
-<dt><strong>sft</strong><span class="classifier">Stateful Tractogram, str</span></dt><dd><p>A Stateful Tractogram containing streamline information.
-If bundle is an int, the Stateful Tractogram
-must contain a bundle key in it’s data_per_streamline which is a list
-of bundle <a href="#id1"><span class="problematic" id="id2">`</span></a>’uid’.
-Otherwise, the entire Stateful Tractogram will be used as the bundle
-for the visualization.</p>
+<dt><strong>seg_sft</strong><span class="classifier">SegmentedSFT, str</span></dt><dd><p>A SegmentedSFT containing streamline information
+or a path to a segmented trk file.</p>
 </dd>
 <dt><strong>bundle</strong><span class="classifier">str or int</span></dt><dd><p>The name of the bundle to be used as the label for the plot,
 and for selection from the sft metadata.</p>
 </dd>
 <dt><strong>scalar_name</strong><span class="classifier">str</span></dt><dd><p>The name of the scalar being used.</p>
-</dd>
-<dt><strong>bundle_dict</strong><span class="classifier">dict, optional</span></dt><dd><p>This parameter is used if bundle is an int.
-Keys are names of bundles and values are dicts that specify them.
-Default: Either the entire sft is treated as a bundle,
-or identified only as unique integers in the metadata.</p>
 </dd>
 <dt><strong>flip_axes</strong><span class="classifier">ndarray</span></dt><dd><p>Which axes to flip, to orient the image as RAS, which is how we
 visualize.

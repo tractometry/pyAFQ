@@ -159,7 +159,7 @@ You can also specify other forks and branches to install from.
     knot = ck.Knot(
         name='afq-process-subject-201009-0',
         func=afq_process_subject,
-        base_image='python:3.8',
+        base_image='python:3.11',
         image_github_installs="https://github.com/tractometry/pyAFQ.git",
         pars_policies=('AmazonS3FullAccess',),
         bid_percentage=100)
@@ -224,7 +224,7 @@ resulting profiles of each subject and combines them into one csv file.
     knot2 = ck.Knot(
         name='afq_combine_subjects-201009-0',
         func=afq_combine_profiles,
-        base_image='python:3.8',
+        base_image='python:3.11',
         image_github_installs="https://github.com/tractometry/pyAFQ.git",
         pars_policies=('AmazonS3FullAccess',),
         bid_percentage=100)

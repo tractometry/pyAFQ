@@ -30,7 +30,7 @@ Attributes
 
    
 
-.. py:function:: clean_by_orientation(streamlines, primary_axis, tol=None)
+.. py:function:: clean_by_orientation(streamlines, primary_axis, affine, tol=None)
 
    
    Compute the cardinal orientation of each streamline

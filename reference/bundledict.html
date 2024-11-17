@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Defining Custom Bundle Dictionaries &#8212; AFQ 1.3.5 documentation</title>
+    <title>Defining Custom Bundle Dictionaries &#8212; AFQ 1.3.6 documentation</title>
   
   
   
@@ -134,8 +134,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.5 documentation - Home"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.5 documentation - Home"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.6 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.6 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -415,6 +415,7 @@ document.write(`
 <li class="toctree-l4"><a class="reference internal" href="api/AFQ/recognition/cleaning/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.recognition.cleaning</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/AFQ/recognition/criteria/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.recognition.criteria</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/AFQ/recognition/curvature/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.recognition.curvature</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/AFQ/recognition/other_bundles/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.recognition.other_bundles</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/AFQ/recognition/preprocess/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.recognition.preprocess</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/AFQ/recognition/recognize/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.recognition.recognize</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/AFQ/recognition/roi/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.recognition.roi</span></code></a></li>
@@ -557,8 +558,8 @@ key-value pairs:</p>
   <span class="n">key</span><span class="o">.</span> <span class="n">The</span> <span class="s1">&#39;sl&#39;</span> <span class="n">key</span> <span class="n">should</span> <span class="n">be</span> <span class="n">the</span> <span class="n">reference</span> <span class="n">streamline</span> <span class="ow">and</span> <span class="n">the</span> <span class="s1">&#39;centroid&#39;</span>
   <span class="n">key</span> <span class="n">should</span> <span class="n">be</span> <span class="n">the</span> <span class="n">centroid</span> <span class="n">threshold</span> <span class="k">for</span> <span class="n">Recobundles</span><span class="o">.</span>
 <span class="o">-</span> <span class="s1">&#39;qb_thresh&#39;</span><span class="p">:</span> <span class="n">Float</span> <span class="n">which</span> <span class="ow">is</span> <span class="n">the</span> <span class="n">threshold</span> <span class="k">for</span> <span class="n">Quickbundles</span> <span class="n">cleaning</span><span class="o">.</span>
-<span class="o">-</span> <span class="s1">&#39;primary_axis&#39;</span><span class="p">:</span> <span class="nb">int</span> <span class="n">which</span> <span class="ow">is</span> <span class="n">the</span> <span class="n">index</span> <span class="n">of</span> <span class="n">the</span> <span class="n">primary</span> <span class="n">axis</span> <span class="n">the</span>
-  <span class="n">bundle</span> <span class="n">should</span> <span class="n">travel</span> <span class="ow">in</span><span class="o">.</span>
+<span class="o">-</span> <span class="s1">&#39;primary_axis&#39;</span><span class="p">:</span> <span class="n">string</span> <span class="n">which</span> <span class="ow">is</span> <span class="n">the</span> <span class="n">primary</span> <span class="n">axis</span> <span class="n">the</span>
+  <span class="n">bundle</span> <span class="n">should</span> <span class="n">travel</span> <span class="ow">in</span><span class="o">.</span> <span class="n">Can</span> <span class="n">be</span> <span class="n">one</span> <span class="n">of</span><span class="p">:</span> <span class="s1">&#39;L/R&#39;</span><span class="p">,</span> <span class="s1">&#39;P/A&#39;</span><span class="p">,</span> <span class="s1">&#39;I/S&#39;</span><span class="o">.</span>
 <span class="o">-</span> <span class="s1">&#39;primary_axis_percentage&#39;</span><span class="p">:</span> <span class="n">Used</span> <span class="k">with</span> <span class="n">primary_axis</span><span class="p">,</span> <span class="n">defines</span> <span class="n">what</span> <span class="n">fraction</span>
   <span class="n">of</span> <span class="n">a</span> <span class="n">streamlines</span> <span class="n">movement</span> <span class="n">should</span> <span class="n">be</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">primary</span> <span class="n">axis</span><span class="o">.</span>
 <span class="o">-</span> <span class="s1">&#39;length&#39;</span><span class="p">:</span> <span class="n">dicitonary</span> <span class="n">containing</span> <span class="s1">&#39;min_len&#39;</span> <span class="ow">and</span> <span class="s1">&#39;max_len&#39;</span>
@@ -610,7 +611,7 @@ be included as keys in the same dictionary for that tract. For example:</p>
                                      <span class="s1">&#39;core&#39;</span><span class="p">:</span> <span class="s1">&#39;Posterior&#39;</span><span class="p">},</span>
                                  <span class="s1">&#39;Left Inferior Longitudinal&#39;</span><span class="p">:</span> <span class="p">{</span>
                                      <span class="s1">&#39;core&#39;</span><span class="p">:</span> <span class="s1">&#39;Left&#39;</span><span class="p">},</span>
-                                 <span class="s1">&#39;primary_axis&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+                                 <span class="s1">&#39;primary_axis&#39;</span><span class="p">:</span> <span class="s1">&#39;I/S&#39;</span><span class="p">,</span>
                                  <span class="s1">&#39;primary_axis_percentage&#39;</span><span class="p">:</span> <span class="mi">40</span><span class="p">}</span>
                          <span class="p">})</span>
 </pre></div>

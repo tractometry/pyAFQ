@@ -13,6 +13,7 @@ Submodules
    cleaning/index.rst
    criteria/index.rst
    curvature/index.rst
+   other_bundles/index.rst
    preprocess/index.rst
    recognize/index.rst
    roi/index.rst

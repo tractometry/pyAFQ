@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.tasks.tractography &#8212; AFQ 1.3.5 documentation</title>
+    <title>AFQ.tasks.tractography &#8212; AFQ 1.3.6 documentation</title>
   
   
   
@@ -132,8 +132,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.5 documentation - Home"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.5 documentation - Home"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.6 documentation - Home"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.6 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -437,6 +437,8 @@ document.write(`
 <span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 
+<span class="kn">import</span> <span class="nn">dipy.data</span> <span class="k">as</span> <span class="nn">dpd</span>
+
 <span class="kn">import</span> <span class="nn">pimms</span>
 <span class="kn">import</span> <span class="nn">multiprocessing</span>
 
@@ -446,19 +448,16 @@ document.write(`
 <span class="kn">import</span> <span class="nn">AFQ.tractography.tractography</span> <span class="k">as</span> <span class="nn">aft</span>
 <span class="kn">from</span> <span class="nn">AFQ.tasks.utils</span> <span class="kn">import</span> <span class="n">get_default_args</span>
 <span class="kn">from</span> <span class="nn">AFQ.definitions.image</span> <span class="kn">import</span> <span class="n">ScalarImage</span>
-<span class="kn">from</span> <span class="nn">AFQ.tractography.utils</span> <span class="kn">import</span> <span class="n">gen_seeds</span>
+<span class="kn">from</span> <span class="nn">AFQ.tractography.utils</span> <span class="kn">import</span> <span class="n">gen_seeds</span><span class="p">,</span> <span class="n">get_percentile_threshold</span>
+
+<span class="kn">from</span> <span class="nn">trx.trx_file_memmap</span> <span class="kn">import</span> <span class="n">TrxFile</span>
+<span class="kn">from</span> <span class="nn">trx.trx_file_memmap</span> <span class="kn">import</span> <span class="n">concatenate</span> <span class="k">as</span> <span class="n">trx_concatenate</span>
 
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">ray</span>
 <div class="viewcode-block" id="has_ray"><a class="viewcode-back" href="../../../reference/api/AFQ/tasks/tractography/index.html#AFQ.tasks.tractography.has_ray">[docs]</a>    <span class="n">has_ray</span> <span class="o">=</span> <span class="kc">True</span></div>
 <span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
     <span class="n">has_ray</span> <span class="o">=</span> <span class="kc">False</span>
-<span class="k">try</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">trx.trx_file_memmap</span> <span class="kn">import</span> <span class="n">TrxFile</span>
-    <span class="kn">from</span> <span class="nn">trx.trx_file_memmap</span> <span class="kn">import</span> <span class="n">concatenate</span> <span class="k">as</span> <span class="n">trx_concatenate</span>
-<div class="viewcode-block" id="has_trx"><a class="viewcode-back" href="../../../reference/api/AFQ/tasks/tractography/index.html#AFQ.tasks.tractography.has_trx">[docs]</a>    <span class="n">has_trx</span> <span class="o">=</span> <span class="kc">True</span></div>
-<span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
-    <span class="n">has_trx</span> <span class="o">=</span> <span class="kc">False</span>
 
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">AFQ.tractography.gputractography</span> <span class="kn">import</span> <span class="n">gpu_track</span>
@@ -504,7 +503,13 @@ document.write(`
 <span class="sd">    tractography seed mask</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">seed_mask</span> <span class="o">=</span> <span class="n">tracking_params</span><span class="p">[</span><span class="s1">&#39;seed_mask&#39;</span><span class="p">]</span>
-    <span class="n">seed_mask_desc</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">tracking_params</span><span class="p">[</span><span class="s1">&#39;seed_mask&#39;</span><span class="p">])</span>
+    <span class="n">seed_threshold</span> <span class="o">=</span> <span class="n">tracking_params</span><span class="p">[</span><span class="s1">&#39;seed_threshold&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">tracking_params</span><span class="p">[</span><span class="s1">&#39;thresholds_as_percentages&#39;</span><span class="p">]:</span>
+        <span class="n">seed_threshold</span> <span class="o">=</span> <span class="n">get_percentile_threshold</span><span class="p">(</span>
+            <span class="n">seed_mask</span><span class="p">,</span> <span class="n">seed_threshold</span><span class="p">)</span>
+    <span class="n">seed_mask_desc</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">source</span><span class="o">=</span><span class="n">tracking_params</span><span class="p">[</span><span class="s1">&#39;seed_mask&#39;</span><span class="p">],</span>
+        <span class="n">threshold</span><span class="o">=</span><span class="n">seed_threshold</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">nib</span><span class="o">.</span><span class="n">Nifti1Image</span><span class="p">(</span><span class="n">seed_mask</span><span class="p">,</span> <span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;dwi_affine&quot;</span><span class="p">]),</span> \
         <span class="n">seed_mask_desc</span></div>
 
@@ -517,7 +522,13 @@ document.write(`
 <span class="sd">    tractography stop mask</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">stop_mask</span> <span class="o">=</span> <span class="n">tracking_params</span><span class="p">[</span><span class="s1">&#39;stop_mask&#39;</span><span class="p">]</span>
-    <span class="n">stop_mask_desc</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">tracking_params</span><span class="p">[</span><span class="s1">&#39;stop_mask&#39;</span><span class="p">])</span>
+    <span class="n">stop_threshold</span> <span class="o">=</span> <span class="n">tracking_params</span><span class="p">[</span><span class="s1">&#39;stop_threshold&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">tracking_params</span><span class="p">[</span><span class="s1">&#39;thresholds_as_percentages&#39;</span><span class="p">]:</span>
+        <span class="n">stop_threshold</span> <span class="o">=</span> <span class="n">get_percentile_threshold</span><span class="p">(</span>
+            <span class="n">stop_mask</span><span class="p">,</span> <span class="n">stop_threshold</span><span class="p">)</span>
+    <span class="n">stop_mask_desc</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">source</span><span class="o">=</span><span class="n">tracking_params</span><span class="p">[</span><span class="s1">&#39;stop_mask&#39;</span><span class="p">],</span>
+        <span class="n">stop_threshold</span><span class="o">=</span><span class="n">stop_threshold</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">nib</span><span class="o">.</span><span class="n">Nifti1Image</span><span class="p">(</span><span class="n">stop_mask</span><span class="p">,</span> <span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;dwi_affine&quot;</span><span class="p">]),</span> \
         <span class="n">stop_mask_desc</span></div>
 
@@ -724,16 +735,30 @@ document.write(`
 <span class="sd">        Number of GPUs to use in tractography. If non-0,</span>
 <span class="sd">        this algorithm is used for tractography,</span>
 <span class="sd">        https://github.com/dipy/GPUStreamlines</span>
+<span class="sd">        PTT, Prob can be used with any SHM model.</span>
+<span class="sd">        Bootstrapped can be done with CSA/OPDT.</span>
 <span class="sd">        Default: 0</span>
 <span class="sd">    chunk_size : int, optional</span>
 <span class="sd">        Chunk size for GPU tracking.</span>
 <span class="sd">        Default: 100000</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">tracking_params</span><span class="p">[</span><span class="s2">&quot;directions&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;boot&quot;</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span>
+            <span class="n">data_imap</span><span class="p">[</span><span class="n">tracking_params</span><span class="p">[</span><span class="s2">&quot;odf_model&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;_params&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
+
+    <span class="n">sphere</span> <span class="o">=</span> <span class="n">tracking_params</span><span class="p">[</span><span class="s2">&quot;sphere&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">sphere</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">sphere</span> <span class="o">=</span> <span class="n">dpd</span><span class="o">.</span><span class="n">default_sphere</span>
+
     <span class="n">sft</span> <span class="o">=</span> <span class="n">gpu_track</span><span class="p">(</span>
-        <span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">],</span> <span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;gtab&quot;</span><span class="p">],</span>
+        <span class="n">data</span><span class="p">,</span> <span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;gtab&quot;</span><span class="p">],</span>
         <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">seed</span><span class="p">),</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">stop</span><span class="p">),</span>
         <span class="n">tracking_params</span><span class="p">[</span><span class="s2">&quot;odf_model&quot;</span><span class="p">],</span>
+        <span class="n">sphere</span><span class="p">,</span>
+        <span class="n">tracking_params</span><span class="p">[</span><span class="s2">&quot;directions&quot;</span><span class="p">],</span>
         <span class="n">tracking_params</span><span class="p">[</span><span class="s2">&quot;seed_threshold&quot;</span><span class="p">],</span>
         <span class="n">tracking_params</span><span class="p">[</span><span class="s2">&quot;stop_threshold&quot;</span><span class="p">],</span>
         <span class="n">tracking_params</span><span class="p">[</span><span class="s2">&quot;thresholds_as_percentages&quot;</span><span class="p">],</span>
@@ -741,6 +766,7 @@ document.write(`
         <span class="n">tracking_params</span><span class="p">[</span><span class="s2">&quot;n_seeds&quot;</span><span class="p">],</span>
         <span class="n">tracking_params</span><span class="p">[</span><span class="s2">&quot;random_seeds&quot;</span><span class="p">],</span>
         <span class="n">tracking_params</span><span class="p">[</span><span class="s2">&quot;rng_seed&quot;</span><span class="p">],</span>
+        <span class="n">tracking_params</span><span class="p">[</span><span class="s2">&quot;trx&quot;</span><span class="p">],</span>
         <span class="n">tractography_ngpus</span><span class="p">,</span>
         <span class="n">chunk_size</span><span class="p">)</span>
 
@@ -837,21 +863,6 @@ document.write(`
                 <span class="n">seed_mask</span><span class="o">.</span><span class="n">get_image_getter</span><span class="p">(</span><span class="s2">&quot;tractography&quot;</span><span class="p">)))</span>
 
     <span class="k">return</span> <span class="n">pimms</span><span class="o">.</span><span class="n">plan</span><span class="p">(</span><span class="o">**</span><span class="n">tractography_tasks</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="_gen_seeds"><a class="viewcode-back" href="../../../reference/api/AFQ/tasks/tractography/index.html#AFQ.tasks.tractography._gen_seeds">[docs]</a><span class="k">def</span> <span class="nf">_gen_seeds</span><span class="p">(</span><span class="n">n_seeds</span><span class="p">,</span> <span class="n">params_file</span><span class="p">,</span> <span class="n">seed_mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">seed_threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-               <span class="n">thresholds_as_percentages</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-               <span class="n">random_seeds</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">rng_seed</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">params_file</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="n">params_img</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">params_file</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">params_img</span> <span class="o">=</span> <span class="n">params_file</span>
-
-    <span class="n">affine</span> <span class="o">=</span> <span class="n">params_img</span><span class="o">.</span><span class="n">affine</span>
-
-    <span class="k">return</span> <span class="n">gen_seeds</span><span class="p">(</span><span class="n">seed_mask</span><span class="p">,</span> <span class="n">seed_threshold</span><span class="p">,</span> <span class="n">n_seeds</span><span class="p">,</span>
-                     <span class="n">thresholds_as_percentages</span><span class="p">,</span>
-                     <span class="n">random_seeds</span><span class="p">,</span> <span class="n">rng_seed</span><span class="p">,</span> <span class="n">affine</span><span class="p">)</span></div>
 </pre></div>
 
                 </article>

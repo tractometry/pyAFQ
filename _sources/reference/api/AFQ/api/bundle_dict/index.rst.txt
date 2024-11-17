@@ -152,6 +152,9 @@ Functions
 
    ..
        !! processed by numpydoc !!
+   .. py:method:: __print__()
+
+
    .. py:method:: update_max_includes(new_max)
 
 

@@ -152,7 +152,7 @@ args = attach_keys(args)
 knot = ck.Knot(
     name='afq-hcp-tractography-201110-0',
     func=afq_process_subject,
-    base_image='python:3.8',
+    base_image='python:3.11',
     image_github_installs="https://github.com/tractometry/pyAFQ.git",
     pars_policies=('AmazonS3FullAccess',),
     bid_percentage=100)
@@ -193,7 +193,7 @@ def afq_combine_profiles(seed_mask, n_seeds):
 knot2 = ck.Knot(
     name='afq_combine_subjects-201110-0',
     func=afq_combine_profiles,
-    base_image='python:3.8',
+    base_image='python:3.11',
     image_github_installs="https://github.com/tractometry/pyAFQ.git",
     pars_policies=('AmazonS3FullAccess',),
     bid_percentage=100)

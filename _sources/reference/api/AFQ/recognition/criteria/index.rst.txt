@@ -24,6 +24,7 @@ Functions
    AFQ.recognition.criteria.exclude
    AFQ.recognition.criteria.recobundles
    AFQ.recognition.criteria.qb_thresh
+   AFQ.recognition.criteria.clean_by_other_bundle
    AFQ.recognition.criteria.mahalanobis
    AFQ.recognition.criteria.run_bundle_rec_plan
 
@@ -35,11 +36,17 @@ Attributes
 .. autoapisummary::
 
    AFQ.recognition.criteria.bundle_criterion_order
+   AFQ.recognition.criteria.valid_noncriterion
    AFQ.recognition.criteria.logger
 
 
 .. py:data:: bundle_criterion_order
    :value: ['prob_map', 'cross_midline', 'start', 'end', 'length', 'primary_axis', 'include', 'exclude',...
+
+   
+
+.. py:data:: valid_noncriterion
+   :value: ['space', 'mahal', 'primary_axis_percentage', 'inc_addtol', 'exc_addtol']
 
    
 
@@ -62,7 +69,7 @@ Attributes
 .. py:function:: length(b_sls, bundle_def, preproc_imap, **kwargs)
 
 
-.. py:function:: primary_axis(b_sls, bundle_def, **kwargs)
+.. py:function:: primary_axis(b_sls, bundle_def, img, **kwargs)
 
 
 .. py:function:: include(b_sls, bundle_def, preproc_imap, max_includes, parallel_segmentation, **kwargs)
@@ -99,6 +106,9 @@ Attributes
 
 
 .. py:function:: qb_thresh(b_sls, bundle_def, preproc_imap, clip_edges, **kwargs)
+
+
+.. py:function:: clean_by_other_bundle(b_sls, bundle_def, img, preproc_imap, other_bundle_name, other_bundle_sls, **kwargs)
 
 
 .. py:function:: mahalanobis(b_sls, bundle_def, clip_edges, cleaning_params, **kwargs)
