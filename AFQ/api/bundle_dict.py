@@ -229,14 +229,14 @@ def default18_bd():
                                    'exclude': [templates['SLF_roi1_L']],
                                    'space': 'template',
                                    'start': templates['pARC_L_start'],
-                                   'primary_axis': 2,
+                                   'primary_axis': 'I/S',
                                    'primary_axis_percentage': 40},
         'Right Posterior Arcuate': {'cross_midline': False,
                                     'include': [templates['SLFt_roi2_R']],
                                     'exclude': [templates['SLF_roi1_R']],
                                     'space': 'template',
                                     'start': templates['pARC_R_start'],
-                                    'primary_axis': 2,
+                                    'primary_axis': 'I/S',
                                     'primary_axis_percentage': 40},
         'Left Vertical Occipital': {'cross_midline': False,
                                     'space': 'template',
@@ -250,7 +250,7 @@ def default18_bd():
                                         'core': 'Anterior'},
                                     'Left Inferior Longitudinal': {
                                         'core': 'Right'},
-                                    'primary_axis': 2,
+                                    'primary_axis': 'I/S',
                                     'primary_axis_percentage': 40},
         'Right Vertical Occipital': {'cross_midline': False,
                                      'space': 'template',
@@ -264,7 +264,7 @@ def default18_bd():
                                          'core': 'Anterior'},
                                      'Right Inferior Longitudinal': {
                                          'core': 'Left'},
-                                     'primary_axis': 2,
+                                     'primary_axis': 'I/S',
                                      'primary_axis_percentage': 40}})
 
 
@@ -815,7 +815,7 @@ class BundleDict(MutableMapping):
 
     def __print__(self):
         print(self._dict)
-    
+
     def update_max_includes(self, new_max):
         if new_max > self.max_includes:
             self.max_includes = new_max

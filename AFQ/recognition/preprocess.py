@@ -1,4 +1,5 @@
 import numpy as np
+import nibabel as nib
 import pimms
 from time import time
 import logging
@@ -55,9 +56,16 @@ def crosses(fgarray, img):
     zero_coord = np.dot(np.linalg.inv(img.affine),
                         np.array([0, 0, 0, 1]))
 
+    orientation = nib.orientations.aff2axcodes(img.affine)
+    lr_axis = 0
+    for idx, axis_label in enumerate(orientation):
+        if axis_label in ['L', 'R']:
+            lr_axis = idx
+            break
+
     return np.logical_and(
-        np.any(fgarray[:, :, 0] > zero_coord[0], axis=1),
-        np.any(fgarray[:, :, 0] < zero_coord[0], axis=1))
+        np.any(fgarray[:, :, lr_axis] > zero_coord[lr_axis], axis=1),
+        np.any(fgarray[:, :, lr_axis] < zero_coord[lr_axis], axis=1))
 
 
 # Things that can be calculated for multiple bundles at once

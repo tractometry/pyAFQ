@@ -62,14 +62,20 @@ def test_segment_clip_edges():
 
 def test_segment_orientation():
     cleaned_idx = \
-        abc.clean_by_orientation(streamlines, primary_axis=1)
+        abc.clean_by_orientation(streamlines,
+                                 primary_axis="P/A", affine=np.eye(4))
     npt.assert_equal(np.sum(cleaned_idx), 93)
     cleaned_idx_tol = \
-        abc.clean_by_orientation(streamlines, primary_axis=1, tol=50)
+        abc.clean_by_orientation(streamlines,
+                                 primary_axis="P/A", affine=np.eye(4),
+                                 tol=50)
     npt.assert_(np.sum(cleaned_idx_tol) < np.sum(cleaned_idx))
 
     cleaned_idx = \
-        abc.clean_by_orientation(streamlines, primary_axis=2)
+        abc.clean_by_orientation(streamlines,
+                                 primary_axis="I/S", affine=np.eye(4))
     cleaned_idx_tol = \
-        abc.clean_by_orientation(streamlines, primary_axis=2, tol=33)
+        abc.clean_by_orientation(streamlines,
+                                 primary_axis="I/S", affine=np.eye(4),
+                                 tol=33)
     npt.assert_array_equal(cleaned_idx_tol, cleaned_idx)

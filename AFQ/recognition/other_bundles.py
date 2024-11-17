@@ -1,9 +1,12 @@
 import numpy as np
+import nibabel as nib
+import logging
 
 import dipy.tracking.utils as dtu
 import dipy.tracking.streamline as dts
 
 from scipy.spatial.distance import cdist
+logger = logging.getLogger('AFQ')
 
 
 def clean_by_other_density_map(this_bundle_sls, other_bundle_sls,
@@ -98,21 +101,41 @@ def clean_relative_to_other_core(core, this_fgarray, other_fgarray, affine):
     >>> cleaned_streamlines = [s for i, s in enumerate(streamlines1) 
     ...                        if cleaned_core_idx[i]]
     """
-    if core == 'anterior':
-        core_axis, core_direc = 1, -1
-    elif core == 'posterior':
-        core_axis, core_direc = 1, 1
-    elif core == 'superior':
-        core_axis, core_direc = 2, -1
-    elif core == 'inferior':
-        core_axis, core_direc = 2, 1
-    elif core == 'right':
-        core_axis, core_direc = 0, -1
-    elif core == 'left':
-        core_axis, core_direc = 0, 1
+    if len(other_fgarray) == 0:
+        logger.warning("Cleaning relative to core skipped, no core found.")
+        return np.ones(this_fgarray.shape[0], dtype=np.bool8)
 
-    if affine[core_axis, core_axis] < 0:
-        core_direc = -core_direc
+    # find dimension of core axis
+    orientation = nib.orientations.aff2axcodes(affine)
+    core_axis = None
+    core_upper = core[0].upper()
+    axis_groups = {
+        'L': ('L', 'R'),
+        'R': ('L', 'R'),
+        'P': ('P', 'A'),
+        'A': ('P', 'A'),
+        'I': ('I', 'S'),
+        'S': ('I', 'S'),
+    }
+
+    direction_signs = {
+        'L': 1,
+        'R': -1,
+        'P': 1,
+        'A': -1,
+        'I': 1,
+        'S': -1,
+    }
+
+    core_axis = None
+    for idx, axis_label in enumerate(orientation):
+        if core_upper in axis_groups[axis_label]:
+            core_axis = idx
+            core_direc = direction_signs[core_upper]
+            break
+
+    if core_axis is None:
+        raise ValueError(f"Invalid core axis: {core}")
 
     core_bundle = np.median(other_fgarray, axis=0)
     cleaned_idx_core = np.zeros(this_fgarray.shape[0], dtype=np.bool8)
