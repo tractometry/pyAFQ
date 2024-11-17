@@ -1,3 +1,25 @@
+1.3.6 (November 17, 2024)
+=========================
+Adds system for recognizing bundles based on other bundles, and implements
+it for the VOF. Adds code to work with new GPU tracking which can do
+probabilistic tracking. Fixes bugs that arise when working with images
+that are not RAS/RPS/LAS/LPS. Other minor fixes.
+  * [FIX] fix cross_midline when R/L axis not first orientation (#17)
+  * Too many t's in https (#22)
+  * Update gpu code (#20)
+  * [FIX] smarter automatic scalar names (#19)
+  * [ENH] Update segmentation.py (#15)
+  * Update tractography default (#13)
+  * Fixes a small typo (#10)
+  * [DOC] Update fetch.py (#12)
+  * Upgrade python (#9)
+  * Add system for recognizing bundles based on other bundles; implement it for VOF (#7)
+  * __print__ method for BundleDict class (#5)
+  * Fixes typo in warning message (#6)
+  *  (#4)
+  * Replace yeatmanlab with tractometry wherever that appears. (#2)
+  * New release (#1)
+
 1.3.3 (October 01, 2024)
 ========================
 Implements option to parallelize tractography using Ray.
