@@ -8,6 +8,7 @@ from AFQ.definitions.utils import find_file
 
 import numpy as np
 import nibabel as nib
+from scipy.ndimage import distance_transform_edt
 
 from dipy.io.streamline import load_tractogram
 
@@ -938,62 +939,16 @@ class BundleDict(MutableMapping):
             resample_subject_to=self.resample_subject_to,
             keep_in_memory=self.keep_in_memory)
 
-    def apply_to_rois(self, b_name, func, *args,
-                      dry_run=False, apply_to_recobundles=False,
-                      **kwargs):
+    def apply_to_rois(self, b_name, *args, **kwargs):
         """
-        Applies some transformation to all ROIs (include, exclude, end, start)
-        and the prob_map in a given bundle.
+        See: AFQ.api.bundle_dict.apply_to_roi_dict
 
         Parameters
         ----------
         b_name : name
             bundle name of bundle whose ROIs will be transformed.
-        func : function
-            function whose first argument must be a Nifti1Image and which
-            returns a Nifti1Image
-        dry_run : bool
-            Whether to actually apply changes returned by `func` to the ROIs.
-            If has_return is False, dry_run is not used.
-        apply_to_recobundles : bool, optional
-            Whether to apply the transformation to recobundles
-            TRKs as well.
-            Default: False
-
-        *args :
-            Additional arguments for func
-        **kwargs
-            Optional arguments for func
-
-        Returns
-        -------
-        A dictionary where keys are
-        the roi type and values are the transformed ROIs.
         """
-        return_vals = {}
-        for roi_type in [
-                "include", "exclude",
-                "start", "end", "prob_map"]:
-            if roi_type in self._dict[b_name]:
-                if roi_type in ["start", "end", "prob_map"]:
-                    return_vals[roi_type] = func(
-                        self._dict[b_name][roi_type], *args, **kwargs)
-                else:
-                    changed_rois = []
-                    for _roi in self._dict[b_name][roi_type]:
-                        changed_rois.append(func(
-                            _roi, *args, **kwargs))
-                    return_vals[roi_type] = changed_rois
-        if apply_to_recobundles and "recobundles" in self._dict[b_name]:
-            return_vals["recobundles"] = {}
-            for sl_type in ["sl", "centroid"]:
-                return_vals["recobundles"][sl_type] = func(
-                    self._dict[b_name]["recobundles"][sl_type],
-                    *args, **kwargs)
-        if not dry_run:
-            for roi_type, roi in return_vals.items():
-                self._dict[b_name][roi_type] = roi
-        return return_vals
+        return apply_to_roi_dict(self._dict[b_name], *args, **kwargs)
 
     def _cond_load_bundle(self, b_name, dry_run=False):
         """
@@ -1020,6 +975,12 @@ class BundleDict(MutableMapping):
     def is_bundle_in_template(self, bundle_name):
         return "space" not in self._dict[bundle_name]\
             or self._dict[bundle_name]["space"] == "template"
+
+    def _roi_distance_helper(self, roi_or_sl):
+        return nib.Nifti1Image(
+            distance_transform_edt(
+                np.where(roi_or_sl.get_fdata() == 0, 1, 0)),
+            roi_or_sl.affine)
 
     def _roi_transform_helper(self, roi_or_sl, mapping,
                               new_affine, bundle_name):
@@ -1138,3 +1099,67 @@ class BundleDict(MutableMapping):
             self.resample_to,
             self.resample_subject_to,
             self.keep_in_memory)
+
+
+def apply_to_roi_dict(dict_, func, *args,
+                      dry_run=False, apply_to_recobundles=False,
+                      apply_to_prob_map=True,
+                      **kwargs):
+    """
+    Applies some transformation to all ROIs (include, exclude, end, start)
+    and the prob_map in a given bundle.
+
+    Parameters
+    ----------
+    dict_: dict
+        dict describing the bundle using pyAFQ's format. An entry
+        in a BundleDict.
+    func : function
+        function whose first argument must be a Nifti1Image and which
+        returns a Nifti1Image
+    dry_run : bool
+        Whether to actually apply changes returned by `func` to the ROIs.
+        If has_return is False, dry_run is not used.
+    apply_to_recobundles : bool, optional
+        Whether to apply the transformation to recobundles
+        TRKs as well.
+        Default: False
+    apply_to_prob_map : bool, optional
+        Whether to apply the transformation to the prob_map.
+        Default: True
+
+    *args :
+        Additional arguments for func
+    **kwargs
+        Optional arguments for func
+
+    Returns
+    -------
+    A dictionary where keys are
+    the roi type and values are the transformed ROIs.
+    """
+    return_vals = {}
+    roi_types = ["include", "exclude", "start", "end"]
+    if apply_to_prob_map:
+        roi_types.append("prob_map")
+    for roi_type in roi_types:
+        if roi_type in dict_:
+            if roi_type in ["start", "end", "prob_map"]:
+                return_vals[roi_type] = func(
+                    dict_[roi_type], *args, **kwargs)
+            else:
+                changed_rois = []
+                for _roi in dict_[roi_type]:
+                    changed_rois.append(func(
+                        _roi, *args, **kwargs))
+                return_vals[roi_type] = changed_rois
+    if apply_to_recobundles and "recobundles" in dict_:
+        return_vals["recobundles"] = {}
+        for sl_type in ["sl", "centroid"]:
+            return_vals["recobundles"][sl_type] = func(
+                dict_["recobundles"][sl_type],
+                *args, **kwargs)
+    if not dry_run:
+        for roi_type, roi in return_vals.items():
+            dict_[roi_type] = roi
+    return return_vals

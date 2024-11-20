@@ -1,6 +1,9 @@
 import numpy as np
-from scipy.spatial.distance import cdist
-from scipy.ndimage import binary_dilation
+from dipy.core.interpolation import interpolate_scalar_3d
+
+
+def _interp3d(roi, sl):
+    return interpolate_scalar_3d(roi.get_fdata(), np.asarray(sl))[0]
 
 
 def check_sls_with_inclusion(sls, include_rois, include_roi_tols):
@@ -17,15 +20,16 @@ def check_sl_with_inclusion(sl, include_rois,
     Helper function to check that a streamline is close to a list of
     inclusion ROIS.
     """
-    dist = []
+    closest = np.zeros(len(include_rois), dtype=np.int32)
     for ii, roi in enumerate(include_rois):
-        # Use squared Euclidean distance, because it's faster:
-        dist.append(cdist(sl, roi, 'sqeuclidean'))
-        if np.min(dist[-1]) > include_roi_tols[ii]:
+        dist = _interp3d(roi, sl)
+        closest[ii] = np.argmin(dist)
+        if dist[closest[ii]] > include_roi_tols[ii]:
             # Too far from one of them:
             return False, []
+
     # Apparently you checked all the ROIs and it was close to all of them
-    return True, dist
+    return True, closest
 
 
 def check_sl_with_exclusion(sl, exclude_rois,
@@ -34,8 +38,9 @@ def check_sl_with_exclusion(sl, exclude_rois,
     list of exclusion ROIs.
     """
     for ii, roi in enumerate(exclude_rois):
-        # Use squared Euclidean distance, because it's faster:
-        if np.min(cdist(sl, roi, 'sqeuclidean')) < exclude_roi_tols[ii]:
+        # if any part of the streamline is near any exclusion ROI,
+        # return False
+        if np.any(_interp3d(roi, sl) <= exclude_roi_tols[ii]):
             return False
     # Either there are no exclusion ROIs, or you are not close to any:
     return True
@@ -78,17 +83,10 @@ def clean_by_endpoints(streamlines, target, target_idx, tol=0,
         flip_sls = np.zeros(len(streamlines))
     flip_sls = flip_sls.astype(int)
 
-    roi = target.get_fdata()
-    if tol > 0:
-        roi = binary_dilation(
-            roi,
-            iterations=tol)
-
     for ii, sl in enumerate(streamlines):
         this_idx = target_idx
         if flip_sls[ii]:
             this_idx = (len(sl) - this_idx - 1) % len(sl)
-        xx, yy, zz = sl[this_idx].astype(int)
-        accepted_idxs[ii] = roi[xx, yy, zz]
+        accepted_idxs[ii] = _interp3d(target, [sl[this_idx]])[0] <= tol
 
     return accepted_idxs
