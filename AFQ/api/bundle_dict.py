@@ -8,7 +8,6 @@ from AFQ.definitions.utils import find_file
 
 import numpy as np
 import nibabel as nib
-from scipy.ndimage import distance_transform_edt
 
 from dipy.io.streamline import load_tractogram
 
@@ -975,12 +974,6 @@ class BundleDict(MutableMapping):
     def is_bundle_in_template(self, bundle_name):
         return "space" not in self._dict[bundle_name]\
             or self._dict[bundle_name]["space"] == "template"
-
-    def _roi_distance_helper(self, roi_or_sl):
-        return nib.Nifti1Image(
-            distance_transform_edt(
-                np.where(roi_or_sl.get_fdata() == 0, 1, 0)),
-            roi_or_sl.affine)
 
     def _roi_transform_helper(self, roi_or_sl, mapping,
                               new_affine, bundle_name):

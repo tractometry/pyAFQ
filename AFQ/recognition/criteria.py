@@ -1,6 +1,10 @@
-import numpy as np
 import logging
 from time import time
+
+import numpy as np
+import nibabel as nib
+
+from scipy.ndimage import distance_transform_edt
 
 import dipy.tracking.streamline as dts
 from dipy.utils.parallel import paramap
@@ -332,7 +336,10 @@ def run_bundle_rec_plan(
         apply_to_recobundles=True))
     apply_to_roi_dict(
         bundle_def,
-        bundle_dict._roi_distance_helper,
+        lambda roi_img: nib.Nifti1Image(
+            distance_transform_edt(
+                np.where(roi_img.get_fdata() == 0, 1, 0)),
+            roi_img.affine),
         dry_run=False,
         apply_to_recobundles=False,
         apply_to_prob_map=False)
