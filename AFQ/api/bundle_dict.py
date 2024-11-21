@@ -764,6 +764,14 @@ class BundleDict(MutableMapping):
             "cross_midline": False
         }
     })
+
+    Note
+    ----
+    The order of include ROIs may affect your results. This is
+    because ROI order within the include list determines the orientation of the
+    streamlines (from the first to the last) and the clipping of streamlines
+    when `clip_edges` is used, because the streamlines are clipped to
+    between the first and last ROIs.
     """
 
     def __init__(self,
