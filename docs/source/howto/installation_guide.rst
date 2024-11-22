@@ -82,7 +82,7 @@ How to build a Apptainer (Singularity) image
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If the user intends to execute pyAFQ as a program from the command line (``$pyAFQ /path/to/config.toml``)
-in an administered environment where root access is not available (e.g. High Performance Computing cluster)
+in an administered environment where root access is not available (e.g., High Performance Computing cluster)
 then one solution is to build an Apptainer (also known as Singularity) image from a local pull of the pyAFQ docker container.
 
 Start by running a docker registry::
