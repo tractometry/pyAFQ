@@ -1,13 +1,12 @@
 The pyAFQ singularity image
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Assuming the singularity image ``pyafq_lastest.simg`` exists, trigger the
+Assuming the singularity image ``pyafq_latest.sif`` exists, trigger the
 entrypoint ``pyafq`` to run the workflow with::
 
-    singularity run \
-        --cleanenv \
+    apptainer run \
         --bind bids_dir:bids_dir \
-        pyafq_latest.simg bids_dir/config.toml
+        pyafq_latest.sif bids_dir/config.toml
 
 .. note::
 
