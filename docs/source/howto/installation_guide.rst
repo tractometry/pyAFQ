@@ -78,7 +78,7 @@ You can pull the latest of this image or use a specific commit or tag as well::
   docker pull ghcr.io/nrdg/afqsi:latest
 
 
-How to build a Singularity image
+How to build a Apptainer (Singularity) image
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If the user intends to execute pyAFQ is a program from the command line (``$pyAFQ /path/to/config.toml``)
