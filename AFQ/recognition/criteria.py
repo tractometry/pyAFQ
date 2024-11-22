@@ -1,6 +1,10 @@
-import numpy as np
 import logging
 from time import time
+
+import numpy as np
+import nibabel as nib
+
+from scipy.ndimage import distance_transform_edt
 
 import dipy.tracking.streamline as dts
 from dipy.utils.parallel import paramap
@@ -11,6 +15,7 @@ from dipy.io.streamline import load_tractogram
 from dipy.segment.bundles import RecoBundles
 from dipy.io.stateful_tractogram import StatefulTractogram, Space
 
+from AFQ.api.bundle_dict import apply_to_roi_dict
 import AFQ.recognition.utils as abu
 import AFQ.recognition.cleaning as abc
 import AFQ.recognition.curvature as abv
@@ -132,54 +137,43 @@ def include(b_sls, bundle_def, preproc_imap, max_includes,
         include_roi_tols = [preproc_imap["tol"]**2] * len(
             bundle_def["include"])
 
-    include_rois = []
-    for include_roi in bundle_def["include"]:
-        include_rois.append(np.array(
-            np.where(include_roi.get_fdata())).T)
-
     # with parallel segmentation, the first for loop will
     # only collect streamlines and does not need tqdm
     if parallel_segmentation["engine"] != "serial":
         inc_results = paramap(
             abr.check_sl_with_inclusion, b_sls.get_selected_sls(),
             func_args=[
-                include_rois, include_roi_tols],
+                bundle_def["include"], include_roi_tols],
             **parallel_segmentation)
 
     else:
         inc_results = abr.check_sls_with_inclusion(
             b_sls.get_selected_sls(),
-            include_rois,
+            bundle_def["include"],
             include_roi_tols)
 
-    roi_dists = -np.ones(
-        (len(b_sls), max_includes),
+    roi_closest = -np.ones(
+        (max_includes, len(b_sls)),
         dtype=np.int32)
     if flip_using_include:
         to_flip = np.ones_like(accept_idx, dtype=np.bool8)
     for sl_idx, inc_result in enumerate(inc_results):
-        sl_accepted, sl_dist = inc_result
+        sl_accepted, sl_closest = inc_result
 
         if sl_accepted:
-            if len(sl_dist) > 1:
-                roi_dists[sl_idx, :len(sl_dist)] = [
-                    np.argmin(dist, 0)[0]
-                    for dist in sl_dist]
-                first_roi_idx = roi_dists[sl_idx, 0]
-                last_roi_idx = roi_dists[
-                    sl_idx, len(sl_dist) - 1]
+            if len(sl_closest) > 1:
+                roi_closest[:len(sl_closest), sl_idx] = sl_closest
                 # Only accept SLs that, when cut, are meaningful
-                if (len(sl_dist) < 2) or abs(
-                        first_roi_idx - last_roi_idx) > 1:
+                if (len(sl_closest) < 2) or abs(
+                        sl_closest[0] - sl_closest[-1]) > 1:
                     # Flip sl if it is close to second ROI
                     # before its close to the first ROI
                     if flip_using_include:
                         to_flip[sl_idx] =\
-                            first_roi_idx > last_roi_idx
+                            sl_closest[0] > sl_closest[-1]
                         if to_flip[sl_idx]:
-                            roi_dists[sl_idx, :len(sl_dist)] =\
-                                np.flip(roi_dists[
-                                    sl_idx, :len(sl_dist)])
+                            roi_closest[:len(sl_closest), sl_idx] =\
+                                np.flip(sl_closest)
                     accept_idx[sl_idx] = 1
             else:
                 accept_idx[sl_idx] = 1
@@ -191,7 +185,7 @@ def include(b_sls, bundle_def, preproc_imap, max_includes,
             "backend", "loky") == "loky")):
         from joblib.externals.loky import get_reusable_executor
         get_reusable_executor().shutdown(wait=True)
-    b_sls.roi_dists = roi_dists
+    b_sls.roi_closest = roi_closest.T
     if flip_using_include:
         b_sls.reorient(to_flip)
     b_sls.select(accept_idx, "include")
@@ -240,13 +234,9 @@ def exclude(b_sls, bundle_def, preproc_imap, **kwargs):
     else:
         exclude_roi_tols = [
             preproc_imap["tol"]**2] * len(bundle_def["exclude"])
-    exclude_rois = []
-    for exclude_roi in bundle_def["exclude"]:
-        exclude_rois.append(np.array(
-            np.where(exclude_roi.get_fdata())).T)
     for sl_idx, sl in enumerate(b_sls.get_selected_sls()):
         if abr.check_sl_with_exclusion(
-                sl, exclude_rois, exclude_roi_tols):
+                sl, bundle_def["exclude"], exclude_roi_tols):
             accept_idx[sl_idx] = 1
     b_sls.select(accept_idx, "exclude")
 
@@ -332,7 +322,7 @@ def mahalanobis(b_sls, bundle_def, clip_edges, cleaning_params, **kwargs):
 
 def run_bundle_rec_plan(
         bundle_dict, tg, mapping, img, reg_template, preproc_imap,
-        bundle_name, bundle_idx, bundle_to_flip, bundle_roi_dists,
+        bundle_name, bundle_idx, bundle_to_flip, bundle_roi_closest,
         bundle_decisions,
         **segmentation_params):
     # Warp ROIs
@@ -344,6 +334,15 @@ def run_bundle_rec_plan(
         mapping,
         img.affine,
         apply_to_recobundles=True))
+    apply_to_roi_dict(
+        bundle_def,
+        lambda roi_img: nib.Nifti1Image(
+            distance_transform_edt(
+                np.where(roi_img.get_fdata() == 0, 1, 0)),
+            roi_img.affine),
+        dry_run=False,
+        apply_to_recobundles=False,
+        apply_to_prob_map=False)
     logger.info(f"Time to prep ROIs: {time()-start_time}s")
 
     b_sls = abu.SlsBeingRecognized(
@@ -404,8 +403,9 @@ def run_bundle_rec_plan(
         bundle_decisions[
             b_sls.selected_fiber_idxs,
             bundle_idx] = 1
-        if hasattr(b_sls, "roi_dists"):
-            bundle_roi_dists[
+        if hasattr(b_sls, "roi_closest"):
+            bundle_roi_closest[
                 b_sls.selected_fiber_idxs,
-                bundle_idx
-            ] = b_sls.roi_dists.copy()
+                bundle_idx,
+                :
+            ] = b_sls.roi_closest.copy()

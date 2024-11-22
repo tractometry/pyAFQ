@@ -33,18 +33,23 @@ def flip_sls(select_sl, idx_to_flip, in_place=False):
     return flipped_sl
 
 
-def cut_sls_by_dist(select_sl, roi_dists, roi_idxs,
-                    in_place=False):
+def cut_sls_by_closest(select_sl, roi_closest, roi_idxs,
+                       in_place=False):
     """
     Helper function to cut streamlines according to which points
     are closest to certain rois.
 
     Parameters
     ----------
-    select_sl, streamlines to cut
-    roi_dists, distances from a given streamline to a given inclusion roi
-    roi_idxs, two indices into the list of inclusion rois to use for the cut
-    in_place, whether to modify select_sl
+    select_sl
+        streamlines to cut
+    roi_closest
+        indices into given streamline of points nearest
+        to inclusion rois
+    roi_idxs
+        two indices into the list of inclusion rois to use for the cut
+    in_place
+        whether to modify select_sl
     """
     if in_place:
         cut_sl = select_sl
@@ -55,11 +60,11 @@ def cut_sls_by_dist(select_sl, roi_dists, roi_idxs,
         if roi_idxs[0] == -1:
             min0 = 0
         else:
-            min0 = int(roi_dists[idx, roi_idxs[0]])
+            min0 = roi_closest[idx, roi_idxs[0]]
         if roi_idxs[1] == -1:
             min1 = len(this_sl)
         else:
-            min1 = int(roi_dists[idx, roi_idxs[1]])
+            min1 = roi_closest[idx, roi_idxs[1]]
 
         # handle if sls not flipped
         if min0 > min1:
@@ -157,7 +162,7 @@ def resample_tg(tg, n_points):
 
 class SlsBeingRecognized:
     def __init__(self, sls, logger, save_intermediates, b_name, ref,
-                 n_roi_dists):
+                 n_roi):
         self.oriented_yet = False
         self.selected_fiber_idxs = np.arange(len(sls), dtype=np.uint32)
         self.sls_flipped = np.zeros(len(sls), dtype=np.bool8)
@@ -167,7 +172,7 @@ class SlsBeingRecognized:
         self.b_name = b_name
         self.ref_sls = sls
         self.ref = ref
-        self.n_roi_dists = n_roi_dists
+        self.n_roi = n_roi
 
     def initiate_selection(self, clean_name):
         self.start_time = time()
@@ -177,8 +182,8 @@ class SlsBeingRecognized:
     def select(self, idx, clean_name, cut=False):
         self.selected_fiber_idxs = self.selected_fiber_idxs[idx]
         self.sls_flipped = self.sls_flipped[idx]
-        if hasattr(self, "roi_dists"):
-            self.roi_dists = self.roi_dists[idx]
+        if hasattr(self, "roi_closest"):
+            self.roi_closest = self.roi_closest[idx]
         time_taken = time() - self.start_time
         self.logger.info(
             f"After filtering by {clean_name} (time: {time_taken}s), "
@@ -194,10 +199,10 @@ class SlsBeingRecognized:
 
     def get_selected_sls(self, cut=False, flip=False):
         selected_sls = self.ref_sls[self.selected_fiber_idxs]
-        if cut and hasattr(self, "roi_dists") and self.n_roi_dists > 1:
-            selected_sls = cut_sls_by_dist(
-                selected_sls, self.roi_dists,
-                (0, self.n_roi_dists - 1),
+        if cut and hasattr(self, "roi_closest") and self.n_roi > 1:
+            selected_sls = cut_sls_by_closest(
+                selected_sls, self.roi_closest,
+                (0, self.n_roi - 1),
                 in_place=False)
         if flip:
             selected_sls = flip_sls(

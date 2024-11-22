@@ -162,7 +162,7 @@ def recognize(
     bundle_to_flip = np.zeros(
         (n_streamlines, len(bundle_dict)),
         dtype=np.bool8)
-    bundle_roi_dists = -np.ones(
+    bundle_roi_closest = -np.ones(
         (
             n_streamlines,
             len(bundle_dict),
@@ -180,7 +180,7 @@ def recognize(
         logger.info(f"Finding Streamlines for {bundle_name}")
         run_bundle_rec_plan(
             bundle_dict, tg, mapping, img, reg_template, preproc_imap,
-            bundle_name, bundle_idx, bundle_to_flip, bundle_roi_dists,
+            bundle_name, bundle_idx, bundle_to_flip, bundle_roi_closest,
             bundle_decisions,
             clip_edges=clip_edges,
             parallel_segmentation=parallel_segmentation,
@@ -233,13 +233,13 @@ def recognize(
         # Use a list here, because ArraySequence doesn't support item
         # assignment:
         select_sl = list(tg.streamlines[select_idx])
-        roi_dists = bundle_roi_dists[select_idx, bundle_idx, :]
+        roi_closest = bundle_roi_closest[select_idx, bundle_idx, :]
         n_includes = len(bundle_dict.get_b_info(
             bundle).get("include", []))
         if clip_edges and n_includes > 1:
             logger.info("Clipping Streamlines by ROI")
-            select_sl = abu.cut_sls_by_dist(
-                select_sl, roi_dists,
+            select_sl = abu.cut_sls_by_closest(
+                select_sl, roi_closest,
                 (0, n_includes - 1), in_place=True)
 
         to_flip = bundle_to_flip[select_idx, bundle_idx]
@@ -247,8 +247,8 @@ def recognize(
         if "bundlesection" in b_def:
             for sb_name, sb_include_cuts in bundle_dict.get_b_info(
                     bundle)["bundlesection"].items():
-                bundlesection_select_sl = abu.cut_sls_by_dist(
-                    select_sl, roi_dists,
+                bundlesection_select_sl = abu.cut_sls_by_closest(
+                    select_sl, roi_closest,
                     sb_include_cuts, in_place=False)
                 _add_bundle_to_fiber_group(
                     sb_name, bundlesection_select_sl, select_idx,

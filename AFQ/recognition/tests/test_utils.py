@@ -41,13 +41,13 @@ def test_segment_clip_edges():
     idx = np.arange(len(tg.streamlines))
     accepted_sls = sls[[4, 10, 11]]
     accepted_ix = idx[[4, 10, 11]]
-    bundle_roi_dists = np.zeros((len(sls), 3))
-    bundle_roi_dists[4, :] = [5, 10, 15]
-    bundle_roi_dists[10, :] = [3, 6, 9]
-    bundle_roi_dists[11, :] = [10, 10, 10]
-    cut_sls = abu.cut_sls_by_dist(
+    bundle_roi_closest = np.zeros((len(sls), 3), dtype=np.int32)
+    bundle_roi_closest[4, :] = [5, 10, 15]
+    bundle_roi_closest[10, :] = [3, 6, 9]
+    bundle_roi_closest[11, :] = [10, 10, 10]
+    cut_sls = abu.cut_sls_by_closest(
         accepted_sls,
-        bundle_roi_dists[accepted_ix],
+        bundle_roi_closest[accepted_ix],
         [0, 2])
     npt.assert_array_equal(
         cut_sls[0],
