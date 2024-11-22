@@ -79,11 +79,11 @@ You can pull the latest of this image or use a specific commit or tag as well::
 
 
 How to build a Apptainer (Singularity) image
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If the user intends to execute pyAFQ as a program from the command line (``$pyAFQ /path/to/config.toml``)
 in an administered environment where root access is not available (e.g. High Performance Computing cluster)
-then one solution is to build a Apptainer (also known as Singularity) image from a local pull of the pyAFQ docker container.
+then one solution is to build an Apptainer (also known as Singularity) image from a local pull of the pyAFQ docker container.
 
 Start by running a docker registry::
 
@@ -91,9 +91,9 @@ Start by running a docker registry::
 
 Next, create a local tag which allows a push of the pyAFQ container to the local registry::
 
-  docker tag pyAFQ localhost:5000/pyafq
-  docker push localhost:5000/pyafq
+  docker tag ghcr.io/nrdg/pyafq:latest localhost:5000/pyafq
+  docker push localhost:5000/pyafq:latest
 
-Finally build the singularity referencing the local registry::
+Finally build the singularity file referencing the local registry::
 
-  SINGULARITY_NOHTTPS=1 singularity build pyafq_latest.simg docker://localhost:5000/pyafq
+  APPTAINER_NOHTTPS=1 apptainer build pyafq_latest.sif docker://localhost:5000/pyafq:latest
