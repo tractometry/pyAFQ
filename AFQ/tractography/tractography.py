@@ -25,7 +25,8 @@ def track(params_file, directions="prob", max_angle=30., sphere=None,
           seed_mask=None, seed_threshold=0, thresholds_as_percentages=False,
           n_seeds=1, random_seeds=False, rng_seed=None, stop_mask=None,
           stop_threshold=0, step_size=0.5, minlen=50, maxlen=250,
-          odf_model="CSD", tracker="local", trx=False):
+          odf_model="CSD", basis_type="descoteaux07", tracker="local", 
+          trx=False):
     """
     Tractography
 
@@ -93,6 +94,9 @@ def track(params_file, directions="prob", max_angle=30., sphere=None,
         The miminal length (mm) in a streamline. Default: 250
     odf_model : str, optional
         One of {"DTI", "CSD", "DKI"}. Defaults to use "CSD"
+    basis_type : str, optional
+        The spherical harmonic basis type used to represent the coefficients. 
+        One of {"descoteaux07", "tournier07"}. Deafult: "descoteaux07"
     tracker : str, optional
         Which strategy to use in tracking. This can be the standard local
         tracking ("local") or Particle Filtering Tracking ([Girard2014]_).
@@ -154,7 +158,8 @@ def track(params_file, directions="prob", max_angle=30., sphere=None,
         odf = tensor_odf(evals, evecs, sphere)
         dg = dg.from_pmf(odf, max_angle=max_angle, sphere=sphere)
     else:
-        dg = dg.from_shcoeff(model_params, max_angle=max_angle, sphere=sphere)
+        dg = dg.from_shcoeff(model_params, max_angle=max_angle, sphere=sphere, 
+                             basis_type=basis_type, legacy=False)
 
     if tracker == "local":
         if stop_mask is None:
