@@ -161,6 +161,7 @@ def track(params_file, directions="prob", max_angle=30., sphere=None,
         raise ValueError(f"Unrecognized direction '{directions}'.")
 
     logger.debug(f"Using basis type: {basis_type}")
+    logger.debug(f"Using legacy DG: {legacy}")
 
     if odf_model == "DTI" or odf_model == "DKI":
         evals = model_params[..., :3]
