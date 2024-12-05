@@ -24,15 +24,23 @@ def _resample_image(image_data, dwi_data, image_affine, dwi_affine):
     Helper function
     Resamples image to dwi if necessary
     '''
-    image_type = image_data.dtype
-    if ((dwi_data is not None)
-        and (dwi_affine is not None)
-            and (dwi_data[..., 0].shape != image_data.shape)):
+    def _resample_slice(slice_data):
         return np.round(resample(
-            image_data.astype(float),
+            slice_data.astype(float),
             dwi_data[..., 0],
             image_affine,
             dwi_affine).get_fdata()).astype(image_type)
+
+    image_type = image_data.dtype
+    if ((dwi_data is not None)
+        and (dwi_affine is not None)
+            and (dwi_data.shape[:3] != image_data.shape[:3])):
+        if len(image_data.shape) < 4:
+            return _resample_slice(image_data)
+        else:
+            return np.stack([_resample_slice(
+                image_data[..., ii]) for ii in range(
+                    image_data.shape[-1])], axis=-1)
     else:
         return image_data
 
@@ -101,6 +109,9 @@ class ImageFile(ImageDefinition):
         Additional filters to pass to bids_layout.get() to identify
         the file.
         Default: {}
+    resample : bool, optional
+        Whether to resample the image to the DWI data.
+        Default: True
 
     Examples
     --------
@@ -111,7 +122,7 @@ class ImageFile(ImageDefinition):
                                 "seed_threshold": 0.1})
     """
 
-    def __init__(self, path=None, suffix=None, filters={}):
+    def __init__(self, path=None, suffix=None, filters={}, resample=True):
         if path is None and suffix is None:
             raise ValueError((
                 "One of `path` or `suffix` must set to "
@@ -125,6 +136,7 @@ class ImageFile(ImageDefinition):
             self.suffix = suffix
             self.filters = filters
             self.fnames = {}
+        self.resample = resample
 
     def find_path(self, bids_layout, from_path,
                   subject, session, required=True):
@@ -165,12 +177,14 @@ class ImageFile(ImageDefinition):
             image_data, meta = self.apply_conditions(
                 image_data_orig, image_file)
 
-            # Resample to DWI data:
-            image_data = _resample_image(
-                image_data,
-                dwi.get_fdata(),
-                image_affine,
-                dwi.affine)
+            if self.resample:
+                # Resample to DWI data:
+                image_data = _resample_image(
+                    image_data,
+                    dwi.get_fdata(),
+                    image_affine,
+                    dwi.affine)
+
             return nib.Nifti1Image(
                 image_data.astype(np.float32),
                 dwi.affine), meta
