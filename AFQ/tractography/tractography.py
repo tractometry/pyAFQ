@@ -92,8 +92,12 @@ def track(params_file, directions="prob", max_angle=30., sphere=None,
         The miminal length (mm) in a streamline. Default: 20
     maxlen: int, optional
         The miminal length (mm) in a streamline. Default: 250
-    odf_model : str, optional
-        One of {"DTI", "CSD", "DKI"}. Defaults to use "CSD"
+    odf_model : str or Definition, optional
+        Can be either a string or Definition. If a string, it must be one of
+        {"DTI", "CSD", "DKI", "GQ", "RUMBA"}. If a Definition, we assume
+        it is a definition of a file containing Spherical Harmonics
+        coefficients.
+        Defaults to use "CSD"
     basis_type : str, optional
         The spherical harmonic basis type used to represent the coefficients. 
         One of {"descoteaux07", "tournier07"}. Deafult: "descoteaux07"
@@ -128,7 +132,8 @@ def track(params_file, directions="prob", max_angle=30., sphere=None,
         params_img = params_file
 
     model_params = params_img.get_fdata()
-    odf_model = odf_model.upper()
+    if isinstance(odf_model, str):
+        odf_model = odf_model.upper()
     directions = directions.lower()
 
     # We need to calculate the size of a voxel, so we can transform
