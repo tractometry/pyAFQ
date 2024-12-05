@@ -291,7 +291,7 @@ def custom_tractography(import_tract=None):
 
 @pimms.calc("streamlines")
 @as_file('_tractography', include_track=True)
-def gpu_tractography(data_imap, tracking_params, seed, stop,
+def gpu_tractography(data_imap, fodf, tracking_params, seed, stop,
                      tractography_ngpus=0, chunk_size=100000):
     """
     full path to the complete, unsegmented tractography file
@@ -313,8 +313,7 @@ def gpu_tractography(data_imap, tracking_params, seed, stop,
     if tracking_params["directions"] == "boot":
         data = data_imap["data"]
     else:
-        data = nib.load(
-            data_imap[tracking_params["odf_model"].lower() + "_params"]).get_fdata()
+        data = fodf.get_fdata()
 
     sphere = tracking_params["sphere"]
     if sphere is None:
@@ -392,8 +391,9 @@ def get_tractography_plan(kwargs):
             default_tracking_params[k] = kwargs["tracking_params"][k]
 
     kwargs["tracking_params"] = default_tracking_params
-    kwargs["tracking_params"]["odf_model"] =\
-        kwargs["tracking_params"]["odf_model"].upper()
+    if isinstance(kwargs["tracking_params"]["odf_model"], str):
+        kwargs["tracking_params"]["odf_model"] =\
+            kwargs["tracking_params"]["odf_model"].upper()
     if kwargs["tracking_params"]["seed_mask"] is None:
         kwargs["tracking_params"]["seed_mask"] = ScalarImage(
             kwargs["best_scalar"])
