@@ -25,8 +25,8 @@ def track(params_file, directions="prob", max_angle=30., sphere=None,
           seed_mask=None, seed_threshold=0, thresholds_as_percentages=False,
           n_seeds=1, random_seeds=False, rng_seed=None, stop_mask=None,
           stop_threshold=0, step_size=0.5, minlen=50, maxlen=250,
-          odf_model="CSD", basis_type="descoteaux07", tracker="local",
-          trx=False):
+          odf_model="CSD", basis_type="descoteaux07", legacy=True,
+          tracker="local", trx=False):
     """
     Tractography
 
@@ -97,6 +97,9 @@ def track(params_file, directions="prob", max_angle=30., sphere=None,
     basis_type : str, optional
         The spherical harmonic basis type used to represent the coefficients. 
         One of {"descoteaux07", "tournier07"}. Deafult: "descoteaux07"
+    legacy : bool, optional
+        Whether to use the legacy implementation of the direction getter.
+        See Dipy documentation for more details. Default: True
     tracker : str, optional
         Which strategy to use in tracking. This can be the standard local
         tracking ("local") or Particle Filtering Tracking ([Girard2014]_).
@@ -158,10 +161,10 @@ def track(params_file, directions="prob", max_angle=30., sphere=None,
         evals = model_params[..., :3]
         evecs = model_params[..., 3:12].reshape(params_img.shape[:3] + (3, 3))
         odf = tensor_odf(evals, evecs, sphere)
-        dg = dg.from_pmf(odf, max_angle=max_angle, sphere=sphere)
+        dg = dg.from_pmf(odf, max_angle=max_angle, sphere=sphere, legacy=legacy)
     else:
         dg = dg.from_shcoeff(model_params, max_angle=max_angle, sphere=sphere,
-                             basis_type=basis_type, legacy=False)
+                             basis_type=basis_type, legacy=legacy)
 
     if tracker == "local":
         if stop_mask is None:

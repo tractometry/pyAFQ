@@ -260,11 +260,9 @@ def fiber_odf(data_imap, tracking_params):
     odf_model = tracking_params["odf_model"]
     if isinstance(odf_model, str):
         params_file = data_imap[f"{odf_model.lower()}_params"]
-    elif isinstance(odf_model, nib.Nifti1Image):
-        params_file = odf_model
     else:
         raise TypeError((
-            "odf_model must be a str, nibabel image, or Definition"))
+            "odf_model must be a string or Definition"))
 
     return params_file
 
