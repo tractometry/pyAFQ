@@ -74,6 +74,8 @@ def name_from_path(path):
     file_name = drop_extension(file_name)  # remove extension
     if "desc-" in file_name:  # get desc if exists
         return file_name.split("desc-")[-1].split("_")[0]
+    elif "model-" in file_name:  # get model if exists
+        return file_name.split("model-")[-1].split("_")[0]
     elif "_" in file_name:
         return file_name.split("_")[-1]  # get suffix if exists
     else:
