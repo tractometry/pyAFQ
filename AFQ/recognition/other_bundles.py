@@ -134,6 +134,9 @@ def clean_relative_to_other_core(core, this_fgarray, other_fgarray, affine):
             core_direc = direction_signs[core_upper]
             break
 
+    if affine[core_axis, core_axis] < 0:
+        core_direc = -core_direc
+
     if core_axis is None:
         raise ValueError(f"Invalid core axis: {core}")
 
@@ -146,6 +149,5 @@ def clean_relative_to_other_core(core, this_fgarray, other_fgarray, affine):
         closest_core = core_bundle[min_dist_indices[0], core_axis]
         closest_sl = sl[min_dist_indices[1], core_axis]
 
-        cleaned_idx_core[ii] = closest_sl < closest_core if core_direc == -1 \
-            else closest_sl > closest_core
+        cleaned_idx_core[ii] = core_direc * (closest_sl - closest_core) > 0
     return cleaned_idx_core
