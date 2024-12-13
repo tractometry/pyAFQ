@@ -186,7 +186,8 @@ scalars: strings and/or scalar definitions, optional
 	List of scalars to use.
 	Can be any of: "dti_fa", "dti_md", "dki_fa", "dki_md", "dki_awf",
 	"dki_mk". Can also be a scalar from AFQ.definitions.image.
-	Default: ["dti_fa", "dti_md"]
+	Default: For single shell data: ["dti_fa", "dti_md"], 
+        for multi-shell data: ["dki_fa", "dki_md"].
 
 
 ==========================================================
