@@ -481,18 +481,3 @@ def get_tractography_plan(kwargs):
             odf_model.get_image_getter("tractography"))
 
     return pimms.plan(**tractography_tasks)
-
-
-def _gen_seeds(n_seeds, params_file, seed_mask=None, seed_threshold=0,
-               thresholds_as_percentages=False,
-               random_seeds=False, rng_seed=None):
-    if isinstance(params_file, str):
-        params_img = nib.load(params_file)
-    else:
-        params_img = params_file
-
-    affine = params_img.affine
-
-    return gen_seeds(seed_mask, seed_threshold, n_seeds,
-                     thresholds_as_percentages,
-                     random_seeds, rng_seed, affine)
