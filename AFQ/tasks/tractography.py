@@ -92,8 +92,8 @@ def export_seed_mask_thresholded(data_imap, seed, tracking_params):
     tractography seed mask thresholded
     """
     thresh = tracking_params['seed_threshold']
-    threshed_data = seed.get_fdata() > thresh
-    seed_mask_desc = dict(source=tracking_params['seed_mask'], thresh=thresh)
+    threshed_data = nib.load(seed).get_fdata() > thresh
+    seed_mask_desc = dict(source=seed, thresh=thresh)
     return nib.Nifti1Image(
         threshed_data.astype(np.float32),
         data_imap["dwi_affine"]), seed_mask_desc
@@ -130,8 +130,8 @@ def export_stop_mask_thresholded(data_imap, stop, tracking_params):
     tractography stop mask thresholded
     """
     thresh = tracking_params['stop_threshold']
-    threshed_data = stop.get_fdata() > thresh
-    stop_mask_desc = dict(source=tracking_params['stop_mask'], thresh=thresh)
+    threshed_data = nib.load(stop).get_fdata() > thresh
+    stop_mask_desc = dict(source=stop, thresh=thresh)
     return nib.Nifti1Image(
         threshed_data.astype(np.float32),
         data_imap["dwi_affine"]), stop_mask_desc

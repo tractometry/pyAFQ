@@ -98,3 +98,6 @@ def apply_cmd_to_afq_derivs(
                 if filename == "viz_core_bundles" and \
                         "prof" in dependent_on_list:
                     os.system(f"{cmd} -r {full_path} {suffix}")
+                if filename == "tract_profile_plots" and \
+                        "prof" in dependent_on_list:
+                    os.system(f"{cmd} -r {full_path} {suffix}")

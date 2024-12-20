@@ -61,10 +61,7 @@ def get_fname(base_fname, suffix, subfolder=None):
         if folders[-1] == "dwi":
             if len(folders) > 1 and "sub-" in folders[-2] or \
                     "ses-" in folders[-2]:
-                if "sub-" in folders[-2] or len(folders) == 2:
-                    return op.join(*folders[:-2], base_fname + suffix)
-                else:
-                    return op.join(*folders[:-3], base_fname + suffix)
+                return op.join(*folders[:-2], folders[-2] + suffix)
             else:
                 return op.join(*folders[:-1], base_fname + suffix)
         else:

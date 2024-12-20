@@ -39,7 +39,7 @@ logger = logging.getLogger('AFQ')
 
 
 @pimms.calc("bundles")
-@as_file('desc-bundles_tractography',
+@as_file('_desc-bundles_tractography',
          include_track=True,
          include_seg=True)
 def segment(data_imap, mapping_imap,
@@ -69,17 +69,17 @@ def segment(data_imap, mapping_imap,
         tg = trx.to_sft()
     elif streamlines.endswith(".tck.gz"):
         # uncompress tck.gz to a temporary tck:
-        temp_tck = op.join(mkdtemp(), op.split(streamlines.replace(".gz", ""))[1])
+        temp_tck = op.join(mkdtemp(), op.split(
+            streamlines.replace(".gz", ""))[1])
         logger.info(f"Temporary tck file created at: {temp_tck}")
         with gzip.open(streamlines, 'rb') as f_in:
             with open(temp_tck, 'wb') as f_out:
                 shutil.copyfileobj(f_in, f_out)
         # initialize stateful tractogram from tck file:
         tg = load_tractogram(
-            temp_tck, data_imap["dwi"], Space.VOX, 
+            temp_tck, data_imap["dwi"], Space.VOX,
             bbox_valid_check=False)
         is_trx = False
-
 
     indices_to_remove, _ = tg.remove_invalid_streamlines()
     if len(indices_to_remove) > 0:
@@ -335,7 +335,14 @@ def tract_profiles(bundles,
                     this_prof_weights = _median_weight
             else:
                 this_prof_weights = profile_weights
-            this_prof_weights[np.isnan(this_prof_weights)] = 0
+            if np.any(np.isnan(this_prof_weights)):  # fit failed
+                logger.warning((
+                    f"Even weighting used for "
+                    f"bundle {bundle_name}, scalar {scalar} "
+                    f"in profiling due inability to estimate weights. "
+                    "This is often caused by low streamline count or "
+                    "low variance in the scalar data."))
+                this_prof_weights = np.ones_like(this_prof_weights)
             this_profile[ii] = afq_profile(
                 scalar_data,
                 this_sl,

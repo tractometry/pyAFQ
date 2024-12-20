@@ -28,7 +28,7 @@ def export_registered_b0(base_fname, data_imap, mapping):
     """
     warped_b0_fname = get_fname(
         base_fname,
-        f'_space-{data_imap["tmpl_name"]}_desc-b0_dwimap.nii.gz')
+        f'_space-{data_imap["tmpl_name"]}_b0ref.nii.gz')
     if not op.exists(warped_b0_fname):
         mean_b0 = nib.load(data_imap["b0"]).get_fdata()
         warped_b0 = mapping.transform(mean_b0)
@@ -40,7 +40,7 @@ def export_registered_b0(base_fname, data_imap, mapping):
             dependent="dwi")
         meta_fname = get_fname(
             base_fname,
-            f'_space-{data_imap["tmpl_name"]}_desc-b0_dwimap.json')
+            f'_space-{data_imap["tmpl_name"]}_b0ref.json')
         write_json(meta_fname, meta)
 
     return warped_b0_fname

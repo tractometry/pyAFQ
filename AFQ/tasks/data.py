@@ -93,7 +93,7 @@ def get_data_gtab(dwi_data_file, bval_file, bvec_file, min_bval=None,
 
 
 @pimms.calc("b0")
-@as_file('_desc-b0_dwimap.nii.gz')
+@as_file('_b0ref.nii.gz')
 def b0(dwi, gtab):
     """
     full path to a nifti file containing the mean b0
@@ -105,7 +105,7 @@ def b0(dwi, gtab):
 
 
 @pimms.calc("masked_b0")
-@as_file('_desc-maskedb0_dwimap.nii.gz')
+@as_file('_desc-masked_b0ref.nii.gz')
 def b0_mask(b0, brain_mask):
     """
     full path to a nifti file containing the

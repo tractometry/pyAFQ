@@ -1050,14 +1050,25 @@ class BundleDict(MutableMapping):
         if base_fname is not None:
             fnames = []
             for roi_type, rois in transformed_rois.items():
+                if roi_type == "prob_map":
+                    suffix = "probseg"
+                else:
+                    suffix = "mask"
+                roi_type_name = roi_type.lower().replace(
+                    " ", "").replace(
+                        "_", "").replace(
+                            "-", "")
                 if not isinstance(rois, list):
                     rois = [rois]
                 for ii, roi in enumerate(rois):
+                    suffix = f"{str_to_desc(bundle_name)}{roi_type_name}"
+                    if roi_type in ["include", "exclude"]:
+                        suffix = f"{suffix}{ii}"
                     fname = get_fname(
                         base_fname,
                         "_space-subject_desc-"
-                        f"{str_to_desc(bundle_name)}{roi_type}{ii}"
-                        "_mask.nii.gz",
+                        f"{suffix}"
+                        f"_{suffix}.nii.gz",
                         "ROIs")
                     nib.save(
                         nib.Nifti1Image(
