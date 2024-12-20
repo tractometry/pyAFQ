@@ -283,7 +283,7 @@ def viz_indivBundle(base_fname,
             if len(indiv_profile) > 1:
                 fname = get_fname(
                     base_fname,
-                    f'_desc-{str_to_desc(bundle_name)}'
+                    f'_desc-{str_to_desc(bundle_name)}Core'
                     f'_tractography.html',
                     "viz_core_bundles")
                 core_fig = make_subplots(
@@ -336,7 +336,7 @@ def plot_tract_profiles(base_fname, output_dir, scalars, segmentation_imap):
         this_scalar = scalar if isinstance(scalar, str) else scalar.get_name()
         fname = get_fname(
             base_fname,
-            f'_param-{str_to_desc(this_scalar)}_desc-vizprofile_tractography.png',
+            f'_param-{str_to_desc(this_scalar)}_desc-vizprofile_tractography',
             'tract_profile_plots')
 
         visualize_tract_profiles(
