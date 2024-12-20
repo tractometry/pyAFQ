@@ -1057,7 +1057,8 @@ class BundleDict(MutableMapping):
                         base_fname,
                         "_space-subject_desc-"
                         f"{str_to_desc(bundle_name)}{roi_type}{ii}"
-                        "_mask.nii.gz")
+                        "_mask.nii.gz",
+                        "ROIs")
                     nib.save(
                         nib.Nifti1Image(
                             roi.get_fdata().astype(np.float32),

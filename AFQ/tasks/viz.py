@@ -14,7 +14,7 @@ from AFQ.tasks.utils import get_fname, with_name, str_to_desc
 import AFQ.utils.volume as auv
 from AFQ.viz.utils import Viz
 import AFQ.utils.streamlines as aus
-from AFQ.utils.path import write_json
+from AFQ.utils.path import write_json, drop_extension
 
 from plotly.subplots import make_subplots
 
@@ -41,8 +41,6 @@ def viz_bundles(base_fname,
                 data_imap,
                 mapping_imap,
                 segmentation_imap,
-                tracking_params,
-                segmentation_params,
                 best_scalar,
                 sbv_lims_bundles=[None, None],
                 volume_opacity_bundles=0.3,
@@ -118,24 +116,14 @@ def viz_bundles(base_fname,
     fname = None
     if "no_gif" not in viz_backend.backend:
         fname = get_fname(
-            base_fname, '_desc-viz_dwi.gif',
-            tracking_params=tracking_params,
-            segmentation_params=segmentation_params)
+            base_fname, '.gif', "..")
 
         viz_backend.create_gif(figure, fname)
     if "plotly" in viz_backend.backend:
         fname = get_fname(
-            base_fname, '_desc-viz_dwi.html',
-            tracking_params=tracking_params,
-            segmentation_params=segmentation_params)
+            base_fname, '.html', "..")
 
         figure.write_html(fname)
-    meta_fname = get_fname(
-        base_fname, '_desc-viz_dwi.json',
-        tracking_params=tracking_params,
-        segmentation_params=segmentation_params)
-    meta = dict(Timing=time() - start_time)
-    write_json(meta_fname, meta)
     if fname is None:
         return figure
     else:
@@ -149,8 +137,6 @@ def viz_indivBundle(base_fname,
                     data_imap,
                     mapping_imap,
                     segmentation_imap,
-                    tracking_params,
-                    segmentation_params,
                     best_scalar,
                     sbv_lims_indiv=[None, None],
                     volume_opacity_indiv=0.3,
@@ -272,48 +258,34 @@ def viz_indivBundle(base_fname,
                 interact=False,
                 figure=figure)
 
-        roi_dir = op.join(output_dir, 'viz_bundles')
-        os.makedirs(roi_dir, exist_ok=True)
+        base_fname = op.join(output_dir, op.split(base_fname)[1])
         figures[bundle_name] = figure
         if "no_gif" not in viz_backend.backend:
-            fname = op.split(
-                get_fname(
-                    base_fname,
-                    f'_desc-{str_to_desc(bundle_name)}viz'
-                    f'_dwi.gif',
-                    tracking_params=tracking_params,
-                    segmentation_params=segmentation_params))
+            fname = get_fname(
+                base_fname,
+                f'_desc-{str_to_desc(bundle_name)}'
+                f'_tractography.gif',
+                "viz_bundles")
 
-            fname = op.join(roi_dir, fname[1])
             viz_backend.create_gif(figure, fname)
         if "plotly" in viz_backend.backend:
-            roi_dir = op.join(output_dir, 'viz_bundles')
-            os.makedirs(roi_dir, exist_ok=True)
-            fname = op.split(
-                get_fname(
-                    base_fname,
-                    f'_desc-{str_to_desc(bundle_name)}viz'
-                    f'_dwi.html',
-                    tracking_params=tracking_params,
-                    segmentation_params=segmentation_params))
+            fname = get_fname(
+                base_fname,
+                f'_desc-{str_to_desc(bundle_name)}'
+                f'_tractography.html',
+                "viz_bundles")
 
-            fname = op.join(roi_dir, fname[1])
             figure.write_html(fname)
 
             # also do the core visualizations when using the plotly backend
-            core_dir = op.join(output_dir, 'viz_core_bundles')
-            os.makedirs(core_dir, exist_ok=True)
             indiv_profile = profiles[
                 profiles.tractID == bundle_name][best_scalar].to_numpy()
             if len(indiv_profile) > 1:
-                fname = op.split(
-                    get_fname(
-                        base_fname,
-                        f'_desc-{str_to_desc(bundle_name)}viz'
-                        f'_dwi.html',
-                        tracking_params=tracking_params,
-                        segmentation_params=segmentation_params))
-                fname = op.join(core_dir, fname[1])
+                fname = get_fname(
+                    base_fname,
+                    f'_desc-{str_to_desc(bundle_name)}'
+                    f'_tractography.html',
+                    "viz_core_bundles")
                 core_fig = make_subplots(
                     rows=1, cols=2,
                     specs=[[{"type": "scene"}, {"type": "scene"}]])
@@ -344,18 +316,14 @@ def viz_indivBundle(base_fname,
                     figure=core_fig,
                     include_profile=True)
                 core_fig.write_html(fname)
-    meta_fname = get_fname(
-        base_fname, f'_desc-{str_to_desc(bundle_name)}viz_dwi',
-        tracking_params=tracking_params,
-        segmentation_params=segmentation_params)
+    meta_fname = drop_extension(fname) + '.json'
     meta = dict(Timing=time() - start_time)
     write_json(meta_fname, meta)
     return {"indiv_bundles_figures": figures}
 
 
 @pimms.calc("tract_profile_plots")
-def plot_tract_profiles(base_fname, scalars, tracking_params,
-                        segmentation_params, segmentation_imap):
+def plot_tract_profiles(base_fname, output_dir, scalars, segmentation_imap):
     """
     list of full paths to png files,
     where files contain plots of the tract profiles
@@ -363,28 +331,22 @@ def plot_tract_profiles(base_fname, scalars, tracking_params,
     from AFQ.viz.plot import visualize_tract_profiles
     start_time = time()
     fnames = []
+    base_fname = op.join(output_dir, op.split(base_fname)[1])
     for scalar in scalars:
         this_scalar = scalar if isinstance(scalar, str) else scalar.get_name()
         fname = get_fname(
             base_fname,
-            f'_model-{str_to_desc(this_scalar)}_desc-vizprofile_dwi',
-            tracking_params=tracking_params,
-            segmentation_params=segmentation_params)
-        tract_profiles_folder = op.join(
-            op.dirname(fname),
-            "tract_profile_plots")
-        fname = op.join(
-            tract_profiles_folder,
-            op.basename(fname))
-        os.makedirs(op.abspath(tract_profiles_folder), exist_ok=True)
+            f'_param-{str_to_desc(this_scalar)}_desc-vizprofile_dwimap.png',
+            'tract_profile_plots')
 
         visualize_tract_profiles(
             segmentation_imap["profiles"],
             scalar=this_scalar,
             file_name=fname,
             n_boot=100)
-        fnames.append(fname + ".png")
-        meta_fname = fname + ".json"
+        fnames.append(fname)
+
+        meta_fname = drop_extension(fname) + '.json'
         meta = dict(Timing=time() - start_time)
         write_json(meta_fname, meta)
     return fnames

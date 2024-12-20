@@ -422,7 +422,7 @@ def test_AFQ_anisotropic():
     myafq.export("mapping")
     assert op.exists(op.join(
         myafq.export("output_dir")["01"],
-        'sub-01_ses-01_odfmodel-CSD_desc-APM_dwi.nii.gz'))
+        'sub-01_ses-01_model-CSD_desc-APM_dwi.nii.gz'))
 
 
 def test_API_type_checking():

@@ -278,6 +278,8 @@ class GroupAFQ(object):
                 if session is not None:
                     results_dir = op.join(results_dir, 'ses-' + session)
 
+                results_dir = op.join(results_dir, "dwi")
+
                 dwi_bids_filters = {
                     "subject": subject,
                     "session": session,
@@ -897,6 +899,9 @@ class GroupAFQ(object):
         ex_density_init = nib.load(densities[
             self.valid_sub_list[0]][
                 self.valid_ses_list[0]])  # for shape and header
+        tmpl_name = self.export("tmpl_name", collapse=False)[
+            self.valid_sub_list[0]][
+                self.valid_ses_list[0]]
 
         group_density = np.zeros_like(ex_density_init.get_fdata())
         self.logger.info("Generating Group Density...")
@@ -917,7 +922,7 @@ class GroupAFQ(object):
 
         out_fname = op.abspath(op.join(
             self.afq_path,
-            f"desc-density_subjects-all_space-MNI_dwi.nii.gz"))
+            f"desc-density_subjects-all_space-{tmpl_name}_dwimap.nii.gz"))
         nib.save(group_density, out_fname)
         return out_fname
 

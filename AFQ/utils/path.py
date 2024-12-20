@@ -80,6 +80,21 @@ def apply_cmd_to_afq_derivs(
             else:
                 os.system(f"{cmd} {full_path} {suffix}")
         elif os.path.isdir(full_path):
-            # other than ROIs, folders are dependent on everything
-            if dependent_on is None or filename != "ROIs":
+            if dependent_on is None:
                 os.system(f"{cmd} -r {full_path} {suffix}")
+            else:
+                if filename == "ROIs" and "rec" in dependent_on_list:
+                    os.system(f"{cmd} -r {full_path} {suffix}")
+                if filename == "stats" and "rec" in dependent_on_list:
+                    os.system(f"{cmd} -r {full_path} {suffix}")
+                if filename == "tractography" and "trk" in dependent_on_list:
+                    os.system(f"{cmd} -r {full_path} {suffix}")
+                if filename == "models" and "dwi" in dependent_on_list:
+                    os.system(f"{cmd} -r {full_path} {suffix}")
+                if filename == "bundles" and "rec" in dependent_on_list:
+                    os.system(f"{cmd} -r {full_path} {suffix}")
+                if filename == "viz_bundles" and "rec" in dependent_on_list:
+                    os.system(f"{cmd} -r {full_path} {suffix}")
+                if filename == "viz_core_bundles" and \
+                        "prof" in dependent_on_list:
+                    os.system(f"{cmd} -r {full_path} {suffix}")
