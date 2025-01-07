@@ -49,8 +49,8 @@ def get_data_gtab(dwi_data_file, bval_file, bvec_file, min_bval=None,
     """
     DWI data as an ndarray for selected b values,
     A DIPY GradientTable with all the gradient information,
-    and DWI data in a Nifti1Image,
-    and the affine transformation of the DWI data.
+    DWI data in a Nifti1Image,
+    and the affine transformation of the DWI data
 
     Parameters
     ----------

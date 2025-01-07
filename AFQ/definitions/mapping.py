@@ -7,7 +7,7 @@ import os.path as op
 from AFQ.definitions.utils import Definition, find_file
 from dipy.align import syn_registration, affine_registration
 import AFQ.registration as reg
-from AFQ.utils.path import write_json
+from AFQ.utils.path import write_json, space_from_fname
 from AFQ.tasks.utils import get_fname
 
 from dipy.align.imaffine import AffineMap
@@ -200,17 +200,19 @@ class GeneratedMapMixin(object):
     """
 
     def get_fnames(self, extension, base_fname, tmpl_name):
+        subject_space = space_from_fname(base_fname)
         mapping_file = get_fname(
             base_fname,
-            f'_desc-mapping_from-subject_to-{tmpl_name}_xform')
+            f'_desc-mapping_from-{subject_space}_to-{tmpl_name}_xform')
         meta_fname = f'{mapping_file}.json'
         mapping_file = mapping_file + extension
         return mapping_file, meta_fname
 
     def prealign(self, base_fname, tmpl_name,
                  reg_subject, reg_template, save=True):
+        subject_space = space_from_fname(base_fname)
         prealign_file_desc = (
-            f"_desc-prealign_from-subject"
+            f"_desc-prealign_from-{subject_space}"
             f"_to-{tmpl_name}_xform")
         prealign_file = get_fname(
             base_fname, f'{prealign_file_desc}.npy')

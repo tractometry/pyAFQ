@@ -46,6 +46,15 @@ def drop_extension(path):
     return path.split(base_fname)[0] + base_fname
 
 
+def space_from_fname(fname):
+    if "space-" in fname:
+        subject_space = fname.split("space-")[1].split("_")[0]
+    else:
+        subject_space = "subject"
+
+    return subject_space
+
+
 def apply_cmd_to_afq_derivs(
         derivs_dir, base_fname, cmd="rm", exception_file_names=[], suffix="",
         dependent_on=None):

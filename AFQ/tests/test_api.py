@@ -956,8 +956,6 @@ def test_AFQ_data_waypoint():
     print(completed_process.stderr)
     assert completed_process.returncode == 0
     # The tract profiles should already exist from the CLI Run:
-    import glob
-    print(glob.glob(afq_folder))
     from_file = pd.read_csv(tract_profile_fname)
 
     assert from_file.shape[0] >= 200

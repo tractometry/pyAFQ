@@ -5,6 +5,7 @@ import AFQ.data.fetch as afd
 import AFQ.utils.volume as auv
 from AFQ.tasks.utils import get_fname, str_to_desc
 from AFQ.definitions.utils import find_file
+from AFQ.utils.path import space_from_fname
 
 import numpy as np
 import nibabel as nib
@@ -996,7 +997,7 @@ class BundleDict(MutableMapping):
         else:
             return roi_or_sl
 
-    def transform_rois(self, bundle_name, mapping, new_affine,
+    def transform_rois(self, bundle_name, mapping, new_affine, space_name,
                        base_fname=None, apply_to_recobundles=False):
         """
         Get the bundle definition with transformed ROIs
@@ -1048,6 +1049,7 @@ class BundleDict(MutableMapping):
                 apply_to_recobundles=apply_to_recobundles)
 
         if base_fname is not None:
+            subject_space = space_from_fname(base_fname)
             fnames = []
             for roi_type, rois in transformed_rois.items():
                 if roi_type == "prob_map":
@@ -1069,7 +1071,7 @@ class BundleDict(MutableMapping):
                         desc = f"{desc}{ii}"
                     fname = get_fname(
                         base_fname,
-                        "_space-subject_desc-"
+                        f"_space-{subject_space}_desc-"
                         f"{desc}"
                         f"_{suffix}.nii.gz",
                         "ROIs")

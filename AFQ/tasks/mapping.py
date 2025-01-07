@@ -1,7 +1,5 @@
 import nibabel as nib
 import os.path as op
-import os
-import numpy as np
 import logging
 
 import pimms
@@ -12,6 +10,7 @@ from AFQ.utils.path import drop_extension, write_json
 from AFQ.definitions.mapping import SynMap
 from AFQ.definitions.utils import Definition
 from AFQ.definitions.image import ImageDefinition
+from AFQ.utils.path import space_from_fname
 
 from dipy.io.streamline import load_tractogram
 from dipy.io.stateful_tractogram import Space
@@ -47,16 +46,28 @@ def export_registered_b0(base_fname, data_imap, mapping):
 
 
 @pimms.calc("template_xform")
-@as_file('_space-subject_desc-template_anat.nii.gz')
-def template_xform(mapping, data_imap):
+def template_xform(base_fname, data_imap, mapping):
     """
     full path to a nifti file containing
     registration template transformed to subject space
     """
-    template_xform = mapping.transform_inverse(
-        data_imap["reg_template"].get_fdata())
-    template_xform = nib.Nifti1Image(template_xform, data_imap["dwi_affine"])
-    return template_xform, dict()
+    subject_space = space_from_fname(base_fname)
+    template_xform_fname = get_fname(
+        base_fname,
+        f'_space-{subject_space}_desc-template_anat.nii.gz')
+    if not op.exists(template_xform_fname):
+        template_xform = mapping.transform_inverse(
+            data_imap["reg_template"].get_fdata())
+        template_xform = nib.Nifti1Image(
+            template_xform, data_imap["dwi_affine"])
+        nib.save(template_xform, template_xform_fname)
+        meta = dict()
+        meta_fname = get_fname(
+            base_fname,
+            f'_space-{subject_space}_desc-template_anat.json')
+        write_json(meta_fname, meta)
+
+    return template_xform_fname
 
 
 @pimms.calc("rois")
