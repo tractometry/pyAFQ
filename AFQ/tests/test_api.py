@@ -5,7 +5,6 @@ import shutil
 import subprocess
 import gc
 import random
-import concurrent.futures
 
 import toml
 
@@ -422,7 +421,7 @@ def test_AFQ_anisotropic():
     myafq.export("mapping")
     assert op.exists(op.join(
         myafq.export("output_dir")["01"],
-        'sub-01_ses-01_model-CSD_desc-APM_dwi.nii.gz'))
+        'models/sub-01_ses-01_model-csd_param-apm_dwimap.nii.gz'))
 
 
 def test_API_type_checking():
@@ -852,11 +851,11 @@ def test_AFQ_data_waypoint():
 
     mapping_file = op.join(
         myafq.export("output_dir"),
-        'sub-01_ses-01_desc-mapping_from-DWI_to-MNI_xform.nii.gz')
+        'sub-01_ses-01_desc-mapping_from-subject_to-mni_xform.nii.gz')
     nib.save(mapping, mapping_file)
     reg_prealign_file = op.join(
         myafq.export("output_dir"),
-        'sub-01_ses-01_desc-prealign_from-DWI_to-MNI_xform.npy')
+        'sub-01_ses-01_desc-prealign_from-subject_to-mni_xform.npy')
     np.save(reg_prealign_file, np.eye(4))
 
     # Test ROI exporting:
@@ -864,7 +863,7 @@ def test_AFQ_data_waypoint():
     assert op.exists(op.join(
         myafq.export("output_dir"),
         'ROIs',
-        'sub-01_ses-01_space-subject_desc-RightCorticospinalinclude1_mask.json'))  # noqa
+        'sub-01_ses-01_space-subject_desc-RightCorticospinalInclude1_mask.json'))  # noqa
 
     seg_sft = aus.SegmentedSFT.fromfile(
         myafq.export("bundles"))
@@ -876,7 +875,7 @@ def test_AFQ_data_waypoint():
     assert op.exists(op.join(
         myafq.export("output_dir"),
         'bundles',
-        'sub-01_ses-01_coordsys-RASMM_trkmethod-probCSD_recogmethod-AFQ_desc-LeftCorticospinal_tractography.trk'))  # noqa
+        'sub-01_ses-01_desc-LeftCorticospinal_tractography.trk'))  # noqa
 
     tract_profile_fname = myafq.export("profiles")
     tract_profiles = pd.read_csv(tract_profile_fname)
@@ -889,12 +888,7 @@ def test_AFQ_data_waypoint():
     assert op.exists(op.join(
         myafq.export("output_dir"),
         "viz_bundles",
-        'sub-01_ses-01_coordsys-RASMM_trkmethod-probCSD_recogmethod-AFQ_desc-LeftSuperiorLongitudinalviz_dwi.html'))  # noqa
-
-    assert op.exists(op.join(
-        myafq.export("output_dir"),
-        "viz_bundles",
-        'sub-01_ses-01_coordsys-RASMM_trkmethod-probCSD_recogmethod-AFQ_desc-LeftSuperiorLongitudinalviz_dwi.html'))  # noqa
+        'sub-01_ses-01_desc-LeftSuperiorLongitudinal_tractography.html'))  # noqa
 
     # Before we run the CLI, we'll remove the bundles and ROI folders, to see
     # that the CLI generates them
@@ -972,9 +966,9 @@ def test_AFQ_data_waypoint():
     assert op.exists(op.join(
         output_dir,
         'ROIs',
-        'sub-01_ses-01_space-subject_desc-RightSuperiorLongitudinalinclude1_mask.json'))  # noqa
+        'sub-01_ses-01_space-subject_desc-RightSuperiorLongitudinalInclude1_mask.json'))  # noqa
 
     assert op.exists(op.join(
         output_dir,
         'bundles',
-        'sub-01_ses-01_coordsys-RASMM_trkmethod-probCSD_recogmethod-AFQ_desc-RightSuperiorLongitudinal_tractography.trk'))  # noqa
+        'sub-01_ses-01_desc-RightSuperiorLongitudinal_tractography.trk'))  # noqa

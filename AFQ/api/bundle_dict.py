@@ -1066,7 +1066,7 @@ class BundleDict(MutableMapping):
                 for ii, roi in enumerate(rois):
                     desc = f"{str_to_desc(bundle_name)}{roi_type_name}"
                     if roi_type in ["include", "exclude"]:
-                        desc = f"{suffix}{ii}"
+                        desc = f"{desc}{ii}"
                     fname = get_fname(
                         base_fname,
                         "_space-subject_desc-"
