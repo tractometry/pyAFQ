@@ -820,7 +820,7 @@ def test_AFQ_data_waypoint():
                            rng_seed=42)
     segmentation_params = dict(return_idx=True)
 
-    afq_folder = op.join(bids_path, "derivatives/afq/sub-01/ses-01")
+    afq_folder = op.join(bids_path, "derivatives/afq/sub-01/ses-01/dwi")
     os.makedirs(afq_folder, exist_ok=True)
     myafq = ParticipantAFQ(
         op.join(vista_folder, "sub-01_ses-01_dwi.nii.gz"),
@@ -956,6 +956,8 @@ def test_AFQ_data_waypoint():
     print(completed_process.stderr)
     assert completed_process.returncode == 0
     # The tract profiles should already exist from the CLI Run:
+    import glob
+    print(glob.glob(afq_folder))
     from_file = pd.read_csv(tract_profile_fname)
 
     assert from_file.shape[0] >= 200
