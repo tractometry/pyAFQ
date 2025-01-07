@@ -33,6 +33,7 @@ def export_registered_b0(base_fname, data_imap, mapping):
         warped_b0 = mapping.transform(mean_b0)
         warped_b0 = nib.Nifti1Image(warped_b0,
                                     data_imap["reg_template"].affine)
+        logger.info(f"Saving {warped_b0_fname}")
         nib.save(warped_b0, warped_b0_fname)
         meta = dict(
             b0InSubject=data_imap["b0"],
@@ -46,12 +47,12 @@ def export_registered_b0(base_fname, data_imap, mapping):
 
 
 @pimms.calc("template_xform")
-def template_xform(base_fname, data_imap, mapping):
+def template_xform(base_fname, dwi_data_file, data_imap, mapping):
     """
     full path to a nifti file containing
     registration template transformed to subject space
     """
-    subject_space = space_from_fname(base_fname)
+    subject_space = space_from_fname(dwi_data_file)
     template_xform_fname = get_fname(
         base_fname,
         f'_space-{subject_space}_desc-template_anat.nii.gz')
@@ -60,6 +61,7 @@ def template_xform(base_fname, data_imap, mapping):
             data_imap["reg_template"].get_fdata())
         template_xform = nib.Nifti1Image(
             template_xform, data_imap["dwi_affine"])
+        logger.info(f"Saving {template_xform_fname}")
         nib.save(template_xform, template_xform_fname)
         meta = dict()
         meta_fname = get_fname(
@@ -71,7 +73,7 @@ def template_xform(base_fname, data_imap, mapping):
 
 
 @pimms.calc("rois")
-def export_rois(base_fname, output_dir, data_imap, mapping):
+def export_rois(base_fname, output_dir, dwi_data_file, data_imap, mapping):
     """
     dictionary of full paths to Nifti1Image files of ROIs
     transformed to subject space
@@ -79,11 +81,13 @@ def export_rois(base_fname, output_dir, data_imap, mapping):
     bundle_dict = data_imap["bundle_dict"]
     roi_files = {}
     base_roi_fname = op.join(output_dir, op.split(base_fname)[1])
+    to_space = space_from_fname(dwi_data_file)
     for bundle_name in bundle_dict:
         roi_files[bundle_name] = []
         for roi_fname in bundle_dict.transform_rois(
                 bundle_name, mapping, data_imap["dwi_affine"],
-                base_fname=base_roi_fname):
+                base_fname=base_roi_fname,
+                to_space=to_space):
             logger.info(f"Saving {roi_fname}")
             roi_files[bundle_name].append(roi_fname)
             meta = {}

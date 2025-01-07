@@ -997,8 +997,9 @@ class BundleDict(MutableMapping):
         else:
             return roi_or_sl
 
-    def transform_rois(self, bundle_name, mapping, new_affine, space_name,
-                       base_fname=None, apply_to_recobundles=False):
+    def transform_rois(self, bundle_name, mapping, new_affine,
+                       base_fname=None, to_space="subject",
+                       apply_to_recobundles=False):
         """
         Get the bundle definition with transformed ROIs
         for a given bundle into a
@@ -1019,6 +1020,10 @@ class BundleDict(MutableMapping):
             Base file path to save ROIs too. Additional BIDS
             descriptors will be added to this file path. If None,
             do not save the ROIs.
+        to_space : str, optional
+            Name for space for exported ROIs. Only used if base_fname
+            is not None.
+            Default: "subject"
         apply_to_recobundles : bool, optional
             Whether to apply the transformation to recobundles
             TRKs as well.
@@ -1049,7 +1054,6 @@ class BundleDict(MutableMapping):
                 apply_to_recobundles=apply_to_recobundles)
 
         if base_fname is not None:
-            subject_space = space_from_fname(base_fname)
             fnames = []
             for roi_type, rois in transformed_rois.items():
                 if roi_type == "prob_map":
@@ -1071,7 +1075,7 @@ class BundleDict(MutableMapping):
                         desc = f"{desc}{ii}"
                     fname = get_fname(
                         base_fname,
-                        f"_space-{subject_space}_desc-"
+                        f"_space-{to_space}_desc-"
                         f"{desc}"
                         f"_{suffix}.nii.gz",
                         "ROIs")

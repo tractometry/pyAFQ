@@ -46,12 +46,11 @@ def drop_extension(path):
     return path.split(base_fname)[0] + base_fname
 
 
-def space_from_fname(fname):
-    if "space-" in fname:
-        subject_space = fname.split("space-")[1].split("_")[0]
+def space_from_fname(dwi_fname):
+    if "space-" in dwi_fname:
+        subject_space = dwi_fname.split("space-")[1].split("_")[0]
     else:
         subject_space = "subject"
-
     return subject_space
 
 
