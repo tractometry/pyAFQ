@@ -26,7 +26,7 @@ import os
 import os.path as op
 
 import AFQ.api.bundle_dict as abd
-from AFQ.api.group import GroupAFQ, get_afq_bids_entities_fname
+from AFQ.api.group import GroupAFQ
 import AFQ.data.fetch as afd
 
 
