@@ -13,10 +13,8 @@ jobs:
     strategy:
       max-parallel: 4
       matrix:
-        python-version: ["3.10", "3.11", "3.12", "3.13"]
-        # while we test for 4 versions of python,
-        # we don't test against the nibabel pre-release
-        nibabel-pre: [false]
+        python-version: ["3.10", "3.11", "3.12"]
+        nibabel-pre: [true, false]
 
     steps:
     - name: Checkout repo
