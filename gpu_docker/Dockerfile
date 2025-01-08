@@ -22,7 +22,7 @@ ENV LD_LIBRARY_PATH /opt/anaconda/lib:${LD_LIBRARY_PATH}
 # python prereqs
 RUN conda install -c conda-forge git
 RUN pip install numpy scipy cython nibabel dipy tqdm fslpy
-RUN pip install git+https://github.com/36000/GPUStreamlines.git@update_pybind
+RUN pip install git+https://github.com/dipy/GPUStreamlines.git
 
 # clone pyAFQ GPUStreamlines
 RUN git clone https://github.com/tractometry/pyAFQ.git /opt/pyAFQ
