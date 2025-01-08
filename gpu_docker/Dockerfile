@@ -7,17 +7,20 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # upgrade
 RUN apt-get update && apt-get install --assume-yes apt-transport-https \
-	ca-certificates gnupg software-properties-common gcc git wget numactl cmake
+	ca-certificates gnupg software-properties-common \
+	gcc git wget curl numactl cmake
 
 # Anaconda
-RUN wget -P /tmp https://repo.anaconda.com/archive/Anaconda3-2022.10-Linux-x86_64.sh
-RUN bash /tmp/Anaconda3-2022.10-Linux-x86_64.sh -b -p /opt/anaconda
-RUN rm -rf /tmp/Anaconda3-2022.10-Linux-x86_64.sh
+RUN curl -L "https://repo.anaconda.com/archive/Anaconda3-2024.10-1-Linux-x86_64.sh" \
+    -o "/tmp/Anaconda3.sh"
+RUN bash /tmp/Anaconda3.sh -b -p /opt/anaconda
+RUN rm -rf /tmp/Anaconda3.sh
 RUN cd /opt && eval "$(/opt/anaconda/bin/conda shell.bash hook)"
 ENV PATH /opt/anaconda/bin:${PATH}
 ENV LD_LIBRARY_PATH /opt/anaconda/lib:${LD_LIBRARY_PATH}
 
 # python prereqs
+RUN conda install -c conda-forge git
 RUN pip install numpy scipy cython nibabel dipy tqdm fslpy
 RUN pip install git+https://github.com/dipy/GPUStreamlines.git
 

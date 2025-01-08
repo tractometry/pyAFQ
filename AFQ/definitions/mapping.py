@@ -413,10 +413,8 @@ class ConformedAffineMapping(AffineMap):
     Important for SLR maps API to be indistinguishable from SYN maps API.
     """
 
-    def transform(self, *args, interpolation='linear', **kwargs):
-        kwargs['interp'] = interpolation
+    def transform(self, *args, **kwargs):
         return super().transform_inverse(*args, **kwargs)
 
-    def transform_inverse(self, *args, interpolation='linear', **kwargs):
-        kwargs['interp'] = interpolation
+    def transform_inverse(self, *args, **kwargs):
         return super().transform(*args, **kwargs)

@@ -77,7 +77,7 @@ def clean_by_endpoints(streamlines, target, target_idx, tol=0,
     boolean array of streamlines that survive cleaning.
     """
     if accepted_idxs is None:
-        accepted_idxs = np.zeros(len(streamlines), dtype=np.bool8)
+        accepted_idxs = np.zeros(len(streamlines), dtype=np.bool_)
 
     if flip_sls is None:
         flip_sls = np.zeros(len(streamlines))

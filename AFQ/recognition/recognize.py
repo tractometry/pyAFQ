@@ -158,10 +158,10 @@ def recognize(
     n_streamlines = len(tg)
     bundle_decisions = np.zeros(
         (n_streamlines, len(bundle_dict)),
-        dtype=np.bool8)
+        dtype=np.bool_)
     bundle_to_flip = np.zeros(
         (n_streamlines, len(bundle_dict)),
-        dtype=np.bool8)
+        dtype=np.bool_)
     bundle_roi_closest = -np.ones(
         (
             n_streamlines,

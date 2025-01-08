@@ -156,7 +156,7 @@ def include(b_sls, bundle_def, preproc_imap, max_includes,
         (max_includes, len(b_sls)),
         dtype=np.int32)
     if flip_using_include:
-        to_flip = np.ones_like(accept_idx, dtype=np.bool8)
+        to_flip = np.ones_like(accept_idx, dtype=np.bool_)
     for sl_idx, inc_result in enumerate(inc_results):
         sl_accepted, sl_closest = inc_result
 

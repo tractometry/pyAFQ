@@ -53,7 +53,7 @@ def clean_by_other_density_map(this_bundle_sls, other_bundle_sls,
         other_bundle_sls, np.eye(4), img.shape[:3])
     fiber_probabilities = dts.values_from_volume(
         other_bundle_density_map, this_bundle_sls, np.eye(4))
-    cleaned_idx = np.zeros(len(this_bundle_sls), dtype=np.bool8)
+    cleaned_idx = np.zeros(len(this_bundle_sls), dtype=np.bool_)
     for ii, fp in enumerate(fiber_probabilities):
         cleaned_idx[ii] = np.sum(np.asarray(fp) >= 1) <= node_thresh
     return cleaned_idx
@@ -103,7 +103,7 @@ def clean_relative_to_other_core(core, this_fgarray, other_fgarray, affine):
     """
     if len(other_fgarray) == 0:
         logger.warning("Cleaning relative to core skipped, no core found.")
-        return np.ones(this_fgarray.shape[0], dtype=np.bool8)
+        return np.ones(this_fgarray.shape[0], dtype=np.bool_)
 
     # find dimension of core axis
     orientation = nib.orientations.aff2axcodes(affine)
@@ -141,7 +141,7 @@ def clean_relative_to_other_core(core, this_fgarray, other_fgarray, affine):
         raise ValueError(f"Invalid core axis: {core}")
 
     core_bundle = np.median(other_fgarray, axis=0)
-    cleaned_idx_core = np.zeros(this_fgarray.shape[0], dtype=np.bool8)
+    cleaned_idx_core = np.zeros(this_fgarray.shape[0], dtype=np.bool_)
     for ii, sl in enumerate(this_fgarray):
         dist_matrix = cdist(core_bundle, sl, 'sqeuclidean')
         min_dist_indices = np.unravel_index(np.argmin(dist_matrix),

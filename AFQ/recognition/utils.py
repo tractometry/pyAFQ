@@ -165,7 +165,7 @@ class SlsBeingRecognized:
                  n_roi):
         self.oriented_yet = False
         self.selected_fiber_idxs = np.arange(len(sls), dtype=np.uint32)
-        self.sls_flipped = np.zeros(len(sls), dtype=np.bool8)
+        self.sls_flipped = np.zeros(len(sls), dtype=np.bool_)
         self.logger = logger
         self.start_time = -1
         self.save_intermediates = save_intermediates
@@ -177,7 +177,7 @@ class SlsBeingRecognized:
     def initiate_selection(self, clean_name):
         self.start_time = time()
         self.logger.info(f"Filtering by {clean_name}")
-        return np.zeros(len(self.selected_fiber_idxs), dtype=np.bool8)
+        return np.zeros(len(self.selected_fiber_idxs), dtype=np.bool_)
 
     def select(self, idx, clean_name, cut=False):
         self.selected_fiber_idxs = self.selected_fiber_idxs[idx]
