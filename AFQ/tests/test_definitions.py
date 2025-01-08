@@ -38,7 +38,7 @@ def test_resample_image():
     image_data[0] = True
     dwi_data = np.zeros((2, 2, 2, 5))
     image_affine = np.eye(4)
-    dwi_affine = np.eye(4) * 2
+    dwi_affine = np.eye(4)
     npt.assert_array_equal(
         afm._resample_image(image_data, None, image_affine, dwi_affine),
         image_data)
@@ -48,6 +48,7 @@ def test_resample_image():
 
     image_data = np.zeros((3, 3, 3), dtype=bool)
     image_data[0] = True
+    dwi_affine = np.eye(4) * 2
     resampled_image = afm._resample_image(
         image_data, dwi_data, image_affine, dwi_affine)
     npt.assert_array_equal(
