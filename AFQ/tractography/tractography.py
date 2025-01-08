@@ -167,7 +167,7 @@ def track(params_file, directions="prob", max_angle=30., sphere=None,
         evals = model_params[..., :3]
         evecs = model_params[..., 3:12].reshape(params_img.shape[:3] + (3, 3))
         odf = tensor_odf(evals, evecs, sphere)
-        dg = dg.from_pmf(odf, max_angle=max_angle, sphere=sphere, legacy=legacy)
+        dg = dg.from_pmf(odf, max_angle=max_angle, sphere=sphere)
     else:
         dg = dg.from_shcoeff(model_params, max_angle=max_angle, sphere=sphere,
                              basis_type=basis_type, legacy=legacy)
