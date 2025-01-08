@@ -15,11 +15,11 @@ From: nvidia/cuda:12.0.1-devel-ubuntu20.04
         ca-certificates gnupg software-properties-common \
         gcc git wget curl numactl cmake
 
-    # Anaconda installation
-    curl -L "https://repo.anaconda.com/archive/Anaconda3-2024.10-1-Linux-x86_64.sh" \
-        -o "/tmp/Anaconda3.sh"
-    bash /tmp/Anaconda3.sh -b -p /opt/anaconda
-    rm -rf /tmp/Anaconda3.sh
+    # Miniconda3
+    curl -L "https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh" \
+        -o "/tmp/Miniconda3.sh"
+    bash /tmp/Miniconda3.sh -b -p /opt/anaconda
+    rm -rf /tmp/Miniconda3.sh
     cd /opt && eval "$(/opt/anaconda/bin/conda shell.bash hook)"
 
     # Python prerequisites
