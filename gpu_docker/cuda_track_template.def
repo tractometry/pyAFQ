@@ -24,7 +24,7 @@ From: nvidia/cuda:12.0.1-devel-ubuntu20.04
 
     # Python prerequisites
     conda install -c conda-forge git
-    pip install numpy scipy cython nibabel dipy tqdm fslpy
+    pip install numpy>=2.0.0 scipy>=1.13.0 cython nibabel dipy tqdm fslpy
     pip install git+https://github.com/dipy/GPUStreamlines.git
 
     # Install pyAFQ
