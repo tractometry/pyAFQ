@@ -47,6 +47,9 @@ realclean: distclean
 	rm -rf $(HOME)/AFQ_data/
 
 html-noplot:
-	$(SPHINXBUILD) -D plot_gallery=0 -b html $(ALLSPHINXOPTS) $(SOURCEDIR) $(BUILDDIR)/html
+	PYDEVD_DISABLE_FILE_VALIDATION=1 $(SPHINXBUILD) \
+		-D plot_gallery=0 \
+		-D exclude_patterns=howto/howto_examples/*.ipynb,tutorials/tutorial_examples/*.ipynb \
+		-b html $(ALLSPHINXOPTS) $(SOURCEDIR) $(BUILDDIR)/html
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."

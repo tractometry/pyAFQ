@@ -1,5 +1,6 @@
 AFQ Tractometry Pipeline
 ~~~~~~~~~~~~~~~~~~~~~~~~
+Click images for explanations!
 
 .. image:: _static/tract_modeling2.png
           :target: modeling.html
