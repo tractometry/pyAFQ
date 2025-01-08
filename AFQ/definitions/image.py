@@ -34,7 +34,8 @@ def _resample_image(image_data, dwi_data, image_affine, dwi_affine):
     image_type = image_data.dtype
     if ((dwi_data is not None)
         and (dwi_affine is not None)
-            and (dwi_data.shape[:3] != image_data.shape[:3])):
+            and ((dwi_data.shape[:3] != image_data.shape[:3]) or (
+                not np.allclose(dwi_affine, image_affine)))):
         if len(image_data.shape) < 4:
             return _resample_slice(image_data)
         else:
