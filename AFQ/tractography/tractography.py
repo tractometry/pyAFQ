@@ -129,6 +129,9 @@ def track(params_file, directions="prob", max_angle=30., sphere=None,
     minlen = int(minlen / step_size)
     maxlen = int(maxlen / step_size)
 
+    if seed_mask is None:
+        seed_mask = np.ones(params_img.shape[:3])
+
     seeds = gen_seeds(
         seed_mask, seed_threshold,
         n_seeds, thresholds_as_percentages,
