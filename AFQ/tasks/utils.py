@@ -27,6 +27,8 @@ def get_fname(base_fname, suffix,
     fname = base_fname
     if tracking_params is not None and 'odf_model' in tracking_params:
         odf_model = tracking_params['odf_model']
+        if not isinstance(odf_model, str):
+            odf_model = odf_model.get_name()
         directions = tracking_params['directions']
         fname = fname + (
             f'_coordsys-RASMM_trkmethod-{directions+odf_model}'

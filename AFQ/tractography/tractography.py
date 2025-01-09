@@ -25,7 +25,8 @@ def track(params_file, directions="prob", max_angle=30., sphere=None,
           seed_mask=None, seed_threshold=0, thresholds_as_percentages=False,
           n_seeds=1, random_seeds=False, rng_seed=None, stop_mask=None,
           stop_threshold=0, step_size=0.5, minlen=50, maxlen=250,
-          odf_model="CSD", tracker="local", trx=False):
+          odf_model="CSD", basis_type="descoteaux07", legacy=True,
+          tracker="local", trx=False):
     """
     Tractography
 
@@ -91,8 +92,18 @@ def track(params_file, directions="prob", max_angle=30., sphere=None,
         The miminal length (mm) in a streamline. Default: 20
     maxlen: int, optional
         The miminal length (mm) in a streamline. Default: 250
-    odf_model : str, optional
-        One of {"DTI", "CSD", "DKI"}. Defaults to use "CSD"
+    odf_model : str or Definition, optional
+        Can be either a string or Definition. If a string, it must be one of
+        {"DTI", "CSD", "DKI", "GQ", "RUMBA"}. If a Definition, we assume
+        it is a definition of a file containing Spherical Harmonics
+        coefficients.
+        Defaults to use "CSD"
+    basis_type : str, optional
+        The spherical harmonic basis type used to represent the coefficients. 
+        One of {"descoteaux07", "tournier07"}. Deafult: "descoteaux07"
+    legacy : bool, optional
+        Whether to use the legacy implementation of the direction getter.
+        See Dipy documentation for more details. Default: True
     tracker : str, optional
         Which strategy to use in tracking. This can be the standard local
         tracking ("local") or Particle Filtering Tracking ([Girard2014]_).
@@ -121,7 +132,8 @@ def track(params_file, directions="prob", max_angle=30., sphere=None,
         params_img = params_file
 
     model_params = params_img.get_fdata()
-    odf_model = odf_model.upper()
+    if isinstance(odf_model, str):
+        odf_model = odf_model.upper()
     directions = directions.lower()
 
     # We need to calculate the size of a voxel, so we can transform
@@ -148,13 +160,17 @@ def track(params_file, directions="prob", max_angle=30., sphere=None,
     else:
         raise ValueError(f"Unrecognized direction '{directions}'.")
 
+    logger.debug(f"Using basis type: {basis_type}")
+    logger.debug(f"Using legacy DG: {legacy}")
+
     if odf_model == "DTI" or odf_model == "DKI":
         evals = model_params[..., :3]
         evecs = model_params[..., 3:12].reshape(params_img.shape[:3] + (3, 3))
         odf = tensor_odf(evals, evecs, sphere)
         dg = dg.from_pmf(odf, max_angle=max_angle, sphere=sphere)
     else:
-        dg = dg.from_shcoeff(model_params, max_angle=max_angle, sphere=sphere)
+        dg = dg.from_shcoeff(model_params, max_angle=max_angle, sphere=sphere,
+                             basis_type=basis_type, legacy=legacy)
 
     if tracker == "local":
         if stop_mask is None:

@@ -10,18 +10,19 @@ RUN apt-get update && apt-get install --assume-yes apt-transport-https \
 	ca-certificates gnupg software-properties-common \
 	gcc git wget curl numactl cmake
 
-# Anaconda
-RUN curl -L "https://repo.anaconda.com/archive/Anaconda3-2024.10-1-Linux-x86_64.sh" \
-    -o "/tmp/Anaconda3.sh"
-RUN bash /tmp/Anaconda3.sh -b -p /opt/anaconda
-RUN rm -rf /tmp/Anaconda3.sh
+# Miniconda3
+RUN curl -L "https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh" \
+    -o "/tmp/Miniconda3.sh"
+RUN bash /tmp/Miniconda3.sh -b -p /opt/anaconda
+RUN rm -rf /tmp/Miniconda3.sh
 RUN cd /opt && eval "$(/opt/anaconda/bin/conda shell.bash hook)"
 ENV PATH /opt/anaconda/bin:${PATH}
 ENV LD_LIBRARY_PATH /opt/anaconda/lib:${LD_LIBRARY_PATH}
 
 # python prereqs
 RUN conda install -c conda-forge git
-RUN pip install numpy scipy cython nibabel dipy tqdm fslpy
+RUN pip install numpy>=2.0.0
+RUN pip install scipy>=1.13.0 cython nibabel dipy tqdm fslpy
 RUN pip install git+https://github.com/dipy/GPUStreamlines.git
 
 # clone pyAFQ GPUStreamlines
