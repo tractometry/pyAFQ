@@ -203,7 +203,6 @@ def track(params_file, directions="prob", max_angle=30., sphere=None,
                 "Expected a (pve_wm, pve_gm, pve_csf) tuple.")
         pves = []
         pve_imgs = []
-        vox_sizes = []
         for ii, pve in enumerate(stop_mask):
             if isinstance(pve, str):
                 img = nib.load(pve)
@@ -211,7 +210,7 @@ def track(params_file, directions="prob", max_angle=30., sphere=None,
                 img = pve
             pve_imgs.append(img)
             pves.append(pve_imgs[-1].get_fdata())
-        average_voxel_size = np.mean(vox_sizes)
+
         pve_wm_img, pve_gm_img, pve_csf_img = pve_imgs
         pve_wm_data, pve_gm_data, pve_csf_data = pves
         pve_wm_data = resample(
@@ -227,8 +226,6 @@ def track(params_file, directions="prob", max_angle=30., sphere=None,
             pve_csf_img.affine,
             params_img.affine).get_fdata()
 
-        vox_sizes.append(np.mean(params_img.header.get_zooms()[:3]))
-
         my_tracker = ParticleFilteringTracking
         if stop_threshold == "CMC":
             stopping_criterion = CmcStoppingCriterion.from_pve(
@@ -236,7 +233,8 @@ def track(params_file, directions="prob", max_angle=30., sphere=None,
                 pve_gm_data,
                 pve_csf_data,
                 step_size=step_size,
-                average_voxel_size=average_voxel_size)
+                average_voxel_size=np.mean(
+                    params_img.header.get_zooms()[:3]))
         elif stop_threshold == "ACT":
             stopping_criterion = ActStoppingCriterion.from_pve(
                 pve_wm_data,
