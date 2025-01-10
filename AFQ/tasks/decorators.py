@@ -110,7 +110,7 @@ def extract_added_args(func, names, args, includes=None):
     return len(arg_list), *vals
 
 
-def as_file(suffix, include_track=False, include_seg=False):
+def as_file(suffix, include_track=False, include_seg=False, subfolder=None):
     """
     return img and meta as saved file path, with json,
     and only run if not already found
@@ -133,10 +133,7 @@ def as_file(suffix, include_track=False, include_seg=False):
                      "tracking_params", "segmentation_params"],
                     args,
                     includes=[True, True, include_track, include_seg])
-            this_file = get_fname(
-                base_fname, suffix,
-                tracking_params=tracking_params,
-                segmentation_params=segmentation_params)
+            this_file = get_fname(base_fname, suffix, subfolder=subfolder)
 
             # tracking_params is defined and file has no extension
             if tracking_params is not None and not op.splitext(this_file)[1]:
@@ -178,8 +175,7 @@ def as_file(suffix, include_track=False, include_seg=False):
 
                 meta_fname = get_fname(
                     base_fname, f"{drop_extension(suffix)}.json",
-                    tracking_params=tracking_params,
-                    segmentation_params=segmentation_params)
+                    subfolder=subfolder)
                 write_json(meta_fname, meta)
             return this_file
         return wrapper_as_file

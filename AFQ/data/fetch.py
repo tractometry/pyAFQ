@@ -1144,16 +1144,15 @@ def organize_stanford_data(path=None, clear_previous_afq=None):
     derivatives_path = op.join(bids_path, 'derivatives')
     dmriprep_folder = op.join(derivatives_path, 'vistasoft')
     freesurfer_folder = op.join(derivatives_path, 'freesurfer')
+    afq_folder = op.join(derivatives_path, 'afq')
 
-    if clear_previous_afq is not None and op.exists(derivatives_path):
-        afq_folder = op.join(derivatives_path, 'afq')
+    if clear_previous_afq is not None and op.exists(afq_folder):
         if clear_previous_afq == "all":
-            if op.exists(afq_folder):
-                shutil.rmtree(afq_folder)
+            shutil.rmtree(afq_folder)
         else:
             apply_cmd_to_afq_derivs(
-                op.join(afq_folder, "sub-01/ses-01"),
-                op.join(afq_folder, "sub-01/ses-01/sub-01_ses-01"),
+                op.join(afq_folder, "sub-01/ses-01/dwi/"),
+                op.join(afq_folder, "sub-01/ses-01/dwi/sub-01_ses-01"),
                 dependent_on=clear_previous_afq)
 
     if not op.exists(derivatives_path):

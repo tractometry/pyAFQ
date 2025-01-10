@@ -46,6 +46,14 @@ def drop_extension(path):
     return path.split(base_fname)[0] + base_fname
 
 
+def space_from_fname(dwi_fname):
+    if "space-" in dwi_fname:
+        subject_space = dwi_fname.split("space-")[1].split("_")[0]
+    else:
+        subject_space = "subject"
+    return subject_space
+
+
 def apply_cmd_to_afq_derivs(
         derivs_dir, base_fname, cmd="rm", exception_file_names=[], suffix="",
         dependent_on=None):
@@ -80,6 +88,24 @@ def apply_cmd_to_afq_derivs(
             else:
                 os.system(f"{cmd} {full_path} {suffix}")
         elif os.path.isdir(full_path):
-            # other than ROIs, folders are dependent on everything
-            if dependent_on is None or filename != "ROIs":
+            if dependent_on is None:
                 os.system(f"{cmd} -r {full_path} {suffix}")
+            else:
+                if filename == "ROIs" and "rec" in dependent_on_list:
+                    os.system(f"{cmd} -r {full_path} {suffix}")
+                if filename == "stats" and "rec" in dependent_on_list:
+                    os.system(f"{cmd} -r {full_path} {suffix}")
+                if filename == "tractography" and "trk" in dependent_on_list:
+                    os.system(f"{cmd} -r {full_path} {suffix}")
+                if filename == "models" and "dwi" in dependent_on_list:
+                    os.system(f"{cmd} -r {full_path} {suffix}")
+                if filename == "bundles" and "rec" in dependent_on_list:
+                    os.system(f"{cmd} -r {full_path} {suffix}")
+                if filename == "viz_bundles" and "rec" in dependent_on_list:
+                    os.system(f"{cmd} -r {full_path} {suffix}")
+                if filename == "viz_core_bundles" and \
+                        "prof" in dependent_on_list:
+                    os.system(f"{cmd} -r {full_path} {suffix}")
+                if filename == "tract_profile_plots" and \
+                        "prof" in dependent_on_list:
+                    os.system(f"{cmd} -r {full_path} {suffix}")

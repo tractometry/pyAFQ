@@ -1,5 +1,6 @@
 from AFQ.utils.path import drop_extension
 import os.path as op
+import os
 import inspect
 
 __all__ = ["get_fname", "with_name", "get_base_fname"]
@@ -36,7 +37,41 @@ def get_fname(base_fname, suffix,
     if segmentation_params is not None:
         fname = fname + f"_recogmethod-AFQ"
 
-    return fname + suffix
+
+def _split_path(path):
+    parts = []
+    while True:
+        path, folder = os.path.split(path)
+        if folder:
+            parts.append(folder)
+        else:
+            if path:
+                parts.append(path)
+            break
+    return parts[::-1]
+
+
+def get_fname(base_fname, suffix, subfolder=None):
+    if subfolder is None:
+        return base_fname + suffix
+    elif subfolder == "..":
+        base_dir = op.dirname(base_fname)
+        base_fname = op.basename(base_fname)
+        folders = _split_path(base_dir)
+        if folders[-1] == "dwi":
+            if len(folders) > 1 and "sub-" in folders[-2] or \
+                    "ses-" in folders[-2]:
+                return op.join(*folders[:-2], folders[-2] + suffix)
+            else:
+                return op.join(*folders[:-1], base_fname + suffix)
+        else:
+            return op.join(*folders[:-1], folders[-1] + suffix)
+    else:
+        base_dir = op.dirname(base_fname)
+        base_fname = op.basename(base_fname)
+        subfolder = op.join(base_dir, subfolder)
+        os.makedirs(subfolder, exist_ok=True)
+        return op.join(subfolder, base_fname + suffix)
 
 
 # Turn list of tasks into dictionary with names for each task

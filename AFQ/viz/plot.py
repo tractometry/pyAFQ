@@ -12,6 +12,7 @@ import AFQ.viz.utils as vut
 from AFQ.viz.utils import display_string
 from AFQ.utils.stats import contrast_index as calc_contrast_index
 from AFQ.data.utils import BUNDLE_RECO_2_AFQ, BUNDLE_MAT_2_PYTHON
+from AFQ.utils.path import drop_extension
 
 try:
     from pingouin import intraclass_corr, corr
@@ -659,8 +660,18 @@ class GroupCSVComparison():
             if ba.is_using_temp_axis():
                 ba.temp_fig.legend(
                     labels_temp, names, fontsize=vut.medium_font)
+                if "_desc" in o_file:  # Use BIDS naming convention
+                    o_file_pre = o_file.split("_desc-")[0]
+                    o_file_post = o_file.split("_desc-")[1]
+                    bids_bname = bundle.lower().replace(
+                        " ", "").replace(
+                            "-", "").replace(
+                                "_", "")
+                    bf_name = o_file_pre + "_desc-" + bids_bname + o_file_post
+                else:
+                    bf_name = f"{o_file}_{bundle}"
                 ba.save_temp_fig(
-                    o_folder, f"{o_file}_{bundle}", self._save_fig)
+                    o_folder, bf_name, self._save_fig)
         if len(names) > 1:
             ba.fig.legend(
                 labels, names, loc='center',

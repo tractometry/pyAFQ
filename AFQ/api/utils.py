@@ -126,6 +126,8 @@ def export_all_helper(api_afq_object, xforms, indiv, viz):
     api_afq_object.export("sl_counts")
     api_afq_object.export("median_bundle_lengths")
     api_afq_object.export("profiles")
+    api_afq_object.export("seed_thresh")
+    api_afq_object.export("stop_thresh")
 
     if viz:
         try:

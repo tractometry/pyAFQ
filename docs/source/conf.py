@@ -243,5 +243,5 @@ autoapi_type = 'python'
 autoapi_dirs = ['../../AFQ']
 autoapi_ignore = [
     '*test*', '*_fixes*', '*version*',
-    'pyAFQ', 'License', 'afq_bids_entities.json']
+    'pyAFQ', 'License']
 autoapi_root = 'reference/api'

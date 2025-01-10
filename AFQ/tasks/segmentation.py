@@ -39,7 +39,9 @@ logger = logging.getLogger('AFQ')
 
 
 @pimms.calc("bundles")
-@as_file('_tractography', include_track=True, include_seg=True)
+@as_file('_desc-bundles_tractography',
+         include_track=True,
+         include_seg=True)
 def segment(data_imap, mapping_imap,
             tractography_imap, segmentation_params):
     """
@@ -67,17 +69,17 @@ def segment(data_imap, mapping_imap,
         tg = trx.to_sft()
     elif streamlines.endswith(".tck.gz"):
         # uncompress tck.gz to a temporary tck:
-        temp_tck = op.join(mkdtemp(), op.split(streamlines.replace(".gz", ""))[1])
+        temp_tck = op.join(mkdtemp(), op.split(
+            streamlines.replace(".gz", ""))[1])
         logger.info(f"Temporary tck file created at: {temp_tck}")
         with gzip.open(streamlines, 'rb') as f_in:
             with open(temp_tck, 'wb') as f_out:
                 shutil.copyfileobj(f_in, f_out)
         # initialize stateful tractogram from tck file:
         tg = load_tractogram(
-            temp_tck, data_imap["dwi"], Space.VOX, 
+            temp_tck, data_imap["dwi"], Space.VOX,
             bbox_valid_check=False)
         is_trx = False
-
 
     indices_to_remove, _ = tg.remove_invalid_streamlines()
     if len(indices_to_remove) > 0:
@@ -129,8 +131,7 @@ def segment(data_imap, mapping_imap,
 @pimms.calc("indiv_bundles")
 def export_bundles(base_fname, output_dir,
                    bundles,
-                   tracking_params,
-                   segmentation_params):
+                   tracking_params):
     """
     dictionary of paths, where each path is
     a full path to a trk file containing the streamlines of a given bundle.
@@ -141,18 +142,14 @@ def export_bundles(base_fname, output_dir,
     else:
         extension = ".trk"
 
-    bundles_dir = op.join(output_dir, "bundles")
-    os.makedirs(bundles_dir, exist_ok=True)
+    base_fname = op.join(output_dir, op.split(base_fname)[1])
     seg_sft = aus.SegmentedSFT.fromfile(bundles)
     for bundle in seg_sft.bundle_names:
-        fname = op.split(
-            get_fname(
-                base_fname,
-                f'_desc-{str_to_desc(bundle)}'
-                f'_tractography{extension}',
-                tracking_params=tracking_params,
-                segmentation_params=segmentation_params))
-        fname = op.join(bundles_dir, fname[1])
+        fname = get_fname(
+            base_fname,
+            f'_desc-{str_to_desc(bundle)}'
+            f'_tractography{extension}',
+            subfolder="bundles")
         bundle_sft = seg_sft.get_bundle(bundle)
         if len(bundle_sft) > 0:
             logger.info(f"Saving {fname}")
@@ -173,11 +170,14 @@ def export_bundles(base_fname, output_dir,
             params=seg_sft.get_bundle_param_info(bundle))
         meta_fname = drop_extension(fname) + '.json'
         write_json(meta_fname, meta)
-    return bundles_dir
+    return op.dirname(fname)
 
 
 @pimms.calc("sl_counts")
-@as_file('_desc-slCount_dwi.csv', include_track=True, include_seg=True)
+@as_file('_desc-slCount_tractography.csv',
+         include_track=True,
+         include_seg=True,
+         subfolder="stats")
 def export_sl_counts(bundles):
     """
     full path to a JSON file containing streamline counts
@@ -199,8 +199,9 @@ def export_sl_counts(bundles):
 
 @pimms.calc("median_bundle_lengths")
 @as_file(
-    '_desc-medianBundleLengths_dwi.csv',
-    include_track=True, include_seg=True)
+    '_desc-medianBundleLengths_tractography.csv',
+    include_track=True, include_seg=True,
+    subfolder="stats")
 def export_bundle_lengths(bundles):
     """
     full path to a JSON file containing median bundle lengths
@@ -227,7 +228,9 @@ def export_bundle_lengths(bundles):
 
 
 @pimms.calc("density_maps")
-@as_file('_desc-density_dwi.nii.gz', include_track=True, include_seg=True)
+@as_file('_desc-density_tractography.nii.gz',
+         include_track=True,
+         include_seg=True)
 def export_density_maps(bundles, data_imap):
     """
     full path to 4d nifti file containing streamline counts per voxel
@@ -249,7 +252,7 @@ def export_density_maps(bundles, data_imap):
 
 
 @pimms.calc("profiles")
-@as_file('_desc-profiles_dwi.csv', include_track=True, include_seg=True)
+@as_file('_desc-profiles_tractography.csv', include_track=True, include_seg=True)
 def tract_profiles(bundles,
                    scalar_dict, data_imap,
                    profile_weights="gauss",
@@ -332,6 +335,14 @@ def tract_profiles(bundles,
                     this_prof_weights = _median_weight
             else:
                 this_prof_weights = profile_weights
+            if np.any(np.isnan(this_prof_weights)):  # fit failed
+                logger.warning((
+                    f"Even weighting used for "
+                    f"bundle {bundle_name}, scalar {scalar} "
+                    f"in profiling due inability to estimate weights. "
+                    "This is often caused by low streamline count or "
+                    "low variance in the scalar data."))
+                this_prof_weights = np.ones_like(this_prof_weights)
             this_profile[ii] = afq_profile(
                 scalar_data,
                 this_sl,
@@ -370,7 +381,8 @@ def get_scalar_dict(data_imap, mapping_imap, scalars=["dti_fa", "dti_md"]):
         List of scalars to use.
         Can be any of: "dti_fa", "dti_md", "dki_fa", "dki_md", "dki_awf",
         "dki_mk". Can also be a scalar from AFQ.definitions.image.
-        Default: ["dti_fa", "dti_md"]
+            Default: For single shell data: ["dti_fa", "dti_md"], 
+        for multi-shell data: ["dki_fa", "dki_md"].
     """
     # Note: some scalars preprocessing done in plans, before this step
     scalar_dict = {}

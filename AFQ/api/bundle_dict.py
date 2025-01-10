@@ -5,6 +5,7 @@ import AFQ.data.fetch as afd
 import AFQ.utils.volume as auv
 from AFQ.tasks.utils import get_fname, str_to_desc
 from AFQ.definitions.utils import find_file
+from AFQ.utils.path import space_from_fname
 
 import numpy as np
 import nibabel as nib
@@ -997,7 +998,8 @@ class BundleDict(MutableMapping):
             return roi_or_sl
 
     def transform_rois(self, bundle_name, mapping, new_affine,
-                       base_fname=None, apply_to_recobundles=False):
+                       base_fname=None, to_space="subject",
+                       apply_to_recobundles=False):
         """
         Get the bundle definition with transformed ROIs
         for a given bundle into a
@@ -1018,6 +1020,10 @@ class BundleDict(MutableMapping):
             Base file path to save ROIs too. Additional BIDS
             descriptors will be added to this file path. If None,
             do not save the ROIs.
+        to_space : str, optional
+            Name for space for exported ROIs. Only used if base_fname
+            is not None.
+            Default: "subject"
         apply_to_recobundles : bool, optional
             Whether to apply the transformation to recobundles
             TRKs as well.
@@ -1050,14 +1056,29 @@ class BundleDict(MutableMapping):
         if base_fname is not None:
             fnames = []
             for roi_type, rois in transformed_rois.items():
+                if roi_type == "prob_map":
+                    suffix = "probseg"
+                    roi_type_name = ""
+                else:
+                    suffix = "mask"
+                    roi_type_name = roi_type.lower().replace(
+                        " ", "").replace(
+                            "_", "").replace(
+                                "-", "")
+                    roi_type_name = roi_type_name[0].upper() \
+                        + roi_type_name[1:]
                 if not isinstance(rois, list):
                     rois = [rois]
                 for ii, roi in enumerate(rois):
+                    desc = f"{str_to_desc(bundle_name)}{roi_type_name}"
+                    if roi_type in ["include", "exclude"]:
+                        desc = f"{desc}{ii}"
                     fname = get_fname(
                         base_fname,
-                        "_space-subject_desc-"
-                        f"{str_to_desc(bundle_name)}{roi_type}{ii}"
-                        "_mask.nii.gz")
+                        f"_space-{to_space}_desc-"
+                        f"{desc}"
+                        f"_{suffix}.nii.gz",
+                        "ROIs")
                     nib.save(
                         nib.Nifti1Image(
                             roi.get_fdata().astype(np.float32),

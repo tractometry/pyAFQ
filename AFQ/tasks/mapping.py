@@ -1,17 +1,16 @@
 import nibabel as nib
 import os.path as op
-import os
-import numpy as np
 import logging
 
 import pimms
 from AFQ.tasks.decorators import as_file
-from AFQ.tasks.utils import with_name, str_to_desc
+from AFQ.tasks.utils import with_name, str_to_desc, get_fname
 import AFQ.data.fetch as afd
 from AFQ.utils.path import drop_extension, write_json
 from AFQ.definitions.mapping import SynMap
 from AFQ.definitions.utils import Definition
 from AFQ.definitions.image import ImageDefinition
+from AFQ.utils.path import space_from_fname
 
 from dipy.io.streamline import load_tractogram
 from dipy.io.stateful_tractogram import Space
@@ -21,47 +20,74 @@ logger = logging.getLogger('AFQ')
 
 
 @pimms.calc("b0_warped")
-@as_file('_space-template_desc-b0_dwi.nii.gz')
-def export_registered_b0(data_imap, mapping):
+def export_registered_b0(base_fname, data_imap, mapping):
     """
     full path to a nifti file containing
     b0 transformed to template space
     """
-    mean_b0 = nib.load(data_imap["b0"]).get_fdata()
-    warped_b0 = mapping.transform(mean_b0)
-    warped_b0 = nib.Nifti1Image(warped_b0, data_imap["reg_template"].affine)
-    return warped_b0, dict(b0InSubject=data_imap["b0"])
+    warped_b0_fname = get_fname(
+        base_fname,
+        f'_space-{data_imap["tmpl_name"]}_b0ref.nii.gz')
+    if not op.exists(warped_b0_fname):
+        mean_b0 = nib.load(data_imap["b0"]).get_fdata()
+        warped_b0 = mapping.transform(mean_b0)
+        warped_b0 = nib.Nifti1Image(warped_b0,
+                                    data_imap["reg_template"].affine)
+        logger.info(f"Saving {warped_b0_fname}")
+        nib.save(warped_b0, warped_b0_fname)
+        meta = dict(
+            b0InSubject=data_imap["b0"],
+            dependent="dwi")
+        meta_fname = get_fname(
+            base_fname,
+            f'_space-{data_imap["tmpl_name"]}_b0ref.json')
+        write_json(meta_fname, meta)
+
+    return warped_b0_fname
 
 
 @pimms.calc("template_xform")
-@as_file('_space-subject_desc-template_dwi.nii.gz')
-def template_xform(mapping, data_imap):
+def template_xform(base_fname, dwi_data_file, data_imap, mapping):
     """
     full path to a nifti file containing
     registration template transformed to subject space
     """
-    template_xform = mapping.transform_inverse(
-        data_imap["reg_template"].get_fdata())
-    template_xform = nib.Nifti1Image(template_xform, data_imap["dwi_affine"])
-    return template_xform, dict()
+    subject_space = space_from_fname(dwi_data_file)
+    template_xform_fname = get_fname(
+        base_fname,
+        f'_space-{subject_space}_desc-template_anat.nii.gz')
+    if not op.exists(template_xform_fname):
+        template_xform = mapping.transform_inverse(
+            data_imap["reg_template"].get_fdata())
+        template_xform = nib.Nifti1Image(
+            template_xform, data_imap["dwi_affine"])
+        logger.info(f"Saving {template_xform_fname}")
+        nib.save(template_xform, template_xform_fname)
+        meta = dict()
+        meta_fname = get_fname(
+            base_fname,
+            f'_space-{subject_space}_desc-template_anat.json')
+        write_json(meta_fname, meta)
+
+    return template_xform_fname
 
 
 @pimms.calc("rois")
-def export_rois(base_fname, output_dir, data_imap, mapping):
+def export_rois(base_fname, output_dir, dwi_data_file, data_imap, mapping):
     """
     dictionary of full paths to Nifti1Image files of ROIs
     transformed to subject space
     """
     bundle_dict = data_imap["bundle_dict"]
-    rois_dir = op.join(output_dir, 'ROIs')
-    os.makedirs(rois_dir, exist_ok=True)
     roi_files = {}
-    base_roi_fname = op.join(rois_dir, op.split(base_fname)[1])
+    base_roi_fname = op.join(output_dir, op.split(base_fname)[1])
+    to_space = space_from_fname(dwi_data_file)
     for bundle_name in bundle_dict:
         roi_files[bundle_name] = []
         for roi_fname in bundle_dict.transform_rois(
                 bundle_name, mapping, data_imap["dwi_affine"],
-                base_fname=base_roi_fname):
+                base_fname=base_roi_fname,
+                to_space=to_space):
             logger.info(f"Saving {roi_fname}")
             roi_files[bundle_name].append(roi_fname)
             meta = {}
@@ -87,6 +113,7 @@ def mapping(base_fname, dwi_data_file, reg_subject, data_imap,
         Default: None
     """
     reg_template = data_imap["reg_template"]
+    tmpl_name = data_imap["tmpl_name"]
     if mapping_definition is None:
         mapping_definition = SynMap()
     if not isinstance(mapping_definition, Definition):
@@ -95,7 +122,7 @@ def mapping(base_fname, dwi_data_file, reg_subject, data_imap,
             + " in `AFQ.definitions.mapping`")
     return mapping_definition.get_for_subses(
         base_fname, data_imap["dwi"], dwi_data_file,
-        reg_subject, reg_template)
+        reg_subject, reg_template, tmpl_name)
 
 
 @pimms.calc("mapping")
@@ -115,6 +142,7 @@ def sls_mapping(base_fname, dwi_data_file, reg_subject, data_imap,
         Default: None
     """
     reg_template = data_imap["reg_template"]
+    tmpl_name = data_imap["tmpl_name"]
     if mapping_definition is None:
         mapping_definition = SynMap()
     if not isinstance(mapping_definition, Definition):
@@ -142,6 +170,7 @@ def sls_mapping(base_fname, dwi_data_file, reg_subject, data_imap,
         base_fname, data_imap["dwi"],
         dwi_data_file,
         reg_subject, reg_template,
+        tmpl_name,
         subject_sls=tg.streamlines,
         template_sls=hcp_atlas.streamlines)
 
@@ -201,7 +230,7 @@ def get_mapping_plan(kwargs, use_sls=False):
                 pimms.calc(f"{scalar.get_name()}")(
                     as_file((
                         f'_desc-{str_to_desc(scalar.get_name())}'
-                        '_dwi.nii.gz'))(
+                        '_dwimap.nii.gz'))(
                             scalar.get_image_getter("mapping")))
 
     if use_sls:
@@ -213,6 +242,6 @@ def get_mapping_plan(kwargs, use_sls=False):
         mapping_tasks["reg_subject_spec_res"] = pimms.calc("reg_subject_spec")(
             as_file((
                 f'_desc-{str_to_desc(reg_ss.get_name())}'
-                '_dwi.nii.gz'))(reg_ss.get_image_getter("mapping")))
+                '_dwiref.nii.gz'))(reg_ss.get_image_getter("mapping")))
 
     return pimms.plan(**mapping_tasks)
