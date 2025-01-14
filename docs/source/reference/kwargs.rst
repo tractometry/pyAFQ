@@ -211,6 +211,8 @@ tractography_ngpus: int, optional
 	Number of GPUs to use in tractography. If non-0,
 	this algorithm is used for tractography,
 	https://github.com/dipy/GPUStreamlines
+	PTT, Prob can be used with any SHM model.
+	Bootstrapped can be done with CSA/OPDT.
 	Default: 0
 
 chunk_size: int, optional

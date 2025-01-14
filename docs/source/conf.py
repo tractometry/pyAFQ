@@ -97,7 +97,8 @@ pygments_style = 'sphinx'
 # a list of builtin themes.
 #
 # html_theme = 'alabaster'
-html_theme = 'pydata_sphinx_theme'
+# html_theme = 'pydata_sphinx_theme'
+html_theme = 'sphinx_rtd_theme'
 
 # Added theme configuration. See: https://pydata-sphinx-theme.readthedocs.io/
 html_logo = "_static/logo.png"
