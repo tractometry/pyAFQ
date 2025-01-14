@@ -175,7 +175,7 @@ class PanelFigure():
         self.grid = plt.GridSpec(num_rows, num_cols, hspace=0, wspace=0)
         self.subplot_count = 0
         self.panel_label_kwargs = dict(
-            fontfamily="Helvetica-Bold",
+            fontfamily="Helvetica",
             fontsize="xx-large",
             color="white",
             fontweight='bold',
