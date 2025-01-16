@@ -90,7 +90,8 @@ def export_rois(base_fname, output_dir, dwi_data_file, data_imap, mapping):
                 to_space=to_space):
             logger.info(f"Saving {roi_fname}")
             roi_files[bundle_name].append(roi_fname)
-            meta = {}
+            meta = {
+                "Bundle Definition": bundle_dict.get_b_info(bundle_name)}
             meta_fname = f'{drop_extension(roi_fname)}.json'
             write_json(meta_fname, meta)
     return {'rois': roi_files}
@@ -230,7 +231,7 @@ def get_mapping_plan(kwargs, use_sls=False):
                 pimms.calc(f"{scalar.get_name()}")(
                     as_file((
                         f'_desc-{str_to_desc(scalar.get_name())}'
-                        '_dwimap.nii.gz'))(
+                        '_dwimap.nii.gz'), subfolder="models")(
                             scalar.get_image_getter("mapping")))
 
     if use_sls:

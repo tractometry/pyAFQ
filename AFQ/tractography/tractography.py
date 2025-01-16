@@ -215,16 +215,16 @@ def track(params_file, directions="prob", max_angle=30., sphere=None,
         pve_wm_data, pve_gm_data, pve_csf_data = pves
         pve_wm_data = resample(
             pve_wm_data, model_params[..., 0],
-            pve_wm_img.affine,
-            params_img.affine).get_fdata()
+            moving_affine=pve_wm_img.affine,
+            static_affine=params_img.affine).get_fdata()
         pve_gm_data = resample(
             pve_gm_data, model_params[..., 0],
-            pve_gm_img.affine,
-            params_img.affine).get_fdata()
+            moving_affine=pve_gm_img.affine,
+            static_affine=params_img.affine).get_fdata()
         pve_csf_data = resample(
             pve_csf_data, model_params[..., 0],
-            pve_csf_img.affine,
-            params_img.affine).get_fdata()
+            moving_affine=pve_csf_img.affine,
+            static_affine=params_img.affine).get_fdata()
 
         my_tracker = ParticleFilteringTracking
         if stop_threshold == "CMC":

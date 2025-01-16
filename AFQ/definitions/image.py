@@ -28,8 +28,8 @@ def _resample_image(image_data, dwi_data, image_affine, dwi_affine):
         return np.round(resample(
             slice_data.astype(float),
             dwi_data[..., 0],
-            image_affine,
-            dwi_affine).get_fdata()).astype(image_type)
+            moving_affine=image_affine,
+            static_affine=dwi_affine).get_fdata()).astype(image_type)
 
     image_type = image_data.dtype
     if ((dwi_data is not None)
@@ -37,13 +37,13 @@ def _resample_image(image_data, dwi_data, image_affine, dwi_affine):
             and ((dwi_data.shape[:3] != image_data.shape[:3]) or (
                 not np.allclose(dwi_affine, image_affine)))):
         if len(image_data.shape) < 4:
-            return _resample_slice(image_data)
+            return _resample_slice(image_data), True
         else:
             return np.stack([_resample_slice(
                 image_data[..., ii]) for ii in range(
-                    image_data.shape[-1])], axis=-1)
+                    image_data.shape[-1])], axis=-1), True
     else:
-        return image_data
+        return image_data, False
 
 
 class ImageDefinition(Definition):
@@ -180,11 +180,14 @@ class ImageFile(ImageDefinition):
 
             if self.resample:
                 # Resample to DWI data:
-                image_data = _resample_image(
+                image_data, did_resample = _resample_image(
                     image_data,
                     dwi.get_fdata(),
                     image_affine,
                     dwi.affine)
+                meta["resampled"] = did_resample
+            else:
+                meta["resampled"] = False
 
             return nib.Nifti1Image(
                 image_data.astype(np.float32),
@@ -753,8 +756,8 @@ class TemplateImage(ImageDefinition):
             img_data = resample(
                 img.get_fdata(),
                 reg_template,
-                img.affine,
-                reg_template.affine).get_fdata()
+                moving_affine=img.affine,
+                static_affine=reg_template.affine).get_fdata()
 
             scalar_data = mapping.transform_inverse(
                 img_data, interpolation='nearest')

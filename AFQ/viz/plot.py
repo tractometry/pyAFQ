@@ -662,7 +662,7 @@ class GroupCSVComparison():
                     labels_temp, names, fontsize=vut.medium_font)
                 if "_desc" in o_file:  # Use BIDS naming convention
                     o_file_pre = o_file.split("_desc-")[0]
-                    o_file_post = o_file.split("_desc-")[1]
+                    o_file_post = o_file.split("_desc-")[1].split("_")[1]
                     bids_bname = bundle.lower().replace(
                         " ", "").replace(
                             "-", "").replace(
