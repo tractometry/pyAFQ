@@ -231,7 +231,7 @@ def viz_indivBundle(base_fname,
                     pp.get_fdata(),
                     reg_template,
                     moving_affine=pp.affine,
-                    statc_affine=reg_template.affine).get_fdata()
+                    static_affine=reg_template.affine).get_fdata()
 
                 atlas_roi = np.zeros(pp.shape)
                 atlas_roi[np.where(pp > 0)] = 1
