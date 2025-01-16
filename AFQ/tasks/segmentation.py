@@ -315,7 +315,7 @@ def tract_profiles(bundles,
             scalar_data = scalar_file.get_fdata()
             if isinstance(profile_weights, str):
                 if profile_weights == "gauss":
-                    this_prof_weights = np.asarrary(bundle_profile_weights)
+                    this_prof_weights = np.asarray(bundle_profile_weights)
                 elif profile_weights == "median":
                     # weights bundle to only return the mean
                     def _median_weight(bundle):
@@ -334,7 +334,7 @@ def tract_profiles(bundles,
                         return weights
                     this_prof_weights = _median_weight
             else:
-                this_prof_weights = np.asarrary(profile_weights)
+                this_prof_weights = np.asarray(profile_weights)
             if isinstance(this_prof_weights, np.ndarray) and \
                     np.any(np.isnan(this_prof_weights)):  # fit failed
                 logger.warning((
