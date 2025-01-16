@@ -384,7 +384,7 @@ def test_AFQ_data():
         myafq.export("rois")
         myafq.cmd_outputs()
         assert len(os.listdir(op.join(
-            myafq.afq_path, "sub-01", "ses-01"))) == 0
+            myafq.afq_path, "sub-01", "ses-01", "dwi"))) == 0
 
 
 @pytest.mark.nightly_anisotropic
