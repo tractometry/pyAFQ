@@ -70,6 +70,9 @@ def apply_cmd_to_afq_derivs(
             "dependent_on must be one of "
             "None, 'track', 'recog', 'prof'."))
 
+    if not op.exists(derivs_dir):
+        return
+
     for filename in os.listdir(derivs_dir):
         full_path = os.path.join(derivs_dir, filename)
         if os.path.isfile(full_path) or os.path.islink(full_path):

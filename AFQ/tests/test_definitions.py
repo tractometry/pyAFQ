@@ -39,17 +39,23 @@ def test_resample_image():
     dwi_data = np.zeros((2, 2, 2, 5))
     image_affine = np.eye(4)
     dwi_affine = np.eye(4)
+    resampled_data, is_resampled = afm._resample_image(
+        image_data, None, image_affine, dwi_affine)
     npt.assert_array_equal(
-        afm._resample_image(image_data, None, image_affine, dwi_affine),
+        resampled_data,
         image_data)
+    assert not is_resampled
+    resampled_data, is_resampled = afm._resample_image(
+        image_data, dwi_data, image_affine, dwi_affine)
     npt.assert_array_equal(
-        afm._resample_image(image_data, dwi_data, image_affine, dwi_affine),
+        resampled_data,
         image_data)
+    assert not is_resampled
 
     image_data = np.zeros((3, 3, 3), dtype=bool)
     image_data[0] = True
     dwi_affine = np.eye(4) * 2
-    resampled_image = afm._resample_image(
+    resampled_image, is_resampled = afm._resample_image(
         image_data, dwi_data, image_affine, dwi_affine)
     npt.assert_array_equal(
         resampled_image.shape,
@@ -57,6 +63,7 @@ def test_resample_image():
     npt.assert_equal(
         resampled_image.dtype,
         image_data.dtype)
+    assert is_resampled
 
 
 @pytest.mark.parametrize("subject", ["01", "02"])

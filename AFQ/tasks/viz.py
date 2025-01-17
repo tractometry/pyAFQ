@@ -230,8 +230,8 @@ def viz_indivBundle(base_fname,
                 pp = resample(
                     pp.get_fdata(),
                     reg_template,
-                    pp.affine,
-                    reg_template.affine).get_fdata()
+                    moving_affine=pp.affine,
+                    static_affine=reg_template.affine).get_fdata()
 
                 atlas_roi = np.zeros(pp.shape)
                 atlas_roi[np.where(pp > 0)] = 1
@@ -336,7 +336,7 @@ def plot_tract_profiles(base_fname, output_dir, scalars, segmentation_imap):
         this_scalar = scalar if isinstance(scalar, str) else scalar.get_name()
         fname = get_fname(
             base_fname,
-            f'_param-{str_to_desc(this_scalar)}_desc-vizprofile_tractography',
+            f'_param-{str_to_desc(this_scalar)}_desc-alltracts_tractography',
             'tract_profile_plots')
 
         visualize_tract_profiles(

@@ -97,11 +97,13 @@ def _fetcher_to_template(fetcher, as_img=False, resample_to=False):
         if as_img:
             img = nib.load(img)
         if resample_to:
-            img = nib.Nifti1Image(resample(img.get_fdata(),
-                                           resample_to,
-                                           img.affine,
-                                           resample_to.affine).get_fdata(),
-                                  resample_to.affine)
+            img = nib.Nifti1Image(
+                resample(
+                    img.get_fdata(),
+                    resample_to,
+                    moving_affine=img.affine,
+                    static_affine=resample_to.affine).get_fdata(),
+                resample_to.affine)
         template_dict[drop_extension(f)] = img
     return template_dict
 
@@ -420,8 +422,8 @@ def read_resample_roi(roi, resample_to=None, threshold=False):
     as_array = resample(
         roi.get_fdata(),
         resample_to,
-        roi.affine,
-        resample_to.affine).get_fdata()
+        moving_affine=roi.affine,
+        static_affine=resample_to.affine).get_fdata()
     if threshold:
         as_array = (as_array > threshold).astype(int)
 
@@ -1350,8 +1352,8 @@ def read_aal_atlas(resample_to=None):
             oo.append(resample(
                 data[..., ii],
                 resample_to,
-                out_dict['atlas'].affine,
-                resample_to.affine).get_fdata())
+                moving_affine=out_dict['atlas'].affine,
+                static_affine=resample_to.affine).get_fdata())
         out_dict['atlas'] = nib.Nifti1Image(np.stack(oo, -1),
                                             resample_to.affine)
     return out_dict
@@ -1385,8 +1387,8 @@ def _apply_mask(template_img, resolution=1):
             resample(
                 mask_data,
                 template_data,
-                mask_img.affine,
-                template_img.affine).get_fdata(),
+                moving_affine=mask_img.affine,
+                static_affine=template_img.affine).get_fdata(),
             template_img.affine)
         mask_data = mask_img.get_fdata()
 
