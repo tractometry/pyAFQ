@@ -403,7 +403,8 @@ def get_tractography_plan(kwargs):
         if "trx" not in kwargs.get("tracking_params", {}):
             if "tracking_params" not in kwargs:
                 kwargs["tracking_params"] = {}
-            kwargs["tracking_params"]["trx"] = custom_tractography[-4:] == ".trx"
+            kwargs["tracking_params"]["trx"] =\
+                kwargs["import_tract"][-4:] == ".trx"
 
     # determine reasonable defaults
     best_scalar = kwargs["scalars"][0]
