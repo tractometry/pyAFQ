@@ -325,16 +325,19 @@ class GroupAFQ(object):
                                     this_kwargs["scalars"].remove(scalar)
                     elif key == "import_tract":
                         if isinstance(this_kwargs["import_tract"], dict):
+                            extension = this_kwargs["import_tract"].pop(
+                                "extension",
+                                ['.trk',
+                                 '.tck',
+                                 '.trx',
+                                 '.vtk',
+                                 '.fib',
+                                 '.dpy'])
                             it_res = \
                                 bids_layout.get(
                                     subject=subject,
                                     session=session,
-                                    extension=[
-                                        '.trk',
-                                        '.tck',
-                                        '.vtk',
-                                        '.fib',
-                                        '.dpy'],
+                                    extension=extension,
                                     return_type='filename',
                                     **this_kwargs["import_tract"])
                             if len(it_res) < 1:

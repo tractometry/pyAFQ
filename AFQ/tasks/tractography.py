@@ -400,6 +400,11 @@ def get_tractography_plan(kwargs):
     # use imported tractography if given
     if "import_tract" in kwargs and kwargs["import_tract"] is not None:
         tractography_tasks["streamlines_res"] = custom_tractography
+        if "trx" not in kwargs.get("tracking_params", {}):
+            if "tracking_params" not in kwargs:
+                kwargs["tracking_params"] = {}
+            kwargs["tracking_params"]["trx"] =\
+                kwargs["import_tract"][-4:] == ".trx"
 
     # determine reasonable defaults
     best_scalar = kwargs["scalars"][0]
