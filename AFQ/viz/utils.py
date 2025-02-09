@@ -261,6 +261,10 @@ class PanelFigure():
         self.fig.canvas.draw()
         for (y_coord, x_coord, subplot_label_pos, label_text, kwargs) in \
                 self.panel_label_queue:
+            if isinstance(x_coord, slice):
+                x_coord = x_coord.start
+            if isinstance(y_coord, slice):
+                y_coord = y_coord.start
             x_fig_pos = x_coord / self.grid.ncols
             y_fig_pos = 1.0 - (y_coord / self.grid.nrows)
             self.fig.text(
