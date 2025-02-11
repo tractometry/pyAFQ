@@ -294,7 +294,7 @@ def msdki_msk(msdki_tf):
 @as_img
 def csd_params(dwi, brain_mask, gtab, data,
                csd_response=None, csd_sh_order=None,
-               csd_lambda_=1, csd_tau=0.1,
+               csd_asym=False,
                csd_fa_thr=0.7):
     """
     full path to a nifti file containing
@@ -313,16 +313,8 @@ def csd_params(dwi, brain_mask, gtab, data,
         default: infer the number of parameters from the number of data
         volumes, but no larger than 8.
         Default: None
-    csd_lambda_ : float, optional.
-        weight given to the constrained-positivity regularization part of
-        the deconvolution equation. Default: 1
-    csd_tau : float, optional.
-        threshold controlling the amplitude below which the corresponding
-        fODF is assumed to be zero.  Ideally, tau should be set to
-        zero. However, to improve the stability of the algorithm, tau is
-        set to tau*100 percent of the mean fODF amplitude (here, 10 percent
-        by default)
-        (see [1]_). Default: 0.1
+    csd_asym : bool, optional.
+        Whehter to use 
     csd_fa_thr : float, optional.
         The threshold on the FA used to calculate the single shell auto
         response. Can be useful to reduce for baby subjects. Default: 0.7
@@ -333,6 +325,10 @@ def csd_params(dwi, brain_mask, gtab, data,
             the fibre orientation distribution in diffusion MRI:
             Non-negativity constrained super-resolved spherical
             deconvolution
+    .. [2] Bastiani, M., Cottaar, M., Dikranian, K., Ghosh, A., Zhang, H.,
+            Alexander, D.C., Behrens, T.E., Jbabdi, S.,
+            Sotiropoulos, S.N., 2017. Improved tractography using asymmetric
+            fibre orientation distributions. Neuroimage 158, 205-218.
     """
     mask =\
         nib.load(brain_mask).get_fdata()
@@ -341,7 +337,7 @@ def csd_params(dwi, brain_mask, gtab, data,
             gtab, data,
             mask=mask,
             response=csd_response, sh_order=csd_sh_order,
-            lambda_=csd_lambda_, tau=csd_tau,
+            asym=csd_asym,
             csd_fa_thr=csd_fa_thr)
     except CsdNanResponseError as e:
         raise CsdNanResponseError(
@@ -351,8 +347,7 @@ def csd_params(dwi, brain_mask, gtab, data,
     meta = dict(
         SphericalHarmonicDegree=csd_sh_order,
         ResponseFunctionTensor=csd_response,
-        lambda_=csd_lambda_,
-        tau=csd_tau,
+        asym=csd_asym,
         csd_fa_thr=csd_fa_thr)
     meta["SphericalHarmonicBasis"] = "DESCOTEAUX"
     meta["ModelURL"] = f"{DIPY_GH}reconst/csdeconv.py"
