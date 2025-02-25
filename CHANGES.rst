@@ -1,3 +1,38 @@
+2.0 (February 25, 2025)
+=======================
+This is a major version release, which includes support for Python 3.12 and
+numpy 2.0, as well as major changes to the way that output data are organized.
+
+  * remove dependencies; clarify <3.13 for now (#66)
+  * Loosen skimage dependency pin to be larger than 0.14.2 (#61)
+  * [FIX] make import_tract work better with TRX files (#54)
+  * Remove numpy version restrictions (#53)
+  * Further tweaks to new file system (#50)
+  * [FIX] change helvetica-bold to helvetica in pyAFQ plotting library (#49)
+  *  (#48)
+  * [ENH/FIX] Pyafq file outputs more folders, more BIDS (#43)
+  * [ENH] Include custom ODFs (#33)
+  * [ENH] update to numpy 2 (#46)
+  * [ENH] update to 3.12 (#45)
+  * [FIX] fix VOF (#29)
+  * [DOC] added singularity build and usage (#28)
+  * [ENH] Use Distance Transform for Include/Exclude Distance calculation; fix ROI dists (#25)
+  * DOC: Document the significance of ROIS order in BundleDict (#27)
+  * [FIX] update baby BD to new primary axis api (#26)
+  * [FIX] fix cross_midline when R/L axis not first orientation (#17)
+  * Too many t's in https (#22)
+  * Update gpu code (#20)
+  * [FIX] smarter automatic scalar names (#19)
+  * [ENH] Update segmentation.py (#15)
+  * Update tractography default (#13)
+  * Fixes a small typo (#10)
+  * [DOC] Update fetch.py (#12)
+  * Upgrade python (#9)
+  * Add system for recognizing bundles based on other bundles; implement it for VOF (#7)
+  * __print__ method for BundleDict class (#5)
+  * Fixes typo in warning message (#6)
+  *  (#4)
+
 1.3.6 (November 17, 2024)
 =========================
 Adds system for recognizing bundles based on other bundles, and implements
@@ -61,7 +96,7 @@ of our current bundle orientation system to the documentation.
 
 1.3 (March 25, 2024)
 ====================
-All bundles are now ordered according to LPI+ and 
+All bundles are now ordered according to LPI+ and
 are output as full names instead of abbreviations.
 Only the lowest shell is now used in the calculation of
 the CSD response function. Corrects typos in babyAFQ and
