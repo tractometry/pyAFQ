@@ -7,6 +7,7 @@ from dipy.io.streamline import (
 from dipy.data.fetcher import _make_fetcher
 import dipy.data as dpd
 from AFQ.utils.path import drop_extension, apply_cmd_to_afq_derivs
+from AFQ.api.utils import aws_import_msg_error
 
 import os
 import os.path as op
@@ -22,9 +23,6 @@ from tqdm import tqdm
 
 import warnings
 import nibabel as nib
-import boto3
-from botocore import UNSIGNED
-from botocore.client import Config
 
 
 # capture templateflow resource warning and log
@@ -1553,6 +1551,11 @@ def fetch_hcp(subjects,
            a format for organizing and describing outputs of neuroimaging
            experiments. Scientific Data, 3::160044. DOI: 10.1038/sdata.2016.44.
     """
+    try:
+        import boto3
+    except (ImportError, ModuleNotFoundError):
+        aws_import_msg_error("boto3")
+
     if profile_name:
         boto3.setup_default_session(profile_name=profile_name)
     elif aws_access_key_id is not None and aws_secret_access_key is not None:
@@ -1657,6 +1660,13 @@ def fetch_hbn_preproc(subjects, path=None):
         Scientific Data. 2022;9(1):1-27.
 
     """
+    try:
+        import boto3
+        from botocore import UNSIGNED
+        from botocore.client import Config
+    except (ImportError, ModuleNotFoundError):
+        aws_import_msg_error("boto3")
+
     # Anonymous access:
     client = boto3.client('s3', config=Config(signature_version=UNSIGNED))
 
@@ -1752,6 +1762,13 @@ def fetch_hbn_afq(subjects, path=None):
         Scientific Data. 2022;9(1):1-27.
 
     """
+    try:
+        import boto3
+        from botocore import UNSIGNED
+        from botocore.client import Config
+    except (ImportError, ModuleNotFoundError):
+        aws_import_msg_error("boto3")
+
     # Anonymous access:
     client = boto3.client('s3', config=Config(signature_version=UNSIGNED))
 

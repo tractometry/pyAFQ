@@ -11,7 +11,8 @@ import logging
 from AFQ.api.participant import ParticipantAFQ
 from AFQ.api.utils import (
     check_attribute, AFQclass_doc,
-    export_all_helper, valid_exports_string)
+    export_all_helper, valid_exports_string,
+    aws_import_msg_error)
 import AFQ.utils.streamlines as aus
 from AFQ.viz.utils import get_eye
 
@@ -30,11 +31,9 @@ import os
 import os.path as op
 from tqdm import tqdm
 import json
-import s3fs
 from time import time
 import nibabel as nib
 from PIL import Image
-from s3bids.utils import S3BIDSStudy
 import glob
 
 from bids.layout import BIDSLayout, BIDSLayoutIndexer
@@ -115,7 +114,7 @@ class GroupAFQ(object):
             Set "n_jobs" to -1 to automatically parallelize as
             the number of cpus. Here is an example for how to do
             multiprocessing with 4 cpus:
-            {"n_jobs": 4, "engine": "joblib", "backend": "loky"}
+            {"n_jobs": 4, "engine": "ray"}
             Default: {"engine": "serial"}
         bids_layout_kwargs: dict, optional
             Additional arguments to give to BIDSLayout from pybids.
@@ -875,6 +874,10 @@ class GroupAFQ(object):
 
     def upload_to_s3(self, s3fs, remote_path):
         """ Upload entire AFQ derivatives folder to S3"""
+        try:
+            import s3fs
+        except (ImportError, ModuleNotFoundError):
+            aws_import_msg_error("s3fs")
         s3fs.put(self.afq_path, remote_path, recursive=True)
         if op.exists(self.afqb_path):
             s3fs.put(self.afqb_path, remote_path, recursive=True)
@@ -1168,6 +1171,12 @@ def download_and_combine_afq_profiles(bucket,
     -------
     Ouput CSV's pandas dataframe.
     """
+    try:
+        from s3bids.utils import S3BIDSStudy
+        import s3fs
+    except (ImportError, ModuleNotFoundError):
+        aws_import_msg_error("s3bids and s3fs")
+
     if "subjects" not in kwargs:
         kwargs["subjects"] = "all"
     if "anon" not in kwargs:
