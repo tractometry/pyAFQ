@@ -7,7 +7,7 @@ from dipy.io.streamline import (
 from dipy.data.fetcher import _make_fetcher
 import dipy.data as dpd
 from AFQ.utils.path import drop_extension, apply_cmd_to_afq_derivs
-from AFQ.api.utils import aws_import_msg_error
+from AFQ.data.utils import aws_import_msg_error
 
 import os
 import os.path as op

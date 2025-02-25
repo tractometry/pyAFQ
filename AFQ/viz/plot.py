@@ -12,7 +12,7 @@ import AFQ.viz.utils as vut
 from AFQ.viz.utils import display_string
 from AFQ.utils.stats import contrast_index as calc_contrast_index
 from AFQ.data.utils import BUNDLE_RECO_2_AFQ, BUNDLE_MAT_2_PYTHON
-from AFQ.api.utils import aws_import_msg_error
+from AFQ.data.utils import aws_import_msg_error
 
 try:
     from pingouin import intraclass_corr, corr

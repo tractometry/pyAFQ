@@ -11,10 +11,10 @@ import logging
 from AFQ.api.participant import ParticipantAFQ
 from AFQ.api.utils import (
     check_attribute, AFQclass_doc,
-    export_all_helper, valid_exports_string,
-    aws_import_msg_error)
+    export_all_helper, valid_exports_string)
 import AFQ.utils.streamlines as aus
 from AFQ.viz.utils import get_eye
+from AFQ.data.utils import aws_import_msg_error
 
 from dipy.utils.parallel import paramap
 from dipy.io.stateful_tractogram import StatefulTractogram, Space

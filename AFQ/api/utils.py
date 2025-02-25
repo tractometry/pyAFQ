@@ -15,8 +15,7 @@ with contextlib.suppress(Exception):  # only works on python 3.9
 
 
 __all__ = [
-    "methods_descriptors", "kwargs_descriptors", "AFQclass_doc",
-    "aws_import_msg_error"]
+    "methods_descriptors", "kwargs_descriptors", "AFQclass_doc"]
 
 
 set_sft_logger_level(logging.CRITICAL)
@@ -141,12 +140,3 @@ def export_all_helper(api_afq_object, xforms, indiv, viz):
                 api_afq_object.logger.warning(plot_err_message)
         api_afq_object.export("all_bundles_figure")
         api_afq_object.export("indiv_bundles_figures")
-
-
-def aws_import_msg_error(module):
-    """Alerts user to install the appropriate aws module """
-    msg = f"To use {module} in pyAFQ, you will "
-    msg += f"need to have {module} installed. "
-    msg += "You can do that by installing pyAFQ with "
-    msg += f"`pip install AFQ[aws]`"
-    return msg
