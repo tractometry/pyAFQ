@@ -100,16 +100,6 @@ def parse_cli(arg_dict):
 
     opts = cli_parser.parse_args()
 
-    if not opts.notrack:
-        logger.info(
-            "Your use of pyAFQ is being recorded using Google Analytics. "
-            "For more information, please refer to the pyAFQ documentation: "
-            "https://tractometry.org/pyAFQ/usage.html#usage-tracking-with-google-analytics. "  # noqa
-            "To turn this off, use the `--notrack` "
-            "flag when using the pyAFQ CLI")
-        import popylar
-        popylar.track_event(AFQ._ga_id, "pyAFQ_cli", "CLI called")
-
     return opts.config, opts.generate_toml, opts.overwrite,\
         opts.verbose, opts.dry_run, opts.to_call, opts.generate_json
 

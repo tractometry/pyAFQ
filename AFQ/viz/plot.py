@@ -12,7 +12,7 @@ import AFQ.viz.utils as vut
 from AFQ.viz.utils import display_string
 from AFQ.utils.stats import contrast_index as calc_contrast_index
 from AFQ.data.utils import BUNDLE_RECO_2_AFQ, BUNDLE_MAT_2_PYTHON
-from AFQ.utils.path import drop_extension
+from AFQ.data.utils import aws_import_msg_error
 
 try:
     from pingouin import intraclass_corr, corr
@@ -1507,7 +1507,10 @@ class GroupCSVComparison():
 def visualize_gif_inline(fname, use_s3fs=False):
     """Display a gif inline, possible from s3fs """
     if use_s3fs:
-        import s3fs
+        try:
+            import s3fs
+        except (ImportError, ModuleNotFoundError):
+            aws_import_msg_error("s3fs")
         fs = s3fs.S3FileSystem()
         tdir = tempfile.gettempdir()
         fname_remote = fname

@@ -11,6 +11,7 @@ BUNDLE_RECO_2_AFQ = \
         "SLF_R": "Right Superior Longitudinal"
     }
 
+
 BUNDLE_MAT_2_PYTHON = {
     'RightCorticospinal': 'Right Corticospinal',
     'LeftCorticospinal': 'Left Corticospinal',
@@ -40,3 +41,12 @@ BUNDLE_MAT_2_PYTHON = {
     'Left SLF': 'Left Superior Longitudinal',
     'RightSLF': 'Right Superior Longitudinal',
     'LeftSLF': 'Left Superior Longitudinal'}
+
+
+def aws_import_msg_error(module):
+    """Alerts user to install the appropriate aws module """
+    msg = f"To use {module} in pyAFQ, you will "
+    msg += f"need to have {module} installed. "
+    msg += "You can do that by installing pyAFQ with "
+    msg += f"`pip install AFQ[aws]`"
+    return msg
