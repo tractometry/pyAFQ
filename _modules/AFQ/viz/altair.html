@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.viz.altair &#8212; AFQ 1.3.6 documentation</title>
+    <title>AFQ.viz.altair &#8212; AFQ 2.0 documentation</title>
   
   
   
@@ -132,8 +132,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.6 documentation - Home"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.6 documentation - Home"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 2.0 documentation - Home"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -432,13 +432,13 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for AFQ.viz.altair</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">AFQ.viz.utils</span> <span class="kn">import</span> <span class="n">COLOR_DICT</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">stats</span>
-<span class="kn">import</span> <span class="nn">altair</span> <span class="k">as</span> <span class="nn">alt</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.viz.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">COLOR_DICT</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">stats</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">altair</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">alt</span>
 
 
-<div class="viewcode-block" id="altair_color_dict"><a class="viewcode-back" href="../../../reference/api/AFQ/viz/altair/index.html#AFQ.viz.altair.altair_color_dict">[docs]</a><span class="k">def</span> <span class="nf">altair_color_dict</span><span class="p">(</span><span class="n">names_to_include</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="altair_color_dict"><a class="viewcode-back" href="../../../reference/api/AFQ/viz/altair/index.html#AFQ.viz.altair.altair_color_dict">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">altair_color_dict</span><span class="p">(</span><span class="n">names_to_include</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Given a list of bundle names, return a dictionary of colors for each</span>
 <span class="sd">    Formatted for Altair.</span>
@@ -456,7 +456,7 @@ document.write(`
     <span class="k">return</span> <span class="n">altair_cd</span></div>
 
 
-<div class="viewcode-block" id="combined_profiles_df_to_altair_df"><a class="viewcode-back" href="../../../reference/api/AFQ/viz/altair/index.html#AFQ.viz.altair.combined_profiles_df_to_altair_df">[docs]</a><span class="k">def</span> <span class="nf">combined_profiles_df_to_altair_df</span><span class="p">(</span>
+<div class="viewcode-block" id="combined_profiles_df_to_altair_df"><a class="viewcode-back" href="../../../reference/api/AFQ/viz/altair/index.html#AFQ.viz.altair.combined_profiles_df_to_altair_df">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">combined_profiles_df_to_altair_df</span><span class="p">(</span>
         <span class="n">profiles</span><span class="p">,</span>
         <span class="n">tissue_properties</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;dti_fa&#39;</span><span class="p">,</span> <span class="s1">&#39;dti_md&#39;</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -480,7 +480,7 @@ document.write(`
         <span class="n">value_name</span><span class="o">=</span><span class="s1">&#39;Value&#39;</span><span class="p">)</span>
 
     <span class="c1"># Function to calculate 95% CI using a normal distribution</span>
-    <span class="k">def</span> <span class="nf">calculate_95CI</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">calculate_95CI</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
         <span class="n">ci</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">interval</span><span class="p">(</span>
             <span class="mf">0.95</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">scale</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
         <span class="k">return</span> <span class="n">ci</span>
@@ -494,7 +494,7 @@ document.write(`
         <span class="n">IQR_upper</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.75</span><span class="p">)</span>
     <span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">get_hemi</span><span class="p">(</span><span class="n">cc</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_hemi</span><span class="p">(</span><span class="n">cc</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">cc</span> <span class="o">==</span> <span class="s2">&quot;L&quot;</span><span class="p">:</span>
             <span class="k">return</span> <span class="s2">&quot;Left&quot;</span>
         <span class="k">elif</span> <span class="n">cc</span> <span class="o">==</span> <span class="s2">&quot;R&quot;</span><span class="p">:</span>
@@ -502,14 +502,14 @@ document.write(`
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="s2">&quot;Callosal&quot;</span>
 
-    <span class="k">def</span> <span class="nf">get_bname</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_bname</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;Left &quot;</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">s</span><span class="p">[</span><span class="mi">5</span><span class="p">:]</span>
         <span class="k">elif</span> <span class="n">s</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;Right &quot;</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">s</span><span class="p">[</span><span class="mi">6</span><span class="p">:]</span>
         <span class="k">return</span> <span class="n">s</span>
 
-    <span class="k">def</span> <span class="nf">formal_tp</span><span class="p">(</span><span class="n">tp_name</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">formal_tp</span><span class="p">(</span><span class="n">tp_name</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">tp_name</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
 
     <span class="n">profiles</span><span class="p">[</span><span class="s2">&quot;Hemi&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">profiles</span><span class="p">[</span><span class="s2">&quot;tractID&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">get_hemi</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
@@ -519,7 +519,7 @@ document.write(`
     <span class="k">return</span> <span class="n">profiles</span></div>
 
 
-<div class="viewcode-block" id="altair_df_to_chart"><a class="viewcode-back" href="../../../reference/api/AFQ/viz/altair/index.html#AFQ.viz.altair.altair_df_to_chart">[docs]</a><span class="k">def</span> <span class="nf">altair_df_to_chart</span><span class="p">(</span><span class="n">profiles</span><span class="p">,</span> <span class="n">position_domain</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">80</span><span class="p">),</span>
+<div class="viewcode-block" id="altair_df_to_chart"><a class="viewcode-back" href="../../../reference/api/AFQ/viz/altair/index.html#AFQ.viz.altair.altair_df_to_chart">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">altair_df_to_chart</span><span class="p">(</span><span class="n">profiles</span><span class="p">,</span> <span class="n">position_domain</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">80</span><span class="p">),</span>
                        <span class="n">column_count</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">font_size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
                        <span class="n">line_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">row_label_angle</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span>
                        <span class="n">bundle_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>

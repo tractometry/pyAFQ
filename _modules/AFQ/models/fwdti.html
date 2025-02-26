@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.models.fwdti &#8212; AFQ 1.3.6 documentation</title>
+    <title>AFQ.models.fwdti &#8212; AFQ 2.0 documentation</title>
   
   
   
@@ -132,8 +132,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.6 documentation - Home"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.6 documentation - Home"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 2.0 documentation - Home"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -432,27 +432,27 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for AFQ.models.fwdti</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">os.path</span> <span class="k">as</span> <span class="nn">op</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">op</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">nibabel</span> <span class="k">as</span> <span class="nn">nib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">nibabel</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nib</span>
 
-<span class="kn">from</span> <span class="nn">dipy.reconst</span> <span class="kn">import</span> <span class="n">fwdti</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dipy.reconst</span><span class="w"> </span><span class="kn">import</span> <span class="n">fwdti</span>
 
-<span class="kn">import</span> <span class="nn">AFQ.utils.models</span> <span class="k">as</span> <span class="nn">ut</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">AFQ.utils.models</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ut</span>
 
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;fit_fwdti&quot;</span><span class="p">]</span>
 
 
-<span class="k">def</span> <span class="nf">_fit</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">gtab</span><span class="p">,</span> <span class="n">mask</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_fit</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">gtab</span><span class="p">,</span> <span class="n">mask</span><span class="p">):</span>
     <span class="n">fwmodel</span> <span class="o">=</span> <span class="n">fwdti</span><span class="o">.</span><span class="n">FreeWaterTensorModel</span><span class="p">(</span><span class="n">gtab</span><span class="p">)</span>
     <span class="n">fwfit</span> <span class="o">=</span> <span class="n">fwmodel</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">fwfit</span>
 
 
-<div class="viewcode-block" id="fit_fwdti"><a class="viewcode-back" href="../../../reference/api/AFQ/models/fwdti/index.html#AFQ.models.fwdti.fit_fwdti">[docs]</a><span class="k">def</span> <span class="nf">fit_fwdti</span><span class="p">(</span><span class="n">data_files</span><span class="p">,</span> <span class="n">bval_files</span><span class="p">,</span> <span class="n">bvec_files</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">out_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<div class="viewcode-block" id="fit_fwdti"><a class="viewcode-back" href="../../../reference/api/AFQ/models/fwdti/index.html#AFQ.models.fwdti.fit_fwdti">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">fit_fwdti</span><span class="p">(</span><span class="n">data_files</span><span class="p">,</span> <span class="n">bval_files</span><span class="p">,</span> <span class="n">bvec_files</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">out_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
               <span class="n">b0_threshold</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Fit the free water DTI model [1]_, save files with derived maps</span>

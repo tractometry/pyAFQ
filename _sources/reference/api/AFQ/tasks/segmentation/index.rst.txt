@@ -71,7 +71,7 @@ Attributes
    ..
        !! processed by numpydoc !!
 
-.. py:function:: export_bundles(base_fname, output_dir, bundles, tracking_params, segmentation_params)
+.. py:function:: export_bundles(base_fname, output_dir, bundles, tracking_params)
 
    
    dictionary of paths, where each path is
@@ -173,7 +173,7 @@ Attributes
 
    :Parameters:
 
-       **profile_weights** : str, 1D array, 2D array callable, optional
+       **profile_weights** : str, 1D array, 2D array, or callable, optional
            How to weight each streamline (1D) or each node (2D)
            when calculating the tract-profiles. If callable, this is a
            function that calculates weights. If None, no weighting will
@@ -216,7 +216,8 @@ Attributes
            List of scalars to use.
            Can be any of: "dti_fa", "dti_md", "dki_fa", "dki_md", "dki_awf",
            "dki_mk". Can also be a scalar from AFQ.definitions.image.
-           Default: ["dti_fa", "dti_md"]
+               Default: For single shell data: ["dti_fa", "dti_md"], 
+           for multi-shell data: ["dki_fa", "dki_md"].
 
 
 

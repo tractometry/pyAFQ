@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.definitions.utils &#8212; AFQ 1.3.6 documentation</title>
+    <title>AFQ.definitions.utils &#8212; AFQ 2.0 documentation</title>
   
   
   
@@ -132,8 +132,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.6 documentation - Home"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.6 documentation - Home"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 2.0 documentation - Home"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -432,10 +432,10 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for AFQ.definitions.utils</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">os.path</span> <span class="k">as</span> <span class="nn">op</span>
-<span class="kn">import</span> <span class="nn">logging</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">op</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
-<span class="kn">from</span> <span class="nn">AFQ.utils.path</span> <span class="kn">import</span> <span class="n">drop_extension</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.utils.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">drop_extension</span>
 
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;AFQ&#39;</span><span class="p">)</span>
@@ -444,7 +444,7 @@ document.write(`
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Definition&quot;</span><span class="p">,</span> <span class="s2">&quot;find_file&quot;</span><span class="p">,</span> <span class="s2">&quot;name_from_path&quot;</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="Definition"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/utils/index.html#AFQ.definitions.utils.Definition">[docs]</a><span class="k">class</span> <span class="nc">Definition</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="Definition"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/utils/index.html#AFQ.definitions.utils.Definition">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Definition</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    All Definitions should inherit this.</span>
 <span class="sd">    For a given subject and session within the API, the definition is used</span>
@@ -456,14 +456,14 @@ document.write(`
 <span class="sd">    for the given subject and session.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Please implement an __init__ method&quot;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Definition.find_path"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/utils/index.html#AFQ.definitions.utils.Definition.find_path">[docs]</a>    <span class="k">def</span> <span class="nf">find_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bids_layout</span><span class="p">,</span> <span class="n">from_path</span><span class="p">,</span>
+<div class="viewcode-block" id="Definition.find_path"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/utils/index.html#AFQ.definitions.utils.Definition.find_path">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">find_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bids_layout</span><span class="p">,</span> <span class="n">from_path</span><span class="p">,</span>
                   <span class="n">subject</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="Definition.str_for_toml"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/utils/index.html#AFQ.definitions.utils.Definition.str_for_toml">[docs]</a>    <span class="k">def</span> <span class="nf">str_for_toml</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Definition.str_for_toml"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/utils/index.html#AFQ.definitions.utils.Definition.str_for_toml">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">str_for_toml</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Uses __init__ in str_for_toml to make string that will instantiate</span>
 <span class="sd">        itself. Assumes object will have attributes of same name as</span>
@@ -478,7 +478,7 @@ document.write(`
             <span class="o">+</span> <span class="s1">&#39;)&#39;</span></div></div>
 
 
-<span class="k">def</span> <span class="nf">_arglist_to_string</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">get_attr</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_arglist_to_string</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">get_attr</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Helper function</span>
 <span class="sd">    Takes a list of arguments and unfolds them into a string.</span>
@@ -503,18 +503,20 @@ document.write(`
     <span class="k">return</span> <span class="n">to_string</span>
 
 
-<div class="viewcode-block" id="name_from_path"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/utils/index.html#AFQ.definitions.utils.name_from_path">[docs]</a><span class="k">def</span> <span class="nf">name_from_path</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+<div class="viewcode-block" id="name_from_path"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/utils/index.html#AFQ.definitions.utils.name_from_path">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">name_from_path</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
     <span class="n">file_name</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>  <span class="c1"># get file name</span>
     <span class="n">file_name</span> <span class="o">=</span> <span class="n">drop_extension</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>  <span class="c1"># remove extension</span>
     <span class="k">if</span> <span class="s2">&quot;desc-&quot;</span> <span class="ow">in</span> <span class="n">file_name</span><span class="p">:</span>  <span class="c1"># get desc if exists</span>
         <span class="k">return</span> <span class="n">file_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;desc-&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="s2">&quot;model-&quot;</span> <span class="ow">in</span> <span class="n">file_name</span><span class="p">:</span>  <span class="c1"># get model if exists</span>
+        <span class="k">return</span> <span class="n">file_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;model-&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">elif</span> <span class="s2">&quot;_&quot;</span> <span class="ow">in</span> <span class="n">file_name</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">file_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># get suffix if exists</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">file_name</span></div>
 
 
-<span class="k">def</span> <span class="nf">_ff_helper</span><span class="p">(</span><span class="n">required</span><span class="p">,</span> <span class="n">err_msg</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_ff_helper</span><span class="p">(</span><span class="n">required</span><span class="p">,</span> <span class="n">err_msg</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">required</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">err_msg</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
@@ -522,7 +524,7 @@ document.write(`
         <span class="k">return</span> <span class="kc">None</span>
 
 
-<div class="viewcode-block" id="find_file"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/utils/index.html#AFQ.definitions.utils.find_file">[docs]</a><span class="k">def</span> <span class="nf">find_file</span><span class="p">(</span><span class="n">bids_layout</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">suffix</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="n">subject</span><span class="p">,</span>
+<div class="viewcode-block" id="find_file"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/utils/index.html#AFQ.definitions.utils.find_file">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">find_file</span><span class="p">(</span><span class="n">bids_layout</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">suffix</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="n">subject</span><span class="p">,</span>
               <span class="n">extension</span><span class="o">=</span><span class="s2">&quot;.nii.gz&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Helper function</span>

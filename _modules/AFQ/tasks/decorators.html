@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.tasks.decorators &#8212; AFQ 1.3.6 documentation</title>
+    <title>AFQ.tasks.decorators &#8212; AFQ 2.0 documentation</title>
   
   
   
@@ -132,8 +132,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.6 documentation - Home"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.6 documentation - Home"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 2.0 documentation - Home"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -432,27 +432,27 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for AFQ.tasks.decorators</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">functools</span>
-<span class="kn">import</span> <span class="nn">inspect</span>
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">os.path</span> <span class="k">as</span> <span class="nn">op</span>
-<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">functools</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">inspect</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">op</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">time</span><span class="w"> </span><span class="kn">import</span> <span class="n">time</span>
 
-<span class="kn">import</span> <span class="nn">nibabel</span> <span class="k">as</span> <span class="nn">nib</span>
-<span class="kn">from</span> <span class="nn">dipy.io.streamline</span> <span class="kn">import</span> <span class="n">save_tractogram</span>
-<span class="kn">from</span> <span class="nn">dipy.io.stateful_tractogram</span> <span class="kn">import</span> <span class="n">StatefulTractogram</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">nibabel</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nib</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dipy.io.streamline</span><span class="w"> </span><span class="kn">import</span> <span class="n">save_tractogram</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dipy.io.stateful_tractogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">StatefulTractogram</span>
 
 <span class="k">try</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">trx.trx_file_memmap</span> <span class="kn">import</span> <span class="n">TrxFile</span>
-    <span class="kn">from</span> <span class="nn">trx.io</span> <span class="kn">import</span> <span class="n">save</span> <span class="k">as</span> <span class="n">save_trx</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">trx.trx_file_memmap</span><span class="w"> </span><span class="kn">import</span> <span class="n">TrxFile</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">trx.io</span><span class="w"> </span><span class="kn">import</span> <span class="n">save</span> <span class="k">as</span> <span class="n">save_trx</span>
     <span class="n">has_trx</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
     <span class="n">has_trx</span> <span class="o">=</span> <span class="kc">False</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">AFQ.tasks.utils</span> <span class="kn">import</span> <span class="n">get_fname</span>
-<span class="kn">from</span> <span class="nn">AFQ.utils.path</span> <span class="kn">import</span> <span class="n">drop_extension</span><span class="p">,</span> <span class="n">write_json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.tasks.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_fname</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.utils.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">drop_extension</span><span class="p">,</span> <span class="n">write_json</span>
 
 
 <span class="c1"># These should only be used with pimms.calc</span>
@@ -464,7 +464,7 @@ document.write(`
 
 
 <span class="c1"># get args and kwargs from function</span>
-<span class="k">def</span> <span class="nf">get_args_and_kwargs</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_args_and_kwargs</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
     <span class="n">param_dict</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span>
     <span class="n">param_list</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__code__</span><span class="o">.</span><span class="n">co_varnames</span><span class="p">[</span>
         <span class="p">:</span><span class="n">func</span><span class="o">.</span><span class="vm">__code__</span><span class="o">.</span><span class="n">co_argcount</span><span class="p">]</span>
@@ -478,8 +478,8 @@ document.write(`
 <span class="c1"># so that pimms can see original parameter names after wrapping</span>
 <span class="c1"># also adds on any args the decorator requires</span>
 <span class="c1"># these will be extracted with extract_added_args</span>
-<span class="k">def</span> <span class="nf">has_args</span><span class="p">(</span><span class="n">og_func</span><span class="p">,</span> <span class="n">needed_args</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">_has_args</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">has_args</span><span class="p">(</span><span class="n">og_func</span><span class="p">,</span> <span class="n">needed_args</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_has_args</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
         <span class="n">header</span> <span class="o">=</span> <span class="s2">&quot;def wrapper_has_args_func(&quot;</span>
         <span class="n">content</span> <span class="o">=</span> <span class="s2">&quot;):</span><span class="se">\n</span><span class="s2">    return func(&quot;</span>
         <span class="n">found_args</span> <span class="o">=</span> <span class="p">[]</span>
@@ -521,7 +521,7 @@ document.write(`
 
 <span class="c1"># from function where needed args (like base_fname) are added,</span>
 <span class="c1"># return length of args before added args, and the added args</span>
-<span class="k">def</span> <span class="nf">extract_added_args</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">includes</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">extract_added_args</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">includes</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="n">vals</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">param_list</span><span class="p">,</span> <span class="n">is_param_kwarg</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">get_args_and_kwargs</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
     <span class="n">arg_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">param</span> <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">param_list</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">is_param_kwarg</span><span class="p">[</span><span class="n">param</span><span class="p">]]</span>
@@ -544,12 +544,12 @@ document.write(`
     <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">arg_list</span><span class="p">),</span> <span class="o">*</span><span class="n">vals</span>
 
 
-<div class="viewcode-block" id="as_file"><a class="viewcode-back" href="../../../reference/api/AFQ/tasks/decorators/index.html#AFQ.tasks.decorators.as_file">[docs]</a><span class="k">def</span> <span class="nf">as_file</span><span class="p">(</span><span class="n">suffix</span><span class="p">,</span> <span class="n">include_track</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">include_seg</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="as_file"><a class="viewcode-back" href="../../../reference/api/AFQ/tasks/decorators/index.html#AFQ.tasks.decorators.as_file">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">as_file</span><span class="p">(</span><span class="n">suffix</span><span class="p">,</span> <span class="n">include_track</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">include_seg</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">subfolder</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    return img and meta as saved file path, with json,</span>
 <span class="sd">    and only run if not already found</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">_as_file</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_as_file</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
         <span class="n">needed_args</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;base_fname&quot;</span><span class="p">,</span> <span class="s2">&quot;output_dir&quot;</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">include_track</span><span class="p">:</span>
             <span class="n">needed_args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;tracking_params&quot;</span><span class="p">)</span>
@@ -558,7 +558,7 @@ document.write(`
 
         <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
         <span class="nd">@has_args</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">needed_args</span><span class="p">)</span>
-        <span class="k">def</span> <span class="nf">wrapper_as_file</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">wrapper_as_file</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
             <span class="n">og_arg_count</span><span class="p">,</span> <span class="n">base_fname</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">,</span> \
                 <span class="n">tracking_params</span><span class="p">,</span> <span class="n">segmentation_params</span> <span class="o">=</span>\
                 <span class="n">extract_added_args</span><span class="p">(</span>
@@ -567,10 +567,7 @@ document.write(`
                      <span class="s2">&quot;tracking_params&quot;</span><span class="p">,</span> <span class="s2">&quot;segmentation_params&quot;</span><span class="p">],</span>
                     <span class="n">args</span><span class="p">,</span>
                     <span class="n">includes</span><span class="o">=</span><span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">include_track</span><span class="p">,</span> <span class="n">include_seg</span><span class="p">])</span>
-            <span class="n">this_file</span> <span class="o">=</span> <span class="n">get_fname</span><span class="p">(</span>
-                <span class="n">base_fname</span><span class="p">,</span> <span class="n">suffix</span><span class="p">,</span>
-                <span class="n">tracking_params</span><span class="o">=</span><span class="n">tracking_params</span><span class="p">,</span>
-                <span class="n">segmentation_params</span><span class="o">=</span><span class="n">segmentation_params</span><span class="p">)</span>
+            <span class="n">this_file</span> <span class="o">=</span> <span class="n">get_fname</span><span class="p">(</span><span class="n">base_fname</span><span class="p">,</span> <span class="n">suffix</span><span class="p">,</span> <span class="n">subfolder</span><span class="o">=</span><span class="n">subfolder</span><span class="p">)</span>
 
             <span class="c1"># tracking_params is defined and file has no extension</span>
             <span class="k">if</span> <span class="n">tracking_params</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">op</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">this_file</span><span class="p">)[</span><span class="mi">1</span><span class="p">]:</span>
@@ -612,24 +609,23 @@ document.write(`
 
                 <span class="n">meta_fname</span> <span class="o">=</span> <span class="n">get_fname</span><span class="p">(</span>
                     <span class="n">base_fname</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">drop_extension</span><span class="p">(</span><span class="n">suffix</span><span class="p">)</span><span class="si">}</span><span class="s2">.json&quot;</span><span class="p">,</span>
-                    <span class="n">tracking_params</span><span class="o">=</span><span class="n">tracking_params</span><span class="p">,</span>
-                    <span class="n">segmentation_params</span><span class="o">=</span><span class="n">segmentation_params</span><span class="p">)</span>
+                    <span class="n">subfolder</span><span class="o">=</span><span class="n">subfolder</span><span class="p">)</span>
                 <span class="n">write_json</span><span class="p">(</span><span class="n">meta_fname</span><span class="p">,</span> <span class="n">meta</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">this_file</span>
         <span class="k">return</span> <span class="n">wrapper_as_file</span>
     <span class="k">return</span> <span class="n">_as_file</span></div>
 
 
-<div class="viewcode-block" id="as_fit_deriv"><a class="viewcode-back" href="../../../reference/api/AFQ/tasks/decorators/index.html#AFQ.tasks.decorators.as_fit_deriv">[docs]</a><span class="k">def</span> <span class="nf">as_fit_deriv</span><span class="p">(</span><span class="n">tf_name</span><span class="p">):</span>
+<div class="viewcode-block" id="as_fit_deriv"><a class="viewcode-back" href="../../../reference/api/AFQ/tasks/decorators/index.html#AFQ.tasks.decorators.as_fit_deriv">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">as_fit_deriv</span><span class="p">(</span><span class="n">tf_name</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    return data as nibabel image, meta with params information</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">_as_fit_deriv</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_as_fit_deriv</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
         <span class="n">needed_args</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;dwi_affine&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tf_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">_params&quot;</span><span class="p">]</span>
 
         <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
         <span class="nd">@has_args</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">needed_args</span><span class="p">)</span>
-        <span class="k">def</span> <span class="nf">wrapper_as_fit_deriv</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">wrapper_as_fit_deriv</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
             <span class="n">og_arg_count</span><span class="p">,</span> <span class="n">dwi_affine</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">extract_added_args</span><span class="p">(</span>
                 <span class="n">func</span><span class="p">,</span> <span class="n">needed_args</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
             <span class="n">img</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">Nifti1Image</span><span class="p">(</span>
@@ -639,7 +635,7 @@ document.write(`
     <span class="k">return</span> <span class="n">_as_fit_deriv</span></div>
 
 
-<div class="viewcode-block" id="as_img"><a class="viewcode-back" href="../../../reference/api/AFQ/tasks/decorators/index.html#AFQ.tasks.decorators.as_img">[docs]</a><span class="k">def</span> <span class="nf">as_img</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+<div class="viewcode-block" id="as_img"><a class="viewcode-back" href="../../../reference/api/AFQ/tasks/decorators/index.html#AFQ.tasks.decorators.as_img">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">as_img</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    return data, meta as nibabel image, meta with timing</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -647,7 +643,7 @@ document.write(`
 
     <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
     <span class="nd">@has_args</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">needed_args</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">wrapper_as_img</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">wrapper_as_img</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">og_arg_count</span><span class="p">,</span> <span class="n">affine</span> <span class="o">=</span> <span class="n">extract_added_args</span><span class="p">(</span>
             <span class="n">func</span><span class="p">,</span> <span class="n">needed_args</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
         <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>

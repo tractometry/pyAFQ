@@ -13,11 +13,15 @@ Functions
 
 .. autoapisummary::
 
+   AFQ.recognition.roi._interp3d
    AFQ.recognition.roi.check_sls_with_inclusion
    AFQ.recognition.roi.check_sl_with_inclusion
    AFQ.recognition.roi.check_sl_with_exclusion
    AFQ.recognition.roi.clean_by_endpoints
 
+
+
+.. py:function:: _interp3d(roi, sl)
 
 
 .. py:function:: check_sls_with_inclusion(sls, include_rois, include_roi_tols)

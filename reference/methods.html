@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>The pyAFQ API methods &#8212; AFQ 1.3.6 documentation</title>
+    <title>The pyAFQ API methods &#8212; AFQ 2.0 documentation</title>
   
   
   
@@ -134,8 +134,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.6 documentation - Home"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.6 documentation - Home"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="AFQ 2.0 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -539,7 +539,7 @@ is a list of all of pyAFQ’s possible outputs:</p>
 </dd>
 <dt>dwi:</dt><dd><p>DWI data in a Nifti1Image</p>
 </dd>
-<dt>dwi_affine:</dt><dd><p>the affine transformation of the DWI data.</p>
+<dt>dwi_affine:</dt><dd><p>the affine transformation of the DWI data</p>
 </dd>
 <dt>b0:</dt><dd><p>full path to a nifti file containing the mean b0</p>
 </dd>
@@ -709,6 +709,8 @@ is a list of all of pyAFQ’s possible outputs:</p>
 </dd>
 <dt>reg_template:</dt><dd><p>a Nifti1Image containing the template for registration</p>
 </dd>
+<dt>tmpl_name:</dt><dd><p>the name of the template space for file outputs</p>
+</dd>
 <dt>b0_warped:</dt><dd><p>full path to a nifti file containing b0 transformed to template space</p>
 </dd>
 <dt>template_xform:</dt><dd><p>full path to a nifti file containing registration template transformed to subject space</p>
@@ -735,9 +737,15 @@ is a list of all of pyAFQ’s possible outputs:</p>
 </dd>
 <dt>seed:</dt><dd><p>full path to a nifti file containing the tractography seed mask</p>
 </dd>
+<dt>seed_thresh:</dt><dd><p>full path to a nifti file containing the tractography seed mask thresholded</p>
+</dd>
 <dt>stop:</dt><dd><p>full path to a nifti file containing the tractography stop mask</p>
 </dd>
+<dt>stop_thresh:</dt><dd><p>full path to a nifti file containing the tractography stop mask thresholded</p>
+</dd>
 <dt>streamlines:</dt><dd><p>full path to the complete, unsegmented tractography file</p>
+</dd>
+<dt>fodf:</dt><dd><p>Nifti Image containing the fiber orientation distribution function</p>
 </dd>
 <dt>all_bundles_figure:</dt><dd><p>figure for the visualizaion of the recognized bundles in the subject’s brain.</p>
 </dd>

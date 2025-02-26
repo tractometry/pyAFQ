@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.tasks.segmentation &#8212; AFQ 1.3.6 documentation</title>
+    <title>AFQ.tasks.segmentation &#8212; AFQ 2.0 documentation</title>
   
   
   
@@ -132,8 +132,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.6 documentation - Home"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.6 documentation - Home"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 2.0 documentation - Home"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -432,49 +432,51 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for AFQ.tasks.segmentation</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">nibabel</span> <span class="k">as</span> <span class="nn">nib</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">os.path</span> <span class="k">as</span> <span class="nn">op</span>
-<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">logging</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">nibabel</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">op</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">time</span><span class="w"> </span><span class="kn">import</span> <span class="n">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
-<span class="kn">import</span> <span class="nn">pimms</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pimms</span>
 
-<span class="kn">from</span> <span class="nn">AFQ.tasks.decorators</span> <span class="kn">import</span> <span class="n">as_file</span>
-<span class="kn">from</span> <span class="nn">AFQ.tasks.utils</span> <span class="kn">import</span> <span class="n">get_fname</span><span class="p">,</span> <span class="n">with_name</span><span class="p">,</span> <span class="n">str_to_desc</span>
-<span class="kn">from</span> <span class="nn">AFQ.recognition.recognize</span> <span class="kn">import</span> <span class="n">recognize</span>
-<span class="kn">from</span> <span class="nn">AFQ.utils.path</span> <span class="kn">import</span> <span class="n">drop_extension</span><span class="p">,</span> <span class="n">write_json</span>
-<span class="kn">import</span> <span class="nn">AFQ.utils.streamlines</span> <span class="k">as</span> <span class="nn">aus</span>
-<span class="kn">from</span> <span class="nn">AFQ.tasks.utils</span> <span class="kn">import</span> <span class="n">get_default_args</span>
-<span class="kn">import</span> <span class="nn">AFQ.utils.volume</span> <span class="k">as</span> <span class="nn">auv</span>
-<span class="kn">from</span> <span class="nn">AFQ._fixes</span> <span class="kn">import</span> <span class="n">gaussian_weights</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.tasks.decorators</span><span class="w"> </span><span class="kn">import</span> <span class="n">as_file</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.tasks.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_fname</span><span class="p">,</span> <span class="n">with_name</span><span class="p">,</span> <span class="n">str_to_desc</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.recognition.recognize</span><span class="w"> </span><span class="kn">import</span> <span class="n">recognize</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.utils.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">drop_extension</span><span class="p">,</span> <span class="n">write_json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">AFQ.utils.streamlines</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">aus</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.tasks.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_default_args</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">AFQ.utils.volume</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">auv</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ._fixes</span><span class="w"> </span><span class="kn">import</span> <span class="n">gaussian_weights</span>
 
 <span class="k">try</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">trx.io</span> <span class="kn">import</span> <span class="n">load</span> <span class="k">as</span> <span class="n">load_trx</span>
-    <span class="kn">from</span> <span class="nn">trx.io</span> <span class="kn">import</span> <span class="n">save</span> <span class="k">as</span> <span class="n">save_trx</span>
-    <span class="kn">from</span> <span class="nn">trx.trx_file_memmap</span> <span class="kn">import</span> <span class="n">TrxFile</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">trx.io</span><span class="w"> </span><span class="kn">import</span> <span class="n">load</span> <span class="k">as</span> <span class="n">load_trx</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">trx.io</span><span class="w"> </span><span class="kn">import</span> <span class="n">save</span> <span class="k">as</span> <span class="n">save_trx</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">trx.trx_file_memmap</span><span class="w"> </span><span class="kn">import</span> <span class="n">TrxFile</span>
 <div class="viewcode-block" id="has_trx"><a class="viewcode-back" href="../../../reference/api/AFQ/tasks/segmentation/index.html#AFQ.tasks.segmentation.has_trx">[docs]</a>    <span class="n">has_trx</span> <span class="o">=</span> <span class="kc">True</span></div>
 <span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
     <span class="n">has_trx</span> <span class="o">=</span> <span class="kc">False</span>
 
-<span class="kn">from</span> <span class="nn">dipy.io.streamline</span> <span class="kn">import</span> <span class="n">load_tractogram</span><span class="p">,</span> <span class="n">save_tractogram</span>
-<span class="kn">from</span> <span class="nn">dipy.io.stateful_tractogram</span> <span class="kn">import</span> <span class="n">Space</span>
-<span class="kn">from</span> <span class="nn">dipy.stats.analysis</span> <span class="kn">import</span> <span class="n">afq_profile</span>
-<span class="kn">from</span> <span class="nn">dipy.tracking.streamline</span> <span class="kn">import</span> <span class="n">set_number_of_points</span><span class="p">,</span> <span class="n">values_from_volume</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dipy.io.streamline</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_tractogram</span><span class="p">,</span> <span class="n">save_tractogram</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dipy.io.stateful_tractogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">Space</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dipy.stats.analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">afq_profile</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dipy.tracking.streamline</span><span class="w"> </span><span class="kn">import</span> <span class="n">set_number_of_points</span><span class="p">,</span> <span class="n">values_from_volume</span>
 
-<span class="kn">import</span> <span class="nn">gzip</span>
-<span class="kn">import</span> <span class="nn">shutil</span>
-<span class="kn">import</span> <span class="nn">os.path</span> <span class="k">as</span> <span class="nn">op</span>
-<span class="kn">from</span> <span class="nn">tempfile</span> <span class="kn">import</span> <span class="n">mkdtemp</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">gzip</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">op</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tempfile</span><span class="w"> </span><span class="kn">import</span> <span class="n">mkdtemp</span>
 
 <div class="viewcode-block" id="logger"><a class="viewcode-back" href="../../../reference/api/AFQ/tasks/segmentation/index.html#AFQ.tasks.segmentation.logger">[docs]</a><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;AFQ&#39;</span><span class="p">)</span></div>
 
 
 <span class="nd">@pimms</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;bundles&quot;</span><span class="p">)</span>
-<span class="nd">@as_file</span><span class="p">(</span><span class="s1">&#39;_tractography&#39;</span><span class="p">,</span> <span class="n">include_track</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">include_seg</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<div class="viewcode-block" id="segment"><a class="viewcode-back" href="../../../reference/api/AFQ/tasks/segmentation/index.html#AFQ.tasks.segmentation.segment">[docs]</a><span class="k">def</span> <span class="nf">segment</span><span class="p">(</span><span class="n">data_imap</span><span class="p">,</span> <span class="n">mapping_imap</span><span class="p">,</span>
+<span class="nd">@as_file</span><span class="p">(</span><span class="s1">&#39;_desc-bundles_tractography&#39;</span><span class="p">,</span>
+         <span class="n">include_track</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+         <span class="n">include_seg</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="viewcode-block" id="segment"><a class="viewcode-back" href="../../../reference/api/AFQ/tasks/segmentation/index.html#AFQ.tasks.segmentation.segment">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">segment</span><span class="p">(</span><span class="n">data_imap</span><span class="p">,</span> <span class="n">mapping_imap</span><span class="p">,</span>
             <span class="n">tractography_imap</span><span class="p">,</span> <span class="n">segmentation_params</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    full path to a trk/trx file containing containing</span>
@@ -501,17 +503,17 @@ document.write(`
         <span class="n">tg</span> <span class="o">=</span> <span class="n">trx</span><span class="o">.</span><span class="n">to_sft</span><span class="p">()</span>
     <span class="k">elif</span> <span class="n">streamlines</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.tck.gz&quot;</span><span class="p">):</span>
         <span class="c1"># uncompress tck.gz to a temporary tck:</span>
-        <span class="n">temp_tck</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">mkdtemp</span><span class="p">(),</span> <span class="n">op</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">streamlines</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.gz&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">temp_tck</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">mkdtemp</span><span class="p">(),</span> <span class="n">op</span><span class="o">.</span><span class="n">split</span><span class="p">(</span>
+            <span class="n">streamlines</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.gz&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))[</span><span class="mi">1</span><span class="p">])</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Temporary tck file created at: </span><span class="si">{</span><span class="n">temp_tck</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">with</span> <span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">streamlines</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f_in</span><span class="p">:</span>
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">temp_tck</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f_out</span><span class="p">:</span>
                 <span class="n">shutil</span><span class="o">.</span><span class="n">copyfileobj</span><span class="p">(</span><span class="n">f_in</span><span class="p">,</span> <span class="n">f_out</span><span class="p">)</span>
         <span class="c1"># initialize stateful tractogram from tck file:</span>
         <span class="n">tg</span> <span class="o">=</span> <span class="n">load_tractogram</span><span class="p">(</span>
-            <span class="n">temp_tck</span><span class="p">,</span> <span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;dwi&quot;</span><span class="p">],</span> <span class="n">Space</span><span class="o">.</span><span class="n">VOX</span><span class="p">,</span> 
+            <span class="n">temp_tck</span><span class="p">,</span> <span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;dwi&quot;</span><span class="p">],</span> <span class="n">Space</span><span class="o">.</span><span class="n">VOX</span><span class="p">,</span>
             <span class="n">bbox_valid_check</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="n">is_trx</span> <span class="o">=</span> <span class="kc">False</span>
-
 
     <span class="n">indices_to_remove</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">tg</span><span class="o">.</span><span class="n">remove_invalid_streamlines</span><span class="p">()</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">indices_to_remove</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
@@ -561,10 +563,9 @@ document.write(`
 
 
 <span class="nd">@pimms</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;indiv_bundles&quot;</span><span class="p">)</span>
-<div class="viewcode-block" id="export_bundles"><a class="viewcode-back" href="../../../reference/api/AFQ/tasks/segmentation/index.html#AFQ.tasks.segmentation.export_bundles">[docs]</a><span class="k">def</span> <span class="nf">export_bundles</span><span class="p">(</span><span class="n">base_fname</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">,</span>
+<div class="viewcode-block" id="export_bundles"><a class="viewcode-back" href="../../../reference/api/AFQ/tasks/segmentation/index.html#AFQ.tasks.segmentation.export_bundles">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">export_bundles</span><span class="p">(</span><span class="n">base_fname</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">,</span>
                    <span class="n">bundles</span><span class="p">,</span>
-                   <span class="n">tracking_params</span><span class="p">,</span>
-                   <span class="n">segmentation_params</span><span class="p">):</span>
+                   <span class="n">tracking_params</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    dictionary of paths, where each path is</span>
 <span class="sd">    a full path to a trk file containing the streamlines of a given bundle.</span>
@@ -575,18 +576,14 @@ document.write(`
     <span class="k">else</span><span class="p">:</span>
         <span class="n">extension</span> <span class="o">=</span> <span class="s2">&quot;.trk&quot;</span>
 
-    <span class="n">bundles_dir</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="s2">&quot;bundles&quot;</span><span class="p">)</span>
-    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">bundles_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">base_fname</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">op</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">base_fname</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
     <span class="n">seg_sft</span> <span class="o">=</span> <span class="n">aus</span><span class="o">.</span><span class="n">SegmentedSFT</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="n">bundles</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">bundle</span> <span class="ow">in</span> <span class="n">seg_sft</span><span class="o">.</span><span class="n">bundle_names</span><span class="p">:</span>
-        <span class="n">fname</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">split</span><span class="p">(</span>
-            <span class="n">get_fname</span><span class="p">(</span>
-                <span class="n">base_fname</span><span class="p">,</span>
-                <span class="sa">f</span><span class="s1">&#39;_desc-</span><span class="si">{</span><span class="n">str_to_desc</span><span class="p">(</span><span class="n">bundle</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span>
-                <span class="sa">f</span><span class="s1">&#39;_tractography</span><span class="si">{</span><span class="n">extension</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
-                <span class="n">tracking_params</span><span class="o">=</span><span class="n">tracking_params</span><span class="p">,</span>
-                <span class="n">segmentation_params</span><span class="o">=</span><span class="n">segmentation_params</span><span class="p">))</span>
-        <span class="n">fname</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">bundles_dir</span><span class="p">,</span> <span class="n">fname</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">fname</span> <span class="o">=</span> <span class="n">get_fname</span><span class="p">(</span>
+            <span class="n">base_fname</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s1">&#39;_desc-</span><span class="si">{</span><span class="n">str_to_desc</span><span class="p">(</span><span class="n">bundle</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span>
+            <span class="sa">f</span><span class="s1">&#39;_tractography</span><span class="si">{</span><span class="n">extension</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
+            <span class="n">subfolder</span><span class="o">=</span><span class="s2">&quot;bundles&quot;</span><span class="p">)</span>
         <span class="n">bundle_sft</span> <span class="o">=</span> <span class="n">seg_sft</span><span class="o">.</span><span class="n">get_bundle</span><span class="p">(</span><span class="n">bundle</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">bundle_sft</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Saving </span><span class="si">{</span><span class="n">fname</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -607,12 +604,15 @@ document.write(`
             <span class="n">params</span><span class="o">=</span><span class="n">seg_sft</span><span class="o">.</span><span class="n">get_bundle_param_info</span><span class="p">(</span><span class="n">bundle</span><span class="p">))</span>
         <span class="n">meta_fname</span> <span class="o">=</span> <span class="n">drop_extension</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.json&#39;</span>
         <span class="n">write_json</span><span class="p">(</span><span class="n">meta_fname</span><span class="p">,</span> <span class="n">meta</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">bundles_dir</span></div>
+    <span class="k">return</span> <span class="n">op</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span></div>
 
 
 <span class="nd">@pimms</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;sl_counts&quot;</span><span class="p">)</span>
-<span class="nd">@as_file</span><span class="p">(</span><span class="s1">&#39;_desc-slCount_dwi.csv&#39;</span><span class="p">,</span> <span class="n">include_track</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">include_seg</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<div class="viewcode-block" id="export_sl_counts"><a class="viewcode-back" href="../../../reference/api/AFQ/tasks/segmentation/index.html#AFQ.tasks.segmentation.export_sl_counts">[docs]</a><span class="k">def</span> <span class="nf">export_sl_counts</span><span class="p">(</span><span class="n">bundles</span><span class="p">):</span>
+<span class="nd">@as_file</span><span class="p">(</span><span class="s1">&#39;_desc-slCount_tractography.csv&#39;</span><span class="p">,</span>
+         <span class="n">include_track</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+         <span class="n">include_seg</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+         <span class="n">subfolder</span><span class="o">=</span><span class="s2">&quot;stats&quot;</span><span class="p">)</span>
+<div class="viewcode-block" id="export_sl_counts"><a class="viewcode-back" href="../../../reference/api/AFQ/tasks/segmentation/index.html#AFQ.tasks.segmentation.export_sl_counts">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">export_sl_counts</span><span class="p">(</span><span class="n">bundles</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    full path to a JSON file containing streamline counts</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -633,9 +633,10 @@ document.write(`
 
 <span class="nd">@pimms</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;median_bundle_lengths&quot;</span><span class="p">)</span>
 <span class="nd">@as_file</span><span class="p">(</span>
-    <span class="s1">&#39;_desc-medianBundleLengths_dwi.csv&#39;</span><span class="p">,</span>
-    <span class="n">include_track</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">include_seg</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<div class="viewcode-block" id="export_bundle_lengths"><a class="viewcode-back" href="../../../reference/api/AFQ/tasks/segmentation/index.html#AFQ.tasks.segmentation.export_bundle_lengths">[docs]</a><span class="k">def</span> <span class="nf">export_bundle_lengths</span><span class="p">(</span><span class="n">bundles</span><span class="p">):</span>
+    <span class="s1">&#39;_desc-medianBundleLengths_tractography.csv&#39;</span><span class="p">,</span>
+    <span class="n">include_track</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">include_seg</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">subfolder</span><span class="o">=</span><span class="s2">&quot;stats&quot;</span><span class="p">)</span>
+<div class="viewcode-block" id="export_bundle_lengths"><a class="viewcode-back" href="../../../reference/api/AFQ/tasks/segmentation/index.html#AFQ.tasks.segmentation.export_bundle_lengths">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">export_bundle_lengths</span><span class="p">(</span><span class="n">bundles</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    full path to a JSON file containing median bundle lengths</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -661,8 +662,10 @@ document.write(`
 
 
 <span class="nd">@pimms</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;density_maps&quot;</span><span class="p">)</span>
-<span class="nd">@as_file</span><span class="p">(</span><span class="s1">&#39;_desc-density_dwi.nii.gz&#39;</span><span class="p">,</span> <span class="n">include_track</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">include_seg</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<div class="viewcode-block" id="export_density_maps"><a class="viewcode-back" href="../../../reference/api/AFQ/tasks/segmentation/index.html#AFQ.tasks.segmentation.export_density_maps">[docs]</a><span class="k">def</span> <span class="nf">export_density_maps</span><span class="p">(</span><span class="n">bundles</span><span class="p">,</span> <span class="n">data_imap</span><span class="p">):</span>
+<span class="nd">@as_file</span><span class="p">(</span><span class="s1">&#39;_desc-density_tractography.nii.gz&#39;</span><span class="p">,</span>
+         <span class="n">include_track</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+         <span class="n">include_seg</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="viewcode-block" id="export_density_maps"><a class="viewcode-back" href="../../../reference/api/AFQ/tasks/segmentation/index.html#AFQ.tasks.segmentation.export_density_maps">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">export_density_maps</span><span class="p">(</span><span class="n">bundles</span><span class="p">,</span> <span class="n">data_imap</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    full path to 4d nifti file containing streamline counts per voxel</span>
 <span class="sd">    per bundle, where the 4th dimension encodes the bundle</span>
@@ -683,8 +686,8 @@ document.write(`
 
 
 <span class="nd">@pimms</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;profiles&quot;</span><span class="p">)</span>
-<span class="nd">@as_file</span><span class="p">(</span><span class="s1">&#39;_desc-profiles_dwi.csv&#39;</span><span class="p">,</span> <span class="n">include_track</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">include_seg</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<div class="viewcode-block" id="tract_profiles"><a class="viewcode-back" href="../../../reference/api/AFQ/tasks/segmentation/index.html#AFQ.tasks.segmentation.tract_profiles">[docs]</a><span class="k">def</span> <span class="nf">tract_profiles</span><span class="p">(</span><span class="n">bundles</span><span class="p">,</span>
+<span class="nd">@as_file</span><span class="p">(</span><span class="s1">&#39;_desc-profiles_tractography.csv&#39;</span><span class="p">,</span> <span class="n">include_track</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">include_seg</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="viewcode-block" id="tract_profiles"><a class="viewcode-back" href="../../../reference/api/AFQ/tasks/segmentation/index.html#AFQ.tasks.segmentation.tract_profiles">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">tract_profiles</span><span class="p">(</span><span class="n">bundles</span><span class="p">,</span>
                    <span class="n">scalar_dict</span><span class="p">,</span> <span class="n">data_imap</span><span class="p">,</span>
                    <span class="n">profile_weights</span><span class="o">=</span><span class="s2">&quot;gauss&quot;</span><span class="p">,</span>
                    <span class="n">n_points_profile</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
@@ -693,7 +696,7 @@ document.write(`
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    profile_weights : str, 1D array, 2D array callable, optional</span>
+<span class="sd">    profile_weights : str, 1D array, 2D array, or callable, optional</span>
 <span class="sd">        How to weight each streamline (1D) or each node (2D)</span>
 <span class="sd">        when calculating the tract-profiles. If callable, this is a</span>
 <span class="sd">        function that calculates weights. If None, no weighting will</span>
@@ -746,10 +749,10 @@ document.write(`
             <span class="n">scalar_data</span> <span class="o">=</span> <span class="n">scalar_file</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">profile_weights</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">profile_weights</span> <span class="o">==</span> <span class="s2">&quot;gauss&quot;</span><span class="p">:</span>
-                    <span class="n">this_prof_weights</span> <span class="o">=</span> <span class="n">bundle_profile_weights</span>
+                    <span class="n">this_prof_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">bundle_profile_weights</span><span class="p">)</span>
                 <span class="k">elif</span> <span class="n">profile_weights</span> <span class="o">==</span> <span class="s2">&quot;median&quot;</span><span class="p">:</span>
                     <span class="c1"># weights bundle to only return the mean</span>
-                    <span class="k">def</span> <span class="nf">_median_weight</span><span class="p">(</span><span class="n">bundle</span><span class="p">):</span>
+                    <span class="k">def</span><span class="w"> </span><span class="nf">_median_weight</span><span class="p">(</span><span class="n">bundle</span><span class="p">):</span>
                         <span class="n">fgarray</span> <span class="o">=</span> <span class="n">set_number_of_points</span><span class="p">(</span>
                             <span class="n">bundle</span><span class="p">,</span> <span class="n">n_points_profile</span><span class="p">)</span>
                         <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
@@ -765,7 +768,16 @@ document.write(`
                         <span class="k">return</span> <span class="n">weights</span>
                     <span class="n">this_prof_weights</span> <span class="o">=</span> <span class="n">_median_weight</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">this_prof_weights</span> <span class="o">=</span> <span class="n">profile_weights</span>
+                <span class="n">this_prof_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">profile_weights</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">this_prof_weights</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="ow">and</span> \
+                    <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">this_prof_weights</span><span class="p">)):</span>  <span class="c1"># fit failed</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">((</span>
+                    <span class="sa">f</span><span class="s2">&quot;Even weighting used for &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;bundle </span><span class="si">{</span><span class="n">bundle_name</span><span class="si">}</span><span class="s2">, scalar </span><span class="si">{</span><span class="n">scalar</span><span class="si">}</span><span class="s2"> &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;in profiling due inability to estimate weights. &quot;</span>
+                    <span class="s2">&quot;This is often caused by low streamline count or &quot;</span>
+                    <span class="s2">&quot;low variance in the scalar data.&quot;</span><span class="p">))</span>
+                <span class="n">this_prof_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">this_prof_weights</span><span class="p">)</span>
             <span class="n">this_profile</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="n">afq_profile</span><span class="p">(</span>
                 <span class="n">scalar_data</span><span class="p">,</span>
                 <span class="n">this_sl</span><span class="p">,</span>
@@ -793,7 +805,7 @@ document.write(`
 
 
 <span class="nd">@pimms</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;scalar_dict&quot;</span><span class="p">)</span>
-<div class="viewcode-block" id="get_scalar_dict"><a class="viewcode-back" href="../../../reference/api/AFQ/tasks/segmentation/index.html#AFQ.tasks.segmentation.get_scalar_dict">[docs]</a><span class="k">def</span> <span class="nf">get_scalar_dict</span><span class="p">(</span><span class="n">data_imap</span><span class="p">,</span> <span class="n">mapping_imap</span><span class="p">,</span> <span class="n">scalars</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;dti_fa&quot;</span><span class="p">,</span> <span class="s2">&quot;dti_md&quot;</span><span class="p">]):</span>
+<div class="viewcode-block" id="get_scalar_dict"><a class="viewcode-back" href="../../../reference/api/AFQ/tasks/segmentation/index.html#AFQ.tasks.segmentation.get_scalar_dict">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_scalar_dict</span><span class="p">(</span><span class="n">data_imap</span><span class="p">,</span> <span class="n">mapping_imap</span><span class="p">,</span> <span class="n">scalars</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;dti_fa&quot;</span><span class="p">,</span> <span class="s2">&quot;dti_md&quot;</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    dicionary mapping scalar names</span>
 <span class="sd">    to their respective file paths</span>
@@ -804,7 +816,8 @@ document.write(`
 <span class="sd">        List of scalars to use.</span>
 <span class="sd">        Can be any of: &quot;dti_fa&quot;, &quot;dti_md&quot;, &quot;dki_fa&quot;, &quot;dki_md&quot;, &quot;dki_awf&quot;,</span>
 <span class="sd">        &quot;dki_mk&quot;. Can also be a scalar from AFQ.definitions.image.</span>
-<span class="sd">        Default: [&quot;dti_fa&quot;, &quot;dti_md&quot;]</span>
+<span class="sd">            Default: For single shell data: [&quot;dti_fa&quot;, &quot;dti_md&quot;], </span>
+<span class="sd">        for multi-shell data: [&quot;dki_fa&quot;, &quot;dki_md&quot;].</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Note: some scalars preprocessing done in plans, before this step</span>
     <span class="n">scalar_dict</span> <span class="o">=</span> <span class="p">{}</span>
@@ -818,7 +831,7 @@ document.write(`
     <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;scalar_dict&quot;</span><span class="p">:</span> <span class="n">scalar_dict</span><span class="p">}</span></div>
 
 
-<div class="viewcode-block" id="get_segmentation_plan"><a class="viewcode-back" href="../../../reference/api/AFQ/tasks/segmentation/index.html#AFQ.tasks.segmentation.get_segmentation_plan">[docs]</a><span class="k">def</span> <span class="nf">get_segmentation_plan</span><span class="p">(</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="get_segmentation_plan"><a class="viewcode-back" href="../../../reference/api/AFQ/tasks/segmentation/index.html#AFQ.tasks.segmentation.get_segmentation_plan">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_segmentation_plan</span><span class="p">(</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="k">if</span> <span class="s2">&quot;segmentation_params&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span>\
             <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;segmentation_params&quot;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>

@@ -19,7 +19,7 @@ Functions
 
 
 
-.. py:function:: as_file(suffix, include_track=False, include_seg=False)
+.. py:function:: as_file(suffix, include_track=False, include_seg=False, subfolder=None)
 
    
    return img and meta as saved file path, with json,

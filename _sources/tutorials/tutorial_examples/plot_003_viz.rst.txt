@@ -406,6 +406,18 @@ that we get a nice crisp image. That also means the file is pretty large.
 
 
 
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+    /opt/hostedtoolcache/Python/3.12.9/x64/lib/python3.12/site-packages/sphinx_gallery/gen_rst.py:794: UserWarning:
+
+    We'll no longer accept the way you call the record function in future versions of FURY.
+
+    Here's how to call the Function record: record(scene='value', cam_pos='value', cam_focal='value', cam_view='value', out_path='value', path_numbering='value', n_frames='value', az_ang='value', magnification='value', size='value', reset_camera='value', screen_clip='value', stereo='value', verbose='value')
+
+
+
 
 
 
@@ -533,6 +545,18 @@ our bundle line actors again. This time, we set the opacity of the lines to
 
 
 
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+    /opt/hostedtoolcache/Python/3.12.9/x64/lib/python3.12/site-packages/sphinx_gallery/gen_rst.py:794: UserWarning:
+
+    We'll no longer accept the way you call the create_colormap function in future versions of FURY.
+
+    Here's how to call the Function create_colormap: create_colormap(v_value, name='value', auto='value')
 
 
 
@@ -708,9 +732,9 @@ References
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 20.206 seconds)
+   **Total running time of the script:** (0 minutes 18.262 seconds)
 
-**Estimated memory usage:**  783 MB
+**Estimated memory usage:**  890 MB
 
 
 .. _sphx_glr_download_tutorials_tutorial_examples_plot_003_viz.py:

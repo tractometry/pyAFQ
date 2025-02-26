@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>The pyAFQ API optional arguments &#8212; AFQ 1.3.6 documentation</title>
+    <title>The pyAFQ API optional arguments &#8212; AFQ 2.0 documentation</title>
   
   
   
@@ -134,8 +134,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.6 documentation - Home"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.6 documentation - Home"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="AFQ 2.0 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -639,6 +639,9 @@ If “hcp_atlas” is used, slr registration will be used
 and reg_subject should be “subject_sls”.
 Default: “mni_T1”</p>
 </dd>
+<dt>reg_template_space_name: str, optional</dt><dd><p>Name to use in file names for the template space.
+Default: “mni”</p>
+</dd>
 </dl>
 </div>
 <div class="section" id="mapping">
@@ -663,11 +666,11 @@ Default: “power_map”</p>
 </div>
 <div class="section" id="segmentation">
 <h2>SEGMENTATION<a class="headerlink" href="#segmentation" title="Permalink to this heading">#</a></h2>
-<dl class="simple">
+<dl>
 <dt>segmentation_params: dict, optional</dt><dd><p>The parameters for segmentation.
 Default: use the default behavior of the seg.Segmentation object.</p>
 </dd>
-<dt>profile_weights: str, 1D array, 2D array callable, optional</dt><dd><p>How to weight each streamline (1D) or each node (2D)
+<dt>profile_weights: str, 1D array, 2D array, or callable, optional</dt><dd><p>How to weight each streamline (1D) or each node (2D)
 when calculating the tract-profiles. If callable, this is a
 function that calculates weights. If None, no weighting will
 be applied. If “gauss”, gaussian weights will be used.
@@ -681,8 +684,11 @@ Default: 100</p>
 </dd>
 <dt>scalars: strings and/or scalar definitions, optional</dt><dd><p>List of scalars to use.
 Can be any of: “dti_fa”, “dti_md”, “dki_fa”, “dki_md”, “dki_awf”,
-“dki_mk”. Can also be a scalar from AFQ.definitions.image.
-Default: [“dti_fa”, “dti_md”]</p>
+“dki_mk”. Can also be a scalar from AFQ.definitions.image.</p>
+<blockquote>
+<div><p>Default: For single shell data: [“dti_fa”, “dti_md”],</p>
+</div></blockquote>
+<p>for multi-shell data: [“dki_fa”, “dki_md”].</p>
 </dd>
 </dl>
 </div>

@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.recognition.cleaning &#8212; AFQ 1.3.6 documentation</title>
+    <title>AFQ.recognition.cleaning &#8212; AFQ 2.0 documentation</title>
   
   
   
@@ -132,8 +132,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.6 documentation - Home"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.6 documentation - Home"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 2.0 documentation - Home"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -432,23 +432,23 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for AFQ.recognition.cleaning</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">nibabel</span> <span class="k">as</span> <span class="nn">nib</span>
-<span class="kn">import</span> <span class="nn">logging</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">nibabel</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
-<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">zscore</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">zscore</span>
 
-<span class="kn">import</span> <span class="nn">dipy.tracking.streamline</span> <span class="k">as</span> <span class="nn">dts</span>
-<span class="kn">from</span> <span class="nn">dipy.io.stateful_tractogram</span> <span class="kn">import</span> <span class="n">StatefulTractogram</span><span class="p">,</span> <span class="n">Space</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">dipy.tracking.streamline</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dts</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dipy.io.stateful_tractogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">StatefulTractogram</span><span class="p">,</span> <span class="n">Space</span>
 
-<span class="kn">import</span> <span class="nn">AFQ.recognition.utils</span> <span class="k">as</span> <span class="nn">abu</span>
-<span class="kn">from</span> <span class="nn">AFQ._fixes</span> <span class="kn">import</span> <span class="n">gaussian_weights</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">AFQ.recognition.utils</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">abu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ._fixes</span><span class="w"> </span><span class="kn">import</span> <span class="n">gaussian_weights</span>
 
 
 <div class="viewcode-block" id="logger"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/cleaning/index.html#AFQ.recognition.cleaning.logger">[docs]</a><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;AFQ&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="clean_by_orientation"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/cleaning/index.html#AFQ.recognition.cleaning.clean_by_orientation">[docs]</a><span class="k">def</span> <span class="nf">clean_by_orientation</span><span class="p">(</span><span class="n">streamlines</span><span class="p">,</span> <span class="n">primary_axis</span><span class="p">,</span> <span class="n">affine</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="clean_by_orientation"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/cleaning/index.html#AFQ.recognition.cleaning.clean_by_orientation">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">clean_by_orientation</span><span class="p">(</span><span class="n">streamlines</span><span class="p">,</span> <span class="n">primary_axis</span><span class="p">,</span> <span class="n">affine</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute the cardinal orientation of each streamline</span>
 
@@ -501,7 +501,7 @@ document.write(`
     <span class="k">return</span> <span class="n">cleaned_idx</span></div>
 
 
-<div class="viewcode-block" id="clean_bundle"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/cleaning/index.html#AFQ.recognition.cleaning.clean_bundle">[docs]</a><span class="k">def</span> <span class="nf">clean_bundle</span><span class="p">(</span><span class="n">tg</span><span class="p">,</span> <span class="n">n_points</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">clean_rounds</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">distance_threshold</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+<div class="viewcode-block" id="clean_bundle"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/cleaning/index.html#AFQ.recognition.cleaning.clean_bundle">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">clean_bundle</span><span class="p">(</span><span class="n">tg</span><span class="p">,</span> <span class="n">n_points</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">clean_rounds</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">distance_threshold</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
                  <span class="n">length_threshold</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">min_sl</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span>
                  <span class="n">return_idx</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>

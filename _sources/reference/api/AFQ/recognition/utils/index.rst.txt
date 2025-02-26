@@ -22,7 +22,7 @@ Functions
 .. autoapisummary::
 
    AFQ.recognition.utils.flip_sls
-   AFQ.recognition.utils.cut_sls_by_dist
+   AFQ.recognition.utils.cut_sls_by_closest
    AFQ.recognition.utils.read_tg
    AFQ.recognition.utils.orient_by_streamline
    AFQ.recognition.utils.move_streamlines
@@ -65,7 +65,7 @@ Attributes
    ..
        !! processed by numpydoc !!
 
-.. py:function:: cut_sls_by_dist(select_sl, roi_dists, roi_idxs, in_place=False)
+.. py:function:: cut_sls_by_closest(select_sl, roi_closest, roi_idxs, in_place=False)
 
    
    Helper function to cut streamlines according to which points
@@ -74,17 +74,18 @@ Attributes
 
    :Parameters:
 
-       **select_sl, streamlines to cut**
-           ..
+       **select_sl**
+           streamlines to cut
 
-       **roi_dists, distances from a given streamline to a given inclusion roi**
-           ..
+       **roi_closest**
+           indices into given streamline of points nearest
+           to inclusion rois
 
-       **roi_idxs, two indices into the list of inclusion rois to use for the cut**
-           ..
+       **roi_idxs**
+           two indices into the list of inclusion rois to use for the cut
 
-       **in_place, whether to modify select_sl**
-           ..
+       **in_place**
+           whether to modify select_sl
 
 
 
@@ -140,7 +141,7 @@ Attributes
 .. py:function:: resample_tg(tg, n_points)
 
 
-.. py:class:: SlsBeingRecognized(sls, logger, save_intermediates, b_name, ref, n_roi_dists)
+.. py:class:: SlsBeingRecognized(sls, logger, save_intermediates, b_name, ref, n_roi)
 
 
    .. py:method:: initiate_selection(clean_name)

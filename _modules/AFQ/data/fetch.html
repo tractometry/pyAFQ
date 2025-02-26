@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.data.fetch &#8212; AFQ 1.3.6 documentation</title>
+    <title>AFQ.data.fetch &#8212; AFQ 2.0 documentation</title>
   
   
   
@@ -132,8 +132,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.6 documentation - Home"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.6 documentation - Home"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 2.0 documentation - Home"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -432,33 +432,31 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for AFQ.data.fetch</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">dipy.align</span> <span class="kn">import</span> <span class="n">resample</span>
-<span class="kn">from</span> <span class="nn">dipy.segment.clustering</span> <span class="kn">import</span> <span class="n">QuickBundles</span>
-<span class="kn">from</span> <span class="nn">dipy.segment.metric</span> <span class="kn">import</span> <span class="n">AveragePointwiseEuclideanMetric</span>
-<span class="kn">from</span> <span class="nn">dipy.segment.featurespeed</span> <span class="kn">import</span> <span class="n">ResampleFeature</span>
-<span class="kn">from</span> <span class="nn">dipy.io.streamline</span> <span class="kn">import</span> <span class="p">(</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">dipy.align</span><span class="w"> </span><span class="kn">import</span> <span class="n">resample</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dipy.segment.clustering</span><span class="w"> </span><span class="kn">import</span> <span class="n">QuickBundles</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dipy.segment.metric</span><span class="w"> </span><span class="kn">import</span> <span class="n">AveragePointwiseEuclideanMetric</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dipy.segment.featurespeed</span><span class="w"> </span><span class="kn">import</span> <span class="n">ResampleFeature</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dipy.io.streamline</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">load_tractogram</span><span class="p">,</span> <span class="n">save_tractogram</span><span class="p">,</span> <span class="n">StatefulTractogram</span><span class="p">,</span> <span class="n">Space</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">dipy.data.fetcher</span> <span class="kn">import</span> <span class="n">_make_fetcher</span>
-<span class="kn">import</span> <span class="nn">dipy.data</span> <span class="k">as</span> <span class="nn">dpd</span>
-<span class="kn">from</span> <span class="nn">AFQ.utils.path</span> <span class="kn">import</span> <span class="n">drop_extension</span><span class="p">,</span> <span class="n">apply_cmd_to_afq_derivs</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dipy.data.fetcher</span><span class="w"> </span><span class="kn">import</span> <span class="n">_make_fetcher</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">dipy.data</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dpd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.utils.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">drop_extension</span><span class="p">,</span> <span class="n">apply_cmd_to_afq_derivs</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.data.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">aws_import_msg_error</span>
 
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">os.path</span> <span class="k">as</span> <span class="nn">op</span>
-<span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
-<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">op</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">glob</span><span class="w"> </span><span class="kn">import</span> <span class="n">glob</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tqdm</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
 
-<span class="kn">import</span> <span class="nn">warnings</span>
-<span class="kn">import</span> <span class="nn">nibabel</span> <span class="k">as</span> <span class="nn">nib</span>
-<span class="kn">import</span> <span class="nn">boto3</span>
-<span class="kn">from</span> <span class="nn">botocore</span> <span class="kn">import</span> <span class="n">UNSIGNED</span>
-<span class="kn">from</span> <span class="nn">botocore.client</span> <span class="kn">import</span> <span class="n">Config</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">nibabel</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nib</span>
 
 
 <span class="c1"># capture templateflow resource warning and log</span>
@@ -475,7 +473,7 @@ document.write(`
         <span class="s2">&quot;default&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">ResourceWarning</span><span class="p">,</span>
         <span class="n">module</span><span class="o">=</span><span class="s2">&quot;templateflow&quot;</span><span class="p">)</span>
 
-    <span class="kn">from</span> <span class="nn">templateflow</span> <span class="kn">import</span> <span class="n">api</span> <span class="k">as</span> <span class="n">tflow</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">templateflow</span><span class="w"> </span><span class="kn">import</span> <span class="n">api</span> <span class="k">as</span> <span class="n">tflow</span>
 <span class="k">finally</span><span class="p">:</span>
     <span class="n">logging</span><span class="o">.</span><span class="n">captureWarnings</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">warnings</span><span class="o">.</span><span class="n">formatwarning</span> <span class="o">=</span> <span class="n">default_warning_format</span>
@@ -499,9 +497,9 @@ document.write(`
 <span class="n">baseurl</span> <span class="o">=</span> <span class="s2">&quot;https://ndownloader.figshare.com/files/&quot;</span>
 
 
-<span class="k">def</span> <span class="nf">_make_reusable_fetcher</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">folder</span><span class="p">,</span> <span class="n">baseurl</span><span class="p">,</span> <span class="n">remote_fnames</span><span class="p">,</span> <span class="n">local_fnames</span><span class="p">,</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_make_reusable_fetcher</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">folder</span><span class="p">,</span> <span class="n">baseurl</span><span class="p">,</span> <span class="n">remote_fnames</span><span class="p">,</span> <span class="n">local_fnames</span><span class="p">,</span>
                            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">md5_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">make_fetcher_kwargs</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">fetcher</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fetcher</span><span class="p">():</span>
         <span class="n">all_files_downloaded</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">local_fnames</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">op</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">fname</span><span class="p">)):</span>
@@ -521,7 +519,7 @@ document.write(`
     <span class="k">return</span> <span class="n">fetcher</span>
 
 
-<span class="k">def</span> <span class="nf">_fetcher_to_template</span><span class="p">(</span><span class="n">fetcher</span><span class="p">,</span> <span class="n">as_img</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">resample_to</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_fetcher_to_template</span><span class="p">(</span><span class="n">fetcher</span><span class="p">,</span> <span class="n">as_img</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">resample_to</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">resample_to</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">resample_to</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">resample_to</span><span class="p">)</span>
     <span class="n">files</span><span class="p">,</span> <span class="n">folder</span> <span class="o">=</span> <span class="n">fetcher</span><span class="p">()</span>
@@ -531,11 +529,13 @@ document.write(`
         <span class="k">if</span> <span class="n">as_img</span><span class="p">:</span>
             <span class="n">img</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">resample_to</span><span class="p">:</span>
-            <span class="n">img</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">Nifti1Image</span><span class="p">(</span><span class="n">resample</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">(),</span>
-                                           <span class="n">resample_to</span><span class="p">,</span>
-                                           <span class="n">img</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span>
-                                           <span class="n">resample_to</span><span class="o">.</span><span class="n">affine</span><span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">(),</span>
-                                  <span class="n">resample_to</span><span class="o">.</span><span class="n">affine</span><span class="p">)</span>
+            <span class="n">img</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">Nifti1Image</span><span class="p">(</span>
+                <span class="n">resample</span><span class="p">(</span>
+                    <span class="n">img</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">(),</span>
+                    <span class="n">resample_to</span><span class="p">,</span>
+                    <span class="n">moving_affine</span><span class="o">=</span><span class="n">img</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span>
+                    <span class="n">static_affine</span><span class="o">=</span><span class="n">resample_to</span><span class="o">.</span><span class="n">affine</span><span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">(),</span>
+                <span class="n">resample_to</span><span class="o">.</span><span class="n">affine</span><span class="p">)</span>
         <span class="n">template_dict</span><span class="p">[</span><span class="n">drop_extension</span><span class="p">(</span><span class="n">f</span><span class="p">)]</span> <span class="o">=</span> <span class="n">img</span>
     <span class="k">return</span> <span class="n">template_dict</span>
 
@@ -592,7 +592,7 @@ document.write(`
     <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Download AFQ callosum templates&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="read_callosum_templates"><a class="viewcode-back" href="../../../reference/api/AFQ/data/fetch/index.html#AFQ.data.fetch.read_callosum_templates">[docs]</a><span class="k">def</span> <span class="nf">read_callosum_templates</span><span class="p">(</span><span class="n">as_img</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">resample_to</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="read_callosum_templates"><a class="viewcode-back" href="../../../reference/api/AFQ/data/fetch/index.html#AFQ.data.fetch.read_callosum_templates">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">read_callosum_templates</span><span class="p">(</span><span class="n">as_img</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">resample_to</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Load AFQ callosum templates from file</span>
 
 <span class="sd">    Parameters</span>
@@ -768,7 +768,7 @@ document.write(`
 <span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">read_pediatric_templates</span><span class="p">(</span><span class="n">as_img</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">resample_to</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_pediatric_templates</span><span class="p">(</span><span class="n">as_img</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">resample_to</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Load pediatric pyAFQ templates.</span>
 
@@ -812,7 +812,7 @@ document.write(`
     <span class="k">return</span> <span class="n">pediatric_templates</span>
 
 
-<span class="k">def</span> <span class="nf">read_resample_roi</span><span class="p">(</span><span class="n">roi</span><span class="p">,</span> <span class="n">resample_to</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_resample_roi</span><span class="p">(</span><span class="n">roi</span><span class="p">,</span> <span class="n">resample_to</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Reads an roi from file-name/img and resamples it to conform with</span>
 <span class="sd">    another file-name/img.</span>
@@ -854,8 +854,8 @@ document.write(`
     <span class="n">as_array</span> <span class="o">=</span> <span class="n">resample</span><span class="p">(</span>
         <span class="n">roi</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">(),</span>
         <span class="n">resample_to</span><span class="p">,</span>
-        <span class="n">roi</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span>
-        <span class="n">resample_to</span><span class="o">.</span><span class="n">affine</span><span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
+        <span class="n">moving_affine</span><span class="o">=</span><span class="n">roi</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span>
+        <span class="n">static_affine</span><span class="o">=</span><span class="n">resample_to</span><span class="o">.</span><span class="n">affine</span><span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">threshold</span><span class="p">:</span>
         <span class="n">as_array</span> <span class="o">=</span> <span class="p">(</span><span class="n">as_array</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
 
@@ -1138,7 +1138,7 @@ document.write(`
     <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Download AFQ templates&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="read_templates"><a class="viewcode-back" href="../../../reference/api/AFQ/data/fetch/index.html#AFQ.data.fetch.read_templates">[docs]</a><span class="k">def</span> <span class="nf">read_templates</span><span class="p">(</span><span class="n">as_img</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">resample_to</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="read_templates"><a class="viewcode-back" href="../../../reference/api/AFQ/data/fetch/index.html#AFQ.data.fetch.read_templates">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">read_templates</span><span class="p">(</span><span class="n">as_img</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">resample_to</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Load AFQ templates from file</span>
 
 <span class="sd">    Parameters</span>
@@ -1229,7 +1229,7 @@ document.write(`
     <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Download AFQ cerebellar penducles templates&quot;</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">read_cp_templates</span><span class="p">(</span><span class="n">as_img</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">resample_to</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_cp_templates</span><span class="p">(</span><span class="n">as_img</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">resample_to</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Load AFQ Cerebellar penducles templates from file</span>
 
 <span class="sd">    Parameters</span>
@@ -1347,7 +1347,7 @@ document.write(`
     <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Download AFQ or templates&quot;</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">read_ar_templates</span><span class="p">(</span><span class="n">as_img</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">resample_to</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_ar_templates</span><span class="p">(</span><span class="n">as_img</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">resample_to</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Load AFQ AR templates from file</span>
 
 <span class="sd">    Parameters</span>
@@ -1391,7 +1391,7 @@ document.write(`
     <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Download AFQ or templates&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="read_or_templates"><a class="viewcode-back" href="../../../reference/api/AFQ/data/fetch/index.html#AFQ.data.fetch.read_or_templates">[docs]</a><span class="k">def</span> <span class="nf">read_or_templates</span><span class="p">(</span><span class="n">as_img</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">resample_to</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="read_or_templates"><a class="viewcode-back" href="../../../reference/api/AFQ/data/fetch/index.html#AFQ.data.fetch.read_or_templates">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">read_or_templates</span><span class="p">(</span><span class="n">as_img</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">resample_to</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Load AFQ OR templates from file</span>
 
 <span class="sd">    Parameters</span>
@@ -1446,7 +1446,7 @@ document.write(`
 <span class="s2">           purposes&quot;&quot;&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="read_stanford_hardi_tractography"><a class="viewcode-back" href="../../../reference/api/AFQ/data/fetch/index.html#AFQ.data.fetch.read_stanford_hardi_tractography">[docs]</a><span class="k">def</span> <span class="nf">read_stanford_hardi_tractography</span><span class="p">():</span>
+<div class="viewcode-block" id="read_stanford_hardi_tractography"><a class="viewcode-back" href="../../../reference/api/AFQ/data/fetch/index.html#AFQ.data.fetch.read_stanford_hardi_tractography">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">read_stanford_hardi_tractography</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Reads a minimal tractography from the Stanford dataset.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1478,7 +1478,7 @@ document.write(`
     <span class="k">return</span> <span class="n">files_dict</span></div>
 
 
-<span class="k">def</span> <span class="nf">to_bids_description</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">fname</span><span class="o">=</span><span class="s1">&#39;dataset_description.json&#39;</span><span class="p">,</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">to_bids_description</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">fname</span><span class="o">=</span><span class="s1">&#39;dataset_description.json&#39;</span><span class="p">,</span>
                         <span class="n">BIDSVersion</span><span class="o">=</span><span class="s2">&quot;1.4.0&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Dumps a dict into a bids description at the given location&quot;&quot;&quot;</span>
     <span class="n">kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;BIDSVersion&quot;</span><span class="p">:</span> <span class="n">BIDSVersion</span><span class="p">})</span>
@@ -1487,7 +1487,7 @@ document.write(`
         <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">outfile</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">organize_cfin_data</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">organize_cfin_data</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create the expected file-system structure for the</span>
 <span class="sd">    CFIN multi b-value diffusion data-set.</span>
@@ -1527,7 +1527,7 @@ document.write(`
            <span class="s2">&quot;GeneratedBy&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="s2">&quot;Name&quot;</span><span class="p">:</span> <span class="s2">&quot;dipy&quot;</span><span class="p">}]})</span>
 
 
-<div class="viewcode-block" id="organize_stanford_data"><a class="viewcode-back" href="../../../reference/api/AFQ/data/fetch/index.html#AFQ.data.fetch.organize_stanford_data">[docs]</a><span class="k">def</span> <span class="nf">organize_stanford_data</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">clear_previous_afq</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="organize_stanford_data"><a class="viewcode-back" href="../../../reference/api/AFQ/data/fetch/index.html#AFQ.data.fetch.organize_stanford_data">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">organize_stanford_data</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">clear_previous_afq</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    If necessary, downloads the Stanford HARDI dataset into DIPY directory and</span>
 <span class="sd">    creates a BIDS compliant file-system structure in AFQ data directory:</span>
@@ -1578,16 +1578,15 @@ document.write(`
     <span class="n">derivatives_path</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">bids_path</span><span class="p">,</span> <span class="s1">&#39;derivatives&#39;</span><span class="p">)</span>
     <span class="n">dmriprep_folder</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">derivatives_path</span><span class="p">,</span> <span class="s1">&#39;vistasoft&#39;</span><span class="p">)</span>
     <span class="n">freesurfer_folder</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">derivatives_path</span><span class="p">,</span> <span class="s1">&#39;freesurfer&#39;</span><span class="p">)</span>
+    <span class="n">afq_folder</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">derivatives_path</span><span class="p">,</span> <span class="s1">&#39;afq&#39;</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">clear_previous_afq</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">op</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">derivatives_path</span><span class="p">):</span>
-        <span class="n">afq_folder</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">derivatives_path</span><span class="p">,</span> <span class="s1">&#39;afq&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">clear_previous_afq</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">op</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">afq_folder</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">clear_previous_afq</span> <span class="o">==</span> <span class="s2">&quot;all&quot;</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">op</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">afq_folder</span><span class="p">):</span>
-                <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">afq_folder</span><span class="p">)</span>
+            <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">afq_folder</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">apply_cmd_to_afq_derivs</span><span class="p">(</span>
-                <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">afq_folder</span><span class="p">,</span> <span class="s2">&quot;sub-01/ses-01&quot;</span><span class="p">),</span>
-                <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">afq_folder</span><span class="p">,</span> <span class="s2">&quot;sub-01/ses-01/sub-01_ses-01&quot;</span><span class="p">),</span>
+                <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">afq_folder</span><span class="p">,</span> <span class="s2">&quot;sub-01/ses-01/dwi/&quot;</span><span class="p">),</span>
+                <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">afq_folder</span><span class="p">,</span> <span class="s2">&quot;sub-01/ses-01/dwi/sub-01_ses-01&quot;</span><span class="p">),</span>
                 <span class="n">dependent_on</span><span class="o">=</span><span class="n">clear_previous_afq</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">op</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">derivatives_path</span><span class="p">):</span>
@@ -1669,7 +1668,7 @@ document.write(`
     <span class="n">unzip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">read_hcp_atlas</span><span class="p">(</span><span class="n">n_bundles</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">as_file</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_hcp_atlas</span><span class="p">(</span><span class="n">n_bundles</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">as_file</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    as_file : bool, optional</span>
 <span class="sd">        If True, values are paths to sls. Otherwise, the sl</span>
@@ -1754,7 +1753,7 @@ document.write(`
     <span class="n">unzip</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">read_aal_atlas</span><span class="p">(</span><span class="n">resample_to</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_aal_atlas</span><span class="p">(</span><span class="n">resample_to</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Reads the AAL atlas [1]_.</span>
 
@@ -1785,14 +1784,14 @@ document.write(`
             <span class="n">oo</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">resample</span><span class="p">(</span>
                 <span class="n">data</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">ii</span><span class="p">],</span>
                 <span class="n">resample_to</span><span class="p">,</span>
-                <span class="n">out_dict</span><span class="p">[</span><span class="s1">&#39;atlas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span>
-                <span class="n">resample_to</span><span class="o">.</span><span class="n">affine</span><span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">())</span>
+                <span class="n">moving_affine</span><span class="o">=</span><span class="n">out_dict</span><span class="p">[</span><span class="s1">&#39;atlas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span>
+                <span class="n">static_affine</span><span class="o">=</span><span class="n">resample_to</span><span class="o">.</span><span class="n">affine</span><span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">())</span>
         <span class="n">out_dict</span><span class="p">[</span><span class="s1">&#39;atlas&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">Nifti1Image</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">oo</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span>
                                             <span class="n">resample_to</span><span class="o">.</span><span class="n">affine</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">out_dict</span>
 
 
-<span class="k">def</span> <span class="nf">_apply_mask</span><span class="p">(</span><span class="n">template_img</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_apply_mask</span><span class="p">(</span><span class="n">template_img</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Helper function, gets MNI brain mask and applies it to template_img.</span>
 
@@ -1820,8 +1819,8 @@ document.write(`
             <span class="n">resample</span><span class="p">(</span>
                 <span class="n">mask_data</span><span class="p">,</span>
                 <span class="n">template_data</span><span class="p">,</span>
-                <span class="n">mask_img</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span>
-                <span class="n">template_img</span><span class="o">.</span><span class="n">affine</span><span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">(),</span>
+                <span class="n">moving_affine</span><span class="o">=</span><span class="n">mask_img</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span>
+                <span class="n">static_affine</span><span class="o">=</span><span class="n">template_img</span><span class="o">.</span><span class="n">affine</span><span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">(),</span>
             <span class="n">template_img</span><span class="o">.</span><span class="n">affine</span><span class="p">)</span>
         <span class="n">mask_data</span> <span class="o">=</span> <span class="n">mask_img</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
 
@@ -1829,7 +1828,7 @@ document.write(`
     <span class="k">return</span> <span class="n">nib</span><span class="o">.</span><span class="n">Nifti1Image</span><span class="p">(</span><span class="n">out_data</span><span class="p">,</span> <span class="n">template_img</span><span class="o">.</span><span class="n">affine</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">read_mni_template</span><span class="p">(</span><span class="n">resolution</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;T2w&quot;</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_mni_template</span><span class="p">(</span><span class="n">resolution</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;T2w&quot;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">    Reads the MNI T1w or T2w template</span>
@@ -1878,7 +1877,7 @@ document.write(`
         <span class="n">unzip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">read_ukbb_fa_template</span><span class="p">(</span><span class="n">mask</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_ukbb_fa_template</span><span class="p">(</span><span class="n">mask</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Reads the UK Biobank FA template</span>
 
@@ -1933,7 +1932,7 @@ document.write(`
         <span class="k">return</span> <span class="n">_apply_mask</span><span class="p">(</span><span class="n">template_img</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">fetch_hcp</span><span class="p">(</span><span class="n">subjects</span><span class="p">,</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fetch_hcp</span><span class="p">(</span><span class="n">subjects</span><span class="p">,</span>
               <span class="n">hcp_bucket</span><span class="o">=</span><span class="s1">&#39;hcp-openaccess&#39;</span><span class="p">,</span>
               <span class="n">profile_name</span><span class="o">=</span><span class="s2">&quot;hcp&quot;</span><span class="p">,</span>
               <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -1986,6 +1985,11 @@ document.write(`
 <span class="sd">           a format for organizing and describing outputs of neuroimaging</span>
 <span class="sd">           experiments. Scientific Data, 3::160044. DOI: 10.1038/sdata.2016.44.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">boto3</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">ImportError</span><span class="p">,</span> <span class="ne">ModuleNotFoundError</span><span class="p">):</span>
+        <span class="n">aws_import_msg_error</span><span class="p">(</span><span class="s2">&quot;boto3&quot;</span><span class="p">)</span>
+
     <span class="k">if</span> <span class="n">profile_name</span><span class="p">:</span>
         <span class="n">boto3</span><span class="o">.</span><span class="n">setup_default_session</span><span class="p">(</span><span class="n">profile_name</span><span class="o">=</span><span class="n">profile_name</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">aws_access_key_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">aws_secret_access_key</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -2061,7 +2065,7 @@ document.write(`
     <span class="k">return</span> <span class="n">data_files</span><span class="p">,</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">my_path</span><span class="p">,</span> <span class="n">study</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">fetch_hbn_preproc</span><span class="p">(</span><span class="n">subjects</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fetch_hbn_preproc</span><span class="p">(</span><span class="n">subjects</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Fetches data from the Healthy Brain Network POD2 study [1, 2]_.</span>
 
@@ -2090,6 +2094,13 @@ document.write(`
 <span class="sd">        Scientific Data. 2022;9(1):1-27.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">boto3</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">botocore</span><span class="w"> </span><span class="kn">import</span> <span class="n">UNSIGNED</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">botocore.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">Config</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">ImportError</span><span class="p">,</span> <span class="ne">ModuleNotFoundError</span><span class="p">):</span>
+        <span class="n">aws_import_msg_error</span><span class="p">(</span><span class="s2">&quot;boto3&quot;</span><span class="p">)</span>
+
     <span class="c1"># Anonymous access:</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">client</span><span class="p">(</span><span class="s1">&#39;s3&#39;</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">Config</span><span class="p">(</span><span class="n">signature_version</span><span class="o">=</span><span class="n">UNSIGNED</span><span class="p">))</span>
 
@@ -2156,7 +2167,7 @@ document.write(`
     <span class="k">return</span> <span class="n">data_files</span><span class="p">,</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">my_path</span><span class="p">,</span> <span class="s2">&quot;HBN&quot;</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">fetch_hbn_afq</span><span class="p">(</span><span class="n">subjects</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fetch_hbn_afq</span><span class="p">(</span><span class="n">subjects</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Fetches AFQ derivatives for Healthy Brain Network POD2 study [1, 2]_.</span>
 
@@ -2185,6 +2196,13 @@ document.write(`
 <span class="sd">        Scientific Data. 2022;9(1):1-27.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">boto3</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">botocore</span><span class="w"> </span><span class="kn">import</span> <span class="n">UNSIGNED</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">botocore.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">Config</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">ImportError</span><span class="p">,</span> <span class="ne">ModuleNotFoundError</span><span class="p">):</span>
+        <span class="n">aws_import_msg_error</span><span class="p">(</span><span class="s2">&quot;boto3&quot;</span><span class="p">)</span>
+
     <span class="c1"># Anonymous access:</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">client</span><span class="p">(</span><span class="s1">&#39;s3&#39;</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">Config</span><span class="p">(</span><span class="n">signature_version</span><span class="o">=</span><span class="n">UNSIGNED</span><span class="p">))</span>
 

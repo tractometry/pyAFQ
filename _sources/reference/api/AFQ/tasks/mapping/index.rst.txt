@@ -35,7 +35,7 @@ Attributes
 
    
 
-.. py:function:: export_registered_b0(data_imap, mapping)
+.. py:function:: export_registered_b0(base_fname, data_imap, mapping)
 
    
    full path to a nifti file containing
@@ -59,7 +59,7 @@ Attributes
    ..
        !! processed by numpydoc !!
 
-.. py:function:: template_xform(mapping, data_imap)
+.. py:function:: template_xform(base_fname, dwi_data_file, data_imap, mapping)
 
    
    full path to a nifti file containing
@@ -83,7 +83,7 @@ Attributes
    ..
        !! processed by numpydoc !!
 
-.. py:function:: export_rois(base_fname, output_dir, data_imap, mapping)
+.. py:function:: export_rois(base_fname, output_dir, dwi_data_file, data_imap, mapping)
 
    
    dictionary of full paths to Nifti1Image files of ROIs

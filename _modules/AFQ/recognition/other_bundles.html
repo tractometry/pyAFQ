@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.recognition.other_bundles &#8212; AFQ 1.3.6 documentation</title>
+    <title>AFQ.recognition.other_bundles &#8212; AFQ 2.0 documentation</title>
   
   
   
@@ -132,8 +132,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.6 documentation - Home"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.6 documentation - Home"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 2.0 documentation - Home"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -432,18 +432,18 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for AFQ.recognition.other_bundles</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">nibabel</span> <span class="k">as</span> <span class="nn">nib</span>
-<span class="kn">import</span> <span class="nn">logging</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">nibabel</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
-<span class="kn">import</span> <span class="nn">dipy.tracking.utils</span> <span class="k">as</span> <span class="nn">dtu</span>
-<span class="kn">import</span> <span class="nn">dipy.tracking.streamline</span> <span class="k">as</span> <span class="nn">dts</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">dipy.tracking.utils</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dtu</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">dipy.tracking.streamline</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dts</span>
 
-<span class="kn">from</span> <span class="nn">scipy.spatial.distance</span> <span class="kn">import</span> <span class="n">cdist</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.spatial.distance</span><span class="w"> </span><span class="kn">import</span> <span class="n">cdist</span>
 <div class="viewcode-block" id="logger"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/other_bundles/index.html#AFQ.recognition.other_bundles.logger">[docs]</a><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;AFQ&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="clean_by_other_density_map"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/other_bundles/index.html#AFQ.recognition.other_bundles.clean_by_other_density_map">[docs]</a><span class="k">def</span> <span class="nf">clean_by_other_density_map</span><span class="p">(</span><span class="n">this_bundle_sls</span><span class="p">,</span> <span class="n">other_bundle_sls</span><span class="p">,</span>
+<div class="viewcode-block" id="clean_by_other_density_map"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/other_bundles/index.html#AFQ.recognition.other_bundles.clean_by_other_density_map">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">clean_by_other_density_map</span><span class="p">(</span><span class="n">this_bundle_sls</span><span class="p">,</span> <span class="n">other_bundle_sls</span><span class="p">,</span>
                                <span class="n">node_thresh</span><span class="p">,</span> <span class="n">img</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Cleans a set of streamlines by removing those with significant overlap with </span>
@@ -487,13 +487,13 @@ document.write(`
         <span class="n">other_bundle_sls</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span>
     <span class="n">fiber_probabilities</span> <span class="o">=</span> <span class="n">dts</span><span class="o">.</span><span class="n">values_from_volume</span><span class="p">(</span>
         <span class="n">other_bundle_density_map</span><span class="p">,</span> <span class="n">this_bundle_sls</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
-    <span class="n">cleaned_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">this_bundle_sls</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">bool8</span><span class="p">)</span>
+    <span class="n">cleaned_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">this_bundle_sls</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">ii</span><span class="p">,</span> <span class="n">fp</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">fiber_probabilities</span><span class="p">):</span>
         <span class="n">cleaned_idx</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">node_thresh</span>
     <span class="k">return</span> <span class="n">cleaned_idx</span></div>
 
 
-<div class="viewcode-block" id="clean_relative_to_other_core"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/other_bundles/index.html#AFQ.recognition.other_bundles.clean_relative_to_other_core">[docs]</a><span class="k">def</span> <span class="nf">clean_relative_to_other_core</span><span class="p">(</span><span class="n">core</span><span class="p">,</span> <span class="n">this_fgarray</span><span class="p">,</span> <span class="n">other_fgarray</span><span class="p">,</span> <span class="n">affine</span><span class="p">):</span>
+<div class="viewcode-block" id="clean_relative_to_other_core"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/other_bundles/index.html#AFQ.recognition.other_bundles.clean_relative_to_other_core">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">clean_relative_to_other_core</span><span class="p">(</span><span class="n">core</span><span class="p">,</span> <span class="n">this_fgarray</span><span class="p">,</span> <span class="n">other_fgarray</span><span class="p">,</span> <span class="n">affine</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Removes streamlines from a set that lie on the opposite side of a specified </span>
 <span class="sd">    core axis compared to another set of streamlines.</span>
@@ -537,7 +537,7 @@ document.write(`
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">other_fgarray</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Cleaning relative to core skipped, no core found.&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">this_fgarray</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">bool8</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">this_fgarray</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">)</span>
 
     <span class="c1"># find dimension of core axis</span>
     <span class="n">orientation</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">orientations</span><span class="o">.</span><span class="n">aff2axcodes</span><span class="p">(</span><span class="n">affine</span><span class="p">)</span>
@@ -568,11 +568,14 @@ document.write(`
             <span class="n">core_direc</span> <span class="o">=</span> <span class="n">direction_signs</span><span class="p">[</span><span class="n">core_upper</span><span class="p">]</span>
             <span class="k">break</span>
 
+    <span class="k">if</span> <span class="n">affine</span><span class="p">[</span><span class="n">core_axis</span><span class="p">,</span> <span class="n">core_axis</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">core_direc</span> <span class="o">=</span> <span class="o">-</span><span class="n">core_direc</span>
+
     <span class="k">if</span> <span class="n">core_axis</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid core axis: </span><span class="si">{</span><span class="n">core</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="n">core_bundle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">other_fgarray</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">cleaned_idx_core</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">this_fgarray</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">bool8</span><span class="p">)</span>
+    <span class="n">cleaned_idx_core</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">this_fgarray</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">ii</span><span class="p">,</span> <span class="n">sl</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">this_fgarray</span><span class="p">):</span>
         <span class="n">dist_matrix</span> <span class="o">=</span> <span class="n">cdist</span><span class="p">(</span><span class="n">core_bundle</span><span class="p">,</span> <span class="n">sl</span><span class="p">,</span> <span class="s1">&#39;sqeuclidean&#39;</span><span class="p">)</span>
         <span class="n">min_dist_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unravel_index</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">dist_matrix</span><span class="p">),</span>
@@ -580,8 +583,7 @@ document.write(`
         <span class="n">closest_core</span> <span class="o">=</span> <span class="n">core_bundle</span><span class="p">[</span><span class="n">min_dist_indices</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">core_axis</span><span class="p">]</span>
         <span class="n">closest_sl</span> <span class="o">=</span> <span class="n">sl</span><span class="p">[</span><span class="n">min_dist_indices</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">core_axis</span><span class="p">]</span>
 
-        <span class="n">cleaned_idx_core</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="n">closest_sl</span> <span class="o">&lt;</span> <span class="n">closest_core</span> <span class="k">if</span> <span class="n">core_direc</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span> \
-            <span class="k">else</span> <span class="n">closest_sl</span> <span class="o">&gt;</span> <span class="n">closest_core</span>
+        <span class="n">cleaned_idx_core</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="n">core_direc</span> <span class="o">*</span> <span class="p">(</span><span class="n">closest_sl</span> <span class="o">-</span> <span class="n">closest_core</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
     <span class="k">return</span> <span class="n">cleaned_idx_core</span></div>
 </pre></div>
 

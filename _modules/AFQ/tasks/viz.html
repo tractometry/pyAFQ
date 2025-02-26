@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.tasks.viz &#8212; AFQ 1.3.6 documentation</title>
+    <title>AFQ.tasks.viz &#8212; AFQ 2.0 documentation</title>
   
   
   
@@ -132,8 +132,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.6 documentation - Home"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.6 documentation - Home"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 2.0 documentation - Home"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -432,30 +432,30 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for AFQ.tasks.viz</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">nibabel</span> <span class="k">as</span> <span class="nn">nib</span>
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">os.path</span> <span class="k">as</span> <span class="nn">op</span>
-<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">nibabel</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">op</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">time</span><span class="w"> </span><span class="kn">import</span> <span class="n">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 
-<span class="kn">import</span> <span class="nn">pimms</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pimms</span>
 
-<span class="kn">from</span> <span class="nn">dipy.align</span> <span class="kn">import</span> <span class="n">resample</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dipy.align</span><span class="w"> </span><span class="kn">import</span> <span class="n">resample</span>
 
-<span class="kn">from</span> <span class="nn">AFQ.tasks.utils</span> <span class="kn">import</span> <span class="n">get_fname</span><span class="p">,</span> <span class="n">with_name</span><span class="p">,</span> <span class="n">str_to_desc</span>
-<span class="kn">import</span> <span class="nn">AFQ.utils.volume</span> <span class="k">as</span> <span class="nn">auv</span>
-<span class="kn">from</span> <span class="nn">AFQ.viz.utils</span> <span class="kn">import</span> <span class="n">Viz</span>
-<span class="kn">import</span> <span class="nn">AFQ.utils.streamlines</span> <span class="k">as</span> <span class="nn">aus</span>
-<span class="kn">from</span> <span class="nn">AFQ.utils.path</span> <span class="kn">import</span> <span class="n">write_json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.tasks.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_fname</span><span class="p">,</span> <span class="n">with_name</span><span class="p">,</span> <span class="n">str_to_desc</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">AFQ.utils.volume</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">auv</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.viz.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">Viz</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">AFQ.utils.streamlines</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">aus</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.utils.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">write_json</span><span class="p">,</span> <span class="n">drop_extension</span>
 
-<span class="kn">from</span> <span class="nn">plotly.subplots</span> <span class="kn">import</span> <span class="n">make_subplots</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">plotly.subplots</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_subplots</span>
 
 <div class="viewcode-block" id="logger"><a class="viewcode-back" href="../../../reference/api/AFQ/tasks/viz/index.html#AFQ.tasks.viz.logger">[docs]</a><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;AFQ&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="_viz_prepare_vol"><a class="viewcode-back" href="../../../reference/api/AFQ/tasks/viz/index.html#AFQ.tasks.viz._viz_prepare_vol">[docs]</a><span class="k">def</span> <span class="nf">_viz_prepare_vol</span><span class="p">(</span><span class="n">vol</span><span class="p">,</span> <span class="n">xform</span><span class="p">,</span> <span class="n">mapping</span><span class="p">,</span> <span class="n">scalar_dict</span><span class="p">):</span>
+<div class="viewcode-block" id="_viz_prepare_vol"><a class="viewcode-back" href="../../../reference/api/AFQ/tasks/viz/index.html#AFQ.tasks.viz._viz_prepare_vol">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">_viz_prepare_vol</span><span class="p">(</span><span class="n">vol</span><span class="p">,</span> <span class="n">xform</span><span class="p">,</span> <span class="n">mapping</span><span class="p">,</span> <span class="n">scalar_dict</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">vol</span> <span class="ow">in</span> <span class="n">scalar_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
         <span class="n">vol</span> <span class="o">=</span> <span class="n">scalar_dict</span><span class="p">[</span><span class="n">vol</span><span class="p">]</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">vol</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
@@ -470,13 +470,11 @@ document.write(`
 
 
 <span class="nd">@pimms</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;all_bundles_figure&quot;</span><span class="p">)</span>
-<div class="viewcode-block" id="viz_bundles"><a class="viewcode-back" href="../../../reference/api/AFQ/tasks/viz/index.html#AFQ.tasks.viz.viz_bundles">[docs]</a><span class="k">def</span> <span class="nf">viz_bundles</span><span class="p">(</span><span class="n">base_fname</span><span class="p">,</span>
+<div class="viewcode-block" id="viz_bundles"><a class="viewcode-back" href="../../../reference/api/AFQ/tasks/viz/index.html#AFQ.tasks.viz.viz_bundles">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">viz_bundles</span><span class="p">(</span><span class="n">base_fname</span><span class="p">,</span>
                 <span class="n">viz_backend</span><span class="p">,</span>
                 <span class="n">data_imap</span><span class="p">,</span>
                 <span class="n">mapping_imap</span><span class="p">,</span>
                 <span class="n">segmentation_imap</span><span class="p">,</span>
-                <span class="n">tracking_params</span><span class="p">,</span>
-                <span class="n">segmentation_params</span><span class="p">,</span>
                 <span class="n">best_scalar</span><span class="p">,</span>
                 <span class="n">sbv_lims_bundles</span><span class="o">=</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span>
                 <span class="n">volume_opacity_bundles</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
@@ -552,24 +550,14 @@ document.write(`
     <span class="n">fname</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="s2">&quot;no_gif&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">viz_backend</span><span class="o">.</span><span class="n">backend</span><span class="p">:</span>
         <span class="n">fname</span> <span class="o">=</span> <span class="n">get_fname</span><span class="p">(</span>
-            <span class="n">base_fname</span><span class="p">,</span> <span class="s1">&#39;_desc-viz_dwi.gif&#39;</span><span class="p">,</span>
-            <span class="n">tracking_params</span><span class="o">=</span><span class="n">tracking_params</span><span class="p">,</span>
-            <span class="n">segmentation_params</span><span class="o">=</span><span class="n">segmentation_params</span><span class="p">)</span>
+            <span class="n">base_fname</span><span class="p">,</span> <span class="s1">&#39;.gif&#39;</span><span class="p">,</span> <span class="s2">&quot;..&quot;</span><span class="p">)</span>
 
         <span class="n">viz_backend</span><span class="o">.</span><span class="n">create_gif</span><span class="p">(</span><span class="n">figure</span><span class="p">,</span> <span class="n">fname</span><span class="p">)</span>
     <span class="k">if</span> <span class="s2">&quot;plotly&quot;</span> <span class="ow">in</span> <span class="n">viz_backend</span><span class="o">.</span><span class="n">backend</span><span class="p">:</span>
         <span class="n">fname</span> <span class="o">=</span> <span class="n">get_fname</span><span class="p">(</span>
-            <span class="n">base_fname</span><span class="p">,</span> <span class="s1">&#39;_desc-viz_dwi.html&#39;</span><span class="p">,</span>
-            <span class="n">tracking_params</span><span class="o">=</span><span class="n">tracking_params</span><span class="p">,</span>
-            <span class="n">segmentation_params</span><span class="o">=</span><span class="n">segmentation_params</span><span class="p">)</span>
+            <span class="n">base_fname</span><span class="p">,</span> <span class="s1">&#39;.html&#39;</span><span class="p">,</span> <span class="s2">&quot;..&quot;</span><span class="p">)</span>
 
         <span class="n">figure</span><span class="o">.</span><span class="n">write_html</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
-    <span class="n">meta_fname</span> <span class="o">=</span> <span class="n">get_fname</span><span class="p">(</span>
-        <span class="n">base_fname</span><span class="p">,</span> <span class="s1">&#39;_desc-viz_dwi.json&#39;</span><span class="p">,</span>
-        <span class="n">tracking_params</span><span class="o">=</span><span class="n">tracking_params</span><span class="p">,</span>
-        <span class="n">segmentation_params</span><span class="o">=</span><span class="n">segmentation_params</span><span class="p">)</span>
-    <span class="n">meta</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">Timing</span><span class="o">=</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span>
-    <span class="n">write_json</span><span class="p">(</span><span class="n">meta_fname</span><span class="p">,</span> <span class="n">meta</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">fname</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">figure</span>
     <span class="k">else</span><span class="p">:</span>
@@ -577,14 +565,12 @@ document.write(`
 
 
 <span class="nd">@pimms</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;indiv_bundles_figures&quot;</span><span class="p">)</span>
-<div class="viewcode-block" id="viz_indivBundle"><a class="viewcode-back" href="../../../reference/api/AFQ/tasks/viz/index.html#AFQ.tasks.viz.viz_indivBundle">[docs]</a><span class="k">def</span> <span class="nf">viz_indivBundle</span><span class="p">(</span><span class="n">base_fname</span><span class="p">,</span>
+<div class="viewcode-block" id="viz_indivBundle"><a class="viewcode-back" href="../../../reference/api/AFQ/tasks/viz/index.html#AFQ.tasks.viz.viz_indivBundle">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">viz_indivBundle</span><span class="p">(</span><span class="n">base_fname</span><span class="p">,</span>
                     <span class="n">output_dir</span><span class="p">,</span>
                     <span class="n">viz_backend</span><span class="p">,</span>
                     <span class="n">data_imap</span><span class="p">,</span>
                     <span class="n">mapping_imap</span><span class="p">,</span>
                     <span class="n">segmentation_imap</span><span class="p">,</span>
-                    <span class="n">tracking_params</span><span class="p">,</span>
-                    <span class="n">segmentation_params</span><span class="p">,</span>
                     <span class="n">best_scalar</span><span class="p">,</span>
                     <span class="n">sbv_lims_indiv</span><span class="o">=</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span>
                     <span class="n">volume_opacity_indiv</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
@@ -678,8 +664,8 @@ document.write(`
                 <span class="n">pp</span> <span class="o">=</span> <span class="n">resample</span><span class="p">(</span>
                     <span class="n">pp</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">(),</span>
                     <span class="n">reg_template</span><span class="p">,</span>
-                    <span class="n">pp</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span>
-                    <span class="n">reg_template</span><span class="o">.</span><span class="n">affine</span><span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
+                    <span class="n">moving_affine</span><span class="o">=</span><span class="n">pp</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span>
+                    <span class="n">static_affine</span><span class="o">=</span><span class="n">reg_template</span><span class="o">.</span><span class="n">affine</span><span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
 
                 <span class="n">atlas_roi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">pp</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
                 <span class="n">atlas_roi</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">pp</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">1</span>
@@ -706,48 +692,34 @@ document.write(`
                 <span class="n">interact</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                 <span class="n">figure</span><span class="o">=</span><span class="n">figure</span><span class="p">)</span>
 
-        <span class="n">roi_dir</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="s1">&#39;viz_bundles&#39;</span><span class="p">)</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">roi_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">base_fname</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">op</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">base_fname</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
         <span class="n">figures</span><span class="p">[</span><span class="n">bundle_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">figure</span>
         <span class="k">if</span> <span class="s2">&quot;no_gif&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">viz_backend</span><span class="o">.</span><span class="n">backend</span><span class="p">:</span>
-            <span class="n">fname</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">split</span><span class="p">(</span>
-                <span class="n">get_fname</span><span class="p">(</span>
-                    <span class="n">base_fname</span><span class="p">,</span>
-                    <span class="sa">f</span><span class="s1">&#39;_desc-</span><span class="si">{</span><span class="n">str_to_desc</span><span class="p">(</span><span class="n">bundle_name</span><span class="p">)</span><span class="si">}</span><span class="s1">viz&#39;</span>
-                    <span class="sa">f</span><span class="s1">&#39;_dwi.gif&#39;</span><span class="p">,</span>
-                    <span class="n">tracking_params</span><span class="o">=</span><span class="n">tracking_params</span><span class="p">,</span>
-                    <span class="n">segmentation_params</span><span class="o">=</span><span class="n">segmentation_params</span><span class="p">))</span>
+            <span class="n">fname</span> <span class="o">=</span> <span class="n">get_fname</span><span class="p">(</span>
+                <span class="n">base_fname</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s1">&#39;_desc-</span><span class="si">{</span><span class="n">str_to_desc</span><span class="p">(</span><span class="n">bundle_name</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span>
+                <span class="sa">f</span><span class="s1">&#39;_tractography.gif&#39;</span><span class="p">,</span>
+                <span class="s2">&quot;viz_bundles&quot;</span><span class="p">)</span>
 
-            <span class="n">fname</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">roi_dir</span><span class="p">,</span> <span class="n">fname</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
             <span class="n">viz_backend</span><span class="o">.</span><span class="n">create_gif</span><span class="p">(</span><span class="n">figure</span><span class="p">,</span> <span class="n">fname</span><span class="p">)</span>
         <span class="k">if</span> <span class="s2">&quot;plotly&quot;</span> <span class="ow">in</span> <span class="n">viz_backend</span><span class="o">.</span><span class="n">backend</span><span class="p">:</span>
-            <span class="n">roi_dir</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="s1">&#39;viz_bundles&#39;</span><span class="p">)</span>
-            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">roi_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-            <span class="n">fname</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">split</span><span class="p">(</span>
-                <span class="n">get_fname</span><span class="p">(</span>
-                    <span class="n">base_fname</span><span class="p">,</span>
-                    <span class="sa">f</span><span class="s1">&#39;_desc-</span><span class="si">{</span><span class="n">str_to_desc</span><span class="p">(</span><span class="n">bundle_name</span><span class="p">)</span><span class="si">}</span><span class="s1">viz&#39;</span>
-                    <span class="sa">f</span><span class="s1">&#39;_dwi.html&#39;</span><span class="p">,</span>
-                    <span class="n">tracking_params</span><span class="o">=</span><span class="n">tracking_params</span><span class="p">,</span>
-                    <span class="n">segmentation_params</span><span class="o">=</span><span class="n">segmentation_params</span><span class="p">))</span>
+            <span class="n">fname</span> <span class="o">=</span> <span class="n">get_fname</span><span class="p">(</span>
+                <span class="n">base_fname</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s1">&#39;_desc-</span><span class="si">{</span><span class="n">str_to_desc</span><span class="p">(</span><span class="n">bundle_name</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span>
+                <span class="sa">f</span><span class="s1">&#39;_tractography.html&#39;</span><span class="p">,</span>
+                <span class="s2">&quot;viz_bundles&quot;</span><span class="p">)</span>
 
-            <span class="n">fname</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">roi_dir</span><span class="p">,</span> <span class="n">fname</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
             <span class="n">figure</span><span class="o">.</span><span class="n">write_html</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
 
             <span class="c1"># also do the core visualizations when using the plotly backend</span>
-            <span class="n">core_dir</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="s1">&#39;viz_core_bundles&#39;</span><span class="p">)</span>
-            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">core_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="n">indiv_profile</span> <span class="o">=</span> <span class="n">profiles</span><span class="p">[</span>
                 <span class="n">profiles</span><span class="o">.</span><span class="n">tractID</span> <span class="o">==</span> <span class="n">bundle_name</span><span class="p">][</span><span class="n">best_scalar</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">indiv_profile</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="n">fname</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">split</span><span class="p">(</span>
-                    <span class="n">get_fname</span><span class="p">(</span>
-                        <span class="n">base_fname</span><span class="p">,</span>
-                        <span class="sa">f</span><span class="s1">&#39;_desc-</span><span class="si">{</span><span class="n">str_to_desc</span><span class="p">(</span><span class="n">bundle_name</span><span class="p">)</span><span class="si">}</span><span class="s1">viz&#39;</span>
-                        <span class="sa">f</span><span class="s1">&#39;_dwi.html&#39;</span><span class="p">,</span>
-                        <span class="n">tracking_params</span><span class="o">=</span><span class="n">tracking_params</span><span class="p">,</span>
-                        <span class="n">segmentation_params</span><span class="o">=</span><span class="n">segmentation_params</span><span class="p">))</span>
-                <span class="n">fname</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">core_dir</span><span class="p">,</span> <span class="n">fname</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="n">fname</span> <span class="o">=</span> <span class="n">get_fname</span><span class="p">(</span>
+                    <span class="n">base_fname</span><span class="p">,</span>
+                    <span class="sa">f</span><span class="s1">&#39;_desc-</span><span class="si">{</span><span class="n">str_to_desc</span><span class="p">(</span><span class="n">bundle_name</span><span class="p">)</span><span class="si">}</span><span class="s1">Core&#39;</span>
+                    <span class="sa">f</span><span class="s1">&#39;_tractography.html&#39;</span><span class="p">,</span>
+                    <span class="s2">&quot;viz_core_bundles&quot;</span><span class="p">)</span>
                 <span class="n">core_fig</span> <span class="o">=</span> <span class="n">make_subplots</span><span class="p">(</span>
                     <span class="n">rows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                     <span class="n">specs</span><span class="o">=</span><span class="p">[[{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;scene&quot;</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;scene&quot;</span><span class="p">}]])</span>
@@ -778,54 +750,44 @@ document.write(`
                     <span class="n">figure</span><span class="o">=</span><span class="n">core_fig</span><span class="p">,</span>
                     <span class="n">include_profile</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
                 <span class="n">core_fig</span><span class="o">.</span><span class="n">write_html</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
-    <span class="n">meta_fname</span> <span class="o">=</span> <span class="n">get_fname</span><span class="p">(</span>
-        <span class="n">base_fname</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;_desc-</span><span class="si">{</span><span class="n">str_to_desc</span><span class="p">(</span><span class="n">bundle_name</span><span class="p">)</span><span class="si">}</span><span class="s1">viz_dwi&#39;</span><span class="p">,</span>
-        <span class="n">tracking_params</span><span class="o">=</span><span class="n">tracking_params</span><span class="p">,</span>
-        <span class="n">segmentation_params</span><span class="o">=</span><span class="n">segmentation_params</span><span class="p">)</span>
+    <span class="n">meta_fname</span> <span class="o">=</span> <span class="n">drop_extension</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.json&#39;</span>
     <span class="n">meta</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">Timing</span><span class="o">=</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span>
     <span class="n">write_json</span><span class="p">(</span><span class="n">meta_fname</span><span class="p">,</span> <span class="n">meta</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;indiv_bundles_figures&quot;</span><span class="p">:</span> <span class="n">figures</span><span class="p">}</span></div>
 
 
 <span class="nd">@pimms</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;tract_profile_plots&quot;</span><span class="p">)</span>
-<div class="viewcode-block" id="plot_tract_profiles"><a class="viewcode-back" href="../../../reference/api/AFQ/tasks/viz/index.html#AFQ.tasks.viz.plot_tract_profiles">[docs]</a><span class="k">def</span> <span class="nf">plot_tract_profiles</span><span class="p">(</span><span class="n">base_fname</span><span class="p">,</span> <span class="n">scalars</span><span class="p">,</span> <span class="n">tracking_params</span><span class="p">,</span>
-                        <span class="n">segmentation_params</span><span class="p">,</span> <span class="n">segmentation_imap</span><span class="p">):</span>
+<div class="viewcode-block" id="plot_tract_profiles"><a class="viewcode-back" href="../../../reference/api/AFQ/tasks/viz/index.html#AFQ.tasks.viz.plot_tract_profiles">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_tract_profiles</span><span class="p">(</span><span class="n">base_fname</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">,</span> <span class="n">scalars</span><span class="p">,</span> <span class="n">segmentation_imap</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    list of full paths to png files,</span>
 <span class="sd">    where files contain plots of the tract profiles</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">from</span> <span class="nn">AFQ.viz.plot</span> <span class="kn">import</span> <span class="n">visualize_tract_profiles</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.viz.plot</span><span class="w"> </span><span class="kn">import</span> <span class="n">visualize_tract_profiles</span>
     <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
     <span class="n">fnames</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">base_fname</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">op</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">base_fname</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
     <span class="k">for</span> <span class="n">scalar</span> <span class="ow">in</span> <span class="n">scalars</span><span class="p">:</span>
         <span class="n">this_scalar</span> <span class="o">=</span> <span class="n">scalar</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">scalar</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">scalar</span><span class="o">.</span><span class="n">get_name</span><span class="p">()</span>
         <span class="n">fname</span> <span class="o">=</span> <span class="n">get_fname</span><span class="p">(</span>
             <span class="n">base_fname</span><span class="p">,</span>
-            <span class="sa">f</span><span class="s1">&#39;_model-</span><span class="si">{</span><span class="n">str_to_desc</span><span class="p">(</span><span class="n">this_scalar</span><span class="p">)</span><span class="si">}</span><span class="s1">_desc-vizprofile_dwi&#39;</span><span class="p">,</span>
-            <span class="n">tracking_params</span><span class="o">=</span><span class="n">tracking_params</span><span class="p">,</span>
-            <span class="n">segmentation_params</span><span class="o">=</span><span class="n">segmentation_params</span><span class="p">)</span>
-        <span class="n">tract_profiles_folder</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-            <span class="n">op</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">fname</span><span class="p">),</span>
-            <span class="s2">&quot;tract_profile_plots&quot;</span><span class="p">)</span>
-        <span class="n">fname</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-            <span class="n">tract_profiles_folder</span><span class="p">,</span>
-            <span class="n">op</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">))</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">tract_profiles_folder</span><span class="p">),</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="sa">f</span><span class="s1">&#39;_param-</span><span class="si">{</span><span class="n">str_to_desc</span><span class="p">(</span><span class="n">this_scalar</span><span class="p">)</span><span class="si">}</span><span class="s1">_desc-alltracts_tractography&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;tract_profile_plots&#39;</span><span class="p">)</span>
 
         <span class="n">visualize_tract_profiles</span><span class="p">(</span>
             <span class="n">segmentation_imap</span><span class="p">[</span><span class="s2">&quot;profiles&quot;</span><span class="p">],</span>
             <span class="n">scalar</span><span class="o">=</span><span class="n">this_scalar</span><span class="p">,</span>
             <span class="n">file_name</span><span class="o">=</span><span class="n">fname</span><span class="p">,</span>
             <span class="n">n_boot</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-        <span class="n">fnames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fname</span> <span class="o">+</span> <span class="s2">&quot;.png&quot;</span><span class="p">)</span>
-        <span class="n">meta_fname</span> <span class="o">=</span> <span class="n">fname</span> <span class="o">+</span> <span class="s2">&quot;.json&quot;</span>
+        <span class="n">fnames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+
+        <span class="n">meta_fname</span> <span class="o">=</span> <span class="n">drop_extension</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.json&#39;</span>
         <span class="n">meta</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">Timing</span><span class="o">=</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span>
         <span class="n">write_json</span><span class="p">(</span><span class="n">meta_fname</span><span class="p">,</span> <span class="n">meta</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">fnames</span></div>
 
 
 <span class="nd">@pimms</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;viz_backend&quot;</span><span class="p">)</span>
-<div class="viewcode-block" id="init_viz_backend"><a class="viewcode-back" href="../../../reference/api/AFQ/tasks/viz/index.html#AFQ.tasks.viz.init_viz_backend">[docs]</a><span class="k">def</span> <span class="nf">init_viz_backend</span><span class="p">(</span><span class="n">viz_backend_spec</span><span class="o">=</span><span class="s2">&quot;plotly_no_gif&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="init_viz_backend"><a class="viewcode-back" href="../../../reference/api/AFQ/tasks/viz/index.html#AFQ.tasks.viz.init_viz_backend">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">init_viz_backend</span><span class="p">(</span><span class="n">viz_backend_spec</span><span class="o">=</span><span class="s2">&quot;plotly_no_gif&quot;</span><span class="p">,</span>
                      <span class="n">virtual_frame_buffer</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    An instance of the `AFQ.viz.utils.viz_backend` class.</span>
@@ -850,14 +812,14 @@ document.write(`
             <span class="s2">&quot;viz_backend_spec must contain either &#39;fury&#39; or &#39;plotly&#39;&quot;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">virtual_frame_buffer</span><span class="p">:</span>
-        <span class="kn">from</span> <span class="nn">xvfbwrapper</span> <span class="kn">import</span> <span class="n">Xvfb</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">xvfbwrapper</span><span class="w"> </span><span class="kn">import</span> <span class="n">Xvfb</span>
         <span class="n">vdisplay</span> <span class="o">=</span> <span class="n">Xvfb</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1280</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1280</span><span class="p">)</span>
         <span class="n">vdisplay</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 
     <span class="k">return</span> <span class="n">Viz</span><span class="p">(</span><span class="n">backend</span><span class="o">=</span><span class="n">viz_backend_spec</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span></div>
 
 
-<div class="viewcode-block" id="get_viz_plan"><a class="viewcode-back" href="../../../reference/api/AFQ/tasks/viz/index.html#AFQ.tasks.viz.get_viz_plan">[docs]</a><span class="k">def</span> <span class="nf">get_viz_plan</span><span class="p">(</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="get_viz_plan"><a class="viewcode-back" href="../../../reference/api/AFQ/tasks/viz/index.html#AFQ.tasks.viz.get_viz_plan">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_viz_plan</span><span class="p">(</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="n">viz_tasks</span> <span class="o">=</span> <span class="n">with_name</span><span class="p">([</span>
         <span class="n">plot_tract_profiles</span><span class="p">,</span> <span class="n">viz_bundles</span><span class="p">,</span> <span class="n">viz_indivBundle</span><span class="p">,</span> <span class="n">init_viz_backend</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">pimms</span><span class="o">.</span><span class="n">plan</span><span class="p">(</span><span class="o">**</span><span class="n">viz_tasks</span><span class="p">)</span></div>

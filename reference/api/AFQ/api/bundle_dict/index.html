@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.api.bundle_dict &#8212; AFQ 1.3.6 documentation</title>
+    <title>AFQ.api.bundle_dict &#8212; AFQ 2.0 documentation</title>
   
   
   
@@ -134,8 +134,8 @@
       
     
     
-    <img src="../../../../../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.6 documentation - Home"/>
-    <script>document.write(`<img src="../../../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.6 documentation - Home"/>`);</script>
+    <img src="../../../../../_static/logo.png" class="logo__image only-light" alt="AFQ 2.0 documentation - Home"/>
+    <script>document.write(`<img src="../../../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -753,34 +753,13 @@ of a BundleDict.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="AFQ.api.bundle_dict.BundleDict.apply_to_rois">
-<span class="sig-name descname"><span class="pre">apply_to_rois</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dry_run</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">apply_to_recobundles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/api/bundle_dict.html#BundleDict.apply_to_rois"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.api.bundle_dict.BundleDict.apply_to_rois" title="Permalink to this definition">#</a></dt>
-<dd><p>Applies some transformation to all ROIs (include, exclude, end, start)
-and the prob_map in a given bundle.</p>
+<span class="sig-name descname"><span class="pre">apply_to_rois</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b_name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/api/bundle_dict.html#BundleDict.apply_to_rois"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.api.bundle_dict.BundleDict.apply_to_rois" title="Permalink to this definition">#</a></dt>
+<dd><p>See: AFQ.api.bundle_dict.apply_to_roi_dict</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>b_name</strong><span class="classifier">name</span></dt><dd><p>bundle name of bundle whose ROIs will be transformed.</p>
 </dd>
-<dt><strong>func</strong><span class="classifier">function</span></dt><dd><p>function whose first argument must be a Nifti1Image and which
-returns a Nifti1Image</p>
-</dd>
-<dt><strong>dry_run</strong><span class="classifier">bool</span></dt><dd><p>Whether to actually apply changes returned by <cite>func</cite> to the ROIs.
-If has_return is False, dry_run is not used.</p>
-</dd>
-<dt><strong>apply_to_recobundles</strong><span class="classifier">bool, optional</span></dt><dd><p>Whether to apply the transformation to recobundles
-TRKs as well.
-Default: False</p>
-</dd>
-<dt><strong>*args</strong></dt><dd><p>Additional arguments for func</p>
-</dd>
-<dt><strong>**kwargs</strong></dt><dd><p>Optional arguments for func</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt>A dictionary where keys are</dt><dd></dd>
-<dt>the roi type and values are the transformed ROIs.</dt><dd></dd>
 </dl>
 </dd>
 </dl>
@@ -814,7 +793,7 @@ depending on its “space” attribute.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="AFQ.api.bundle_dict.BundleDict.transform_rois">
-<span class="sig-name descname"><span class="pre">transform_rois</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bundle_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapping</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_affine</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_fname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">apply_to_recobundles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/api/bundle_dict.html#BundleDict.transform_rois"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.api.bundle_dict.BundleDict.transform_rois" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">transform_rois</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bundle_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapping</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_affine</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_fname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_space</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'subject'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">apply_to_recobundles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/api/bundle_dict.html#BundleDict.transform_rois"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.api.bundle_dict.BundleDict.transform_rois" title="Permalink to this definition">#</a></dt>
 <dd><p>Get the bundle definition with transformed ROIs
 for a given bundle into a
 given subject space using a given mapping.
@@ -833,6 +812,10 @@ definition without transformation.</p>
 <dt><strong>base_fname</strong><span class="classifier">str, optional</span></dt><dd><p>Base file path to save ROIs too. Additional BIDS
 descriptors will be added to this file path. If None,
 do not save the ROIs.</p>
+</dd>
+<dt><strong>to_space</strong><span class="classifier">str, optional</span></dt><dd><p>Name for space for exported ROIs. Only used if base_fname
+is not None.
+Default: “subject”</p>
 </dd>
 <dt><strong>apply_to_recobundles</strong><span class="classifier">bool, optional</span></dt><dd><p>Whether to apply the transformation to recobundles
 TRKs as well.

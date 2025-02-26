@@ -96,8 +96,8 @@ Attributes
    
    DWI data as an ndarray for selected b values,
    A DIPY GradientTable with all the gradient information,
-   and DWI data in a Nifti1Image,
-   and the affine transformation of the DWI data.
+   DWI data in a Nifti1Image,
+   and the affine transformation of the DWI data
 
 
    :Parameters:
@@ -1581,11 +1581,12 @@ Attributes
    ..
        !! processed by numpydoc !!
 
-.. py:function:: get_bundle_dict(segmentation_params, brain_mask, b0, bundle_info=None, reg_template_spec='mni_T1')
+.. py:function:: get_bundle_dict(segmentation_params, brain_mask, b0, bundle_info=None, reg_template_spec='mni_T1', reg_template_space_name='mni')
 
    
    Dictionary defining the different bundles to be segmented,
-   and a Nifti1Image containing the template for registration
+   and a Nifti1Image containing the template for registration,
+   and the name of the template space for file outputs
 
 
    :Parameters:
@@ -1606,6 +1607,10 @@ Attributes
            If "hcp_atlas" is used, slr registration will be used
            and reg_subject should be "subject_sls".
            Default: "mni_T1"
+
+       **reg_template_space_name** : str, optional
+           Name to use in file names for the template space.
+           Default: "mni"
 
 
 

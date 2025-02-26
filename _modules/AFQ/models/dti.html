@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.models.dti &#8212; AFQ 1.3.6 documentation</title>
+    <title>AFQ.models.dti &#8212; AFQ 2.0 documentation</title>
   
   
   
@@ -132,8 +132,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.6 documentation - Home"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.6 documentation - Home"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 2.0 documentation - Home"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -432,21 +432,21 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for AFQ.models.dti</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">os.path</span> <span class="k">as</span> <span class="nn">op</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">op</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">nibabel</span> <span class="k">as</span> <span class="nn">nib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">nibabel</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nib</span>
 
-<span class="kn">from</span> <span class="nn">dipy.reconst</span> <span class="kn">import</span> <span class="n">dti</span>
-<span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">gamma</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dipy.reconst</span><span class="w"> </span><span class="kn">import</span> <span class="n">dti</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.special</span><span class="w"> </span><span class="kn">import</span> <span class="n">gamma</span>
 
-<span class="kn">import</span> <span class="nn">AFQ.utils.models</span> <span class="k">as</span> <span class="nn">ut</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">AFQ.utils.models</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ut</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;fit_dti&quot;</span><span class="p">,</span> <span class="s2">&quot;predict&quot;</span><span class="p">]</span>
 
 
-<span class="k">def</span> <span class="nf">noise_from_b0</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">gtab</span><span class="p">,</span> <span class="n">bvals</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">b0_threshold</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">noise_from_b0</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">gtab</span><span class="p">,</span> <span class="n">bvals</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">b0_threshold</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Coped from vistasoft&#39;s dtiComputeImageNoise</span>
 <span class="sd">    https://github.com/vistalab/vistasoft</span>
@@ -505,7 +505,7 @@ document.write(`
     <span class="k">return</span> <span class="n">sigma</span> <span class="o">+</span> <span class="n">bias</span>
 
 
-<span class="k">def</span> <span class="nf">_fit</span><span class="p">(</span><span class="n">gtab</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_fit</span><span class="p">(</span><span class="n">gtab</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">sigma</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">dtimodel</span> <span class="o">=</span> <span class="n">dti</span><span class="o">.</span><span class="n">TensorModel</span><span class="p">(</span><span class="n">gtab</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
@@ -516,7 +516,7 @@ document.write(`
     <span class="k">return</span> <span class="n">dtimodel</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="fit_dti"><a class="viewcode-back" href="../../../reference/api/AFQ/models/dti/index.html#AFQ.models.dti.fit_dti">[docs]</a><span class="k">def</span> <span class="nf">fit_dti</span><span class="p">(</span><span class="n">data_files</span><span class="p">,</span> <span class="n">bval_files</span><span class="p">,</span> <span class="n">bvec_files</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<div class="viewcode-block" id="fit_dti"><a class="viewcode-back" href="../../../reference/api/AFQ/models/dti/index.html#AFQ.models.dti.fit_dti">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">fit_dti</span><span class="p">(</span><span class="n">data_files</span><span class="p">,</span> <span class="n">bval_files</span><span class="p">,</span> <span class="n">bvec_files</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
             <span class="n">out_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">file_prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">b0_threshold</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Fit the DTI model using default settings, save files with derived maps.</span>
@@ -580,7 +580,7 @@ document.write(`
     <span class="k">return</span> <span class="n">file_paths</span></div>
 
 
-<div class="viewcode-block" id="predict"><a class="viewcode-back" href="../../../reference/api/AFQ/models/dti/index.html#AFQ.models.dti.predict">[docs]</a><span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="n">params_file</span><span class="p">,</span> <span class="n">gtab</span><span class="p">,</span> <span class="n">S0_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">out_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="predict"><a class="viewcode-back" href="../../../reference/api/AFQ/models/dti/index.html#AFQ.models.dti.predict">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">params_file</span><span class="p">,</span> <span class="n">gtab</span><span class="p">,</span> <span class="n">S0_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">out_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create a signal prediction from DTI params.</span>
 

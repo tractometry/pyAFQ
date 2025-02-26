@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.recognition.recognize &#8212; AFQ 1.3.6 documentation</title>
+    <title>AFQ.recognition.recognize &#8212; AFQ 2.0 documentation</title>
   
   
   
@@ -132,8 +132,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.6 documentation - Home"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.6 documentation - Home"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 2.0 documentation - Home"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -432,24 +432,24 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for AFQ.recognition.recognize</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">os.path</span> <span class="k">as</span> <span class="nn">op</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">logging</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">op</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
-<span class="kn">import</span> <span class="nn">dipy.tracking.streamlinespeed</span> <span class="k">as</span> <span class="nn">dps</span>
-<span class="kn">from</span> <span class="nn">dipy.io.stateful_tractogram</span> <span class="kn">import</span> <span class="n">StatefulTractogram</span><span class="p">,</span> <span class="n">Space</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">dipy.tracking.streamlinespeed</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dps</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dipy.io.stateful_tractogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">StatefulTractogram</span><span class="p">,</span> <span class="n">Space</span>
 
-<span class="kn">import</span> <span class="nn">AFQ.recognition.utils</span> <span class="k">as</span> <span class="nn">abu</span>
-<span class="kn">from</span> <span class="nn">AFQ.api.bundle_dict</span> <span class="kn">import</span> <span class="n">BundleDict</span>
-<span class="kn">from</span> <span class="nn">AFQ.recognition.criteria</span> <span class="kn">import</span> <span class="n">run_bundle_rec_plan</span>
-<span class="kn">from</span> <span class="nn">AFQ.recognition.preprocess</span> <span class="kn">import</span> <span class="n">get_preproc_plan</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">AFQ.recognition.utils</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">abu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.api.bundle_dict</span><span class="w"> </span><span class="kn">import</span> <span class="n">BundleDict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.recognition.criteria</span><span class="w"> </span><span class="kn">import</span> <span class="n">run_bundle_rec_plan</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.recognition.preprocess</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_preproc_plan</span>
 
 
 <div class="viewcode-block" id="logger"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/recognize/index.html#AFQ.recognition.recognize.logger">[docs]</a><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;AFQ&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="recognize"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/recognize/index.html#AFQ.recognition.recognize.recognize">[docs]</a><span class="k">def</span> <span class="nf">recognize</span><span class="p">(</span>
+<div class="viewcode-block" id="recognize"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/recognize/index.html#AFQ.recognition.recognize.recognize">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">recognize</span><span class="p">(</span>
         <span class="n">tg</span><span class="p">,</span>
         <span class="n">img</span><span class="p">,</span>
         <span class="n">mapping</span><span class="p">,</span>
@@ -592,11 +592,11 @@ document.write(`
     <span class="n">n_streamlines</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tg</span><span class="p">)</span>
     <span class="n">bundle_decisions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
         <span class="p">(</span><span class="n">n_streamlines</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">bundle_dict</span><span class="p">)),</span>
-        <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">bool8</span><span class="p">)</span>
+        <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">)</span>
     <span class="n">bundle_to_flip</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
         <span class="p">(</span><span class="n">n_streamlines</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">bundle_dict</span><span class="p">)),</span>
-        <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">bool8</span><span class="p">)</span>
-    <span class="n">bundle_roi_dists</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span>
+        <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">)</span>
+    <span class="n">bundle_roi_closest</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span>
         <span class="p">(</span>
             <span class="n">n_streamlines</span><span class="p">,</span>
             <span class="nb">len</span><span class="p">(</span><span class="n">bundle_dict</span><span class="p">),</span>
@@ -614,7 +614,7 @@ document.write(`
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Finding Streamlines for </span><span class="si">{</span><span class="n">bundle_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">run_bundle_rec_plan</span><span class="p">(</span>
             <span class="n">bundle_dict</span><span class="p">,</span> <span class="n">tg</span><span class="p">,</span> <span class="n">mapping</span><span class="p">,</span> <span class="n">img</span><span class="p">,</span> <span class="n">reg_template</span><span class="p">,</span> <span class="n">preproc_imap</span><span class="p">,</span>
-            <span class="n">bundle_name</span><span class="p">,</span> <span class="n">bundle_idx</span><span class="p">,</span> <span class="n">bundle_to_flip</span><span class="p">,</span> <span class="n">bundle_roi_dists</span><span class="p">,</span>
+            <span class="n">bundle_name</span><span class="p">,</span> <span class="n">bundle_idx</span><span class="p">,</span> <span class="n">bundle_to_flip</span><span class="p">,</span> <span class="n">bundle_roi_closest</span><span class="p">,</span>
             <span class="n">bundle_decisions</span><span class="p">,</span>
             <span class="n">clip_edges</span><span class="o">=</span><span class="n">clip_edges</span><span class="p">,</span>
             <span class="n">parallel_segmentation</span><span class="o">=</span><span class="n">parallel_segmentation</span><span class="p">,</span>
@@ -667,13 +667,13 @@ document.write(`
         <span class="c1"># Use a list here, because ArraySequence doesn&#39;t support item</span>
         <span class="c1"># assignment:</span>
         <span class="n">select_sl</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">tg</span><span class="o">.</span><span class="n">streamlines</span><span class="p">[</span><span class="n">select_idx</span><span class="p">])</span>
-        <span class="n">roi_dists</span> <span class="o">=</span> <span class="n">bundle_roi_dists</span><span class="p">[</span><span class="n">select_idx</span><span class="p">,</span> <span class="n">bundle_idx</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="n">roi_closest</span> <span class="o">=</span> <span class="n">bundle_roi_closest</span><span class="p">[</span><span class="n">select_idx</span><span class="p">,</span> <span class="n">bundle_idx</span><span class="p">,</span> <span class="p">:]</span>
         <span class="n">n_includes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">bundle_dict</span><span class="o">.</span><span class="n">get_b_info</span><span class="p">(</span>
             <span class="n">bundle</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;include&quot;</span><span class="p">,</span> <span class="p">[]))</span>
         <span class="k">if</span> <span class="n">clip_edges</span> <span class="ow">and</span> <span class="n">n_includes</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Clipping Streamlines by ROI&quot;</span><span class="p">)</span>
-            <span class="n">select_sl</span> <span class="o">=</span> <span class="n">abu</span><span class="o">.</span><span class="n">cut_sls_by_dist</span><span class="p">(</span>
-                <span class="n">select_sl</span><span class="p">,</span> <span class="n">roi_dists</span><span class="p">,</span>
+            <span class="n">select_sl</span> <span class="o">=</span> <span class="n">abu</span><span class="o">.</span><span class="n">cut_sls_by_closest</span><span class="p">(</span>
+                <span class="n">select_sl</span><span class="p">,</span> <span class="n">roi_closest</span><span class="p">,</span>
                 <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_includes</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="n">in_place</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="n">to_flip</span> <span class="o">=</span> <span class="n">bundle_to_flip</span><span class="p">[</span><span class="n">select_idx</span><span class="p">,</span> <span class="n">bundle_idx</span><span class="p">]</span>
@@ -681,8 +681,8 @@ document.write(`
         <span class="k">if</span> <span class="s2">&quot;bundlesection&quot;</span> <span class="ow">in</span> <span class="n">b_def</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">sb_name</span><span class="p">,</span> <span class="n">sb_include_cuts</span> <span class="ow">in</span> <span class="n">bundle_dict</span><span class="o">.</span><span class="n">get_b_info</span><span class="p">(</span>
                     <span class="n">bundle</span><span class="p">)[</span><span class="s2">&quot;bundlesection&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                <span class="n">bundlesection_select_sl</span> <span class="o">=</span> <span class="n">abu</span><span class="o">.</span><span class="n">cut_sls_by_dist</span><span class="p">(</span>
-                    <span class="n">select_sl</span><span class="p">,</span> <span class="n">roi_dists</span><span class="p">,</span>
+                <span class="n">bundlesection_select_sl</span> <span class="o">=</span> <span class="n">abu</span><span class="o">.</span><span class="n">cut_sls_by_closest</span><span class="p">(</span>
+                    <span class="n">select_sl</span><span class="p">,</span> <span class="n">roi_closest</span><span class="p">,</span>
                     <span class="n">sb_include_cuts</span><span class="p">,</span> <span class="n">in_place</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
                 <span class="n">_add_bundle_to_fiber_group</span><span class="p">(</span>
                     <span class="n">sb_name</span><span class="p">,</span> <span class="n">bundlesection_select_sl</span><span class="p">,</span> <span class="n">select_idx</span><span class="p">,</span>
@@ -697,7 +697,7 @@ document.write(`
 
 
 <span class="c1"># Helper functions for formatting the results</span>
-<div class="viewcode-block" id="_return_empty"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/recognize/index.html#AFQ.recognition.recognize._return_empty">[docs]</a><span class="k">def</span> <span class="nf">_return_empty</span><span class="p">(</span><span class="n">bundle_name</span><span class="p">,</span> <span class="n">return_idx</span><span class="p">,</span> <span class="n">fiber_groups</span><span class="p">,</span> <span class="n">img</span><span class="p">):</span>
+<div class="viewcode-block" id="_return_empty"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/recognize/index.html#AFQ.recognition.recognize._return_empty">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">_return_empty</span><span class="p">(</span><span class="n">bundle_name</span><span class="p">,</span> <span class="n">return_idx</span><span class="p">,</span> <span class="n">fiber_groups</span><span class="p">,</span> <span class="n">img</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Helper function to return an empty dict under</span>
 <span class="sd">    some conditions.</span>
@@ -712,7 +712,7 @@ document.write(`
             <span class="p">[],</span> <span class="n">img</span><span class="p">,</span> <span class="n">Space</span><span class="o">.</span><span class="n">VOX</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="_add_bundle_to_fiber_group"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/recognize/index.html#AFQ.recognition.recognize._add_bundle_to_fiber_group">[docs]</a><span class="k">def</span> <span class="nf">_add_bundle_to_fiber_group</span><span class="p">(</span><span class="n">b_name</span><span class="p">,</span> <span class="n">sl</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">to_flip</span><span class="p">,</span>
+<div class="viewcode-block" id="_add_bundle_to_fiber_group"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/recognize/index.html#AFQ.recognition.recognize._add_bundle_to_fiber_group">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">_add_bundle_to_fiber_group</span><span class="p">(</span><span class="n">b_name</span><span class="p">,</span> <span class="n">sl</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">to_flip</span><span class="p">,</span>
                                <span class="n">return_idx</span><span class="p">,</span> <span class="n">fiber_groups</span><span class="p">,</span> <span class="n">img</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Helper function to add a bundle to a fiber group.</span>
@@ -734,7 +734,7 @@ document.write(`
         <span class="n">fiber_groups</span><span class="p">[</span><span class="n">b_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">sl</span></div>
 
 
-<div class="viewcode-block" id="_add_bundle_to_meta"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/recognize/index.html#AFQ.recognition.recognize._add_bundle_to_meta">[docs]</a><span class="k">def</span> <span class="nf">_add_bundle_to_meta</span><span class="p">(</span><span class="n">bundle_name</span><span class="p">,</span> <span class="n">b_def</span><span class="p">,</span> <span class="n">meta</span><span class="p">):</span>
+<div class="viewcode-block" id="_add_bundle_to_meta"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/recognize/index.html#AFQ.recognition.recognize._add_bundle_to_meta">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">_add_bundle_to_meta</span><span class="p">(</span><span class="n">bundle_name</span><span class="p">,</span> <span class="n">b_def</span><span class="p">,</span> <span class="n">meta</span><span class="p">):</span>
     <span class="c1"># remove keys that can never be serialized</span>
     <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span>
             <span class="s1">&#39;include&#39;</span><span class="p">,</span> <span class="s1">&#39;exclude&#39;</span><span class="p">,</span> <span class="s1">&#39;prob_map&#39;</span><span class="p">,</span>

@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>The pyAFQ configuration file &#8212; AFQ 1.3.6 documentation</title>
+    <title>The pyAFQ configuration file &#8212; AFQ 2.0 documentation</title>
   
   
   
@@ -133,8 +133,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.6 documentation - Home"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.6 documentation - Home"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="AFQ 2.0 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -576,7 +576,7 @@ See an example configuration file below:</p>
 <span class="c1"># Set &quot;n_jobs&quot; to -1 to automatically parallelize as</span>
 <span class="c1"># the number of cpus. Here is an example for how to do</span>
 <span class="c1"># multiprocessing with 4 cpus:</span>
-<span class="c1"># {&quot;n_jobs&quot;: 4, &quot;engine&quot;: &quot;joblib&quot;, &quot;backend&quot;: &quot;loky&quot;}</span>
+<span class="c1"># {&quot;n_jobs&quot;: 4, &quot;engine&quot;: &quot;ray&quot;}</span>
 <span class="c1"># Default: {&quot;engine&quot;: &quot;serial&quot;}</span>
 <span class="n">parallel_params</span> <span class="o">=</span> <span class="s2">&quot;{&#39;engine&#39;: &#39;serial&#39;}&quot;</span>
 
@@ -659,8 +659,20 @@ See an example configuration file below:</p>
 <span class="c1"># The miminal length (mm) in a streamline. Default: 250</span>
 <span class="n">maxlen</span> <span class="o">=</span> <span class="mi">250</span>
 
-<span class="c1"># One of {&quot;DTI&quot;, &quot;CSD&quot;, &quot;DKI&quot;}. Defaults to use &quot;CSD&quot;</span>
+<span class="c1"># Can be either a string or Definition. If a string, it must be one of</span>
+<span class="c1"># {&quot;DTI&quot;, &quot;CSD&quot;, &quot;DKI&quot;, &quot;GQ&quot;, &quot;RUMBA&quot;}. If a Definition, we assume</span>
+<span class="c1"># it is a definition of a file containing Spherical Harmonics</span>
+<span class="c1"># coefficients.</span>
+<span class="c1"># Defaults to use &quot;CSD&quot;</span>
 <span class="n">odf_model</span> <span class="o">=</span> <span class="s2">&quot;CSD&quot;</span>
+
+<span class="c1"># The spherical harmonic basis type used to represent the coefficients.</span>
+<span class="c1"># One of {&quot;descoteaux07&quot;, &quot;tournier07&quot;}. Deafult: &quot;descoteaux07&quot;</span>
+<span class="n">basis_type</span> <span class="o">=</span> <span class="s2">&quot;descoteaux07&quot;</span>
+
+<span class="c1"># Whether to use the legacy implementation of the direction getter.</span>
+<span class="c1"># See Dipy documentation for more details. Default: True</span>
+<span class="n">legacy</span> <span class="o">=</span> <span class="n">true</span>
 
 <span class="c1"># Which strategy to use in tracking. This can be the standard local</span>
 <span class="c1"># tracking (&quot;local&quot;) or Particle Filtering Tracking ([Girard2014]_).</span>
@@ -908,6 +920,10 @@ See an example configuration file below:</p>
 <span class="c1"># Default: &quot;mni_T1&quot;</span>
 <span class="n">reg_template_spec</span> <span class="o">=</span> <span class="s2">&quot;mni_T1&quot;</span>
 
+<span class="c1"># Name to use in file names for the template space.</span>
+<span class="c1"># Default: &quot;mni&quot;</span>
+<span class="n">reg_template_space_name</span> <span class="o">=</span> <span class="s2">&quot;mni&quot;</span>
+
 <span class="p">[</span><span class="n">MAPPING</span><span class="p">]</span>
 
 <span class="c1"># This defines how to either create a mapping from</span>
@@ -946,7 +962,8 @@ See an example configuration file below:</p>
 <span class="c1"># List of scalars to use.</span>
 <span class="c1"># Can be any of: &quot;dti_fa&quot;, &quot;dti_md&quot;, &quot;dki_fa&quot;, &quot;dki_md&quot;, &quot;dki_awf&quot;,</span>
 <span class="c1"># &quot;dki_mk&quot;. Can also be a scalar from AFQ.definitions.image.</span>
-<span class="c1"># Default: [&quot;dti_fa&quot;, &quot;dti_md&quot;]</span>
+<span class="c1"># Default: For single shell data: [&quot;dti_fa&quot;, &quot;dti_md&quot;],</span>
+<span class="c1"># for multi-shell data: [&quot;dki_fa&quot;, &quot;dki_md&quot;].</span>
 <span class="n">scalars</span> <span class="o">=</span> <span class="s2">&quot;[&#39;dti_fa&#39;, &#39;dti_md&#39;]&quot;</span>
 
 <span class="p">[</span><span class="n">TRACTOGRAPHY</span><span class="p">]</span>

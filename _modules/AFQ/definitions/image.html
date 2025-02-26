@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.definitions.image &#8212; AFQ 1.3.6 documentation</title>
+    <title>AFQ.definitions.image &#8212; AFQ 2.0 documentation</title>
   
   
   
@@ -132,8 +132,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.6 documentation - Home"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.6 documentation - Home"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 2.0 documentation - Home"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -432,17 +432,17 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for AFQ.definitions.image</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">logging</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
-<span class="kn">import</span> <span class="nn">nibabel</span> <span class="k">as</span> <span class="nn">nib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">nibabel</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nib</span>
 
-<span class="kn">from</span> <span class="nn">dipy.segment.mask</span> <span class="kn">import</span> <span class="n">median_otsu</span>
-<span class="kn">from</span> <span class="nn">dipy.align</span> <span class="kn">import</span> <span class="n">resample</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dipy.segment.mask</span><span class="w"> </span><span class="kn">import</span> <span class="n">median_otsu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dipy.align</span><span class="w"> </span><span class="kn">import</span> <span class="n">resample</span>
 
-<span class="kn">from</span> <span class="nn">AFQ.definitions.utils</span> <span class="kn">import</span> <span class="n">Definition</span><span class="p">,</span> <span class="n">find_file</span><span class="p">,</span> <span class="n">name_from_path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.definitions.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">Definition</span><span class="p">,</span> <span class="n">find_file</span><span class="p">,</span> <span class="n">name_from_path</span>
 
-<span class="kn">from</span> <span class="nn">skimage.morphology</span> <span class="kn">import</span> <span class="n">convex_hull_image</span><span class="p">,</span> <span class="n">binary_opening</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">skimage.morphology</span><span class="w"> </span><span class="kn">import</span> <span class="n">convex_hull_image</span><span class="p">,</span> <span class="n">binary_opening</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">&quot;ImageFile&quot;</span><span class="p">,</span> <span class="s2">&quot;FullImage&quot;</span><span class="p">,</span> <span class="s2">&quot;RoiImage&quot;</span><span class="p">,</span> <span class="s2">&quot;B0Image&quot;</span><span class="p">,</span> <span class="s2">&quot;LabelledImageFile&quot;</span><span class="p">,</span>
@@ -453,47 +453,56 @@ document.write(`
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;AFQ&#39;</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_resample_image</span><span class="p">(</span><span class="n">image_data</span><span class="p">,</span> <span class="n">dwi_data</span><span class="p">,</span> <span class="n">image_affine</span><span class="p">,</span> <span class="n">dwi_affine</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_resample_image</span><span class="p">(</span><span class="n">image_data</span><span class="p">,</span> <span class="n">dwi_data</span><span class="p">,</span> <span class="n">image_affine</span><span class="p">,</span> <span class="n">dwi_affine</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Helper function</span>
 <span class="sd">    Resamples image to dwi if necessary</span>
 <span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_resample_slice</span><span class="p">(</span><span class="n">slice_data</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">resample</span><span class="p">(</span>
+            <span class="n">slice_data</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">),</span>
+            <span class="n">dwi_data</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="n">moving_affine</span><span class="o">=</span><span class="n">image_affine</span><span class="p">,</span>
+            <span class="n">static_affine</span><span class="o">=</span><span class="n">dwi_affine</span><span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">())</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">image_type</span><span class="p">)</span>
+
     <span class="n">image_type</span> <span class="o">=</span> <span class="n">image_data</span><span class="o">.</span><span class="n">dtype</span>
     <span class="k">if</span> <span class="p">((</span><span class="n">dwi_data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span>
         <span class="ow">and</span> <span class="p">(</span><span class="n">dwi_affine</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span>
-            <span class="ow">and</span> <span class="p">(</span><span class="n">dwi_data</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">image_data</span><span class="o">.</span><span class="n">shape</span><span class="p">)):</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">resample</span><span class="p">(</span>
-            <span class="n">image_data</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">),</span>
-            <span class="n">dwi_data</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-            <span class="n">image_affine</span><span class="p">,</span>
-            <span class="n">dwi_affine</span><span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">())</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">image_type</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="p">((</span><span class="n">dwi_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="o">!=</span> <span class="n">image_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span> <span class="ow">or</span> <span class="p">(</span>
+                <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">dwi_affine</span><span class="p">,</span> <span class="n">image_affine</span><span class="p">)))):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">image_data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">_resample_slice</span><span class="p">(</span><span class="n">image_data</span><span class="p">),</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">_resample_slice</span><span class="p">(</span>
+                <span class="n">image_data</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">ii</span><span class="p">])</span> <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span>
+                    <span class="n">image_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span> <span class="kc">True</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">image_data</span>
+        <span class="k">return</span> <span class="n">image_data</span><span class="p">,</span> <span class="kc">False</span>
 
 
-<span class="k">class</span> <span class="nc">ImageDefinition</span><span class="p">(</span><span class="n">Definition</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ImageDefinition</span><span class="p">(</span><span class="n">Definition</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    All Image Definitions should inherit this.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
-    <span class="k">def</span> <span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Please implement a get_name method&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">get_image_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_name</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_image_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_name</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
             <span class="s2">&quot;Please implement a get_image_getter method&quot;</span><span class="p">)</span>
 
 
-<span class="k">class</span> <span class="nc">CombineImageMixin</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CombineImageMixin</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Helper Class</span>
 <span class="sd">    Useful for making an image by combining different conditions</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">combine</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">combine</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">combine</span> <span class="o">=</span> <span class="n">combine</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">reset_image_draft</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shape</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">reset_image_draft</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shape</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">combine</span> <span class="o">==</span> <span class="s2">&quot;or&quot;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">image_draft</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">combine</span> <span class="o">==</span> <span class="s2">&quot;and&quot;</span><span class="p">:</span>
@@ -501,7 +510,7 @@ document.write(`
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">combine_illdefined</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other_image</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other_image</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">combine</span> <span class="o">==</span> <span class="s2">&quot;or&quot;</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">image_draft</span><span class="p">,</span> <span class="n">other_image</span><span class="p">)</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">combine</span> <span class="o">==</span> <span class="s2">&quot;and&quot;</span><span class="p">:</span>
@@ -509,13 +518,13 @@ document.write(`
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">combine_illdefined</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">combine_illdefined</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">combine_illdefined</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">((</span>
             <span class="sa">f</span><span class="s2">&quot;combine should be either &#39;or&#39; or &#39;and&#39;,&quot;</span>
             <span class="sa">f</span><span class="s2">&quot; you set combine to </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">combine</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
 
 
-<div class="viewcode-block" id="ImageFile"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ImageFile">[docs]</a><span class="k">class</span> <span class="nc">ImageFile</span><span class="p">(</span><span class="n">ImageDefinition</span><span class="p">):</span>
+<div class="viewcode-block" id="ImageFile"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ImageFile">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ImageFile</span><span class="p">(</span><span class="n">ImageDefinition</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Define an image based on a file.</span>
 <span class="sd">    Does not apply any labels or thresholds;</span>
@@ -535,6 +544,9 @@ document.write(`
 <span class="sd">        Additional filters to pass to bids_layout.get() to identify</span>
 <span class="sd">        the file.</span>
 <span class="sd">        Default: {}</span>
+<span class="sd">    resample : bool, optional</span>
+<span class="sd">        Whether to resample the image to the DWI data.</span>
+<span class="sd">        Default: True</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -545,7 +557,7 @@ document.write(`
 <span class="sd">                                &quot;seed_threshold&quot;: 0.1})</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="p">{}):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="p">{},</span> <span class="n">resample</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">path</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">suffix</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">((</span>
                 <span class="s2">&quot;One of `path` or `suffix` must set to &quot;</span>
@@ -559,8 +571,9 @@ document.write(`
             <span class="bp">self</span><span class="o">.</span><span class="n">suffix</span> <span class="o">=</span> <span class="n">suffix</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">filters</span> <span class="o">=</span> <span class="n">filters</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">fnames</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">resample</span> <span class="o">=</span> <span class="n">resample</span>
 
-<div class="viewcode-block" id="ImageFile.find_path"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ImageFile.find_path">[docs]</a>    <span class="k">def</span> <span class="nf">find_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bids_layout</span><span class="p">,</span> <span class="n">from_path</span><span class="p">,</span>
+<div class="viewcode-block" id="ImageFile.find_path"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ImageFile.find_path">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">find_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bids_layout</span><span class="p">,</span> <span class="n">from_path</span><span class="p">,</span>
                   <span class="n">subject</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_from_path</span><span class="p">:</span>
             <span class="k">return</span>
@@ -574,7 +587,7 @@ document.write(`
 
         <span class="bp">self</span><span class="o">.</span><span class="n">fnames</span><span class="p">[</span><span class="n">from_path</span><span class="p">]</span> <span class="o">=</span> <span class="n">nearest_image</span></div>
 
-<div class="viewcode-block" id="ImageFile.get_path_data_affine"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ImageFile.get_path_data_affine">[docs]</a>    <span class="k">def</span> <span class="nf">get_path_data_affine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dwi_path</span><span class="p">):</span>
+<div class="viewcode-block" id="ImageFile.get_path_data_affine"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ImageFile.get_path_data_affine">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_path_data_affine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dwi_path</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_from_path</span><span class="p">:</span>
             <span class="n">image_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fname</span>
         <span class="k">else</span><span class="p">:</span>
@@ -583,14 +596,14 @@ document.write(`
         <span class="k">return</span> <span class="n">image_file</span><span class="p">,</span> <span class="n">image_img</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">(),</span> <span class="n">image_img</span><span class="o">.</span><span class="n">affine</span></div>
 
     <span class="c1"># This function is set up to be overriden by other images</span>
-<div class="viewcode-block" id="ImageFile.apply_conditions"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ImageFile.apply_conditions">[docs]</a>    <span class="k">def</span> <span class="nf">apply_conditions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image_data_orig</span><span class="p">,</span> <span class="n">image_file</span><span class="p">):</span>
+<div class="viewcode-block" id="ImageFile.apply_conditions"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ImageFile.apply_conditions">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">apply_conditions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image_data_orig</span><span class="p">,</span> <span class="n">image_file</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">image_data_orig</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">image_file</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ImageFile.get_name"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ImageFile.get_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ImageFile.get_name"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ImageFile.get_name">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">name_from_path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_from_path</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">suffix</span></div>
 
-<div class="viewcode-block" id="ImageFile.get_image_getter"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ImageFile.get_image_getter">[docs]</a>    <span class="k">def</span> <span class="nf">get_image_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_name</span><span class="p">):</span>
-        <span class="k">def</span> <span class="nf">_image_getter_helper</span><span class="p">(</span><span class="n">dwi</span><span class="p">,</span> <span class="n">dwi_data_file</span><span class="p">):</span>
+<div class="viewcode-block" id="ImageFile.get_image_getter"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ImageFile.get_image_getter">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_image_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_name</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">_image_getter_helper</span><span class="p">(</span><span class="n">dwi</span><span class="p">,</span> <span class="n">dwi_data_file</span><span class="p">):</span>
             <span class="c1"># Load data</span>
             <span class="n">image_file</span><span class="p">,</span> <span class="n">image_data_orig</span><span class="p">,</span> <span class="n">image_affine</span> <span class="o">=</span> \
                 <span class="bp">self</span><span class="o">.</span><span class="n">get_path_data_affine</span><span class="p">(</span><span class="n">dwi_data_file</span><span class="p">)</span>
@@ -599,25 +612,30 @@ document.write(`
             <span class="n">image_data</span><span class="p">,</span> <span class="n">meta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">apply_conditions</span><span class="p">(</span>
                 <span class="n">image_data_orig</span><span class="p">,</span> <span class="n">image_file</span><span class="p">)</span>
 
-            <span class="c1"># Resample to DWI data:</span>
-            <span class="n">image_data</span> <span class="o">=</span> <span class="n">_resample_image</span><span class="p">(</span>
-                <span class="n">image_data</span><span class="p">,</span>
-                <span class="n">dwi</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">(),</span>
-                <span class="n">image_affine</span><span class="p">,</span>
-                <span class="n">dwi</span><span class="o">.</span><span class="n">affine</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">resample</span><span class="p">:</span>
+                <span class="c1"># Resample to DWI data:</span>
+                <span class="n">image_data</span><span class="p">,</span> <span class="n">did_resample</span> <span class="o">=</span> <span class="n">_resample_image</span><span class="p">(</span>
+                    <span class="n">image_data</span><span class="p">,</span>
+                    <span class="n">dwi</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">(),</span>
+                    <span class="n">image_affine</span><span class="p">,</span>
+                    <span class="n">dwi</span><span class="o">.</span><span class="n">affine</span><span class="p">)</span>
+                <span class="n">meta</span><span class="p">[</span><span class="s2">&quot;resampled&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">did_resample</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">meta</span><span class="p">[</span><span class="s2">&quot;resampled&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
             <span class="k">return</span> <span class="n">nib</span><span class="o">.</span><span class="n">Nifti1Image</span><span class="p">(</span>
                 <span class="n">image_data</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span>
                 <span class="n">dwi</span><span class="o">.</span><span class="n">affine</span><span class="p">),</span> <span class="n">meta</span>
         <span class="k">if</span> <span class="n">task_name</span> <span class="o">==</span> <span class="s2">&quot;data&quot;</span><span class="p">:</span>
-            <span class="k">def</span> <span class="nf">image_getter</span><span class="p">(</span><span class="n">dwi</span><span class="p">,</span> <span class="n">dwi_data_file</span><span class="p">):</span>
+            <span class="k">def</span><span class="w"> </span><span class="nf">image_getter</span><span class="p">(</span><span class="n">dwi</span><span class="p">,</span> <span class="n">dwi_data_file</span><span class="p">):</span>
                 <span class="k">return</span> <span class="n">_image_getter_helper</span><span class="p">(</span><span class="n">dwi</span><span class="p">,</span> <span class="n">dwi_data_file</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">def</span> <span class="nf">image_getter</span><span class="p">(</span><span class="n">data_imap</span><span class="p">,</span> <span class="n">dwi_data_file</span><span class="p">):</span>
+            <span class="k">def</span><span class="w"> </span><span class="nf">image_getter</span><span class="p">(</span><span class="n">data_imap</span><span class="p">,</span> <span class="n">dwi_data_file</span><span class="p">):</span>
                 <span class="k">return</span> <span class="n">_image_getter_helper</span><span class="p">(</span><span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;dwi&quot;</span><span class="p">],</span> <span class="n">dwi_data_file</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">image_getter</span></div></div>
 
 
-<div class="viewcode-block" id="FullImage"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.FullImage">[docs]</a><span class="k">class</span> <span class="nc">FullImage</span><span class="p">(</span><span class="n">ImageDefinition</span><span class="p">):</span>
+<div class="viewcode-block" id="FullImage"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.FullImage">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">FullImage</span><span class="p">(</span><span class="n">ImageDefinition</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Define an image which covers a full volume.</span>
 
@@ -626,27 +644,27 @@ document.write(`
 <span class="sd">    brain_image_definition = FullImage()</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">pass</span>
 
-<div class="viewcode-block" id="FullImage.get_name"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.FullImage.get_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="FullImage.get_name"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.FullImage.get_name">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;entire_volume&quot;</span></div>
 
-<div class="viewcode-block" id="FullImage.get_image_getter"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.FullImage.get_image_getter">[docs]</a>    <span class="k">def</span> <span class="nf">get_image_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_name</span><span class="p">):</span>
-        <span class="k">def</span> <span class="nf">_image_getter_helper</span><span class="p">(</span><span class="n">dwi</span><span class="p">):</span>
+<div class="viewcode-block" id="FullImage.get_image_getter"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.FullImage.get_image_getter">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_image_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_name</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">_image_getter_helper</span><span class="p">(</span><span class="n">dwi</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">nib</span><span class="o">.</span><span class="n">Nifti1Image</span><span class="p">(</span>
                 <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">dwi</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span>
                 <span class="n">dwi</span><span class="o">.</span><span class="n">affine</span><span class="p">),</span> <span class="nb">dict</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="s2">&quot;Entire Volume&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">task_name</span> <span class="o">==</span> <span class="s2">&quot;data&quot;</span><span class="p">:</span>
-            <span class="k">def</span> <span class="nf">image_getter</span><span class="p">(</span><span class="n">dwi</span><span class="p">):</span>
+            <span class="k">def</span><span class="w"> </span><span class="nf">image_getter</span><span class="p">(</span><span class="n">dwi</span><span class="p">):</span>
                 <span class="k">return</span> <span class="n">_image_getter_helper</span><span class="p">(</span><span class="n">dwi</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">def</span> <span class="nf">image_getter</span><span class="p">(</span><span class="n">data_imap</span><span class="p">):</span>
+            <span class="k">def</span><span class="w"> </span><span class="nf">image_getter</span><span class="p">(</span><span class="n">data_imap</span><span class="p">):</span>
                 <span class="k">return</span> <span class="n">_image_getter_helper</span><span class="p">(</span><span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;dwi&quot;</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">image_getter</span></div></div>
 
 
-<div class="viewcode-block" id="RoiImage"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.RoiImage">[docs]</a><span class="k">class</span> <span class="nc">RoiImage</span><span class="p">(</span><span class="n">ImageDefinition</span><span class="p">):</span>
+<div class="viewcode-block" id="RoiImage"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.RoiImage">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">RoiImage</span><span class="p">(</span><span class="n">ImageDefinition</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Define an image which is all include ROIs or&#39;d together.</span>
 
@@ -680,7 +698,7 @@ document.write(`
 <span class="sd">    api.GroupAFQ(tracking_params={&quot;seed_image&quot;: seed_image})</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">use_waypoints</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                  <span class="n">use_presegment</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                  <span class="n">use_endpoints</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -699,11 +717,11 @@ document.write(`
                 <span class="s2">&quot;One of use_waypoints, use_presegment, &quot;</span>
                 <span class="s2">&quot;use_endpoints, must be True&quot;</span><span class="p">))</span>
 
-<div class="viewcode-block" id="RoiImage.get_name"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.RoiImage.get_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="RoiImage.get_name"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.RoiImage.get_name">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;roi&quot;</span></div>
 
-<div class="viewcode-block" id="RoiImage.get_image_getter"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.RoiImage.get_image_getter">[docs]</a>    <span class="k">def</span> <span class="nf">get_image_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_name</span><span class="p">):</span>
-        <span class="k">def</span> <span class="nf">_image_getter_helper</span><span class="p">(</span><span class="n">mapping</span><span class="p">,</span>
+<div class="viewcode-block" id="RoiImage.get_image_getter"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.RoiImage.get_image_getter">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_image_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_name</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">_image_getter_helper</span><span class="p">(</span><span class="n">mapping</span><span class="p">,</span>
                                  <span class="n">data_imap</span><span class="p">,</span> <span class="n">segmentation_params</span><span class="p">):</span>
             <span class="n">image_data</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="n">bundle_dict</span> <span class="o">=</span> <span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;bundle_dict&quot;</span><span class="p">]</span>
@@ -760,14 +778,14 @@ document.write(`
                 <span class="s2">&quot;RoiImage cannot be used in this context, as they&quot;</span>
                 <span class="s2">&quot;require later derivatives to be calculated&quot;</span><span class="p">))</span>
         <span class="k">elif</span> <span class="n">task_name</span> <span class="o">==</span> <span class="s2">&quot;mapping&quot;</span><span class="p">:</span>
-            <span class="k">def</span> <span class="nf">image_getter</span><span class="p">(</span>
+            <span class="k">def</span><span class="w"> </span><span class="nf">image_getter</span><span class="p">(</span>
                     <span class="n">mapping</span><span class="p">,</span>
                     <span class="n">data_imap</span><span class="p">,</span> <span class="n">segmentation_params</span><span class="p">):</span>
                 <span class="k">return</span> <span class="n">_image_getter_helper</span><span class="p">(</span>
                     <span class="n">mapping</span><span class="p">,</span>
                     <span class="n">data_imap</span><span class="p">,</span> <span class="n">segmentation_params</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">def</span> <span class="nf">image_getter</span><span class="p">(</span>
+            <span class="k">def</span><span class="w"> </span><span class="nf">image_getter</span><span class="p">(</span>
                     <span class="n">mapping_imap</span><span class="p">,</span>
                     <span class="n">data_imap</span><span class="p">,</span> <span class="n">segmentation_params</span><span class="p">):</span>
                 <span class="k">return</span> <span class="n">_image_getter_helper</span><span class="p">(</span>
@@ -776,7 +794,7 @@ document.write(`
         <span class="k">return</span> <span class="n">image_getter</span></div></div>
 
 
-<div class="viewcode-block" id="GQImage"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.GQImage">[docs]</a><span class="k">class</span> <span class="nc">GQImage</span><span class="p">(</span><span class="n">ImageDefinition</span><span class="p">):</span>
+<div class="viewcode-block" id="GQImage"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.GQImage">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GQImage</span><span class="p">(</span><span class="n">ImageDefinition</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Threshold the anisotropic diffusion component of the </span>
 <span class="sd">    Generalized Q-Sampling Model to generate a brain mask</span>
@@ -788,14 +806,14 @@ document.write(`
 <span class="sd">    api.GroupAFQ(brain_mask_definition=GQImage())</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">pass</span>
 
-<div class="viewcode-block" id="GQImage.get_name"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.GQImage.get_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="GQImage.get_name"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.GQImage.get_name">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;GQ&quot;</span></div>
 
-<div class="viewcode-block" id="GQImage.get_image_getter"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.GQImage.get_image_getter">[docs]</a>    <span class="k">def</span> <span class="nf">get_image_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_name</span><span class="p">):</span>
-        <span class="k">def</span> <span class="nf">image_getter_helper</span><span class="p">(</span><span class="n">gq_aso</span><span class="p">):</span>
+<div class="viewcode-block" id="GQImage.get_image_getter"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.GQImage.get_image_getter">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_image_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_name</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">image_getter_helper</span><span class="p">(</span><span class="n">gq_aso</span><span class="p">):</span>
             <span class="n">gq_aso_img</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">gq_aso</span><span class="p">)</span>
             <span class="n">gq_aso_data</span> <span class="o">=</span> <span class="n">gq_aso_img</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
             <span class="n">ASO_mask</span> <span class="o">=</span> <span class="n">convex_hull_image</span><span class="p">(</span>
@@ -815,7 +833,7 @@ document.write(`
                 <span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;gq_aso&quot;</span><span class="p">])</span></div></div>
 
 
-<div class="viewcode-block" id="B0Image"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.B0Image">[docs]</a><span class="k">class</span> <span class="nc">B0Image</span><span class="p">(</span><span class="n">ImageDefinition</span><span class="p">):</span>
+<div class="viewcode-block" id="B0Image"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.B0Image">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">B0Image</span><span class="p">(</span><span class="n">ImageDefinition</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Define an image using b0 and dipy&#39;s median_otsu.</span>
 
@@ -831,14 +849,14 @@ document.write(`
 <span class="sd">    api.GroupAFQ(brain_image_definition=brain_image_definition)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">median_otsu_kwargs</span><span class="o">=</span><span class="p">{}):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">median_otsu_kwargs</span><span class="o">=</span><span class="p">{}):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">median_otsu_kwargs</span> <span class="o">=</span> <span class="n">median_otsu_kwargs</span>
 
-<div class="viewcode-block" id="B0Image.get_name"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.B0Image.get_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="B0Image.get_name"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.B0Image.get_name">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;b0&quot;</span></div>
 
-<div class="viewcode-block" id="B0Image.get_image_getter"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.B0Image.get_image_getter">[docs]</a>    <span class="k">def</span> <span class="nf">get_image_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_name</span><span class="p">):</span>
-        <span class="k">def</span> <span class="nf">image_getter_helper</span><span class="p">(</span><span class="n">b0</span><span class="p">):</span>
+<div class="viewcode-block" id="B0Image.get_image_getter"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.B0Image.get_image_getter">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_image_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_name</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">image_getter_helper</span><span class="p">(</span><span class="n">b0</span><span class="p">):</span>
             <span class="n">mean_b0_img</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">b0</span><span class="p">)</span>
             <span class="n">mean_b0</span> <span class="o">=</span> <span class="n">mean_b0_img</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">((</span>
@@ -860,7 +878,7 @@ document.write(`
             <span class="k">return</span> <span class="k">lambda</span> <span class="n">data_imap</span><span class="p">:</span> <span class="n">image_getter_helper</span><span class="p">(</span><span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;b0&quot;</span><span class="p">])</span></div></div>
 
 
-<div class="viewcode-block" id="LabelledImageFile"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.LabelledImageFile">[docs]</a><span class="k">class</span> <span class="nc">LabelledImageFile</span><span class="p">(</span><span class="n">ImageFile</span><span class="p">,</span> <span class="n">CombineImageMixin</span><span class="p">):</span>
+<div class="viewcode-block" id="LabelledImageFile"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.LabelledImageFile">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">LabelledImageFile</span><span class="p">(</span><span class="n">ImageFile</span><span class="p">,</span> <span class="n">CombineImageMixin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Define an image based on labels in a file.</span>
 
@@ -901,7 +919,7 @@ document.write(`
 <span class="sd">    api.GroupAFQ(brain_image_definition=brain_image_definition)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="p">{},</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="p">{},</span>
                  <span class="n">inclusive_labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">exclusive_labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">combine</span><span class="o">=</span><span class="s2">&quot;or&quot;</span><span class="p">):</span>
         <span class="n">ImageFile</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">suffix</span><span class="p">,</span> <span class="n">filters</span><span class="p">)</span>
@@ -910,7 +928,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">exclusive_labels</span> <span class="o">=</span> <span class="n">exclusive_labels</span>
 
     <span class="c1"># overrides ImageFile</span>
-<div class="viewcode-block" id="LabelledImageFile.apply_conditions"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.LabelledImageFile.apply_conditions">[docs]</a>    <span class="k">def</span> <span class="nf">apply_conditions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image_data_orig</span><span class="p">,</span> <span class="n">image_file</span><span class="p">):</span>
+<div class="viewcode-block" id="LabelledImageFile.apply_conditions"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.LabelledImageFile.apply_conditions">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">apply_conditions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image_data_orig</span><span class="p">,</span> <span class="n">image_file</span><span class="p">):</span>
         <span class="c1"># For different sets of labels, extract all the voxels that</span>
         <span class="c1"># have any / all of these values:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">reset_image_draft</span><span class="p">(</span><span class="n">image_data_orig</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
@@ -928,7 +946,7 @@ document.write(`
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">image_draft</span><span class="p">,</span> <span class="n">meta</span></div></div>
 
 
-<div class="viewcode-block" id="ThresholdedImageFile"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ThresholdedImageFile">[docs]</a><span class="k">class</span> <span class="nc">ThresholdedImageFile</span><span class="p">(</span><span class="n">ImageFile</span><span class="p">,</span> <span class="n">CombineImageMixin</span><span class="p">):</span>
+<div class="viewcode-block" id="ThresholdedImageFile"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ThresholdedImageFile">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ThresholdedImageFile</span><span class="p">(</span><span class="n">ImageFile</span><span class="p">,</span> <span class="n">CombineImageMixin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Define an image based on thresholding a file.</span>
 <span class="sd">    Note that this should not be used to directly make a seed image</span>
@@ -975,7 +993,7 @@ document.write(`
 <span class="sd">    api.GroupAFQ(brain_image_definition=brain_image_definition)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="p">{},</span> <span class="n">lower_bound</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="p">{},</span> <span class="n">lower_bound</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">upper_bound</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">as_percentage</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">combine</span><span class="o">=</span><span class="s2">&quot;and&quot;</span><span class="p">):</span>
         <span class="n">ImageFile</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">suffix</span><span class="p">,</span> <span class="n">filters</span><span class="p">)</span>
         <span class="n">CombineImageMixin</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">combine</span><span class="p">)</span>
@@ -984,7 +1002,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">as_percentage</span> <span class="o">=</span> <span class="n">as_percentage</span>
 
     <span class="c1"># overrides ImageFile</span>
-<div class="viewcode-block" id="ThresholdedImageFile.apply_conditions"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ThresholdedImageFile.apply_conditions">[docs]</a>    <span class="k">def</span> <span class="nf">apply_conditions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image_data_orig</span><span class="p">,</span> <span class="n">image_file</span><span class="p">):</span>
+<div class="viewcode-block" id="ThresholdedImageFile.apply_conditions"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ThresholdedImageFile.apply_conditions">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">apply_conditions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image_data_orig</span><span class="p">,</span> <span class="n">image_file</span><span class="p">):</span>
         <span class="c1"># Apply thresholds</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">reset_image_draft</span><span class="p">(</span><span class="n">image_data_orig</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">upper_bound</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -1011,7 +1029,7 @@ document.write(`
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">image_draft</span><span class="p">,</span> <span class="n">meta</span></div></div>
 
 
-<div class="viewcode-block" id="ScalarImage"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ScalarImage">[docs]</a><span class="k">class</span> <span class="nc">ScalarImage</span><span class="p">(</span><span class="n">ImageDefinition</span><span class="p">):</span>
+<div class="viewcode-block" id="ScalarImage"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ScalarImage">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ScalarImage</span><span class="p">(</span><span class="n">ImageDefinition</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Define an image based on a scalar.</span>
 <span class="sd">    Does not apply any labels or thresholds;</span>
@@ -1034,25 +1052,25 @@ document.write(`
 <span class="sd">        &quot;seed_threshold&quot;: 0.2})</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scalar</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scalar</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scalar</span> <span class="o">=</span> <span class="n">scalar</span>
 
-<div class="viewcode-block" id="ScalarImage.get_name"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ScalarImage.get_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ScalarImage.get_name"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ScalarImage.get_name">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scalar</span></div>
 
-<div class="viewcode-block" id="ScalarImage.get_image_getter"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ScalarImage.get_image_getter">[docs]</a>    <span class="k">def</span> <span class="nf">get_image_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_name</span><span class="p">):</span>
+<div class="viewcode-block" id="ScalarImage.get_image_getter"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ScalarImage.get_image_getter">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_image_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_name</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">task_name</span> <span class="o">==</span> <span class="s2">&quot;data&quot;</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">((</span>
                 <span class="s2">&quot;ScalarImage cannot be used in this context, as they&quot;</span>
                 <span class="s2">&quot;require later derivatives to be calculated&quot;</span><span class="p">))</span>
 
-        <span class="k">def</span> <span class="nf">image_getter</span><span class="p">(</span><span class="n">data_imap</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">image_getter</span><span class="p">(</span><span class="n">data_imap</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">data_imap</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">scalar</span><span class="p">]),</span> <span class="nb">dict</span><span class="p">(</span>
                 <span class="n">FromScalar</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">scalar</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">image_getter</span></div></div>
 
 
-<div class="viewcode-block" id="ThresholdedScalarImage"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ThresholdedScalarImage">[docs]</a><span class="k">class</span> <span class="nc">ThresholdedScalarImage</span><span class="p">(</span><span class="n">ThresholdedImageFile</span><span class="p">,</span> <span class="n">ScalarImage</span><span class="p">):</span>
+<div class="viewcode-block" id="ThresholdedScalarImage"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ThresholdedScalarImage">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ThresholdedScalarImage</span><span class="p">(</span><span class="n">ThresholdedImageFile</span><span class="p">,</span> <span class="n">ScalarImage</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Define an image based on thresholding a scalar image.</span>
 <span class="sd">    Note that this should not be used to directly make a seed image</span>
@@ -1086,7 +1104,7 @@ document.write(`
 <span class="sd">    api.GroupAFQ(tracking_params={&quot;seed_image&quot;: seed_image})</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scalar</span><span class="p">,</span> <span class="n">lower_bound</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">upper_bound</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scalar</span><span class="p">,</span> <span class="n">lower_bound</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">upper_bound</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">combine</span><span class="o">=</span><span class="s2">&quot;and&quot;</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scalar</span> <span class="o">=</span> <span class="n">scalar</span>
         <span class="n">CombineImageMixin</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">combine</span><span class="p">)</span>
@@ -1094,7 +1112,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">upper_bound</span> <span class="o">=</span> <span class="n">upper_bound</span></div>
 
 
-<span class="k">class</span> <span class="nc">PFTImage</span><span class="p">(</span><span class="n">ImageDefinition</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PFTImage</span><span class="p">(</span><span class="n">ImageDefinition</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Define an image for use in PFT tractography. Only use</span>
 <span class="sd">    if tracker set to &#39;pft&#39; in tractography.</span>
@@ -1120,10 +1138,10 @@ document.write(`
 <span class="sd">        &quot;tracker&quot;: &quot;pft&quot;})</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">WM_probseg</span><span class="p">,</span> <span class="n">GM_probseg</span><span class="p">,</span> <span class="n">CSF_probseg</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">WM_probseg</span><span class="p">,</span> <span class="n">GM_probseg</span><span class="p">,</span> <span class="n">CSF_probseg</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">probsegs</span> <span class="o">=</span> <span class="p">(</span><span class="n">WM_probseg</span><span class="p">,</span> <span class="n">GM_probseg</span><span class="p">,</span> <span class="n">CSF_probseg</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">find_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bids_layout</span><span class="p">,</span> <span class="n">from_path</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">find_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bids_layout</span><span class="p">,</span> <span class="n">from_path</span><span class="p">,</span>
                   <span class="n">subject</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">required</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
@@ -1133,17 +1151,17 @@ document.write(`
                 <span class="n">bids_layout</span><span class="p">,</span> <span class="n">from_path</span><span class="p">,</span> <span class="n">subject</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span>
                 <span class="n">required</span><span class="o">=</span><span class="n">required</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;pft&quot;</span>
 
-    <span class="k">def</span> <span class="nf">get_image_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_name</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_image_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_name</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">task_name</span> <span class="o">==</span> <span class="s2">&quot;data&quot;</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;PFTImage cannot be used in this context&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">probseg</span><span class="o">.</span><span class="n">get_image_getter</span><span class="p">(</span><span class="n">task_name</span><span class="p">)</span>
                 <span class="k">for</span> <span class="n">probseg</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">probsegs</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="TemplateImage"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.TemplateImage">[docs]</a><span class="k">class</span> <span class="nc">TemplateImage</span><span class="p">(</span><span class="n">ImageDefinition</span><span class="p">):</span>
+<div class="viewcode-block" id="TemplateImage"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.TemplateImage">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">TemplateImage</span><span class="p">(</span><span class="n">ImageDefinition</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Define a scalar based on a template.</span>
 <span class="sd">    This template will be transformed into subject space before use.</span>
@@ -1160,20 +1178,20 @@ document.write(`
 <span class="sd">    api.GroupAFQ(scalars=[&quot;dti_fa&quot;, &quot;dti_md&quot;, my_scalar])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">path</span>
 
-<div class="viewcode-block" id="TemplateImage.get_name"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.TemplateImage.get_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="TemplateImage.get_name"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.TemplateImage.get_name">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">name_from_path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TemplateImage.get_image_getter"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.TemplateImage.get_image_getter">[docs]</a>    <span class="k">def</span> <span class="nf">get_image_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_name</span><span class="p">):</span>
-        <span class="k">def</span> <span class="nf">_image_getter_helper</span><span class="p">(</span><span class="n">mapping</span><span class="p">,</span> <span class="n">reg_template</span><span class="p">,</span> <span class="n">reg_subject</span><span class="p">):</span>
+<div class="viewcode-block" id="TemplateImage.get_image_getter"><a class="viewcode-back" href="../../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.TemplateImage.get_image_getter">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_image_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_name</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">_image_getter_helper</span><span class="p">(</span><span class="n">mapping</span><span class="p">,</span> <span class="n">reg_template</span><span class="p">,</span> <span class="n">reg_subject</span><span class="p">):</span>
             <span class="n">img</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
             <span class="n">img_data</span> <span class="o">=</span> <span class="n">resample</span><span class="p">(</span>
                 <span class="n">img</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">(),</span>
                 <span class="n">reg_template</span><span class="p">,</span>
-                <span class="n">img</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span>
-                <span class="n">reg_template</span><span class="o">.</span><span class="n">affine</span><span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
+                <span class="n">moving_affine</span><span class="o">=</span><span class="n">img</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span>
+                <span class="n">static_affine</span><span class="o">=</span><span class="n">reg_template</span><span class="o">.</span><span class="n">affine</span><span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
 
             <span class="n">scalar_data</span> <span class="o">=</span> <span class="n">mapping</span><span class="o">.</span><span class="n">transform_inverse</span><span class="p">(</span>
                 <span class="n">img_data</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">)</span>
@@ -1186,12 +1204,12 @@ document.write(`
                 <span class="s2">&quot;TemplateImage cannot be used in this context, as they&quot;</span>
                 <span class="s2">&quot;require later derivatives to be calculated&quot;</span><span class="p">))</span>
         <span class="k">elif</span> <span class="n">task_name</span> <span class="o">==</span> <span class="s2">&quot;mapping&quot;</span><span class="p">:</span>
-            <span class="k">def</span> <span class="nf">image_getter</span><span class="p">(</span><span class="n">mapping</span><span class="p">,</span> <span class="n">reg_subject</span><span class="p">,</span> <span class="n">data_imap</span><span class="p">):</span>
+            <span class="k">def</span><span class="w"> </span><span class="nf">image_getter</span><span class="p">(</span><span class="n">mapping</span><span class="p">,</span> <span class="n">reg_subject</span><span class="p">,</span> <span class="n">data_imap</span><span class="p">):</span>
                 <span class="k">return</span> <span class="n">_image_getter_helper</span><span class="p">(</span>
                     <span class="n">mapping</span><span class="p">,</span> <span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;reg_template&quot;</span><span class="p">],</span>
                     <span class="n">reg_subject</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">def</span> <span class="nf">image_getter</span><span class="p">(</span><span class="n">mapping_imap</span><span class="p">,</span> <span class="n">data_imap</span><span class="p">):</span>
+            <span class="k">def</span><span class="w"> </span><span class="nf">image_getter</span><span class="p">(</span><span class="n">mapping_imap</span><span class="p">,</span> <span class="n">data_imap</span><span class="p">):</span>
                 <span class="k">return</span> <span class="n">_image_getter_helper</span><span class="p">(</span>
                     <span class="n">mapping_imap</span><span class="p">[</span><span class="s2">&quot;mapping&quot;</span><span class="p">],</span> <span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;reg_template&quot;</span><span class="p">],</span>
                     <span class="n">mapping_imap</span><span class="p">[</span><span class="s2">&quot;reg_subject&quot;</span><span class="p">])</span>

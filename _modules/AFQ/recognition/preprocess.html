@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.recognition.preprocess &#8212; AFQ 1.3.6 documentation</title>
+    <title>AFQ.recognition.preprocess &#8212; AFQ 2.0 documentation</title>
   
   
   
@@ -132,8 +132,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.6 documentation - Home"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.6 documentation - Home"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 2.0 documentation - Home"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -432,22 +432,22 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for AFQ.recognition.preprocess</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">nibabel</span> <span class="k">as</span> <span class="nn">nib</span>
-<span class="kn">import</span> <span class="nn">pimms</span>
-<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span>
-<span class="kn">import</span> <span class="nn">logging</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">nibabel</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pimms</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">time</span><span class="w"> </span><span class="kn">import</span> <span class="n">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
-<span class="kn">import</span> <span class="nn">dipy.tracking.streamline</span> <span class="k">as</span> <span class="nn">dts</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">dipy.tracking.streamline</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dts</span>
 
-<span class="kn">import</span> <span class="nn">AFQ.recognition.utils</span> <span class="k">as</span> <span class="nn">abu</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">AFQ.recognition.utils</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">abu</span>
 
 
 <div class="viewcode-block" id="logger"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/preprocess/index.html#AFQ.recognition.preprocess.logger">[docs]</a><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;AFQ&#39;</span><span class="p">)</span></div>
 
 
 <span class="nd">@pimms</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;tol&quot;</span><span class="p">,</span> <span class="s2">&quot;dist_to_atlas&quot;</span><span class="p">,</span> <span class="s2">&quot;vox_dim&quot;</span><span class="p">)</span>
-<div class="viewcode-block" id="tolerance_mm_to_vox"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/preprocess/index.html#AFQ.recognition.preprocess.tolerance_mm_to_vox">[docs]</a><span class="k">def</span> <span class="nf">tolerance_mm_to_vox</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">dist_to_waypoint</span><span class="p">,</span> <span class="n">input_dist_to_atlas</span><span class="p">):</span>
+<div class="viewcode-block" id="tolerance_mm_to_vox"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/preprocess/index.html#AFQ.recognition.preprocess.tolerance_mm_to_vox">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">tolerance_mm_to_vox</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">dist_to_waypoint</span><span class="p">,</span> <span class="n">input_dist_to_atlas</span><span class="p">):</span>
     <span class="c1"># We need to calculate the size of a voxel, so we can transform</span>
     <span class="c1"># from mm to voxel units:</span>
     <span class="n">R</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">affine</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
@@ -465,7 +465,7 @@ document.write(`
 
 
 <span class="nd">@pimms</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;fgarray&quot;</span><span class="p">)</span>
-<div class="viewcode-block" id="fgarray"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/preprocess/index.html#AFQ.recognition.preprocess.fgarray">[docs]</a><span class="k">def</span> <span class="nf">fgarray</span><span class="p">(</span><span class="n">tg</span><span class="p">):</span>
+<div class="viewcode-block" id="fgarray"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/preprocess/index.html#AFQ.recognition.preprocess.fgarray">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">fgarray</span><span class="p">(</span><span class="n">tg</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Streamlines resampled to 20 points.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -479,7 +479,7 @@ document.write(`
 
 
 <span class="nd">@pimms</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;crosses&quot;</span><span class="p">)</span>
-<div class="viewcode-block" id="crosses"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/preprocess/index.html#AFQ.recognition.preprocess.crosses">[docs]</a><span class="k">def</span> <span class="nf">crosses</span><span class="p">(</span><span class="n">fgarray</span><span class="p">,</span> <span class="n">img</span><span class="p">):</span>
+<div class="viewcode-block" id="crosses"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/preprocess/index.html#AFQ.recognition.preprocess.crosses">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">crosses</span><span class="p">(</span><span class="n">fgarray</span><span class="p">,</span> <span class="n">img</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Classify the streamlines by whether they cross the midline.</span>
 <span class="sd">    Creates a crosses attribute which is an array of booleans. Each boolean</span>
@@ -504,7 +504,7 @@ document.write(`
 
 <span class="c1"># Things that can be calculated for multiple bundles at once</span>
 <span class="c1"># (i.e., for a whole tractogram) go here</span>
-<div class="viewcode-block" id="get_preproc_plan"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/preprocess/index.html#AFQ.recognition.preprocess.get_preproc_plan">[docs]</a><span class="k">def</span> <span class="nf">get_preproc_plan</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">tg</span><span class="p">,</span> <span class="n">dist_to_waypoint</span><span class="p">,</span> <span class="n">dist_to_atlas</span><span class="p">):</span>
+<div class="viewcode-block" id="get_preproc_plan"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/preprocess/index.html#AFQ.recognition.preprocess.get_preproc_plan">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_preproc_plan</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">tg</span><span class="p">,</span> <span class="n">dist_to_waypoint</span><span class="p">,</span> <span class="n">dist_to_atlas</span><span class="p">):</span>
     <span class="n">preproc_plan</span> <span class="o">=</span> <span class="n">pimms</span><span class="o">.</span><span class="n">Plan</span><span class="p">(</span>
         <span class="n">tolerance_mm_to_vox</span><span class="o">=</span><span class="n">tolerance_mm_to_vox</span><span class="p">,</span>
         <span class="n">fgarray</span><span class="o">=</span><span class="n">fgarray</span><span class="p">,</span>

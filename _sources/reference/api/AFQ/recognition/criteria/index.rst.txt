@@ -114,6 +114,6 @@ Attributes
 .. py:function:: mahalanobis(b_sls, bundle_def, clip_edges, cleaning_params, **kwargs)
 
 
-.. py:function:: run_bundle_rec_plan(bundle_dict, tg, mapping, img, reg_template, preproc_imap, bundle_name, bundle_idx, bundle_to_flip, bundle_roi_dists, bundle_decisions, **segmentation_params)
+.. py:function:: run_bundle_rec_plan(bundle_dict, tg, mapping, img, reg_template, preproc_imap, bundle_name, bundle_idx, bundle_to_flip, bundle_roi_closest, bundle_decisions, **segmentation_params)
 
 

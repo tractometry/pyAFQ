@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**181:04.483** total execution time for 16 files **from all galleries**:
+**152:07.417** total execution time for 16 files **from all galleries**:
 
 .. container::
 
@@ -32,33 +32,33 @@ Computation times
    * - Example
      - Time
      - Mem (MB)
-   * - :ref:`sphx_glr_howto_howto_examples_plot_acoustic_radiations.py` (``../../examples/howto_examples/plot_acoustic_radiations.py``)
-     - 34:16.618
-     - 4605.0
    * - :ref:`sphx_glr_howto_howto_examples_plot_afq_fwdti.py` (``../../examples/howto_examples/plot_afq_fwdti.py``)
-     - 30:00.422
-     - 3829.8
-   * - :ref:`sphx_glr_howto_howto_examples_plot_afq_callosal.py` (``../../examples/howto_examples/plot_afq_callosal.py``)
-     - 28:13.340
-     - 2610.2
-   * - :ref:`sphx_glr_howto_howto_examples_plot_optic_radiations.py` (``../../examples/howto_examples/plot_optic_radiations.py``)
-     - 27:40.564
-     - 4126.5
+     - 36:14.791
+     - 3804.4
+   * - :ref:`sphx_glr_howto_howto_examples_plot_acoustic_radiations.py` (``../../examples/howto_examples/plot_acoustic_radiations.py``)
+     - 30:25.338
+     - 4608.0
    * - :ref:`sphx_glr_howto_howto_examples_plot_stages_of_tractometry.py` (``../../examples/howto_examples/plot_stages_of_tractometry.py``)
-     - 25:07.828
-     - 4615.0
-   * - :ref:`sphx_glr_tutorials_tutorial_examples_plot_002_bids_layout.py` (``../../examples/tutorial_examples/plot_002_bids_layout.py``)
-     - 15:58.676
-     - 2246.3
+     - 26:20.585
+     - 4531.3
+   * - :ref:`sphx_glr_howto_howto_examples_plot_optic_radiations.py` (``../../examples/howto_examples/plot_optic_radiations.py``)
+     - 23:08.142
+     - 4152.1
    * - :ref:`sphx_glr_howto_howto_examples_plot_recobundles.py` (``../../examples/howto_examples/plot_recobundles.py``)
-     - 15:48.301
-     - 2556.1
+     - 12:14.370
+     - 2737.9
+   * - :ref:`sphx_glr_howto_howto_examples_plot_afq_callosal.py` (``../../examples/howto_examples/plot_afq_callosal.py``)
+     - 10:53.344
+     - 2709.6
+   * - :ref:`sphx_glr_tutorials_tutorial_examples_plot_002_bids_layout.py` (``../../examples/tutorial_examples/plot_002_bids_layout.py``)
+     - 10:02.620
+     - 2520.3
    * - :ref:`sphx_glr_tutorials_tutorial_examples_plot_001_afq_api.py` (``../../examples/tutorial_examples/plot_001_afq_api.py``)
-     - 03:38.528
-     - 1716.0
+     - 02:29.964
+     - 1363.5
    * - :ref:`sphx_glr_tutorials_tutorial_examples_plot_003_viz.py` (``../../examples/tutorial_examples/plot_003_viz.py``)
-     - 00:20.206
-     - 782.7
+     - 00:18.262
+     - 889.5
    * - :ref:`sphx_glr_howto_howto_examples_add_custom_bundle.py` (``../../examples/howto_examples/add_custom_bundle.py``)
      - 00:00.000
      - 0.0

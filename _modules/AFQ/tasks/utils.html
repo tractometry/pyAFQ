@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.tasks.utils &#8212; AFQ 1.3.6 documentation</title>
+    <title>AFQ.tasks.utils &#8212; AFQ 2.0 documentation</title>
   
   
   
@@ -132,8 +132,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.6 documentation - Home"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.6 documentation - Home"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 2.0 documentation - Home"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -432,14 +432,15 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for AFQ.tasks.utils</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">AFQ.utils.path</span> <span class="kn">import</span> <span class="n">drop_extension</span>
-<span class="kn">import</span> <span class="nn">os.path</span> <span class="k">as</span> <span class="nn">op</span>
-<span class="kn">import</span> <span class="nn">inspect</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.utils.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">drop_extension</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">op</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">inspect</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;get_fname&quot;</span><span class="p">,</span> <span class="s2">&quot;with_name&quot;</span><span class="p">,</span> <span class="s2">&quot;get_base_fname&quot;</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="get_base_fname"><a class="viewcode-back" href="../../../reference/api/AFQ/tasks/utils/index.html#AFQ.tasks.utils.get_base_fname">[docs]</a><span class="k">def</span> <span class="nf">get_base_fname</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">dwi_data_file</span><span class="p">):</span>
+<div class="viewcode-block" id="get_base_fname"><a class="viewcode-back" href="../../../reference/api/AFQ/tasks/utils/index.html#AFQ.tasks.utils.get_base_fname">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_base_fname</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">dwi_data_file</span><span class="p">):</span>
     <span class="c1"># setup up path and base file name for outputs</span>
     <span class="c1"># remove suffix and desc from dwi data file name</span>
     <span class="n">used_key_list</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;desc&quot;</span><span class="p">,</span> <span class="s2">&quot;space&quot;</span><span class="p">,</span> <span class="s2">&quot;to&quot;</span><span class="p">,</span> <span class="s2">&quot;from&quot;</span><span class="p">]</span>
@@ -456,11 +457,13 @@ document.write(`
     <span class="k">return</span> <span class="n">fname</span></div>
 
 
-<div class="viewcode-block" id="get_fname"><a class="viewcode-back" href="../../../reference/api/AFQ/tasks/utils/index.html#AFQ.tasks.utils.get_fname">[docs]</a><span class="k">def</span> <span class="nf">get_fname</span><span class="p">(</span><span class="n">base_fname</span><span class="p">,</span> <span class="n">suffix</span><span class="p">,</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_fname</span><span class="p">(</span><span class="n">base_fname</span><span class="p">,</span> <span class="n">suffix</span><span class="p">,</span>
               <span class="n">tracking_params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">segmentation_params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="n">fname</span> <span class="o">=</span> <span class="n">base_fname</span>
     <span class="k">if</span> <span class="n">tracking_params</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="s1">&#39;odf_model&#39;</span> <span class="ow">in</span> <span class="n">tracking_params</span><span class="p">:</span>
         <span class="n">odf_model</span> <span class="o">=</span> <span class="n">tracking_params</span><span class="p">[</span><span class="s1">&#39;odf_model&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">odf_model</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">odf_model</span> <span class="o">=</span> <span class="n">odf_model</span><span class="o">.</span><span class="n">get_name</span><span class="p">()</span>
         <span class="n">directions</span> <span class="o">=</span> <span class="n">tracking_params</span><span class="p">[</span><span class="s1">&#39;directions&#39;</span><span class="p">]</span>
         <span class="n">fname</span> <span class="o">=</span> <span class="n">fname</span> <span class="o">+</span> <span class="p">(</span>
             <span class="sa">f</span><span class="s1">&#39;_coordsys-RASMM_trkmethod-</span><span class="si">{</span><span class="n">directions</span><span class="o">+</span><span class="n">odf_model</span><span class="si">}</span><span class="s1">&#39;</span>
@@ -468,15 +471,49 @@ document.write(`
     <span class="k">if</span> <span class="n">segmentation_params</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">fname</span> <span class="o">=</span> <span class="n">fname</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;_recogmethod-AFQ&quot;</span>
 
-    <span class="k">return</span> <span class="n">fname</span> <span class="o">+</span> <span class="n">suffix</span></div>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_split_path</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+    <span class="n">parts</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">path</span><span class="p">,</span> <span class="n">folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">folder</span><span class="p">:</span>
+            <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">folder</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">path</span><span class="p">:</span>
+                <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+            <span class="k">break</span>
+    <span class="k">return</span> <span class="n">parts</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="get_fname"><a class="viewcode-back" href="../../../reference/api/AFQ/tasks/utils/index.html#AFQ.tasks.utils.get_fname">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_fname</span><span class="p">(</span><span class="n">base_fname</span><span class="p">,</span> <span class="n">suffix</span><span class="p">,</span> <span class="n">subfolder</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">subfolder</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">base_fname</span> <span class="o">+</span> <span class="n">suffix</span>
+    <span class="k">elif</span> <span class="n">subfolder</span> <span class="o">==</span> <span class="s2">&quot;..&quot;</span><span class="p">:</span>
+        <span class="n">base_dir</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">base_fname</span><span class="p">)</span>
+        <span class="n">base_fname</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">base_fname</span><span class="p">)</span>
+        <span class="n">folders</span> <span class="o">=</span> <span class="n">_split_path</span><span class="p">(</span><span class="n">base_dir</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">folders</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;dwi&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">folders</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="s2">&quot;sub-&quot;</span> <span class="ow">in</span> <span class="n">folders</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="ow">or</span> \
+                    <span class="s2">&quot;ses-&quot;</span> <span class="ow">in</span> <span class="n">folders</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]:</span>
+                <span class="k">return</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="o">*</span><span class="n">folders</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="n">folders</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">suffix</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="o">*</span><span class="n">folders</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">base_fname</span> <span class="o">+</span> <span class="n">suffix</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="o">*</span><span class="n">folders</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">folders</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">suffix</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">base_dir</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">base_fname</span><span class="p">)</span>
+        <span class="n">base_fname</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">base_fname</span><span class="p">)</span>
+        <span class="n">subfolder</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_dir</span><span class="p">,</span> <span class="n">subfolder</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">subfolder</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">subfolder</span><span class="p">,</span> <span class="n">base_fname</span> <span class="o">+</span> <span class="n">suffix</span><span class="p">)</span></div>
 
 
 <span class="c1"># Turn list of tasks into dictionary with names for each task</span>
-<div class="viewcode-block" id="with_name"><a class="viewcode-back" href="../../../reference/api/AFQ/tasks/utils/index.html#AFQ.tasks.utils.with_name">[docs]</a><span class="k">def</span> <span class="nf">with_name</span><span class="p">(</span><span class="n">task_list</span><span class="p">):</span>
+<div class="viewcode-block" id="with_name"><a class="viewcode-back" href="../../../reference/api/AFQ/tasks/utils/index.html#AFQ.tasks.utils.with_name">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">with_name</span><span class="p">(</span><span class="n">task_list</span><span class="p">):</span>
     <span class="k">return</span> <span class="p">{</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">task</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">_res&quot;</span><span class="p">:</span> <span class="n">task</span> <span class="k">for</span> <span class="n">task</span> <span class="ow">in</span> <span class="n">task_list</span><span class="p">}</span></div>
 
 
-<span class="k">def</span> <span class="nf">get_default_args</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_default_args</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
     <span class="k">return</span> <span class="p">{</span>
         <span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">default</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
@@ -484,7 +521,7 @@ document.write(`
     <span class="p">}</span>
 
 
-<span class="k">def</span> <span class="nf">str_to_desc</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">str_to_desc</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">string</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 

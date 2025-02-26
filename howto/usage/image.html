@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>The pyAFQ Image API &#8212; AFQ 1.3.6 documentation</title>
+    <title>The pyAFQ Image API &#8212; AFQ 2.0 documentation</title>
   
   
   
@@ -134,8 +134,8 @@
       
     
     
-    <img src="../../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.6 documentation - Home"/>
-    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.6 documentation - Home"/>`);</script>
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="AFQ 2.0 documentation - Home"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -557,9 +557,9 @@ combined using a logical “and” or “or”.</p></li>
 </ul>
 <p>Here is an example of using the <a class="reference internal" href="../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.RoiImage" title="AFQ.definitions.image.RoiImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">AFQ.definitions.image.RoiImage</span></code></a> and <a class="reference internal" href="../../reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.LabelledImageFile" title="AFQ.definitions.image.LabelledImageFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">AFQ.definitions.image.LabelledImageFile</span></code></a> on the HCP
 data with the AFQ.api objects:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">AFQ.data.fetch</span> <span class="kn">import</span> <span class="n">fetch_hcp</span>
-<span class="kn">from</span> <span class="nn">AFQ.api.group</span> <span class="kn">import</span> <span class="n">GroupAFQ</span>
-<span class="kn">import</span> <span class="nn">AFQ.definitions.image</span> <span class="k">as</span> <span class="nn">afm</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.data.fetch</span><span class="w"> </span><span class="kn">import</span> <span class="n">fetch_hcp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.api.group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GroupAFQ</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">AFQ.definitions.image</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">afm</span>
 
 <span class="c1"># Download a subject to the AWS Batch machine from s3</span>
 <span class="n">_</span><span class="p">,</span> <span class="n">hcp_bids</span> <span class="o">=</span> <span class="n">fetch_hcp</span><span class="p">(</span>

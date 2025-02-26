@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.recognition.roi &#8212; AFQ 1.3.6 documentation</title>
+    <title>AFQ.recognition.roi &#8212; AFQ 2.0 documentation</title>
   
   
   
@@ -134,8 +134,8 @@
       
     
     
-    <img src="../../../../../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.6 documentation - Home"/>
-    <script>document.write(`<img src="../../../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.6 documentation - Home"/>`);</script>
+    <img src="../../../../../_static/logo.png" class="logo__image only-light" alt="AFQ 2.0 documentation - Home"/>
+    <script>document.write(`<img src="../../../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -545,21 +545,29 @@ document.write(`
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AFQ.recognition.roi.check_sls_with_inclusion" title="AFQ.recognition.roi.check_sls_with_inclusion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_sls_with_inclusion</span></code></a>(sls, include_rois, ...)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AFQ.recognition.roi._interp3d" title="AFQ.recognition.roi._interp3d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_interp3d</span></code></a>(roi, sl)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AFQ.recognition.roi.check_sl_with_inclusion" title="AFQ.recognition.roi.check_sl_with_inclusion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_sl_with_inclusion</span></code></a>(sl, include_rois, include_roi_tols)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#AFQ.recognition.roi.check_sls_with_inclusion" title="AFQ.recognition.roi.check_sls_with_inclusion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_sls_with_inclusion</span></code></a>(sls, include_rois, ...)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AFQ.recognition.roi.check_sl_with_inclusion" title="AFQ.recognition.roi.check_sl_with_inclusion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_sl_with_inclusion</span></code></a>(sl, include_rois, include_roi_tols)</p></td>
 <td><p>Helper function to check that a streamline is close to a list of</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AFQ.recognition.roi.check_sl_with_exclusion" title="AFQ.recognition.roi.check_sl_with_exclusion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_sl_with_exclusion</span></code></a>(sl, exclude_rois, exclude_roi_tols)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#AFQ.recognition.roi.check_sl_with_exclusion" title="AFQ.recognition.roi.check_sl_with_exclusion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_sl_with_exclusion</span></code></a>(sl, exclude_rois, exclude_roi_tols)</p></td>
 <td><p>Helper function to check that a streamline is not too close to a</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AFQ.recognition.roi.clean_by_endpoints" title="AFQ.recognition.roi.clean_by_endpoints"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clean_by_endpoints</span></code></a>(streamlines, target, target_idx[, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AFQ.recognition.roi.clean_by_endpoints" title="AFQ.recognition.roi.clean_by_endpoints"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clean_by_endpoints</span></code></a>(streamlines, target, target_idx[, ...])</p></td>
 <td><p>Clean a collection of streamlines based on an endpoint ROI.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
+<dl class="py function">
+<dt class="sig sig-object py" id="AFQ.recognition.roi._interp3d">
+<span class="sig-prename descclassname"><span class="pre">AFQ.recognition.roi.</span></span><span class="sig-name descname"><span class="pre">_interp3d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">roi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sl</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/recognition/roi.html#_interp3d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.recognition.roi._interp3d" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="AFQ.recognition.roi.check_sls_with_inclusion">
 <span class="sig-prename descclassname"><span class="pre">AFQ.recognition.roi.</span></span><span class="sig-name descname"><span class="pre">check_sls_with_inclusion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_rois</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_roi_tols</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/recognition/roi.html#check_sls_with_inclusion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.recognition.roi.check_sls_with_inclusion" title="Permalink to this definition">#</a></dt>
@@ -667,6 +675,7 @@ and streamlines that pass cleaning will be set to 1.</p>
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#AFQ.recognition.roi._interp3d"><code class="docutils literal notranslate"><span class="pre">_interp3d()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#AFQ.recognition.roi.check_sls_with_inclusion"><code class="docutils literal notranslate"><span class="pre">check_sls_with_inclusion()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#AFQ.recognition.roi.check_sl_with_inclusion"><code class="docutils literal notranslate"><span class="pre">check_sl_with_inclusion()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#AFQ.recognition.roi.check_sl_with_exclusion"><code class="docutils literal notranslate"><span class="pre">check_sl_with_exclusion()</span></code></a></li>

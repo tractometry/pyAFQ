@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.api.group &#8212; AFQ 1.3.6 documentation</title>
+    <title>AFQ.api.group &#8212; AFQ 2.0 documentation</title>
   
   
   
@@ -132,8 +132,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.6 documentation - Home"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.6 documentation - Home"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 2.0 documentation - Home"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -433,53 +433,52 @@ document.write(`
                   
   <h1>Source code for AFQ.api.group</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-# -*- coding: utf-8 -*-</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
-<span class="kn">import</span> <span class="nn">tempfile</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
 
-<span class="kn">from</span> <span class="nn">AFQ.definitions.mapping</span> <span class="kn">import</span> <span class="n">SynMap</span>
-<span class="kn">from</span> <span class="nn">AFQ.definitions.utils</span> <span class="kn">import</span> <span class="n">Definition</span>
-<span class="kn">import</span> <span class="nn">AFQ.api.bundle_dict</span> <span class="k">as</span> <span class="nn">abd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.definitions.mapping</span><span class="w"> </span><span class="kn">import</span> <span class="n">SynMap</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.definitions.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">Definition</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">AFQ.api.bundle_dict</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">abd</span>
 <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">FutureWarning</span><span class="p">)</span>  <span class="c1"># noqa</span>
 
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">from</span> <span class="nn">AFQ.api.participant</span> <span class="kn">import</span> <span class="n">ParticipantAFQ</span>
-<span class="kn">from</span> <span class="nn">AFQ.api.utils</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.api.participant</span><span class="w"> </span><span class="kn">import</span> <span class="n">ParticipantAFQ</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.api.utils</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">check_attribute</span><span class="p">,</span> <span class="n">AFQclass_doc</span><span class="p">,</span>
     <span class="n">export_all_helper</span><span class="p">,</span> <span class="n">valid_exports_string</span><span class="p">)</span>
-<span class="kn">import</span> <span class="nn">AFQ.utils.streamlines</span> <span class="k">as</span> <span class="nn">aus</span>
-<span class="kn">from</span> <span class="nn">AFQ.viz.utils</span> <span class="kn">import</span> <span class="n">get_eye</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">AFQ.utils.streamlines</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">aus</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.viz.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_eye</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.data.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">aws_import_msg_error</span>
 
-<span class="kn">from</span> <span class="nn">dipy.utils.parallel</span> <span class="kn">import</span> <span class="n">paramap</span>
-<span class="kn">from</span> <span class="nn">dipy.io.stateful_tractogram</span> <span class="kn">import</span> <span class="n">StatefulTractogram</span><span class="p">,</span> <span class="n">Space</span>
-<span class="kn">import</span> <span class="nn">dipy.tracking.streamlinespeed</span> <span class="k">as</span> <span class="nn">dps</span>
-<span class="kn">import</span> <span class="nn">dipy.tracking.streamline</span> <span class="k">as</span> <span class="nn">dts</span>
-<span class="kn">from</span> <span class="nn">dipy.io.streamline</span> <span class="kn">import</span> <span class="n">save_tractogram</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dipy.utils.parallel</span><span class="w"> </span><span class="kn">import</span> <span class="n">paramap</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dipy.io.stateful_tractogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">StatefulTractogram</span><span class="p">,</span> <span class="n">Space</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">dipy.tracking.streamlinespeed</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dps</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">dipy.tracking.streamline</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dts</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dipy.io.streamline</span><span class="w"> </span><span class="kn">import</span> <span class="n">save_tractogram</span>
 
-<span class="kn">from</span> <span class="nn">AFQ.version</span> <span class="kn">import</span> <span class="n">version</span> <span class="k">as</span> <span class="n">pyafq_version</span>
-<span class="kn">from</span> <span class="nn">AFQ.viz.utils</span> <span class="kn">import</span> <span class="n">trim</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">pydra</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">os.path</span> <span class="k">as</span> <span class="nn">op</span>
-<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
-<span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">import</span> <span class="nn">s3fs</span>
-<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span>
-<span class="kn">import</span> <span class="nn">nibabel</span> <span class="k">as</span> <span class="nn">nib</span>
-<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
-<span class="kn">from</span> <span class="nn">s3bids.utils</span> <span class="kn">import</span> <span class="n">S3BIDSStudy</span>
-<span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.version</span><span class="w"> </span><span class="kn">import</span> <span class="n">version</span> <span class="k">as</span> <span class="n">pyafq_version</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.viz.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">trim</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pydra</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">op</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tqdm</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">time</span><span class="w"> </span><span class="kn">import</span> <span class="n">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">nibabel</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nib</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PIL</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">glob</span>
 
-<span class="kn">from</span> <span class="nn">bids.layout</span> <span class="kn">import</span> <span class="n">BIDSLayout</span><span class="p">,</span> <span class="n">BIDSLayoutIndexer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bids.layout</span><span class="w"> </span><span class="kn">import</span> <span class="n">BIDSLayout</span><span class="p">,</span> <span class="n">BIDSLayoutIndexer</span>
 <span class="k">try</span><span class="p">:</span>
-    <span class="kn">import</span> <span class="nn">afqbrowser</span> <span class="k">as</span> <span class="nn">afqb</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">afqbrowser</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">afqb</span>
     <span class="n">using_afqb</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
     <span class="n">using_afqb</span> <span class="o">=</span> <span class="kc">False</span>
 
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;GroupAFQ&quot;</span><span class="p">,</span> <span class="s2">&quot;get_afq_bids_entities_fname&quot;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;GroupAFQ&quot;</span><span class="p">]</span>
 
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;AFQ&#39;</span><span class="p">)</span>
@@ -487,19 +486,14 @@ document.write(`
 
 
 <span class="c1"># get rid of unnecessary columns in df</span>
-<span class="k">def</span> <span class="nf">clean_pandas_df</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">clean_pandas_df</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="o">~</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s1">&#39;^Unnamed&#39;</span><span class="p">)]</span>
     <span class="k">return</span> <span class="n">df</span>
 
 
-<div class="viewcode-block" id="get_afq_bids_entities_fname"><a class="viewcode-back" href="../../../reference/api/AFQ/api/group/index.html#AFQ.api.group.get_afq_bids_entities_fname">[docs]</a><span class="k">def</span> <span class="nf">get_afq_bids_entities_fname</span><span class="p">():</span>
-    <span class="k">return</span> <span class="n">op</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span>
-        <span class="n">aus</span><span class="o">.</span><span class="vm">__file__</span><span class="p">)))</span> <span class="o">+</span> <span class="s2">&quot;/afq_bids_entities.json&quot;</span></div>
-
-
-<span class="k">class</span> <span class="nc">_ParticipantAFQInputs</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">_ParticipantAFQInputs</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span> <span class="n">dwi_data_file</span><span class="p">,</span> <span class="n">bval_file</span><span class="p">,</span> <span class="n">bvec_file</span><span class="p">,</span> <span class="n">results_dir</span><span class="p">,</span>
             <span class="n">kwargs</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dwi_data_file</span> <span class="o">=</span> <span class="n">dwi_data_file</span>
@@ -509,10 +503,10 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span> <span class="o">=</span> <span class="n">kwargs</span>
 
 
-<div class="viewcode-block" id="GroupAFQ"><a class="viewcode-back" href="../../../reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ">[docs]</a><span class="k">class</span> <span class="nc">GroupAFQ</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="GroupAFQ"><a class="viewcode-back" href="../../../reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GroupAFQ</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="si">{</span><span class="n">AFQclass_doc</span><span class="si">}</span><span class="s2">&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">bids_path</span><span class="p">,</span>
                  <span class="n">bids_filters</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;dwi&quot;</span><span class="p">},</span>
                  <span class="n">preproc_pipeline</span><span class="o">=</span><span class="s2">&quot;all&quot;</span><span class="p">,</span>
@@ -554,7 +548,7 @@ document.write(`
 <span class="sd">            Set &quot;n_jobs&quot; to -1 to automatically parallelize as</span>
 <span class="sd">            the number of cpus. Here is an example for how to do</span>
 <span class="sd">            multiprocessing with 4 cpus:</span>
-<span class="sd">            {&quot;n_jobs&quot;: 4, &quot;engine&quot;: &quot;joblib&quot;, &quot;backend&quot;: &quot;loky&quot;}</span>
+<span class="sd">            {&quot;n_jobs&quot;: 4, &quot;engine&quot;: &quot;ray&quot;}</span>
 <span class="sd">            Default: {&quot;engine&quot;: &quot;serial&quot;}</span>
 <span class="sd">        bids_layout_kwargs: dict, optional</span>
 <span class="sd">            Additional arguments to give to BIDSLayout from pybids.</span>
@@ -712,6 +706,8 @@ document.write(`
                 <span class="k">if</span> <span class="n">session</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="n">results_dir</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">results_dir</span><span class="p">,</span> <span class="s1">&#39;ses-&#39;</span> <span class="o">+</span> <span class="n">session</span><span class="p">)</span>
 
+                <span class="n">results_dir</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">results_dir</span><span class="p">,</span> <span class="s2">&quot;dwi&quot;</span><span class="p">)</span>
+
                 <span class="n">dwi_bids_filters</span> <span class="o">=</span> <span class="p">{</span>
                     <span class="s2">&quot;subject&quot;</span><span class="p">:</span> <span class="n">subject</span><span class="p">,</span>
                     <span class="s2">&quot;session&quot;</span><span class="p">:</span> <span class="n">session</span><span class="p">,</span>
@@ -762,16 +758,19 @@ document.write(`
                                     <span class="n">this_kwargs</span><span class="p">[</span><span class="s2">&quot;scalars&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">scalar</span><span class="p">)</span>
                     <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;import_tract&quot;</span><span class="p">:</span>
                         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">this_kwargs</span><span class="p">[</span><span class="s2">&quot;import_tract&quot;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
+                            <span class="n">extension</span> <span class="o">=</span> <span class="n">this_kwargs</span><span class="p">[</span><span class="s2">&quot;import_tract&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span>
+                                <span class="s2">&quot;extension&quot;</span><span class="p">,</span>
+                                <span class="p">[</span><span class="s1">&#39;.trk&#39;</span><span class="p">,</span>
+                                 <span class="s1">&#39;.tck&#39;</span><span class="p">,</span>
+                                 <span class="s1">&#39;.trx&#39;</span><span class="p">,</span>
+                                 <span class="s1">&#39;.vtk&#39;</span><span class="p">,</span>
+                                 <span class="s1">&#39;.fib&#39;</span><span class="p">,</span>
+                                 <span class="s1">&#39;.dpy&#39;</span><span class="p">])</span>
                             <span class="n">it_res</span> <span class="o">=</span> \
                                 <span class="n">bids_layout</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
                                     <span class="n">subject</span><span class="o">=</span><span class="n">subject</span><span class="p">,</span>
                                     <span class="n">session</span><span class="o">=</span><span class="n">session</span><span class="p">,</span>
-                                    <span class="n">extension</span><span class="o">=</span><span class="p">[</span>
-                                        <span class="s1">&#39;.trk&#39;</span><span class="p">,</span>
-                                        <span class="s1">&#39;.tck&#39;</span><span class="p">,</span>
-                                        <span class="s1">&#39;.vtk&#39;</span><span class="p">,</span>
-                                        <span class="s1">&#39;.fib&#39;</span><span class="p">,</span>
-                                        <span class="s1">&#39;.dpy&#39;</span><span class="p">],</span>
+                                    <span class="n">extension</span><span class="o">=</span><span class="n">extension</span><span class="p">,</span>
                                     <span class="n">return_type</span><span class="o">=</span><span class="s1">&#39;filename&#39;</span><span class="p">,</span>
                                     <span class="o">**</span><span class="n">this_kwargs</span><span class="p">[</span><span class="s2">&quot;import_tract&quot;</span><span class="p">])</span>
                             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">it_res</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
@@ -832,7 +831,7 @@ document.write(`
                 <span class="bp">self</span><span class="o">.</span><span class="n">pAFQ_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">this_pAFQ</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">pAFQ_inputs_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">this_pAFQ_inputs</span><span class="p">)</span>
 
-<div class="viewcode-block" id="GroupAFQ.combine_profiles"><a class="viewcode-back" href="../../../reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ.combine_profiles">[docs]</a>    <span class="k">def</span> <span class="nf">combine_profiles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="GroupAFQ.combine_profiles"><a class="viewcode-back" href="../../../reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ.combine_profiles">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">combine_profiles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">tract_profiles_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;profiles&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sessions</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">tract_profiles_list</span> <span class="o">=</span> <span class="p">[]</span>
@@ -848,13 +847,13 @@ document.write(`
         <span class="n">_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">out_file</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">_df</span></div>
 
-<div class="viewcode-block" id="GroupAFQ.get_streamlines_json"><a class="viewcode-back" href="../../../reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ.get_streamlines_json">[docs]</a>    <span class="k">def</span> <span class="nf">get_streamlines_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="GroupAFQ.get_streamlines_json"><a class="viewcode-back" href="../../../reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ.get_streamlines_json">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_streamlines_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">sls_json_fname</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">afq_path</span><span class="p">,</span> <span class="s2">&quot;afqb_streamlines.json&quot;</span><span class="p">))</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">op</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">sls_json_fname</span><span class="p">):</span>
             <span class="n">subses_info</span> <span class="o">=</span> <span class="p">[]</span>
 
-            <span class="k">def</span> <span class="nf">load_next_subject</span><span class="p">():</span>
+            <span class="k">def</span><span class="w"> </span><span class="nf">load_next_subject</span><span class="p">():</span>
                 <span class="n">subses_idx</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">subses_info</span><span class="p">)</span>
                 <span class="n">sub</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_sub_list</span><span class="p">[</span><span class="n">subses_idx</span><span class="p">]</span>
                 <span class="n">ses</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_ses_list</span><span class="p">[</span><span class="n">subses_idx</span><span class="p">]</span>
@@ -913,7 +912,7 @@ document.write(`
                 <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">sls_dict</span><span class="p">,</span> <span class="n">fp</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">sls_json_fname</span></div>
 
-<div class="viewcode-block" id="GroupAFQ.export"><a class="viewcode-back" href="../../../reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ.export">[docs]</a>    <span class="k">def</span> <span class="nf">export</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr_name</span><span class="o">=</span><span class="s2">&quot;help&quot;</span><span class="p">,</span> <span class="n">collapse</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="GroupAFQ.export"><a class="viewcode-back" href="../../../reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ.export">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">export</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr_name</span><span class="o">=</span><span class="s2">&quot;help&quot;</span><span class="p">,</span> <span class="n">collapse</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">        Export a specific output. To print a list of available outputs,</span>
 <span class="s2">        call export without arguments.</span>
@@ -976,7 +975,7 @@ document.write(`
 
         <span class="k">return</span> <span class="n">results</span></div>
 
-<div class="viewcode-block" id="GroupAFQ.export_up_to"><a class="viewcode-back" href="../../../reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ.export_up_to">[docs]</a>    <span class="k">def</span> <span class="nf">export_up_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr_name</span><span class="o">=</span><span class="s2">&quot;help&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="GroupAFQ.export_up_to"><a class="viewcode-back" href="../../../reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ.export_up_to">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">export_up_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr_name</span><span class="o">=</span><span class="s2">&quot;help&quot;</span><span class="p">):</span>
         <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">        Export all derivatives necessary for a specific output.</span>
 <span class="s2">        To print a list of available outputs,</span>
@@ -996,7 +995,7 @@ document.write(`
         <span class="k">for</span> <span class="n">dependent</span> <span class="ow">in</span> <span class="n">wf_dict</span><span class="o">.</span><span class="n">plan</span><span class="o">.</span><span class="n">dependencies</span><span class="p">[</span><span class="n">attr_name</span><span class="p">]:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">dependent</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GroupAFQ.export_all"><a class="viewcode-back" href="../../../reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ.export_all">[docs]</a>    <span class="k">def</span> <span class="nf">export_all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">viz</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">afqbrowser</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">xforms</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<div class="viewcode-block" id="GroupAFQ.export_all"><a class="viewcode-back" href="../../../reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ.export_all">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">export_all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">viz</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">afqbrowser</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">xforms</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                    <span class="n">indiv</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Exports all the possible outputs</span>
 
@@ -1032,7 +1031,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;Time taken for export all: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start_time</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GroupAFQ.cmd_outputs"><a class="viewcode-back" href="../../../reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ.cmd_outputs">[docs]</a>    <span class="k">def</span> <span class="nf">cmd_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmd</span><span class="o">=</span><span class="s2">&quot;rm&quot;</span><span class="p">,</span> <span class="n">dependent_on</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exceptions</span><span class="o">=</span><span class="p">[],</span>
+<div class="viewcode-block" id="GroupAFQ.cmd_outputs"><a class="viewcode-back" href="../../../reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ.cmd_outputs">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">cmd_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmd</span><span class="o">=</span><span class="s2">&quot;rm&quot;</span><span class="p">,</span> <span class="n">dependent_on</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exceptions</span><span class="o">=</span><span class="p">[],</span>
                     <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Perform some command some or all outputs of pyafq.</span>
@@ -1074,7 +1073,7 @@ document.write(`
 
 <div class="viewcode-block" id="GroupAFQ.clobber"><a class="viewcode-back" href="../../../reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ.clobber">[docs]</a>    <span class="n">clobber</span> <span class="o">=</span> <span class="n">cmd_outputs</span>  <span class="c1"># alias for default of cmd_outputs</span></div>
 
-<div class="viewcode-block" id="GroupAFQ.make_all_participant_montages"><a class="viewcode-back" href="../../../reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ.make_all_participant_montages">[docs]</a>    <span class="k">def</span> <span class="nf">make_all_participant_montages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">images_per_row</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+<div class="viewcode-block" id="GroupAFQ.make_all_participant_montages"><a class="viewcode-back" href="../../../reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ.make_all_participant_montages">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">make_all_participant_montages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">images_per_row</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generate montage of all bundles for a all subjects.</span>
 
@@ -1091,7 +1090,7 @@ document.write(`
         <span class="k">for</span> <span class="n">pAFQ</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pAFQ_list</span><span class="p">:</span>
             <span class="n">pAFQ</span><span class="o">.</span><span class="n">participant_montage</span><span class="p">(</span><span class="n">images_per_row</span><span class="o">=</span><span class="n">images_per_row</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GroupAFQ.group_montage"><a class="viewcode-back" href="../../../reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ.group_montage">[docs]</a>    <span class="k">def</span> <span class="nf">group_montage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bundle_name</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">view</span><span class="p">,</span> <span class="n">direc</span><span class="p">,</span> <span class="n">slice_pos</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="GroupAFQ.group_montage"><a class="viewcode-back" href="../../../reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ.group_montage">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">group_montage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bundle_name</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">view</span><span class="p">,</span> <span class="n">direc</span><span class="p">,</span> <span class="n">slice_pos</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generate montage file(s) of a given bundle at a given angle.</span>
 
@@ -1189,10 +1188,10 @@ document.write(`
                 <span class="n">figure</span><span class="o">.</span><span class="n">write_image</span><span class="p">(</span><span class="n">this_fname</span><span class="p">)</span>
 
                 <span class="c1"># temporary fix for memory leak</span>
-                <span class="kn">import</span> <span class="nn">plotly.io</span> <span class="k">as</span> <span class="nn">pio</span>
+                <span class="kn">import</span><span class="w"> </span><span class="nn">plotly.io</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pio</span>
                 <span class="n">pio</span><span class="o">.</span><span class="n">kaleido</span><span class="o">.</span><span class="n">scope</span><span class="o">.</span><span class="n">_shutdown_kaleido</span><span class="p">()</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="kn">from</span> <span class="nn">dipy.viz</span> <span class="kn">import</span> <span class="n">window</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">dipy.viz</span><span class="w"> </span><span class="kn">import</span> <span class="n">window</span>
                 <span class="n">direc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span><span class="n">eye</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
                 <span class="n">data_shape</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">b0</span><span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
                 <span class="n">figure</span><span class="o">.</span><span class="n">set_camera</span><span class="p">(</span>
@@ -1202,7 +1201,7 @@ document.write(`
                 <span class="n">figure</span><span class="o">.</span><span class="n">zoom</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
                 <span class="n">window</span><span class="o">.</span><span class="n">snapshot</span><span class="p">(</span><span class="n">figure</span><span class="p">,</span> <span class="n">fname</span><span class="o">=</span><span class="n">this_fname</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span> <span class="mi">600</span><span class="p">))</span>
 
-        <span class="k">def</span> <span class="nf">_save_file</span><span class="p">(</span><span class="n">curr_img</span><span class="p">,</span> <span class="n">curr_file_num</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">_save_file</span><span class="p">(</span><span class="n">curr_img</span><span class="p">,</span> <span class="n">curr_file_num</span><span class="p">):</span>
             <span class="n">save_path</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">afq_path</span><span class="p">,</span>
                 <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;bundle-</span><span class="si">{</span><span class="n">bundle_name</span><span class="si">}</span><span class="s2">_view-</span><span class="si">{</span><span class="n">view</span><span class="si">}</span><span class="s2">&quot;</span>
@@ -1251,7 +1250,7 @@ document.write(`
         <span class="n">_save_file</span><span class="p">(</span><span class="n">curr_img</span><span class="p">,</span> <span class="n">curr_file_num</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">all_fnames</span></div>
 
-<div class="viewcode-block" id="GroupAFQ.combine_bundle"><a class="viewcode-back" href="../../../reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ.combine_bundle">[docs]</a>    <span class="k">def</span> <span class="nf">combine_bundle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bundle_name</span><span class="p">):</span>
+<div class="viewcode-block" id="GroupAFQ.combine_bundle"><a class="viewcode-back" href="../../../reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ.combine_bundle">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">combine_bundle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bundle_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Transforms a given bundle to reg_template space for all subjects</span>
 <span class="sd">        then merges them to one trk file.</span>
@@ -1307,13 +1306,17 @@ document.write(`
                 <span class="sa">f</span><span class="s2">&quot;bundle-</span><span class="si">{</span><span class="n">bundle_name</span><span class="si">}</span><span class="s2">_subjects-all_MNI.trk&quot;</span><span class="p">)),</span>
             <span class="n">bbox_valid_check</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GroupAFQ.upload_to_s3"><a class="viewcode-back" href="../../../reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ.upload_to_s3">[docs]</a>    <span class="k">def</span> <span class="nf">upload_to_s3</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s3fs</span><span class="p">,</span> <span class="n">remote_path</span><span class="p">):</span>
+<div class="viewcode-block" id="GroupAFQ.upload_to_s3"><a class="viewcode-back" href="../../../reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ.upload_to_s3">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">upload_to_s3</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s3fs</span><span class="p">,</span> <span class="n">remote_path</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Upload entire AFQ derivatives folder to S3&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">import</span><span class="w"> </span><span class="nn">s3fs</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">ImportError</span><span class="p">,</span> <span class="ne">ModuleNotFoundError</span><span class="p">):</span>
+            <span class="n">aws_import_msg_error</span><span class="p">(</span><span class="s2">&quot;s3fs&quot;</span><span class="p">)</span>
         <span class="n">s3fs</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">afq_path</span><span class="p">,</span> <span class="n">remote_path</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">op</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">afqb_path</span><span class="p">):</span>
             <span class="n">s3fs</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">afqb_path</span><span class="p">,</span> <span class="n">remote_path</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GroupAFQ.export_group_density"><a class="viewcode-back" href="../../../reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ.export_group_density">[docs]</a>    <span class="k">def</span> <span class="nf">export_group_density</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">boolify</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="GroupAFQ.export_group_density"><a class="viewcode-back" href="../../../reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ.export_group_density">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">export_group_density</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">boolify</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generate a group density map by combining single subject density maps.</span>
 
@@ -1331,6 +1334,9 @@ document.write(`
         <span class="n">ex_density_init</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">densities</span><span class="p">[</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">valid_sub_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">valid_ses_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>  <span class="c1"># for shape and header</span>
+        <span class="n">tmpl_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;tmpl_name&quot;</span><span class="p">,</span> <span class="n">collapse</span><span class="o">=</span><span class="kc">False</span><span class="p">)[</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">valid_sub_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">valid_ses_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
 
         <span class="n">group_density</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">ex_density_init</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Generating Group Density...&quot;</span><span class="p">)</span>
@@ -1351,11 +1357,11 @@ document.write(`
 
         <span class="n">out_fname</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">afq_path</span><span class="p">,</span>
-            <span class="sa">f</span><span class="s2">&quot;desc-density_subjects-all_space-MNI_dwi.nii.gz&quot;</span><span class="p">))</span>
+            <span class="sa">f</span><span class="s2">&quot;desc-density_subjects-all_space-</span><span class="si">{</span><span class="n">tmpl_name</span><span class="si">}</span><span class="s2">_dwimap.nii.gz&quot;</span><span class="p">))</span>
         <span class="n">nib</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">group_density</span><span class="p">,</span> <span class="n">out_fname</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">out_fname</span></div>
 
-<div class="viewcode-block" id="GroupAFQ.assemble_AFQ_browser"><a class="viewcode-back" href="../../../reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ.assemble_AFQ_browser">[docs]</a>    <span class="k">def</span> <span class="nf">assemble_AFQ_browser</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<div class="viewcode-block" id="GroupAFQ.assemble_AFQ_browser"><a class="viewcode-back" href="../../../reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ.assemble_AFQ_browser">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">assemble_AFQ_browser</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                              <span class="n">page_title</span><span class="o">=</span><span class="s2">&quot;AFQ Browser&quot;</span><span class="p">,</span> <span class="n">page_subtitle</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
                              <span class="n">page_title_link</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">page_subtitle_link</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1433,8 +1439,8 @@ document.write(`
             <span class="n">sublink</span><span class="o">=</span><span class="n">page_subtitle_link</span><span class="p">)</span></div></div>
 
 
-<span class="k">class</span> <span class="nc">ParallelGroupAFQ</span><span class="p">():</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ParallelGroupAFQ</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">orig</span> <span class="o">=</span> <span class="n">GroupAFQ</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
         <span class="n">orig</span><span class="o">.</span><span class="n">parallel_params</span><span class="p">[</span><span class="s2">&quot;submitter_params&quot;</span><span class="p">]</span> <span class="o">=</span> \
@@ -1452,7 +1458,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">finishing_params</span><span class="p">[</span><span class="s2">&quot;output_dirs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">pAFQ</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;output_dir&quot;</span><span class="p">]</span>
                                                 <span class="k">for</span> <span class="n">pAFQ</span> <span class="ow">in</span> <span class="n">orig</span><span class="o">.</span><span class="n">pAFQ_list</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">_submit_pydra</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runnable</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_submit_pydra</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runnable</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">with</span> <span class="n">pydra</span><span class="o">.</span><span class="n">Submitter</span><span class="p">(</span>
                 <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">parallel_params</span><span class="p">[</span><span class="s2">&quot;submitter_params&quot;</span><span class="p">],</span>
@@ -1463,7 +1469,7 @@ document.write(`
             <span class="k">if</span> <span class="s2">&quot;&#39;NoneType&#39; object has no attribute &#39;replace&#39;&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
                 <span class="k">raise</span>
 
-    <span class="k">def</span> <span class="nf">export</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr_name</span><span class="o">=</span><span class="s2">&quot;help&quot;</span><span class="p">,</span> <span class="n">collapse</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">export</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr_name</span><span class="o">=</span><span class="s2">&quot;help&quot;</span><span class="p">,</span> <span class="n">collapse</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">        Export a specific output. To print a list of available outputs,</span>
 <span class="s2">        call export without arguments.</span>
@@ -1488,7 +1494,7 @@ document.write(`
 <span class="s2">        &quot;&quot;&quot;</span>
 
         <span class="nd">@pydra</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">task</span>
-        <span class="k">def</span> <span class="nf">export_sub</span><span class="p">(</span><span class="n">pAFQ_kwargs</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">export_sub</span><span class="p">(</span><span class="n">pAFQ_kwargs</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">):</span>
             <span class="n">pAFQ</span> <span class="o">=</span> <span class="n">ParticipantAFQ</span><span class="p">(</span>
                 <span class="n">pAFQ_kwargs</span><span class="o">.</span><span class="n">dwi_data_file</span><span class="p">,</span>
                 <span class="n">pAFQ_kwargs</span><span class="o">.</span><span class="n">bval_file</span><span class="p">,</span>
@@ -1504,7 +1510,7 @@ document.write(`
         <span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;pAFQ_kwargs&quot;</span><span class="p">,</span> <span class="n">pAFQ_kwargs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pAFQ_kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_submit_pydra</span><span class="p">(</span><span class="n">export_sub_task</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">export_all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">viz</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">afqbrowser</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">xforms</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">indiv</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">export_all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">viz</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">afqbrowser</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">xforms</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">indiv</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Exports all the possible outputs</span>
 
 <span class="sd">        Parameters</span>
@@ -1530,7 +1536,7 @@ document.write(`
 <span class="sd">            Default: True</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nd">@pydra</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">task</span>
-        <span class="k">def</span> <span class="nf">export_sub</span><span class="p">(</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">export_sub</span><span class="p">(</span>
             <span class="n">pAFQ_kwargs</span><span class="p">,</span>
             <span class="n">finishing_params</span><span class="p">,</span>
             <span class="n">viz</span><span class="p">,</span>
@@ -1566,7 +1572,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">_submit_pydra</span><span class="p">(</span><span class="n">export_sub_task</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">download_and_combine_afq_profiles</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">download_and_combine_afq_profiles</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span>
                                       <span class="n">study_s3_prefix</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">deriv_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                       <span class="n">out_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                       <span class="n">upload</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">session</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -1599,6 +1605,12 @@ document.write(`
 <span class="sd">    -------</span>
 <span class="sd">    Ouput CSV&#39;s pandas dataframe.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">s3bids.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">S3BIDSStudy</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">s3fs</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">ImportError</span><span class="p">,</span> <span class="ne">ModuleNotFoundError</span><span class="p">):</span>
+        <span class="n">aws_import_msg_error</span><span class="p">(</span><span class="s2">&quot;s3bids and s3fs&quot;</span><span class="p">)</span>
+
     <span class="k">if</span> <span class="s2">&quot;subjects&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
         <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;subjects&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;all&quot;</span>
     <span class="k">if</span> <span class="s2">&quot;anon&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
@@ -1657,7 +1669,7 @@ document.write(`
     <span class="k">return</span> <span class="n">df</span>
 
 
-<span class="k">def</span> <span class="nf">combine_list_of_profiles</span><span class="p">(</span><span class="n">profile_fnames</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">combine_list_of_profiles</span><span class="p">(</span><span class="n">profile_fnames</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Combine tract profiles from different subjects / sessions</span>
 <span class="sd">    into one CSV.</span>

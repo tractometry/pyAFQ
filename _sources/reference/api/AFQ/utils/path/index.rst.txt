@@ -16,6 +16,7 @@ Functions
    AFQ.utils.path.write_json
    AFQ.utils.path.read_json
    AFQ.utils.path.drop_extension
+   AFQ.utils.path.space_from_fname
    AFQ.utils.path.apply_cmd_to_afq_derivs
 
 
@@ -86,6 +87,9 @@ Functions
        !! processed by numpydoc !!
 
 .. py:function:: drop_extension(path)
+
+
+.. py:function:: space_from_fname(dwi_fname)
 
 
 .. py:function:: apply_cmd_to_afq_derivs(derivs_dir, base_fname, cmd='rm', exception_file_names=[], suffix='', dependent_on=None)

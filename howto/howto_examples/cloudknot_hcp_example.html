@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ with HCP data &#8212; AFQ 1.3.6 documentation</title>
+    <title>AFQ with HCP data &#8212; AFQ 2.0 documentation</title>
   
   
   
@@ -134,8 +134,8 @@
       
     
     
-    <img src="../../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.6 documentation - Home"/>
-    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.6 documentation - Home"/>`);</script>
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="AFQ 2.0 documentation - Home"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -501,10 +501,10 @@ configurations of pyAFQ on the HCP dataset. Specifically, here we will run
 pyAFQ with different tractography seeding strategies.</p>
 <p>Import cloudknot and set the correct region. The HCP data is stored in <cite>us-east-1</cite>, so it’s best
 to analyze it there.</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">configparser</span>
-<span class="kn">import</span> <span class="nn">itertools</span>
-<span class="kn">import</span> <span class="nn">cloudknot</span> <span class="k">as</span> <span class="nn">ck</span>
-<span class="kn">import</span> <span class="nn">os.path</span> <span class="k">as</span> <span class="nn">op</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">configparser</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">itertools</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">cloudknot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ck</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">op</span>
 
 <span class="n">ck</span><span class="o">.</span><span class="n">set_region</span><span class="p">(</span><span class="s1">&#39;us-east-1&#39;</span><span class="p">)</span>
 </pre></div>
@@ -512,17 +512,17 @@ to analyze it there.</p>
 <p>Define a function to run. This function allows us to pass in the subject ID for the subjects we would
 like to analyze , as well as strategies for seeding tractography (different masks and/or different
 numbers of seeds per voxel).</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">afq_process_subject</span><span class="p">(</span><span class="n">subject</span><span class="p">,</span> <span class="n">seed_mask</span><span class="p">,</span> <span class="n">n_seeds</span><span class="p">,</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">afq_process_subject</span><span class="p">(</span><span class="n">subject</span><span class="p">,</span> <span class="n">seed_mask</span><span class="p">,</span> <span class="n">n_seeds</span><span class="p">,</span>
                         <span class="n">aws_access_key</span><span class="p">,</span> <span class="n">aws_secret_key</span><span class="p">):</span>
     <span class="c1"># define a function that each job will run</span>
     <span class="c1"># In this case, each process does a single subject</span>
-    <span class="kn">import</span> <span class="nn">logging</span>
-    <span class="kn">import</span> <span class="nn">s3fs</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">s3fs</span>
     <span class="c1"># all imports must be at the top of the function</span>
     <span class="c1"># cloudknot installs the appropriate packages from pip</span>
-    <span class="kn">from</span> <span class="nn">AFQ.data.fetch</span> <span class="kn">import</span> <span class="n">fetch_hcp</span>
-    <span class="kn">from</span> <span class="nn">AFQ.api.group</span> <span class="kn">import</span> <span class="n">GroupAFQ</span>
-    <span class="kn">import</span> <span class="nn">AFQ.definitions.image</span> <span class="k">as</span> <span class="nn">afm</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.data.fetch</span><span class="w"> </span><span class="kn">import</span> <span class="n">fetch_hcp</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.api.group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GroupAFQ</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">AFQ.definitions.image</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">afm</span>
 
     <span class="c1"># set logging level to your choice</span>
     <a href="https://docs.python.org/3/library/logging.html#logging.basicConfig" title="logging.basicConfig" class="sphx-glr-backref-module-logging sphx-glr-backref-type-py-function"><span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span></a><span class="p">(</span><span class="n">level</span><span class="o">=</span><a href="https://docs.python.org/3/library/logging.html#logging.INFO" title="logging.INFO" class="sphx-glr-backref-module-logging sphx-glr-backref-type-py-data"><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span></a><span class="p">)</span>
@@ -611,7 +611,7 @@ We use this with each list being a list of arguments,
 and we append the AWS keys to each list of arguments, so that we can pass
 them into the function to be used on AWS Batch to download the data into the
 AWS Batch machines.</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">attach_keys</span><span class="p">(</span><span class="n">list_of_arg_lists</span><span class="p">):</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">attach_keys</span><span class="p">(</span><span class="n">list_of_arg_lists</span><span class="p">):</span>
     <span class="n">new_list_of_arg_lists</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">args</span> <span class="ow">in</span> <span class="n">list_of_arg_lists</span><span class="p">:</span>
         <span class="n">arg_ls</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
@@ -659,8 +659,8 @@ created in AWS.</p>
 </div>
 <p>We continue processing to create another knot which takes the resulting profiles of each
 combination and combines them all into one csv file</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">afq_combine_profiles</span><span class="p">(</span><span class="n">seed_mask</span><span class="p">,</span> <span class="n">n_seeds</span><span class="p">):</span>
-    <span class="kn">from</span> <span class="nn">AFQ.api</span> <span class="kn">import</span> <span class="n">download_and_combine_afq_profiles</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">afq_combine_profiles</span><span class="p">(</span><span class="n">seed_mask</span><span class="p">,</span> <span class="n">n_seeds</span><span class="p">):</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">download_and_combine_afq_profiles</span>
     <span class="n">download_and_combine_afq_profiles</span><span class="p">(</span>
         <span class="s2">&quot;my_study_bucket&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;my_study_prefix_</span><span class="si">{</span><span class="n">seed_mask</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">n_seeds</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 

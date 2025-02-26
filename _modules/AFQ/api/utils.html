@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.api.utils &#8212; AFQ 1.3.6 documentation</title>
+    <title>AFQ.api.utils &#8212; AFQ 2.0 documentation</title>
   
   
   
@@ -132,8 +132,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.6 documentation - Home"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.6 documentation - Home"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 2.0 documentation - Home"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -432,19 +432,19 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for AFQ.api.utils</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">contextlib</span>
-<span class="kn">from</span> <span class="nn">importlib</span> <span class="kn">import</span> <span class="n">import_module</span>
-<span class="kn">from</span> <span class="nn">AFQ.viz.utils</span> <span class="kn">import</span> <span class="n">viz_import_msg_error</span>
-<span class="kn">import</span> <span class="nn">pimms</span>
-<span class="kn">from</span> <span class="nn">funcargparse</span> <span class="kn">import</span> <span class="n">FuncArgParser</span>
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">contextlib</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">importlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">import_module</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.viz.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">viz_import_msg_error</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pimms</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">funcargparse</span><span class="w"> </span><span class="kn">import</span> <span class="n">FuncArgParser</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 
-<span class="kn">from</span> <span class="nn">dipy.io.stateful_tractogram</span> <span class="kn">import</span> <span class="n">set_sft_logger_level</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dipy.io.stateful_tractogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">set_sft_logger_level</span>
 
 
 <span class="k">with</span> <span class="n">contextlib</span><span class="o">.</span><span class="n">suppress</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>  <span class="c1"># only works on python 3.9</span>
-    <span class="kn">from</span> <span class="nn">outdated</span> <span class="kn">import</span> <span class="n">OutdatedPackageWarning</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">outdated</span><span class="w"> </span><span class="kn">import</span> <span class="n">OutdatedPackageWarning</span>
     <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">OutdatedPackageWarning</span><span class="p">)</span>
 
 
@@ -528,7 +528,7 @@ document.write(`
     <span class="sa">f</span><span class="s2">&quot;to export: </span><span class="si">{</span><span class="n">methods_sections</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">check_attribute</span><span class="p">(</span><span class="n">attr_name</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">check_attribute</span><span class="p">(</span><span class="n">attr_name</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">attr_name</span> <span class="o">==</span> <span class="s2">&quot;help&quot;</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">valid_exports_string</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">None</span>
@@ -543,7 +543,7 @@ document.write(`
         <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">attr_name</span><span class="si">}</span><span class="s2"> not found for export. </span><span class="si">{</span><span class="n">valid_exports_string</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">export_all_helper</span><span class="p">(</span><span class="n">api_afq_object</span><span class="p">,</span> <span class="n">xforms</span><span class="p">,</span> <span class="n">indiv</span><span class="p">,</span> <span class="n">viz</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">export_all_helper</span><span class="p">(</span><span class="n">api_afq_object</span><span class="p">,</span> <span class="n">xforms</span><span class="p">,</span> <span class="n">indiv</span><span class="p">,</span> <span class="n">viz</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">xforms</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">api_afq_object</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;b0_warped&quot;</span><span class="p">)</span>
@@ -560,6 +560,8 @@ document.write(`
     <span class="n">api_afq_object</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;sl_counts&quot;</span><span class="p">)</span>
     <span class="n">api_afq_object</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;median_bundle_lengths&quot;</span><span class="p">)</span>
     <span class="n">api_afq_object</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;profiles&quot;</span><span class="p">)</span>
+    <span class="n">api_afq_object</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;seed_thresh&quot;</span><span class="p">)</span>
+    <span class="n">api_afq_object</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;stop_thresh&quot;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">viz</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>

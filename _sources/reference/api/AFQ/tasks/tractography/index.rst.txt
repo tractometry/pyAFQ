@@ -15,9 +15,12 @@ Functions
 
    AFQ.tasks.tractography._meta_from_tracking_params
    AFQ.tasks.tractography.export_seed_mask
+   AFQ.tasks.tractography.export_seed_mask_thresholded
    AFQ.tasks.tractography.export_stop_mask
+   AFQ.tasks.tractography.export_stop_mask_thresholded
    AFQ.tasks.tractography.export_stop_mask_pft
    AFQ.tasks.tractography.streamlines
+   AFQ.tasks.tractography.fiber_odf
    AFQ.tasks.tractography.custom_tractography
    AFQ.tasks.tractography.gpu_tractography
    AFQ.tasks.tractography.get_tractography_plan
@@ -75,11 +78,59 @@ Attributes
    ..
        !! processed by numpydoc !!
 
+.. py:function:: export_seed_mask_thresholded(data_imap, seed, tracking_params)
+
+   
+   full path to a nifti file containing the
+   tractography seed mask thresholded
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
 .. py:function:: export_stop_mask(data_imap, tracking_params)
 
    
    full path to a nifti file containing the
    tractography stop mask
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: export_stop_mask_thresholded(data_imap, stop, tracking_params)
+
+   
+   full path to a nifti file containing the
+   tractography stop mask thresholded
 
 
 
@@ -123,7 +174,7 @@ Attributes
    ..
        !! processed by numpydoc !!
 
-.. py:function:: streamlines(data_imap, seed, stop, tracking_params)
+.. py:function:: streamlines(data_imap, seed, stop, fodf, tracking_params)
 
    
    full path to the complete, unsegmented tractography file
@@ -139,6 +190,29 @@ Attributes
            this dict may be ``AFQ.definitions.image.ImageFile`` instances.
            If ``tracker`` is set to "pft" then ``stop_mask`` should be
            an instance of ``AFQ.definitions.image.PFTImage``.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: fiber_odf(data_imap, tracking_params)
+
+   
+   Nifti Image containing the fiber orientation distribution function
+
+
 
 
 
@@ -186,7 +260,7 @@ Attributes
    ..
        !! processed by numpydoc !!
 
-.. py:function:: gpu_tractography(data_imap, tracking_params, seed, stop, tractography_ngpus=0, chunk_size=100000)
+.. py:function:: gpu_tractography(data_imap, tracking_params, fodf, seed, stop, tractography_ngpus=0, chunk_size=100000)
 
    
    full path to the complete, unsegmented tractography file

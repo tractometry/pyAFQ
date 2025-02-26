@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.recognition.roi &#8212; AFQ 1.3.6 documentation</title>
+    <title>AFQ.recognition.roi &#8212; AFQ 2.0 documentation</title>
   
   
   
@@ -132,8 +132,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.6 documentation - Home"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.6 documentation - Home"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 2.0 documentation - Home"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -432,12 +432,15 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for AFQ.recognition.roi</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">scipy.spatial.distance</span> <span class="kn">import</span> <span class="n">cdist</span>
-<span class="kn">from</span> <span class="nn">scipy.ndimage</span> <span class="kn">import</span> <span class="n">binary_dilation</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dipy.core.interpolation</span><span class="w"> </span><span class="kn">import</span> <span class="n">interpolate_scalar_3d</span>
 
 
-<div class="viewcode-block" id="check_sls_with_inclusion"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/roi/index.html#AFQ.recognition.roi.check_sls_with_inclusion">[docs]</a><span class="k">def</span> <span class="nf">check_sls_with_inclusion</span><span class="p">(</span><span class="n">sls</span><span class="p">,</span> <span class="n">include_rois</span><span class="p">,</span> <span class="n">include_roi_tols</span><span class="p">):</span>
+<div class="viewcode-block" id="_interp3d"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/roi/index.html#AFQ.recognition.roi._interp3d">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">_interp3d</span><span class="p">(</span><span class="n">roi</span><span class="p">,</span> <span class="n">sl</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">interpolate_scalar_3d</span><span class="p">(</span><span class="n">roi</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">(),</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">sl</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="check_sls_with_inclusion"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/roi/index.html#AFQ.recognition.roi.check_sls_with_inclusion">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">check_sls_with_inclusion</span><span class="p">(</span><span class="n">sls</span><span class="p">,</span> <span class="n">include_rois</span><span class="p">,</span> <span class="n">include_roi_tols</span><span class="p">):</span>
     <span class="k">for</span> <span class="n">sl</span> <span class="ow">in</span> <span class="n">sls</span><span class="p">:</span>
         <span class="k">yield</span> <span class="n">check_sl_with_inclusion</span><span class="p">(</span>
             <span class="n">sl</span><span class="p">,</span>
@@ -445,37 +448,39 @@ document.write(`
             <span class="n">include_roi_tols</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="check_sl_with_inclusion"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/roi/index.html#AFQ.recognition.roi.check_sl_with_inclusion">[docs]</a><span class="k">def</span> <span class="nf">check_sl_with_inclusion</span><span class="p">(</span><span class="n">sl</span><span class="p">,</span> <span class="n">include_rois</span><span class="p">,</span>
+<div class="viewcode-block" id="check_sl_with_inclusion"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/roi/index.html#AFQ.recognition.roi.check_sl_with_inclusion">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">check_sl_with_inclusion</span><span class="p">(</span><span class="n">sl</span><span class="p">,</span> <span class="n">include_rois</span><span class="p">,</span>
                             <span class="n">include_roi_tols</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Helper function to check that a streamline is close to a list of</span>
 <span class="sd">    inclusion ROIS.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">dist</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">closest</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">include_rois</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">ii</span><span class="p">,</span> <span class="n">roi</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">include_rois</span><span class="p">):</span>
-        <span class="c1"># Use squared Euclidean distance, because it&#39;s faster:</span>
-        <span class="n">dist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cdist</span><span class="p">(</span><span class="n">sl</span><span class="p">,</span> <span class="n">roi</span><span class="p">,</span> <span class="s1">&#39;sqeuclidean&#39;</span><span class="p">))</span>
-        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">dist</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">&gt;</span> <span class="n">include_roi_tols</span><span class="p">[</span><span class="n">ii</span><span class="p">]:</span>
+        <span class="n">dist</span> <span class="o">=</span> <span class="n">_interp3d</span><span class="p">(</span><span class="n">roi</span><span class="p">,</span> <span class="n">sl</span><span class="p">)</span>
+        <span class="n">closest</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">dist</span><span class="p">[</span><span class="n">closest</span><span class="p">[</span><span class="n">ii</span><span class="p">]]</span> <span class="o">&gt;</span> <span class="n">include_roi_tols</span><span class="p">[</span><span class="n">ii</span><span class="p">]:</span>
             <span class="c1"># Too far from one of them:</span>
             <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="p">[]</span>
+
     <span class="c1"># Apparently you checked all the ROIs and it was close to all of them</span>
-    <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">dist</span></div>
+    <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">closest</span></div>
 
 
-<div class="viewcode-block" id="check_sl_with_exclusion"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/roi/index.html#AFQ.recognition.roi.check_sl_with_exclusion">[docs]</a><span class="k">def</span> <span class="nf">check_sl_with_exclusion</span><span class="p">(</span><span class="n">sl</span><span class="p">,</span> <span class="n">exclude_rois</span><span class="p">,</span>
+<div class="viewcode-block" id="check_sl_with_exclusion"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/roi/index.html#AFQ.recognition.roi.check_sl_with_exclusion">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">check_sl_with_exclusion</span><span class="p">(</span><span class="n">sl</span><span class="p">,</span> <span class="n">exclude_rois</span><span class="p">,</span>
                             <span class="n">exclude_roi_tols</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Helper function to check that a streamline is not too close to a</span>
 <span class="sd">    list of exclusion ROIs.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">ii</span><span class="p">,</span> <span class="n">roi</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">exclude_rois</span><span class="p">):</span>
-        <span class="c1"># Use squared Euclidean distance, because it&#39;s faster:</span>
-        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">cdist</span><span class="p">(</span><span class="n">sl</span><span class="p">,</span> <span class="n">roi</span><span class="p">,</span> <span class="s1">&#39;sqeuclidean&#39;</span><span class="p">))</span> <span class="o">&lt;</span> <span class="n">exclude_roi_tols</span><span class="p">[</span><span class="n">ii</span><span class="p">]:</span>
+        <span class="c1"># if any part of the streamline is near any exclusion ROI,</span>
+        <span class="c1"># return False</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">_interp3d</span><span class="p">(</span><span class="n">roi</span><span class="p">,</span> <span class="n">sl</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">exclude_roi_tols</span><span class="p">[</span><span class="n">ii</span><span class="p">]):</span>
             <span class="k">return</span> <span class="kc">False</span>
     <span class="c1"># Either there are no exclusion ROIs, or you are not close to any:</span>
     <span class="k">return</span> <span class="kc">True</span></div>
 
 
-<div class="viewcode-block" id="clean_by_endpoints"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/roi/index.html#AFQ.recognition.roi.clean_by_endpoints">[docs]</a><span class="k">def</span> <span class="nf">clean_by_endpoints</span><span class="p">(</span><span class="n">streamlines</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">target_idx</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+<div class="viewcode-block" id="clean_by_endpoints"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/roi/index.html#AFQ.recognition.roi.clean_by_endpoints">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">clean_by_endpoints</span><span class="p">(</span><span class="n">streamlines</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">target_idx</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                        <span class="n">flip_sls</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">accepted_idxs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Clean a collection of streamlines based on an endpoint ROI.</span>
@@ -506,24 +511,17 @@ document.write(`
 <span class="sd">    boolean array of streamlines that survive cleaning.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">accepted_idxs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">accepted_idxs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">streamlines</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">bool8</span><span class="p">)</span>
+        <span class="n">accepted_idxs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">streamlines</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">flip_sls</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">flip_sls</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">streamlines</span><span class="p">))</span>
     <span class="n">flip_sls</span> <span class="o">=</span> <span class="n">flip_sls</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
 
-    <span class="n">roi</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
-    <span class="k">if</span> <span class="n">tol</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">roi</span> <span class="o">=</span> <span class="n">binary_dilation</span><span class="p">(</span>
-            <span class="n">roi</span><span class="p">,</span>
-            <span class="n">iterations</span><span class="o">=</span><span class="n">tol</span><span class="p">)</span>
-
     <span class="k">for</span> <span class="n">ii</span><span class="p">,</span> <span class="n">sl</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">streamlines</span><span class="p">):</span>
         <span class="n">this_idx</span> <span class="o">=</span> <span class="n">target_idx</span>
         <span class="k">if</span> <span class="n">flip_sls</span><span class="p">[</span><span class="n">ii</span><span class="p">]:</span>
             <span class="n">this_idx</span> <span class="o">=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sl</span><span class="p">)</span> <span class="o">-</span> <span class="n">this_idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">sl</span><span class="p">)</span>
-        <span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">zz</span> <span class="o">=</span> <span class="n">sl</span><span class="p">[</span><span class="n">this_idx</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-        <span class="n">accepted_idxs</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="n">roi</span><span class="p">[</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">zz</span><span class="p">]</span>
+        <span class="n">accepted_idxs</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="n">_interp3d</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="p">[</span><span class="n">sl</span><span class="p">[</span><span class="n">this_idx</span><span class="p">]])[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">tol</span>
 
     <span class="k">return</span> <span class="n">accepted_idxs</span></div>
 </pre></div>

@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.utils.bin &#8212; AFQ 1.3.6 documentation</title>
+    <title>AFQ.utils.bin &#8212; AFQ 2.0 documentation</title>
   
   
   
@@ -132,8 +132,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.6 documentation - Home"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.6 documentation - Home"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 2.0 documentation - Home"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -432,24 +432,24 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for AFQ.utils.bin</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">toml</span>
-<span class="kn">import</span> <span class="nn">datetime</span>
-<span class="kn">import</span> <span class="nn">platform</span>
-<span class="kn">import</span> <span class="nn">os.path</span> <span class="k">as</span> <span class="nn">op</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">toml</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">platform</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">op</span>
 
-<span class="kn">from</span> <span class="nn">argparse</span> <span class="kn">import</span> <span class="n">ArgumentParser</span>
-<span class="kn">from</span> <span class="nn">funcargparse</span> <span class="kn">import</span> <span class="n">FuncArgParser</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">argparse</span><span class="w"> </span><span class="kn">import</span> <span class="n">ArgumentParser</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">funcargparse</span><span class="w"> </span><span class="kn">import</span> <span class="n">FuncArgParser</span>
 
-<span class="kn">from</span> <span class="nn">AFQ.definitions.image</span> <span class="kn">import</span> <span class="o">*</span>  <span class="c1"># interprets masks loaded from toml</span>
-<span class="kn">from</span> <span class="nn">AFQ.definitions.mapping</span> <span class="kn">import</span> <span class="o">*</span>  <span class="c1"># interprets mappings loaded from toml</span>
-<span class="kn">from</span> <span class="nn">AFQ.api.bundle_dict</span> <span class="kn">import</span> <span class="o">*</span>  <span class="c1"># interprets bundle_dicts loaded from toml</span>
-<span class="kn">from</span> <span class="nn">AFQ.definitions.utils</span> <span class="kn">import</span> <span class="n">Definition</span>
-<span class="kn">from</span> <span class="nn">AFQ.api.utils</span> <span class="kn">import</span> <span class="n">kwargs_descriptors</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.definitions.image</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>  <span class="c1"># interprets masks loaded from toml</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.definitions.mapping</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>  <span class="c1"># interprets mappings loaded from toml</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.api.bundle_dict</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>  <span class="c1"># interprets bundle_dicts loaded from toml</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.definitions.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">Definition</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.api.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">kwargs_descriptors</span>
 
-<span class="kn">import</span> <span class="nn">nibabel</span> <span class="k">as</span> <span class="nn">nib</span>  <span class="c1"># allows users to input nibabel objects</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">nibabel</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nib</span>  <span class="c1"># allows users to input nibabel objects</span>
 
 
-<div class="viewcode-block" id="model_input_parser"><a class="viewcode-back" href="../../../reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.model_input_parser">[docs]</a><span class="k">def</span> <span class="nf">model_input_parser</span><span class="p">(</span><span class="n">usage</span><span class="p">):</span>
+<div class="viewcode-block" id="model_input_parser"><a class="viewcode-back" href="../../../reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.model_input_parser">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">model_input_parser</span><span class="p">(</span><span class="n">usage</span><span class="p">):</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">ArgumentParser</span><span class="p">(</span><span class="n">usage</span><span class="p">)</span>
 
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-d&quot;</span><span class="p">,</span> <span class="s2">&quot;--dwi&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;dwi&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;append&quot;</span><span class="p">,</span>
@@ -474,7 +474,7 @@ document.write(`
     <span class="k">return</span> <span class="n">parser</span></div>
 
 
-<div class="viewcode-block" id="model_predict_input_parser"><a class="viewcode-back" href="../../../reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.model_predict_input_parser">[docs]</a><span class="k">def</span> <span class="nf">model_predict_input_parser</span><span class="p">(</span><span class="n">usage</span><span class="p">):</span>
+<div class="viewcode-block" id="model_predict_input_parser"><a class="viewcode-back" href="../../../reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.model_predict_input_parser">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">model_predict_input_parser</span><span class="p">(</span><span class="n">usage</span><span class="p">):</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">ArgumentParser</span><span class="p">(</span><span class="n">usage</span><span class="p">)</span>
 
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-p&quot;</span><span class="p">,</span> <span class="s2">&quot;--params&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;params&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store&quot;</span><span class="p">,</span>
@@ -500,7 +500,7 @@ document.write(`
     <span class="k">return</span> <span class="n">parser</span></div>
 
 
-<div class="viewcode-block" id="toml_to_val"><a class="viewcode-back" href="../../../reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.toml_to_val">[docs]</a><span class="k">def</span> <span class="nf">toml_to_val</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+<div class="viewcode-block" id="toml_to_val"><a class="viewcode-back" href="../../../reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.toml_to_val">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">toml_to_val</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
@@ -528,7 +528,7 @@ document.write(`
         <span class="k">return</span> <span class="n">t</span></div>
 
 
-<div class="viewcode-block" id="val_to_toml"><a class="viewcode-back" href="../../../reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.val_to_toml">[docs]</a><span class="k">def</span> <span class="nf">val_to_toml</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+<div class="viewcode-block" id="val_to_toml"><a class="viewcode-back" href="../../../reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.val_to_toml">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">val_to_toml</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="s1">&#39;&quot;&quot;&#39;</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">Definition</span><span class="p">):</span>
@@ -550,7 +550,7 @@ document.write(`
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span></div>
 
 
-<div class="viewcode-block" id="dict_to_toml"><a class="viewcode-back" href="../../../reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.dict_to_toml">[docs]</a><span class="k">def</span> <span class="nf">dict_to_toml</span><span class="p">(</span><span class="n">dictionary</span><span class="p">):</span>
+<div class="viewcode-block" id="dict_to_toml"><a class="viewcode-back" href="../../../reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.dict_to_toml">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">dict_to_toml</span><span class="p">(</span><span class="n">dictionary</span><span class="p">):</span>
     <span class="n">toml</span> <span class="o">=</span> <span class="s1">&#39;# Use </span><span class="se">\&#39;\&#39;</span><span class="s1"> to indicate None</span><span class="se">\n</span><span class="s1"># Wrap dictionaries in quotes</span><span class="se">\n</span><span class="s1">&#39;</span>
     <span class="n">toml</span> <span class="o">=</span> <span class="n">toml</span> <span class="o">+</span> <span class="s1">&#39;# Wrap definition object instantiations in quotes</span><span class="se">\n\n</span><span class="s1">&#39;</span>
     <span class="k">for</span> <span class="n">section</span><span class="p">,</span> <span class="n">args</span> <span class="ow">in</span> <span class="n">dictionary</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -578,7 +578,7 @@ document.write(`
     <span class="s2">&quot;participant_labels&quot;</span><span class="p">,</span> <span class="s2">&quot;output_dir&quot;</span><span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="dict_to_json"><a class="viewcode-back" href="../../../reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.dict_to_json">[docs]</a><span class="k">def</span> <span class="nf">dict_to_json</span><span class="p">(</span><span class="n">dictionary</span><span class="p">):</span>
+<div class="viewcode-block" id="dict_to_json"><a class="viewcode-back" href="../../../reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.dict_to_json">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">dict_to_json</span><span class="p">(</span><span class="n">dictionary</span><span class="p">):</span>
     <span class="n">json</span> <span class="o">=</span> <span class="s2">&quot;                &quot;</span>
     <span class="n">local_ignore</span> <span class="o">=</span> <span class="n">qsi_prep_ignore_params</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">section</span><span class="p">,</span> <span class="n">args</span> <span class="ow">in</span> <span class="n">dictionary</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -597,12 +597,12 @@ document.write(`
     <span class="k">return</span> <span class="n">json</span><span class="p">[:</span><span class="o">-</span><span class="mi">18</span><span class="p">]</span>  <span class="c1"># remove trailing ,\n and indent</span></div>
 
 
-<div class="viewcode-block" id="func_dict_to_arg_dict"><a class="viewcode-back" href="../../../reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.func_dict_to_arg_dict">[docs]</a><span class="k">def</span> <span class="nf">func_dict_to_arg_dict</span><span class="p">(</span><span class="n">func_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="func_dict_to_arg_dict"><a class="viewcode-back" href="../../../reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.func_dict_to_arg_dict">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">func_dict_to_arg_dict</span><span class="p">(</span><span class="n">func_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">func_dict</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="kn">from</span> <span class="nn">AFQ.recognition.recognize</span> <span class="kn">import</span> <span class="n">recognize</span>
-        <span class="kn">from</span> <span class="nn">AFQ.recognition.cleaning</span> <span class="kn">import</span> <span class="n">clean_bundle</span>
-        <span class="kn">import</span> <span class="nn">AFQ.tractography.tractography</span> <span class="k">as</span> <span class="nn">aft</span>
-        <span class="kn">from</span> <span class="nn">AFQ.api.group</span> <span class="kn">import</span> <span class="n">GroupAFQ</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.recognition.recognize</span><span class="w"> </span><span class="kn">import</span> <span class="n">recognize</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.recognition.cleaning</span><span class="w"> </span><span class="kn">import</span> <span class="n">clean_bundle</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">AFQ.tractography.tractography</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">aft</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.api.group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GroupAFQ</span>
 
         <span class="n">func_dict</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;BIDS&quot;</span><span class="p">:</span> <span class="n">GroupAFQ</span><span class="o">.</span><span class="fm">__init__</span><span class="p">,</span>
@@ -663,7 +663,7 @@ document.write(`
     <span class="k">return</span> <span class="n">arg_dict</span></div>
 
 
-<div class="viewcode-block" id="parse_config_run_afq"><a class="viewcode-back" href="../../../reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.parse_config_run_afq">[docs]</a><span class="k">def</span> <span class="nf">parse_config_run_afq</span><span class="p">(</span><span class="n">toml_file</span><span class="p">,</span> <span class="n">default_arg_dict</span><span class="p">,</span> <span class="n">to_call</span><span class="o">=</span><span class="s2">&quot;export_all&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="parse_config_run_afq"><a class="viewcode-back" href="../../../reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.parse_config_run_afq">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">parse_config_run_afq</span><span class="p">(</span><span class="n">toml_file</span><span class="p">,</span> <span class="n">default_arg_dict</span><span class="p">,</span> <span class="n">to_call</span><span class="o">=</span><span class="s2">&quot;export_all&quot;</span><span class="p">,</span>
                          <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                          <span class="n">logger</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                          <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -671,8 +671,8 @@ document.write(`
                          <span class="n">special_args</span><span class="o">=</span><span class="p">{</span>
                              <span class="s2">&quot;SEGMENTATION_PARAMS&quot;</span><span class="p">:</span> <span class="s2">&quot;segmentation_params&quot;</span><span class="p">,</span>
                              <span class="s2">&quot;TRACTOGRAPHY_PARAMS&quot;</span><span class="p">:</span> <span class="s2">&quot;tracking_params&quot;</span><span class="p">}):</span>
-    <span class="kn">from</span> <span class="nn">AFQ.api.group</span> <span class="kn">import</span> <span class="n">GroupAFQ</span>
-    <span class="kn">from</span> <span class="nn">AFQ</span> <span class="kn">import</span> <span class="n">__version__</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.api.group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GroupAFQ</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">AFQ</span><span class="w"> </span><span class="kn">import</span> <span class="n">__version__</span>
     <span class="c1"># load configuration file</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">op</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">toml_file</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">FileExistsError</span><span class="p">(</span>
@@ -747,7 +747,7 @@ document.write(`
         <span class="n">ff</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dict_to_toml</span><span class="p">(</span><span class="n">default_arg_dict</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="generate_config"><a class="viewcode-back" href="../../../reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.generate_config">[docs]</a><span class="k">def</span> <span class="nf">generate_config</span><span class="p">(</span><span class="n">toml_file</span><span class="p">,</span> <span class="n">default_arg_dict</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<div class="viewcode-block" id="generate_config"><a class="viewcode-back" href="../../../reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.generate_config">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">generate_config</span><span class="p">(</span><span class="n">toml_file</span><span class="p">,</span> <span class="n">default_arg_dict</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                     <span class="n">logger</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">overwrite</span> <span class="ow">and</span> <span class="n">op</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">toml_file</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">FileExistsError</span><span class="p">(</span>
@@ -761,7 +761,7 @@ document.write(`
     <span class="n">toml_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="generate_json"><a class="viewcode-back" href="../../../reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.generate_json">[docs]</a><span class="k">def</span> <span class="nf">generate_json</span><span class="p">(</span><span class="n">json_folder</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<div class="viewcode-block" id="generate_json"><a class="viewcode-back" href="../../../reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.generate_json">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">generate_json</span><span class="p">(</span><span class="n">json_folder</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                   <span class="n">logger</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="n">json_file_our_trk</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">json_folder</span><span class="p">,</span> <span class="s2">&quot;pyafq.json&quot;</span><span class="p">)</span>
     <span class="n">json_file_their_trk</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">json_folder</span><span class="p">,</span> <span class="s2">&quot;pyafq_input_trk.json&quot;</span><span class="p">)</span>
@@ -846,9 +846,9 @@ document.write(`
 <span class="s2">        }</span>
 <span class="s2">    ]</span>
 <span class="s2">}&quot;&quot;&quot;</span>
-    <span class="kn">from</span> <span class="nn">AFQ.recognition.recognize</span> <span class="kn">import</span> <span class="n">recognize</span>
-    <span class="kn">from</span> <span class="nn">AFQ.recognition.cleaning</span> <span class="kn">import</span> <span class="n">clean_bundle</span>
-    <span class="kn">import</span> <span class="nn">AFQ.tractography.tractography</span> <span class="k">as</span> <span class="nn">aft</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.recognition.recognize</span><span class="w"> </span><span class="kn">import</span> <span class="n">recognize</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.recognition.cleaning</span><span class="w"> </span><span class="kn">import</span> <span class="n">clean_bundle</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">AFQ.tractography.tractography</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">aft</span>
 
     <span class="n">func_dict</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">&quot;Tractography&quot;</span><span class="p">:</span> <span class="n">aft</span><span class="o">.</span><span class="n">track</span><span class="p">,</span>

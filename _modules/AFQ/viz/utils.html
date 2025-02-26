@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.viz.utils &#8212; AFQ 1.3.6 documentation</title>
+    <title>AFQ.viz.utils &#8212; AFQ 2.0 documentation</title>
   
   
   
@@ -132,8 +132,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.6 documentation - Home"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.6 documentation - Home"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 2.0 documentation - Home"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -432,25 +432,25 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for AFQ.viz.utils</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
-<span class="kn">import</span> <span class="nn">os.path</span> <span class="k">as</span> <span class="nn">op</span>
-<span class="kn">import</span> <span class="nn">logging</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">OrderedDict</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">op</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">imageio</span> <span class="k">as</span> <span class="nn">io</span>
-<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span><span class="p">,</span> <span class="n">ImageChops</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">imageio</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">io</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PIL</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span><span class="p">,</span> <span class="n">ImageChops</span>
 
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">matplotlib.patches</span> <span class="k">as</span> <span class="nn">mpatches</span>
-<span class="kn">import</span> <span class="nn">matplotlib.transforms</span> <span class="k">as</span> <span class="nn">mtransforms</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.patches</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mpatches</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.transforms</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mtransforms</span>
 
-<span class="kn">import</span> <span class="nn">nibabel</span> <span class="k">as</span> <span class="nn">nib</span>
-<span class="kn">import</span> <span class="nn">dipy.tracking.streamlinespeed</span> <span class="k">as</span> <span class="nn">dps</span>
-<span class="kn">from</span> <span class="nn">dipy.align</span> <span class="kn">import</span> <span class="n">resample</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">nibabel</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">dipy.tracking.streamlinespeed</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dps</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dipy.align</span><span class="w"> </span><span class="kn">import</span> <span class="n">resample</span>
 
-<span class="kn">import</span> <span class="nn">AFQ.utils.volume</span> <span class="k">as</span> <span class="nn">auv</span>
-<span class="kn">import</span> <span class="nn">AFQ.registration</span> <span class="k">as</span> <span class="nn">reg</span>
-<span class="kn">import</span> <span class="nn">AFQ.utils.streamlines</span> <span class="k">as</span> <span class="nn">aus</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">AFQ.utils.volume</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">auv</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">AFQ.registration</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">reg</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">AFQ.utils.streamlines</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">aus</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Viz&quot;</span><span class="p">]</span>
 
@@ -580,13 +580,13 @@ document.write(`
     <span class="s2">&quot;Right Posterior Arcuate&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;Coronal&quot;</span><span class="p">,</span> <span class="s2">&quot;Back&quot;</span><span class="p">)}</span>
 
 
-<span class="k">class</span> <span class="nc">PanelFigure</span><span class="p">():</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PanelFigure</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Super useful class for organizing existing images</span>
 <span class="sd">    into subplots using matplotlib</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_rows</span><span class="p">,</span> <span class="n">num_cols</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_rows</span><span class="p">,</span> <span class="n">num_cols</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span>
                  <span class="n">panel_label_kwargs</span><span class="o">=</span><span class="p">{}):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize PanelFigure.</span>
@@ -609,7 +609,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">GridSpec</span><span class="p">(</span><span class="n">num_rows</span><span class="p">,</span> <span class="n">num_cols</span><span class="p">,</span> <span class="n">hspace</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">wspace</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">subplot_count</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">panel_label_kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
-            <span class="n">fontfamily</span><span class="o">=</span><span class="s2">&quot;Helvetica-Bold&quot;</span><span class="p">,</span>
+            <span class="n">fontfamily</span><span class="o">=</span><span class="s2">&quot;Helvetica&quot;</span><span class="p">,</span>
             <span class="n">fontsize</span><span class="o">=</span><span class="s2">&quot;xx-large&quot;</span><span class="p">,</span>
             <span class="n">color</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">,</span>
             <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">,</span>
@@ -618,9 +618,10 @@ document.write(`
                 <span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span>
                 <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">panel_label_kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">panel_label_kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">panel_label_queue</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="k">def</span> <span class="nf">add_img</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">x_coord</span><span class="p">,</span> <span class="n">y_coord</span><span class="p">,</span> <span class="n">reduct_count</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                <span class="n">subplot_label_pos</span><span class="o">=</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="n">legend</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">legend_kwargs</span><span class="o">=</span><span class="p">{},</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_img</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">x_coord</span><span class="p">,</span> <span class="n">y_coord</span><span class="p">,</span> <span class="n">reduct_count</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="n">subplot_label_pos</span><span class="o">=</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">),</span> <span class="n">legend</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">legend_kwargs</span><span class="o">=</span><span class="p">{},</span>
                 <span class="n">add_panel_label</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">panel_label_kwargs</span><span class="o">=</span><span class="p">{}):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add image from fname into figure as a panel.</span>
@@ -638,13 +639,13 @@ document.write(`
 <span class="sd">            Default: 1</span>
 <span class="sd">        subplot_label_pos : tuple of floats</span>
 <span class="sd">            position of subplot label</span>
-<span class="sd">            Default: (0.1, 1.0)</span>
+<span class="sd">            Default: (0.1, 0.1)</span>
 <span class="sd">        legend : dict</span>
 <span class="sd">            dictionary of legend items, where keys are labels</span>
 <span class="sd">            and values are colors</span>
 <span class="sd">            Default: None</span>
 <span class="sd">        legend_kwargs : dict</span>
-<span class="sd">            ADditional arguments for matplotlib&#39;s legend method</span>
+<span class="sd">            Additional arguments for matplotlib&#39;s legend method</span>
 <span class="sd">        add_panel_label : bool</span>
 <span class="sd">            Whether or not to add a panel label to the subplot</span>
 <span class="sd">            Default: True</span>
@@ -663,33 +664,46 @@ document.write(`
                     <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
                     <span class="n">label</span><span class="o">=</span><span class="n">value</span><span class="p">))</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="n">patches</span><span class="p">,</span> <span class="n">borderaxespad</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="o">**</span><span class="n">legend_kwargs</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">add_panel_label</span><span class="p">:</span>
-            <span class="n">trans</span> <span class="o">=</span> <span class="n">mtransforms</span><span class="o">.</span><span class="n">ScaledTranslation</span><span class="p">(</span>
-                <span class="mi">10</span> <span class="o">/</span> <span class="mi">72</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span> <span class="o">/</span> <span class="mi">72</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">dpi_scale_trans</span><span class="p">)</span>
-            <span class="n">this_pl_kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel_label_kwargs</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-            <span class="n">this_pl_kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">panel_label_kwargs</span><span class="p">)</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
-                <span class="n">subplot_label_pos</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">subplot_label_pos</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">chr</span><span class="p">(</span><span class="mi">65</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">subplot_count</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-                <span class="n">transform</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">transAxes</span> <span class="o">+</span> <span class="n">trans</span><span class="p">,</span>
-                <span class="o">**</span><span class="n">this_pl_kwargs</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">im1</span><span class="p">),</span> <span class="n">aspect</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">add_panel_label</span><span class="p">:</span>
+            <span class="n">this_pl_kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel_label_kwargs</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">this_pl_kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">panel_label_kwargs</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">panel_label_queue</span><span class="o">.</span><span class="n">append</span><span class="p">((</span>
+                <span class="n">y_coord</span><span class="p">,</span> <span class="n">x_coord</span><span class="p">,</span> <span class="n">subplot_label_pos</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">chr</span><span class="p">(</span><span class="mi">65</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">subplot_count</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">this_pl_kwargs</span><span class="p">))</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">subplot_count</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">subplot_count</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="n">ax</span>
 
-    <span class="k">def</span> <span class="nf">format_and_save_figure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">trim_final</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">format_and_save_figure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">trim_final</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                               <span class="n">tight_final</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Format and save figure to fname.</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        fname : str</span>
 <span class="sd">            Path to save figure to</span>
+<span class="sd">        tight_final : bool</span>
+<span class="sd">            Whether or not to use tight_layout on figure.</span>
 <span class="sd">        trim : bool</span>
 <span class="sd">            Whether or not to trim whitespace around figure.</span>
 <span class="sd">            Default: True</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">tight_final</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">y_coord</span><span class="p">,</span> <span class="n">x_coord</span><span class="p">,</span> <span class="n">subplot_label_pos</span><span class="p">,</span> <span class="n">label_text</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span> <span class="ow">in</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">panel_label_queue</span><span class="p">:</span>
+            <span class="n">x_fig_pos</span> <span class="o">=</span> <span class="n">x_coord</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">ncols</span>
+            <span class="n">y_fig_pos</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="p">(</span><span class="n">y_coord</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">nrows</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+                <span class="n">x_fig_pos</span> <span class="o">+</span> <span class="n">subplot_label_pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">ncols</span><span class="p">,</span>
+                <span class="n">y_fig_pos</span> <span class="o">-</span> <span class="n">subplot_label_pos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">nrows</span><span class="p">,</span>
+                <span class="n">label_text</span><span class="p">,</span>
+                <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">,</span>
+                <span class="n">va</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">trim_final</span><span class="p">:</span>
             <span class="n">im1</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
@@ -697,7 +711,7 @@ document.write(`
             <span class="n">im1</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">300</span><span class="p">))</span>
 
 
-<span class="k">def</span> <span class="nf">get_eye</span><span class="p">(</span><span class="n">view</span><span class="p">,</span> <span class="n">direc</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_eye</span><span class="p">(</span><span class="n">view</span><span class="p">,</span> <span class="n">direc</span><span class="p">):</span>
     <span class="n">direc</span> <span class="o">=</span> <span class="n">direc</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
     <span class="n">view</span> <span class="o">=</span> <span class="n">view</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 
@@ -738,19 +752,19 @@ document.write(`
     <span class="k">return</span> <span class="n">eye</span>
 
 
-<span class="k">def</span> <span class="nf">display_string</span><span class="p">(</span><span class="n">scalar_name</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">display_string</span><span class="p">(</span><span class="n">scalar_name</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">scalar_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">scalar_name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">sn</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">sn</span> <span class="ow">in</span> <span class="n">scalar_name</span><span class="p">]</span>
 
 
-<span class="k">def</span> <span class="nf">gen_color_dict</span><span class="p">(</span><span class="n">bundles</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">gen_color_dict</span><span class="p">(</span><span class="n">bundles</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Helper function.</span>
 <span class="sd">    Generate a color dict given a list of bundles.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">incr_color_idx</span><span class="p">(</span><span class="n">color_idx</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">incr_color_idx</span><span class="p">(</span><span class="n">color_idx</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">color_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">20</span>
     <span class="n">custom_color_dict</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">color_idx</span> <span class="o">=</span> <span class="mi">0</span>
@@ -780,7 +794,7 @@ document.write(`
     <span class="k">return</span> <span class="n">custom_color_dict</span>
 
 
-<span class="k">def</span> <span class="nf">viz_import_msg_error</span><span class="p">(</span><span class="n">module</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">viz_import_msg_error</span><span class="p">(</span><span class="n">module</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Alerts user to install the appropriate viz module &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">module</span> <span class="o">==</span> <span class="s2">&quot;plot&quot;</span><span class="p">:</span>
         <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;To make plots in pyAFQ, you will need to install &quot;</span>
@@ -797,7 +811,7 @@ document.write(`
     <span class="k">return</span> <span class="n">msg</span>
 
 
-<span class="k">def</span> <span class="nf">tract_generator</span><span class="p">(</span><span class="n">trk_file</span><span class="p">,</span> <span class="n">bundle</span><span class="p">,</span> <span class="n">colors</span><span class="p">,</span> <span class="n">n_points</span><span class="p">,</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">tract_generator</span><span class="p">(</span><span class="n">trk_file</span><span class="p">,</span> <span class="n">bundle</span><span class="p">,</span> <span class="n">colors</span><span class="p">,</span> <span class="n">n_points</span><span class="p">,</span>
                     <span class="n">n_sls_viz</span><span class="o">=</span><span class="mi">3600</span><span class="p">,</span> <span class="n">n_sls_min</span><span class="o">=</span><span class="mi">75</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generates bundles of streamlines from the tractogram.</span>
@@ -893,7 +907,7 @@ document.write(`
             <span class="k">yield</span> <span class="n">these_sls</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">bundle</span><span class="p">,</span> <span class="n">seg_sft</span><span class="o">.</span><span class="n">sft</span><span class="o">.</span><span class="n">dimensions</span>
 
 
-<span class="k">def</span> <span class="nf">bbox</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">bbox</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
     <span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">rows</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">cols</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
@@ -903,7 +917,7 @@ document.write(`
     <span class="k">return</span> <span class="n">cmin</span><span class="p">,</span> <span class="n">rmin</span><span class="p">,</span> <span class="n">cmax</span><span class="p">,</span> <span class="n">rmax</span>
 
 
-<span class="k">def</span> <span class="nf">trim</span><span class="p">(</span><span class="n">im</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">trim</span><span class="p">(</span><span class="n">im</span><span class="p">):</span>
     <span class="n">bg</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">im</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span> <span class="n">im</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">im</span><span class="o">.</span><span class="n">getpixel</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))</span>
     <span class="n">diff</span> <span class="o">=</span> <span class="n">ImageChops</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">bg</span><span class="p">)</span>
     <span class="n">this_bbox</span> <span class="o">=</span> <span class="n">bbox</span><span class="p">(</span><span class="n">diff</span><span class="p">)</span>
@@ -911,7 +925,7 @@ document.write(`
         <span class="k">return</span> <span class="n">im</span><span class="o">.</span><span class="n">crop</span><span class="p">(</span><span class="n">this_bbox</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">gif_from_pngs</span><span class="p">(</span><span class="n">tdir</span><span class="p">,</span> <span class="n">gif_fname</span><span class="p">,</span> <span class="n">n_frames</span><span class="p">,</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">gif_from_pngs</span><span class="p">(</span><span class="n">tdir</span><span class="p">,</span> <span class="n">gif_fname</span><span class="p">,</span> <span class="n">n_frames</span><span class="p">,</span>
                   <span class="n">png_fname</span><span class="o">=</span><span class="s2">&quot;tgif&quot;</span><span class="p">,</span> <span class="n">add_zeros</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Helper function</span>
@@ -941,7 +955,7 @@ document.write(`
     <span class="n">io</span><span class="o">.</span><span class="n">mimsave</span><span class="p">(</span><span class="n">gif_fname</span><span class="p">,</span> <span class="n">angles</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">prepare_roi</span><span class="p">(</span><span class="n">roi</span><span class="p">,</span> <span class="n">affine_or_mapping</span><span class="p">,</span> <span class="n">static_img</span><span class="p">,</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">prepare_roi</span><span class="p">(</span><span class="n">roi</span><span class="p">,</span> <span class="n">affine_or_mapping</span><span class="p">,</span> <span class="n">static_img</span><span class="p">,</span>
                 <span class="n">roi_affine</span><span class="p">,</span> <span class="n">static_affine</span><span class="p">,</span> <span class="n">reg_template</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Load the ROI</span>
@@ -988,8 +1002,9 @@ document.write(`
                                  <span class="s2">&quot;need to also specify all of the following&quot;</span><span class="p">,</span>
                                  <span class="s2">&quot;inputs: `static_img`, `roi_affine`, &quot;</span><span class="p">,</span>
                                  <span class="s2">&quot;`static_affine`&quot;</span><span class="p">)</span>
-            <span class="n">roi</span> <span class="o">=</span> <span class="n">resample</span><span class="p">(</span><span class="n">roi</span><span class="p">,</span> <span class="n">static_img</span><span class="p">,</span> <span class="n">roi_affine</span><span class="p">,</span>
-                           <span class="n">static_affine</span><span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
+            <span class="n">roi</span> <span class="o">=</span> <span class="n">resample</span><span class="p">(</span><span class="n">roi</span><span class="p">,</span> <span class="n">static_img</span><span class="p">,</span>
+                           <span class="n">moving_affine</span><span class="o">=</span><span class="n">roi_affine</span><span class="p">,</span>
+                           <span class="n">static_affine</span><span class="o">=</span><span class="n">static_affine</span><span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># Assume it is  a mapping:</span>
             <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">affine_or_mapping</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
@@ -1009,7 +1024,7 @@ document.write(`
     <span class="k">return</span> <span class="n">roi</span>
 
 
-<span class="k">def</span> <span class="nf">load_volume</span><span class="p">(</span><span class="n">volume</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">load_volume</span><span class="p">(</span><span class="n">volume</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Load a volume</span>
 <span class="sd">    Helper function</span>
@@ -1032,8 +1047,8 @@ document.write(`
         <span class="k">return</span> <span class="n">volume</span>
 
 
-<div class="viewcode-block" id="Viz"><a class="viewcode-back" href="../../../reference/api/AFQ/viz/utils/index.html#AFQ.viz.utils.Viz">[docs]</a><span class="k">class</span> <span class="nc">Viz</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+<div class="viewcode-block" id="Viz"><a class="viewcode-back" href="../../../reference/api/AFQ/viz/utils/index.html#AFQ.viz.utils.Viz">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Viz</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;fury&quot;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set up visualization preferences.</span>
@@ -1047,7 +1062,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">backend</span> <span class="o">=</span> <span class="n">backend</span>
         <span class="k">if</span> <span class="s2">&quot;fury&quot;</span> <span class="ow">in</span> <span class="n">backend</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="kn">import</span> <span class="nn">AFQ.viz.fury_backend</span>
+                <span class="kn">import</span><span class="w"> </span><span class="nn">AFQ.viz.fury_backend</span>
             <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="n">viz_import_msg_error</span><span class="p">(</span><span class="s2">&quot;fury&quot;</span><span class="p">))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">visualize_bundles</span> <span class="o">=</span> <span class="n">AFQ</span><span class="o">.</span><span class="n">viz</span><span class="o">.</span><span class="n">fury_backend</span><span class="o">.</span><span class="n">visualize_bundles</span>
@@ -1056,7 +1071,7 @@ document.write(`
             <span class="bp">self</span><span class="o">.</span><span class="n">create_gif</span> <span class="o">=</span> <span class="n">AFQ</span><span class="o">.</span><span class="n">viz</span><span class="o">.</span><span class="n">fury_backend</span><span class="o">.</span><span class="n">create_gif</span>
         <span class="k">elif</span> <span class="s2">&quot;plotly&quot;</span> <span class="ow">in</span> <span class="n">backend</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="kn">import</span> <span class="nn">AFQ.viz.plotly_backend</span>
+                <span class="kn">import</span><span class="w"> </span><span class="nn">AFQ.viz.plotly_backend</span>
             <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="n">viz_import_msg_error</span><span class="p">(</span><span class="s2">&quot;plotly&quot;</span><span class="p">))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">visualize_bundles</span> <span class="o">=</span> <span class="n">AFQ</span><span class="o">.</span><span class="n">viz</span><span class="o">.</span><span class="n">plotly_backend</span><span class="o">.</span><span class="n">visualize_bundles</span>

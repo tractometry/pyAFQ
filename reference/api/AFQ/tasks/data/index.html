@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.tasks.data &#8212; AFQ 1.3.6 documentation</title>
+    <title>AFQ.tasks.data &#8212; AFQ 2.0 documentation</title>
   
   
   
@@ -134,8 +134,8 @@
       
     
     
-    <img src="../../../../../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.6 documentation - Home"/>
-    <script>document.write(`<img src="../../../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.6 documentation - Home"/>`);</script>
+    <img src="../../../../../_static/logo.png" class="logo__image only-light" alt="AFQ 2.0 documentation - Home"/>
+    <script>document.write(`<img src="../../../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -752,8 +752,8 @@ document.write(`
 <span class="sig-prename descclassname"><span class="pre">AFQ.tasks.data.</span></span><span class="sig-name descname"><span class="pre">get_data_gtab</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dwi_data_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bval_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bvec_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_bval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_bval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_b</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b0_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/tasks/data.html#get_data_gtab"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.tasks.data.get_data_gtab" title="Permalink to this definition">#</a></dt>
 <dd><p>DWI data as an ndarray for selected b values,
 A DIPY GradientTable with all the gradient information,
-and DWI data in a Nifti1Image,
-and the affine transformation of the DWI data.</p>
+DWI data in a Nifti1Image,
+and the affine transformation of the DWI data</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -1326,9 +1326,10 @@ Default: None</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="AFQ.tasks.data.get_bundle_dict">
-<span class="sig-prename descclassname"><span class="pre">AFQ.tasks.data.</span></span><span class="sig-name descname"><span class="pre">get_bundle_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segmentation_params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">brain_mask</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle_info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reg_template_spec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mni_T1'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/tasks/data.html#get_bundle_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.tasks.data.get_bundle_dict" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">AFQ.tasks.data.</span></span><span class="sig-name descname"><span class="pre">get_bundle_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segmentation_params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">brain_mask</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle_info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reg_template_spec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mni_T1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reg_template_space_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mni'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/tasks/data.html#get_bundle_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.tasks.data.get_bundle_dict" title="Permalink to this definition">#</a></dt>
 <dd><p>Dictionary defining the different bundles to be segmented,
-and a Nifti1Image containing the template for registration</p>
+and a Nifti1Image containing the template for registration,
+and the name of the template space for file outputs</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -1346,6 +1347,9 @@ image data will be loaded automatically.
 If “hcp_atlas” is used, slr registration will be used
 and reg_subject should be “subject_sls”.
 Default: “mni_T1”</p>
+</dd>
+<dt><strong>reg_template_space_name</strong><span class="classifier">str, optional</span></dt><dd><p>Name to use in file names for the template space.
+Default: “mni”</p>
 </dd>
 </dl>
 </dd>

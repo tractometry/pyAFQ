@@ -26,7 +26,7 @@ import os
 import os.path as op
 
 import AFQ.api.bundle_dict as abd
-from AFQ.api.group import GroupAFQ, get_afq_bids_entities_fname
+from AFQ.api.group import GroupAFQ
 import AFQ.data.fetch as afd
 
 
@@ -270,13 +270,12 @@ my_afq.export_all()
 
 
 ##########################################################################
-# The outputs of AFQ are also BIDS compatible. However, we use some
-# custom entities, which need to be loaded. Here we demonstrate how
-# to load the afq entities with get_afq_bids_entities_fname()
-# and then show all files with the key-value pair recogmethod-AFQ
+# The outputs of AFQ are also BIDS compatible. Here we demonstrate how
+# to load the afq entities and show all files with the key-value pair
+# desc-bundles
 
 layout = BIDSLayout(bids_path)
 layout.add_derivatives(
     f'{bids_path}/derivatives/afq',
-    config=['bids', 'derivatives', get_afq_bids_entities_fname()])
-print(layout.get(recogmethod="AFQ", return_type="filename"))
+    config=['bids', 'derivatives'])
+print(layout.get(desc="bundles", return_type="filename"))

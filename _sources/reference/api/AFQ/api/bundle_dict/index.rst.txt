@@ -232,11 +232,10 @@ Functions
       ..
           !! processed by numpydoc !!
 
-   .. py:method:: apply_to_rois(b_name, func, *args, dry_run=False, apply_to_recobundles=False, **kwargs)
+   .. py:method:: apply_to_rois(b_name, *args, **kwargs)
 
       
-      Applies some transformation to all ROIs (include, exclude, end, start)
-      and the prob_map in a given bundle.
+      See: AFQ.api.bundle_dict.apply_to_roi_dict
 
 
       :Parameters:
@@ -244,32 +243,6 @@ Functions
           **b_name** : name
               bundle name of bundle whose ROIs will be transformed.
 
-          **func** : function
-              function whose first argument must be a Nifti1Image and which
-              returns a Nifti1Image
-
-          **dry_run** : bool
-              Whether to actually apply changes returned by `func` to the ROIs.
-              If has_return is False, dry_run is not used.
-
-          **apply_to_recobundles** : bool, optional
-              Whether to apply the transformation to recobundles
-              TRKs as well.
-              Default: False
-
-          **\*args**
-              Additional arguments for func
-
-          **\*\*kwargs**
-              Optional arguments for func
-
-      :Returns:
-
-          A dictionary where keys are
-              ..
-
-          the roi type and values are the transformed ROIs.
-              ..
 
 
 
@@ -321,7 +294,7 @@ Functions
    .. py:method:: _roi_transform_helper(roi_or_sl, mapping, new_affine, bundle_name)
 
 
-   .. py:method:: transform_rois(bundle_name, mapping, new_affine, base_fname=None, apply_to_recobundles=False)
+   .. py:method:: transform_rois(bundle_name, mapping, new_affine, base_fname=None, to_space='subject', apply_to_recobundles=False)
 
       
       Get the bundle definition with transformed ROIs
@@ -347,6 +320,11 @@ Functions
               Base file path to save ROIs too. Additional BIDS
               descriptors will be added to this file path. If None,
               do not save the ROIs.
+
+          **to_space** : str, optional
+              Name for space for exported ROIs. Only used if base_fname
+              is not None.
+              Default: "subject"
 
           **apply_to_recobundles** : bool, optional
               Whether to apply the transformation to recobundles

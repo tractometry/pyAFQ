@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.tractography.tractography &#8212; AFQ 1.3.6 documentation</title>
+    <title>AFQ.tractography.tractography &#8212; AFQ 2.0 documentation</title>
   
   
   
@@ -132,8 +132,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.6 documentation - Home"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.6 documentation - Home"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 2.0 documentation - Home"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -432,34 +432,35 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for AFQ.tractography.tractography</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Iterable</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">nibabel</span> <span class="k">as</span> <span class="nn">nib</span>
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">nibabel</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tqdm</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
 
-<span class="kn">import</span> <span class="nn">dipy.data</span> <span class="k">as</span> <span class="nn">dpd</span>
-<span class="kn">from</span> <span class="nn">dipy.align</span> <span class="kn">import</span> <span class="n">resample</span>
-<span class="kn">from</span> <span class="nn">dipy.direction</span> <span class="kn">import</span> <span class="p">(</span><span class="n">DeterministicMaximumDirectionGetter</span><span class="p">,</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">dipy.data</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dpd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dipy.align</span><span class="w"> </span><span class="kn">import</span> <span class="n">resample</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dipy.direction</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span><span class="n">DeterministicMaximumDirectionGetter</span><span class="p">,</span>
                             <span class="n">ProbabilisticDirectionGetter</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">dipy.io.stateful_tractogram</span> <span class="kn">import</span> <span class="n">StatefulTractogram</span><span class="p">,</span> <span class="n">Space</span>
-<span class="kn">from</span> <span class="nn">dipy.tracking.stopping_criterion</span> <span class="kn">import</span> <span class="p">(</span><span class="n">ThresholdStoppingCriterion</span><span class="p">,</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dipy.io.stateful_tractogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">StatefulTractogram</span><span class="p">,</span> <span class="n">Space</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dipy.tracking.stopping_criterion</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span><span class="n">ThresholdStoppingCriterion</span><span class="p">,</span>
                                               <span class="n">CmcStoppingCriterion</span><span class="p">,</span>
                                               <span class="n">ActStoppingCriterion</span><span class="p">)</span>
 
-<span class="kn">from</span> <span class="nn">nibabel.streamlines.tractogram</span> <span class="kn">import</span> <span class="n">LazyTractogram</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">nibabel.streamlines.tractogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">LazyTractogram</span>
 
-<span class="kn">from</span> <span class="nn">dipy.tracking.local_tracking</span> <span class="kn">import</span> <span class="p">(</span><span class="n">LocalTracking</span><span class="p">,</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dipy.tracking.local_tracking</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span><span class="n">LocalTracking</span><span class="p">,</span>
                                           <span class="n">ParticleFilteringTracking</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">AFQ._fixes</span> <span class="kn">import</span> <span class="n">tensor_odf</span>
-<span class="kn">from</span> <span class="nn">AFQ.tractography.utils</span> <span class="kn">import</span> <span class="n">gen_seeds</span><span class="p">,</span> <span class="n">get_percentile_threshold</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ._fixes</span><span class="w"> </span><span class="kn">import</span> <span class="n">tensor_odf</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.tractography.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">gen_seeds</span><span class="p">,</span> <span class="n">get_percentile_threshold</span>
 
 
-<div class="viewcode-block" id="track"><a class="viewcode-back" href="../../../reference/api/AFQ/tractography/tractography/index.html#AFQ.tractography.tractography.track">[docs]</a><span class="k">def</span> <span class="nf">track</span><span class="p">(</span><span class="n">params_file</span><span class="p">,</span> <span class="n">directions</span><span class="o">=</span><span class="s2">&quot;prob&quot;</span><span class="p">,</span> <span class="n">max_angle</span><span class="o">=</span><span class="mf">30.</span><span class="p">,</span> <span class="n">sphere</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<div class="viewcode-block" id="track"><a class="viewcode-back" href="../../../reference/api/AFQ/tractography/tractography/index.html#AFQ.tractography.tractography.track">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">track</span><span class="p">(</span><span class="n">params_file</span><span class="p">,</span> <span class="n">directions</span><span class="o">=</span><span class="s2">&quot;prob&quot;</span><span class="p">,</span> <span class="n">max_angle</span><span class="o">=</span><span class="mf">30.</span><span class="p">,</span> <span class="n">sphere</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
           <span class="n">seed_mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">seed_threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">thresholds_as_percentages</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
           <span class="n">n_seeds</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">random_seeds</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">rng_seed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">stop_mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
           <span class="n">stop_threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">step_size</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">minlen</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">maxlen</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span>
-          <span class="n">odf_model</span><span class="o">=</span><span class="s2">&quot;CSD&quot;</span><span class="p">,</span> <span class="n">tracker</span><span class="o">=</span><span class="s2">&quot;local&quot;</span><span class="p">,</span> <span class="n">trx</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+          <span class="n">odf_model</span><span class="o">=</span><span class="s2">&quot;CSD&quot;</span><span class="p">,</span> <span class="n">basis_type</span><span class="o">=</span><span class="s2">&quot;descoteaux07&quot;</span><span class="p">,</span> <span class="n">legacy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+          <span class="n">tracker</span><span class="o">=</span><span class="s2">&quot;local&quot;</span><span class="p">,</span> <span class="n">trx</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Tractography</span>
 
@@ -525,8 +526,18 @@ document.write(`
 <span class="sd">        The miminal length (mm) in a streamline. Default: 20</span>
 <span class="sd">    maxlen: int, optional</span>
 <span class="sd">        The miminal length (mm) in a streamline. Default: 250</span>
-<span class="sd">    odf_model : str, optional</span>
-<span class="sd">        One of {&quot;DTI&quot;, &quot;CSD&quot;, &quot;DKI&quot;}. Defaults to use &quot;CSD&quot;</span>
+<span class="sd">    odf_model : str or Definition, optional</span>
+<span class="sd">        Can be either a string or Definition. If a string, it must be one of</span>
+<span class="sd">        {&quot;DTI&quot;, &quot;CSD&quot;, &quot;DKI&quot;, &quot;GQ&quot;, &quot;RUMBA&quot;}. If a Definition, we assume</span>
+<span class="sd">        it is a definition of a file containing Spherical Harmonics</span>
+<span class="sd">        coefficients.</span>
+<span class="sd">        Defaults to use &quot;CSD&quot;</span>
+<span class="sd">    basis_type : str, optional</span>
+<span class="sd">        The spherical harmonic basis type used to represent the coefficients. </span>
+<span class="sd">        One of {&quot;descoteaux07&quot;, &quot;tournier07&quot;}. Deafult: &quot;descoteaux07&quot;</span>
+<span class="sd">    legacy : bool, optional</span>
+<span class="sd">        Whether to use the legacy implementation of the direction getter.</span>
+<span class="sd">        See Dipy documentation for more details. Default: True</span>
 <span class="sd">    tracker : str, optional</span>
 <span class="sd">        Which strategy to use in tracking. This can be the standard local</span>
 <span class="sd">        tracking (&quot;local&quot;) or Particle Filtering Tracking ([Girard2014]_).</span>
@@ -555,13 +566,17 @@ document.write(`
         <span class="n">params_img</span> <span class="o">=</span> <span class="n">params_file</span>
 
     <span class="n">model_params</span> <span class="o">=</span> <span class="n">params_img</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
-    <span class="n">odf_model</span> <span class="o">=</span> <span class="n">odf_model</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">odf_model</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">odf_model</span> <span class="o">=</span> <span class="n">odf_model</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
     <span class="n">directions</span> <span class="o">=</span> <span class="n">directions</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 
     <span class="c1"># We need to calculate the size of a voxel, so we can transform</span>
     <span class="c1"># from mm to voxel units:</span>
     <span class="n">minlen</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">minlen</span> <span class="o">/</span> <span class="n">step_size</span><span class="p">)</span>
     <span class="n">maxlen</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">maxlen</span> <span class="o">/</span> <span class="n">step_size</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">seed_mask</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">seed_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">params_img</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span>
 
     <span class="n">seeds</span> <span class="o">=</span> <span class="n">gen_seeds</span><span class="p">(</span>
         <span class="n">seed_mask</span><span class="p">,</span> <span class="n">seed_threshold</span><span class="p">,</span>
@@ -579,13 +594,17 @@ document.write(`
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unrecognized direction &#39;</span><span class="si">{</span><span class="n">directions</span><span class="si">}</span><span class="s2">&#39;.&quot;</span><span class="p">)</span>
 
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using basis type: </span><span class="si">{</span><span class="n">basis_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using legacy DG: </span><span class="si">{</span><span class="n">legacy</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
     <span class="k">if</span> <span class="n">odf_model</span> <span class="o">==</span> <span class="s2">&quot;DTI&quot;</span> <span class="ow">or</span> <span class="n">odf_model</span> <span class="o">==</span> <span class="s2">&quot;DKI&quot;</span><span class="p">:</span>
         <span class="n">evals</span> <span class="o">=</span> <span class="n">model_params</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span>
         <span class="n">evecs</span> <span class="o">=</span> <span class="n">model_params</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span><span class="mi">12</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">params_img</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
         <span class="n">odf</span> <span class="o">=</span> <span class="n">tensor_odf</span><span class="p">(</span><span class="n">evals</span><span class="p">,</span> <span class="n">evecs</span><span class="p">,</span> <span class="n">sphere</span><span class="p">)</span>
         <span class="n">dg</span> <span class="o">=</span> <span class="n">dg</span><span class="o">.</span><span class="n">from_pmf</span><span class="p">(</span><span class="n">odf</span><span class="p">,</span> <span class="n">max_angle</span><span class="o">=</span><span class="n">max_angle</span><span class="p">,</span> <span class="n">sphere</span><span class="o">=</span><span class="n">sphere</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">dg</span> <span class="o">=</span> <span class="n">dg</span><span class="o">.</span><span class="n">from_shcoeff</span><span class="p">(</span><span class="n">model_params</span><span class="p">,</span> <span class="n">max_angle</span><span class="o">=</span><span class="n">max_angle</span><span class="p">,</span> <span class="n">sphere</span><span class="o">=</span><span class="n">sphere</span><span class="p">)</span>
+        <span class="n">dg</span> <span class="o">=</span> <span class="n">dg</span><span class="o">.</span><span class="n">from_shcoeff</span><span class="p">(</span><span class="n">model_params</span><span class="p">,</span> <span class="n">max_angle</span><span class="o">=</span><span class="n">max_angle</span><span class="p">,</span> <span class="n">sphere</span><span class="o">=</span><span class="n">sphere</span><span class="p">,</span>
+                             <span class="n">basis_type</span><span class="o">=</span><span class="n">basis_type</span><span class="p">,</span> <span class="n">legacy</span><span class="o">=</span><span class="n">legacy</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">tracker</span> <span class="o">==</span> <span class="s2">&quot;local&quot;</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">stop_mask</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -618,7 +637,6 @@ document.write(`
                 <span class="s2">&quot;Expected a (pve_wm, pve_gm, pve_csf) tuple.&quot;</span><span class="p">)</span>
         <span class="n">pves</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">pve_imgs</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">vox_sizes</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">ii</span><span class="p">,</span> <span class="n">pve</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">stop_mask</span><span class="p">):</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pve</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
                 <span class="n">img</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">pve</span><span class="p">)</span>
@@ -626,23 +644,21 @@ document.write(`
                 <span class="n">img</span> <span class="o">=</span> <span class="n">pve</span>
             <span class="n">pve_imgs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
             <span class="n">pves</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pve_imgs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">())</span>
-        <span class="n">average_voxel_size</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">vox_sizes</span><span class="p">)</span>
+
         <span class="n">pve_wm_img</span><span class="p">,</span> <span class="n">pve_gm_img</span><span class="p">,</span> <span class="n">pve_csf_img</span> <span class="o">=</span> <span class="n">pve_imgs</span>
         <span class="n">pve_wm_data</span><span class="p">,</span> <span class="n">pve_gm_data</span><span class="p">,</span> <span class="n">pve_csf_data</span> <span class="o">=</span> <span class="n">pves</span>
         <span class="n">pve_wm_data</span> <span class="o">=</span> <span class="n">resample</span><span class="p">(</span>
             <span class="n">pve_wm_data</span><span class="p">,</span> <span class="n">model_params</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-            <span class="n">pve_wm_img</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span>
-            <span class="n">params_img</span><span class="o">.</span><span class="n">affine</span><span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
+            <span class="n">moving_affine</span><span class="o">=</span><span class="n">pve_wm_img</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span>
+            <span class="n">static_affine</span><span class="o">=</span><span class="n">params_img</span><span class="o">.</span><span class="n">affine</span><span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
         <span class="n">pve_gm_data</span> <span class="o">=</span> <span class="n">resample</span><span class="p">(</span>
             <span class="n">pve_gm_data</span><span class="p">,</span> <span class="n">model_params</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-            <span class="n">pve_gm_img</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span>
-            <span class="n">params_img</span><span class="o">.</span><span class="n">affine</span><span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
+            <span class="n">moving_affine</span><span class="o">=</span><span class="n">pve_gm_img</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span>
+            <span class="n">static_affine</span><span class="o">=</span><span class="n">params_img</span><span class="o">.</span><span class="n">affine</span><span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
         <span class="n">pve_csf_data</span> <span class="o">=</span> <span class="n">resample</span><span class="p">(</span>
             <span class="n">pve_csf_data</span><span class="p">,</span> <span class="n">model_params</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-            <span class="n">pve_csf_img</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span>
-            <span class="n">params_img</span><span class="o">.</span><span class="n">affine</span><span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
-
-        <span class="n">vox_sizes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">params_img</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">get_zooms</span><span class="p">()[:</span><span class="mi">3</span><span class="p">]))</span>
+            <span class="n">moving_affine</span><span class="o">=</span><span class="n">pve_csf_img</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span>
+            <span class="n">static_affine</span><span class="o">=</span><span class="n">params_img</span><span class="o">.</span><span class="n">affine</span><span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
 
         <span class="n">my_tracker</span> <span class="o">=</span> <span class="n">ParticleFilteringTracking</span>
         <span class="k">if</span> <span class="n">stop_threshold</span> <span class="o">==</span> <span class="s2">&quot;CMC&quot;</span><span class="p">:</span>
@@ -651,7 +667,8 @@ document.write(`
                 <span class="n">pve_gm_data</span><span class="p">,</span>
                 <span class="n">pve_csf_data</span><span class="p">,</span>
                 <span class="n">step_size</span><span class="o">=</span><span class="n">step_size</span><span class="p">,</span>
-                <span class="n">average_voxel_size</span><span class="o">=</span><span class="n">average_voxel_size</span><span class="p">)</span>
+                <span class="n">average_voxel_size</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span>
+                    <span class="n">params_img</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">get_zooms</span><span class="p">()[:</span><span class="mi">3</span><span class="p">]))</span>
         <span class="k">elif</span> <span class="n">stop_threshold</span> <span class="o">==</span> <span class="s2">&quot;ACT&quot;</span><span class="p">:</span>
             <span class="n">stopping_criterion</span> <span class="o">=</span> <span class="n">ActStoppingCriterion</span><span class="o">.</span><span class="n">from_pve</span><span class="p">(</span>
                 <span class="n">pve_wm_data</span><span class="p">,</span>
@@ -667,7 +684,7 @@ document.write(`
                      <span class="n">trx</span><span class="o">=</span><span class="n">trx</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="_tracking"><a class="viewcode-back" href="../../../reference/api/AFQ/tractography/tractography/index.html#AFQ.tractography.tractography._tracking">[docs]</a><span class="k">def</span> <span class="nf">_tracking</span><span class="p">(</span><span class="n">tracker</span><span class="p">,</span> <span class="n">seeds</span><span class="p">,</span> <span class="n">dg</span><span class="p">,</span> <span class="n">stopping_criterion</span><span class="p">,</span> <span class="n">params_img</span><span class="p">,</span>
+<div class="viewcode-block" id="_tracking"><a class="viewcode-back" href="../../../reference/api/AFQ/tractography/tractography/index.html#AFQ.tractography.tractography._tracking">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">_tracking</span><span class="p">(</span><span class="n">tracker</span><span class="p">,</span> <span class="n">seeds</span><span class="p">,</span> <span class="n">dg</span><span class="p">,</span> <span class="n">stopping_criterion</span><span class="p">,</span> <span class="n">params_img</span><span class="p">,</span>
               <span class="n">step_size</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">minlen</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">maxlen</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
               <span class="n">random_seed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">trx</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>

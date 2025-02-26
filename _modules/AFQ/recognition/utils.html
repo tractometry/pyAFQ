@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.recognition.utils &#8212; AFQ 1.3.6 documentation</title>
+    <title>AFQ.recognition.utils &#8212; AFQ 2.0 documentation</title>
   
   
   
@@ -132,8 +132,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 1.3.6 documentation - Home"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 1.3.6 documentation - Home"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 2.0 documentation - Home"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -432,26 +432,26 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for AFQ.recognition.utils</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">os.path</span> <span class="k">as</span> <span class="nn">op</span>
-<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">op</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">time</span><span class="w"> </span><span class="kn">import</span> <span class="n">time</span>
 
-<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
-<span class="kn">from</span> <span class="nn">dipy.io.stateful_tractogram</span> <span class="kn">import</span> <span class="n">StatefulTractogram</span><span class="p">,</span> <span class="n">Space</span>
-<span class="kn">from</span> <span class="nn">dipy.io.streamline</span> <span class="kn">import</span> <span class="n">save_tractogram</span>
-<span class="kn">import</span> <span class="nn">dipy.tracking.streamlinespeed</span> <span class="k">as</span> <span class="nn">dps</span>
-<span class="kn">import</span> <span class="nn">dipy.tracking.streamline</span> <span class="k">as</span> <span class="nn">dts</span>
-<span class="kn">from</span> <span class="nn">dipy.tracking.distances</span> <span class="kn">import</span> <span class="n">bundles_distances_mdf</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dipy.io.stateful_tractogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">StatefulTractogram</span><span class="p">,</span> <span class="n">Space</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dipy.io.streamline</span><span class="w"> </span><span class="kn">import</span> <span class="n">save_tractogram</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">dipy.tracking.streamlinespeed</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dps</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">dipy.tracking.streamline</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dts</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dipy.tracking.distances</span><span class="w"> </span><span class="kn">import</span> <span class="n">bundles_distances_mdf</span>
 
 
-<span class="kn">from</span> <span class="nn">AFQ.definitions.mapping</span> <span class="kn">import</span> <span class="n">ConformedFnirtMapping</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.definitions.mapping</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConformedFnirtMapping</span>
 
 
 <div class="viewcode-block" id="logger"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.logger">[docs]</a><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;AFQ&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="flip_sls"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.flip_sls">[docs]</a><span class="k">def</span> <span class="nf">flip_sls</span><span class="p">(</span><span class="n">select_sl</span><span class="p">,</span> <span class="n">idx_to_flip</span><span class="p">,</span> <span class="n">in_place</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="flip_sls"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.flip_sls">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">flip_sls</span><span class="p">(</span><span class="n">select_sl</span><span class="p">,</span> <span class="n">idx_to_flip</span><span class="p">,</span> <span class="n">in_place</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Helper function to flip streamlines</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -467,18 +467,23 @@ document.write(`
     <span class="k">return</span> <span class="n">flipped_sl</span></div>
 
 
-<div class="viewcode-block" id="cut_sls_by_dist"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.cut_sls_by_dist">[docs]</a><span class="k">def</span> <span class="nf">cut_sls_by_dist</span><span class="p">(</span><span class="n">select_sl</span><span class="p">,</span> <span class="n">roi_dists</span><span class="p">,</span> <span class="n">roi_idxs</span><span class="p">,</span>
-                    <span class="n">in_place</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="cut_sls_by_closest"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.cut_sls_by_closest">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">cut_sls_by_closest</span><span class="p">(</span><span class="n">select_sl</span><span class="p">,</span> <span class="n">roi_closest</span><span class="p">,</span> <span class="n">roi_idxs</span><span class="p">,</span>
+                       <span class="n">in_place</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Helper function to cut streamlines according to which points</span>
 <span class="sd">    are closest to certain rois.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    select_sl, streamlines to cut</span>
-<span class="sd">    roi_dists, distances from a given streamline to a given inclusion roi</span>
-<span class="sd">    roi_idxs, two indices into the list of inclusion rois to use for the cut</span>
-<span class="sd">    in_place, whether to modify select_sl</span>
+<span class="sd">    select_sl</span>
+<span class="sd">        streamlines to cut</span>
+<span class="sd">    roi_closest</span>
+<span class="sd">        indices into given streamline of points nearest</span>
+<span class="sd">        to inclusion rois</span>
+<span class="sd">    roi_idxs</span>
+<span class="sd">        two indices into the list of inclusion rois to use for the cut</span>
+<span class="sd">    in_place</span>
+<span class="sd">        whether to modify select_sl</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">in_place</span><span class="p">:</span>
         <span class="n">cut_sl</span> <span class="o">=</span> <span class="n">select_sl</span>
@@ -489,11 +494,11 @@ document.write(`
         <span class="k">if</span> <span class="n">roi_idxs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
             <span class="n">min0</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">min0</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">roi_dists</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="n">roi_idxs</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+            <span class="n">min0</span> <span class="o">=</span> <span class="n">roi_closest</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="n">roi_idxs</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
         <span class="k">if</span> <span class="n">roi_idxs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
             <span class="n">min1</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">this_sl</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">min1</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">roi_dists</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="n">roi_idxs</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+            <span class="n">min1</span> <span class="o">=</span> <span class="n">roi_closest</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="n">roi_idxs</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
 
         <span class="c1"># handle if sls not flipped</span>
         <span class="k">if</span> <span class="n">min0</span> <span class="o">&gt;</span> <span class="n">min1</span><span class="p">:</span>
@@ -511,7 +516,7 @@ document.write(`
     <span class="k">return</span> <span class="n">cut_sl</span></div>
 
 
-<div class="viewcode-block" id="read_tg"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.read_tg">[docs]</a><span class="k">def</span> <span class="nf">read_tg</span><span class="p">(</span><span class="n">tg</span><span class="p">,</span> <span class="n">nb_streamlines</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="read_tg"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.read_tg">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">read_tg</span><span class="p">(</span><span class="n">tg</span><span class="p">,</span> <span class="n">nb_streamlines</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">nb_streamlines</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">tg</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">nb_streamlines</span><span class="p">:</span>
         <span class="n">tg</span> <span class="o">=</span> <span class="n">StatefulTractogram</span><span class="o">.</span><span class="n">from_sft</span><span class="p">(</span>
             <span class="n">dts</span><span class="o">.</span><span class="n">select_random_set_of_streamlines</span><span class="p">(</span>
@@ -522,14 +527,14 @@ document.write(`
     <span class="k">return</span> <span class="n">tg</span></div>
 
 
-<div class="viewcode-block" id="orient_by_streamline"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.orient_by_streamline">[docs]</a><span class="k">def</span> <span class="nf">orient_by_streamline</span><span class="p">(</span><span class="n">sls</span><span class="p">,</span> <span class="n">template_sl</span><span class="p">):</span>
+<div class="viewcode-block" id="orient_by_streamline"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.orient_by_streamline">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">orient_by_streamline</span><span class="p">(</span><span class="n">sls</span><span class="p">,</span> <span class="n">template_sl</span><span class="p">):</span>
     <span class="n">DM</span> <span class="o">=</span> <span class="n">bundles_distances_mdf</span><span class="p">(</span>
         <span class="n">sls</span><span class="p">,</span>
         <span class="p">[</span><span class="n">template_sl</span><span class="p">,</span> <span class="n">template_sl</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
     <span class="k">return</span> <span class="n">DM</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">DM</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="move_streamlines"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.move_streamlines">[docs]</a><span class="k">def</span> <span class="nf">move_streamlines</span><span class="p">(</span><span class="n">tg</span><span class="p">,</span> <span class="n">to</span><span class="p">,</span> <span class="n">mapping</span><span class="p">,</span> <span class="n">img</span><span class="p">,</span> <span class="n">save_intermediates</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="move_streamlines"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.move_streamlines">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">move_streamlines</span><span class="p">(</span><span class="n">tg</span><span class="p">,</span> <span class="n">to</span><span class="p">,</span> <span class="n">mapping</span><span class="p">,</span> <span class="n">img</span><span class="p">,</span> <span class="n">save_intermediates</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Move streamlines to or from template space.</span>
 
 <span class="sd">    to : str</span>
@@ -575,7 +580,7 @@ document.write(`
     <span class="k">return</span> <span class="n">moved_sft</span></div>
 
 
-<div class="viewcode-block" id="resample_tg"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.resample_tg">[docs]</a><span class="k">def</span> <span class="nf">resample_tg</span><span class="p">(</span><span class="n">tg</span><span class="p">,</span> <span class="n">n_points</span><span class="p">):</span>
+<div class="viewcode-block" id="resample_tg"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.resample_tg">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">resample_tg</span><span class="p">(</span><span class="n">tg</span><span class="p">,</span> <span class="n">n_points</span><span class="p">):</span>
     <span class="c1"># reformat for dipy&#39;s set_number_of_points</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tg</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tg</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
@@ -589,30 +594,30 @@ document.write(`
     <span class="k">return</span> <span class="n">dps</span><span class="o">.</span><span class="n">set_number_of_points</span><span class="p">(</span><span class="n">streamlines</span><span class="p">,</span> <span class="n">n_points</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="SlsBeingRecognized"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.SlsBeingRecognized">[docs]</a><span class="k">class</span> <span class="nc">SlsBeingRecognized</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sls</span><span class="p">,</span> <span class="n">logger</span><span class="p">,</span> <span class="n">save_intermediates</span><span class="p">,</span> <span class="n">b_name</span><span class="p">,</span> <span class="n">ref</span><span class="p">,</span>
-                 <span class="n">n_roi_dists</span><span class="p">):</span>
+<div class="viewcode-block" id="SlsBeingRecognized"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.SlsBeingRecognized">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">SlsBeingRecognized</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sls</span><span class="p">,</span> <span class="n">logger</span><span class="p">,</span> <span class="n">save_intermediates</span><span class="p">,</span> <span class="n">b_name</span><span class="p">,</span> <span class="n">ref</span><span class="p">,</span>
+                 <span class="n">n_roi</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">oriented_yet</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">selected_fiber_idxs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sls</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sls_flipped</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sls</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">bool8</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sls_flipped</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sls</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logger</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">start_time</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">save_intermediates</span> <span class="o">=</span> <span class="n">save_intermediates</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">b_name</span> <span class="o">=</span> <span class="n">b_name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ref_sls</span> <span class="o">=</span> <span class="n">sls</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ref</span> <span class="o">=</span> <span class="n">ref</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">n_roi_dists</span> <span class="o">=</span> <span class="n">n_roi_dists</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_roi</span> <span class="o">=</span> <span class="n">n_roi</span>
 
-<div class="viewcode-block" id="SlsBeingRecognized.initiate_selection"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.SlsBeingRecognized.initiate_selection">[docs]</a>    <span class="k">def</span> <span class="nf">initiate_selection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">clean_name</span><span class="p">):</span>
+<div class="viewcode-block" id="SlsBeingRecognized.initiate_selection"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.SlsBeingRecognized.initiate_selection">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">initiate_selection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">clean_name</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Filtering by </span><span class="si">{</span><span class="n">clean_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">selected_fiber_idxs</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">bool8</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">selected_fiber_idxs</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SlsBeingRecognized.select"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.SlsBeingRecognized.select">[docs]</a>    <span class="k">def</span> <span class="nf">select</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">clean_name</span><span class="p">,</span> <span class="n">cut</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="SlsBeingRecognized.select"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.SlsBeingRecognized.select">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">select</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">clean_name</span><span class="p">,</span> <span class="n">cut</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">selected_fiber_idxs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">selected_fiber_idxs</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sls_flipped</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sls_flipped</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;roi_dists&quot;</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">roi_dists</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">roi_dists</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;roi_closest&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">roi_closest</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">roi_closest</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
         <span class="n">time_taken</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_time</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;After filtering by </span><span class="si">{</span><span class="n">clean_name</span><span class="si">}</span><span class="s2"> (time: </span><span class="si">{</span><span class="n">time_taken</span><span class="si">}</span><span class="s2">s), &quot;</span>
@@ -626,12 +631,12 @@ document.write(`
                         <span class="sa">f</span><span class="s1">&#39;sls_after_</span><span class="si">{</span><span class="n">clean_name</span><span class="si">}</span><span class="s1">_for_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">b_name</span><span class="si">}</span><span class="s1">.trk&#39;</span><span class="p">),</span>
                 <span class="n">bbox_valid_check</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SlsBeingRecognized.get_selected_sls"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.SlsBeingRecognized.get_selected_sls">[docs]</a>    <span class="k">def</span> <span class="nf">get_selected_sls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cut</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">flip</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="SlsBeingRecognized.get_selected_sls"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.SlsBeingRecognized.get_selected_sls">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_selected_sls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cut</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">flip</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="n">selected_sls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ref_sls</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">selected_fiber_idxs</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">cut</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;roi_dists&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_roi_dists</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">selected_sls</span> <span class="o">=</span> <span class="n">cut_sls_by_dist</span><span class="p">(</span>
-                <span class="n">selected_sls</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">roi_dists</span><span class="p">,</span>
-                <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_roi_dists</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="k">if</span> <span class="n">cut</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;roi_closest&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_roi</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">selected_sls</span> <span class="o">=</span> <span class="n">cut_sls_by_closest</span><span class="p">(</span>
+                <span class="n">selected_sls</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">roi_closest</span><span class="p">,</span>
+                <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_roi</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span>
                 <span class="n">in_place</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">flip</span><span class="p">:</span>
             <span class="n">selected_sls</span> <span class="o">=</span> <span class="n">flip_sls</span><span class="p">(</span>
@@ -639,7 +644,7 @@ document.write(`
                 <span class="n">in_place</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">selected_sls</span></div>
 
-<div class="viewcode-block" id="SlsBeingRecognized.reorient"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.SlsBeingRecognized.reorient">[docs]</a>    <span class="k">def</span> <span class="nf">reorient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
+<div class="viewcode-block" id="SlsBeingRecognized.reorient"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.SlsBeingRecognized.reorient">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">reorient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">oriented_yet</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">((</span>
                 <span class="s2">&quot;Attempted to oriented streamlines &quot;</span>
@@ -649,10 +654,10 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">oriented_yet</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sls_flipped</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span></div>
 
-<div class="viewcode-block" id="SlsBeingRecognized.__bool__"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.SlsBeingRecognized.__bool__">[docs]</a>    <span class="k">def</span> <span class="fm">__bool__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SlsBeingRecognized.__bool__"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.SlsBeingRecognized.__bool__">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="fm">__bool__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span></div>
 
-<div class="viewcode-block" id="SlsBeingRecognized.__len__"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.SlsBeingRecognized.__len__">[docs]</a>    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SlsBeingRecognized.__len__"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.SlsBeingRecognized.__len__">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">selected_fiber_idxs</span><span class="p">)</span></div></div>
 </pre></div>
 
