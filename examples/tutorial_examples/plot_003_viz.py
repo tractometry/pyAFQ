@@ -28,6 +28,7 @@ from dipy.tracking.streamline import transform_streamlines
 from fury import actor, window
 from fury.colormap import create_colormap
 
+
 import AFQ.data.fetch as afd
 from AFQ.viz.utils import PanelFigure
 
@@ -253,7 +254,7 @@ scene.set_camera(position=(238.04, 174.48, 143.04),
 out_folder = op.join(afd.afq_home, "VizExample")
 os.makedirs(out_folder, exist_ok=True)
 window.record(
-    scene,
+    scene=scene,
     out_path=op.join(out_folder, 'arc_cst1.png'),
     size=(2400, 2400))
 
@@ -287,7 +288,7 @@ for slicer in slicers:
     scene.add(slicer)
 
 window.record(
-    scene,
+    scene=scene,
     out_path=op.join(out_folder, 'arc_cst2.png'),
     size=(2400, 2400))
 
@@ -335,13 +336,13 @@ cst_profile = afq_profile(fa, sft_cst.streamlines, affine=np.eye(4))
 core_arc_actor = lines_as_tubes(
     [core_arc],
     40,
-    colors=create_colormap(arc_profile, 'viridis')
+    colors=create_colormap(arc_profile, name='viridis')
 )
 
 core_cst_actor = lines_as_tubes(
     [core_cst],
     40,
-    colors=create_colormap(cst_profile, 'viridis')
+    colors=create_colormap(cst_profile, name='viridis')
 )
 
 scene.clear()
@@ -357,7 +358,7 @@ scene.add(core_arc_actor)
 scene.add(core_cst_actor)
 
 window.record(
-    scene,
+    scene=scene,
     out_path=op.join(out_folder, 'arc_cst3.png'),
     size=(2400, 2400))
 
@@ -429,8 +430,54 @@ scene.add(waypoint2_actor)
 
 
 window.record(
-    scene,
+    scene=scene,
     out_path=op.join(out_folder, 'arc_cst4.png'),
+    size=(2400, 2400))
+
+#############################################################################
+# Visualizing tracts and tract profiles with a "glass brain"
+# ----------------------------------------------------------
+# Displaying tracts together with slices of anatomical data is beautiful
+# but sometimes poses a challenge because of occlusion. Another option is
+# to visualize the data with a "glass brain". That is, a faint contour
+# showing where the edges of the brain are, so that the tracts are visible
+# and the anatomical context can be understood. One way to generate the
+# contour of the brain is to use a brain mask generated from anatomical data.
+# We set its display color to black (`[0, 0, 0]`) and its opacity to a very low
+# value so that the tracts can easily be seen. This visualization is best with
+# a bright background, so we set the background to white (`[1, 1, 1]`).
+# In addition, we will demonstrate another way to show tract profile
+# information (based on Luo et al. 2025 [4]_): here the tract profile is
+# interpolated onto each streamline in the tract and mapped to a colormap.
+# This vividly shows the variations in tract profile values over space.
+
+brain_mask_img = nib.load(op.join(deriv_path,
+    'qsiprep/sub-NDARAA948VFH/anat/sub-NDARAA948VFH_desc-brain_mask.nii.gz'))
+
+brain_mask_data = brain_mask_img.get_fdata()
+
+scene.clear()
+
+brain_actor = actor.contour_from_roi(brain_mask_data,
+                                     color=[0, 0, 0],
+                                     opacity=0.05)
+
+scene.add(brain_actor)
+
+for sl in arc_t1w:
+    # interpolate the 100 tract profiles values to match the number of points
+    # in the streamline:
+    interpolated_values = np.interp(np.linspace(0, 1, len(sl)),
+                                    np.linspace(0, 1, len(arc_profile)),
+                                    arc_profile)
+    colors = create_colormap(interpolated_values, name='Spectral')
+    line_actor = lines_as_tubes([sl], 8, colors=colors)
+    scene.add(line_actor)
+
+scene.background((1, 1, 1))
+window.record(
+    scene=scene,
+    out_path=op.join(out_folder, 'arc_cst5.png'),
     size=(2400, 2400))
 
 #############################################################################
@@ -446,7 +493,7 @@ pf = PanelFigure(3, 2, 6, 9)
 pf.add_img(op.join(out_folder, 'arc_cst1.png'), 0, 0)
 pf.add_img(op.join(out_folder, 'arc_cst2.png'), 1, 0)
 pf.add_img(op.join(out_folder, 'arc_cst3.png'), 0, 1)
-pf.add_img(op.join(out_folder, 'arc_cst4.png'), 1, 1)
+pf.add_img(op.join(out_folder, 'arc_cst5.png'), 1, 1)
 pf.format_and_save_figure(f"arc_cst_fig.png")
 
 #############################################################################
@@ -472,3 +519,6 @@ if os.environ.get("XVFB", False):
 # .. [3] Richie-Halford A, Cieslak M, Ai L, et al. An analysis-ready and
 #     quality controlled resource for pediatric brain white-matter research.
 #     Scientific Data. 2022;9(1):1-27.
+#
+# .. [4] Luo A, et al. Two Axes of White Matter Development. In prep.
+
