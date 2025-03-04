@@ -411,7 +411,8 @@ class GroupAFQ(object):
             self.afq_path, "tract_profiles.csv"))
         os.makedirs(op.dirname(out_file), exist_ok=True)
         _df = clean_pandas_df(_df)
-        _df.to_csv(out_file, index=False)
+        if not op.exists(out_file):
+            _df.to_csv(out_file, index=False)
         return _df
 
     def get_streamlines_json(self):
