@@ -24,7 +24,7 @@ dwi:
 
 
 dwi_affine:
-    the affine transformation of the DWI data.
+    the affine transformation of the DWI data
 
 
 b0:
@@ -363,6 +363,10 @@ reg_template:
     a Nifti1Image containing the template for registration
 
 
+tmpl_name:
+    the name of the template space for file outputs
+
+
 b0_warped:
     full path to a nifti file containing b0 transformed to template space
 
@@ -415,12 +419,24 @@ seed:
     full path to a nifti file containing the tractography seed mask
 
 
+seed_thresh:
+    full path to a nifti file containing the tractography seed mask thresholded
+
+
 stop:
     full path to a nifti file containing the tractography stop mask
 
 
+stop_thresh:
+    full path to a nifti file containing the tractography stop mask thresholded
+
+
 streamlines:
     full path to the complete, unsegmented tractography file
+
+
+fodf:
+    Nifti Image containing the fiber orientation distribution function
 
 
 all_bundles_figure:
