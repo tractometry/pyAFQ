@@ -1081,8 +1081,7 @@ def brain_mask(b0, brain_mask_definition=None):
 
 
 @pimms.calc("bundle_dict", "reg_template", "tmpl_name")
-def get_bundle_dict(segmentation_params,
-                    brain_mask, b0,
+def get_bundle_dict(brain_mask, b0,
                     bundle_info=None, reg_template_spec="mni_T1",
                     reg_template_space_name="mni"):
     """
@@ -1156,6 +1155,9 @@ def get_bundle_dict(segmentation_params,
         bundle_dict = abd.BundleDict(
             bundle_info,
             resample_to=reg_template)
+
+    if bundle_dict.resample_subject_to is None:
+        bundle_dict.resample_subject_to = b0
 
     return bundle_dict, reg_template, reg_template_space_name
 

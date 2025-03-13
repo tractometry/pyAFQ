@@ -722,6 +722,7 @@ class BundleDict(MutableMapping):
         If there are bundles in bundle_info with the 'space' attribute
         set to 'subject', their images (all ROIs and probability maps)
         will be resampled to the affine and shape of this image.
+        If None, resamples to DWI.
         If False, no resampling will be done.
         Default: None
 
@@ -778,7 +779,7 @@ class BundleDict(MutableMapping):
     def __init__(self,
                  bundle_info,
                  resample_to=None,
-                 resample_subject_to=False,
+                 resample_subject_to=None,
                  keep_in_memory=False):
         if not (isinstance(bundle_info, dict)):
             raise TypeError((
