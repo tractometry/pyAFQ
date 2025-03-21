@@ -195,7 +195,7 @@ def gpu_track(data, gtab, seed_img, stop_img,
                 # TRX uses memmaps here
                 trx_file.streamlines._data[sls_data_idx:new_sls_data_idx] = sls._data
                 trx_file.streamlines._offsets[offsets_idx:
-                                              new_offsets_idx] = offsets_idx + sls._offsets
+                                              new_offsets_idx] = sls_data_idx + sls._offsets
                 trx_file.streamlines._lengths[offsets_idx:new_offsets_idx] = sls._lengths
 
                 offsets_idx = new_offsets_idx
