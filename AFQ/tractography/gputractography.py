@@ -141,10 +141,12 @@ def gpu_track(data, gtab, seed_img, stop_img,
         step_size,
         0.25,  # relative peak threshold
         radians(45),  # min separation angle
-        data.astype(np.float64), H.astype(np.float64), R.astype(np.float64),
+        np.ascontiguousarray(data).astype(np.float64),
+        H.astype(np.float64), R.astype(np.float64),
         delta_b.astype(np.float64), delta_q.astype(np.float64),
-        b0s_mask.astype(np.int32), stop_data.astype(
-            np.float64), sampling_matrix.astype(np.float64),
+        b0s_mask.astype(np.int32),
+        np.ascontiguousarray(stop_data).astype(np.float64),
+        sampling_matrix.astype(np.float64),
         sphere.vertices.astype(np.float64), sphere.edges.astype(np.int32),
         ngpus=ngpus, rng_seed=0)
 
