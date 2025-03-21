@@ -164,7 +164,7 @@ def gpu_track(data, gtab, seed_img, stop_img,
         # Will resize by a factor of 2 if these are exceeded
         sl_len_guess = 100
         sl_per_seed_guess = 3
-        n_sls_guess = sl_per_seed_guess * len(seeds.shape[0])
+        n_sls_guess = sl_per_seed_guess * seeds.shape[0]
 
         # trx files use memory mapping
         trx_file = TrxFile(
