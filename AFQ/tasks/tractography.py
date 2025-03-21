@@ -351,6 +351,8 @@ def gpu_tractography(data_imap, tracking_params, fodf, seed, stop,
     if tracking_params["directions"] == "boot":
         data = data_imap["data"]
     else:
+        if isinstance(fodf, str):
+            fodf = nib.load(fodf)
         data = fodf.get_fdata()
 
     sphere = tracking_params["sphere"]

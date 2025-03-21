@@ -141,10 +141,12 @@ def gpu_track(data, gtab, seed_img, stop_img,
         step_size,
         0.25,  # relative peak threshold
         radians(45),  # min separation angle
-        data.astype(np.float64), H.astype(np.float64), R.astype(np.float64),
+        np.ascontiguousarray(data).astype(np.float64),
+        H.astype(np.float64), R.astype(np.float64),
         delta_b.astype(np.float64), delta_q.astype(np.float64),
-        b0s_mask.astype(np.int32), stop_data.astype(
-            np.float64), sampling_matrix.astype(np.float64),
+        b0s_mask.astype(np.int32),
+        np.ascontiguousarray(stop_data).astype(np.float64),
+        sampling_matrix.astype(np.float64),
         sphere.vertices.astype(np.float64), sphere.edges.astype(np.int32),
         ngpus=ngpus, rng_seed=0)
 
@@ -162,7 +164,7 @@ def gpu_track(data, gtab, seed_img, stop_img,
         # Will resize by a factor of 2 if these are exceeded
         sl_len_guess = 100
         sl_per_seed_guess = 3
-        n_sls_guess = sl_per_seed_guess * len(seeds.shape[0])
+        n_sls_guess = sl_per_seed_guess * seeds.shape[0]
 
         # trx files use memory mapping
         trx_file = TrxFile(
@@ -193,7 +195,7 @@ def gpu_track(data, gtab, seed_img, stop_img,
                 # TRX uses memmaps here
                 trx_file.streamlines._data[sls_data_idx:new_sls_data_idx] = sls._data
                 trx_file.streamlines._offsets[offsets_idx:
-                                              new_offsets_idx] = offsets_idx + sls._offsets
+                                              new_offsets_idx] = sls_data_idx + sls._offsets
                 trx_file.streamlines._lengths[offsets_idx:new_offsets_idx] = sls._lengths
 
                 offsets_idx = new_offsets_idx
