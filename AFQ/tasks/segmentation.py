@@ -80,6 +80,11 @@ def segment(data_imap, mapping_imap,
             temp_tck, data_imap["dwi"], Space.VOX,
             bbox_valid_check=False)
         is_trx = False
+    if len(tg.streamlines) == 0:
+        raise ValueError(f"There are no streamlines in {streamlines}."
+                         " This is likely due to errors in defining the "
+                         " tractography parameters or the"
+                         " seed/stop masks.")
 
     indices_to_remove, _ = tg.remove_invalid_streamlines()
     if len(indices_to_remove) > 0:
@@ -382,7 +387,7 @@ def get_scalar_dict(data_imap, mapping_imap, scalars=["dti_fa", "dti_md"]):
         List of scalars to use.
         Can be any of: "dti_fa", "dti_md", "dki_fa", "dki_md", "dki_awf",
         "dki_mk". Can also be a scalar from AFQ.definitions.image.
-            Default: For single shell data: ["dti_fa", "dti_md"], 
+            Default: For single shell data: ["dti_fa", "dti_md"],
         for multi-shell data: ["dki_fa", "dki_md"].
     """
     # Note: some scalars preprocessing done in plans, before this step
