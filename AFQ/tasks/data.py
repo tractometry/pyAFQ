@@ -167,11 +167,20 @@ def dti_params(brain_mask, data, gtab,
         gtab, data,
         mask=mask, sigma=sigma)
     meta = dict(
-        Parameters=dict(
-            FitMethod="WLS"),
-        OutlierRejection=robust_tensor_fitting,
-        ModelURL=f"{DIPY_GH}reconst/dti.py")
-    return dtf.model_params, meta
+        Description="Diffusion Coefficient, encoded as a tensor representation",
+        Units="mm^2/s",
+        Model=dict(
+            Parameters=dict(
+                FitMethod="wls",
+                OutlierRejection=robust_tensor_fitting),
+            ModelURL=f"{DIPY_GH}reconst/dti.py"),
+        OrientationEncoding=dict(
+            EncodingAxis=3,
+            Reference="ijk",
+            TensorRank=2,
+            Type="tensor"
+        ))
+    return dtf.lower_triangular, meta
 
 
 @pimms.calc("fwdti_tf")
@@ -767,13 +776,13 @@ def dti_lt(dti_tf, dwi_affine):
     Image of first element in the DTI tensor according to DIPY convention
     i.e. Dxx (rate of diffusion from the left to right side of the brain),
     Image of second element in the DTI tensor according to DIPY convention
-    i.e. Dyy (rate of diffusion from the posterior to anterior part of 
+    i.e. Dyy (rate of diffusion from the posterior to anterior part of
     the brain),
     Image of third element in the DTI tensor according to DIPY convention
     i.e. Dzz (rate of diffusion from the inferior to superior part of the
     brain),
     Image of fourth element in the DTI tensor according to DIPY convention
-    i.e. Dxy (rate of diffusion in the xy plane indicating the 
+    i.e. Dxy (rate of diffusion in the xy plane indicating the
     relationship between the x and y directions),
     Image of fifth element in the DTI tensor according to DIPY convention
     i.e. Dxz (rate of diffusion in the xz plane indicating the
