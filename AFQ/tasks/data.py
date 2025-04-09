@@ -129,7 +129,7 @@ def dti_fit(dti_params, gtab):
     """DTI TensorFit object"""
     dti_params = nib.load(dti_params).get_fdata()
     tm = dpy_dti.TensorModel(gtab)
-    return dpy_dti.TensorFit(tm, dti_params)
+    return dpy_dti.TensorFit(tm, dpy_dti.from_lower_triangular(dti_params))
 
 
 @pimms.calc("dti_params")
