@@ -23,19 +23,19 @@ class CsdNanResponseError(Exception):
     pass
 
 
-def _model(gtab, data, response=None, sh_order=None, csd_fa_thr=0.7):
+def _model(gtab, data, response=None, sh_order_max=None, csd_fa_thr=0.7):
     """
     Helper function that defines a CSD model.
     """
-    if sh_order is None:
+    if sh_order_max is None:
         ndata = np.sum(~gtab.b0s_mask)
         # See dipy.reconst.shm.calculate_max_order
         L1 = (-3 + np.sqrt(1 + 8 * ndata)) / 2.0
-        sh_order = int(L1)
-        if np.mod(sh_order, 2) != 0:
-            sh_order = sh_order - 1
-        if sh_order > 8:
-            sh_order = 8
+        sh_order_max = int(L1)
+        if np.mod(sh_order_max, 2) != 0:
+            sh_order_max = sh_order_max - 1
+        if sh_order_max > 8:
+            sh_order_max = 8
 
     my_model = csd.ConstrainedSphericalDeconvModel
     if response is None:
@@ -55,21 +55,21 @@ def _model(gtab, data, response=None, sh_order=None, csd_fa_thr=0.7):
     if np.all(np.isnan(response[0])):
         raise CsdNanResponseError
 
-    csdmodel = my_model(gtab, response, sh_order=sh_order)
+    csdmodel = my_model(gtab, response, sh_order_max=sh_order_max)
     return csdmodel
 
 
-def _fit(gtab, data, mask, response=None, sh_order=None,
+def _fit(gtab, data, mask, response=None, sh_order_max=None,
          lambda_=1, tau=0.1, csd_fa_thr=0.7):
     """
     Helper function that does the core of fitting a model to data.
     """
-    return _model(gtab, data, response, sh_order, csd_fa_thr).fit(
+    return _model(gtab, data, response, sh_order_max, csd_fa_thr).fit(
         data, mask=mask)
 
 
 def fit_csd(data_files, bval_files, bvec_files, mask=None, response=None,
-            b0_threshold=50, sh_order=None, lambda_=1, tau=0.1, out_dir=None):
+            b0_threshold=50, sh_order_max=None, lambda_=1, tau=0.1, out_dir=None):
     """
     Fit the CSD model and save file with SH coefficients.
 
@@ -94,7 +94,7 @@ def fit_csd(data_files, bval_files, bvec_files, mask=None, response=None,
     b0_threshold : float,optional.
       The value of diffusion-weighting under which we consider it to be
       equivalent to 0. Default:50
-    sh_order : int, optional.
+    sh_order_max : int, optional.
         default: infer the number of parameters from the number of data
         volumes, but no larger than 8.
     lambda_ : float, optional.
@@ -126,7 +126,7 @@ def fit_csd(data_files, bval_files, bvec_files, mask=None, response=None,
                                             b0_threshold=b0_threshold,
                                             mask=mask)
 
-    csdfit = _fit(gtab, data, mask, response=response, sh_order=sh_order,
+    csdfit = _fit(gtab, data, mask, response=response, sh_order_max=sh_order_max,
                   lambda_=lambda_, tau=tau)
 
     if out_dir is None:
