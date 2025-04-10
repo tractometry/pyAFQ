@@ -180,7 +180,7 @@ def dti_params(brain_mask, data, gtab,
             TensorRank=2,
             Type="tensor"
         ))
-    return dtf.lower_triangular, meta
+    return dtf.lower_triangular(), meta
 
 
 @pimms.calc("fwdti_tf")
