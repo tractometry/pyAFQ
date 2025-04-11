@@ -14,7 +14,7 @@ def _white_space(text):
 def _split_parameter_blocks(docstring):
     # First extract just the Parameters section
     params_section = re.search(
-        r'Parameters\n-+\n(.*?)(?:\n\s*\n|\Z)',
+        r'Parameters\n-+\n(.*?)(?=\n\s*\n|\n-+\n|\Z)',
         docstring,
         re.DOTALL
     )
@@ -22,12 +22,13 @@ def _split_parameter_blocks(docstring):
         return []
 
     params_text = params_section.group(1)
+    params_text = re.sub(r'\n-+$', '', params_text)
     lines = params_text.split('\n')
 
     # Find base indentation (minimum indent of parameter lines)
     base_indent = float('inf')
     for line in lines:
-        if re.match(r'^\s*\w+\s*:', line):
+        if re.match(r'\S', line):
             indent = len(re.match(r'^\s*', line).group())
             base_indent = min(base_indent, indent)
 
@@ -40,7 +41,7 @@ def _split_parameter_blocks(docstring):
 
     for line in lines:
         line_indent = len(re.match(r'^\s*', line).group())
-        if line_indent == base_indent and re.match(r'^\s*\w+\s*:', line):
+        if line_indent == base_indent and re.match(r'\S', line):
             if current_block:
                 param_blocks.append('\n'.join(current_block))
                 current_block = []
@@ -110,11 +111,11 @@ def parse_numpy_docstring(docstring):
             except:
                 default = _white_space(default)
 
-            params[name] = {
-                "help": _white_space(desc),
-                "metavar": _white_space(type_info),
-                "default": default
-            }
+        params[name] = {
+            "help": _white_space(desc),
+            "metavar": _white_space(type_info),
+            "default": default
+        }
 
     return {
         "description": _white_space(description),

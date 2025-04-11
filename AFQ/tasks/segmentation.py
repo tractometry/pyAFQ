@@ -387,8 +387,9 @@ def get_scalar_dict(data_imap, mapping_imap, scalars=["dti_fa", "dti_md"]):
         List of scalars to use.
         Can be any of: "dti_fa", "dti_md", "dki_fa", "dki_md", "dki_awf",
         "dki_mk". Can also be a scalar from AFQ.definitions.image.
-            Default: For single shell data: ["dti_fa", "dti_md"],
-        for multi-shell data: ["dki_fa", "dki_md"].
+        Defaults for single shell data to ["dti_fa", "dti_md"],
+        and for multi-shell data to ["dki_fa", "dki_md"].
+        Default: ['dti_fa', 'dti_md']
     """
     # Note: some scalars preprocessing done in plans, before this step
     scalar_dict = {}
