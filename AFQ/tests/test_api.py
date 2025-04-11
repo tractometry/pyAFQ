@@ -32,7 +32,7 @@ import AFQ.utils.streamlines as aus
 import AFQ.utils.bin as afb
 from AFQ.definitions.mapping import SynMap, AffMap, SlrMap, IdentityMap
 from AFQ.definitions.image import (RoiImage, PFTImage, ImageFile,
-                                   TemplateImage, LabelledImageFile)
+                                   TemplateImage)
 
 
 def touch(fname, times=None):

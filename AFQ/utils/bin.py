@@ -4,13 +4,13 @@ import platform
 import os.path as op
 
 from argparse import ArgumentParser
-from funcargparse import FuncArgParser
 
 from AFQ.definitions.image import *  # interprets masks loaded from toml
 from AFQ.definitions.mapping import *  # interprets mappings loaded from toml
 from AFQ.api.bundle_dict import *  # interprets bundle_dicts loaded from toml
 from AFQ.definitions.utils import Definition
 from AFQ.api.utils import kwargs_descriptors
+from AFQ.utils.docstring_parser import parse_numpy_docstring
 
 import nibabel as nib  # allows users to input nibabel objects
 
@@ -178,11 +178,10 @@ def func_dict_to_arg_dict(func_dict=None, logger=None):
 
     arg_dict = {}
     for name, func in func_dict.items():
-        docstr_parser = FuncArgParser()
-        docstr_parser.setup_args(func)
+        docstr_parsed = parse_numpy_docstring(func)
         if name == "BIDS":
-            arg_dict["AFQ_desc"] = docstr_parser.description
-        for arg, info in docstr_parser.unfinished_arguments.items():
+            arg_dict["AFQ_desc"] = docstr_parsed["description"]
+        for arg, info in docstr_parsed["arguments"].items():
             try:
                 section = name.upper() + "_PARAMS"
                 desc = info['help']
