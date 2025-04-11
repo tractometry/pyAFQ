@@ -23,8 +23,18 @@ set_sft_logger_level(logging.CRITICAL)
 
 task_modules = ["data", "mapping", "segmentation", "tractography", "viz"]
 
-methods_descriptors = {}
-methods_sections = {}
+methods_descriptors = {
+    "dwi_data_file": "Path to DWI data file",
+    "bval_file": "Path to bval file",
+    "bvec_file": "Path to bvec file",
+    "output_dir": "Path to output directory"
+}
+methods_sections = {
+    "dwi_data_file": "data",
+    "bval_file": "data",
+    "bvec_file": "data",
+    "output_dir": "data",
+}
 kwargs_descriptors = {}
 for task_module in task_modules:
     kwargs_descriptors[task_module] = {}
