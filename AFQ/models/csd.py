@@ -5,10 +5,12 @@ import numpy as np
 import nibabel as nib
 
 from dipy.reconst import csdeconv as csd
-from dipy.reconst import mcsd
 from dipy.reconst import shm
 from dipy.core.gradients import gradient_table, unique_bvals_magnitude
+from dipy.data import get_sphere, small_sphere
+
 import AFQ.utils.models as ut
+from AFQ.models.asym_csd import AsymConstrainedSphericalDeconvModel
 
 
 # Monkey patch fixed spherical harmonics for conda from
@@ -23,9 +25,10 @@ class CsdNanResponseError(Exception):
     pass
 
 
-def _model(gtab, data, response=None, sh_order=None, csd_fa_thr=0.7):
+def _fit(gtab, data, mask, response=None, sh_order=None,
+         asym=False, csd_fa_thr=0.7):
     """
-    Helper function that defines a CSD model.
+    Helper function that does the core of fitting a model to data.
     """
     if sh_order is None:
         ndata = np.sum(~gtab.b0s_mask)
@@ -37,39 +40,41 @@ def _model(gtab, data, response=None, sh_order=None, csd_fa_thr=0.7):
         if sh_order > 8:
             sh_order = 8
 
-    my_model = csd.ConstrainedSphericalDeconvModel
+    unique_bvals = unique_bvals_magnitude(gtab.bvals)
+    if len(unique_bvals[unique_bvals > 0]) > 1:
+        low_shell_idx = gtab.bvals <= unique_bvals[unique_bvals > 0][0]
+        response_gtab = gradient_table(gtab.bvals[low_shell_idx],
+                                       gtab.bvecs[low_shell_idx])
+        data = data[..., low_shell_idx]
+    else:
+        response_gtab = gtab
+
     if response is None:
-        unique_bvals = unique_bvals_magnitude(gtab.bvals)
-        if len(unique_bvals[unique_bvals > 0]) > 1:
-            low_shell_idx = gtab.bvals <= unique_bvals[unique_bvals > 0][0]
-            response_gtab = gradient_table(gtab.bvals[low_shell_idx],
-                                           gtab.bvecs[low_shell_idx])
-            data = data[..., low_shell_idx]
-        else:
-            response_gtab = gtab
-        response, _ = csd.auto_response_ssst(response_gtab,
-                                             data,
-                                             roi_radii=10,
-                                             fa_thr=csd_fa_thr)
+        response, _ = csd.auto_response_ssst(
+            response_gtab,
+            data,
+            roi_radii=10,
+            fa_thr=csd_fa_thr)
     # Catch conditions where an auto-response could not be calculated:
     if np.all(np.isnan(response[0])):
         raise CsdNanResponseError
 
-    csdmodel = my_model(gtab, response, sh_order=sh_order)
-    return csdmodel
-
-
-def _fit(gtab, data, mask, response=None, sh_order=None,
-         lambda_=1, tau=0.1, csd_fa_thr=0.7):
-    """
-    Helper function that does the core of fitting a model to data.
-    """
-    return _model(gtab, data, response, sh_order, csd_fa_thr).fit(
-        data, mask=mask)
+    if asym:
+        acsdmodel = AsymConstrainedSphericalDeconvModel(
+            gtab, response,
+            reg_sphere=small_sphere,
+            sh_order=sh_order)
+        return acsdmodel.fit(
+            data, mask=mask)
+    else:
+        csdmodel = csd.ConstrainedSphericalDeconvModel(
+            gtab, response, sh_order=sh_order)
+        return csdmodel.fit(
+            data, mask=mask)
 
 
 def fit_csd(data_files, bval_files, bvec_files, mask=None, response=None,
-            b0_threshold=50, sh_order=None, lambda_=1, tau=0.1, out_dir=None):
+            b0_threshold=50, sh_order=None, asym=False, out_dir=None):
     """
     Fit the CSD model and save file with SH coefficients.
 
@@ -97,15 +102,6 @@ def fit_csd(data_files, bval_files, bvec_files, mask=None, response=None,
     sh_order : int, optional.
         default: infer the number of parameters from the number of data
         volumes, but no larger than 8.
-    lambda_ : float, optional.
-        weight given to the constrained-positivity regularization part of
-        the deconvolution equation. Default: 1
-    tau : float, optional.
-        threshold controlling the amplitude below which the corresponding
-        fODF is assumed to be zero.  Ideally, tau should be set to
-        zero. However, to improve the stability of the algorithm, tau is
-        set to tau*100 % of the mean fODF amplitude (here, 10% by default)
-        (see [1]_). Default: 0.1
     out_dir : str, optional
         A full path to a directory to store the maps that get computed.
         Default: file with coefficients gets stored in the same directory as
@@ -127,7 +123,7 @@ def fit_csd(data_files, bval_files, bvec_files, mask=None, response=None,
                                             mask=mask)
 
     csdfit = _fit(gtab, data, mask, response=response, sh_order=sh_order,
-                  lambda_=lambda_, tau=tau)
+                  asym=asym)
 
     if out_dir is None:
         out_dir = op.join(op.split(data_files)[0], 'dki')
