@@ -1,8 +1,8 @@
 import contextlib
 from importlib import import_module
 from AFQ.viz.utils import viz_import_msg_error
+from AFQ.utils.docstring_parser import parse_numpy_docstring
 import pimms
-from funcargparse import FuncArgParser
 import logging
 import warnings
 
@@ -23,18 +23,29 @@ set_sft_logger_level(logging.CRITICAL)
 
 task_modules = ["data", "mapping", "segmentation", "tractography", "viz"]
 
-methods_descriptors = {}
-methods_sections = {}
+methods_descriptors = {
+    "dwi_data_file": "Path to DWI data file",
+    "bval_file": "Path to bval file",
+    "bvec_file": "Path to bvec file",
+    "output_dir": "Path to output directory",
+    "best_scalar": "Go-to scalar for visualizations",
+}
+methods_sections = {
+    "dwi_data_file": "data",
+    "bval_file": "data",
+    "bvec_file": "data",
+    "output_dir": "data",
+    "best_scalar": "tractography",
+}
 kwargs_descriptors = {}
 for task_module in task_modules:
     kwargs_descriptors[task_module] = {}
     for calc_obj in import_module(
             f"AFQ.tasks.{task_module}").__dict__.values():
         if isinstance(calc_obj, pimms.calculation.Calc):
-            docstr_parser = FuncArgParser()
-            docstr_parser.setup_args(calc_obj.function)
+            docstr_parsed = parse_numpy_docstring(calc_obj.function)
             if len(calc_obj.efferents) > 1:
-                eff_descs = docstr_parser.description.split(",")
+                eff_descs = docstr_parsed["description"].split(",")
                 if len(eff_descs) != len(calc_obj.efferents):
                     raise NotImplementedError((
                         "If calc method has mutliple outputs, "
@@ -56,10 +67,10 @@ for task_module in task_modules:
             else:
                 methods_descriptors[
                     calc_obj.efferents[0]] =\
-                    docstr_parser.description
+                    docstr_parsed["description"]
                 methods_sections[calc_obj.efferents[0]] =\
                     task_module
-            for arg, info in docstr_parser.unfinished_arguments.items():
+            for arg, info in docstr_parsed["arguments"].items():
                 if "help" in info:
                     default = info["default"] if "default" in info else None
                     kwargs_descriptors[task_module][arg] = dict(
