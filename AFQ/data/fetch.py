@@ -405,6 +405,8 @@ def read_resample_roi(roi, resample_to=None, threshold=False):
     nibabel image class instance that contains the binary ROI resampled into
     the requested space.
     """
+    logger = logging.getLogger('AFQ')
+
     if isinstance(roi, str):
         roi = nib.load(roi)
 
@@ -414,7 +416,11 @@ def read_resample_roi(roi, resample_to=None, threshold=False):
     if isinstance(resample_to, str):
         resample_to = nib.load(resample_to)
 
-    if resample_to is False or np.allclose(resample_to.affine, roi.affine):
+    if resample_to is False:
+        return roi
+
+    if np.allclose(resample_to.affine, roi.affine):
+        logger.info("Resampling skipped as affines already match.")
         return roi
 
     as_array = resample(

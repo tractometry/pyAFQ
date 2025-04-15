@@ -334,6 +334,21 @@ def run_bundle_rec_plan(
         mapping,
         img.affine,
         apply_to_recobundles=True))
+
+    def check_space(roi):
+        if not np.allclose(img.affine, roi.affine):
+            logger.warning(
+                "Resampling set to False in case where affines "
+                "do not match. This is likely due to subject space ROIs"
+                " not being in the right space. This found for bundle "
+                f"{bundle_name}")
+
+    apply_to_roi_dict(
+        bundle_def,
+        check_space,
+        dry_run=True,
+        apply_to_prob_map=True)
+
     apply_to_roi_dict(
         bundle_def,
         lambda roi_img: nib.Nifti1Image(
