@@ -416,16 +416,16 @@ def read_resample_roi(roi, resample_to=None, threshold=False):
     if isinstance(resample_to, str):
         resample_to = nib.load(resample_to)
 
-    if np.allclose(resample_to.affine, roi.affine):
-        logger.info("Resampling skipped as affines already match.")
-        return roi
-
     if resample_to is False:
         if not np.allclose(resample_to.affine, roi.affine):
             logger.warning(
                 "Resampling set to False in case where affines "
                 "do not match. This is likely due to subject space ROIs"
                 " not being in the right space.")
+        return roi
+
+    if np.allclose(resample_to.affine, roi.affine):
+        logger.info("Resampling skipped as affines already match.")
         return roi
 
     as_array = resample(
