@@ -29,6 +29,7 @@ methods_descriptors = {
     "bvec_file": "Path to bvec file",
     "output_dir": "Path to output directory",
     "best_scalar": "Go-to scalar for visualizations",
+    "base_fname": "Base file name for outputs",
 }
 methods_sections = {
     "dwi_data_file": "data",
@@ -36,6 +37,7 @@ methods_sections = {
     "bvec_file": "data",
     "output_dir": "data",
     "best_scalar": "tractography",
+    "base_fname": "data",
 }
 kwargs_descriptors = {}
 for task_module in task_modules:
