@@ -24,6 +24,7 @@ import AFQ.viz.altair as ava
 # Example data
 # ------------
 # pyAFQ assumes that the data is organized in a BIDS compliant directory.
+# If this is not the case, refer to the Participant AFQ example.
 # To get users started with this tutorial, we will download some example
 # data and organize it in a BIDS compliant way (for more details on how
 # BIDS is used in pyAFQ, refer to :ref:`bids_tutorial`).

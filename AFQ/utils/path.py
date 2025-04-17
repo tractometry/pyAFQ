@@ -70,6 +70,9 @@ def apply_cmd_to_afq_derivs(
             "dependent_on must be one of "
             "None, 'track', 'recog', 'prof'."))
 
+    if cmd == "rm" or cmd == "cp":
+        cmd = cmd + " -r"
+
     if not op.exists(derivs_dir):
         return
 
@@ -92,23 +95,23 @@ def apply_cmd_to_afq_derivs(
                 os.system(f"{cmd} {full_path} {suffix}")
         elif os.path.isdir(full_path):
             if dependent_on is None:
-                os.system(f"{cmd} -r {full_path} {suffix}")
+                os.system(f"{cmd} {full_path} {suffix}")
             else:
                 if filename == "ROIs" and "rec" in dependent_on_list:
-                    os.system(f"{cmd} -r {full_path} {suffix}")
+                    os.system(f"{cmd} {full_path} {suffix}")
                 if filename == "stats" and "rec" in dependent_on_list:
-                    os.system(f"{cmd} -r {full_path} {suffix}")
+                    os.system(f"{cmd} {full_path} {suffix}")
                 if filename == "tractography" and "trk" in dependent_on_list:
-                    os.system(f"{cmd} -r {full_path} {suffix}")
+                    os.system(f"{cmd} {full_path} {suffix}")
                 if filename == "models" and "dwi" in dependent_on_list:
-                    os.system(f"{cmd} -r {full_path} {suffix}")
+                    os.system(f"{cmd} {full_path} {suffix}")
                 if filename == "bundles" and "rec" in dependent_on_list:
-                    os.system(f"{cmd} -r {full_path} {suffix}")
+                    os.system(f"{cmd} {full_path} {suffix}")
                 if filename == "viz_bundles" and "rec" in dependent_on_list:
-                    os.system(f"{cmd} -r {full_path} {suffix}")
+                    os.system(f"{cmd} {full_path} {suffix}")
                 if filename == "viz_core_bundles" and \
                         "prof" in dependent_on_list:
-                    os.system(f"{cmd} -r {full_path} {suffix}")
+                    os.system(f"{cmd} {full_path} {suffix}")
                 if filename == "tract_profile_plots" and \
                         "prof" in dependent_on_list:
-                    os.system(f"{cmd} -r {full_path} {suffix}")
+                    os.system(f"{cmd} {full_path} {suffix}")
