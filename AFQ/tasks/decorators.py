@@ -143,9 +143,11 @@ def as_file(suffix, include_track=False, include_seg=False, subfolder=None):
                     this_file = this_file + ".trk"
 
             if not op.exists(this_file):
+                logger.info(f"Calculating {suffix}")
+
                 gen, meta = func(*args[:og_arg_count], **kwargs)
 
-                logger.info(f"Saving {this_file}")
+                logger.info(f"{suffix} completed. Saving to {this_file}")
                 if isinstance(gen, nib.Nifti1Image):
                     nib.save(gen, this_file)
                 elif isinstance(gen, StatefulTractogram):
