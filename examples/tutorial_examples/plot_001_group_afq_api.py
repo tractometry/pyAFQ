@@ -1,9 +1,9 @@
 """
 ======================================
-Getting started programming with pyAFQ
+Getting started with pyAFQ - GroupAFQ
 ======================================
 
-There are two ways to :doc:`use pyAFQ </howto/getting_started>`: through the
+There are two ways to :doc:`use pyAFQ </tutorials/index>`: through the
 command line interface, and by writing Python code. This tutorial will walk you
 through the basics of the latter, using pyAFQ's Python Application Programming
 Interface (API).
@@ -27,7 +27,7 @@ import AFQ.viz.altair as ava
 # If this is not the case, refer to the Participant AFQ example.
 # To get users started with this tutorial, we will download some example
 # data and organize it in a BIDS compliant way (for more details on how
-# BIDS is used in pyAFQ, refer to :ref:`bids_tutorial`).
+# BIDS is used in pyAFQ, refer to :doc:`plot_006_bids_layout`).
 #
 # The following call dowloads a dataset that contains a single subject's
 # high angular resolution diffusion imaging (HARDI) data, collected at the
@@ -73,7 +73,7 @@ tracking_params = dict(n_seeds=25000,
 # -------------------------
 #
 # Creates a GroupAFQ object, that encapsulates tractometry. This object can be
-# used to manage the entire :doc:`AFQ pipeline`, including:
+# used to manage the entire :doc:`/explanations/tractometry_pipeline`, including:
 #
 # - Tractography
 # - Registration
