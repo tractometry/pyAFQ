@@ -86,8 +86,8 @@ def get_data_gtab(dwi_data_file, bval_file, bvec_file, min_bval=None,
         bvals = bvals[valid_b]
         bvecs = bvecs[valid_b]
     gtab = dpg.gradient_table(
-        bvals, bvecs,
-        b0_threshold=b0_threshold)
+        bvals = bvals, bvecs = bvecs,
+        b0_threshold = b0_threshold)
     img = nib.Nifti1Image(data, img.affine)
     return data, gtab, img, img.affine
 
