@@ -11,6 +11,30 @@ is a list of all of pyAFQ's possible outputs:
 
 
 
+dwi_data_file:
+    Path to DWI data file
+
+
+bval_file:
+    Path to bval file
+
+
+bvec_file:
+    Path to bvec file
+
+
+output_dir:
+    Path to output directory
+
+
+best_scalar:
+    Go-to scalar for visualizations
+
+
+base_fname:
+    Base file name for outputs
+
+
 data:
     DWI data as an ndarray for selected b values
 
@@ -184,7 +208,7 @@ dti_lt0:
 
 
 dti_lt1:
-    Image of second element in the DTI tensor according to DIPY convention i.e. Dyy (rate of diffusion from the posterior to anterior part of  the brain)
+    Image of second element in the DTI tensor according to DIPY convention i.e. Dyy (rate of diffusion from the posterior to anterior part of the brain)
 
 
 dti_lt2:
@@ -192,7 +216,7 @@ dti_lt2:
 
 
 dti_lt3:
-    Image of fourth element in the DTI tensor according to DIPY convention i.e. Dxy (rate of diffusion in the xy plane indicating the  relationship between the x and y directions)
+    Image of fourth element in the DTI tensor according to DIPY convention i.e. Dxy (rate of diffusion in the xy plane indicating the relationship between the x and y directions)
 
 
 dti_lt4:

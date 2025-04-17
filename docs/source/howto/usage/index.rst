@@ -13,3 +13,6 @@ How to use `pyAFQ`
     docker
     methods
     image
+    tractography_params
+    segmentation_params
+    cleaning_params
