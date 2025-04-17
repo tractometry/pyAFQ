@@ -156,7 +156,7 @@ class ParticipantAFQ(object):
 
     def export_up_to(self, attr_name="help"):
         f"""
-        Export all derivatives necessary for a specific output.
+        Export all derivatives up to, but not including, the specified output.
         To print a list of available outputs,
         call export_up_to without arguments.
         {valid_exports_string}
