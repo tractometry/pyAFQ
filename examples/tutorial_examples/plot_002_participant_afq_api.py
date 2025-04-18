@@ -1,14 +1,9 @@
 """
 ======================================
-Getting started programming with pyAFQ
+Getting started with pyAFQ - ParticipantAFQ
 ======================================
-
-There are two ways to :doc:`use pyAFQ </howto/getting_started>`: through the
-command line interface, and by writing Python code. This tutorial will walk you
-through the basics of the latter, using pyAFQ"s Python Application Programming
-Interface (API).
-
 """
+
 import os
 import os.path as op
 
@@ -33,7 +28,7 @@ import AFQ.viz.altair as ava
 #
 # The data are downloaded and organized locally into a BIDS compliant
 # anatomical data folder (``anat``) and a diffusion-weighted imaging data
-# (``dwi``) folder, which are both placed in the user"s home directory under::
+# (``dwi``) folder, which are both placed in the user's home directory under::
 #
 #   ``~/AFQ_data/stanford_hardi/``
 #
@@ -41,7 +36,7 @@ import AFQ.viz.altair as ava
 # already undergone the required preprocessing necessary for pyAFQ to run.
 #
 # The clear_previous_afq is used to remove any previous runs of the afq object
-# stored in the `~/AFQ_data/stanford_hardi/` BIDS directory. Set it to None if
+# stored in the ``~/AFQ_data/stanford_hardi/`` BIDS directory. Set it to None if
 # you want to use the results of previous runs.
 
 afd.organize_stanford_data(clear_previous_afq = "track")
@@ -50,13 +45,14 @@ afd.organize_stanford_data(clear_previous_afq = "track")
 # Defining data files
 # --------------------
 # If your data is not in BIDS format, you can still use pyAFQ. If you have BIDS
-# compliant dataset, you can use ``GroupAFQ`` instead (:ref:`groupafq_tutorial`). 
+# compliant dataset, you can use ``GroupAFQ`` instead (:doc:`plot_001_group_afq_api`). 
 # Otherwise, You will need to define the data files that you want to use. In 
 # this case, we will define the data files for the subject we downloaded above. 
 # The data files are located in the ``~/AFQ_data/stanford_hardi/derivatives/vistasoft``
 # directory, and are organized into a BIDS compliant directory structure. The 
 # data files are located in the ``dwi`` directories. The data files
 # are:  
+#
 # - ``sub-01_dwi.nii.gz`` (the diffusion-weighted imaging data)
 # - ``sub-01_dwi.bval``   (the b-values)
 # - ``sub-01_dwi.bvec``   (the b-vectors)
@@ -97,7 +93,7 @@ tracking_params = dict(n_seeds=25000,
 # -------------------------
 #
 # Creates a ParticipantAFQ object, that encapsulates tractometry. This object 
-# can be used to manage the entire :doc:`AFQ pipeline`, including:
+# can be used to manage the entire :doc:`/explanations/tractometry_pipeline`, including:
 #
 # - Tractography
 # - Registration
@@ -121,11 +117,11 @@ myafq = ParticipantAFQ(
 ##########################################################################
 # Calculating DTI FA (Diffusion Tensor Imaging Fractional Anisotropy)
 # ------------------------------------------------------------------
-# The ParticipantAFQ object has a method called `export`, which allows the user
+# The ParticipantAFQ object has a method called ``export``, which allows the user
 # to calculate various derived quantities from the data.
 #
 # For example, FA can be computed using the DTI model, by explicitly
-# calling `myafq.export("dti_fa")`. This triggers the computation of DTI
+# calling ``myafq.export("dti_fa")``. This triggers the computation of DTI
 # parameters, and stores the results in the AFQ derivatives directory. 
 # In addition, it calculates the FA from these parameters and stores it in a 
 # different file in the same directory.
@@ -136,12 +132,13 @@ myafq = ParticipantAFQ(
 #    are not computed until they are required. This means that the first
 #    line below is the one that requires time.
 #
-# The result of the call to `export` is the filename of the corresponding FA 
+# The result of the call to ``export`` is the filename of the corresponding FA 
 # files.
 
 FA_fname = myafq.export("dti_fa")
 
-# We will then use `nibabel` to load the deriviative file and retrieve the
+##########################################################################
+# We will then use ``nibabel`` to load the deriviative file and retrieve the
 # data array.
 
 FA_img = nib.load(FA_fname)
@@ -150,7 +147,7 @@ FA = FA_img.get_fdata()
 ##########################################################################
 # Visualize the result with Matplotlib
 # -------------------------------------
-# At this point `FA` is an array, and we can use standard Python tools to
+# At this point ``FA`` is an array, and we can use standard Python tools to
 # visualize it or perform additional computations with it.
 #
 # In this case we are going to take an axial slice halfway through the
@@ -171,7 +168,7 @@ ax.axis("off")
 # map of the FA, but also the major white matter pathways (or bundles) and
 # tract profiles of tissue properties along their length. To trigger the
 # pyAFQ pipeline that calculates the profiles, users can call the
-# `export("profiles")` method:
+# ``export("profiles")`` method:
 #
 # .. note::
 #    Running the code below triggers the full pipeline of operations
@@ -207,7 +204,7 @@ plotly.io.show(bundle_html[0])
 # We can also visualize the tract profiles in all of the bundles. These
 # plots show both FA (left) and MD (right) layed out anatomically.
 # To make this plot, it is required that you install with
-# `pip install pyAFQ[plot]` so that you have the necessary dependencies.
+# ``pip install pyAFQ[plot]`` so that you have the necessary dependencies.
 #
 
 fig_files = myafq.export("tract_profile_plots")
