@@ -502,6 +502,8 @@ class GroupAFQ(object):
             None if called without arguments.
         """
         section = check_attribute(attr_name)
+        if section == False:
+            return None
 
         # iterate over subjects / sessions,
         # decide if they need to be calculated or not
@@ -554,6 +556,9 @@ class GroupAFQ(object):
             Name of the output to export up to. Default: "help"
         """
         section = check_attribute(attr_name)
+        if section == False:
+            return None
+
         wf_dict = self.wf_dict[
             self.valid_sub_list[0]][self.valid_ses_list[0]]
         if section is not None:

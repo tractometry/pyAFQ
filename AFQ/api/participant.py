@@ -149,6 +149,8 @@ class ParticipantAFQ(object):
             The specific output, or None if called without arguments.
         """
         section = check_attribute(attr_name)
+        if section == False:
+            return None
 
         if section is None:
             return self.wf_dict[attr_name]
@@ -167,6 +169,9 @@ class ParticipantAFQ(object):
             Name of the output to export up to. Default: "help"
         """
         section = check_attribute(attr_name)
+        if section == False:
+            return None
+
         wf_dict = self.wf_dict
         if section is not None:
             wf_dict = wf_dict[section]

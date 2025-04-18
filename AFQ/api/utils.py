@@ -110,7 +110,7 @@ valid_exports_string = (
 def check_attribute(attr_name):
     if attr_name == "help":
         print(valid_exports_string)
-        return None
+        return False
 
     if attr_name in methods_sections:
         if methods_sections[attr_name] == task_modules[-1]:
