@@ -202,9 +202,9 @@ for bval, slicers in zip([0, 1000, 2000],
         [f'{tmp}/b{bval}{ii:06d}.png' for ii in range(n_frames)], f'b{bval}.gif')
 
 ##############################################################################
-# .. image:: {{"b0.gif"}}
-# .. image:: {{ os.getcwd() + "b1000.gif" }}
-# .. image:: b2000.gif
+# .. figure:: {{"b0.gif"}}
+# .. figure:: {{ os.getcwd() + "b1000.gif" }}
+# .. figure:: b2000.gif
 
 #############################################################################
 # Visualizing whole-brain tractography
