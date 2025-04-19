@@ -112,6 +112,9 @@ def check_attribute(attr_name):
         print(valid_exports_string)
         return False
 
+    if attr_name[:-5] in task_modules:
+        return None
+
     if attr_name in methods_sections:
         if methods_sections[attr_name] == task_modules[-1]:
             return None
