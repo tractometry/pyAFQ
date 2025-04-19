@@ -11,42 +11,38 @@ and bundle segmentations.
 """
 import os
 import os.path as op
-
-import matplotlib.pyplot as plt
-import nibabel as nib
 import plotly
-import pandas as pd
 
 from AFQ.api.participant import ParticipantAFQ
 import AFQ.data.fetch as afd
-import AFQ.viz.altair as ava
 
 ##########################################################################
 # Preparing the ParticipantAFQ object
 # -------------------------
-# In this example, we will create a ParticipantAFQ object based on the 
+# In this example, we will create a ParticipantAFQ object based on the
 # :doc:`plot_002_participant_afq_api` example. Please refer to that
 # example for a detailed description of the parameters.
 
-afd.organize_stanford_data(clear_previous_afq = "track")
+afd.organize_stanford_data(clear_previous_afq="track")
 
-data_dir = op.join(afd.afq_home, "stanford_hardi", "derivatives", "vistasoft", 
+data_dir = op.join(afd.afq_home, "stanford_hardi", "derivatives", "vistasoft",
                    "sub-01", "ses-01", "dwi")
 
 dwi_data_file = op.join(data_dir, "sub-01_ses-01_dwi.nii.gz")
-bval_file     = op.join(data_dir, "sub-01_ses-01_dwi.bval")
-bvec_file     = op.join(data_dir, "sub-01_ses-01_dwi.bvec")
+bval_file = op.join(data_dir, "sub-01_ses-01_dwi.bval")
+bvec_file = op.join(data_dir, "sub-01_ses-01_dwi.bvec")
 
-output_dir = op.join(afd.afq_home, "stanford_hardi", "derivatives", "afq", "sub-01")
-os.makedirs(output_dir, exist_ok = True)
+output_dir = op.join(afd.afq_home, "stanford_hardi",
+                     "derivatives", "afq", "sub-01")
+os.makedirs(output_dir, exist_ok=True)
 
 # Initialize the ParticipantAFQ object
 myafq = ParticipantAFQ(
-    dwi_data_file = dwi_data_file, 
-    bval_file = bval_file,
-    bvec_file = bvec_file,
-    output_dir = output_dir,
-    tracking_params = {
+    dwi_data_file=dwi_data_file,
+    bval_file=bval_file,
+    bvec_file=bvec_file,
+    output_dir=output_dir,
+    tracking_params={
         "n_seeds": 25000,
         "random_seeds": True,
         "rng_seed": 2022,
@@ -60,31 +56,31 @@ myafq = ParticipantAFQ(
 # ------------------------------------------------------------------
 # The ParticipantAFQ object has a method called ``export``, which allows the user
 # to calculate various derived quantities from the data.
-# 
+#
 # The ``export`` method can be called with a string argument that specifies the
 # type of quantity to be calculated. For example, ``myafq.export("OPTIONS")``.
 #
-# To list the available options, you can call the ``export`` method with the 
+# To list the available options, you can call the ``export`` method with the
 # argument "help". This will return a list of all the available options for
-# the ``export`` method. 
+# the ``export`` method.
 
 myafq.export("help")
 
 ##########################################################################
 # .. note::
 #
-#    No all options are possible even if they are valid. This will depend on 
-#    you dataset and pyAFQ API parameters. For example, you cannot calculate 
-#    DKI model from single shell data. Please refer to 
+#    No all options are possible even if they are valid. This will depend on
+#    you dataset and pyAFQ API parameters. For example, you cannot calculate
+#    DKI model from single shell data. Please refer to
 #    :doc:`/howto/usage/tractography_params` for more documentation.
 
 
 ##########################################################################
 # Calculating DTI FA (Diffusion Tensor Imaging Fractional Anisotropy)
 # ------------------------------------------------------------------
-# FA can be computed using the DTI model, by explicitly calling 
-# ``myafq.export("dti_fa")``. This triggers the computation of DTI parameters, 
-# and stores the results in the AFQ derivatives directory. In addition, it 
+# FA can be computed using the DTI model, by explicitly calling
+# ``myafq.export("dti_fa")``. This triggers the computation of DTI parameters,
+# and stores the results in the AFQ derivatives directory. In addition, it
 # calculates the FA from these parameters and stores it in a different file in
 # the same directory.
 #
@@ -94,7 +90,7 @@ myafq.export("help")
 #    are not computed until they are required. This means that the first
 #    line below is the one that requires time.
 #
-# The result of the call to ``export`` is the filename of the corresponding FA 
+# The result of the call to ``export`` is the filename of the corresponding FA
 # files.
 
 FA_fname = myafq.export("dti_fa")
@@ -144,10 +140,10 @@ plotly.io.show(bundle_html[0])
 # The Export All Method
 # -----------------------------------------------------
 # There is a ``export_all`` method that will export all the results from the
-# AFQ pipeline. Undeerneath the hood, ``export_all`` calls a series of ``export`` 
-# methods. This method was added for convenience, and is the recommended method 
+# AFQ pipeline. Undeerneath the hood, ``export_all`` calls a series of ``export``
+# methods. This method was added for convenience, and is the recommended method
 # to use when you want to export everything the results from the AFQ pipeline.
-# 
+#
 # This method will export the following results, if possible:
 # - Transformation maps and files
 # - Start and stop mask images, associated diffusion scalar files
@@ -161,12 +157,12 @@ myafq.export_all()
 # The Export Up To Method
 # -----------------------------------------------------
 # The ``export_up_to`` method allows you to export results up to a certain
-# point (but not including) in the AFQ pipeline. 
+# point (but not including) in the AFQ pipeline.
 #
-# For example, if you want to export all the results up to the bundle 
+# For example, if you want to export all the results up to the bundle
 # segmentation step, you can call the ``export_up_to`` method with the
-# argument "bundles". This will export all the required derivatives 
-# prior to the bundle segmentation step, where you can then take the 
-# derivatives and debug your own custom segmentation pipeline. 
+# argument "bundles". This will export all the required derivatives
+# prior to the bundle segmentation step, where you can then take the
+# derivatives and debug your own custom segmentation pipeline.
 
 myafq.export_up_to("bundles")
