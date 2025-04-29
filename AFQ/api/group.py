@@ -208,8 +208,9 @@ class GroupAFQ(object):
 
         pl_desc_file = op.join(self.afq_path, 'dataset_description.json')
 
-        with open(pl_desc_file, 'w') as outfile:
-            json.dump(pipeline_description, outfile)
+        if not op.exists(pl_desc_file):
+            with open(pl_desc_file, 'w') as outfile:
+                json.dump(pipeline_description, outfile)
 
         self.subjects = bids_layout.get(return_type='id', target='subject')
         if not len(self.subjects):
@@ -410,7 +411,8 @@ class GroupAFQ(object):
             self.afq_path, "tract_profiles.csv"))
         os.makedirs(op.dirname(out_file), exist_ok=True)
         _df = clean_pandas_df(_df)
-        _df.to_csv(out_file, index=False)
+        if not op.exists(out_file):
+            _df.to_csv(out_file, index=False)
         return _df
 
     def get_streamlines_json(self):
@@ -670,7 +672,7 @@ class GroupAFQ(object):
         view : str
             Which view to display. Can be one of sagittal, coronal, or axial.
         direc : str
-            Which direction to views. Can be one of left, right, top, bottom, 
+            Which direction to views. Can be one of left, right, top, bottom,
             front, back
         slice_pos : float, or None
             If float, indicates the fractional position along the
