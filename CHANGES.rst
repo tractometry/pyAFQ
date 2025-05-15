@@ -1,3 +1,37 @@
+2.0.1 (May 15, 2025)
+====================
+Minor Fixes to VOF, ROI dists, baby BD primary axis filtering, import_tract
+with trx files. Increase in number of examples in docs.
+  * [DOC] update broken references (#90)
+  * Add track, segment, cleaning explanation (#87)
+  * [DOC] How to Export examples (#86)
+  * [DOC] Add GPU, clobber docs (#82)
+  * [DOC] ParticipantAFQ example (#83)
+  * Small docs/viz tool improvements (#62)
+  * [ENH] Make Subject Space ROIs Resample By Default (#72)
+  * Upgrade DIPY dependency. (#76)
+  * Remove funcargparser dependency, replace with extreme regex (#80)
+  * RF: Better error handling. (#68)
+  * update reference in example (#75)
+  * [FIX] recently added typo in pyAFQ GPU integration (#74)
+  * DOC: Adds an example of tract profile visualization with "glass brain". (#67)
+  * remove dependencies; clarify <3.13 for now (#66)
+  * Loosen skimage dependency pin to be larger than 0.14.2 (#61)
+  * [FIX] make import_tract work better with TRX files (#54)
+  * Remove numpy version restrictions (#53)
+  * Further tweaks to new file system (#50)
+  * [FIX] change helvetica-bold to helvetica in pyAFQ plotting library (#49)
+  *  (#48)
+  * [ENH/FIX] Pyafq file outputs more folders, more BIDS (#43)
+  * [ENH] Include custom ODFs (#33)
+  * [ENH] update to numpy 2 (#46)
+  * [ENH] update to 3.12 (#45)
+  * [FIX] fix VOF (#29)
+  * [DOC] added singularity build and usage (#28)
+  * [ENH] Use Distance Transform for Include/Exclude Distance calculation; fix ROI dists (#25)
+  * DOC: Document the significance of ROIS order in BundleDict (#27)
+  * [FIX] update baby BD to new primary axis api (#26)
+
 2.0 (February 25, 2025)
 =======================
 This is a major version release, which includes support for Python 3.12 and

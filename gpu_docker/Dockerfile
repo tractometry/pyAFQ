@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install --assume-yes apt-transport-https \
 	gcc git wget curl numactl cmake
 
 # Miniconda3
-RUN curl -L "https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh" \
+RUN curl -L "https://repo.anaconda.com/miniconda/Miniconda3-py312_25.3.1-1-Linux-x86_64.sh" \
     -o "/tmp/Miniconda3.sh"
 RUN bash /tmp/Miniconda3.sh -b -p /opt/anaconda
 RUN rm -rf /tmp/Miniconda3.sh
