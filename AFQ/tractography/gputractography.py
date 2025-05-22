@@ -171,6 +171,8 @@ def gpu_track(data, gtab, seed_img, stop_img,
             reference=seed_img,
             nb_streamlines=n_sls_guess,
             nb_vertices=n_sls_guess * sl_len_guess)
+        trx_file.streamlines._offsets = \
+            trx_file.streamlines._offsets.astype(np.uint64)
         offsets_idx = 0
         sls_data_idx = 0
 
