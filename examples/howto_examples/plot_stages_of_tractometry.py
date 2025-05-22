@@ -124,13 +124,6 @@ qsiprep_path = op.join(
     'sub-NDARAA948VFH',
     'ses-HBNsiteRU')
 
-viz_path = op.join(
-    deriv_path,
-    'afq_viz',
-    'sub-NDARAA948VFH',
-    'ses-HBNsiteRU')
-os.makedirs(viz_path, exist_ok=True)
-
 dmri_img = nib.load(op.join(
     qsiprep_path,
     'dwi',
@@ -192,7 +185,6 @@ slicers_b2000 = slice_volume(
     y=dmri_b0.shape[1] // 2,
     z=dmri_b0.shape[-1] // 3)
 
-bval_gif_paths = []
 for bval, slicers in zip([0, 1000, 2000],
                          [slicers_b0, slicers_b1000, slicers_b2000]):
     scene = window.Scene()
@@ -207,16 +199,14 @@ for bval, slicers in zip([0, 1000, 2000],
                   size=(2400, 2400),
                   n_frames=n_frames, path_numbering=True)
 
-    bval_gif_path = op.join(viz_path, f'b{bval}.gif')
     make_video(
         [f'{tmp}/b{bval}{ii:06d}.png' for ii in range(n_frames)],
-        bval_gif_path)
-    bval_gif_paths.append(bval_gif_path)
+        f'b{bval}.gif')
 
 ##############################################################################
-# .. image:: {{ bval_gif_paths[0] }}
-# .. image:: {{ bval_gif_paths[1] }}
-# .. image:: {{ bval_gif_paths[2] }}
+# .. image:: b0.gif
+# .. image:: b1000.gif
+# .. image:: b2000.gif
 
 #############################################################################
 # Visualizing whole-brain tractography
@@ -289,12 +279,11 @@ scene.background((1, 1, 1))
 window.record(scene, out_path=f'{tmp}/whole_brain', size=(2400, 2400),
               n_frames=n_frames, path_numbering=True)
 
-whole_brain_gif_path = op.join(viz_path, 'whole_brain.gif')
 make_video([f"{tmp}/whole_brain{ii:06d}.png" for ii in range(n_frames)],
-           whole_brain_gif_path)
+           "whole_brain.gif")
 
 ##############################################################################
-# .. image:: {{ whole_brain_gif_path }}
+# .. image:: whole_brain.gif
 #
 
 #############################################################################
@@ -348,15 +337,14 @@ scene.add(waypoint2_actor)
 window.record(scene, out_path=f'{tmp}/whole_brain_with_waypoints', size=(2400, 2400),
               n_frames=n_frames, path_numbering=True)
 
-waypoints_gif_path = op.join(viz_path, 'whole_brain_with_waypoints.gif')
 make_video([f"{tmp}/whole_brain_with_waypoints{ii:06d}.png" for ii in range(n_frames)],
-           waypoints_gif_path)
+           "whole_brain_with_waypoints.gif")
 
 bundle_path = op.join(afq_path,
                       'bundles')
 
 ##############################################################################
-# .. image:: {{ waypoints_gif_path }}
+# .. image:: whole_brain_with_waypoints.gif
 #
 
 #############################################################################
@@ -412,11 +400,10 @@ scene.add(waypoint2_actor)
 window.record(scene, out_path=f'{tmp}/arc1', size=(2400, 2400),
               n_frames=n_frames, path_numbering=True)
 
-arc1_path = op.join(viz_path, 'arc1.gif')
-make_video([f"{tmp}/arc1{ii:06d}.png" for ii in range(n_frames)], arc1_path)
+make_video([f"{tmp}/arc1{ii:06d}.png" for ii in range(n_frames)], "arc1.gif")
 
 ##############################################################################
-# .. image:: {{ arc1_path }}
+# .. image:: arc1.gif
 #
 
 #############################################################################
@@ -434,8 +421,7 @@ for slicer in slicers:
 window.record(scene, out_path=f'{tmp}/arc2', size=(2400, 2400),
               n_frames=n_frames, path_numbering=True)
 
-arc2_path = op.join(viz_path, 'arc2.gif')
-make_video([f"{tmp}/arc2{ii:06d}.png" for ii in range(n_frames)], arc2_path)
+make_video([f"{tmp}/arc2{ii:06d}.png" for ii in range(n_frames)], "arc2.gif")
 
 clean_bundles_path = op.join(afq_path,
                              'clean_bundles')
@@ -458,13 +444,12 @@ for slicer in slicers:
 window.record(scene, out_path=f'{tmp}/arc3', size=(2400, 2400),
               n_frames=n_frames, path_numbering=True)
 
-arc3_path = op.join(viz_path, 'arc3.gif')
-make_video([f"{tmp}/arc3{ii:06d}.png" for ii in range(n_frames)], arc3_path)
+make_video([f"{tmp}/arc3{ii:06d}.png" for ii in range(n_frames)], "arc3.gif")
 
 ##############################################################################
-# .. image:: {{ arc2_path }}
+# .. image:: arc2.gif
 #
-# .. image:: {{ arc3_path }}
+# .. image:: arc3.gif
 #
 
 #############################################################################
@@ -495,11 +480,10 @@ for slicer in slicers:
 window.record(scene, out_path=f'{tmp}/arc4', size=(2400, 2400),
               n_frames=n_frames, path_numbering=True)
 
-arc4_path = op.join(viz_path, 'arc4.gif')
-make_video([f"{tmp}/arc4{ii:06d}.png" for ii in range(n_frames)], arc4_path)
+make_video([f"{tmp}/arc4{ii:06d}.png" for ii in range(n_frames)], "arc4.gif")
 
 ##############################################################################
-# .. image:: {{ arc4_path }}
+# .. image:: arc4.gif
 #
 
 #############################################################################
@@ -536,11 +520,10 @@ scene.add(core_arc_actor)
 window.record(scene, out_path=f'{tmp}/arc5', size=(2400, 2400),
               n_frames=n_frames, path_numbering=True)
 
-arc5_path = op.join(viz_path, 'arc5.gif')
-make_video([f"{tmp}/arc5{ii:06d}.png" for ii in range(n_frames)], arc5_path)
+make_video([f"{tmp}/arc5{ii:06d}.png" for ii in range(n_frames)], "arc5.gif")
 
 ##############################################################################
-# .. image:: {{ arc5_path }}
+# .. image:: arc5.gif
 #
 
 #############################################################################
@@ -567,10 +550,9 @@ for bundle in bundles:
 window.record(scene, out_path=f'{tmp}/all_bundles', size=(2400, 2400),
               n_frames=n_frames, path_numbering=True)
 
-all_bundles_path = op.join(viz_path, 'all_bundles.gif')
 make_video(
     [f"{tmp}/all_bundles{ii:06d}.png" for ii in range(n_frames)],
-    all_bundles_path)
+    "all_bundles.gif")
 
 
 scene.clear()
@@ -607,14 +589,13 @@ window.record(scene,
               n_frames=n_frames,
               path_numbering=True)
 
-all_tract_profiles_path = op.join(viz_path, 'all_tract_profiles.gif')
 make_video([f"{tmp}/all_tract_profiles{ii:06d}.png" for ii in range(n_frames)],
-           all_tract_profiles_path)
+           "all_tract_profiles.gif")
 
 ##############################################################################
-# .. image:: {{ all_bundles_path }}
+# .. image:: all_bundles.gif
 #
-# .. image:: {{ all_tract_profiles_path }}
+# .. image:: all_tract_profiles.gif
 #
 
 #############################################################################
@@ -637,9 +618,8 @@ ax.set_xticks(np.arange(0, 20 * len(bundles), 20))
 ax.set_xticklabels(bundles, rotation=45, ha='right')
 fig.set_size_inches(10, 5)
 plt.subplots_adjust(bottom=0.2)
-tp_table_path = op.join(viz_path, 'tract_profiles_table.png')
-fig.savefig(tp_table_path)
+fig.savefig("tract_profiles_table.png")
 
 ##############################################################################
-# .. image:: {{ tp_table_path }}
+# .. image:: tract_profiles_table.png
 #
