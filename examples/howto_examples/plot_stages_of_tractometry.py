@@ -214,9 +214,9 @@ for bval, slicers in zip([0, 1000, 2000],
     bval_gif_paths.append(bval_gif_path)
 
 ##############################################################################
-# .. figure:: {{ bval_gif_paths[0] }}
-# .. figure:: {{ bval_gif_paths[1] }}
-# .. figure:: {{ bval_gif_paths[2] }}
+# .. image:: {{ bval_gif_paths[0] }}
+# .. image:: {{ bval_gif_paths[1] }}
+# .. image:: {{ bval_gif_paths[2] }}
 
 #############################################################################
 # Visualizing whole-brain tractography
@@ -294,7 +294,7 @@ make_video([f"{tmp}/whole_brain{ii:06d}.png" for ii in range(n_frames)],
            whole_brain_gif_path)
 
 ##############################################################################
-# .. figure:: {{ whole_brain_gif_path }}
+# .. image:: {{ whole_brain_gif_path }}
 #
 
 #############################################################################
@@ -356,7 +356,7 @@ bundle_path = op.join(afq_path,
                       'bundles')
 
 ##############################################################################
-# .. figure:: {{ waypoints_gif_path }}
+# .. image:: {{ waypoints_gif_path }}
 #
 
 #############################################################################
@@ -416,7 +416,7 @@ arc1_path = op.join(viz_path, 'arc1.gif')
 make_video([f"{tmp}/arc1{ii:06d}.png" for ii in range(n_frames)], arc1_path)
 
 ##############################################################################
-# .. figure:: {{ arc1_path }}
+# .. image:: {{ arc1_path }}
 #
 
 #############################################################################
@@ -462,9 +462,9 @@ arc3_path = op.join(viz_path, 'arc3.gif')
 make_video([f"{tmp}/arc3{ii:06d}.png" for ii in range(n_frames)], arc3_path)
 
 ##############################################################################
-# .. figure:: {{ arc2_path }}
+# .. image:: {{ arc2_path }}
 #
-# .. figure:: {{ arc3_path }}
+# .. image:: {{ arc3_path }}
 #
 
 #############################################################################
@@ -499,7 +499,7 @@ arc4_path = op.join(viz_path, 'arc4.gif')
 make_video([f"{tmp}/arc4{ii:06d}.png" for ii in range(n_frames)], arc4_path)
 
 ##############################################################################
-# .. figure:: {{ arc4_path }}
+# .. image:: {{ arc4_path }}
 #
 
 #############################################################################
@@ -540,7 +540,7 @@ arc5_path = op.join(viz_path, 'arc5.gif')
 make_video([f"{tmp}/arc5{ii:06d}.png" for ii in range(n_frames)], arc5_path)
 
 ##############################################################################
-# .. figure:: {{ arc5_path }}
+# .. image:: {{ arc5_path }}
 #
 
 #############################################################################
@@ -612,9 +612,9 @@ make_video([f"{tmp}/all_tract_profiles{ii:06d}.png" for ii in range(n_frames)],
            all_tract_profiles_path)
 
 ##############################################################################
-# .. figure:: {{ all_bundles_path }}
+# .. image:: {{ all_bundles_path }}
 #
-# .. figure:: {{ all_tract_profiles_path }}
+# .. image:: {{ all_tract_profiles_path }}
 #
 
 #############################################################################
@@ -641,5 +641,5 @@ tp_table_path = op.join(viz_path, 'tract_profiles_table.png')
 fig.savefig(tp_table_path)
 
 ##############################################################################
-# .. figure:: {{ tp_table_path }}
+# .. image:: {{ tp_table_path }}
 #
