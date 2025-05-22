@@ -203,11 +203,6 @@ for bval, slicers in zip([0, 1000, 2000],
         [f'{tmp}/b{bval}{ii:06d}.png' for ii in range(n_frames)],
         f'b{bval}.gif')
 
-##############################################################################
-# .. image:: b0.gif
-# .. image:: b1000.gif
-# .. image:: b2000.gif
-
 #############################################################################
 # Visualizing whole-brain tractography
 # ------------------------------------
@@ -282,10 +277,6 @@ window.record(scene, out_path=f'{tmp}/whole_brain', size=(2400, 2400),
 make_video([f"{tmp}/whole_brain{ii:06d}.png" for ii in range(n_frames)],
            "whole_brain.gif")
 
-##############################################################################
-# .. image:: whole_brain.gif
-#
-
 #############################################################################
 # Whole brain with waypoints
 # --------------------------------------
@@ -343,10 +334,6 @@ make_video([f"{tmp}/whole_brain_with_waypoints{ii:06d}.png" for ii in range(n_fr
 bundle_path = op.join(afq_path,
                       'bundles')
 
-##############################################################################
-# .. image:: whole_brain_with_waypoints.gif
-#
-
 #############################################################################
 # Visualize the arcuate bundle
 # ----------------------------
@@ -402,10 +389,6 @@ window.record(scene, out_path=f'{tmp}/arc1', size=(2400, 2400),
 
 make_video([f"{tmp}/arc1{ii:06d}.png" for ii in range(n_frames)], "arc1.gif")
 
-##############################################################################
-# .. image:: arc1.gif
-#
-
 #############################################################################
 # Clean bundle
 # ------------
@@ -446,12 +429,6 @@ window.record(scene, out_path=f'{tmp}/arc3', size=(2400, 2400),
 
 make_video([f"{tmp}/arc3{ii:06d}.png" for ii in range(n_frames)], "arc3.gif")
 
-##############################################################################
-# .. image:: arc2.gif
-#
-# .. image:: arc3.gif
-#
-
 #############################################################################
 # Show the values of tissue properties along the bundle
 # ------------------------------------------------------
@@ -481,10 +458,6 @@ window.record(scene, out_path=f'{tmp}/arc4', size=(2400, 2400),
               n_frames=n_frames, path_numbering=True)
 
 make_video([f"{tmp}/arc4{ii:06d}.png" for ii in range(n_frames)], "arc4.gif")
-
-##############################################################################
-# .. image:: arc4.gif
-#
 
 #############################################################################
 # Core of the bundle and tract profile
@@ -521,10 +494,6 @@ window.record(scene, out_path=f'{tmp}/arc5', size=(2400, 2400),
               n_frames=n_frames, path_numbering=True)
 
 make_video([f"{tmp}/arc5{ii:06d}.png" for ii in range(n_frames)], "arc5.gif")
-
-##############################################################################
-# .. image:: arc5.gif
-#
 
 #############################################################################
 # Core of all bundles and their tract profiles
@@ -592,12 +561,6 @@ window.record(scene,
 make_video([f"{tmp}/all_tract_profiles{ii:06d}.png" for ii in range(n_frames)],
            "all_tract_profiles.gif")
 
-##############################################################################
-# .. image:: all_bundles.gif
-#
-# .. image:: all_tract_profiles.gif
-#
-
 #############################################################################
 # Tract profiles as a table
 # -------------------------
@@ -619,7 +582,3 @@ ax.set_xticklabels(bundles, rotation=45, ha='right')
 fig.set_size_inches(10, 5)
 plt.subplots_adjust(bottom=0.2)
 fig.savefig("tract_profiles_table.png")
-
-##############################################################################
-# .. image:: tract_profiles_table.png
-#
