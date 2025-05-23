@@ -13,7 +13,7 @@
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 
 from plotly.io._sg_scraper import plotly_sg_scraper
-from AFQ.utils.docs import PNGScraper
+from AFQ.utils.docs import PNGScraper, GIFScraper
 
 import sys
 import os
@@ -217,7 +217,7 @@ intersphinx_mapping = {'python': ('https://docs.python.org/3/', None),
                                 'https://dipy.org/documentation/1.4.1./objects.inv/')
                        }
 
-image_scrapers = ('matplotlib', plotly_sg_scraper, PNGScraper())
+image_scrapers = ('matplotlib', plotly_sg_scraper, PNGScraper(), GIFScraper())
 
 from _progressbars import reset_progressbars  # noqa
 

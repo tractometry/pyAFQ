@@ -110,6 +110,9 @@ valid_exports_string = (
 def check_attribute(attr_name):
     if attr_name == "help":
         print(valid_exports_string)
+        return False
+
+    if attr_name[:-5] in task_modules:
         return None
 
     if attr_name in methods_sections:
