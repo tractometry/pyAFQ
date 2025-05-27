@@ -78,7 +78,6 @@ def viz_bundles(base_fname,
     profiles_file = segmentation_imap["profiles"]
     volume = data_imap["masked_b0"]
     shade_by_volume = data_imap[best_scalar]
-    start_time = time()
     volume = _viz_prepare_vol(volume, False, mapping, scalar_dict)
     shade_by_volume = _viz_prepare_vol(
         shade_by_volume, False, mapping, scalar_dict)
@@ -118,12 +117,18 @@ def viz_bundles(base_fname,
         fname = get_fname(
             base_fname, '.gif', "..")
 
-        viz_backend.create_gif(figure, fname)
+        try:
+            viz_backend.create_gif(figure, fname)
+        except:
+            logger.warning(f"Failed to write GIF file: {fname}")
     if "plotly" in viz_backend.backend:
         fname = get_fname(
             base_fname, '.html', "..")
 
-        figure.write_html(fname)
+        try:
+            figure.write_html(fname)
+        except:
+            logger.warning(f"Failed to write HTML file: {fname}")
     if fname is None:
         return figure
     else:
@@ -196,6 +201,7 @@ def viz_indivBundle(base_fname,
             segmented_bname_to_roi_bname[b_name] = b_name
 
     figures = {}
+    failed_write = False
     for bundle_name in bundles.bundle_names:
         logger.info(f"Generating {bundle_name} visualization...")
         roi_bname = segmented_bname_to_roi_bname[bundle_name]
@@ -267,7 +273,14 @@ def viz_indivBundle(base_fname,
                 f'_tractography.gif',
                 "viz_bundles")
 
-            viz_backend.create_gif(figure, fname)
+            try:
+                viz_backend.create_gif(figure, fname)
+            except:
+                if not failed_write:
+                    logger.warning((
+                        "Failed to write individual "
+                        "visualization files"))
+                    failed_write = True
         if "plotly" in viz_backend.backend:
             fname = get_fname(
                 base_fname,
@@ -275,7 +288,14 @@ def viz_indivBundle(base_fname,
                 f'_tractography.html',
                 "viz_bundles")
 
-            figure.write_html(fname)
+            try:
+                figure.write_html(fname)
+            except:
+                if not failed_write:
+                    logger.warning((
+                        "Failed to write individual "
+                        "visualization files"))
+                    failed_write = True
 
             # also do the core visualizations when using the plotly backend
             indiv_profile = profiles[
@@ -315,10 +335,18 @@ def viz_indivBundle(base_fname,
                     flip_axes=flip_axes,
                     figure=core_fig,
                     include_profile=True)
-                core_fig.write_html(fname)
-    meta_fname = drop_extension(fname) + '.json'
-    meta = dict(Timing=time() - start_time)
-    write_json(meta_fname, meta)
+                try:
+                    figure.write_html(fname)
+                except:
+                    if not failed_write:
+                        logger.warning((
+                            "Failed to write individual "
+                            "visualization files"))
+                        failed_write = True
+    if not failed_write:
+        meta_fname = drop_extension(fname) + '.json'
+        meta = dict(Timing=time() - start_time)
+        write_json(meta_fname, meta)
     return {"indiv_bundles_figures": figures}
 
 
@@ -339,16 +367,17 @@ def plot_tract_profiles(base_fname, output_dir, scalars, segmentation_imap):
             f'_param-{str_to_desc(this_scalar)}_desc-alltracts_tractography',
             'tract_profile_plots')
 
-        visualize_tract_profiles(
-            segmentation_imap["profiles"],
-            scalar=this_scalar,
-            file_name=fname,
-            n_boot=100)
-        fnames.append(fname)
+        if not op.exists(fname):
+            visualize_tract_profiles(
+                segmentation_imap["profiles"],
+                scalar=this_scalar,
+                file_name=fname,
+                n_boot=100)
+            fnames.append(fname)
 
-        meta_fname = drop_extension(fname) + '.json'
-        meta = dict(Timing=time() - start_time)
-        write_json(meta_fname, meta)
+            meta_fname = drop_extension(fname) + '.json'
+            meta = dict(Timing=time() - start_time)
+            write_json(meta_fname, meta)
     return fnames
 
 
