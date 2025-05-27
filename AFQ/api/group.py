@@ -208,8 +208,9 @@ class GroupAFQ(object):
 
         pl_desc_file = op.join(self.afq_path, 'dataset_description.json')
 
-        with open(pl_desc_file, 'w') as outfile:
-            json.dump(pipeline_description, outfile)
+        if not op.exists(pl_desc_file):
+            with open(pl_desc_file, 'w') as outfile:
+                json.dump(pipeline_description, outfile)
 
         self.subjects = bids_layout.get(return_type='id', target='subject')
         if not len(self.subjects):
