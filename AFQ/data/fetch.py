@@ -1055,8 +1055,9 @@ def to_bids_description(path, fname='dataset_description.json',
     """Dumps a dict into a bids description at the given location"""
     kwargs.update({"BIDSVersion": BIDSVersion})
     desc_file = op.join(path, fname)
-    with open(desc_file, 'w') as outfile:
-        json.dump(kwargs, outfile)
+    if not op.exists(desc_file):
+        with open(desc_file, 'w') as outfile:
+            json.dump(kwargs, outfile)
 
 
 def organize_cfin_data(path=None):

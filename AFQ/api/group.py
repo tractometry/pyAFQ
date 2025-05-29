@@ -411,7 +411,12 @@ class GroupAFQ(object):
             self.afq_path, "tract_profiles.csv"))
         os.makedirs(op.dirname(out_file), exist_ok=True)
         _df = clean_pandas_df(_df)
-        _df.to_csv(out_file, index=False)
+        try:
+            _df.to_csv(out_file, index=False)
+        except:
+            logger.warning((
+                "Unable to update combined tract profile. "
+                "This is likely due to file permissions."))
         return _df
 
     def get_streamlines_json(self):
@@ -778,7 +783,8 @@ class GroupAFQ(object):
                 self.afq_path,
                 (f"bundle-{bundle_name}_view-{view}"
                     f"_idx-{curr_file_num}_montage.png")))
-            curr_img.save(save_path)
+            if not op.exists(save_path):
+                curr_img.save(save_path)
             all_fnames.append(save_path)
 
         this_img_trimmed = {}
