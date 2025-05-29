@@ -155,26 +155,31 @@ def export_bundles(base_fname, output_dir,
             f'_desc-{str_to_desc(bundle)}'
             f'_tractography{extension}',
             subfolder="bundles")
-        bundle_sft = seg_sft.get_bundle(bundle)
-        if len(bundle_sft) > 0:
-            logger.info(f"Saving {fname}")
-            if is_trx:
-                seg_sft.sft.dtype_dict = {
-                    'positions': np.float16,
-                    'offsets': np.uint32}
-                trxfile = TrxFile.from_sft(bundle_sft)
-                save_trx(trxfile, fname)
-            else:
-                save_tractogram(
-                    bundle_sft, fname,
-                    bbox_valid_check=False)
+        if op.exists(fname):
+            logger.info(
+                f"Bundle {bundle} already exists at {fname}. "
+                "Skipping export.")
         else:
-            logger.info(f"No bundle to save for {bundle}")
-        meta = dict(
-            source=bundles,
-            params=seg_sft.get_bundle_param_info(bundle))
-        meta_fname = drop_extension(fname) + '.json'
-        write_json(meta_fname, meta)
+            bundle_sft = seg_sft.get_bundle(bundle)
+            if len(bundle_sft) > 0:
+                logger.info(f"Saving {fname}")
+                if is_trx:
+                    seg_sft.sft.dtype_dict = {
+                        'positions': np.float16,
+                        'offsets': np.uint32}
+                    trxfile = TrxFile.from_sft(bundle_sft)
+                    save_trx(trxfile, fname)
+                else:
+                    save_tractogram(
+                        bundle_sft, fname,
+                        bbox_valid_check=False)
+            else:
+                logger.info(f"No bundle to save for {bundle}")
+            meta = dict(
+                source=bundles,
+                params=seg_sft.get_bundle_param_info(bundle))
+            meta_fname = drop_extension(fname) + '.json'
+            write_json(meta_fname, meta)
     return op.dirname(fname)
 
 

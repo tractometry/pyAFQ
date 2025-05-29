@@ -1,4 +1,5 @@
 import nibabel as nib
+import numpy as np
 import os.path as op
 import logging
 
@@ -84,16 +85,21 @@ def export_rois(base_fname, output_dir, dwi_data_file, data_imap, mapping):
     to_space = space_from_fname(dwi_data_file)
     for bundle_name in bundle_dict:
         roi_files[bundle_name] = []
-        for roi_fname in bundle_dict.transform_rois(
+        for roi, roi_fname in zip(*bundle_dict.transform_rois(
                 bundle_name, mapping, data_imap["dwi_affine"],
                 base_fname=base_roi_fname,
-                to_space=to_space):
-            logger.info(f"Saving {roi_fname}")
+                to_space=to_space)):
             roi_files[bundle_name].append(roi_fname)
-            meta = {
-                "Bundle Definition": bundle_dict.get_b_info(bundle_name)}
-            meta_fname = f'{drop_extension(roi_fname)}.json'
-            write_json(meta_fname, meta)
+            if not op.exists(roi_fname):
+                logger.info(f"Saving {roi_fname}")
+                nib.save(
+                    nib.Nifti1Image(
+                        roi.get_fdata().astype(np.float32),
+                        roi.affine), roi_fname)
+                meta = {
+                    "Bundle Definition": bundle_dict.get_b_info(bundle_name)}
+                meta_fname = f'{drop_extension(roi_fname)}.json'
+                write_json(meta_fname, meta)
     return {'rois': roi_files}
 
 

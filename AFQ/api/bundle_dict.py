@@ -1019,9 +1019,9 @@ class BundleDict(MutableMapping):
         new_affine : array
             Affine of space transformed into.
         base_fname : str, optional
-            Base file path to save ROIs too. Additional BIDS
+            Base file path to construct file path from. Additional BIDS
             descriptors will be added to this file path. If None,
-            do not save the ROIs.
+            no file paths returned.
         to_space : str, optional
             Name for space for exported ROIs. Only used if base_fname
             is not None.
@@ -1035,8 +1035,8 @@ class BundleDict(MutableMapping):
         -------
         If base_fname is None, a dictionary where keys are
         the roi type and values are the transformed ROIs.
-        Otherwise, a list of file names where the transformed
-        ROIs are saved.
+        Otherwise, a list of file names and a list of transformed ROIs
+        are returned.
         """
         if self.is_bundle_in_template(bundle_name):
             transformed_rois = self.apply_to_rois(
@@ -1057,6 +1057,7 @@ class BundleDict(MutableMapping):
 
         if base_fname is not None:
             fnames = []
+            list_of_rois_to_save = []
             for roi_type, rois in transformed_rois.items():
                 if roi_type == "prob_map":
                     suffix = "probseg"
@@ -1081,12 +1082,9 @@ class BundleDict(MutableMapping):
                         f"{desc}"
                         f"_{suffix}.nii.gz",
                         "ROIs")
-                    nib.save(
-                        nib.Nifti1Image(
-                            roi.get_fdata().astype(np.float32),
-                            roi.affine), fname)
                     fnames.append(fname)
-            return fnames
+                    list_of_rois_to_save.append(roi)
+            return list_of_rois_to_save, fnames
         else:
             return transformed_rois
 
