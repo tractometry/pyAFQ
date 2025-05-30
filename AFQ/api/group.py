@@ -783,8 +783,13 @@ class GroupAFQ(object):
                 self.afq_path,
                 (f"bundle-{bundle_name}_view-{view}"
                     f"_idx-{curr_file_num}_montage.png")))
-            if not op.exists(save_path):
+            try:
                 curr_img.save(save_path)
+            except:
+                if op.exists(save_path):
+                    logger.info("Montage file already exists, skipping.")
+                else:
+                    logger.warning("Unable to save montage file, skipping.")
             all_fnames.append(save_path)
 
         this_img_trimmed = {}
@@ -877,12 +882,23 @@ class GroupAFQ(object):
             sls_mni,
             reg_template,
             Space.VOX)
-        save_tractogram(
-            moved_sft,
-            op.abspath(op.join(
-                self.afq_path,
-                f"bundle-{bundle_name}_subjects-all_MNI.trk")),
-            bbox_valid_check=False)
+
+        save_path = op.abspath(op.join(
+            self.afq_path,
+            f"bundle-{bundle_name}_subjects-all_MNI.trk"))
+        try:
+            save_tractogram(
+                moved_sft,
+                save_path,
+                bbox_valid_check=False)
+        except:
+            if op.exists(save_path):
+                logger.info(("Combined bundles file "
+                             "already exists, skipping."))
+            else:
+                logger.warning((
+                    "Unable to save combined "
+                    "bundles file, skipping."))
 
     def upload_to_s3(self, s3fs, remote_path):
         """ Upload entire AFQ derivatives folder to S3"""
