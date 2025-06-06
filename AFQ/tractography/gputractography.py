@@ -137,8 +137,8 @@ def gpu_track(data, gtab, seed_img, stop_img,
         model_type,
         radians(max_angle),
         1.0,
-        stop_threshold,
-        step_size,
+        float(stop_threshold),
+        float(step_size),
         0.25,  # relative peak threshold
         radians(45),  # min separation angle
         np.ascontiguousarray(data).astype(np.float64),
