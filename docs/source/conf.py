@@ -107,6 +107,7 @@ html_sidebars = {
 }
 html_theme_options = {
     "use_edit_page_button": True,
+    "footer_end": ["footer.html"],
     "icon_links": [
         {
             "name": "GitHub",
@@ -213,8 +214,7 @@ texinfo_documents = [
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {'python': ('https://docs.python.org/3/', None),
                        'numpy': ('https://docs.scipy.org/doc/numpy/', None),
-                       'dipy': ('https://dipy.org/documentation/latest',
-                                'https://dipy.org/documentation/1.4.1./objects.inv/')
+                       'dipy': ('https://dipy.org/documentation/latest', None)
                        }
 
 image_scrapers = ('matplotlib', plotly_sg_scraper, PNGScraper(), GIFScraper())

@@ -6,6 +6,8 @@ Reference Documentation
 
     api/index
     bundledict
+    fibertracts
+    tissue_properties
     kwargs
     methods
     viz_backend

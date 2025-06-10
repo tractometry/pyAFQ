@@ -28,3 +28,7 @@ For further statistical analysis of pyAFQ results, see `AFQ-Insight <https://git
 
     tractometry_pipeline
     bundle_orientation
+    modelling
+    profiling
+    recognition
+    tractography
