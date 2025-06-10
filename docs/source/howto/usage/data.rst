@@ -59,7 +59,8 @@ diffusion data is required for pyAFQ::
                 ├── sub-01_ses-01_dwi.bvec
                 └── sub-01_ses-01_dwi.nii.gz
 
-See :ref:`examples/plot_bids_layout` for a more extensive example.
+See `How pyAFQ uses BIDS <tutorials/tutorial_examples/plot_006_bids_layout.html>`_
+for a more extensive example.
 
 
 Preprocessing

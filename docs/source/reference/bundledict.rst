@@ -68,7 +68,8 @@ to that path. Only do this for one subject at a time.
 
 
 Custom bundle definitions such as the OR, and the standard BundleDict can be
-combined through addition. For an example, see "Plotting the Optic Radiations" in :ref:`examples`.
+combined through addition. For an example, see
+`Plotting the Optic Radiations <howto/howto_examples/optic_radiations.html>`_.
 Some tracts, such as the Vertical Occipital Fasciculus, may be defined relative
 to other tracts. In those cases, the custom tract definitions should appear in the BundleDict 
 object after the reference tracts have been defined. These reference tracts can 
