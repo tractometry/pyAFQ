@@ -56,6 +56,7 @@ extensions = [
     'sphinx_gallery.gen_gallery',
     'sphinx_design',
     'sphinx.ext.autosummary',
+    'sphinxcontrib.bibtex',
     'autoapi.extension',
     'numpydoc',
     'updatedocs',
@@ -63,6 +64,10 @@ extensions = [
     'methodsdocs',
     'myst_nb',
 ]
+
+bibtex_bibfiles = ['references.bib']
+bibtex_default_style = 'plain'
+bibtex_reference_style = 'author_year'
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

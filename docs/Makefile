@@ -36,7 +36,7 @@ ARTIFACTS := $(strip \
 distclean: clean
 	@echo Removing files created by sphinx-build
 	rm -rf $(BUILDDIR)
-	rm -f $(SOURCEDIR)/usage/howto/config.rst
+	rm -f $(SOURCEDIR)/reference/config.rst
 	rm -rf $(SOURCEDIR)/auto_examples/
 	$(if $(ARTIFACTS),rm -f $(ARTIFACTS))
 
@@ -57,7 +57,7 @@ html-noplot:
 html-noplot-clean:
 	@echo Removing files created by sphinx-build
 	rm -rf $(BUILDDIR)
-	rm -f $(SOURCEDIR)/usage/howto/config.rst
+	rm -f $(SOURCEDIR)/reference/config.rst
 	$(if $(ARTIFACTS),rm -f $(ARTIFACTS))
 	PYDEVD_DISABLE_FILE_VALIDATION=1 $(SPHINXBUILD) \
 		-D plot_gallery=0 \

@@ -14,7 +14,7 @@ populations of axons enter and exit the tract, and disease can strike at local
 positions within the tract. Because of this, quantifying and understanding
 diffusion measures along each fiber tract (the tract profile) may reveal new
 insights into white matter development, function, and disease that are not
-obvious from mean measures of that tract ([Yeatman2012]_).
+obvious from mean measures of that tract :cite:p:`Yeatman2012`.
 
 
 `pyAFQ` is a software package focused on automated delineation of the major
@@ -28,7 +28,7 @@ For further statistical analysis of pyAFQ results, see `AFQ-Insight <https://git
 
     tractometry_pipeline
     bundle_orientation
-    modelling
+    modeling
     profiling
     recognition
     tractography

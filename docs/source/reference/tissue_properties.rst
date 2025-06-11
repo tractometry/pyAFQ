@@ -5,7 +5,7 @@ This document lists some of the more common tissue property parameters
 available in pyAFQ, though not all of them.
 They are organized by the diffusion model they are derived from.
 Custom tissue properties can be imported, see
-`How to add custom tissue properties from another pipeline <howto/usage/scalars.html>`_.
+`How to add custom tissue properties from another pipeline <../howto/scalars.html>`_.
 If there is a tissue property in DIPY not in pyAFQ, you can add it in
 `AFQ/tasks/data.py`, or post an issue.
 

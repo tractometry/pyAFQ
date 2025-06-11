@@ -1,7 +1,10 @@
-Guides
-~~~~~~
+##########
+User Guide
+##########
+
 .. toctree::
-    tutorials/index
-    howto/index
-    explanations/index
-    reference/index
+
+   tutorials/index
+   howto/index
+   explanations/index
+   reference/index

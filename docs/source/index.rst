@@ -12,8 +12,12 @@ of the major long-range brain white matter connections.
 
 - To get started, please refer to the `getting started <tutorials/index.html>`_ page. In particular, these two examples are very useful:
 
-  - `Getting started with pyAFQ - GroupAFQ <tutorials/tutorial_examples/plot_001_group_afq_api.html>`_
-  - `Getting started with pyAFQ - ParticipantAFQ <tutorials/tutorial_examples/plot_002_participant_afq_api.html>`_
+  - This example shows you how to run pyAFQ on a BIDS dataset, where pyAFQ
+    uses the BIDS structure to find necessary files:
+    `Getting started with pyAFQ - GroupAFQ <tutorials/tutorial_examples/plot_001_group_afq_api.html>`_
+  - This example shows you how to run pyAFQ on any dataset,
+    where input file paths are given explicitly:
+    `Getting started with pyAFQ - ParticipantAFQ <tutorials/tutorial_examples/plot_002_participant_afq_api.html>`_
 - What is the difference between tractography and tractometry? See in the `explanations <explanations/index.html>`_ page.
 - For more detailed information on the variety of uses of pyAFQ, see the `how to <howto/index.html>`_ page. In particular, this one example is useful for understanding tractometry:
 
@@ -132,4 +136,9 @@ and by a grant from the
    :target: http://brainandeducation.com
 
 .. toctree::
+    :hidden:
+    :maxdepth: 2
+
     guides_index
+    developing/index
+    bib
