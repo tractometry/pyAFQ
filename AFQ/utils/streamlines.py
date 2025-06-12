@@ -90,7 +90,8 @@ class SegmentedSFT():
                 bundles[bundle] = StatefulTractogram(
                     sft.streamlines[idx], reference, Space.RASMM)
         else:
-            sft = load_tractogram(trk_or_trx_file, reference, Space.RASMM)
+            sft = load_tractogram(trk_or_trx_file, reference,
+                                  to_space=Space.RASMM)
 
             if reference == "same":
                 reference = sft
