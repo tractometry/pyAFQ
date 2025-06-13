@@ -27,22 +27,30 @@ Streamlines coordinates are saved in the standard RAS orientation, it is
 just that tract profiles are in LPI+ orientation. For some bundles, such
 as the inferior longitudinal fasciculus, the choice of primary
 orientation could be unclear. So, here we list the orientations of the
-standard bundles:: - Left Anterior Thalamic: anterior to posterior -
-Right Anterior Thalamic: anterior to posterior - Left Cingulum
-Cingulate: anterior to posterior - Right Cingulum Cingulate: anterior to
-posterior - Left Corticospinal: superior to inferior - Right
-Corticospinal: superior to inferior - Left Inferior Fronto-occipital:
-anterior to posterior - Right Inferior Fronto-occipital: anterior to
-posterior - Left Inferior Longitudinal: anterior to posterior - Right
-Inferior Longitudinal: anterior to posterior - Left Superior
-Longitudinal: anterior to posterior - Right Superior Longitudinal:
-anterior to posterior - Left Arcuate: anterior to posterior - Right
-Arcuate: anterior to posterior - Left Uncinate: superior to inferior -
-Right Uncinate: superior to inferior - Forceps Minor: right to left -
-Forceps Major: right to left - Left Posterior Arcuate: superior to
-inferior - Right Posterior Arcuate: superior to inferior - Left Vertical
-Occipital: superior to inferior - Right Vertical Occipital: superior to
-inferior
+standard bundles::
+
+    - Left Anterior Thalamic: anterior to posterior  
+    - Right Anterior Thalamic: anterior to posterior  
+    - Left Cingulum Cingulate: anterior to posterior  
+    - Right Cingulum Cingulate: anterior to posterior  
+    - Left Corticospinal: superior to inferior  
+    - Right Corticospinal: superior to inferior  
+    - Left Inferior Fronto-occipital: anterior to posterior  
+    - Right Inferior Fronto-occipital: anterior to posterior  
+    - Left Inferior Longitudinal: anterior to posterior  
+    - Right Inferior Longitudinal: anterior to posterior  
+    - Left Superior Longitudinal: anterior to posterior  
+    - Right Superior Longitudinal: anterior to posterior  
+    - Left Arcuate: anterior to posterior  
+    - Right Arcuate: anterior to posterior  
+    - Left Uncinate: superior to inferior  
+    - Right Uncinate: superior to inferior  
+    - Forceps Minor: right to left  
+    - Forceps Major: right to left  
+    - Left Posterior Arcuate: superior to inferior  
+    - Right Posterior Arcuate: superior to inferior  
+    - Left Vertical Occipital: superior to inferior  
+    - Right Vertical Occipital: superior to inferior  
 
 All callosal bundles are oriented from right to left, and all other
 custom bundles provided in the examples follow the LPI+ convention.
