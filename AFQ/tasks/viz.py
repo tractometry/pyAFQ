@@ -395,7 +395,7 @@ def init_viz_backend(viz_backend_spec="plotly_no_gif",
     viz_backend_spec : str, optional
         Which visualization backend to use.
         See Visualization Backends page in documentation for details
-        https://tractometry.org/pyAFQ/usage/viz_backend.html
+        https://tractometry.org/pyAFQ/reference/viz_backend.html
         One of {"fury", "plotly", "plotly_no_gif"}.
         Default: "plotly_no_gif"
     """

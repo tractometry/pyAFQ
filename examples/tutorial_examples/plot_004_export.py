@@ -72,7 +72,7 @@ myafq.export("help")
 #    No all options are possible even if they are valid. This will depend on
 #    you dataset and pyAFQ API parameters. For example, you cannot calculate
 #    DKI model from single shell data. Please refer to
-#    :doc:`/howto/usage/tractography_params` for more documentation.
+#    :doc:`/howto/tractography_params` for more documentation.
 
 
 ##########################################################################

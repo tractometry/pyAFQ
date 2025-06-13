@@ -122,6 +122,11 @@ def track(params_file, directions="prob", max_angle=30., sphere=None,
     .. [Girard2014] Girard, G., Whittingstall, K., Deriche, R., &
         Descoteaux, M. Towards quantitative connectivity analysis: reducing
         tractography biases. NeuroImage, 98, 266-278, 2014.
+    .. [Smith2012] Smith RE, Tournier JD, Calamante F, Connelly A.
+        Anatomically-constrained tractography: improved diffusion
+        MRI streamlines tractography through effective use of anatomical
+        information. Neuroimage. 2012 Sep;62(3):1924-38.
+        doi: 10.1016/j.neuroimage.2012.06.005. Epub 2012 Jun 13.
     """
     logger = logging.getLogger('AFQ')
 

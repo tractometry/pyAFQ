@@ -1,17 +1,27 @@
-How To
-------
+########
+ How To
+########
 
 This section of the documentation provides guides on various aspects of the
 software.
 
 .. toctree::
-    :maxdepth: 2
+   :maxdepth: 2
 
-    installation_guide
-    usage/index
-    contributing
-    developing/index
-    getting_help
-    cite
-    howto_examples/index
-
+   installation_guide
+   getting_help
+   cite
+   data
+   kwargs
+   config
+   mask
+   scalars
+   converter
+   docker
+   singularity
+   methods
+   image
+   tractography_params
+   segmentation_params
+   cleaning_params
+   howto_examples/index

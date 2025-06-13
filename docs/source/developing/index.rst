@@ -1,4 +1,4 @@
-How to develop `pyAFQ`
+Developing `pyAFQ`
 ==================
 
 We are glad that you are here! That probably means that you are interested in contributing to the development of `pyAFQ`.
@@ -36,6 +36,7 @@ As an overview, the pyAFQ code can roughly be divided into 5 sections.
 .. toctree::
     :maxdepth: 2
 
+    contributing
     tasks
     definitions
     releasing

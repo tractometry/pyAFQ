@@ -75,7 +75,7 @@ afd.organize_stanford_data(clear_previous_afq="all")
 # have the outputs of pipelines that were used to preprocess the data (e.g.,
 # correct the data for subject motion, eddy currents, and so forth).
 # In general, only the preprocessed diffusion data is required for pyAFQ to run.
-# See the :doc:`"Organizing your data" </howto/usage/organizing>` section of the
+# See the :doc:`"Organizing your data" </howto/data>` section of the
 # documentation for more details.
 # In this case, one folder contains derivative of the Freesurfer software and
 # another folder contains the DWI data that has been preprocessed with the

@@ -1,5 +1,5 @@
 The pyAFQ Image API
-~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~
 In the process of tractometry, it is sometimes necessary to apply images to
 the data. By default, pyAFQ can automatically generate these images from the
 DWI data. However, pyAFQ also has a system for users to specify which image to

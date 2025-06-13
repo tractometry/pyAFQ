@@ -10,28 +10,55 @@ processing pipeline for tractometry, from raw DTI data to white matter tract
 identification, as well as quantification of tissue properties along the length
 of the major long-range brain white matter connections.
 
-- To get started, please refer to the `getting started <tutorials/index.html>`_ page.
+- To get started, please refer to the `getting started <tutorials/index.html>`_ page. In particular, these two examples are very useful:
+
+  - This example shows you how to run pyAFQ on a BIDS dataset, where pyAFQ
+    uses the BIDS structure to find necessary files:
+    `Getting started with pyAFQ - GroupAFQ <tutorials/tutorial_examples/plot_001_group_afq_api.html>`_
+  - This example shows you how to run pyAFQ on any dataset,
+    where input file paths are given explicitly:
+    `Getting started with pyAFQ - ParticipantAFQ <tutorials/tutorial_examples/plot_002_participant_afq_api.html>`_
 - What is the difference between tractography and tractometry? See in the `explanations <explanations/index.html>`_ page.
-- For more detailed information on the variety of uses of pyAFQ, see the `how to <howto/index.html>`_ page.
+- For more detailed information on the variety of uses of pyAFQ, see the `how to <howto/index.html>`_ page. In particular, this one example is useful for understanding tractometry:
+
+  - `Understanding the different stages of tractometry with videos <howto/howto_examples/plot_stages_of_tractometry.html>`_
 - For a detailed description of the methods and objects used in pyAFQ, see the `reference documentation <reference/index.html>`_ page.
 
-.. todo::
-  create and link to page that lists the `major fiber tracts` supported by
-  default. include information on how to add custom fiber bundles defintions.
+Here are some useful reference pages:
 
-.. todo::
-  create and link to page that identifies the supported `tissue properties`
-  (believe this includes both dti and dki? fa, md, cfa?, and pdd?)
+- For a list of the major fiber tracts supported by pyAFQ, see the `Major Fiber Tracts <reference/fibertracts.html>`_ page.
+- For a list of the supported tissue properties, see the `Tissue Properties <reference/tissue_properties.html>`_ page.
+- For a grand list of all pyAFQ outputs, see `The pyAFQ API methods <reference/methods.html>`_.
+- For a grand list of all pyAFQ arguments, see `The pyAFQ API optional arguments <reference/kwargs.html>`_.  
 
-.. toctree::
-    :maxdepth: 2
-    :hidden:
+Citing
+~~~~~~~
+If you use *pyAFQ* in a scientific publication, please cite our paper:
 
-    tutorials/index
-    howto/index
-    explanations/index
-    reference/index
+Kruper, J., Yeatman, J. D., Richie-Halford, A., Bloom, D., Grotheer, M., Caffarra, S., Kiar, G., Karipidis, I. I., Roy, E., Chandio, B. Q., Garyfallidis, E., & Rokem, A.
+`Evaluating the Reliability of Human Brain White Matter Tractometry <https://doi.org/10.52294/e6198273-b8e3-4b63-babb-6e6b0da10669>`_.
+DOI:10.52294/e6198273-b8e3-4b63-babb-6e6b0da10669
 
+.. code-block:: bibtex
+
+  @article {Kruper2021-xb,
+    title     = "Evaluating the reliability of human brain white matter
+                 tractometry",
+    author    = "Kruper, John and Yeatman, Jason D and Richie-Halford, Adam and
+                 Bloom, David and Grotheer, Mareike and Caffarra, Sendy and Kiar,
+                 Gregory and Karipidis, Iliana I and Roy, Ethan and Chandio,
+                 Bramsh Q and Garyfallidis, Eleftherios and Rokem, Ariel",
+    journal   = "Apert Neuro",
+    publisher = "Organization for Human Brain Mapping",
+    volume    =  1,
+    number    =  1,
+    month     =  nov,
+    year      =  2021,
+    doi       =  10.52294/e6198273-b8e3-4b63-babb-6e6b0da10669,
+  }
+
+Guide Layout
+~~~~~~~~~~~~
 
 .. grid:: 2
 
@@ -107,3 +134,11 @@ and by a grant from the
    :align: center
    :figclass: align-center
    :target: http://brainandeducation.com
+
+.. toctree::
+    :hidden:
+    :maxdepth: 2
+
+    guides_index
+    developing/index
+    bib

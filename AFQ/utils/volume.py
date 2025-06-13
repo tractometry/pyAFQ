@@ -148,7 +148,8 @@ def dice_coeff(arr1, arr2, weighted=True):
 
     Notes
     -----
-    .. [1] Cousineau M, Jodoin PM, Morency FC, et al. A test-retest study on
+    .. [Cousineau2017] Cousineau M, Jodoin PM, Morency FC, et al.
+           A test-retest study on
            Parkinson's PPMI dataset yields statistically significant white
            matter fascicles. Neuroimage Clin. 2017;16:222-233. Published 2017
            Jul 25. doi:10.1016/j.nicl.2017.07.020

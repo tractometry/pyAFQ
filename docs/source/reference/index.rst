@@ -1,13 +1,15 @@
-Reference Documentation
------------------------
+#########################
+ Reference Documentation
+#########################
 
 .. toctree::
-    :maxdepth: 2
+   :maxdepth: 2
 
-    api/index
-    bundledict
-    kwargs
-    methods
-    viz_backend
-    mapping
-    config
+   api/index
+   bundledict
+   fibertracts
+   tissue_properties
+   methods
+   viz_backend
+   mapping
+   config
