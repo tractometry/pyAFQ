@@ -178,38 +178,18 @@ def track(params_file, directions="prob", max_angle=30., sphere=None,
         dg = dg.from_shcoeff(model_params, max_angle=max_angle, sphere=sphere,
                              basis_type=basis_type, legacy=legacy)
 
-    if tracker == "local":
-        if stop_mask is None:
-            stop_mask = np.ones(params_img.shape[:3])
+    if stop_mask is None:
+        stop_mask = np.ones(params_img.shape[:3])
 
-        if len(np.unique(stop_mask)) <= 2:
-            stopping_criterion = ThresholdStoppingCriterion(stop_mask,
-                                                            0.5)
-        else:
-            if thresholds_as_percentages:
-                stop_threshold = get_percentile_threshold(
-                    stop_mask, stop_threshold)
-            stop_mask_copy = np.copy(stop_mask)
-            stop_thresh_copy = np.copy(stop_threshold)
-            stopping_criterion = ThresholdStoppingCriterion(stop_mask_copy,
-                                                            stop_thresh_copy)
-
-        my_tracker = LocalTracking
-
-    elif tracker == "pft":
-        if not isinstance(stop_threshold, str):
-            raise RuntimeError(
-                "You are using PFT tracking, but did not provide a string ",
-                "'stop_threshold' input. ",
-                "Possible inputs are: 'CMC' or 'ACT'")
+    if isinstance(stop_threshold, str):
         if not (isinstance(stop_mask, Iterable) and len(stop_mask) == 3):
             raise RuntimeError(
-                "You are using PFT tracking, but did not provide a length "
+                "You are using CMC/ACT stropping, but did not provide a length "
                 "3 iterable for `stop_mask`. "
                 "Expected a (pve_wm, pve_gm, pve_csf) tuple.")
         pves = []
         pve_imgs = []
-        for ii, pve in enumerate(stop_mask):
+        for pve in stop_mask:
             if isinstance(pve, str):
                 img = nib.load(pve)
             else:
@@ -232,7 +212,6 @@ def track(params_file, directions="prob", max_angle=30., sphere=None,
             moving_affine=pve_csf_img.affine,
             static_affine=params_img.affine).get_fdata()
 
-        my_tracker = ParticleFilteringTracking
         if stop_threshold == "CMC":
             stopping_criterion = CmcStoppingCriterion.from_pve(
                 pve_wm_data,
@@ -246,6 +225,26 @@ def track(params_file, directions="prob", max_angle=30., sphere=None,
                 pve_wm_data,
                 pve_gm_data,
                 pve_csf_data)
+    else:
+        if len(np.unique(stop_mask)) <= 2:
+            stopping_criterion = ThresholdStoppingCriterion(stop_mask,
+                                                            0.5)
+        else:
+            if thresholds_as_percentages:
+                stop_threshold = get_percentile_threshold(
+                    stop_mask, stop_threshold)
+            stop_mask_copy = np.copy(stop_mask)
+            stop_thresh_copy = np.copy(stop_threshold)
+            stopping_criterion = ThresholdStoppingCriterion(stop_mask_copy,
+                                                            stop_thresh_copy)
+
+    if tracker == "local":
+        my_tracker = LocalTracking
+    elif tracker == "pft":
+        my_tracker = ParticleFilteringTracking
+    else:
+        raise ValueError(f"Unrecognized tracker '{tracker}'. Must be one of "
+                         "{'local', 'pft'}.")
 
     logger.info(
         f"Tracking with {len(seeds)} seeds, 2 directions per seed...")

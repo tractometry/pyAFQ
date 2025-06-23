@@ -1,10 +1,15 @@
 import nibabel as nib
 import numpy as np
 import logging
+from tqdm import tqdm
 
 from dipy.io.gradients import read_bvals_bvecs
 import dipy.core.gradients as dpg
-from dipy.data import default_sphere
+from dipy.data import default_sphere, get_sphere
+
+from scipy.signal import find_peaks, peak_widths
+from scipy.ndimage import gaussian_filter1d
+from scipy.special import erf
 
 import immlib
 
@@ -16,6 +21,13 @@ from dipy.reconst.gqi import GeneralizedQSamplingModel
 from dipy.reconst.rumba import RumbaSDModel, RumbaFit
 from dipy.reconst import shm
 from dipy.reconst.dki_micro import axonal_water_fraction
+from dipy.segment.tissue import compute_directional_average
+from dipy.reconst.mcsd import (
+    MultiShellDeconvModel,
+    mask_for_response_msmt,
+    multi_shell_fiber_response,
+    response_from_mask_msmt)
+from dipy.core.gradients import unique_bvals_tolerance
 
 from AFQ.tasks.decorators import as_file, as_img, as_fit_deriv
 from AFQ.tasks.utils import get_fname, with_name, str_to_desc
@@ -33,8 +45,10 @@ from AFQ.models.csd import CsdNanResponseError
 from AFQ.models.dki import _fit as dki_fit_model
 from AFQ.models.dti import _fit as dti_fit_model
 from AFQ.models.fwdti import _fit as fwdti_fit_model
+from AFQ.models.msmt import fit as msmt_fit
 from AFQ.models.QBallTP import (
     extract_odf, anisotropic_index, anisotropic_power)
+from AFQ.models.asym_filtering import unified_filtering
 
 
 logger = logging.getLogger('AFQ')
@@ -89,18 +103,19 @@ def get_data_gtab(dwi_data_file, bval_file, bvec_file, min_bval=-np.inf,
 
 @immlib.calc("b0")
 @as_file('_b0ref.nii.gz')
+@as_img
 def b0(dwi, gtab):
     """
     full path to a nifti file containing the mean b0
     """
     mean_b0 = np.mean(dwi.get_fdata()[..., gtab.b0s_mask], -1)
-    mean_b0_img = nib.Nifti1Image(mean_b0, dwi.affine)
     meta = dict(b0_threshold=gtab.b0_threshold)
-    return mean_b0_img, meta
+    return mean_b0, meta
 
 
 @immlib.calc("masked_b0")
 @as_file('_desc-masked_b0ref.nii.gz')
+@as_img
 def b0_mask(b0, brain_mask):
     """
     full path to a nifti file containing the
@@ -112,11 +127,259 @@ def b0_mask(b0, brain_mask):
     masked_data = img.get_fdata()
     masked_data[~brain_mask] = 0
 
-    masked_b0_img = nib.Nifti1Image(masked_data, img.affine)
     meta = dict(
         source=b0,
         masked=True)
-    return masked_b0_img, meta
+    return masked_data, meta
+
+
+@pimms.calc("dam_params")
+@as_file(suffix='_model-dam_param-slopeintercept_dwimap.nii.gz',
+         subfolder="models")
+@as_img
+def dam_fit(data, gtab, masked_b0,
+            dam_low_signal_thresh=50):
+    """
+    direction-averaged signal map (DAM) [1] slope and intercept
+
+    Parameters
+    ----------
+    dam_low_signal_thresh : float, optional
+        The threshold below which a voxel is considered to have low signal.
+        Default: 50
+
+    References
+    ----------
+    .. [1] Cheng, H., Newman, S., Afzali, M., Fadnavis, S.,
+            & Garyfallidis, E. (2020). Segmentation of the brain using
+            direction-averaged signal of DWI images. 
+            Magnetic Resonance Imaging, 69, 1-7. Elsevier. 
+            https://doi.org/10.1016/j.mri.2020.02.010
+    """
+    # Precompute unique b-values, masks
+    unique_bvals = np.unique(gtab.bvals)
+    if len(unique_bvals) <= 2:
+        raise ValueError(("Insufficient unique b-values for fitting DAM. "
+                         "Note, DAM requires multi-shell data"))
+    masks = gtab.bvals[:, np.newaxis] == unique_bvals[np.newaxis, 1:]
+
+    b0_data = nib.load(masked_b0).get_fdata()
+
+    # If the mean signal for b=0 is too low,
+    # set those voxels to 0 for both P and V
+    valid_voxels = b0_data >= dam_low_signal_thresh
+
+    params_map = np.zeros((*data.shape[:-1], 2))
+    logger.info("Fitting directional average map (DAM)...")
+    for idx in tqdm(range(data.shape[0] * data.shape[1] * data.shape[2])):
+        i, j, k = np.unravel_index(idx, data.shape[:-1])
+        if valid_voxels[i, j, k]:
+            aa, bb = compute_directional_average(
+                data[i, j, k, :],
+                gtab.bvals,
+                masks=masks,
+                b0_mask=gtab.b0s_mask,
+                s0_map=b0_data[i, j, k],
+                low_signal_threshold=dam_low_signal_thresh,
+            )
+            if aa > 0.01 and bb < 0:
+                params_map[i, j, k, 0] = aa
+                params_map[i, j, k, 1] = -bb
+
+    return params_map, dict(low_signal_thresh=dam_low_signal_thresh)
+
+
+@pimms.calc("dam_csf")
+@as_file(suffix='_model-dam_param-csf_probseg.nii.gz',
+         subfolder="models")
+@as_img
+def dam_csf(dam_params):
+    """
+    CSF probability map from DAM intercept
+    """
+    dam_intercept_data = nib.load(dam_params).get_fdata()[..., 1]
+    beta_values = dam_intercept_data.flatten()
+    beta_values = beta_values[beta_values != 0]
+
+    # Make a smoothed histogram
+    hist, bin_edges = np.histogram(beta_values, bins=200, density=True)
+    bin_centers = (bin_edges[:-1] + bin_edges[1:]) / 2
+    smoothed_hist = gaussian_filter1d(hist, sigma=2)
+
+    # Find the main peak
+    peaks, _ = find_peaks(smoothed_hist, height=0.1 * np.max(smoothed_hist))
+    if len(peaks) == 0:
+        raise ValueError((
+            "DAM intercept: No peaks found in the histogram, "
+            "required for DAM CSF estimate"))
+
+    main_peak_idx = peaks[np.argmax(smoothed_hist[peaks])]
+    main_peak_val = bin_centers[main_peak_idx]
+
+    # Find the threshold symmetric to 0 with respect to the peak center
+    threshold = 2 * main_peak_val
+
+    return dam_intercept_data > threshold, dict(
+        DAMParamsFile=dam_params,
+        threshold=threshold)
+
+
+@pimms.calc("dam_pseudot1")
+@as_file(suffix='_model-dam_param-pseudot1_dwimap.nii.gz',
+         subfolder="models")
+@as_img
+def dam_pseudot1(dam_params, dam_csf):
+    """
+    Pseudo T1 map from DAM fit
+    """
+    dam_slope_data = nib.load(dam_params).get_fdata()[..., 0]
+    dam_csf_data = nib.load(dam_csf).get_fdata()
+
+    dam_slope_min = np.percentile(
+        dam_slope_data[dam_slope_data != 0], 0.5)
+    dam_slope_data[dam_slope_data < dam_slope_min] = 0
+
+    dam_slope_max = np.percentile(
+        dam_slope_data[dam_slope_data != 0], 99.5)
+    dam_slope_data[dam_slope_data > dam_slope_max] = 0
+
+    dam_slope_data[dam_slope_data != 0] = dam_slope_max - \
+        dam_slope_data[dam_slope_data != 0]
+    pseudo_t1 = (1.0 - dam_csf_data) * dam_slope_data
+
+    return pseudo_t1, dict(source=dam_params)
+
+
+@pimms.calc("dki_csf")
+@as_file(suffix='_model-dki_param-csf_probseg.nii.gz',
+         subfolder="models")
+@as_img
+def dki_csf(dki_md):
+    """
+    CSF probability map from DKI MD inspired by [1]
+
+    References
+    ----------
+    .. [1] Cheng, H., Newman, S., Afzali, M., Fadnavis, S.,
+            & Garyfallidis, E. (2020). Segmentation of the brain using
+            direction-averaged signal of DWI images. 
+            Magnetic Resonance Imaging, 69, 1-7. Elsevier. 
+            https://doi.org/10.1016/j.mri.2020.02.010
+    """
+    dki_md_data = nib.load(dki_md).get_fdata()
+    beta_values = dki_md_data.flatten()
+    beta_values = beta_values[beta_values != 0]
+
+    # Make a smoothed histogram
+    hist, bin_edges = np.histogram(beta_values, bins=200, density=True)
+    bin_centers = (bin_edges[:-1] + bin_edges[1:]) / 2
+    smoothed_hist = gaussian_filter1d(hist, sigma=2)
+
+    # Find the main peak
+    peaks, _ = find_peaks(smoothed_hist, height=0.1 * np.max(smoothed_hist))
+    if len(peaks) == 0:
+        raise ValueError((
+            "DKI MD: No peaks found in the histogram, "
+            "required for DKI CSF estimate"))
+
+    main_peak_idx = peaks[np.argmax(smoothed_hist[peaks])]
+    main_peak_val = bin_centers[main_peak_idx]
+
+    # Estimate uncertainty in peak center location
+    # The FWHM of a Gaussian is 2.355*sigma, so sigma ≈ FWHM/2.355
+    width_results = peak_widths(
+        smoothed_hist, [main_peak_idx], rel_height=0.5)
+    peak_width_md = abs(
+        bin_centers[1] - bin_centers[0]) * width_results[0][0]
+    peak_sigma = peak_width_md / 2.355
+
+    # Find the threshold symmetric to 0 with respect to the peak center
+    main_peak_val = 2 * main_peak_val
+    peak_sigma = 2 * peak_sigma
+
+    dki_md_data[dki_md_data != 0] = \
+        0.5 * (1 + erf((dki_md_data[dki_md_data != 0] - main_peak_val)
+                       / (peak_sigma * np.sqrt(2))))
+
+    return dki_md_data, dict(
+        DKI_MD_source=dki_md,
+        main_peak_val=main_peak_val,
+        peak_sigma=peak_sigma)
+
+
+@pimms.calc("dki_wm")
+@as_file(suffix='_model-dki_param-wm_probseg.nii.gz',
+         subfolder="models")
+@as_img
+def dki_wm(dki_fa, dki_wm_ll=0.1, dki_gm_ul=0.3):
+    """
+    WM probability map from DKI FA
+
+    Parameters
+    ----------
+    dki_wm_ll : float, optional
+        Lower limit of FA in white matter to calculate probability mask.
+        Default: 0.1
+    dki_gm_ul : float, optional
+        Upper limit of FA in gray matter to calculate probability mask.
+        Default: 0.3
+    """
+    dki_fa_data = nib.load(dki_fa).get_fdata()
+
+    uncertain_slice = np.logical_and(
+        dki_fa_data > dki_wm_ll,
+        dki_fa_data <= dki_gm_ul)
+    wm_data = dki_fa_data.copy()
+    wm_data[dki_fa_data >= dki_gm_ul] = 1.0
+    wm_data[uncertain_slice] = (dki_fa_data[uncertain_slice] - dki_wm_ll) /\
+        (dki_gm_ul - dki_wm_ll)
+    wm_data[dki_fa_data < dki_wm_ll] = 0.0
+
+    return wm_data, dict(
+        DKI_FA_source=dki_fa,
+        dki_wm_ll=dki_wm_ll,
+        dki_gm_ul=dki_gm_ul)
+
+
+@pimms.calc("dki_gm")
+@as_file(suffix='_model-dki_param-gm_probseg.nii.gz',
+         subfolder="models")
+@as_img
+def dki_gm(dki_fa, dki_csf, dki_wm_ll=0.1, dki_gm_ul=0.3):
+    """
+    GM probability map from DKI FA
+
+    Parameters
+    ----------
+    dki_wm_ll : float, optional
+        Lower limit of FA in white matter to calculate probability mask.
+        Default: 0.1
+    dki_gm_ul : float, optional
+        Upper limit of FA in gray matter to calculate probability mask.
+        Default: 0.3
+    """
+    dki_fa_data = nib.load(dki_fa).get_fdata()
+    dki_csf_data = nib.load(dki_csf).get_fdata()
+
+    uncertain_slice = np.logical_and(
+        dki_fa_data > dki_wm_ll,
+        dki_fa_data <= dki_gm_ul)
+    gm_data = dki_fa_data.copy()
+    gm_data[dki_fa_data >= dki_gm_ul] = 0.0
+    gm_data[uncertain_slice] = (dki_gm_ul - dki_fa_data[uncertain_slice]) /\
+        (dki_gm_ul - dki_wm_ll)
+    gm_data[np.logical_and(
+        dki_fa_data < dki_wm_ll,
+        dki_fa_data != 0)] = 1.0
+
+    gm_data = gm_data - dki_csf_data  # Remove CSF contribution
+    gm_data[gm_data < 0.0] = 0.0
+
+    return gm_data, dict(
+        DKI_FA_source=dki_fa,
+        DKI_CSF_source=dki_csf,
+        dki_wm_ll=dki_wm_ll,
+        dki_gm_ul=dki_gm_ul)
 
 
 @immlib.calc("dti_tf")
@@ -297,6 +560,110 @@ def msdki_msk(msdki_tf):
     the MSDKI mean signal kurtosis
     """
     return msdki_tf.msk
+
+
+@immlib.calc("msmtcsd_params")
+@as_file(suffix='_model-msmtcsd_param-fod_dwimap.nii.gz',
+         subfolder="models")
+@as_img
+def msmt_params(brain_mask, gtab, data,
+                dki_wm, dki_gm, dki_csf,
+                msmt_sh_order=8,
+                msmt_fa_thr=0.7):
+    """
+    full path to a nifti file containing
+    parameters for the MSMT CSD fit
+
+    Parameters
+    ----------
+    msmt_sh_order : int, optional.
+        Spherical harmonic order to use for the MSMT CSD fit.
+        Default: 8
+    msmt_fa_thr : float, optional.
+        The threshold on the FA used to calculate the multi shell auto
+        response. Can be useful to reduce for baby subjects.
+        Default: 0.7
+
+    References
+    ----------
+    .. [1] B. Jeurissen, J.-D. Tournier, T. Dhollander, A. Connelly, 
+            and J. Sijbers. Multi-tissue constrained spherical
+            deconvolution for improved analysis of multi-shell diffusion
+            MRI data. NeuroImage, 103 (2014), pp. 411–426
+    """
+    mask =\
+        nib.load(brain_mask).get_fdata()
+
+    mask_wm, mask_gm, mask_csf = mask_for_response_msmt(
+        gtab,
+        data,
+        roi_radii=10,
+        wm_fa_thr=msmt_fa_thr,
+        gm_fa_thr=0.3,
+        csf_fa_thr=0.15,
+        gm_md_thr=0.001,
+        csf_md_thr=0.0032)
+    mask_wm *= nib.load(dki_wm).get_fdata() > 0.5
+    mask_gm *= nib.load(dki_gm).get_fdata() > 0.5
+    mask_csf *= nib.load(dki_csf).get_fdata() > 0.5
+    response_wm, response_gm, response_csf = response_from_mask_msmt(
+        gtab, data, mask_wm, mask_gm, mask_csf)
+    ubvals = unique_bvals_tolerance(gtab.bvals)
+    response_mcsd = multi_shell_fiber_response(
+        msmt_sh_order,
+        ubvals,
+        response_wm,
+        response_gm,
+        response_csf)
+
+    mcsd_model = MultiShellDeconvModel(gtab, response_mcsd)
+    logger.info("Fitting Multi-Shell CSD model...")
+    mcsd_fit = msmt_fit(mcsd_model, data, mask)
+
+    meta = dict(
+        SphericalHarmonicDegree=msmt_sh_order,
+        SphericalHarmonicBasis="DESCOTEAUX")
+    return mcsd_fit.shm_coeff, meta
+
+
+@immlib.calc("msmt_apm")
+@as_file(suffix='_model-msmtcsd_param-apm_dwimap.nii.gz',
+         subfolder="models")
+@as_img
+def msmt_apm(msmtcsd_params):
+    """
+    full path to a nifti file containing
+    the anisotropic power map
+    """
+    sh_coeff = nib.load(msmtcsd_params).get_fdata()
+    pmap = anisotropic_power(sh_coeff)
+    return pmap, dict(MSMTCSDParamsFile=msmtcsd_params)
+
+
+@immlib.calc("msmt_aodf")
+@as_file(suffix='_model-msmtcsd_param-aodf_dwimap.nii.gz',
+         subfolder="models")
+@as_img
+def msmt_aodf(msmtcsd_params):
+    """
+    full path to a nifti file containing
+    MSMT CSD ODFs filtered by unified filtering [1]
+
+    References
+    ----------
+    [1] Poirier and Descoteaux, 2024, "A Unified Filtering Method for
+        Estimating Asymmetric Orientation Distribution Functions",
+        Neuroimage, https://doi.org/10.1016/j.neuroimage.2024.120516
+    """
+    sh_coeff = nib.load(msmtcsd_params).get_fdata()
+
+    aodf = unified_filtering(
+        sh_coeff,
+        get_sphere(name="repulsion724"))
+
+    return aodf, dict(
+        MSMTCSDParamsFile=msmtcsd_params,
+        Sphere="repulsion724")
 
 
 @immlib.calc("csd_params")
@@ -1011,6 +1378,42 @@ def dki_kfa(dki_tf):
     return dki_tf.kfa
 
 
+@immlib.calc("dki_cl")
+@as_file('_model-dki_param-cl_dwimap.nii.gz',
+         subfolder="models")
+@as_fit_deriv('DKI')
+def dki_cl(dki_tf):
+    """
+    full path to a nifti file containing
+    the DKI linearity file
+    """
+    return dki_tf.linearity
+
+
+@immlib.calc("dki_cp")
+@as_file('_model-dki_param-cp_dwimap.nii.gz',
+         subfolder="models")
+@as_fit_deriv('DKI')
+def dki_cp(dki_tf):
+    """
+    full path to a nifti file containing
+    the DKI planarity file
+    """
+    return dki_tf.planarity
+
+
+@immlib.calc("dki_cs")
+@as_file('_model-dki_param-cs_dwimap.nii.gz',
+         subfolder="models")
+@as_fit_deriv('DKI')
+def dki_cs(dki_tf):
+    """
+    full path to a nifti file containing
+    the DKI sphericity file
+    """
+    return dki_tf.sphericity
+
+
 @immlib.calc("dki_ga")
 @as_file(suffix='_model-dki_param-ga_dwimap.nii.gz',
          subfolder="models")
@@ -1186,8 +1589,10 @@ def get_data_plan(kwargs):
 
     data_tasks = with_name([
         get_data_gtab, b0, b0_mask, brain_mask,
+        dam_fit, dam_csf, dam_pseudot1,
         dti_fit, dki_fit, fwdti_fit, anisotropic_power_map,
         csd_anisotropic_index,
+        msmt_params, msmt_apm, msmt_aodf,
         dti_fa, dti_lt, dti_cfa, dti_pdd, dti_md, dki_kt, dki_lt, dki_fa,
         gq, gq_pmap, gq_ai, opdt_params, opdt_pmap, opdt_ai,
         csa_params, csa_pmap, csa_ai,
@@ -1196,6 +1601,8 @@ def get_data_plan(kwargs):
         dki_md, dki_awf, dki_mk, dki_kfa, dki_ga, dki_rd,
         dti_ga, dti_rd, dti_ad,
         dki_ad, dki_rk, dki_ak, dti_params, dki_params, fwdti_params,
+        dki_cl, dki_cp, dki_cs,
+        dki_csf, dki_wm, dki_gm,
         rumba_fit, rumba_params, rumba_model,
         rumba_f_csf, rumba_f_gm, rumba_f_wm,
         csd_params, get_bundle_dict])
