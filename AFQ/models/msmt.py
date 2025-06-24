@@ -19,7 +19,7 @@ __all__ = ["fit"]
 # ultimately used to fit MSMT CSD
 @njit(fastmath=True)
 def solve_qp(Rt, R_pinv, G, A, b, x0,
-             d, max_iter, tol):
+             d, max_iter, tol, use_chol):
     '''
     Solves 1/2*x^t*G*x+(Rt*d)^t*x given Ax>=b
     In MSMT, G, R, A, b are the same across voxels,
@@ -84,12 +84,14 @@ def solve_qp(Rt, R_pinv, G, A, b, x0,
 
         schur = G + A.T @ np.diag(Z) @ A
         schur += np.eye(schur.shape[0]) * shur_regularization
-        schur_diag = np.diag(schur)
-
-        # dx = cholesky_solve(schur, rhs1)
-        dx = conjugate_gradient_precond(
-            schur, rhs1, dx,
-            schur_diag, 5, 1e-4 * tol)
+        if use_chol:
+            L = np.linalg.cholesky(schur)
+            dx = cholesky_solve(L, rhs1)
+        else:
+            schur_diag = np.diag(schur)
+            dx = conjugate_gradient_precond(
+                schur, rhs1, dx,
+                schur_diag, 5, 1e-4 * tol)
         dl_aff = Z * (rhs2 - A @ dx)
         dy_aff = dy + A @ dx
 
@@ -110,10 +112,12 @@ def solve_qp(Rt, R_pinv, G, A, b, x0,
         rhs2 = -dy + (-y + safe_divide_vec(mu, l))
         rhs1 = rhs1l + A.T @ (Z * rhs2)
 
-        # dx = cholesky_solve(schur, rhs1)
-        dx = conjugate_gradient_precond(
-            schur, rhs1, dx,
-            schur_diag, max_iter, max(tol, 1e-2 * mu))
+        if use_chol:
+            dx = cholesky_solve(L, rhs1)
+        else:
+            dx = conjugate_gradient_precond(
+                schur, rhs1, dx,
+                schur_diag, max_iter, max(tol, 1e-2 * mu))
         dl = Z * (rhs2 - A @ dx)
         dy += A @ dx
 
@@ -141,6 +145,23 @@ def solve_qp(Rt, R_pinv, G, A, b, x0,
                 return False, x0
 
     return False, x0
+
+
+@njit(fastmath=True)
+def cholesky_solve(L, b):
+    n = L.shape[0]
+
+    # Forward substitution: L * y = b
+    y = np.zeros_like(b)
+    for i in range(n):
+        y[i] = (b[i] - np.dot(L[i, :i], y[:i])) / L[i, i]
+
+    # Backward substitution: L^T * x = y
+    x = np.zeros_like(b)
+    for i in range(n - 1, -1, -1):
+        x[i] = (y[i] - np.dot(L[i + 1:, i], x[i + 1:])) / L[i, i]
+
+    return x
 
 
 @njit(fastmath=True)
@@ -203,7 +224,7 @@ def find_analytic_center(A, b, x0):
 def _process_slice(slice_data, slice_mask, slice_results,
                    Rt, R_pinv,
                    G, A, b, x0,
-                   max_iter, tol):
+                   max_iter, tol, use_chol):
     for j in prange(slice_data.shape[0]):
         x_prev = x0.copy()
         for k in range(slice_data.shape[1]):
@@ -215,7 +236,7 @@ def _process_slice(slice_data, slice_mask, slice_results,
                     Rt, R_pinv, G, A, b,
                     x_prev,
                     slice_data[j, k],
-                    max_iter, tol)
+                    max_iter, tol, use_chol)
 
                 if success:
                     slice_results[j, k] = x_prev
@@ -225,7 +246,9 @@ def _process_slice(slice_data, slice_mask, slice_results,
                 slice_results[j, k] = np.zeros(A.shape[1])
 
 
-def fit(self, data, mask=None, max_iter=1e6, tol=1e-6, n_threads=None):
+def fit(self, data, mask=None, max_iter=1e6, tol=1e-6,
+        n_threads=None, use_chol=False):
+    # Note cholesky is ~50% slower but more robust
     if n_threads is not None:
         set_num_threads(n_threads)
 
@@ -267,6 +290,6 @@ def fit(self, data, mask=None, max_iter=1e6, tol=1e-6, n_threads=None):
             A,
             b,
             x0,
-            max_iter, tol)
+            max_iter, tol, use_chol)
 
     return MSDeconvFit(self, coeff, None)
