@@ -1,17 +1,13 @@
 import nibabel as nib
 import numpy as np
 import logging
-from tqdm import tqdm
 
 from dipy.io.gradients import read_bvals_bvecs
 import dipy.core.gradients as dpg
 from dipy.data import default_sphere, get_sphere
 
-from scipy.signal import find_peaks, peak_widths
-from scipy.ndimage import gaussian_filter1d
-from scipy.special import erf
-
 import immlib
+import pimms
 
 import dipy.reconst.dki as dpy_dki
 import dipy.reconst.dti as dpy_dti
@@ -21,7 +17,6 @@ from dipy.reconst.gqi import GeneralizedQSamplingModel
 from dipy.reconst.rumba import RumbaSDModel, RumbaFit
 from dipy.reconst import shm
 from dipy.reconst.dki_micro import axonal_water_fraction
-from dipy.segment.tissue import compute_directional_average
 from dipy.reconst.mcsd import (
     MultiShellDeconvModel,
     mask_for_response_msmt,
@@ -43,12 +38,14 @@ from AFQ.models.dti import noise_from_b0
 from AFQ.models.csd import _fit as csd_fit_model
 from AFQ.models.csd import CsdNanResponseError
 from AFQ.models.dki import _fit as dki_fit_model
+from AFQ.models.dki import dki_csf, dki_gm, dki_wm
 from AFQ.models.dti import _fit as dti_fit_model
 from AFQ.models.fwdti import _fit as fwdti_fit_model
 from AFQ.models.msmt import fit as msmt_fit
 from AFQ.models.QBallTP import (
     extract_odf, anisotropic_index, anisotropic_power)
 from AFQ.models.asym_filtering import unified_filtering
+from AFQ.models.dam import fit_dam, csf_dam, t1_dam
 
 
 logger = logging.getLogger('AFQ')
@@ -156,35 +153,10 @@ def dam_fit(data, gtab, masked_b0,
             Magnetic Resonance Imaging, 69, 1-7. Elsevier. 
             https://doi.org/10.1016/j.mri.2020.02.010
     """
-    # Precompute unique b-values, masks
-    unique_bvals = np.unique(gtab.bvals)
-    if len(unique_bvals) <= 2:
-        raise ValueError(("Insufficient unique b-values for fitting DAM. "
-                         "Note, DAM requires multi-shell data"))
-    masks = gtab.bvals[:, np.newaxis] == unique_bvals[np.newaxis, 1:]
-
-    b0_data = nib.load(masked_b0).get_fdata()
-
-    # If the mean signal for b=0 is too low,
-    # set those voxels to 0 for both P and V
-    valid_voxels = b0_data >= dam_low_signal_thresh
-
-    params_map = np.zeros((*data.shape[:-1], 2))
-    logger.info("Fitting directional average map (DAM)...")
-    for idx in tqdm(range(data.shape[0] * data.shape[1] * data.shape[2])):
-        i, j, k = np.unravel_index(idx, data.shape[:-1])
-        if valid_voxels[i, j, k]:
-            aa, bb = compute_directional_average(
-                data[i, j, k, :],
-                gtab.bvals,
-                masks=masks,
-                b0_mask=gtab.b0s_mask,
-                s0_map=b0_data[i, j, k],
-                low_signal_threshold=dam_low_signal_thresh,
-            )
-            if aa > 0.01 and bb < 0:
-                params_map[i, j, k, 0] = aa
-                params_map[i, j, k, 1] = -bb
+    b0_img = nib.load(masked_b0)
+    params_map = fit_dam(
+        data, gtab, b0_img,
+        dam_low_signal_thresh=dam_low_signal_thresh)
 
     return params_map, dict(low_signal_thresh=dam_low_signal_thresh)
 
@@ -198,28 +170,9 @@ def dam_csf(dam_params):
     CSF probability map from DAM intercept
     """
     dam_intercept_data = nib.load(dam_params).get_fdata()[..., 1]
-    beta_values = dam_intercept_data.flatten()
-    beta_values = beta_values[beta_values != 0]
+    csf, threshold = csf_dam(dam_intercept_data)
 
-    # Make a smoothed histogram
-    hist, bin_edges = np.histogram(beta_values, bins=200, density=True)
-    bin_centers = (bin_edges[:-1] + bin_edges[1:]) / 2
-    smoothed_hist = gaussian_filter1d(hist, sigma=2)
-
-    # Find the main peak
-    peaks, _ = find_peaks(smoothed_hist, height=0.1 * np.max(smoothed_hist))
-    if len(peaks) == 0:
-        raise ValueError((
-            "DAM intercept: No peaks found in the histogram, "
-            "required for DAM CSF estimate"))
-
-    main_peak_idx = peaks[np.argmax(smoothed_hist[peaks])]
-    main_peak_val = bin_centers[main_peak_idx]
-
-    # Find the threshold symmetric to 0 with respect to the peak center
-    threshold = 2 * main_peak_val
-
-    return dam_intercept_data > threshold, dict(
+    return csf, dict(
         DAMParamsFile=dam_params,
         threshold=threshold)
 
@@ -235,17 +188,7 @@ def dam_pseudot1(dam_params, dam_csf):
     dam_slope_data = nib.load(dam_params).get_fdata()[..., 0]
     dam_csf_data = nib.load(dam_csf).get_fdata()
 
-    dam_slope_min = np.percentile(
-        dam_slope_data[dam_slope_data != 0], 0.5)
-    dam_slope_data[dam_slope_data < dam_slope_min] = 0
-
-    dam_slope_max = np.percentile(
-        dam_slope_data[dam_slope_data != 0], 99.5)
-    dam_slope_data[dam_slope_data > dam_slope_max] = 0
-
-    dam_slope_data[dam_slope_data != 0] = dam_slope_max - \
-        dam_slope_data[dam_slope_data != 0]
-    pseudo_t1 = (1.0 - dam_csf_data) * dam_slope_data
+    pseudo_t1 = t1_dam(dam_slope_data, dam_csf_data)
 
     return pseudo_t1, dict(source=dam_params)
 
@@ -267,39 +210,8 @@ def dki_csf(dki_md):
             https://doi.org/10.1016/j.mri.2020.02.010
     """
     dki_md_data = nib.load(dki_md).get_fdata()
-    beta_values = dki_md_data.flatten()
-    beta_values = beta_values[beta_values != 0]
 
-    # Make a smoothed histogram
-    hist, bin_edges = np.histogram(beta_values, bins=200, density=True)
-    bin_centers = (bin_edges[:-1] + bin_edges[1:]) / 2
-    smoothed_hist = gaussian_filter1d(hist, sigma=2)
-
-    # Find the main peak
-    peaks, _ = find_peaks(smoothed_hist, height=0.1 * np.max(smoothed_hist))
-    if len(peaks) == 0:
-        raise ValueError((
-            "DKI MD: No peaks found in the histogram, "
-            "required for DKI CSF estimate"))
-
-    main_peak_idx = peaks[np.argmax(smoothed_hist[peaks])]
-    main_peak_val = bin_centers[main_peak_idx]
-
-    # Estimate uncertainty in peak center location
-    # The FWHM of a Gaussian is 2.355*sigma, so sigma ≈ FWHM/2.355
-    width_results = peak_widths(
-        smoothed_hist, [main_peak_idx], rel_height=0.5)
-    peak_width_md = abs(
-        bin_centers[1] - bin_centers[0]) * width_results[0][0]
-    peak_sigma = peak_width_md / 2.355
-
-    # Find the threshold symmetric to 0 with respect to the peak center
-    main_peak_val = 2 * main_peak_val
-    peak_sigma = 2 * peak_sigma
-
-    dki_md_data[dki_md_data != 0] = \
-        0.5 * (1 + erf((dki_md_data[dki_md_data != 0] - main_peak_val)
-                       / (peak_sigma * np.sqrt(2))))
+    dki_md_data, main_peak_val, peak_sigma = dki_csf(dki_md_data)
 
     return dki_md_data, dict(
         DKI_MD_source=dki_md,
@@ -326,14 +238,7 @@ def dki_wm(dki_fa, dki_wm_ll=0.1, dki_gm_ul=0.3):
     """
     dki_fa_data = nib.load(dki_fa).get_fdata()
 
-    uncertain_slice = np.logical_and(
-        dki_fa_data > dki_wm_ll,
-        dki_fa_data <= dki_gm_ul)
-    wm_data = dki_fa_data.copy()
-    wm_data[dki_fa_data >= dki_gm_ul] = 1.0
-    wm_data[uncertain_slice] = (dki_fa_data[uncertain_slice] - dki_wm_ll) /\
-        (dki_gm_ul - dki_wm_ll)
-    wm_data[dki_fa_data < dki_wm_ll] = 0.0
+    wm_data = dki_wm(dki_fa_data, dki_wm_ll, dki_gm_ul)
 
     return wm_data, dict(
         DKI_FA_source=dki_fa,
@@ -361,19 +266,7 @@ def dki_gm(dki_fa, dki_csf, dki_wm_ll=0.1, dki_gm_ul=0.3):
     dki_fa_data = nib.load(dki_fa).get_fdata()
     dki_csf_data = nib.load(dki_csf).get_fdata()
 
-    uncertain_slice = np.logical_and(
-        dki_fa_data > dki_wm_ll,
-        dki_fa_data <= dki_gm_ul)
-    gm_data = dki_fa_data.copy()
-    gm_data[dki_fa_data >= dki_gm_ul] = 0.0
-    gm_data[uncertain_slice] = (dki_gm_ul - dki_fa_data[uncertain_slice]) /\
-        (dki_gm_ul - dki_wm_ll)
-    gm_data[np.logical_and(
-        dki_fa_data < dki_wm_ll,
-        dki_fa_data != 0)] = 1.0
-
-    gm_data = gm_data - dki_csf_data  # Remove CSF contribution
-    gm_data[gm_data < 0.0] = 0.0
+    gm_data = dki_gm(dki_fa_data, dki_csf_data, dki_wm_ll, dki_gm_ul)
 
     return gm_data, dict(
         DKI_FA_source=dki_fa,

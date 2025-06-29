@@ -307,6 +307,14 @@ class GroupAFQ(object):
                 bval_file = bids_layout.get_bval(
                     dwi_data_file,
                     **bids_filters)
+                t1_files = bids_layout.get(suffix="T1w", **bids_filters)
+                if (not len(t1_files)):
+                    self.logger.warning(
+                        f"No T1w found for subject {subject} and session "
+                        f"{session}. Skipping.")
+                    continue
+                t1_file = t1_files[0]
+
                 if suffix is not None:
                     bids_filters["suffix"] = suffix
 
@@ -386,12 +394,14 @@ class GroupAFQ(object):
                 this_pAFQ_inputs = _ParticipantAFQInputs(
                     dwi_data_file,
                     bval_file, bvec_file,
+                    t1_file,
                     results_dir,
                     this_kwargs)
                 this_pAFQ = ParticipantAFQ(
                     this_pAFQ_inputs.dwi_data_file,
                     this_pAFQ_inputs.bval_file,
                     this_pAFQ_inputs.bvec_file,
+                    this_pAFQ_inputs.t1_file,
                     this_pAFQ_inputs.results_dir,
                     **this_pAFQ_inputs.kwargs)
                 self.plans_dict[subject][str(session)] = this_pAFQ.plans_dict

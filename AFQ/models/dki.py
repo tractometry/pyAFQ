@@ -4,6 +4,10 @@ import os.path as op
 import numpy as np
 import nibabel as nib
 
+from scipy.signal import find_peaks, peak_widths
+from scipy.special import erf
+from scipy.ndimage import gaussian_filter1d
+
 from dipy.reconst import dki
 from dipy.reconst import dki_micro
 from dipy.core.ndindex import ndindex
@@ -354,3 +358,112 @@ def predict(params_file, gtab, S0_file=None, out_dir=None):
     nib.save(nib.Nifti1Image(pred, img.affine), fname)
 
     return fname
+
+
+def dki_csf(dki_md_data):
+    """
+    CSF probability map from DKI MD inspired by [1]
+
+    References
+    ----------
+    .. [1] Cheng, H., Newman, S., Afzali, M., Fadnavis, S.,
+            & Garyfallidis, E. (2020). Segmentation of the brain using
+            direction-averaged signal of DWI images. 
+            Magnetic Resonance Imaging, 69, 1-7. Elsevier. 
+            https://doi.org/10.1016/j.mri.2020.02.010
+    """
+
+    beta_values = dki_md_data.flatten()
+    beta_values = beta_values[beta_values != 0]
+
+    # Make a smoothed histogram
+    hist, bin_edges = np.histogram(beta_values, bins=200, density=True)
+    bin_centers = (bin_edges[:-1] + bin_edges[1:]) / 2
+    smoothed_hist = gaussian_filter1d(hist, sigma=2)
+
+    # Find the main peak
+    peaks, _ = find_peaks(smoothed_hist, height=0.1 * np.max(smoothed_hist))
+    if len(peaks) == 0:
+        raise ValueError((
+            "DKI MD: No peaks found in the histogram, "
+            "required for DKI CSF estimate"))
+
+    main_peak_idx = peaks[np.argmax(smoothed_hist[peaks])]
+    main_peak_val = bin_centers[main_peak_idx]
+
+    # Estimate uncertainty in peak center location
+    # The FWHM of a Gaussian is 2.355*sigma, so sigma ≈ FWHM/2.355
+    width_results = peak_widths(
+        smoothed_hist, [main_peak_idx], rel_height=0.5)
+    peak_width_md = abs(
+        bin_centers[1] - bin_centers[0]) * width_results[0][0]
+    peak_sigma = peak_width_md / 2.355
+
+    # Find the threshold symmetric to 0 with respect to the peak center
+    main_peak_val = 2 * main_peak_val
+    peak_sigma = 2 * peak_sigma
+
+    dki_md_data[dki_md_data != 0] = \
+        0.5 * (1 + erf((dki_md_data[dki_md_data != 0] - main_peak_val)
+                       / (peak_sigma * np.sqrt(2))))
+
+    return dki_md_data, main_peak_val, peak_sigma
+
+
+def dki_wm(dki_fa_data, dki_wm_ll, dki_gm_ul):
+    """
+    WM probability map from DKI FA
+
+    Parameters
+    ----------
+    dki_fa_data : ndarray
+        DKI FA data from which to calculate the WM probability map.
+    dki_wm_ll : float
+        Lower limit of FA in white matter to calculate probability mask.
+    dki_gm_ul : float
+        Upper limit of FA in gray matter to calculate probability mask.
+    """
+
+    uncertain_slice = np.logical_and(
+        dki_fa_data > dki_wm_ll,
+        dki_fa_data <= dki_gm_ul)
+    wm_data = dki_fa_data.copy()
+    wm_data[dki_fa_data >= dki_gm_ul] = 1.0
+    wm_data[uncertain_slice] = (dki_fa_data[uncertain_slice] - dki_wm_ll) /\
+        (dki_gm_ul - dki_wm_ll)
+    wm_data[dki_fa_data < dki_wm_ll] = 0.0
+
+    return wm_data
+
+
+def dki_gm(dki_fa_data, dki_csf_data, dki_wm_ll, dki_gm_ul):
+    """
+    GM probability map from DKI FA
+
+    Parameters
+    ----------
+    dki_fa_data : ndarray
+        DKI FA data from which to calculate the GM probability map.
+    dki_csf_data : ndarray
+        DKI CSF data to remove CSF contribution from GM probability map.
+    dki_wm_ll : float
+        Lower limit of FA in white matter to calculate probability mask.
+    dki_gm_ul : float
+        Upper limit of FA in gray matter to calculate probability mask.
+    """
+
+    uncertain_slice = np.logical_and(
+        dki_fa_data > dki_wm_ll,
+        dki_fa_data <= dki_gm_ul)
+    gm_data = dki_fa_data.copy()
+    gm_data[dki_fa_data >= dki_gm_ul] = 0.0
+    gm_data[uncertain_slice] = (dki_gm_ul - dki_fa_data[uncertain_slice]) /\
+        (dki_gm_ul - dki_wm_ll)
+    gm_data[np.logical_and(
+        dki_fa_data < dki_wm_ll,
+        dki_fa_data != 0)] = 1.0
+
+    gm_data = gm_data - dki_csf_data  # Remove CSF contribution
+    gm_data[gm_data < 0.0] = 0.0
+
+    return gm_data
