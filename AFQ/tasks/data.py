@@ -629,7 +629,7 @@ def msmt_apm(msmtcsd_params):
     return pmap, dict(MSMTCSDParamsFile=msmtcsd_params)
 
 
-@pimms.calc("msmt_aodf")
+@pimms.calc("msmt_aodf_params")
 @as_file(suffix='_model-msmtcsd_param-aodf_dwimap.nii.gz',
          subfolder="models")
 @as_img
@@ -646,6 +646,7 @@ def msmt_aodf(msmtcsd_params):
     """
     sh_coeff = nib.load(msmtcsd_params).get_fdata()
 
+    logger.info("Applying unified filtering to MSMT CSD ODFs...")
     aodf = unified_filtering(
         sh_coeff,
         get_sphere(name="repulsion724"))
