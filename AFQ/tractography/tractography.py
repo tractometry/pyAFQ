@@ -13,6 +13,7 @@ from dipy.io.stateful_tractogram import StatefulTractogram, Space
 from dipy.tracking.stopping_criterion import (ThresholdStoppingCriterion,
                                               CmcStoppingCriterion,
                                               ActStoppingCriterion)
+from dipy.reconst import shm
 
 from nibabel.streamlines.tractogram import LazyTractogram
 
@@ -174,6 +175,16 @@ def track(params_file, directions="prob", max_angle=30., sphere=None,
             from_lower_triangular(model_params))
         odf = tensor_odf(evals, evecs, sphere)
         dg = dg.from_pmf(odf, max_angle=max_angle, sphere=sphere)
+    elif "AODF" in odf_model:
+        sh_order = shm.order_from_ncoef(
+            model_params.shape[3], full_basis=True)
+        pmf = shm.sh_to_sf(
+            model_params, sphere,
+            sh_order_max=sh_order, full_basis=True)
+        pmf[pmf < 0] = 0
+        dg = dg.from_pmf(
+            np.asarray(pmf, dtype=float),
+            max_angle=max_angle, sphere=sphere)
     else:
         dg = dg.from_shcoeff(model_params, max_angle=max_angle, sphere=sphere,
                              basis_type=basis_type, legacy=legacy)

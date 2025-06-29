@@ -4,11 +4,16 @@
 # Licensed under the MIT License (https://opensource.org/licenses/MIT).
 # Modified by John Kruper for pyAFQ
 # OpenCL and cosine filtering removed
+# Replaced with numba
 
 import numpy as np
-import logging
+from numba import njit, prange, config
+from tqdm import tqdm
 from dipy.reconst.shm import sh_to_sf_matrix
 from dipy.data import get_sphere
+
+
+config.THREADING_LAYER = 'workqueue'
 
 
 __all__ = ["unified_filtering"]
@@ -102,15 +107,14 @@ def unified_filtering(sh_data, sphere,
     # overwrite half-width if win_hwidth is supplied
     if win_hwidth is not None:
         half_width = win_hwidth
-
-    # filter shape computed from half_width
     filter_shape = (half_width * 2 + 1, half_width * 2 + 1, half_width * 2 + 1)
 
     # build filters
-    uv_filter = _unified_filter_build_uv(sigma_angle, sphere)
-    nx_filter = _unified_filter_build_nx(filter_shape, sigma_spatial,
-                                         sigma_align, sphere, exclude_center)
-
+    uv_filter = _unified_filter_build_uv(sigma_angle,
+                                         sphere.vertices.astype(np.float64))
+    nx_filter = _unified_filter_build_nx(sphere.vertices.astype(np.float64),
+                                         sigma_spatial, sigma_align,
+                                         False, False)
     B = sh_to_sf_matrix(sphere, sh_order, sh_basis, full_basis,
                         legacy=is_legacy, return_inv=False)
     _, B_inv = sh_to_sf_matrix(sphere, sh_order, sh_basis, True,
@@ -124,11 +128,13 @@ def unified_filtering(sh_data, sphere,
             raise ValueError('sigma_rangel cannot be <= 0.')
         sigma_range = rel_sigma_range * _get_sf_range(sh_data, B)
 
-    return _unified_filter_call_python(sh_data, nx_filter, uv_filter,
-                                       sigma_range, B, B_inv, sphere)
+    return _unified_filter_call_python(
+        sh_data, nx_filter, uv_filter,
+        sigma_range, B, B_inv, sphere)
 
 
-def _unified_filter_build_uv(sigma_angle, sphere):
+@njit(fastmath=True, cache=True)
+def _unified_filter_build_uv(sigma_angle, directions):
     """
     Build the angle filter, weighted on angle between current direction u
     and neighbour direction v.
@@ -138,15 +144,14 @@ def _unified_filter_build_uv(sigma_angle, sphere):
     sigma_angle: float
         Standard deviation of filter. Values at distances greater than
         sigma_angle are clipped to 0 to reduce computation time.
-    sphere: DIPY sphere
-        Sphere used for sampling the SF.
+    directions: DIPY sphere directions.
+        Vertices from DIPY sphere for sampling the SF.
 
     Returns
     -------
     weights: ndarray
         Angle filter of shape (N_dirs, N_dirs).
     """
-    directions = sphere.vertices
     if sigma_angle is not None:
         dot = directions.dot(directions.T)
         x = np.arccos(np.clip(dot, -1.0, 1.0))
@@ -159,65 +164,58 @@ def _unified_filter_build_uv(sigma_angle, sphere):
     return weights
 
 
-def _unified_filter_build_nx(filter_shape, sigma_spatial, sigma_align,
-                             sphere, exclude_center):
+@njit(fastmath=True, cache=True)
+def _unified_filter_build_nx(directions, sigma_spatial, sigma_align,
+                             disable_spatial,
+                             disable_align, j_invariance=False):
     """
-    Build the combined spatial and alignment filter.
-
-    Parameters
-    ----------
-    filter_shape: tuple
-        Dimensions of filtering window.
-    sigma_spatial: float or None
-        Standard deviation of spatial filter. None disables Gaussian
-        weighting for spatial filtering.
-    sigma_align: float or None
-        Standard deviation of the alignment filter. None disables Gaussian
-        weighting for alignment filtering.
-    sphere: DIPY sphere
-        Sphere for SH to SF projection.
-    exclude_center: bool
-        Whether the center voxel is included in the neighbourhood.
-
-    Returns
-    -------
-    weights: ndarray
-        Combined spatial + alignment filter of shape (W, H, D, N) where
-        N is the number of sphere directions.
+    Original source: github.com/CHrlS98/aodf-toolkit
+    Copyright (c) 2023 Charles Poirier
+    Licensed under the MIT License (https://opensource.org/licenses/MIT).
     """
-    directions = sphere.vertices.astype(np.float32)
+    directions = np.ascontiguousarray(directions.astype(np.float32))
 
-    grid_directions = _get_window_directions(filter_shape).astype(np.float32)
-    distances = np.linalg.norm(grid_directions, axis=-1)
-    grid_directions[distances > 0] = grid_directions[distances > 0] /\
-        distances[distances > 0][..., None]
+    half_width = int(round(3 * sigma_spatial))
+    nx_weights = np.zeros((2 * half_width + 1, 2 * half_width + 1,
+                           2 * half_width + 1, len(directions)),
+                          dtype=np.float32)
 
-    if sigma_spatial is None:
-        w_spatial = np.ones(filter_shape)
-    else:
-        w_spatial = _evaluate_gaussian_distribution(distances, sigma_spatial)
+    for i in range(-half_width, half_width + 1):
+        for j in range(-half_width, half_width + 1):
+            for k in range(-half_width, half_width + 1):
+                dxy = np.array([[i, j, k]], dtype=np.float32)
+                len_xy = np.sqrt(dxy[0, 0]**2 + dxy[0, 1]**2 + dxy[0, 2]**2)
 
-    if sigma_align is None:
-        w_align = np.ones(np.append(filter_shape, (len(directions),)))
-    else:
-        cos_theta = np.clip(grid_directions.dot(directions.T), -1.0, 1.0)
-        theta = np.arccos(cos_theta)
-        theta[filter_shape[0] // 2,
-              filter_shape[1] // 2,
-              filter_shape[2] // 2] = 0.0
-        w_align = _evaluate_gaussian_distribution(theta, sigma_align)
+                if disable_spatial:
+                    w_spatial = 1.0
+                else:
+                    # the length controls spatial weight
+                    w_spatial = np.exp(-len_xy**2 / (2 * sigma_spatial**2))
 
-    # resulting filter
-    w = w_spatial[..., None] * w_align
+                # the direction controls the align weight
+                if i == j == k == 0 or disable_align:
+                    # hack for main direction to have maximal weight
+                    # w_align = np.ones((1, len(directions)), dtype=np.float32)
+                    w_align = np.zeros((1, len(directions)), dtype=np.float32)
+                else:
+                    dxy /= len_xy
+                    w_align = np.arccos(np.clip(np.dot(dxy, directions.T),
+                                                -1.0, 1.0))  # 1, N
+                w_align = np.exp(-w_align**2 / (2 * sigma_align**2))
 
-    if exclude_center:
-        w[filter_shape[0] // 2,
-          filter_shape[1] // 2,
-          filter_shape[2] // 2] = 0.0
+                nx_weights[half_width + i, half_width + j, half_width + k] =\
+                    w_align * w_spatial
 
-    # normalize and return
-    w /= np.sum(w, axis=(0, 1, 2), keepdims=True)
-    return w
+    if j_invariance:
+        # A filter is j-invariant if its prediction does not
+        # depend on the content of the current voxel
+        nx_weights[half_width, half_width, half_width, :] = 0.0
+
+    for ui in range(len(directions)):
+        w_sum = np.sum(nx_weights[..., ui])
+        nx_weights /= w_sum
+
+    return nx_weights
 
 
 def _get_sf_range(sh_data, B_mat):
@@ -273,13 +271,22 @@ def _unified_filter_call_python(sh_data, nx_filter, uv_filter, sigma_range,
     """
     nb_sf = len(sphere.vertices)
     mean_sf = np.zeros(sh_data.shape[:-1] + (nb_sf,))
+    sh_data = np.ascontiguousarray(sh_data, dtype=np.float64)
+    B_mat = np.ascontiguousarray(B_mat, dtype=np.float64)
+
+    h_w, h_h, h_d = nx_filter.shape[:3]
+    half_w, half_h, half_d = h_w // 2, h_h // 2, h_d // 2
+    sh_data_padded = np.ascontiguousarray(np.pad(
+        sh_data,
+        ((half_w, half_w), (half_h, half_h), (half_d, half_d), (0, 0)),
+        mode='constant'
+    ), dtype=np.float64)
 
     # Apply filter to each sphere vertice
-    for u_sph_id in range(nb_sf):
-        if u_sph_id % 20 == 0:
-            logging.info('Processing direction: {}/{}'
-                         .format(u_sph_id, nb_sf))
-        mean_sf[..., u_sph_id] = _correlate(sh_data, nx_filter, uv_filter,
+    for u_sph_id in tqdm(range(nb_sf)):
+
+        mean_sf[..., u_sph_id] = _correlate(sh_data, sh_data_padded,
+                                            nx_filter, uv_filter,
                                             sigma_range, u_sph_id, B_mat)
 
     out_sh = np.array([np.dot(i, B_inv) for i in mean_sf],
@@ -287,7 +294,9 @@ def _unified_filter_call_python(sh_data, nx_filter, uv_filter, sigma_range,
     return out_sh
 
 
-def _correlate(sh_data, nx_filter, uv_filter, sigma_range, u_index, B_mat):
+@njit(fastmath=True, parallel=True)
+def _correlate(sh_data, sh_data_padded, nx_filter, uv_filter,
+               sigma_range, u_index, B_mat):
     """
     Apply the filters to the SH image for the sphere direction
     described by `u_index`.
@@ -296,6 +305,8 @@ def _correlate(sh_data, nx_filter, uv_filter, sigma_range, u_index, B_mat):
     ----------
     sh_data: ndarray
         Input SH coefficients.
+    sh_data: ndarray
+        Input SH coefficients, pre-padded.
     nx_filter: ndarray
         Combined spatial and alignment filter.
     uv_filter: ndarray
@@ -317,25 +328,35 @@ def _correlate(sh_data, nx_filter, uv_filter, sigma_range, u_index, B_mat):
     h_w, h_h, h_d = nx_filter.shape[:3]
     half_w, half_h, half_d = h_w // 2, h_h // 2, h_d // 2
     out_sf = np.zeros(sh_data.shape[:3])
-    sh_data = np.pad(sh_data, ((half_w, half_w),
-                               (half_h, half_h),
-                               (half_d, half_d),
-                               (0, 0)))
 
-    sf_u = np.dot(sh_data, B_mat[:, u_index])
-    sf_v = np.dot(sh_data, B_mat[:, v_indices])
+    # sf_u = np.dot(sh_data, B_mat[:, u_index])
+    # sf_v = np.dot(sh_data, B_mat[:, v_indices])
+    sf_u = np.zeros(sh_data_padded.shape[:3])
+    sf_v = np.zeros(sh_data_padded.shape[:3] + (len(v_indices),))
+    for i in prange(sh_data_padded.shape[0]):
+        for j in range(sh_data_padded.shape[1]):
+            for k in range(sh_data_padded.shape[2]):
+                for c in range(sh_data_padded.shape[3]):
+                    sf_u[i, j, k] += sh_data_padded[i,
+                                                    j, k, c] * B_mat[c, u_index]
+                    for vi in range(len(v_indices)):
+                        sf_v[i, j, k, vi] += sh_data_padded[i,
+                                                            j, k, c] * B_mat[c, v_indices[vi]]
+
     uv_filter = uv_filter[u_index, v_indices]
 
-    _get_range = _evaluate_gaussian_distribution\
-        if sigma_range is not None else lambda x, _: np.ones_like(x)
-
-    for ii in range(out_sf.shape[0]):
+    for ii in prange(out_sf.shape[0]):
         for jj in range(out_sf.shape[1]):
             for kk in range(out_sf.shape[2]):
                 a = sf_v[ii:ii + h_w, jj:jj + h_h, kk:kk + h_d]
                 b = sf_u[ii + half_w, jj + half_h, kk + half_d]
                 x_range = a - b
-                range_filter = _get_range(x_range, sigma_range)
+
+                if sigma_range is None:
+                    range_filter = np.ones_like(x_range)
+                else:
+                    range_filter = _evaluate_gaussian_distribution(
+                        x_range, sigma_range)
 
                 # the resulting filter for the current voxel and v_index
                 res_filter = range_filter * nx_filter[..., None]
@@ -349,6 +370,7 @@ def _correlate(sh_data, nx_filter, uv_filter, sigma_range, u_index, B_mat):
     return out_sf
 
 
+@njit(fastmath=True, cache=True)
 def _evaluate_gaussian_distribution(x, sigma):
     """
     1-dimensional 0-centered Gaussian distribution
@@ -366,28 +388,7 @@ def _evaluate_gaussian_distribution(x, sigma):
     out: ndarray or float
         Values at x.
     """
-    assert sigma > 0.0, "Sigma must be greater than 0."
+    if sigma <= 0.0:
+        raise ValueError("Sigma must be greater than 0.")
     cnorm = 1.0 / sigma / np.sqrt(2.0 * np.pi)
-    return cnorm * np.exp(-x**2 / 2 / sigma**2)
-
-
-def _get_window_directions(shape):
-    """
-    Get directions from center voxel to all neighbours
-    for a window of given shape.
-
-    Parameters
-    ----------
-    shape: tuple
-        Dimensions of the window.
-
-    Returns
-    -------
-    grid: ndarray
-        Grid containing the direction from the center voxel to
-        the current position for all positions inside the window.
-    """
-    grid = np.indices(shape)
-    grid = np.moveaxis(grid, 0, -1)
-    grid = grid - np.asarray(shape) // 2
-    return grid
+    return cnorm * np.exp(-x**2 / 2.0 / sigma**2)

@@ -22,10 +22,15 @@ import AFQ.recognition.curvature as abv
 import AFQ.recognition.roi as abr
 import AFQ.recognition.other_bundles as abo
 
-bundle_criterion_order = [
+criteria_order_pre_other_bundles = [
     "prob_map", "cross_midline", "start", "end",
     "length", "primary_axis", "include", "exclude",
-    "curvature", "recobundles", "qb_thresh"]
+    "curvature", "recobundles"]
+
+
+criteria_order_post_other_bundles = [
+    "isolation_forest", "qb_thresh"]
+
 
 valid_noncriterion = [
     "space", "mahal", "primary_axis_percentage",
@@ -306,6 +311,20 @@ def clean_by_other_bundle(b_sls, bundle_def,
     b_sls.select(cleaned_idx, other_bundle_name)
 
 
+def isolation_forest(b_sls, bundle_def, parallel_segmentation, **kwargs):
+    b_sls.initiate_selection("isolation_forest")
+    if parallel_segmentation["engine"] == "serial":
+        n_jobs = None
+    else:
+        n_jobs = parallel_segmentation.get("n_jobs", -1)
+    accept_idx = abc.clean_by_isolation_forest(
+        b_sls.get_selected_sls(),
+        percent_outlier_thresh=bundle_def["isolation_forest"].get(
+            "percent_outlier_thresh", 25),
+        n_jobs=n_jobs)
+    b_sls.select(accept_idx, "isolation_forest")
+
+
 def mahalanobis(b_sls, bundle_def, clip_edges, cleaning_params, **kwargs):
     b_sls.initiate_selection("Mahalanobis")
     clean_params = bundle_def.get("mahal", {})
@@ -378,18 +397,20 @@ def run_bundle_rec_plan(
         inputs[key] = value
 
     for potential_criterion in bundle_def.keys():
-        if (potential_criterion not in bundle_criterion_order) and\
-            (potential_criterion not in bundle_dict.bundle_names) and\
+        if (potential_criterion not in criteria_order_post_other_bundles) and\
+            (potential_criterion not in criteria_order_pre_other_bundles) and\
+                (potential_criterion not in bundle_dict.bundle_names) and\
                 (potential_criterion not in valid_noncriterion):
             raise ValueError((
                 "Invalid criterion in bundle definition:\n"
                 f"{potential_criterion} in bundle {bundle_name}.\n"
                 "Valid criteria are:\n"
-                f"{bundle_criterion_order}\n"
+                f"{criteria_order_pre_other_bundles}\n"
+                f"{criteria_order_post_other_bundles}\n"
                 f"{bundle_dict.bundle_names}\n"
                 f"{valid_noncriterion}\n"))
 
-    for criterion in bundle_criterion_order:
+    for criterion in criteria_order_pre_other_bundles:
         if b_sls and criterion in bundle_def:
             inputs[criterion] = globals()[criterion](**inputs)
     if b_sls:
@@ -400,8 +421,12 @@ def run_bundle_rec_plan(
                     **inputs,
                     other_bundle_name=bundle_name,
                     other_bundle_sls=tg.streamlines[idx])
+    for criterion in criteria_order_post_other_bundles:
+        if b_sls and criterion in bundle_def:
+            inputs[criterion] = globals()[criterion](**inputs)
     if b_sls:
-        mahalanobis(**inputs)
+        if "mahal" in bundle_def or "isolation_forest" not in bundle_def:
+            mahalanobis(**inputs)
 
     if b_sls and not b_sls.oriented_yet:
         raise ValueError(
