@@ -35,6 +35,7 @@ class ParticipantAFQ(object):
     def __init__(self,
                  dwi_data_file,
                  bval_file, bvec_file,
+                 t1_file,
                  output_dir,
                  **kwargs):
         """
@@ -48,6 +49,9 @@ class ParticipantAFQ(object):
             Path to bval file.
         bvec_file : str
             Path to bvec file.
+        t1_file : str
+            Path to T1-weighted image file. Must already be registered
+            to the DWI data.
         output_dir : str
             Path to output directory.
         kwargs : additional optional parameters
@@ -99,6 +103,7 @@ class ParticipantAFQ(object):
             dwi_data_file=dwi_data_file,
             bval_file=bval_file,
             bvec_file=bvec_file,
+            t1_file=t1_file,
             output_dir=output_dir,
             base_fname=get_base_fname(output_dir, dwi_data_file),
             **kwargs)
