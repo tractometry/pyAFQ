@@ -267,6 +267,10 @@ def _fit(self, data, mask=None, max_iter=1e6, tol=1e-6,
     if n_cpus is None:
         n_cpus = multiprocessing.cpu_count() - 1
 
+    og_data_shape = data.shape
+    if len(data.shape) < 4:
+        data = data.reshape((1,) * (4 - data.ndim) + data.shape)
+
     m, n = self.fitter._reg.shape
     coeff = np.zeros((*data.shape[:3], n), dtype=np.float64)
     if mask is None:
@@ -281,7 +285,6 @@ def _fit(self, data, mask=None, max_iter=1e6, tol=1e-6,
         A[i] /= np.linalg.norm(A[i])
 
     Q = R.T @ R
-    # Q += 1e-1 * np.eye(n)  # Strong Regularization # TODO
     x0 = np.linalg.pinv(A) @ np.ones(A.shape[0])
     x0 = find_analytic_center(A, b, x0)
 
@@ -343,6 +346,7 @@ def _fit(self, data, mask=None, max_iter=1e6, tol=1e-6,
                 x0,
                 max_iter, tol, use_chol)
 
+    coeff = coeff.reshape(og_data_shape[:-1] + (n,))
     return MSDeconvFit(self, coeff, None)
 
 
