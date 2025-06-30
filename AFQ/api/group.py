@@ -60,11 +60,13 @@ def clean_pandas_df(df):
 
 class _ParticipantAFQInputs:
     def __init__(
-            self, dwi_data_file, bval_file, bvec_file, results_dir,
+            self, dwi_data_file, bval_file, bvec_file,
+            t1_file, results_dir,
             kwargs):
         self.dwi_data_file = dwi_data_file
         self.bval_file = bval_file
         self.bvec_file = bvec_file
+        self.t1_file = t1_file
         self.results_dir = results_dir
         self.kwargs = kwargs
 
@@ -314,6 +316,14 @@ class GroupAFQ(object):
                         f"{session}. Skipping.")
                     continue
                 t1_file = t1_files[0]
+
+                self.logger.info(
+                    f"Using the following files for subject {subject} "
+                    f"and session {session}:")
+                self.logger.info(f"  DWI: {dwi_data_file}")
+                self.logger.info(f"  BVAL: {bval_file}")
+                self.logger.info(f"  BVEC: {bvec_file}")
+                self.logger.info(f"  T1: {t1_file}")
 
                 if suffix is not None:
                     bids_filters["suffix"] = suffix
