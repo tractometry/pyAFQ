@@ -69,7 +69,7 @@ def clean_by_orientation(streamlines, primary_axis, affine, tol=None):
 
 def clean_bundle(tg, n_points=100, clean_rounds=5, distance_threshold=3,
                  length_threshold=4, min_sl=20, stat='mean',
-                 return_idx=False):
+                 core_only=True, return_idx=False):
     """
     Clean a segmented fiber group based on the Mahalnobis distance of
     each streamline
@@ -97,6 +97,13 @@ def clean_bundle(tg, n_points=100, clean_rounds=5, distance_threshold=3,
     stat : callable or str, optional.
         The statistic of each node relative to which the Mahalanobis is
         calculated. Default: `np.mean` (but can also use median, etc.)
+    core_only : bool, optional
+        If True, only the core of the bundle is used for cleaning.
+        The core is defined as the middle 60% of each streamline.
+        This means streamlines are allowed to deviate in the starting
+        and ending 20% of the bundle. This is useful for allowing more
+        diverse endpoints.
+        Default: True.
     return_idx : bool
         Whether to return indices in the original streamlines.
         Default: False.
@@ -127,6 +134,8 @@ def clean_bundle(tg, n_points=100, clean_rounds=5, distance_threshold=3,
 
     # Resample once up-front:
     fgarray = np.asarray(abu.resample_tg(streamlines, n_points))
+    if core_only:
+        fgarray = fgarray[:, 20:80, :]  # Crop to middle 60%
 
     # Keep this around, so you can use it for indexing at the very end:
     idx = np.arange(len(fgarray))
@@ -238,11 +247,17 @@ def clean_by_isolation_forest(tg, n_points=100, percent_outlier_thresh=15,
 
     # Resample once up-front:
     fgarray = np.asarray(abu.resample_tg(streamlines, n_points))
-    fgarray_flat = fgarray.reshape((-1, 3))
+    fgarray_dists = np.zeros_like(fgarray)
+    fgarray_dists[:, 1:, :] = fgarray[:, 1:, :] - fgarray[:, :-1, :]
+    fgarray_dists[:, 0, :] = fgarray_dists[:, 1, :]
+    X_ = np.concatenate((
+        fgarray.reshape((-1, 3)),
+        fgarray_dists.reshape((-1, 3))),
+        axis=1)
     idx = np.arange(len(fgarray))
 
     lof = IsolationForest(n_jobs=n_jobs)
-    outliers = lof.fit_predict(fgarray_flat)
+    outliers = lof.fit_predict(X_)
     outliers = outliers.reshape(fgarray.shape[:2])
     outliers = np.sum(outliers == -1, axis=1)
 
