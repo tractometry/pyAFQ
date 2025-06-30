@@ -18,7 +18,6 @@ from dipy.reconst.rumba import RumbaSDModel, RumbaFit
 from dipy.reconst import shm
 from dipy.reconst.dki_micro import axonal_water_fraction
 from dipy.reconst.mcsd import (
-    MultiShellDeconvModel,
     mask_for_response_msmt,
     multi_shell_fiber_response,
     response_from_mask_msmt)
@@ -43,7 +42,7 @@ from AFQ.models.dki import _fit as dki_fit_model
 from AFQ.models.dki import dki_csf, dki_gm, dki_wm
 from AFQ.models.dti import _fit as dti_fit_model
 from AFQ.models.fwdti import _fit as fwdti_fit_model
-from AFQ.models.msmt import fit as msmt_fit
+from AFQ.models.msmt import MultiShellDeconvModel
 from AFQ.models.QBallTP import (
     extract_odf, anisotropic_index, anisotropic_power)
 from AFQ.models.asym_filtering import unified_filtering
@@ -584,7 +583,7 @@ def msmt_params(brain_mask, gtab, data,
 
     mcsd_model = MultiShellDeconvModel(gtab, response_mcsd)
     logger.info("Fitting Multi-Shell CSD model...")
-    mcsd_fit = msmt_fit(mcsd_model, data, mask)
+    mcsd_fit = mcsd_model.fit(data, mask)
 
     meta = dict(
         SphericalHarmonicDegree=msmt_sh_order,
