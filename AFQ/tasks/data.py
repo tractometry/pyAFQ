@@ -23,6 +23,8 @@ from dipy.reconst.mcsd import (
     multi_shell_fiber_response,
     response_from_mask_msmt)
 from dipy.core.gradients import unique_bvals_tolerance
+from dipy.segment.tissue import TissueClassifierHMRF
+from dipy.align import resample
 
 from AFQ.tasks.decorators import as_file, as_img, as_fit_deriv
 from AFQ.tasks.utils import get_fname, with_name, str_to_desc
@@ -46,6 +48,7 @@ from AFQ.models.QBallTP import (
     extract_odf, anisotropic_index, anisotropic_power)
 from AFQ.models.asym_filtering import unified_filtering
 from AFQ.models.dam import fit_dam, csf_dam, t1_dam
+from AFQ.models.wmgm_interface import fit_wm_gm_interface
 
 
 logger = logging.getLogger('AFQ')
@@ -273,6 +276,76 @@ def dki_gm(dki_fa, dki_csf, dki_wm_ll=0.1, dki_gm_ul=0.3):
         DKI_CSF_source=dki_csf,
         dki_wm_ll=dki_wm_ll,
         dki_gm_ul=dki_gm_ul)
+
+
+@immlib.calc("t1w_pve")
+@as_file(suffix='_desc-pve_probseg.nii.gz')
+def t1w_pve(t1_file, brain_mask, pve_nclass=3, pve_beta=0.1):
+    """
+    Tissue classification using the
+    Markov Random Fields modeling approach on the T1w image [1, 2]
+
+    Parameters
+    ----------
+    pve_nclass : int, optional
+        The number of tissue classes to segment
+        Default: 3
+
+    pve_beta : float, optional
+        The beta parameter for the HMRF model (smoothness)
+        Default: 0.1
+
+    References
+    ----------
+    [1] Zhang et al., 2001
+        Yongyue Zhang, Michael Brady, and Stephen Smith.
+        "Segmentation of brain MR images through a hidden Markov
+        random field model and the expectation-maximization algorithm."
+        IEEE Transactions on Medical Imaging, 20(1):45–57, 2001.
+        https://doi.org/10.1109/42.906424
+
+    [2] Avants et al., 2011
+        Brian B. Avants, Nicholas J. Tustison, Jue Wu,
+        Philip A. Cook, and James C. Gee.
+        "An Open Source Multivariate Framework for n-Tissue
+        Segmentation with Evaluation on Public Data."
+        Neuroinformatics, 9(4):381–400, 2011.
+        https://doi.org/10.1007/s12021-011-9109-y
+    """
+    t1w = nib.load(t1_file)
+    bm = nib.load(brain_mask)
+
+    bm_in_tw1 = resample(
+        bm.get_fdata(),
+        t1w.get_fdata(),
+        moving_affine=bm.affine,
+        static_affine=t1w.affine).get_fdata()
+
+    t1w_masked = t1w.get_fdata().copy()
+    t1w_masked[~bm_in_tw1.astype(np.bool)] = 0
+
+    hmrf = TissueClassifierHMRF()
+    logger.info((
+        "Generating Tissue Segmentations from T1w image "
+        "using HMRF, this could take a minute..."))
+    _, _, PVE = hmrf.classify(t1w_masked, pve_nclass, pve_beta)
+
+    return nib.Nifti1Image(PVE, t1w.affine), dict(
+        T1wFile=t1_file,
+        BrainMaskFile=brain_mask,
+        TissueClasses=pve_nclass,
+        Beta=pve_beta,)
+
+
+@immlib.calc("wm_gm_interface")
+@as_file(suffix='_desc-wmgmi_mask.nii.gz')
+def wm_gm_interface(t1w_pve, b0):
+    PVE_img = nib.load(t1w_pve)
+    b0_img = nib.load(b0)
+
+    wmgmi_img = fit_wm_gm_interface(PVE_img, b0_img)
+
+    return wmgmi_img, dict(FromPVE=t1w_pve)
 
 
 @immlib.calc("dti_tf")
@@ -1483,6 +1556,7 @@ def get_data_plan(kwargs):
 
     data_tasks = with_name([
         get_data_gtab, b0, b0_mask, brain_mask,
+        t1w_pve, wm_gm_interface,
         dam_fit, dam_csf, dam_pseudot1,
         dti_fit, dki_fit, fwdti_fit, anisotropic_power_map,
         csd_anisotropic_index,

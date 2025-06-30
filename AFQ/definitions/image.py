@@ -10,10 +10,11 @@ from AFQ.definitions.utils import Definition, find_file, name_from_path
 
 from skimage.morphology import convex_hull_image, binary_opening
 
+
 __all__ = [
     "ImageFile", "FullImage", "RoiImage", "B0Image", "LabelledImageFile",
     "ThresholdedImageFile", "ScalarImage", "ThresholdedScalarImage",
-    "TemplateImage", "GQImage", "DKI3TImage", "DkiGmWmInterfaceImage"]
+    "TemplateImage", "GQImage", "ThreeTImage"]
 
 
 logger = logging.getLogger('AFQ')
@@ -701,7 +702,7 @@ class PFTImage(ImageDefinition):
         afm.ImageFile(suffix="CSFprobseg"))
     api.GroupAFQ(tracking_params={
         "stop_image": stop_image,
-        "stop_threshold": "CMC",
+        "stop_threshold": "ACT",
         "tracker": "pft"})
     """
 
@@ -728,71 +729,51 @@ class PFTImage(ImageDefinition):
                 for probseg in self.probsegs]
 
 
-class DKI3TImage(PFTImage):
+class ThreeTImage(ImageDefinition):
     """
     Define an image for use in PFT tractography. Only use
     if tracker set to 'pft' in tractography. Use to generate
-    WM/GM/CSF probsegs from DKI data.
+    WM/GM/CSF probsegs from T1w.
 
     Examples
     --------
     api.GroupAFQ(tracking_params={
-        "stop_image": DKI3TImage(),
-        "stop_threshold": "CMC",
+        "stop_image": ThreeTImage(),
+        "stop_threshold": "ACT",
         "tracker": "pft"})
-    """
-
-    def __init__(self):
-        self.probsegs = (
-            ScalarImage("dki_wm"),
-            ScalarImage("dki_gm"),
-            ScalarImage("dki_csf"))
-
-    def get_name(self):
-        return "dki3t"
-
-
-class DkiGmWmInterfaceImage(ImageDefinition):
-    """
-    Define an image of the WM/GM interface.
-    This is based on WM/GM/CSF probsegs from DKI data.
-    Typically used for seeding.
-
-    Examples
-    --------
-    api.GroupAFQ(tracking_params={
-        "seed_image": DkiGmWmInterfaceImage()})
     """
 
     def __init__(self):
         pass
 
     def get_name(self):
-        return "DkiGmWmInterface"
+        return "ThreeT"
 
     def get_image_getter(self, task_name):
         if task_name == "data":
             raise ValueError((
-                "ScalarImage cannot be used in this context, as they"
+                "ThreeTImage cannot be used in this context, as they"
                 "require later derivatives to be calculated"))
-        # Note: in the future, we may want to weight seeding,
-        # using something like this:
-        # data[data > 0.5] = 1 - data[data > 0.5]
-        # Or, weight by gradient like in MRTrix
-        # (more seeds in places where transition is sharper)
 
-        def image_getter(data_imap):
-            wm_img = nib.load(data_imap["dki_wm"])
-            gm_img = nib.load(data_imap["dki_gm"])
-            gmwmi = wm_img.get_fdata()
-            gmwmi[gmwmi == 1] = 0  # exclude pure WM
-            gmwmi[gm_img.get_fdata() == 0] = 0  # exclude CSF interface
-            gmwmi = (gmwmi > 0).astype(np.float32)  # convert to binary
+        def csf_getter(data_imap):
+            PVE = nib.load(data_imap["t1w_pve"])
+            return nib.Nifti1Image(
+                PVE.get_fdata()[..., 0].astype(np.float32),
+                PVE.affine)
 
-            return nib.Nifti1Image(gmwmi, wm_img.affine), dict(
-                FromWM=data_imap["dki_wm"],
-                FromGM=data_imap["dki_gm"])
-        return image_getter
+        def gm_getter(data_imap):
+            PVE = nib.load(data_imap["t1w_pve"])
+            return nib.Nifti1Image(
+                PVE.get_fdata()[..., 1].astype(np.float32),
+                PVE.affine)
+
+        def wm_getter(data_imap):
+            PVE = nib.load(data_imap["t1w_pve"])
+            return nib.Nifti1Image(
+                PVE.get_fdata()[..., 2].astype(np.float32),
+                PVE.affine)
+
+        return [wm_getter, gm_getter, csf_getter]
 
 
 class TemplateImage(ImageDefinition):
