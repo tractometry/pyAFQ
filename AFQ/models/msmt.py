@@ -1,9 +1,16 @@
+import multiprocessing
 import numpy as np
+
 from scipy.optimize import minimize
+
 from numba import njit, prange, config, set_num_threads
 from tqdm import tqdm
+import ray
 
 from dipy.reconst.mcsd import MSDeconvFit
+from dipy.reconst.mcsd import MultiShellDeconvModel
+
+from AFQ.utils.stats import chunk_indices
 
 
 config.THREADING_LAYER = 'workqueue'
@@ -221,10 +228,14 @@ def find_analytic_center(A, b, x0):
 
 
 @njit(parallel=True, fastmath=True)
-def _process_slice(slice_data, slice_mask, slice_results,
+def _process_slice(slice_data, slice_mask,
                    Rt, R_pinv,
                    G, A, b, x0,
                    max_iter, tol, use_chol):
+    results = np.zeros(
+        slice_data.shape[:2] + (A.shape[1],),
+        dtype=np.float64)
+
     for j in prange(slice_data.shape[0]):
         x_prev = x0.copy()
         for k in range(slice_data.shape[1]):
@@ -239,18 +250,22 @@ def _process_slice(slice_data, slice_mask, slice_results,
                     max_iter, tol, use_chol)
 
                 if success:
-                    slice_results[j, k] = x_prev
+                    results[j, k] = x_prev
                 else:
-                    slice_results[j, k] = np.zeros(A.shape[1])
+                    results[j, k] = np.zeros(A.shape[1])
             else:
-                slice_results[j, k] = np.zeros(A.shape[1])
+                results[j, k] = np.zeros(A.shape[1])
+    return results
 
 
-def fit(self, data, mask=None, max_iter=1e6, tol=1e-6,
-        n_threads=None, use_chol=False):
+def _fit(self, data, mask=None, max_iter=1e6, tol=1e-6,
+         n_threads=None, n_cpus=1, use_chol=False):
     # Note cholesky is ~50% slower but more robust
     if n_threads is not None:
         set_num_threads(n_threads)
+
+    if n_cpus is None:
+        n_cpus = multiprocessing.cpu_count() - 1
 
     m, n = self.fitter._reg.shape
     coeff = np.zeros((*data.shape[:3], n), dtype=np.float64)
@@ -281,15 +296,54 @@ def fit(self, data, mask=None, max_iter=1e6, tol=1e-6,
     b = np.ascontiguousarray(b, dtype=np.float64)
     x0 = np.ascontiguousarray(x0, dtype=np.float64)
 
-    for ii in tqdm(range(data.shape[0])):
-        _process_slice(
-            data[ii], mask[ii], coeff[ii],
-            Rt,
-            R_pinv,
-            Q,
-            A,
-            b,
-            x0,
-            max_iter, tol, use_chol)
+    if n_cpus > 1:
+        ray.init(ignore_reinit_error=True)
+
+        data_id = ray.put(data)
+        mask_id = ray.put(mask)
+        Rt_id = ray.put(Rt)
+        R_pinv_id = ray.put(R_pinv)
+        Q_id = ray.put(Q)
+        A_id = ray.put(A)
+        b_id = ray.put(b)
+        x0_id = ray.put(x0)
+
+        @ray.remote(num_cpus=n_cpus)
+        def process_batch_remote(batch_indices, data, mask, Rt, R_pinv,
+                                 Q, A, b, x0, max_iter, tol, use_chol):
+            return [_process_slice(
+                data[ii], mask[ii], Rt, R_pinv, Q, A, b, x0, max_iter, tol, use_chol
+            ) for ii in batch_indices]
+
+        # Launch tasks in chunks
+        all_indices = list(range(data.shape[0]))
+        futures = [
+            process_batch_remote.remote(batch, data_id, mask_id,
+                                        Rt_id, R_pinv_id,
+                                        Q_id, A_id, b_id, x0_id,
+                                        max_iter, tol, use_chol)
+            for batch in chunk_indices(all_indices, n_cpus * 2)
+        ]
+
+        # Collect and assign results
+        for batch, future in zip(
+                chunk_indices(all_indices, n_cpus * 2), tqdm(futures)):
+            results = ray.get(future)
+            for i, ii in enumerate(batch):
+                coeff[ii] = results[i]
+    else:
+        for ii in tqdm(range(data.shape[0])):
+            coeff[ii] = _process_slice(
+                data[ii], mask[ii],
+                Rt,
+                R_pinv,
+                Q,
+                A,
+                b,
+                x0,
+                max_iter, tol, use_chol)
 
     return MSDeconvFit(self, coeff, None)
+
+
+MultiShellDeconvModel.fit = _fit

@@ -7,10 +7,16 @@
 # Replaced with numba
 
 import numpy as np
-from numba import njit, prange, config
+import multiprocessing
 from tqdm import tqdm
+
+from numba import njit, prange, config, set_num_threads
+import ray
+
 from dipy.reconst.shm import sh_to_sf_matrix
 from dipy.data import get_sphere
+
+from AFQ.utils.stats import chunk_indices
 
 
 config.THREADING_LAYER = 'workqueue'
@@ -39,7 +45,7 @@ def unified_filtering(sh_data, sphere,
                       sh_basis='descoteaux07', is_legacy=False,
                       sigma_spatial=1.0, sigma_align=0.8,
                       sigma_angle=None, rel_sigma_range=0.2,
-                      win_hwidth=None, exclude_center=False):
+                      n_threads=None, n_cpus=None):
     """
     Unified asymmetric filtering as described in [1].
 
@@ -68,15 +74,14 @@ def unified_filtering(sh_data, sphere,
     rel_sigma_range: float or None
         Standard deviation of the range filter, relative to the
         range of SF amplitudes. `None` disables range filtering.
-    disable_spatial: bool, optional
-        Replace gaussian filter by a mean filter for spatial filter.
-        The value from `sigma_spatial` is still used for setting the
-        size of the filtering window.
-    win_hwidth: int, optional
-        Half-width of the filtering window. When None, the
-        filtering window half-width is given by (6*sigma_spatial + 1).
-    exclude_center: bool, optional
-        Assign a weight of 0 to the center voxel of the filter.
+    n_threads: int or None
+        Number of threads to use for numba. If None, uses
+        the number of available threads.
+        Default: None.
+    n_cpus: int or None
+        Number of CPUs to use for parallel processing with Ray.
+        If None, uses the number of available CPUs minus one.
+        Default: None.
 
     References
     ----------
@@ -84,17 +89,12 @@ def unified_filtering(sh_data, sphere,
         Estimating Asymmetric Orientation Distribution Functions",
         Neuroimage, https://doi.org/10.1016/j.neuroimage.2024.120516
     """
-    if sigma_spatial is None and win_hwidth is None:
-        raise ValueError('sigma_spatial and win_hwidth cannot both be None')
-
     if isinstance(sphere, str):
         sphere = get_sphere(name=sphere)
 
     if sigma_spatial is not None:
         if sigma_spatial <= 0.0:
             raise ValueError('sigma_spatial cannot be <= 0.')
-        # calculate half-width from sigma_spatial
-        half_width = int(round(3 * sigma_spatial))
     if sigma_align is not None:
         if sigma_align <= 0.0:
             raise ValueError('sigma_align cannot be <= 0.')
@@ -102,12 +102,13 @@ def unified_filtering(sh_data, sphere,
         if sigma_angle <= 0.0:
             raise ValueError('sigma_align cannot be <= 0.')
 
-    sh_order, full_basis = _get_sh_order_and_fullness(sh_data.shape[-1])
+    if n_threads is not None:
+        set_num_threads(n_threads)
 
-    # overwrite half-width if win_hwidth is supplied
-    if win_hwidth is not None:
-        half_width = win_hwidth
-    filter_shape = (half_width * 2 + 1, half_width * 2 + 1, half_width * 2 + 1)
+    if n_cpus is None:
+        n_cpus = multiprocessing.cpu_count() - 1
+
+    sh_order, full_basis = _get_sh_order_and_fullness(sh_data.shape[-1])
 
     # build filters
     uv_filter = _unified_filter_build_uv(sigma_angle,
@@ -130,7 +131,8 @@ def unified_filtering(sh_data, sphere,
 
     return _unified_filter_call_python(
         sh_data, nx_filter, uv_filter,
-        sigma_range, B, B_inv, sphere)
+        sigma_range, B, B_inv, sphere,
+        n_cpus)
 
 
 @njit(fastmath=True, cache=True)
@@ -243,7 +245,7 @@ def _get_sf_range(sh_data, B_mat):
 
 
 def _unified_filter_call_python(sh_data, nx_filter, uv_filter, sigma_range,
-                                B_mat, B_inv, sphere):
+                                B_mat, B_inv, sphere, n_cpus):
     """
     Run filtering using pure python implementation.
 
@@ -263,6 +265,8 @@ def _unified_filter_call_python(sh_data, nx_filter, uv_filter, sigma_range,
         SF to SH projection matrix.
     sphere: DIPY sphere
         Sphere for SH to SF projection.
+    n_cpus: int
+        Number of CPUs to use for parallel processing with Ray.
 
     Returns
     -------
@@ -283,11 +287,47 @@ def _unified_filter_call_python(sh_data, nx_filter, uv_filter, sigma_range,
     ), dtype=np.float64)
 
     # Apply filter to each sphere vertice
-    for u_sph_id in tqdm(range(nb_sf)):
+    if n_cpus > 1:
+        ray.init(ignore_reinit_error=True)
 
-        mean_sf[..., u_sph_id] = _correlate(sh_data, sh_data_padded,
-                                            nx_filter, uv_filter,
-                                            sigma_range, u_sph_id, B_mat)
+        sh_data_id = ray.put(sh_data)
+        sh_data_padded_id = ray.put(sh_data_padded)
+        nx_filter_id = ray.put(nx_filter)
+        uv_filter_id = ray.put(uv_filter)
+        B_mat_id = ray.put(B_mat)
+
+        @ray.remote(num_cpus=n_cpus)
+        def _correlate_batch_remote(batch_u_ids, sh_data, sh_data_padded,
+                                    nx_filter, uv_filter, sigma_range, B_mat):
+            results = []
+            for u_sph_id in batch_u_ids:
+                corr = _correlate(
+                    sh_data, sh_data_padded, nx_filter,
+                    uv_filter, sigma_range, u_sph_id, B_mat
+                )
+                results.append((u_sph_id, corr))
+            return results
+
+        all_u_ids = list(range(nb_sf))
+        futures = [
+            _correlate_batch_remote.remote(
+                batch, sh_data_id, sh_data_padded_id,
+                nx_filter_id, uv_filter_id,
+                sigma_range, B_mat_id
+            )
+            for batch in chunk_indices(all_u_ids, n_cpus * 2)
+        ]
+
+        # Gather and write results
+        for future in tqdm(futures):
+            batch_results = ray.get(future)
+            for u_sph_id, correlation in batch_results:
+                mean_sf[..., u_sph_id] = correlation
+    else:
+        for u_sph_id in tqdm(range(nb_sf)):
+            mean_sf[..., u_sph_id] = _correlate(sh_data, sh_data_padded,
+                                                nx_filter, uv_filter,
+                                                sigma_range, u_sph_id, B_mat)
 
     out_sh = np.array([np.dot(i, B_inv) for i in mean_sf],
                       dtype=sh_data.dtype)
