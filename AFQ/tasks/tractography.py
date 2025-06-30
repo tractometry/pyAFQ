@@ -13,7 +13,7 @@ from AFQ.tasks.utils import with_name
 from AFQ.definitions.utils import Definition
 import AFQ.tractography.tractography as aft
 from AFQ.tasks.utils import get_default_args
-from AFQ.definitions.image import ScalarImage, DKI3TImage, DkiGmWmInterfaceImage
+from AFQ.definitions.image import ScalarImage, ThreeTImage
 from AFQ.tractography.utils import gen_seeds, get_percentile_threshold
 
 from trx.trx_file_memmap import TrxFile
@@ -450,11 +450,12 @@ def get_tractography_plan(kwargs):
             kwargs["tracking_params"]["odf_model"].upper()
     if kwargs["tracking_params"]["seed_mask"] is None:
         if kwargs["tracking_params"]["tracker"] == "pft":
-            kwargs["tracking_params"]["seed_mask"] = DkiGmWmInterfaceImage()
+            kwargs["tracking_params"]["seed_mask"] = ScalarImage(
+                "wm_gm_interface")
             kwargs["tracking_params"]["seed_threshold"] = 0.5
             logger.info((
                 "No seed mask given, using GM-WM interface "
-                "from 3T prob maps esimated from DKI"))
+                "from 3T prob maps esimated from T1w"))
         else:
             kwargs["tracking_params"]["seed_mask"] = ScalarImage(
                 kwargs["best_scalar"])
@@ -464,20 +465,11 @@ def get_tractography_plan(kwargs):
                 "(or first scalar if none are FA) "
                 "thresholded to 0.2"))
     if kwargs["tracking_params"]["stop_mask"] is None:
-        if kwargs["tracking_params"]["tracker"] == "pft":
-            kwargs["tracking_params"]["stop_threshold"] = "CMC"
-            kwargs["tracking_params"]["stop_mask"] = DKI3TImage()
-            logger.info((
-                "No stop mask given, using CMC "
-                "and 3T prob maps esimated from DKI"))
-        else:
-            kwargs["tracking_params"]["stop_mask"] = ScalarImage(
-                kwargs["best_scalar"])
-            kwargs["tracking_params"]["stop_threshold"] = 0.2
-            logger.info((
-                "No stop mask given, using FA "
-                "(or first scalar if none are FA) "
-                "thresholded to 0.2"))
+        kwargs["tracking_params"]["stop_threshold"] = "ACT"
+        kwargs["tracking_params"]["stop_mask"] = ThreeTImage()
+        logger.info((
+            "No stop mask given, using ACT "
+            "and 3T prob maps esimated from T1w"))
 
     stop_mask = kwargs["tracking_params"]['stop_mask']
     seed_mask = kwargs["tracking_params"]['seed_mask']
