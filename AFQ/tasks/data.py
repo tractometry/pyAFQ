@@ -39,7 +39,7 @@ from AFQ.models.dti import noise_from_b0
 from AFQ.models.csd import _fit as csd_fit_model
 from AFQ.models.csd import CsdNanResponseError
 from AFQ.models.dki import _fit as dki_fit_model
-from AFQ.models.dki import dki_csf, dki_gm, dki_wm
+from AFQ.models.dki import fit_dki_csf, fit_dki_gm, fit_dki_wm
 from AFQ.models.dti import _fit as dti_fit_model
 from AFQ.models.fwdti import _fit as fwdti_fit_model
 from AFQ.models.msmt import MultiShellDeconvModel
@@ -213,7 +213,7 @@ def dki_csf(dki_md):
     """
     dki_md_data = nib.load(dki_md).get_fdata()
 
-    dki_md_data, main_peak_val, peak_sigma = dki_csf(dki_md_data)
+    dki_md_data, main_peak_val, peak_sigma = fit_dki_csf(dki_md_data)
 
     return dki_md_data, dict(
         DKI_MD_source=dki_md,
@@ -240,7 +240,7 @@ def dki_wm(dki_fa, dki_wm_ll=0.1, dki_gm_ul=0.3):
     """
     dki_fa_data = nib.load(dki_fa).get_fdata()
 
-    wm_data = dki_wm(dki_fa_data, dki_wm_ll, dki_gm_ul)
+    wm_data = fit_dki_wm(dki_fa_data, dki_wm_ll, dki_gm_ul)
 
     return wm_data, dict(
         DKI_FA_source=dki_fa,
@@ -268,7 +268,7 @@ def dki_gm(dki_fa, dki_csf, dki_wm_ll=0.1, dki_gm_ul=0.3):
     dki_fa_data = nib.load(dki_fa).get_fdata()
     dki_csf_data = nib.load(dki_csf).get_fdata()
 
-    gm_data = dki_gm(dki_fa_data, dki_csf_data, dki_wm_ll, dki_gm_ul)
+    gm_data = fit_dki_gm(dki_fa_data, dki_csf_data, dki_wm_ll, dki_gm_ul)
 
     return gm_data, dict(
         DKI_FA_source=dki_fa,
