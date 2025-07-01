@@ -135,7 +135,9 @@ def clean_bundle(tg, n_points=100, clean_rounds=5, distance_threshold=3,
     # Resample once up-front:
     fgarray = np.asarray(abu.resample_tg(streamlines, n_points))
     if core_only:
-        fgarray = fgarray[:, 20:80, :]  # Crop to middle 60%
+        fgarray = fgarray[:,
+                          int(n_points * 0.2):int(n_points * 0.8),
+                          :]  # Crop to middle 60%
 
     # Keep this around, so you can use it for indexing at the very end:
     idx = np.arange(len(fgarray))
