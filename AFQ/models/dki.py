@@ -360,7 +360,7 @@ def predict(params_file, gtab, S0_file=None, out_dir=None):
     return fname
 
 
-def dki_csf(dki_md_data):
+def fit_dki_csf(dki_md_data):
     """
     CSF probability map from DKI MD inspired by [1]
 
@@ -410,7 +410,7 @@ def dki_csf(dki_md_data):
     return dki_md_data, main_peak_val, peak_sigma
 
 
-def dki_wm(dki_fa_data, dki_wm_ll, dki_gm_ul):
+def fit_dki_wm(dki_fa_data, dki_wm_ll, dki_gm_ul):
     """
     WM probability map from DKI FA
 
@@ -436,7 +436,7 @@ def dki_wm(dki_fa_data, dki_wm_ll, dki_gm_ul):
     return wm_data
 
 
-def dki_gm(dki_fa_data, dki_csf_data, dki_wm_ll, dki_gm_ul):
+def fit_dki_gm(dki_fa_data, dki_csf_data, dki_wm_ll, dki_gm_ul):
     """
     GM probability map from DKI FA
 
