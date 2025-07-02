@@ -3,7 +3,7 @@ import numpy as np
 
 from scipy.optimize import minimize
 
-from numba import njit, prange, config, set_num_threads
+from numba import njit, prange, set_num_threads
 from tqdm import tqdm
 import ray
 
@@ -11,9 +11,6 @@ from dipy.reconst.mcsd import MSDeconvFit
 from dipy.reconst.mcsd import MultiShellDeconvModel
 
 from AFQ.utils.stats import chunk_indices
-
-
-config.THREADING_LAYER = 'workqueue'
 
 
 __all__ = ["fit"]
