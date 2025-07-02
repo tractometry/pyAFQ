@@ -259,7 +259,7 @@ def _process_slice(slice_data, slice_mask,
 
 
 def _fit(self, data, mask=None, max_iter=1e6, tol=1e-6,
-         n_threads=None, n_cpus=1, use_chol=False):
+         n_threads=None, n_cpus=None, use_chol=False):
     # Note cholesky is ~50% slower but more robust
     if n_threads is not None:
         set_num_threads(n_threads)

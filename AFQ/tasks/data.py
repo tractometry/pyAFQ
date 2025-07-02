@@ -534,7 +534,8 @@ def msdki_msk(msdki_tf):
 def msmt_params(brain_mask, gtab, data,
                 dki_wm, dki_gm, dki_csf,
                 msmt_sh_order=8,
-                msmt_fa_thr=0.7):
+                msmt_fa_thr=0.7,
+                ray_n_cpus=None):
     """
     full path to a nifti file containing
     parameters for the MSMT CSD fit
@@ -548,6 +549,9 @@ def msmt_params(brain_mask, gtab, data,
         The threshold on the FA used to calculate the multi shell auto
         response. Can be useful to reduce for baby subjects.
         Default: 0.7
+    ray_n_cpus : float, optional.
+        The number of CPUs to use for the MSMT CSD fit.
+        Default: None
 
     References
     ----------
@@ -583,7 +587,8 @@ def msmt_params(brain_mask, gtab, data,
 
     mcsd_model = MultiShellDeconvModel(gtab, response_mcsd)
     logger.info("Fitting Multi-Shell CSD model...")
-    mcsd_fit = mcsd_model.fit(data, mask)
+    mcsd_fit = mcsd_model.fit(
+        data, mask, n_cpus=ray_n_cpus)
 
     meta = dict(
         SphericalHarmonicDegree=msmt_sh_order,
