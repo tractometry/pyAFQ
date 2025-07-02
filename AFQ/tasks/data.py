@@ -45,7 +45,6 @@ from AFQ.models.fwdti import _fit as fwdti_fit_model
 from AFQ.models.msmt import MultiShellDeconvModel
 from AFQ.models.QBallTP import (
     extract_odf, anisotropic_index, anisotropic_power)
-from AFQ.models.asym_filtering import unified_filtering
 from AFQ.models.dam import fit_dam, csf_dam, t1_dam
 from AFQ.models.wmgm_interface import fit_wm_gm_interface
 
@@ -536,7 +535,8 @@ def msmt_params(brain_mask, gtab, data,
                 msmt_sh_order=8,
                 msmt_fa_thr=0.7,
                 ray_n_cpus=None,
-                numba_n_threads=None):
+                numba_n_threads=None,
+                numba_threading_layer="workqueue"):
     """
     full path to a nifti file containing
     parameters for the MSMT CSD fit
@@ -557,6 +557,9 @@ def msmt_params(brain_mask, gtab, data,
         The number of threads to use for the MSMT CSD fit.
         Default: None, which will use the default number of threads
         for the system.
+    numba_threading_layer : str, optional.
+        The threading layer to use for Numba.
+        Default: "workqueue".
 
     References
     ----------
@@ -565,6 +568,9 @@ def msmt_params(brain_mask, gtab, data,
             deconvolution for improved analysis of multi-shell diffusion
             MRI data. NeuroImage, 103 (2014), pp. 411–426
     """
+    from numba import config
+    config.THREADING_LAYER = numba_threading_layer
+
     mask =\
         nib.load(brain_mask).get_fdata()
 
@@ -630,6 +636,8 @@ def msmt_aodf(msmtcsd_params):
         Estimating Asymmetric Orientation Distribution Functions",
         Neuroimage, https://doi.org/10.1016/j.neuroimage.2024.120516
     """
+    from AFQ.models.asym_filtering import unified_filtering
+
     sh_coeff = nib.load(msmtcsd_params).get_fdata()
 
     logger.info("Applying unified filtering to MSMT CSD ODFs...")
