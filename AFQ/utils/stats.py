@@ -1,4 +1,5 @@
-def chunk_indices(indices, batch_size):
+def chunk_indices(indices, num_batches):
+    batch_size = (len(indices) + num_batches - 1) // num_batches
     for i in range(0, len(indices), batch_size):
         yield indices[i:i + batch_size]
 
