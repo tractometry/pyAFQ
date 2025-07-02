@@ -1,9 +1,11 @@
 import multiprocessing
+import warnings
 import numpy as np
 
 from scipy.optimize import minimize
 
 from numba import njit, prange, set_num_threads
+from numba.core.errors import NumbaPerformanceWarning
 from tqdm import tqdm
 import ray
 
@@ -295,6 +297,8 @@ def _fit(self, data, mask=None, max_iter=1e6, tol=1e-6,
     A = np.ascontiguousarray(A, dtype=np.float64)
     b = np.ascontiguousarray(b, dtype=np.float64)
     x0 = np.ascontiguousarray(x0, dtype=np.float64)
+
+    warnings.simplefilter('ignore', category=NumbaPerformanceWarning)
 
     if n_cpus > 1:
         ray.init(ignore_reinit_error=True)
