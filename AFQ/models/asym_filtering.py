@@ -10,16 +10,13 @@ import numpy as np
 import multiprocessing
 from tqdm import tqdm
 
-from numba import njit, prange, config, set_num_threads
+from numba import njit, prange, set_num_threads
 import ray
 
 from dipy.reconst.shm import sh_to_sf_matrix
 from dipy.data import get_sphere
 
 from AFQ.utils.stats import chunk_indices
-
-
-config.THREADING_LAYER = 'workqueue'
 
 
 __all__ = ["unified_filtering"]
