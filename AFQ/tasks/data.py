@@ -601,7 +601,7 @@ def msmt_params(brain_mask, gtab, data,
     mcsd_model = MultiShellDeconvModel(gtab, response_mcsd)
     logger.info("Fitting Multi-Shell CSD model...")
     mcsd_fit = mcsd_model.fit(
-        data[:25], mask, n_cpus=ray_n_cpus, n_threads=numba_n_threads,
+        data, mask, n_cpus=ray_n_cpus, n_threads=numba_n_threads,
         use_chol=msmt_use_chol, numba_threading_layer=numba_threading_layer)
 
     meta = dict(
