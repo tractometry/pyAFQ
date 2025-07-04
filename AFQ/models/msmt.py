@@ -4,7 +4,7 @@ import numpy as np
 
 from scipy.optimize import minimize
 
-from numba import njit, prange, set_num_threads
+from numba import njit, prange, set_num_threads, config
 from numba.core.errors import NumbaPerformanceWarning
 from tqdm import tqdm
 import ray
@@ -78,7 +78,7 @@ def solve_qp(Rt, R_pinv, G, A, b, x0,
 
     tau = 0.9
     shur_regularization = 1e-6
-    for _ in range(max_iter):
+    for ii in range(max_iter):
         mu = (y @ l) / m
 
         # Predictor step
@@ -88,12 +88,16 @@ def solve_qp(Rt, R_pinv, G, A, b, x0,
         rhs1l = -(G @ x - A.T @ l + c)
         rhs1 = rhs1l + A.T @ (Z * rhs2)
 
-        schur = G + A.T @ np.diag(Z) @ A
-        schur += np.eye(schur.shape[0]) * shur_regularization
         if use_chol:
+            schur = G + A.T @ np.diag(Z) @ A
+            schur += np.eye(schur.shape[0]) * shur_regularization
+
             L = np.linalg.cholesky(schur)
             dx = cholesky_solve(L, rhs1)
         else:
+            schur = G + A.T @ np.diag(Z) @ A
+            schur += np.eye(schur.shape[0]) * shur_regularization
+
             schur_diag = np.diag(schur)
             dx = conjugate_gradient_precond(
                 schur, rhs1, dx,
@@ -258,10 +262,14 @@ def _process_slice(slice_data, slice_mask,
 
 
 def _fit(self, data, mask=None, max_iter=1e6, tol=1e-6,
+         numba_threading_layer="workqueue",
          n_threads=None, n_cpus=None, use_chol=False):
     # Note cholesky is ~50% slower but more robust
     if n_threads is not None:
         set_num_threads(n_threads)
+
+    if numba_threading_layer != "default":
+        config.THREADING_LAYER = numba_threading_layer
 
     if n_cpus is None:
         n_cpus = multiprocessing.cpu_count() - 1
@@ -312,7 +320,10 @@ def _fit(self, data, mask=None, max_iter=1e6, tol=1e-6,
         b_id = ray.put(b)
         x0_id = ray.put(x0)
 
-        @ray.remote(num_cpus=n_cpus)
+        @ray.remote(
+            num_cpus=n_cpus,
+            runtime_env={"env_vars": {
+                "NUMBA_THREADING_LAYER": f"{numba_threading_layer}"}})
         def process_batch_remote(batch_indices, data, mask, Rt, R_pinv,
                                  Q, A, b, x0, max_iter, tol, use_chol):
             return [_process_slice(
@@ -352,3 +363,33 @@ def _fit(self, data, mask=None, max_iter=1e6, tol=1e-6,
 
 
 MultiShellDeconvModel.fit = _fit
+
+
+if __name__ == "__main__":
+    from AFQ.api.group import GroupAFQ
+    import AFQ.definitions.image as afm
+    from dipy.data import get_sphere
+
+    brain_mask_definition = afm.ImageFile(
+        suffix="mask",
+        filters={"scope": "qsiprep", "desc": "brain"})
+
+    myafq = GroupAFQ(
+        "/Users/john/AFQ_data/HBN",
+        participant_labels=["NDARAA948VFH"],
+        preproc_pipeline="qsiprep",
+        tracking_params={
+            "tracker": "pft",
+            "odf_model": "msmt_aodf",
+            "sphere": get_sphere(name="repulsion724"),
+            "seed_mask": afm.ScalarImage("wm_gm_interface"),
+            "seed_threshold": 0.5,
+            "stop_mask": afm.ThreeTImage(),
+            "stop_threshold": "ACT",
+            "n_seeds": 500000,
+            "random_seeds": True},
+        ray_n_cpus=1,
+        # segmentation_params={"parallel_segmentation": {"engine": "ray"}},
+        brain_mask_definition=brain_mask_definition)
+
+    myafq.export("msmtcsd_params")
