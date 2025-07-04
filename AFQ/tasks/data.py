@@ -42,11 +42,11 @@ from AFQ.models.dki import _fit as dki_fit_model
 from AFQ.models.dki import fit_dki_csf, fit_dki_gm, fit_dki_wm
 from AFQ.models.dti import _fit as dti_fit_model
 from AFQ.models.fwdti import _fit as fwdti_fit_model
-from AFQ.models.msmt import MultiShellDeconvModel
 from AFQ.models.QBallTP import (
     extract_odf, anisotropic_index, anisotropic_power)
 from AFQ.models.dam import fit_dam, csf_dam, t1_dam
 from AFQ.models.wmgm_interface import fit_wm_gm_interface
+from AFQ.models.msmt import MultiShellDeconvModel
 
 
 logger = logging.getLogger('AFQ')
@@ -536,7 +536,8 @@ def msmt_params(brain_mask, gtab, data,
                 msmt_fa_thr=0.7,
                 ray_n_cpus=None,
                 numba_n_threads=None,
-                numba_threading_layer="workqueue"):
+                numba_threading_layer="workqueue",
+                msmt_use_chol=True):
     """
     full path to a nifti file containing
     parameters for the MSMT CSD fit
@@ -560,6 +561,10 @@ def msmt_params(brain_mask, gtab, data,
     numba_threading_layer : str, optional.
         The threading layer to use for Numba.
         Default: "workqueue".
+    msmt_use_chol : bool, optional.
+        Whether to use the Cholesky decomposition for the MSMT CSD fit.
+        If False, it will use conjugate gradients.
+        Default: True
 
     References
     ----------
@@ -568,9 +573,6 @@ def msmt_params(brain_mask, gtab, data,
             deconvolution for improved analysis of multi-shell diffusion
             MRI data. NeuroImage, 103 (2014), pp. 411–426
     """
-    from numba import config
-    config.THREADING_LAYER = numba_threading_layer
-
     mask =\
         nib.load(brain_mask).get_fdata()
 
@@ -599,7 +601,8 @@ def msmt_params(brain_mask, gtab, data,
     mcsd_model = MultiShellDeconvModel(gtab, response_mcsd)
     logger.info("Fitting Multi-Shell CSD model...")
     mcsd_fit = mcsd_model.fit(
-        data, mask, n_cpus=ray_n_cpus, n_threads=numba_n_threads)
+        data[:25], mask, n_cpus=ray_n_cpus, n_threads=numba_n_threads,
+        use_chol=msmt_use_chol, numba_threading_layer=numba_threading_layer)
 
     meta = dict(
         SphericalHarmonicDegree=msmt_sh_order,
