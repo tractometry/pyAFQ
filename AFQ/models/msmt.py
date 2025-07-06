@@ -24,7 +24,7 @@ __all__ = ["fit"]
 # parallelized to solve 10s-100s of thousands of QPs
 # ultimately used to fit MSMT CSD
 @njit(fastmath=True)
-def solve_qp(Rt, R_pinv, G, A, b, x0,
+def solve_qp(Rt, R_pinv, G, A, A_outer, b, x0,
              d, max_iter, tol, use_chol):
     '''
     Solves 1/2*x^t*G*x+(Rt*d)^t*x given Ax>=b
@@ -75,35 +75,107 @@ def solve_qp(Rt, R_pinv, G, A, b, x0,
     dx = np.zeros(n)
     dy = np.zeros(m)
     dl = np.zeros(m)
+    dy_aff = np.zeros(m)
+    dl_aff = np.zeros(m)
 
-    tau = 0.9
+    rhs1 = np.empty(n)
+    rhs2 = np.empty(m)
+    Gx = np.empty(n)
+    ATl = np.empty(n)
+    rhs1l = np.empty(n)
+    Zrhs2 = np.empty(m)
+    ATZrhs2 = np.empty(n)
+    schur = np.empty((n, n))
+    temp = np.empty(m)
+    tempn1 = np.empty(n)
+    tempn2 = np.empty(n)
+
+    tau = 0.99
     shur_regularization = 1e-6
     for ii in range(max_iter):
-        mu = (y @ l) / m
+        # mu = (y @ l) / m
+        mu = 0.0
+        for i in range(m):
+            mu += y[i] * l[i]
+        mu /= m
 
         # Predictor step
         Z = safe_divide_vec(l, y)
-        dy = A @ x - y - b
-        rhs2 = -dy - y
-        rhs1l = -(G @ x - A.T @ l + c)
-        rhs1 = rhs1l + A.T @ (Z * rhs2)
 
-        if use_chol:
-            schur = G + A.T @ np.diag(Z) @ A
-            schur += np.eye(schur.shape[0]) * shur_regularization
+        # dy = A @ x - y - b
+        for i in range(m):
+            ax = 0.0
+            for j in range(n):
+                ax += A[i, j] * x[j]
+            dy[i] = ax - y[i] - b[i]
 
-            L = np.linalg.cholesky(schur)
-            dx = cholesky_solve(L, rhs1)
-        else:
-            schur = G + A.T @ np.diag(Z) @ A
-            schur += np.eye(schur.shape[0]) * shur_regularization
+        # rhs2 = -dy - y
+        for i in range(m):
+            rhs2[i] = -dy[i] - y[i]
 
-            schur_diag = np.diag(schur)
-            dx = conjugate_gradient_precond(
-                schur, rhs1, dx,
-                schur_diag, 5, 1e-4 * tol)
-        dl_aff = Z * (rhs2 - A @ dx)
-        dy_aff = dy + A @ dx
+        # rhs1l = -(G @ x - A.T @ l + c)
+        # G @ x
+        for i in range(n):
+            s = 0.0
+            for j in range(n):
+                s += G[i, j] * x[j]
+            Gx[i] = s
+
+        # Then compute A.T @ l
+        for i in range(n):
+            s = 0.0
+            for j in range(m):
+                s += A[j, i] * l[j]
+            ATl[i] = s
+
+        # Now compute rhs1l = -(Gx - ATl + c)
+        for i in range(n):
+            rhs1l[i] = -(Gx[i] - ATl[i] + c[i])
+
+        # rhs1 = rhs1l + A.T @ (Z * rhs2)
+        # Z * rhs2
+        for i in range(m):
+            Zrhs2[i] = Z[i] * rhs2[i]
+
+        # A.T @ (Z * rhs2)
+        for i in range(n):
+            s = 0.0
+            for j in range(m):
+                s += A[j, i] * Zrhs2[j]
+            ATZrhs2[i] = s
+
+        # rhs1 = rhs1l + ATZrhs2
+        for i in range(n):
+            rhs1[i] = rhs1l[i] + ATZrhs2[i]
+
+        for i in range(n):
+            for j in range(i, n):
+                s = G[i, j]
+                for k in range(m):
+                    s += Z[k] * A_outer[k, i, j]
+                schur[i, j] = s
+                schur[j, i] = s  # fill symmetric
+
+        for i in range(n):
+            schur[i, i] += shur_regularization
+
+        L = np.linalg.cholesky(schur)
+        dx = cholesky_solve(L, rhs1, tempn1, tempn2)
+
+        # temp = A @ dx
+        for i in range(m):
+            s = 0.0
+            for j in range(n):
+                s += A[i, j] * dx[j]
+            temp[i] = s
+
+        # dl_aff = Z * (rhs2 - A @ dx)
+        for i in range(m):
+            dl_aff[i] = Z[i] * (rhs2[i] - temp[i])
+
+        # dy_aff = dy + A @ dx
+        for i in range(m):
+            dy_aff[i] += temp[i]
 
         alpha_aff_pri = 1.0
         alpha_aff_dual = 1.0
@@ -114,22 +186,49 @@ def solve_qp(Rt, R_pinv, G, A, b, x0,
                 alpha_aff_dual = min(alpha_aff_dual, -l[ii] / dl_aff[ii])
         alpha_aff = min(tau * alpha_aff_pri, tau * alpha_aff_dual)
 
-        mu_aff = ((y + alpha_aff * dy_aff) @ (l + alpha_aff * dl_aff)) / m
+        # mu_aff = ((y + alpha_aff * dy_aff) @ (l + alpha_aff * dl_aff)) / m
+        mu_aff = 0.0
+        for i in range(m):
+            mu_aff += (y[i] + alpha_aff * dy[i]) * (l[i] + alpha_aff * dl[i])
+        mu_aff /= m
+
         sigma = (mu_aff / mu) ** 3
         mu = sigma * mu
 
-        # Main corrector step
+        # rhs2 = -dy + (-y + mu / l)
         rhs2 = -dy + (-y + safe_divide_vec(mu, l))
-        rhs1 = rhs1l + A.T @ (Z * rhs2)
 
-        if use_chol:
-            dx = cholesky_solve(L, rhs1)
-        else:
-            dx = conjugate_gradient_precond(
-                schur, rhs1, dx,
-                schur_diag, max_iter, max(tol, 1e-2 * mu))
-        dl = Z * (rhs2 - A @ dx)
-        dy += A @ dx
+        # Zrhs2 = Z * rhs2
+        for i in range(m):
+            Zrhs2[i] = Z[i] * rhs2[i]
+
+        # ATZrhs2 = A.T @ Zrhs2
+        for i in range(n):
+            s = 0.0
+            for j in range(m):
+                s += A[j, i] * Zrhs2[j]
+            ATZrhs2[i] = s
+
+        # rhs1 = rhs1l + ATZrhs2
+        for i in range(n):
+            rhs1[i] = rhs1l[i] + ATZrhs2[i]
+
+        dx = cholesky_solve(L, rhs1, tempn1, tempn2)
+
+        # temp = A @ dx
+        for i in range(m):
+            s = 0.0
+            for j in range(n):
+                s += A[i, j] * dx[j]
+            temp[i] = s
+
+        # dl = Z * (rhs2 - A @ dx)
+        for i in range(m):
+            dl[i] = Z[i] * (rhs2[i] - temp[i])
+
+        # dy += A @ dx
+        for i in range(m):
+            dy[i] += temp[i]
 
         beta = 1.0
         sigma = 1.0
@@ -157,55 +256,23 @@ def solve_qp(Rt, R_pinv, G, A, b, x0,
     return False, x0
 
 
-@njit(fastmath=True)
-def cholesky_solve(L, b):
+@njit(fastmath=True, inline='always')
+def cholesky_solve(L, b, y, x):
     n = L.shape[0]
 
-    # Forward substitution: L * y = b
-    y = np.zeros_like(b)
+    # Forward substitution: L y = b
     for i in range(n):
-        y[i] = (b[i] - np.dot(L[i, :i], y[:i])) / L[i, i]
+        s = 0.0
+        for j in range(i):
+            s += L[i, j] * y[j]
+        y[i] = (b[i] - s) / L[i, i]
 
-    # Backward substitution: L^T * x = y
-    x = np.zeros_like(b)
+    # Backward substitution: L.T x = y
     for i in range(n - 1, -1, -1):
-        x[i] = (y[i] - np.dot(L[i + 1:, i], x[i + 1:])) / L[i, i]
-
-    return x
-
-
-@njit(fastmath=True)
-def conjugate_gradient_precond(A, b, x, diag, max_iter, tol):
-    """
-    Solves A x = b with Jacobi preconditioner (diag) using Conjugate Gradient.
-
-    Args:
-        A : 2D np.ndarray, symmetric positive-definite matrix
-        b : 1D np.ndarray, RHS vector
-        x : 1D np.ndarray, initial guess (will be modified in-place)
-        diag : 1D np.ndarray, diagonal of preconditioner (Jacobi)
-        max_iter : int, maximum number of iterations
-        tol : float, stopping threshold
-
-    Returns:
-        x : Updated solution
-    """
-    r = b - A @ x
-    r /= diag
-    p = r.copy()
-    rs_old = np.dot(r * r, diag)
-
-    for _ in range(max_iter):
-        Ap = A @ p
-        alpha = rs_old / np.dot(p, Ap)
-        x += alpha * p
-        r -= alpha * Ap / diag
-        rs_new = np.dot(r * r, diag)
-        if rs_new < tol:
-            break
-        beta = rs_new / rs_old
-        p = r + beta * p
-        rs_old = rs_new
+        s = 0.0
+        for j in range(i + 1, n):
+            s += L[j, i] * x[j]
+        x[i] = (y[i] - s) / L[i, i]
 
     return x
 
@@ -233,7 +300,7 @@ def find_analytic_center(A, b, x0):
 @njit(parallel=True, fastmath=True)
 def _process_slice(slice_data, slice_mask,
                    Rt, R_pinv,
-                   G, A, b, x0,
+                   G, A, A_outer, b, x0,
                    max_iter, tol, use_chol):
     results = np.zeros(
         slice_data.shape[:2] + (A.shape[1],),
@@ -247,7 +314,7 @@ def _process_slice(slice_data, slice_mask,
                 # More complicated warm starts are slower
                 x_prev = np.clip(x_prev, -1.0, 1.0)
                 success, x_prev = solve_qp(
-                    Rt, R_pinv, G, A, b,
+                    Rt, R_pinv, G, A, A_outer, b,
                     x_prev,
                     slice_data[j, k],
                     max_iter, tol, use_chol)
@@ -261,7 +328,7 @@ def _process_slice(slice_data, slice_mask,
     return results
 
 
-def _fit(self, data, mask=None, max_iter=1e6, tol=1e-6,
+def _fit(self, data, mask=None, max_iter=1e2, tol=1e-6,
          numba_threading_layer="workqueue",
          n_threads=None, n_cpus=None, use_chol=False):
     # Note cholesky is ~50% slower but more robust
@@ -291,6 +358,12 @@ def _fit(self, data, mask=None, max_iter=1e6, tol=1e-6,
     for i in range(A.shape[0]):
         A[i] /= np.linalg.norm(A[i])
 
+    A_outer = np.empty((m, n, n), dtype=np.float64)
+    for k in range(m):
+        for i in range(n):
+            for j in range(n):
+                A_outer[k, i, j] = A[k, i] * A[k, j]
+
     Q = R.T @ R
     x0 = np.linalg.pinv(A) @ np.ones(A.shape[0])
     x0 = find_analytic_center(A, b, x0)
@@ -317,6 +390,7 @@ def _fit(self, data, mask=None, max_iter=1e6, tol=1e-6,
         R_pinv_id = ray.put(R_pinv)
         Q_id = ray.put(Q)
         A_id = ray.put(A)
+        A_outer_id = ray.put(A_outer)
         b_id = ray.put(b)
         x0_id = ray.put(x0)
 
@@ -325,9 +399,9 @@ def _fit(self, data, mask=None, max_iter=1e6, tol=1e-6,
             runtime_env={"env_vars": {
                 "NUMBA_THREADING_LAYER": f"{numba_threading_layer}"}})
         def process_batch_remote(batch_indices, data, mask, Rt, R_pinv,
-                                 Q, A, b, x0, max_iter, tol, use_chol):
+                                 Q, A, A_outer, b, x0, max_iter, tol, use_chol):
             return [_process_slice(
-                data[ii], mask[ii], Rt, R_pinv, Q, A, b, x0, max_iter, tol, use_chol
+                data[ii], mask[ii], Rt, R_pinv, Q, A, A_outer, b, x0, max_iter, tol, use_chol
             ) for ii in batch_indices]
 
         # Launch tasks in chunks
@@ -335,7 +409,7 @@ def _fit(self, data, mask=None, max_iter=1e6, tol=1e-6,
         futures = [
             process_batch_remote.remote(batch, data_id, mask_id,
                                         Rt_id, R_pinv_id,
-                                        Q_id, A_id, b_id, x0_id,
+                                        Q_id, A_id, A_outer_id, b_id, x0_id,
                                         max_iter, tol, use_chol)
             for batch in chunk_indices(all_indices, n_cpus * 2)
         ]
@@ -354,6 +428,7 @@ def _fit(self, data, mask=None, max_iter=1e6, tol=1e-6,
                 R_pinv,
                 Q,
                 A,
+                A_outer,
                 b,
                 x0,
                 max_iter, tol, use_chol)
@@ -363,33 +438,3 @@ def _fit(self, data, mask=None, max_iter=1e6, tol=1e-6,
 
 
 MultiShellDeconvModel.fit = _fit
-
-
-if __name__ == "__main__":
-    from AFQ.api.group import GroupAFQ
-    import AFQ.definitions.image as afm
-    from dipy.data import get_sphere
-
-    brain_mask_definition = afm.ImageFile(
-        suffix="mask",
-        filters={"scope": "qsiprep", "desc": "brain"})
-
-    myafq = GroupAFQ(
-        "/Users/john/AFQ_data/HBN",
-        participant_labels=["NDARAA948VFH"],
-        preproc_pipeline="qsiprep",
-        tracking_params={
-            "tracker": "pft",
-            "odf_model": "msmt_aodf",
-            "sphere": get_sphere(name="repulsion724"),
-            "seed_mask": afm.ScalarImage("wm_gm_interface"),
-            "seed_threshold": 0.5,
-            "stop_mask": afm.ThreeTImage(),
-            "stop_threshold": "ACT",
-            "n_seeds": 500000,
-            "random_seeds": True},
-        ray_n_cpus=1,
-        # segmentation_params={"parallel_segmentation": {"engine": "ray"}},
-        brain_mask_definition=brain_mask_definition)
-
-    myafq.export("msmtcsd_params")
