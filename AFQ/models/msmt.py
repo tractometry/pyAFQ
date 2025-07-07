@@ -24,8 +24,8 @@ __all__ = ["fit"]
 # parallelized to solve 10s-100s of thousands of QPs
 # ultimately used to fit MSMT CSD
 @njit(fastmath=True)
-def solve_qp(Rt, R_pinv, G, A, A_outer, b, x0,
-             d, max_iter, tol, use_chol):
+def solve_qp(Rt, R_pinv, G, A, At, A_outer, b, x0,
+             d, max_iter, tol):
     '''
     Solves 1/2*x^t*G*x+(Rt*d)^t*x given Ax>=b
     In MSMT, G, R, A, b are the same across voxels,
@@ -70,8 +70,8 @@ def solve_qp(Rt, R_pinv, G, A, A_outer, b, x0,
     c = Rt @ d
 
     x = x0.copy()
-    y = np.ones(m)
-    l = np.ones(m)
+    y = np.maximum(np.abs(A @ x - b), 1.0)
+    l = np.ones(m) / np.max(y)
     dx = np.zeros(n)
     dy = np.zeros(m)
     dl = np.zeros(m)
@@ -90,7 +90,7 @@ def solve_qp(Rt, R_pinv, G, A, A_outer, b, x0,
     tempn1 = np.empty(n)
     tempn2 = np.empty(n)
 
-    tau = 0.99
+    tau = 0.95
     shur_regularization = 1e-6
     for ii in range(max_iter):
         # mu = (y @ l) / m
@@ -125,7 +125,7 @@ def solve_qp(Rt, R_pinv, G, A, A_outer, b, x0,
         for i in range(n):
             s = 0.0
             for j in range(m):
-                s += A[j, i] * l[j]
+                s += At[i, j] * l[j]
             ATl[i] = s
 
         # Now compute rhs1l = -(Gx - ATl + c)
@@ -141,7 +141,7 @@ def solve_qp(Rt, R_pinv, G, A, A_outer, b, x0,
         for i in range(n):
             s = 0.0
             for j in range(m):
-                s += A[j, i] * Zrhs2[j]
+                s += At[i, j] * Zrhs2[j]
             ATZrhs2[i] = s
 
         # rhs1 = rhs1l + ATZrhs2
@@ -152,7 +152,7 @@ def solve_qp(Rt, R_pinv, G, A, A_outer, b, x0,
             for j in range(i, n):
                 s = G[i, j]
                 for k in range(m):
-                    s += Z[k] * A_outer[k, i, j]
+                    s += Z[k] * A_outer[i, j, k]
                 schur[i, j] = s
                 schur[j, i] = s  # fill symmetric
 
@@ -175,7 +175,7 @@ def solve_qp(Rt, R_pinv, G, A, A_outer, b, x0,
 
         # dy_aff = dy + A @ dx
         for i in range(m):
-            dy_aff[i] += temp[i]
+            dy_aff[i] = dy[i] + temp[i]
 
         alpha_aff_pri = 1.0
         alpha_aff_dual = 1.0
@@ -189,7 +189,8 @@ def solve_qp(Rt, R_pinv, G, A, A_outer, b, x0,
         # mu_aff = ((y + alpha_aff * dy_aff) @ (l + alpha_aff * dl_aff)) / m
         mu_aff = 0.0
         for i in range(m):
-            mu_aff += (y[i] + alpha_aff * dy[i]) * (l[i] + alpha_aff * dl[i])
+            mu_aff += (y[i] + alpha_aff * dy_aff[i]) \
+                * (l[i] + alpha_aff * dl_aff[i])
         mu_aff /= m
 
         sigma = (mu_aff / mu) ** 3
@@ -206,7 +207,7 @@ def solve_qp(Rt, R_pinv, G, A, A_outer, b, x0,
         for i in range(n):
             s = 0.0
             for j in range(m):
-                s += A[j, i] * Zrhs2[j]
+                s += At[i, j] * Zrhs2[j]
             ATZrhs2[i] = s
 
         # rhs1 = rhs1l + ATZrhs2
@@ -252,7 +253,6 @@ def solve_qp(Rt, R_pinv, G, A, A_outer, b, x0,
                 return True, x
             else:
                 return False, x0
-
     return False, x0
 
 
@@ -297,11 +297,11 @@ def find_analytic_center(A, b, x0):
     return result.x
 
 
-@njit(parallel=True, fastmath=True)
+@njit(fastmath=True)
 def _process_slice(slice_data, slice_mask,
                    Rt, R_pinv,
-                   G, A, A_outer, b, x0,
-                   max_iter, tol, use_chol):
+                   G, A, At, A_outer, b, x0,
+                   max_iter, tol):
     results = np.zeros(
         slice_data.shape[:2] + (A.shape[1],),
         dtype=np.float64)
@@ -314,10 +314,10 @@ def _process_slice(slice_data, slice_mask,
                 # More complicated warm starts are slower
                 x_prev = np.clip(x_prev, -1.0, 1.0)
                 success, x_prev = solve_qp(
-                    Rt, R_pinv, G, A, A_outer, b,
+                    Rt, R_pinv, G, A, At, A_outer, b,
                     x_prev,
                     slice_data[j, k],
-                    max_iter, tol, use_chol)
+                    max_iter, tol)
 
                 if success:
                     results[j, k] = x_prev
@@ -328,9 +328,9 @@ def _process_slice(slice_data, slice_mask,
     return results
 
 
-def _fit(self, data, mask=None, max_iter=1e2, tol=1e-6,
+def _fit(self, data, mask=None, max_iter=1e3, tol=1e-6,
          numba_threading_layer="workqueue",
-         n_threads=None, n_cpus=None, use_chol=False):
+         n_threads=None, n_cpus=None):
     # Note cholesky is ~50% slower but more robust
     if n_threads is not None:
         set_num_threads(n_threads)
@@ -358,11 +358,11 @@ def _fit(self, data, mask=None, max_iter=1e2, tol=1e-6,
     for i in range(A.shape[0]):
         A[i] /= np.linalg.norm(A[i])
 
-    A_outer = np.empty((m, n, n), dtype=np.float64)
+    A_outer = np.empty((n, n, m), dtype=np.float64)
     for k in range(m):
         for i in range(n):
             for j in range(n):
-                A_outer[k, i, j] = A[k, i] * A[k, j]
+                A_outer[i, j, k] = A[k, i] * A[k, j]
 
     Q = R.T @ R
     x0 = np.linalg.pinv(A) @ np.ones(A.shape[0])
@@ -376,6 +376,7 @@ def _fit(self, data, mask=None, max_iter=1e2, tol=1e-6,
     R_pinv = np.ascontiguousarray(R_pinv, dtype=np.float64)
     Q = np.ascontiguousarray(Q, dtype=np.float64)
     A = np.ascontiguousarray(A, dtype=np.float64)
+    At = np.ascontiguousarray(A.T, dtype=np.float64)
     b = np.ascontiguousarray(b, dtype=np.float64)
     x0 = np.ascontiguousarray(x0, dtype=np.float64)
 
@@ -390,6 +391,7 @@ def _fit(self, data, mask=None, max_iter=1e2, tol=1e-6,
         R_pinv_id = ray.put(R_pinv)
         Q_id = ray.put(Q)
         A_id = ray.put(A)
+        At_id = ray.put(At)
         A_outer_id = ray.put(A_outer)
         b_id = ray.put(b)
         x0_id = ray.put(x0)
@@ -399,9 +401,10 @@ def _fit(self, data, mask=None, max_iter=1e2, tol=1e-6,
             runtime_env={"env_vars": {
                 "NUMBA_THREADING_LAYER": f"{numba_threading_layer}"}})
         def process_batch_remote(batch_indices, data, mask, Rt, R_pinv,
-                                 Q, A, A_outer, b, x0, max_iter, tol, use_chol):
+                                 Q, A, At, A_outer, b, x0, max_iter, tol):
             return [_process_slice(
-                data[ii], mask[ii], Rt, R_pinv, Q, A, A_outer, b, x0, max_iter, tol, use_chol
+                data[ii], mask[ii], Rt, R_pinv, Q, A, At,
+                A_outer, b, x0, max_iter, tol
             ) for ii in batch_indices]
 
         # Launch tasks in chunks
@@ -409,8 +412,9 @@ def _fit(self, data, mask=None, max_iter=1e2, tol=1e-6,
         futures = [
             process_batch_remote.remote(batch, data_id, mask_id,
                                         Rt_id, R_pinv_id,
-                                        Q_id, A_id, A_outer_id, b_id, x0_id,
-                                        max_iter, tol, use_chol)
+                                        Q_id, A_id, At_id,
+                                        A_outer_id, b_id, x0_id,
+                                        max_iter, tol)
             for batch in chunk_indices(all_indices, n_cpus * 2)
         ]
 
@@ -428,10 +432,11 @@ def _fit(self, data, mask=None, max_iter=1e2, tol=1e-6,
                 R_pinv,
                 Q,
                 A,
+                At,
                 A_outer,
                 b,
                 x0,
-                max_iter, tol, use_chol)
+                max_iter, tol)
 
     coeff = coeff.reshape(og_data_shape[:-1] + (n,))
     return MSDeconvFit(self, coeff, None)

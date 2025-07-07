@@ -536,8 +536,7 @@ def msmt_params(brain_mask, gtab, data,
                 msmt_fa_thr=0.7,
                 ray_n_cpus=None,
                 numba_n_threads=None,
-                numba_threading_layer="workqueue",
-                msmt_use_chol=True):
+                numba_threading_layer="workqueue"):
     """
     full path to a nifti file containing
     parameters for the MSMT CSD fit
@@ -561,10 +560,6 @@ def msmt_params(brain_mask, gtab, data,
     numba_threading_layer : str, optional.
         The threading layer to use for Numba.
         Default: "workqueue".
-    msmt_use_chol : bool, optional.
-        Whether to use the Cholesky decomposition for the MSMT CSD fit.
-        If False, it will use conjugate gradients.
-        Default: True
 
     References
     ----------
@@ -601,8 +596,8 @@ def msmt_params(brain_mask, gtab, data,
     mcsd_model = MultiShellDeconvModel(gtab, response_mcsd)
     logger.info("Fitting Multi-Shell CSD model...")
     mcsd_fit = mcsd_model.fit(
-        data, mask, n_cpus=ray_n_cpus, n_threads=numba_n_threads,
-        use_chol=msmt_use_chol, numba_threading_layer=numba_threading_layer)
+        data[20:30], mask[20:30], n_cpus=ray_n_cpus, n_threads=numba_n_threads,
+        numba_threading_layer=numba_threading_layer)
 
     meta = dict(
         SphericalHarmonicDegree=msmt_sh_order,
