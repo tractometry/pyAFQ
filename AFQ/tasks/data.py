@@ -531,7 +531,7 @@ def msdki_msk(msdki_tf):
          subfolder="models")
 @as_img
 def msmt_params(brain_mask, gtab, data,
-                dki_wm, dki_gm, dki_csf,
+                dwi_affine, t1w_pve,
                 msmt_sh_order=8,
                 msmt_fa_thr=0.7,
                 ray_n_cpus=None,
@@ -571,6 +571,15 @@ def msmt_params(brain_mask, gtab, data,
     mask =\
         nib.load(brain_mask).get_fdata()
 
+    pve_img = nib.load(t1w_pve)
+    pve_data = pve_img.get_fdata()
+    csf = resample(pve_data[..., 0], data[..., 0],
+                   pve_img.affine, dwi_affine).get_fdata()
+    gm = resample(pve_data[..., 1], data[..., 0],
+                  pve_img.affine, dwi_affine).get_fdata()
+    wm = resample(pve_data[..., 2], data[..., 0],
+                  pve_img.affine, dwi_affine).get_fdata()
+
     mask_wm, mask_gm, mask_csf = mask_for_response_msmt(
         gtab,
         data,
@@ -580,9 +589,9 @@ def msmt_params(brain_mask, gtab, data,
         csf_fa_thr=0.15,
         gm_md_thr=0.001,
         csf_md_thr=0.0032)
-    mask_wm *= nib.load(dki_wm).get_fdata() > 0.5
-    mask_gm *= nib.load(dki_gm).get_fdata() > 0.5
-    mask_csf *= nib.load(dki_csf).get_fdata() > 0.5
+    mask_wm *= wm > 0.5
+    mask_gm *= gm > 0.5
+    mask_csf *= csf > 0.5
     response_wm, response_gm, response_csf = response_from_mask_msmt(
         gtab, data, mask_wm, mask_gm, mask_csf)
     ubvals = unique_bvals_tolerance(gtab.bvals)
@@ -596,7 +605,7 @@ def msmt_params(brain_mask, gtab, data,
     mcsd_model = MultiShellDeconvModel(gtab, response_mcsd)
     logger.info("Fitting Multi-Shell CSD model...")
     mcsd_fit = mcsd_model.fit(
-        data[20:30], mask[20:30], n_cpus=ray_n_cpus, n_threads=numba_n_threads,
+        data, mask, n_cpus=ray_n_cpus, n_threads=numba_n_threads,
         numba_threading_layer=numba_threading_layer)
 
     meta = dict(
