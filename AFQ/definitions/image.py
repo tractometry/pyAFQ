@@ -269,12 +269,14 @@ class RoiImage(ImageDefinition):
                  use_waypoints=True,
                  use_presegment=False,
                  use_endpoints=False,
+                 only_wmgmi=False,
                  tissue_property=None,
                  tissue_property_n_voxel=None,
                  tissue_property_threshold=None):
         self.use_waypoints = use_waypoints
         self.use_presegment = use_presegment
         self.use_endpoints = use_endpoints
+        self.only_wmgmi = only_wmgmi
         self.tissue_property = tissue_property
         self.tissue_property_n_voxel = tissue_property_n_voxel
         self.tissue_property_threshold = tissue_property_threshold
@@ -336,6 +338,17 @@ class RoiImage(ImageDefinition):
                 raise ValueError((
                     "BundleDict does not have enough ROIs to generate "
                     f"an ROI Image: {bundle_dict._dict}"))
+
+            if self.only_wmgmi:
+                wmgmi = nib.load(
+                    data_imap["wm_gm_interface"]).get_fdata()
+                image_data = np.logical_and(
+                    image_data, wmgmi)
+                if np.sum(image_data) == 0:
+                    raise ValueError((
+                        "BundleDict does not have enough ROIs to generate "
+                        "an ROI Image with WM/GM interface applied."))
+
             return nib.Nifti1Image(
                 image_data.astype(np.float32),
                 data_imap["dwi_affine"]), dict(source="ROIs")
