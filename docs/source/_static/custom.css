@@ -9,6 +9,18 @@ tbody, tr, td
     margin-bottom: 20px
 }
 
+header.bd-header {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+}
+
+header.bd-header .navbar-brand img,
+header.bd-header .navbar-brand > picture > img {
+    max-height: 100px !important;
+    height: auto;
+    width: auto;
+}
+
 .sd-card-header {
     text-align: center;
     background-color: white;

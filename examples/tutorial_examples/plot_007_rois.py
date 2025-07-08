@@ -1,3 +1,20 @@
+"""
+====================================================================
+Plotting Default Regions of Interest (ROIs) to Understand the Tracts
+====================================================================
+This script visualizes the default Regions of Interest (ROIs) for the
+white matter tracts we recognize by default in pyAFQ. It loads predefined
+tract templates into MNI space, extracts inclusion, exclusion, start, and
+end ROIs from the tracts, and generates multi-panel figures showing sagittal,
+coronal, and axial views of these ROIs overlaid on the MNI template T1w brain.
+
+The visualization helps understand the spatial relationships between tracts and
+their defining ROIs.
+"""
+
+####################################################
+# Import libraries, load the defautl tract templates
+
 import numpy as np
 
 import matplotlib
@@ -10,6 +27,9 @@ import AFQ.api.bundle_dict as abd
 
 templates = abd.default18_bd() + abd.callosal_bd()
 
+
+##########################################################
+# Define a function to visualize ROIs for a specific tract
 
 def visualize_tract_rois(tract_name):
     """
@@ -144,8 +164,10 @@ def visualize_tract_rois(tract_name):
 
     return figures
 
-
+#####################################
 # Create visualization for each tract
+
+
 for bundle_name in templates.bundle_names:
     print(f"Visualizing ROIs for tract: {bundle_name}")
     figs = visualize_tract_rois(bundle_name)
