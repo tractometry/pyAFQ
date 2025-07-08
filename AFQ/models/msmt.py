@@ -1,13 +1,16 @@
 import multiprocessing
 import warnings
 import numpy as np
+from tqdm import tqdm
+import ray
 
 from scipy.optimize import minimize
+from scipy.sparse import csr_matrix
 
 from numba import njit, prange, set_num_threads, config
 from numba.core.errors import NumbaPerformanceWarning
-from tqdm import tqdm
-import ray
+
+import osqp
 
 from dipy.reconst.mcsd import MSDeconvFit
 from dipy.reconst.mcsd import MultiShellDeconvModel
@@ -179,11 +182,11 @@ def solve_qp(Rt, R_pinv, G, A, At, A_outer, b, x0,
 
         alpha_aff_pri = 1.0
         alpha_aff_dual = 1.0
-        for ii in range(m):
-            if dy_aff[ii] < 0:
-                alpha_aff_pri = min(alpha_aff_pri, -y[ii] / dy_aff[ii])
-            if dl_aff[ii] < 0:
-                alpha_aff_dual = min(alpha_aff_dual, -l[ii] / dl_aff[ii])
+        for i in range(m):
+            if dy_aff[i] < 0:
+                alpha_aff_pri = min(alpha_aff_pri, -y[i] / dy_aff[i])
+            if dl_aff[i] < 0:
+                alpha_aff_dual = min(alpha_aff_dual, -l[i] / dl_aff[i])
         alpha_aff = min(tau * alpha_aff_pri, tau * alpha_aff_dual)
 
         # mu_aff = ((y + alpha_aff * dy_aff) @ (l + alpha_aff * dl_aff)) / m
@@ -233,11 +236,11 @@ def solve_qp(Rt, R_pinv, G, A, At, A_outer, b, x0,
 
         beta = 1.0
         sigma = 1.0
-        for ii in range(m):
-            if dy[ii] < 0 and dy[ii] * sigma < -y[ii]:
-                sigma = -y[ii] / dy[ii]
-            if dl[ii] < 0 and dl[ii] * beta < -l[ii]:
-                beta = -l[ii] / dl[ii]
+        for i in range(m):
+            if dy[i] < 0 and dy[i] * sigma < -y[i]:
+                sigma = -y[i] / dy[i]
+            if dl[i] < 0 and dl[i] * beta < -l[i]:
+                beta = -l[i] / dl[i]
         beta *= tau
         sigma *= tau
         alpha = min(beta, sigma)
@@ -246,14 +249,11 @@ def solve_qp(Rt, R_pinv, G, A, At, A_outer, b, x0,
         y += alpha * dy
         l += alpha * dl
 
-        if (alpha * np.sum(np.abs(dx)) < n * tol
-            and alpha * np.sum(np.abs(dy)) < m * tol
-                and alpha * np.sum(np.abs(dl)) < m * tol):
+        if alpha * np.dot(dx, dx) < n * tol:
             if np.all(A @ x - b >= -tol):
                 return True, x
-            else:
-                return False, x0
-    return False, x0
+
+    return False, x
 
 
 @njit(fastmath=True, inline='always')
@@ -307,20 +307,16 @@ def _process_slice(slice_data, slice_mask,
         dtype=np.float64)
 
     for j in prange(slice_data.shape[0]):
-        x_prev = x0.copy()
         for k in range(slice_data.shape[1]):
             if slice_mask[j, k]:
-                # previous values warm start next solver
-                # More complicated warm starts are slower
-                x_prev = np.clip(x_prev, -1.0, 1.0)
-                success, x_prev = solve_qp(
+                success, result = solve_qp(
                     Rt, R_pinv, G, A, At, A_outer, b,
-                    x_prev,
+                    x0,
                     slice_data[j, k],
                     max_iter, tol)
 
                 if success:
-                    results[j, k] = x_prev
+                    results[j, k] = result
                 else:
                     results[j, k] = np.zeros(A.shape[1])
             else:
@@ -329,6 +325,7 @@ def _process_slice(slice_data, slice_mask,
 
 
 def _fit(self, data, mask=None, max_iter=1e3, tol=1e-6,
+         use_osqppy=True,
          numba_threading_layer="workqueue",
          n_threads=None, n_cpus=None):
     # Note cholesky is ~50% slower but more robust
@@ -365,81 +362,151 @@ def _fit(self, data, mask=None, max_iter=1e3, tol=1e-6,
                 A_outer[i, j, k] = A[k, i] * A[k, j]
 
     Q = R.T @ R
-    x0 = np.linalg.pinv(A) @ np.ones(A.shape[0])
-    x0 = find_analytic_center(A, b, x0)
+    if use_osqppy:
+        if n_cpus > 1:
+            ray.init(ignore_reinit_error=True)
 
-    Rt = -R.T
-    R_pinv = np.linalg.pinv(R).astype(np.float64)
-    data = np.ascontiguousarray(data, dtype=np.float64)
+            data_id = ray.put(data)
+            mask_id = ray.put(mask)
+            Q_id = ray.put(Q)
+            A_id = ray.put(A)
+            b_id = ray.put(b)
+            R_id = ray.put(R)
 
-    Rt = np.ascontiguousarray(Rt, dtype=np.float64)
-    R_pinv = np.ascontiguousarray(R_pinv, dtype=np.float64)
-    Q = np.ascontiguousarray(Q, dtype=np.float64)
-    A = np.ascontiguousarray(A, dtype=np.float64)
-    At = np.ascontiguousarray(A.T, dtype=np.float64)
-    b = np.ascontiguousarray(b, dtype=np.float64)
-    x0 = np.ascontiguousarray(x0, dtype=np.float64)
+            @ray.remote(
+                num_cpus=n_cpus)
+            def process_batch_remote(batch_indices, data, mask,
+                                     Q, A, b, R):
+                from scipy.sparse import csr_matrix
+                import osqp
+                import numpy as np
 
-    warnings.simplefilter('ignore', category=NumbaPerformanceWarning)
+                m = osqp.OSQP()
+                m.setup(
+                    P=csr_matrix(Q), A=csr_matrix(A), l=b,
+                    u=None, q=None,
+                    verbose=False)
+                return_values = np.zeros(
+                    (len(batch_indices),) + data.shape[1:3] + (A.shape[1],),
+                    dtype=np.float64)
+                for i, ii in enumerate(batch_indices):
+                    for jj in range(data.shape[1]):
+                        for kk in range(data.shape[2]):
+                            if mask[ii, jj, kk]:
+                                c = np.dot(-R.T, data[ii, jj, kk])
+                                m.update(q=c)
+                                results = m.solve()
+                                return_values[i, jj, kk] = results.x
+                return return_values
 
-    if n_cpus > 1:
-        ray.init(ignore_reinit_error=True)
+            # Launch tasks in chunks
+            all_indices = list(range(data.shape[0]))
+            indices_chunked = list(chunk_indices(all_indices, n_cpus * 2))
+            futures = [
+                process_batch_remote.remote(batch, data_id, mask_id,
+                                            Q_id, A_id,
+                                            b_id, R_id)
+                for batch in indices_chunked
+            ]
 
-        data_id = ray.put(data)
-        mask_id = ray.put(mask)
-        Rt_id = ray.put(Rt)
-        R_pinv_id = ray.put(R_pinv)
-        Q_id = ray.put(Q)
-        A_id = ray.put(A)
-        At_id = ray.put(At)
-        A_outer_id = ray.put(A_outer)
-        b_id = ray.put(b)
-        x0_id = ray.put(x0)
-
-        @ray.remote(
-            num_cpus=n_cpus,
-            runtime_env={"env_vars": {
-                "NUMBA_THREADING_LAYER": f"{numba_threading_layer}"}})
-        def process_batch_remote(batch_indices, data, mask, Rt, R_pinv,
-                                 Q, A, At, A_outer, b, x0, max_iter, tol):
-            return [_process_slice(
-                data[ii], mask[ii], Rt, R_pinv, Q, A, At,
-                A_outer, b, x0, max_iter, tol
-            ) for ii in batch_indices]
-
-        # Launch tasks in chunks
-        all_indices = list(range(data.shape[0]))
-        futures = [
-            process_batch_remote.remote(batch, data_id, mask_id,
-                                        Rt_id, R_pinv_id,
-                                        Q_id, A_id, At_id,
-                                        A_outer_id, b_id, x0_id,
-                                        max_iter, tol)
-            for batch in chunk_indices(all_indices, n_cpus * 2)
-        ]
-
-        # Collect and assign results
-        for batch, future in zip(
-                chunk_indices(all_indices, n_cpus * 2), tqdm(futures)):
-            results = ray.get(future)
-            for i, ii in enumerate(batch):
-                coeff[ii] = results[i]
+            # Collect and assign results
+            for batch, future in zip(
+                    indices_chunked, tqdm(futures)):
+                results = ray.get(future)
+                for i, ii in enumerate(batch):
+                    coeff[ii] = results[i]
+        else:
+            m = osqp.OSQP()
+            m.setup(
+                P=csr_matrix(Q), A=csr_matrix(A), l=b,
+                u=None, q=None,
+                verbose=False, adaptive_rho=True)
+            for ii in tqdm(range(data.shape[0])):
+                for jj in range(data.shape[1]):
+                    for kk in range(data.shape[2]):
+                        if mask[ii, jj, kk]:
+                            c = np.dot(-R.T, data[ii, jj, kk])
+                            m.update(q=c)
+                            results = m.solve()
+                            coeff[ii, jj, kk] = results.x
+        coeff = coeff.reshape(og_data_shape[:-1] + (n,))
+        return MSDeconvFit(self, coeff, None)
     else:
-        for ii in tqdm(range(data.shape[0])):
-            coeff[ii] = _process_slice(
-                data[ii], mask[ii],
-                Rt,
-                R_pinv,
-                Q,
-                A,
-                At,
-                A_outer,
-                b,
-                x0,
-                max_iter, tol)
+        x0 = np.linalg.pinv(A) @ np.ones(A.shape[0])
+        x0 = find_analytic_center(A, b, x0)
 
-    coeff = coeff.reshape(og_data_shape[:-1] + (n,))
-    return MSDeconvFit(self, coeff, None)
+        Rt = -R.T
+        R_pinv = np.linalg.pinv(R).astype(np.float64)
+        data = np.ascontiguousarray(data, dtype=np.float64)
+
+        Rt = np.ascontiguousarray(Rt, dtype=np.float64)
+        R_pinv = np.ascontiguousarray(R_pinv, dtype=np.float64)
+        Q = np.ascontiguousarray(Q, dtype=np.float64)
+        A = np.ascontiguousarray(A, dtype=np.float64)
+        At = np.ascontiguousarray(A.T, dtype=np.float64)
+        b = np.ascontiguousarray(b, dtype=np.float64)
+        x0 = np.ascontiguousarray(x0, dtype=np.float64)
+
+        warnings.simplefilter('ignore', category=NumbaPerformanceWarning)
+
+        if n_cpus > 1:
+            ray.init(ignore_reinit_error=True)
+
+            data_id = ray.put(data)
+            mask_id = ray.put(mask)
+            Rt_id = ray.put(Rt)
+            R_pinv_id = ray.put(R_pinv)
+            Q_id = ray.put(Q)
+            A_id = ray.put(A)
+            At_id = ray.put(At)
+            A_outer_id = ray.put(A_outer)
+            b_id = ray.put(b)
+            x0_id = ray.put(x0)
+
+            @ray.remote(
+                num_cpus=n_cpus,
+                runtime_env={"env_vars": {
+                    "NUMBA_THREADING_LAYER": f"{numba_threading_layer}"}})
+            def process_batch_remote(batch_indices, data, mask, Rt, R_pinv,
+                                     Q, A, At, A_outer, b, x0, max_iter, tol):
+                return [_process_slice(
+                    data[ii], mask[ii], Rt, R_pinv, Q, A, At,
+                    A_outer, b, x0, max_iter, tol
+                ) for ii in batch_indices]
+
+            # Launch tasks in chunks
+            all_indices = list(range(data.shape[0]))
+            futures = [
+                process_batch_remote.remote(batch, data_id, mask_id,
+                                            Rt_id, R_pinv_id,
+                                            Q_id, A_id, At_id,
+                                            A_outer_id, b_id, x0_id,
+                                            max_iter, tol)
+                for batch in chunk_indices(all_indices, n_cpus * 2)
+            ]
+
+            # Collect and assign results
+            for batch, future in zip(
+                    chunk_indices(all_indices, n_cpus * 2), tqdm(futures)):
+                results = ray.get(future)
+                for i, ii in enumerate(batch):
+                    coeff[ii] = results[i]
+        else:
+            for ii in tqdm(range(data.shape[0])):
+                coeff[ii] = _process_slice(
+                    data[ii], mask[ii],
+                    Rt,
+                    R_pinv,
+                    Q,
+                    A,
+                    At,
+                    A_outer,
+                    b,
+                    x0,
+                    max_iter, tol)
+
+        coeff = coeff.reshape(og_data_shape[:-1] + (n,))
+        return MSDeconvFit(self, coeff, None)
 
 
 MultiShellDeconvModel.fit = _fit
