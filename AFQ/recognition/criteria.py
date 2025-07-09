@@ -318,7 +318,7 @@ def clean_by_other_bundle(b_sls, bundle_def,
 
     if 'entire_core' in bundle_def[other_bundle_name]:
         cleaned_idx_core = abo.clean_relative_to_other_core(
-            bundle_def[other_bundle_name]['core'].lower(),
+            bundle_def[other_bundle_name]['entire_core'].lower(),
             preproc_imap["fgarray"][b_sls.selected_fiber_idxs],
             np.array(abu.resample_tg(other_bundle_sls, 20)),
             img.affine, True)
