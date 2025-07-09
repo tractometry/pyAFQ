@@ -9,6 +9,56 @@ from scipy.spatial.distance import cdist
 logger = logging.getLogger('AFQ')
 
 
+def clean_by_overlap(this_bundle_sls, other_bundle_sls,
+                     overlap, img):
+    """
+    Cleans a set of streamlines by only keeping those with
+    significant overlap with another set of streamlines.
+
+    Parameters
+    ----------
+    this_bundle_sls : array-like
+        A list or array of streamlines to be cleaned.
+    other_bundle_sls : array-like
+        A reference list or array of streamlines to determine overlapping regions.
+    overlap : int
+        The minimum number of nodes allowed to overlap between `this_bundle_sls`
+        and `other_bundle_sls`. Streamlines with overlaps beyond this threshold 
+        are removed.
+    img : nibabel.Nifti1Image or ndarray
+        A reference 3D image that defines the spatial dimensions for the density 
+        map.
+
+    Returns
+    -------
+    cleaned_idx : ndarray of bool
+        An array of boolean values indicating which streamlines from 
+        `this_bundle_sls` pass the overlap threshold (True for streamlines to 
+        keep, False for streamlines to discard).
+
+    Notes
+    -----
+    This function computes a density map from `other_bundle_sls` to represent 
+    the spatial occupancy of the streamlines. It then calculates the probability
+    of each streamline in `this_bundle_sls` overlapping with this map. 
+    Streamlines that overlap in less than `node_thresh` nodes are flagged for 
+    removal.
+
+    Examples
+    --------
+    >>> clean_idx = clean_by_other_density_map(bundle1, bundle2, 5, img)
+    >>> cleaned_bundle = [s for i, s in enumerate(bundle1) if clean_idx[i]]
+    """
+    other_bundle_density_map = dtu.density_map(
+        other_bundle_sls, np.eye(4), img.shape[:3])
+    fiber_probabilities = dts.values_from_volume(
+        other_bundle_density_map, this_bundle_sls, np.eye(4))
+    cleaned_idx = np.zeros(len(this_bundle_sls), dtype=np.bool_)
+    for ii, fp in enumerate(fiber_probabilities):
+        cleaned_idx[ii] = np.sum(np.asarray(fp) >= 1) > overlap
+    return cleaned_idx
+
+
 def clean_by_other_density_map(this_bundle_sls, other_bundle_sls,
                                node_thresh, img):
     """
