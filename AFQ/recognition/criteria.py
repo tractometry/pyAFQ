@@ -297,7 +297,7 @@ def clean_by_other_bundle(b_sls, bundle_def,
             b_sls.get_selected_sls(),
             other_bundle_sls,
             bundle_def[other_bundle_name]["overlap"],
-            img.affine)
+            img)
         cleaned_idx = np.logical_and(cleaned_idx, cleaned_idx_overlap)
 
     if 'node_thresh' in bundle_def[other_bundle_name]:
