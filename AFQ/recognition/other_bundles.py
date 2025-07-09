@@ -193,11 +193,6 @@ def clean_relative_to_other_core(core, this_fgarray, other_fgarray, affine):
     core_bundle = np.median(other_fgarray, axis=0)
     cleaned_idx_core = np.zeros(this_fgarray.shape[0], dtype=np.bool_)
     for ii, sl in enumerate(this_fgarray):
-        dist_matrix = cdist(core_bundle, sl, 'sqeuclidean')
-        min_dist_indices = np.unravel_index(np.argmin(dist_matrix),
-                                            dist_matrix.shape)
-        closest_core = core_bundle[min_dist_indices[0], core_axis]
-        closest_sl = sl[min_dist_indices[1], core_axis]
-
-        cleaned_idx_core[ii] = core_direc * (closest_sl - closest_core) > 0
+        cleaned_idx_core[ii] = np.all(
+            core_direc * (sl[:, core_axis] - core_bundle[:, core_axis]) > 0)
     return cleaned_idx_core
