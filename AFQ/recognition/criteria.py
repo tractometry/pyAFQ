@@ -292,6 +292,14 @@ def clean_by_other_bundle(b_sls, bundle_def,
     cleaned_idx = b_sls.initiate_selection(other_bundle_name)
     cleaned_idx = 1
 
+    if 'overlap' in bundle_def[other_bundle_name]:
+        cleaned_idx_overlap = abo.clean_by_overlap(
+            b_sls.get_selected_sls(),
+            other_bundle_sls,
+            bundle_def[other_bundle_name]["overlap"],
+            img.affine)
+        cleaned_idx = np.logical_and(cleaned_idx, cleaned_idx_overlap)
+
     if 'node_thresh' in bundle_def[other_bundle_name]:
         cleaned_idx_node_thresh = abo.clean_by_other_density_map(
             b_sls.get_selected_sls(),

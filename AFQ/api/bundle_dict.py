@@ -230,6 +230,8 @@ def default18_bd():
                                    'exclude': [templates['SLF_roi1_L']],
                                    'space': 'template',
                                    'start': templates['pARC_L_start'],
+                                   'Left Arcuate': {
+                                       'overlap': 30},
                                    'primary_axis': 'I/S',
                                    'primary_axis_percentage': 40},
         'Right Posterior Arcuate': {'cross_midline': False,
@@ -237,6 +239,8 @@ def default18_bd():
                                     'exclude': [templates['SLF_roi1_R']],
                                     'space': 'template',
                                     'start': templates['pARC_R_start'],
+                                    'Right Arcuate': {
+                                        'overlap': 30},
                                     'primary_axis': 'I/S',
                                     'primary_axis_percentage': 40},
         'Left Vertical Occipital': {'cross_midline': False,
@@ -246,7 +250,7 @@ def default18_bd():
                                     'Left Arcuate': {
                                         'node_thresh': 20},
                                     'Left Posterior Arcuate': {
-                                        'node_thresh': 1,
+                                        'node_thresh': 20,
                                         'core': 'Anterior'},
                                     'Left Inferior Longitudinal': {
                                         'core': 'Right'},
@@ -261,7 +265,7 @@ def default18_bd():
                                      'Right Arcuate': {
                                          'node_thresh': 20},
                                      'Right Posterior Arcuate': {
-                                         'node_thresh': 1,
+                                         'node_thresh': 20,
                                          'core': 'Anterior'},
                                      'Right Inferior Longitudinal': {
                                          'core': 'Left'},
