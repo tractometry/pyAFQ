@@ -333,7 +333,7 @@ def clean_by_other_bundle(b_sls, bundle_def,
         cleaned_idx_overlap = abo.clean_by_overlap(
             b_sls.get_selected_sls(),
             other_bundle_sls,
-            50,
+            20,
             img, False)
         cleaned_idx = np.logical_and(cleaned_idx, np.logical_or(
             cleaned_idx_core, cleaned_idx_overlap))
