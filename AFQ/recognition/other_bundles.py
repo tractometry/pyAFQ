@@ -10,9 +10,9 @@ logger = logging.getLogger('AFQ')
 
 
 def clean_by_overlap(this_bundle_sls, other_bundle_sls,
-                     overlap, img):
+                     overlap, img, remove):
     """
-    Cleans a set of streamlines by only keeping those with
+    Cleans a set of streamlines by only keeping (or removing) those with
     significant overlap with another set of streamlines.
 
     Parameters
@@ -28,56 +28,10 @@ def clean_by_overlap(this_bundle_sls, other_bundle_sls,
     img : nibabel.Nifti1Image or ndarray
         A reference 3D image that defines the spatial dimensions for the density 
         map.
-
-    Returns
-    -------
-    cleaned_idx : ndarray of bool
-        An array of boolean values indicating which streamlines from 
-        `this_bundle_sls` pass the overlap threshold (True for streamlines to 
-        keep, False for streamlines to discard).
-
-    Notes
-    -----
-    This function computes a density map from `other_bundle_sls` to represent 
-    the spatial occupancy of the streamlines. It then calculates the probability
-    of each streamline in `this_bundle_sls` overlapping with this map. 
-    Streamlines that overlap in less than `node_thresh` nodes are flagged for 
-    removal.
-
-    Examples
-    --------
-    >>> clean_idx = clean_by_other_density_map(bundle1, bundle2, 5, img)
-    >>> cleaned_bundle = [s for i, s in enumerate(bundle1) if clean_idx[i]]
-    """
-    other_bundle_density_map = dtu.density_map(
-        other_bundle_sls, np.eye(4), img.shape[:3])
-    fiber_probabilities = dts.values_from_volume(
-        other_bundle_density_map, this_bundle_sls, np.eye(4))
-    cleaned_idx = np.zeros(len(this_bundle_sls), dtype=np.bool_)
-    for ii, fp in enumerate(fiber_probabilities):
-        cleaned_idx[ii] = np.sum(np.asarray(fp) >= 1) > overlap
-    return cleaned_idx
-
-
-def clean_by_other_density_map(this_bundle_sls, other_bundle_sls,
-                               node_thresh, img):
-    """
-    Cleans a set of streamlines by removing those with significant overlap with 
-    another set of streamlines.
-
-    Parameters
-    ----------
-    this_bundle_sls : array-like
-        A list or array of streamlines to be cleaned.
-    other_bundle_sls : array-like
-        A reference list or array of streamlines to determine overlapping regions.
-    node_thresh : int
-        The maximum number of nodes allowed to overlap between `this_bundle_sls`
-        and `other_bundle_sls`. Streamlines with overlaps beyond this threshold 
+    remove : bool
+        If True, streamlines that overlap in less than `overlap` nodes are
+        removed. If False, streamlines that overlap in more than `overlap` nodes
         are removed.
-    img : nibabel.Nifti1Image or ndarray
-        A reference 3D image that defines the spatial dimensions for the density 
-        map.
 
     Returns
     -------
@@ -91,12 +45,12 @@ def clean_by_other_density_map(this_bundle_sls, other_bundle_sls,
     This function computes a density map from `other_bundle_sls` to represent 
     the spatial occupancy of the streamlines. It then calculates the probability
     of each streamline in `this_bundle_sls` overlapping with this map. 
-    Streamlines that overlap in more than `node_thresh` nodes are flagged for 
-    removal.
+    Streamlines that overlap in less than `overlap` nodes are flagged for 
+    removal (or more, if remove is True).
 
     Examples
     --------
-    >>> clean_idx = clean_by_other_density_map(bundle1, bundle2, 5, img)
+    >>> clean_idx = clean_by_other_density_map(bundle1, bundle2, 5, img, True)
     >>> cleaned_bundle = [s for i, s in enumerate(bundle1) if clean_idx[i]]
     """
     other_bundle_density_map = dtu.density_map(
@@ -105,11 +59,15 @@ def clean_by_other_density_map(this_bundle_sls, other_bundle_sls,
         other_bundle_density_map, this_bundle_sls, np.eye(4))
     cleaned_idx = np.zeros(len(this_bundle_sls), dtype=np.bool_)
     for ii, fp in enumerate(fiber_probabilities):
-        cleaned_idx[ii] = np.sum(np.asarray(fp) >= 1) <= node_thresh
+        if remove:
+            cleaned_idx[ii] = np.sum(np.asarray(fp) >= 1) <= overlap
+        else:
+            cleaned_idx[ii] = np.sum(np.asarray(fp) >= 1) > overlap
     return cleaned_idx
 
 
-def clean_relative_to_other_core(core, this_fgarray, other_fgarray, affine):
+def clean_relative_to_other_core(core, this_fgarray, other_fgarray, affine,
+                                 entire):
     """
     Removes streamlines from a set that lie on the opposite side of a specified 
     core axis compared to another set of streamlines.
@@ -126,6 +84,10 @@ def clean_relative_to_other_core(core, this_fgarray, other_fgarray, affine):
         An array of reference streamlines to define the core.
     affine : ndarray
         The affine transformation matrix.
+    entire : bool
+        If True, the entire streamline must lie on the correct side of the core 
+        to be retained. If False, only the closest point on the streamline to 
+        the core is considered.
 
     Returns
     -------
@@ -193,6 +155,18 @@ def clean_relative_to_other_core(core, this_fgarray, other_fgarray, affine):
     core_bundle = np.median(other_fgarray, axis=0)
     cleaned_idx_core = np.zeros(this_fgarray.shape[0], dtype=np.bool_)
     for ii, sl in enumerate(this_fgarray):
-        cleaned_idx_core[ii] = np.all(
-            core_direc * (sl[:, core_axis] - core_bundle[:, core_axis]) > 0)
+        if entire:
+            cleaned_idx_core[ii] = np.all(
+                core_direc * (
+                    sl[:, core_axis] - core_bundle[:, core_axis]) > 0)
+        else:
+            dist_matrix = cdist(core_bundle, sl, 'sqeuclidean')
+            min_dist_indices = np.unravel_index(np.argmin(dist_matrix),
+                                                dist_matrix.shape)
+            closest_core = core_bundle[min_dist_indices[0], core_axis]
+            closest_sl = sl[min_dist_indices[1], core_axis]
+
+            cleaned_idx_core[ii] = core_direc * (
+                closest_sl - closest_core) > 0
+
     return cleaned_idx_core
