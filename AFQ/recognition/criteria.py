@@ -297,15 +297,15 @@ def clean_by_other_bundle(b_sls, bundle_def,
             b_sls.get_selected_sls(),
             other_bundle_sls,
             bundle_def[other_bundle_name]["overlap"],
-            img)
+            img, False)
         cleaned_idx = np.logical_and(cleaned_idx, cleaned_idx_overlap)
 
     if 'node_thresh' in bundle_def[other_bundle_name]:
-        cleaned_idx_node_thresh = abo.clean_by_other_density_map(
+        cleaned_idx_node_thresh = abo.clean_by_overlap(
             b_sls.get_selected_sls(),
             other_bundle_sls,
             bundle_def[other_bundle_name]["node_thresh"],
-            img)
+            img, True)
         cleaned_idx = np.logical_and(cleaned_idx, cleaned_idx_node_thresh)
 
     if 'core' in bundle_def[other_bundle_name]:
@@ -313,7 +313,15 @@ def clean_by_other_bundle(b_sls, bundle_def,
             bundle_def[other_bundle_name]['core'].lower(),
             preproc_imap["fgarray"][b_sls.selected_fiber_idxs],
             np.array(abu.resample_tg(other_bundle_sls, 20)),
-            img.affine)
+            img.affine, False)
+        cleaned_idx = np.logical_and(cleaned_idx, cleaned_idx_core)
+
+    if 'entire_core' in bundle_def[other_bundle_name]:
+        cleaned_idx_core = abo.clean_relative_to_other_core(
+            bundle_def[other_bundle_name]['core'].lower(),
+            preproc_imap["fgarray"][b_sls.selected_fiber_idxs],
+            np.array(abu.resample_tg(other_bundle_sls, 20)),
+            img.affine, True)
         cleaned_idx = np.logical_and(cleaned_idx, cleaned_idx_core)
 
     b_sls.select(cleaned_idx, other_bundle_name)
