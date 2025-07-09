@@ -324,6 +324,20 @@ def clean_by_other_bundle(b_sls, bundle_def,
             img.affine, True)
         cleaned_idx = np.logical_and(cleaned_idx, cleaned_idx_core)
 
+    if 'inclusive_core' in bundle_def[other_bundle_name]:
+        cleaned_idx_core = abo.clean_relative_to_other_core(
+            bundle_def[other_bundle_name]['inclusive_core'].lower(),
+            preproc_imap["fgarray"][b_sls.selected_fiber_idxs],
+            np.array(abu.resample_tg(other_bundle_sls, 20)),
+            img.affine, False)
+        cleaned_idx_overlap = abo.clean_by_overlap(
+            b_sls.get_selected_sls(),
+            other_bundle_sls,
+            50,
+            img, False)
+        cleaned_idx = np.logical_and(cleaned_idx, np.logical_or(
+            cleaned_idx_core, cleaned_idx_overlap))
+
     b_sls.select(cleaned_idx, other_bundle_name)
 
 

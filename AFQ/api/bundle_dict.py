@@ -252,7 +252,7 @@ def default18_bd():
                                         'node_thresh': 20,
                                         'entire_core': 'Anterior'},
                                     'Left Inferior Longitudinal': {
-                                        'core': 'Right'},
+                                        'inclusive_core': 'Right'},
                                     'isolation_forest': {
                                         'percent_outlier_thresh': 50},
                                     'primary_axis': 'I/S',
@@ -266,7 +266,7 @@ def default18_bd():
                                          'node_thresh': 20,
                                          'entire_core': 'Anterior'},
                                      'Right Inferior Longitudinal': {
-                                         'core': 'Left'},
+                                         'inclusive_core': 'Left'},
                                      'isolation_forest': {
                                          'percent_outlier_thresh': 50},
                                      'primary_axis': 'I/S',
