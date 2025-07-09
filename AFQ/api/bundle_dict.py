@@ -250,7 +250,7 @@ def default18_bd():
                                         'node_thresh': 20},
                                     'Left Posterior Arcuate': {
                                         'node_thresh': 20,
-                                        'core': 'Anterior'},
+                                        'entire_core': 'Anterior'},
                                     'Left Inferior Longitudinal': {
                                         'core': 'Right'},
                                     'isolation_forest': {
@@ -264,7 +264,7 @@ def default18_bd():
                                          'node_thresh': 20},
                                      'Right Posterior Arcuate': {
                                          'node_thresh': 20,
-                                         'core': 'Anterior'},
+                                         'entire_core': 'Anterior'},
                                      'Right Inferior Longitudinal': {
                                          'core': 'Left'},
                                      'isolation_forest': {
