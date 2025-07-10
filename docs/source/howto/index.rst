@@ -13,6 +13,7 @@ software.
    cite
    data
    kwargs
+   rerun
    config
    mask
    scalars
