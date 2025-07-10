@@ -122,16 +122,18 @@ def recognize(
     References
     ----------
     .. [Hua2008] Hua K, Zhang J, Wakana S, Jiang H, Li X, et al. (2008)
-    Tract probability maps in stereotaxic spaces: analyses of white
-    matter anatomy and tract-specific quantification. Neuroimage 39:
-    336-347
+        Tract probability maps in stereotaxic spaces: analyses of white
+        matter anatomy and tract-specific quantification. Neuroimage 39:
+        336-347
+
     .. [Yeatman2012] Yeatman, Jason D., Robert F. Dougherty, Nathaniel J.
-    Myall, Brian A. Wandell, and Heidi M. Feldman. 2012. "Tract Profiles of
-    White Matter Properties: Automating Fiber-Tract Quantification"
-    PloS One 7 (11): e49790.
-    .. [Garyfallidis17] Garyfallidis et al. Recognition of white matter
-    bundles using local and global streamline-based registration and
-    clustering, Neuroimage, 2017.
+        Myall, Brian A. Wandell, and Heidi M. Feldman. 2012. "Tract Profiles
+        of White Matter Properties: Automating Fiber-Tract Quantification"
+        PloS One 7 (11): e49790.
+
+    .. [Garyfallidis2018] Garyfallidis et al. Recognition of white matter
+        bundles using local and global streamline-based registration and
+        clustering, Neuroimage, 2017.
     """
     if rng is None:
         rng = np.random.RandomState()

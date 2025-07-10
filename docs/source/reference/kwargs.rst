@@ -154,5 +154,5 @@ virtual_frame_buffer: bool
 	Whether to use a virtual fram buffer. This is neccessary if generating GIFs in a headless environment. Default: False
 
 viz_backend_spec: str
-	Which visualization backend to use. See Visualization Backends page in documentation for details https://tractometry.org/pyAFQ/usage/viz_backend.html One of {"fury", "plotly", "plotly_no_gif"}. Default: "plotly_no_gif"
+	Which visualization backend to use. See Visualization Backends page in documentation for details https://tractometry.org/pyAFQ/reference/viz_backend.html One of {"fury", "plotly", "plotly_no_gif"}. Default: "plotly_no_gif"
 

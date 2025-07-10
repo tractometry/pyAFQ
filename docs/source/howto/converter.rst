@@ -12,7 +12,8 @@ This would look for a file with the suffix 'tractography' inside of the
 specified in its dataset_description.json.
 
 There is an example usage of import_tract with the
-:class:`AFQ.api.group.GroupAFQ` object in the 'How pyAFQ uses BIDS' example in :ref:`examples`.
+:class:`AFQ.api.group.GroupAFQ` object in 
+`How pyAFQ uses BIDS <tutorials/tutorial_examples/plot_006_bids_layout.html>`_.
 
 
 Matlab AFQ to Python AFQ conversion
