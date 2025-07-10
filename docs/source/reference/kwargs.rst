@@ -35,7 +35,7 @@ robust_tensor_fitting: bool
 csd_response: tuple or None
 	The response function to be used by CSD, as a tuple with two elements. The first is the eigen-values as an (3,) ndarray and the second is the signal value for the response function without diffusion-weighting (i.e. S0). If not provided, auto_response will be used to calculate these values. Default: None
 
-csd_sh_order: int or None
+csd_sh_order_max: int or None
 	default: infer the number of parameters from the number of data volumes, but no larger than 8. Default: None
 
 csd_lambda_: float

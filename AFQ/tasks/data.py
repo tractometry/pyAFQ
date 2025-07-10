@@ -86,8 +86,8 @@ def get_data_gtab(dwi_data_file, bval_file, bvec_file, min_bval=None,
         bvals = bvals[valid_b]
         bvecs = bvecs[valid_b]
     gtab = dpg.gradient_table(
-        bvals = bvals, bvecs = bvecs,
-        b0_threshold = b0_threshold)
+        bvals=bvals, bvecs=bvecs,
+        b0_threshold=b0_threshold)
     img = nib.Nifti1Image(data, img.affine)
     return data, gtab, img, img.affine
 
@@ -293,7 +293,7 @@ def msdki_msk(msdki_tf):
          subfolder="models")
 @as_img
 def csd_params(dwi, brain_mask, gtab, data,
-               csd_response=None, csd_sh_order=None,
+               csd_response=None, csd_sh_order_max=None,
                csd_lambda_=1, csd_tau=0.1,
                csd_fa_thr=0.7):
     """
@@ -309,7 +309,7 @@ def csd_params(dwi, brain_mask, gtab, data,
         (i.e. S0). If not provided, auto_response will be used to calculate
         these values.
         Default: None
-    csd_sh_order : int or None, optional.
+    csd_sh_order_max : int or None, optional.
         default: infer the number of parameters from the number of data
         volumes, but no larger than 8.
         Default: None
@@ -340,7 +340,7 @@ def csd_params(dwi, brain_mask, gtab, data,
         csdf = csd_fit_model(
             gtab, data,
             mask=mask,
-            response=csd_response, sh_order=csd_sh_order,
+            response=csd_response, sh_order_max=csd_sh_order_max,
             lambda_=csd_lambda_, tau=csd_tau,
             csd_fa_thr=csd_fa_thr)
     except CsdNanResponseError as e:
@@ -349,7 +349,7 @@ def csd_params(dwi, brain_mask, gtab, data,
             f'{dwi}.') from e
 
     meta = dict(
-        SphericalHarmonicDegree=csd_sh_order,
+        SphericalHarmonicDegree=csd_sh_order_max,
         ResponseFunctionTensor=csd_response,
         lambda_=csd_lambda_,
         tau=csd_tau,
@@ -579,7 +579,7 @@ def rumba_f_wm(rumba_fit):
 @pimms.calc("opdt_params", "opdt_gfa")
 def opdt_params(base_fname, data, gtab,
                 dwi_affine, brain_mask,
-                opdt_sh_order=8):
+                opdt_sh_order_max=8):
     """
     full path to a nifti file containing
     parameters for the Orientation Probability Density Transform
@@ -592,7 +592,7 @@ def opdt_params(base_fname, data, gtab,
         Spherical harmonics order for OPDT model. Must be even.
         Default: 8
     """
-    opdt_model = shm.OpdtModel(gtab, opdt_sh_order)
+    opdt_model = shm.OpdtModel(gtab, opdt_sh_order_max)
     opdt_fit = opdt_model.fit(data, mask=brain_mask)
 
     params_suffix = "_model-OPDT_param-fod_dwimap.nii.gz"
@@ -602,7 +602,7 @@ def opdt_params(base_fname, data, gtab,
         get_fname(base_fname,
                   f"{drop_extension(params_suffix)}.json",
                   "models"),
-        dict(sh_order=opdt_sh_order)
+        dict(sh_order_max=opdt_sh_order_max)
     )
 
     GFA_suffix = "_model-OPDT_param-GFA_dwimap.nii.gz"
@@ -610,7 +610,7 @@ def opdt_params(base_fname, data, gtab,
     nib.save(nib.Nifti1Image(opdt_fit.gfa, dwi_affine), GFA_fname)
     write_json(
         get_fname(base_fname, f"{drop_extension(GFA_suffix)}.json", "models"),
-        dict(sh_order=opdt_sh_order)
+        dict(sh_order_max=opdt_sh_order_max)
     )
 
     return params_fname, GFA_fname
@@ -647,7 +647,7 @@ def opdt_ai(opdt_params):
 @pimms.calc("csa_params", "csa_gfa")
 def csa_params(base_fname, data, gtab,
                dwi_affine, brain_mask,
-               csa_sh_order=8):
+               csa_sh_order_max=8):
     """
     full path to a nifti file containing
     parameters for the Constant Solid Angle
@@ -660,7 +660,7 @@ def csa_params(base_fname, data, gtab,
         Spherical harmonics order for CSA model. Must be even.
         Default: 8
     """
-    csa_model = shm.CsaOdfModel(gtab, csa_sh_order)
+    csa_model = shm.CsaOdfModel(gtab, csa_sh_order_max)
     csa_fit = csa_model.fit(data, mask=brain_mask)
 
     params_suffix = "_model-csa_param-fod_dwimap.nii.gz"
@@ -670,7 +670,7 @@ def csa_params(base_fname, data, gtab,
         get_fname(base_fname,
                   f"{drop_extension(params_suffix)}.json",
                   "models"),
-        dict(sh_order=csa_sh_order)
+        dict(sh_order_max=csa_sh_order_max)
     )
 
     GFA_suffix = "_model-csa_param-gfa_dwimap.nii.gz"
@@ -681,7 +681,7 @@ def csa_params(base_fname, data, gtab,
             base_fname,
             f"{drop_extension(GFA_suffix)}.json",
             "models"),
-        dict(sh_order=csa_sh_order)
+        dict(sh_order_max=csa_sh_order_max)
     )
 
     return params_fname, GFA_fname

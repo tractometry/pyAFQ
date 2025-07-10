@@ -56,7 +56,7 @@ class ParticipantAFQ(object):
         --------
         api.ParticipantAFQ(
             dwi_data_file, bval_file, bvec_file, output_dir,
-            csd_sh_order=4)
+            csd_sh_order_max=4)
         api.ParticipantAFQ(
             dwi_data_file, bval_file, bvec_file, output_dir,
             reg_template_spec="mni_t2", reg_subject_spec="b0")

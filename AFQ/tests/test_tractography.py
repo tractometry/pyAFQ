@@ -30,10 +30,11 @@ step_size = 0.5
 
 def test_csd_local_tracking():
     random.seed(1234)
-    for sh_order in [4, 8, 10]:
+    for sh_order_max in [4, 8, 10]:
         fname = fit_csd(fdata, fbval, fbvec,
                         response=((0.0015, 0.0003, 0.0003), 100),
-                        sh_order=sh_order, lambda_=1, tau=0.1, mask=None,
+                        sh_order_max=sh_order_max, lambda_=1,
+                        tau=0.1, mask=None,
                         out_dir=tmpdir.name)
         for directions in ["det", "prob"]:
             sls = track(
@@ -78,7 +79,7 @@ def test_pft_tracking():
                 fit_csd(
                     fdata, fbval, fbvec,
                     response=((0.0015, 0.0003, 0.0003), 100),
-                    sh_order=8, lambda_=1, tau=0.1, mask=None,
+                    sh_order_max=8, lambda_=1, tau=0.1, mask=None,
                     out_dir=tmpdir.name)],
             ["DTI", "CSD"]):
         img = nib.load(fdata)

@@ -7,7 +7,7 @@ from dipy.reconst.shm import anisotropic_power, sh_to_sf_matrix
 __all__ = ["extract_odf", "anisotropic_index", "anisotropic_power"]
 
 
-def extract_odf(odf, sphere=default_sphere, sh_order=8):
+def extract_odf(odf, sphere=default_sphere, sh_order_max=8):
     """
     Calculates spherical harmonics coefficients and
     isotropic and anisotropic diffusion components
@@ -18,7 +18,7 @@ def extract_odf(odf, sphere=default_sphere, sh_order=8):
     ISO = odf_norm.min(axis=-1)
 
     _, invB = sh_to_sf_matrix(
-        sphere, sh_order=sh_order, basis_type=None, return_inv=True)
+        sphere, sh_order_max=sh_order_max, basis_type=None, return_inv=True)
     shm = blas.dgemm(
         alpha=1.,
         a=odf.reshape(-1, invB.shape[0]), b=invB).reshape(

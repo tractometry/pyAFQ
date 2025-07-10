@@ -78,7 +78,7 @@ def gpu_track(data, gtab, seed_img, stop_img,
     Returns
     -------
     """
-    sh_order = 8
+    sh_order_max = 8
 
     seed_data = seed_img.get_fdata()
     stop_data = stop_img.get_fdata()
@@ -89,14 +89,14 @@ def gpu_track(data, gtab, seed_img, stop_img,
 
     theta = sphere.theta
     phi = sphere.phi
-    sampling_matrix, _, _ = shm.real_sym_sh_basis(sh_order, theta, phi)
+    sampling_matrix, _, _ = shm.real_sym_sh_basis(sh_order_max, theta, phi)
 
     if directions == "boot":
         if odf_model.lower() == "opdt":
             model_type = cuslines.ModelType.OPDT
             model = OpdtModel(
                 gtab,
-                sh_order=sh_order,
+                sh_order_max=sh_order_max,
                 smooth=0.006,
                 min_signal=1)
             fit_matrix = model._fit_matrix
@@ -104,7 +104,7 @@ def gpu_track(data, gtab, seed_img, stop_img,
         elif odf_model.lower() == "csa":
             model_type = cuslines.ModelType.CSA
             model = CsaOdfModel(
-                gtab, sh_order=sh_order,
+                gtab, sh_order_max=sh_order_max,
                 smooth=0.006, min_signal=1)
             fit_matrix = model._fit_matrix
             delta_b = fit_matrix
@@ -129,7 +129,7 @@ def gpu_track(data, gtab, seed_img, stop_img,
     dwi_mask = ~b0s_mask
     x, y, z = model.gtab.gradients[dwi_mask].T
     _, theta, phi = shm.cart2sphere(x, y, z)
-    B, _, _ = shm.real_sym_sh_basis(sh_order, theta, phi)
+    B, _, _ = shm.real_sym_sh_basis(sh_order_max, theta, phi)
     H = shm.hat(B)
     R = shm.lcr_matrix(H)
 
