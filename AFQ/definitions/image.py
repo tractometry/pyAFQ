@@ -10,10 +10,11 @@ from AFQ.definitions.utils import Definition, find_file, name_from_path
 
 from skimage.morphology import convex_hull_image, binary_opening
 
+
 __all__ = [
     "ImageFile", "FullImage", "RoiImage", "B0Image", "LabelledImageFile",
     "ThresholdedImageFile", "ScalarImage", "ThresholdedScalarImage",
-    "TemplateImage", "GQImage"]
+    "TemplateImage", "GQImage", "ThreeTImage"]
 
 
 logger = logging.getLogger('AFQ')
@@ -268,12 +269,14 @@ class RoiImage(ImageDefinition):
                  use_waypoints=True,
                  use_presegment=False,
                  use_endpoints=False,
+                 only_wmgmi=False,
                  tissue_property=None,
                  tissue_property_n_voxel=None,
                  tissue_property_threshold=None):
         self.use_waypoints = use_waypoints
         self.use_presegment = use_presegment
         self.use_endpoints = use_endpoints
+        self.only_wmgmi = only_wmgmi
         self.tissue_property = tissue_property
         self.tissue_property_n_voxel = tissue_property_n_voxel
         self.tissue_property_threshold = tissue_property_threshold
@@ -335,6 +338,17 @@ class RoiImage(ImageDefinition):
                 raise ValueError((
                     "BundleDict does not have enough ROIs to generate "
                     f"an ROI Image: {bundle_dict._dict}"))
+
+            if self.only_wmgmi:
+                wmgmi = nib.load(
+                    data_imap["wm_gm_interface"]).get_fdata()
+                image_data = np.logical_and(
+                    image_data, wmgmi)
+                if np.sum(image_data) == 0:
+                    raise ValueError((
+                        "BundleDict does not have enough ROIs to generate "
+                        "an ROI Image with WM/GM interface applied."))
+
             return nib.Nifti1Image(
                 image_data.astype(np.float32),
                 data_imap["dwi_affine"]), dict(source="ROIs")
@@ -681,7 +695,8 @@ class ThresholdedScalarImage(ThresholdedImageFile, ScalarImage):
 class PFTImage(ImageDefinition):
     """
     Define an image for use in PFT tractography. Only use
-    if tracker set to 'pft' in tractography.
+    if tracker set to 'pft' in tractography. Used to provide
+    custom segmentations.
 
     Parameters
     ----------
@@ -700,7 +715,7 @@ class PFTImage(ImageDefinition):
         afm.ImageFile(suffix="CSFprobseg"))
     api.GroupAFQ(tracking_params={
         "stop_image": stop_image,
-        "stop_threshold": "CMC",
+        "stop_threshold": "ACT",
         "tracker": "pft"})
     """
 
@@ -725,6 +740,53 @@ class PFTImage(ImageDefinition):
             raise ValueError("PFTImage cannot be used in this context")
         return [probseg.get_image_getter(task_name)
                 for probseg in self.probsegs]
+
+
+class ThreeTImage(ImageDefinition):
+    """
+    Define an image for use in PFT tractography. Only use
+    if tracker set to 'pft' in tractography. Use to generate
+    WM/GM/CSF probsegs from T1w.
+
+    Examples
+    --------
+    api.GroupAFQ(tracking_params={
+        "stop_image": ThreeTImage(),
+        "stop_threshold": "ACT",
+        "tracker": "pft"})
+    """
+
+    def __init__(self):
+        pass
+
+    def get_name(self):
+        return "ThreeT"
+
+    def get_image_getter(self, task_name):
+        if task_name == "data":
+            raise ValueError((
+                "ThreeTImage cannot be used in this context, as they"
+                "require later derivatives to be calculated"))
+
+        def csf_getter(data_imap):
+            PVE = nib.load(data_imap["t1w_pve"])
+            return nib.Nifti1Image(
+                PVE.get_fdata()[..., 0].astype(np.float32),
+                PVE.affine)
+
+        def gm_getter(data_imap):
+            PVE = nib.load(data_imap["t1w_pve"])
+            return nib.Nifti1Image(
+                PVE.get_fdata()[..., 1].astype(np.float32),
+                PVE.affine)
+
+        def wm_getter(data_imap):
+            PVE = nib.load(data_imap["t1w_pve"])
+            return nib.Nifti1Image(
+                PVE.get_fdata()[..., 2].astype(np.float32),
+                PVE.affine)
+
+        return [wm_getter, gm_getter, csf_getter]
 
 
 class TemplateImage(ImageDefinition):

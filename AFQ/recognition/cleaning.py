@@ -9,7 +9,7 @@ from dipy.io.stateful_tractogram import StatefulTractogram, Space
 
 import AFQ.recognition.utils as abu
 from AFQ._fixes import gaussian_weights
-
+from sklearn.ensemble import IsolationForest
 
 logger = logging.getLogger('AFQ')
 
@@ -69,7 +69,7 @@ def clean_by_orientation(streamlines, primary_axis, affine, tol=None):
 
 def clean_bundle(tg, n_points=100, clean_rounds=5, distance_threshold=3,
                  length_threshold=4, min_sl=20, stat='mean',
-                 return_idx=False):
+                 core_only=True, return_idx=False):
     """
     Clean a segmented fiber group based on the Mahalnobis distance of
     each streamline
@@ -97,6 +97,13 @@ def clean_bundle(tg, n_points=100, clean_rounds=5, distance_threshold=3,
     stat : callable or str, optional.
         The statistic of each node relative to which the Mahalanobis is
         calculated. Default: `np.mean` (but can also use median, etc.)
+    core_only : bool, optional
+        If True, only the core of the bundle is used for cleaning.
+        The core is defined as the middle 60% of each streamline.
+        This means streamlines are allowed to deviate in the starting
+        and ending 20% of the bundle. This is useful for allowing more
+        diverse endpoints.
+        Default: True.
     return_idx : bool
         Whether to return indices in the original streamlines.
         Default: False.
@@ -127,6 +134,10 @@ def clean_bundle(tg, n_points=100, clean_rounds=5, distance_threshold=3,
 
     # Resample once up-front:
     fgarray = np.asarray(abu.resample_tg(streamlines, n_points))
+    if core_only:
+        fgarray = fgarray[:,
+                          int(n_points * 0.2):int(n_points * 0.8),
+                          :]  # Crop to middle 60%
 
     # Keep this around, so you can use it for indexing at the very end:
     idx = np.arange(len(fgarray))
@@ -192,3 +203,71 @@ def clean_bundle(tg, n_points=100, clean_rounds=5, distance_threshold=3,
         return out, idx
     else:
         return out
+
+
+def clean_by_isolation_forest(tg, n_points=100, percent_outlier_thresh=15,
+                              min_sl=20, n_jobs=None):
+    """
+    Use Isolation Forest (IF) to clean streamlines.
+    Nodes are passed to IF, and outlier nodes are identified.
+    These are re-mapped back on to the streamlines, and streamlines
+    with too many outlier nodes are removed. This is better for
+    cleaning bundles that are not tube-like.
+
+    Parameters
+    ----------
+    tg : StatefulTractogram class instance or ArraySequence
+        A whole-brain tractogram to be segmented.
+    n_points : int, optional
+        Number of points to resample streamlines to.
+        Default: 100
+    percent_outlier_thresh : int, optional
+        Percentage of outliers allowed in the streamline.
+        Default: 15
+    min_sl : int, optional.
+        Number of streamlines in a bundle under which we will
+        not bother with cleaning outliers. Default: 20.
+    n_jobs : int, optional
+        Number of parallel jobs to use for LOF.
+        Default: None (single-threaded).
+
+    Returns
+    -------
+    indicies of streamlines that passed cleaning
+    """
+    if hasattr(tg, "streamlines"):
+        streamlines = tg.streamlines
+    else:
+        streamlines = dts.Streamlines(tg)
+
+    # We don't even bother if there aren't enough streamlines:
+    if len(streamlines) < min_sl:
+        logger.warning((
+            "LOD cleaning not performed"
+            " due to low streamline count"))
+        return np.ones(len(streamlines), dtype=bool)
+
+    # Resample once up-front:
+    fgarray = np.asarray(abu.resample_tg(streamlines, n_points))
+    fgarray_dists = np.zeros_like(fgarray)
+    fgarray_dists[:, 1:, :] = fgarray[:, 1:, :] - fgarray[:, :-1, :]
+    fgarray_dists[:, 0, :] = fgarray_dists[:, 1, :]
+    X_ = np.concatenate((
+        fgarray.reshape((-1, 3)),
+        fgarray_dists.reshape((-1, 3))),
+        axis=1)
+    idx = np.arange(len(fgarray))
+
+    lof = IsolationForest(n_jobs=n_jobs)
+    outliers = lof.fit_predict(X_)
+    outliers = outliers.reshape(fgarray.shape[:2])
+    outliers = np.sum(outliers == -1, axis=1)
+
+    idx_belong = outliers * 100 <= n_points * percent_outlier_thresh
+
+    if np.sum(idx_belong) < min_sl:
+        # need to sort and return exactly min_sl:
+        return idx[np.argsort(outliers)[:min_sl].astype(int)]
+    else:
+        # Update by selection:
+        return idx[idx_belong]

@@ -22,10 +22,15 @@ import AFQ.recognition.curvature as abv
 import AFQ.recognition.roi as abr
 import AFQ.recognition.other_bundles as abo
 
-bundle_criterion_order = [
+criteria_order_pre_other_bundles = [
     "prob_map", "cross_midline", "start", "end",
     "length", "primary_axis", "include", "exclude",
-    "curvature", "recobundles", "qb_thresh"]
+    "curvature", "recobundles"]
+
+
+criteria_order_post_other_bundles = [
+    "isolation_forest", "qb_thresh"]
+
 
 valid_noncriterion = [
     "space", "mahal", "primary_axis_percentage",
@@ -287,12 +292,20 @@ def clean_by_other_bundle(b_sls, bundle_def,
     cleaned_idx = b_sls.initiate_selection(other_bundle_name)
     cleaned_idx = 1
 
+    if 'overlap' in bundle_def[other_bundle_name]:
+        cleaned_idx_overlap = abo.clean_by_overlap(
+            b_sls.get_selected_sls(),
+            other_bundle_sls,
+            bundle_def[other_bundle_name]["overlap"],
+            img, False)
+        cleaned_idx = np.logical_and(cleaned_idx, cleaned_idx_overlap)
+
     if 'node_thresh' in bundle_def[other_bundle_name]:
-        cleaned_idx_node_thresh = abo.clean_by_other_density_map(
+        cleaned_idx_node_thresh = abo.clean_by_overlap(
             b_sls.get_selected_sls(),
             other_bundle_sls,
             bundle_def[other_bundle_name]["node_thresh"],
-            img)
+            img, True)
         cleaned_idx = np.logical_and(cleaned_idx, cleaned_idx_node_thresh)
 
     if 'core' in bundle_def[other_bundle_name]:
@@ -300,10 +313,46 @@ def clean_by_other_bundle(b_sls, bundle_def,
             bundle_def[other_bundle_name]['core'].lower(),
             preproc_imap["fgarray"][b_sls.selected_fiber_idxs],
             np.array(abu.resample_tg(other_bundle_sls, 20)),
-            img.affine)
+            img.affine, False)
         cleaned_idx = np.logical_and(cleaned_idx, cleaned_idx_core)
 
+    if 'entire_core' in bundle_def[other_bundle_name]:
+        cleaned_idx_core = abo.clean_relative_to_other_core(
+            bundle_def[other_bundle_name]['entire_core'].lower(),
+            preproc_imap["fgarray"][b_sls.selected_fiber_idxs],
+            np.array(abu.resample_tg(other_bundle_sls, 20)),
+            img.affine, True)
+        cleaned_idx = np.logical_and(cleaned_idx, cleaned_idx_core)
+
+    if 'inclusive_core' in bundle_def[other_bundle_name]:
+        cleaned_idx_core = abo.clean_relative_to_other_core(
+            bundle_def[other_bundle_name]['inclusive_core'].lower(),
+            preproc_imap["fgarray"][b_sls.selected_fiber_idxs],
+            np.array(abu.resample_tg(other_bundle_sls, 20)),
+            img.affine, False)
+        cleaned_idx_overlap = abo.clean_by_overlap(
+            b_sls.get_selected_sls(),
+            other_bundle_sls,
+            20,
+            img, False)
+        cleaned_idx = np.logical_and(cleaned_idx, np.logical_or(
+            cleaned_idx_core, cleaned_idx_overlap))
+
     b_sls.select(cleaned_idx, other_bundle_name)
+
+
+def isolation_forest(b_sls, bundle_def, parallel_segmentation, **kwargs):
+    b_sls.initiate_selection("isolation_forest")
+    if parallel_segmentation["engine"] == "serial":
+        n_jobs = None
+    else:
+        n_jobs = parallel_segmentation.get("n_jobs", -1)
+    accept_idx = abc.clean_by_isolation_forest(
+        b_sls.get_selected_sls(),
+        percent_outlier_thresh=bundle_def["isolation_forest"].get(
+            "percent_outlier_thresh", 25),
+        n_jobs=n_jobs)
+    b_sls.select(accept_idx, "isolation_forest")
 
 
 def mahalanobis(b_sls, bundle_def, clip_edges, cleaning_params, **kwargs):
@@ -378,18 +427,20 @@ def run_bundle_rec_plan(
         inputs[key] = value
 
     for potential_criterion in bundle_def.keys():
-        if (potential_criterion not in bundle_criterion_order) and\
-            (potential_criterion not in bundle_dict.bundle_names) and\
+        if (potential_criterion not in criteria_order_post_other_bundles) and\
+            (potential_criterion not in criteria_order_pre_other_bundles) and\
+                (potential_criterion not in bundle_dict.bundle_names) and\
                 (potential_criterion not in valid_noncriterion):
             raise ValueError((
                 "Invalid criterion in bundle definition:\n"
                 f"{potential_criterion} in bundle {bundle_name}.\n"
                 "Valid criteria are:\n"
-                f"{bundle_criterion_order}\n"
+                f"{criteria_order_pre_other_bundles}\n"
+                f"{criteria_order_post_other_bundles}\n"
                 f"{bundle_dict.bundle_names}\n"
                 f"{valid_noncriterion}\n"))
 
-    for criterion in bundle_criterion_order:
+    for criterion in criteria_order_pre_other_bundles:
         if b_sls and criterion in bundle_def:
             inputs[criterion] = globals()[criterion](**inputs)
     if b_sls:
@@ -400,8 +451,12 @@ def run_bundle_rec_plan(
                     **inputs,
                     other_bundle_name=bundle_name,
                     other_bundle_sls=tg.streamlines[idx])
+    for criterion in criteria_order_post_other_bundles:
+        if b_sls and criterion in bundle_def:
+            inputs[criterion] = globals()[criterion](**inputs)
     if b_sls:
-        mahalanobis(**inputs)
+        if "mahal" in bundle_def or "isolation_forest" not in bundle_def:
+            mahalanobis(**inputs)
 
     if b_sls and not b_sls.oriented_yet:
         raise ValueError(
