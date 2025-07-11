@@ -127,7 +127,7 @@ class GroupAFQ(object):
 
         Examples
         --------
-        api.GroupAFQ(my_path, csd_sh_order=4)
+        api.GroupAFQ(my_path, csd_sh_order_max=4)
         api.GroupAFQ(
             my_path,
             reg_template_spec="mni_t2", reg_subject_spec="b0")
