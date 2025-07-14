@@ -251,8 +251,8 @@ def default18_bd():
                                     'Left Posterior Arcuate': {
                                         'node_thresh': 20,
                                         'entire_core': 'Anterior'},
-                                    'Left Inferior Longitudinal': {
-                                        'inclusive_core': 'Right'},
+                                    'Left Inferior Fronto-occipital': {
+                                        'core': 'Right'},
                                     'isolation_forest': {
                                         'percent_outlier_thresh': 50},
                                     'primary_axis': 'I/S',
@@ -265,8 +265,8 @@ def default18_bd():
                                      'Right Posterior Arcuate': {
                                          'node_thresh': 20,
                                          'entire_core': 'Anterior'},
-                                     'Right Inferior Longitudinal': {
-                                         'inclusive_core': 'Left'},
+                                     'Right Inferior Fronto-occipital': {
+                                         'core': 'Left'},
                                      'isolation_forest': {
                                          'percent_outlier_thresh': 50},
                                      'primary_axis': 'I/S',
