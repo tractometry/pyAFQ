@@ -29,7 +29,7 @@ criteria_order_pre_other_bundles = [
 
 
 criteria_order_post_other_bundles = [
-    "isolation_forest", "qb_thresh"]
+    "orient_mahal", "isolation_forest", "qb_thresh"]
 
 
 valid_noncriterion = [
@@ -327,6 +327,14 @@ def clean_by_other_bundle(b_sls, bundle_def,
     b_sls.select(cleaned_idx, other_bundle_name)
 
 
+def orient_mahal(b_sls, bundle_def):
+    b_sls.initiate_selection("orient_mahal")
+    accept_idx = abc.clean_by_orientation_mahalanobis(
+        b_sls.get_selected_sls(),
+        **bundle_def.get("orient_mahal", {}))
+    b_sls.select(accept_idx, "orient_mahal")
+
+
 def isolation_forest(b_sls, bundle_def, parallel_segmentation, **kwargs):
     b_sls.initiate_selection("isolation_forest")
     if parallel_segmentation["engine"] == "serial":
@@ -441,7 +449,9 @@ def run_bundle_rec_plan(
         if b_sls and criterion in bundle_def:
             inputs[criterion] = globals()[criterion](**inputs)
     if b_sls:
-        if "mahal" in bundle_def or "isolation_forest" not in bundle_def:
+        if "mahal" in bundle_def or (
+            "isolation_forest" not in bundle_def
+                and "orient_mahal" not in bundle_def):
             mahalanobis(**inputs)
 
     if b_sls and not b_sls.oriented_yet:
