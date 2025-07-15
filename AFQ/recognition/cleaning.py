@@ -67,6 +67,56 @@ def clean_by_orientation(streamlines, primary_axis, affine, tol=None):
     return cleaned_idx
 
 
+def clean_by_orientation_mahalanobis(tg, n_points=100,
+                                     core_only=True, min_sl=20,
+                                     distance_threshold=3,
+                                     clean_rounds=5):
+    fgarray = np.array(abu.resample_tg(tg.streamlines, n_points))
+
+    if core_only:
+        fgarray = fgarray[:,
+                          int(n_points * 0.2):int(n_points * 0.8),
+                          :]  # Crop to middle 60%
+
+    fgarray_dists = fgarray[:, 1:, :] - fgarray[:, :-1, :]
+    idx = np.arange(len(fgarray))
+    rounds_elapsed = 0
+    idx_dist = idx
+    while rounds_elapsed < clean_rounds:
+        # This calculates the Mahalanobis for each streamline/node:
+        m_dist = gaussian_weights(
+            fgarray_dists, return_mahalnobis=True,
+            n_points=None, stat="mean")
+        logger.debug(f"Shape of fgarray: {np.asarray(fgarray_dists).shape}")
+        logger.debug((
+            f"Maximum m_dist for each fiber: "
+            f"{np.max(m_dist, axis=1)}"))
+
+        if not (np.any(m_dist >= distance_threshold)):
+            break
+        idx_dist = np.all(m_dist < distance_threshold, axis=-1)
+
+        if np.sum(idx_dist) < min_sl:
+            # need to sort and return exactly min_sl:
+            idx = idx[np.argsort(np.sum(
+                m_dist, axis=-1))[:min_sl].astype(int)]
+            logger.debug((
+                f"At rounds elapsed {rounds_elapsed}, "
+                "minimum streamlines reached"))
+            break
+        else:
+            # Update by selection:
+            idx = idx[idx_dist]
+            fgarray_dists = fgarray_dists[idx_dist]
+            rounds_elapsed += 1
+            logger.debug((
+                f"Rounds elapsed: {rounds_elapsed}, "
+                f"num kept: {len(idx)}"))
+            logger.debug(f"Kept indicies: {idx}")
+
+    return idx
+
+
 def clean_bundle(tg, n_points=100, clean_rounds=5, distance_threshold=3,
                  length_threshold=4, min_sl=20, stat='mean',
                  core_only=True, return_idx=False):

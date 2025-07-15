@@ -253,6 +253,9 @@ def default18_bd():
                                         'entire_core': 'Anterior'},
                                     'Left Inferior Fronto-occipital': {
                                         'core': 'Right'},
+                                    'orient_mahal': {
+                                        'distance_threshold': 3,
+                                        'clean_rounds': 5},
                                     'isolation_forest': {
                                         'percent_outlier_thresh': 50},
                                     'primary_axis': 'I/S',
@@ -267,6 +270,9 @@ def default18_bd():
                                          'entire_core': 'Anterior'},
                                      'Right Inferior Fronto-occipital': {
                                          'core': 'Left'},
+                                     'orient_mahal': {
+                                         'distance_threshold': 3,
+                                         'clean_rounds': 5},
                                      'isolation_forest': {
                                          'percent_outlier_thresh': 50},
                                      'primary_axis': 'I/S',
