@@ -67,11 +67,11 @@ def clean_by_orientation(streamlines, primary_axis, affine, tol=None):
     return cleaned_idx
 
 
-def clean_by_orientation_mahalanobis(tg, n_points=100,
+def clean_by_orientation_mahalanobis(streamlines, n_points=100,
                                      core_only=True, min_sl=20,
                                      distance_threshold=3,
                                      clean_rounds=5):
-    fgarray = np.array(abu.resample_tg(tg.streamlines, n_points))
+    fgarray = np.array(abu.resample_tg(streamlines, n_points))
 
     if core_only:
         fgarray = fgarray[:,
