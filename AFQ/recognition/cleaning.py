@@ -86,7 +86,7 @@ def clean_by_orientation_mahalanobis(streamlines, n_points=100,
         # This calculates the Mahalanobis for each streamline/node:
         m_dist = gaussian_weights(
             fgarray_dists, return_mahalnobis=True,
-            n_points=None, stat="mean")
+            n_points=None, stat=np.mean)
         logger.debug(f"Shape of fgarray: {np.asarray(fgarray_dists).shape}")
         logger.debug((
             f"Maximum m_dist for each fiber: "
@@ -118,7 +118,7 @@ def clean_by_orientation_mahalanobis(streamlines, n_points=100,
 
 
 def clean_bundle(tg, n_points=100, clean_rounds=5, distance_threshold=3,
-                 length_threshold=4, min_sl=20, stat='mean',
+                 length_threshold=4, min_sl=20, stat=np.mean,
                  core_only=True, return_idx=False):
     """
     Clean a segmented fiber group based on the Mahalnobis distance of
