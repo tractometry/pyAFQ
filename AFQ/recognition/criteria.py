@@ -327,7 +327,7 @@ def clean_by_other_bundle(b_sls, bundle_def,
     b_sls.select(cleaned_idx, other_bundle_name)
 
 
-def orient_mahal(b_sls, bundle_def):
+def orient_mahal(b_sls, bundle_def, **kwargs):
     b_sls.initiate_selection("orient_mahal")
     accept_idx = abc.clean_by_orientation_mahalanobis(
         b_sls.get_selected_sls(),
