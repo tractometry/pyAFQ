@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.api.utils &#8212; AFQ 2.0 documentation</title>
+    <title>AFQ.api.utils &#8212; AFQ 2.1 documentation</title>
   
   
   
@@ -30,7 +30,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css" />
@@ -132,8 +132,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 2.0 documentation - Home"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.0 documentation - Home"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 2.1 documentation - Home"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -149,29 +149,22 @@
   <ul class="bd-navbar-elements navbar-nav">
     
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../tutorials/index.html">
-    Getting started with pyAFQ
+  <a class="nav-link nav-internal" href="../../../guides_index.html">
+    User Guide
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../howto/index.html">
-    How To
+  <a class="nav-link nav-internal" href="../../../developing/index.html">
+    Developing pyAFQ
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../explanations/index.html">
-    Explanations
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../reference/index.html">
-    Reference Documentation
+  <a class="nav-link nav-internal" href="../../../bib.html">
+    Bibliography
   </a>
 </li>
 
@@ -281,29 +274,22 @@ document.write(`
   <ul class="bd-navbar-elements navbar-nav">
     
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../tutorials/index.html">
-    Getting started with pyAFQ
+  <a class="nav-link nav-internal" href="../../../guides_index.html">
+    User Guide
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../howto/index.html">
-    How To
+  <a class="nav-link nav-internal" href="../../../developing/index.html">
+    Developing pyAFQ
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../explanations/index.html">
-    Explanations
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../reference/index.html">
-    Reference Documentation
+  <a class="nav-link nav-internal" href="../../../bib.html">
+    Bibliography
   </a>
 </li>
 
@@ -435,8 +421,8 @@ document.write(`
 <span></span><span class="kn">import</span><span class="w"> </span><span class="nn">contextlib</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">importlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">import_module</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.viz.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">viz_import_msg_error</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.utils.docstring_parser</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse_numpy_docstring</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pimms</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">funcargparse</span><span class="w"> </span><span class="kn">import</span> <span class="n">FuncArgParser</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 
@@ -457,18 +443,31 @@ document.write(`
 
 <span class="n">task_modules</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;mapping&quot;</span><span class="p">,</span> <span class="s2">&quot;segmentation&quot;</span><span class="p">,</span> <span class="s2">&quot;tractography&quot;</span><span class="p">,</span> <span class="s2">&quot;viz&quot;</span><span class="p">]</span>
 
-<div class="viewcode-block" id="methods_descriptors"><a class="viewcode-back" href="../../../reference/api/AFQ/api/utils/index.html#AFQ.api.utils.methods_descriptors">[docs]</a><span class="n">methods_descriptors</span> <span class="o">=</span> <span class="p">{}</span></div>
-<span class="n">methods_sections</span> <span class="o">=</span> <span class="p">{}</span>
+<div class="viewcode-block" id="methods_descriptors"><a class="viewcode-back" href="../../../reference/api/AFQ/api/utils/index.html#AFQ.api.utils.methods_descriptors">[docs]</a><span class="n">methods_descriptors</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;dwi_data_file&quot;</span><span class="p">:</span> <span class="s2">&quot;Path to DWI data file&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;bval_file&quot;</span><span class="p">:</span> <span class="s2">&quot;Path to bval file&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;bvec_file&quot;</span><span class="p">:</span> <span class="s2">&quot;Path to bvec file&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;output_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;Path to output directory&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;best_scalar&quot;</span><span class="p">:</span> <span class="s2">&quot;Go-to scalar for visualizations&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;base_fname&quot;</span><span class="p">:</span> <span class="s2">&quot;Base file name for outputs&quot;</span><span class="p">,</span>
+<span class="p">}</span></div>
+<span class="n">methods_sections</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;dwi_data_file&quot;</span><span class="p">:</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;bval_file&quot;</span><span class="p">:</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;bvec_file&quot;</span><span class="p">:</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;output_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;best_scalar&quot;</span><span class="p">:</span> <span class="s2">&quot;tractography&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;base_fname&quot;</span><span class="p">:</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span>
+<span class="p">}</span>
 <div class="viewcode-block" id="kwargs_descriptors"><a class="viewcode-back" href="../../../reference/api/AFQ/api/utils/index.html#AFQ.api.utils.kwargs_descriptors">[docs]</a><span class="n">kwargs_descriptors</span> <span class="o">=</span> <span class="p">{}</span></div>
 <span class="k">for</span> <span class="n">task_module</span> <span class="ow">in</span> <span class="n">task_modules</span><span class="p">:</span>
     <span class="n">kwargs_descriptors</span><span class="p">[</span><span class="n">task_module</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">calc_obj</span> <span class="ow">in</span> <span class="n">import_module</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;AFQ.tasks.</span><span class="si">{</span><span class="n">task_module</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">calc_obj</span><span class="p">,</span> <span class="n">pimms</span><span class="o">.</span><span class="n">calculation</span><span class="o">.</span><span class="n">Calc</span><span class="p">):</span>
-            <span class="n">docstr_parser</span> <span class="o">=</span> <span class="n">FuncArgParser</span><span class="p">()</span>
-            <span class="n">docstr_parser</span><span class="o">.</span><span class="n">setup_args</span><span class="p">(</span><span class="n">calc_obj</span><span class="o">.</span><span class="n">function</span><span class="p">)</span>
+            <span class="n">docstr_parsed</span> <span class="o">=</span> <span class="n">parse_numpy_docstring</span><span class="p">(</span><span class="n">calc_obj</span><span class="o">.</span><span class="n">function</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">calc_obj</span><span class="o">.</span><span class="n">efferents</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="n">eff_descs</span> <span class="o">=</span> <span class="n">docstr_parser</span><span class="o">.</span><span class="n">description</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+                <span class="n">eff_descs</span> <span class="o">=</span> <span class="n">docstr_parsed</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
                 <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">eff_descs</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">calc_obj</span><span class="o">.</span><span class="n">efferents</span><span class="p">):</span>
                     <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">((</span>
                         <span class="s2">&quot;If calc method has mutliple outputs, &quot;</span>
@@ -490,10 +489,10 @@ document.write(`
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">methods_descriptors</span><span class="p">[</span>
                     <span class="n">calc_obj</span><span class="o">.</span><span class="n">efferents</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span>\
-                    <span class="n">docstr_parser</span><span class="o">.</span><span class="n">description</span>
+                    <span class="n">docstr_parsed</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span>
                 <span class="n">methods_sections</span><span class="p">[</span><span class="n">calc_obj</span><span class="o">.</span><span class="n">efferents</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span>\
                     <span class="n">task_module</span>
-            <span class="k">for</span> <span class="n">arg</span><span class="p">,</span> <span class="n">info</span> <span class="ow">in</span> <span class="n">docstr_parser</span><span class="o">.</span><span class="n">unfinished_arguments</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">arg</span><span class="p">,</span> <span class="n">info</span> <span class="ow">in</span> <span class="n">docstr_parsed</span><span class="p">[</span><span class="s2">&quot;arguments&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="k">if</span> <span class="s2">&quot;help&quot;</span> <span class="ow">in</span> <span class="n">info</span><span class="p">:</span>
                     <span class="n">default</span> <span class="o">=</span> <span class="n">info</span><span class="p">[</span><span class="s2">&quot;default&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;default&quot;</span> <span class="ow">in</span> <span class="n">info</span> <span class="k">else</span> <span class="kc">None</span>
                     <span class="n">kwargs_descriptors</span><span class="p">[</span><span class="n">task_module</span><span class="p">][</span><span class="n">arg</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
@@ -531,6 +530,9 @@ document.write(`
 <span class="k">def</span><span class="w"> </span><span class="nf">check_attribute</span><span class="p">(</span><span class="n">attr_name</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">attr_name</span> <span class="o">==</span> <span class="s2">&quot;help&quot;</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">valid_exports_string</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">if</span> <span class="n">attr_name</span><span class="p">[:</span><span class="o">-</span><span class="mi">5</span><span class="p">]</span> <span class="ow">in</span> <span class="n">task_modules</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="k">if</span> <span class="n">attr_name</span> <span class="ow">in</span> <span class="n">methods_sections</span><span class="p">:</span>
@@ -636,10 +638,17 @@ document.write(`
   
     <div class="footer-items__end">
       
-        <div class="footer-item">
-<p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
-</p></div>
+        <div class="footer-item"><div class="footer">
+    <div class="footer-content">
+      <div class="copyright">
+        Please Cite the following paper:
+      </div>
+      <div class="citation">
+        <a href="https://doi.org/10.52294/e6198273-b8e3-4b63-babb-6e6b0da10669">Kruper et al. (2021)</a>
+      </div>
+    </div>
+  </div>
+  </div>
       
     </div>
   

@@ -24,7 +24,7 @@ BabyAFQ : tractometry for infant dMRI data
 
 The following is an example of tractometry for infant bundles. This example and
 resulting pyAFQ support for pediatric bundles was inspired by and largely due
-to the work of Grotheer et al. [Grotheer2022]_, as implemented in
+to the work of Grotheer et al. [Grotheer2021]_, as implemented in
 [Grotheer2023]_.
 
 .. note::
@@ -67,13 +67,13 @@ location and curvature is different in infants than in grownups. For example,
 the arcuate fasciculus is much more curved in infants than in grownups.
 Because of this, we use a different set of templates for infant brains than
 for grownup brains. These templates were created and validated by
-Mareike Grotheer and colleagues in [Grotheer2022]_. They are available for
+Mareike Grotheer and colleagues in [Grotheer2021]_. They are available for
 download as part of the pyAFQ software, as we will show below.
 
 In this example, we will demonstrate the use of pyAFQ on data from one
 infant. The data, provided by Kalanit Grill Spector's
 `Stanford Vision and Perception Neuroscience Lab <http://vpnl.stanford.edu/>`,
-and was previously published in [Grotheer2022]_.
+and was previously published in [Grotheer2021]_.
 The data is available to download on
 `Figshare <https://figshare.com/articles/dataset/Example_babyAFQ_BIDS_subject/21440739>`.
 You can download it from there and unzip it into ~/AFQ_Data/baby_example/
@@ -116,7 +116,7 @@ A few special things to note here:
    `read_pediatric_templates` function in `AFQ.data.fetch`.
 3. We use the `baby_bd` to define the bundles that we want to
    segment. This dictionary is different from the default behavior in that it
-   uses the waypoint ROIs from [Grotheer2022]_.
+   uses the waypoint ROIs from [Grotheer2021]_.
 4. In this case, tractography has already been run using
    `MRTRIX <https://www.mrtrix.org/>`, and is accessed using the
    `import_tract` key-word argument.

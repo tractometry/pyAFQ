@@ -13,11 +13,44 @@ Classes
 .. autoapisummary::
 
    AFQ.utils.docs.PNGScraper
+   AFQ.utils.docs.GIFScraper
 
 
 
 
 .. py:class:: PNGScraper
+
+
+   Bases: :py:obj:`object`
+
+   .. py:method:: __repr__()
+
+      
+      Return repr(self).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+   .. py:method:: __call__(block, block_vars, gallery_conf)
+
+
+
+.. py:class:: GIFScraper
 
 
    Bases: :py:obj:`object`

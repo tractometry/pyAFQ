@@ -9,6 +9,18 @@ tbody, tr, td
     margin-bottom: 20px
 }
 
+header.bd-header {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+}
+
+header.bd-header .navbar-brand img,
+header.bd-header .navbar-brand > picture > img {
+    max-height: 100px !important;
+    height: auto;
+    width: auto;
+}
+
 .sd-card-header {
     text-align: center;
     background-color: white;
@@ -68,3 +80,35 @@ tbody, tr, td
 .top-image.figure.align-default {
     margin-bottom: 0px;
 }
+
+/* Default Set Colors */
+.color-blue { color: #1f77b4; }
+.color-lightblue { color: #aec7e8; }
+.color-green { color: #2ca02c; }
+.color-lightgreen { color: #98df8a; }
+.color-orange { color: #ff7f0e; }
+.color-lightorange { color: #ffbb78; }
+.color-brown { color: #8c564b; }
+.color-lightbrown { color: #c49c94; }
+.color-pink { color: #e377c2; }
+.color-lightpink { color: #f7b6d2; }
+.color-grey { color: #7f7f7f; }
+.color-lightgrey { color: #c7c7c7; }
+.color-teal { color: #17becf; }
+.color-lightteal { color: #9edae5; }
+.color-yellow { color: #bcbd22; }
+.color-lightyellow { color: #dbdb8d; }
+.color-red { color: #d62728; }
+.color-lightred { color: #ff9896; }
+.color-gold { color: #f2d94e; }
+.color-lightgold { color: #faeaa5; }
+
+/* Callosum Colors */
+.color-darkgreen { color: #124730; }
+.color-skyblue { color: #87ccee; }
+.color-purple { color: #ab459e; }
+.color-darkpurple { color: #342187; }
+.color-rose { color: #cc666d; }
+.color-seagreen { color: #45ab9e; }
+.color-paleyellow { color: #decc78; }
+.color-darkred { color: #872145; }

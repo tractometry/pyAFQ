@@ -27,7 +27,7 @@ can customize it to define a new bundle based on a definition of waypoint and
 endpoint ROIs of your design.
 
 In this case, we add sub-bundles of the superior longitudinal fasciculus,
-based on work by Sami et al [1]_.
+based on work by Sagi et al [1]_.
 
 We start by importing some of the components that we need for this example and
 fixing the random seed for reproducibility
@@ -290,14 +290,15 @@ be navigated, zoomed, rotated, etc.
     bundle_html = my_afq.export("all_bundles_figure")
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 227-245
+.. GENERATED FROM PYTHON SOURCE LINES 227-246
 
 References
 ----------
 .. [1] Romi Sagi, J.S.H. Taylor, Kyriaki Neophytou, Tamar Cohen,
     Brenda Rapp, Kathleen Rastle, Michal Ben-Shachar.
-    White matter associations with spelling performance
-    https://doi.org/10.21203/rs.3.rs-3282349/v1
+    White matter associations with spelling performance.
+    Brain Struct Funct 229, 2115–2135 (2024).
+    https://doi.org/10.1007/s00429-024-02775-7
 
 .. [2] Alexander LM, Escalera J, Ai L, et al. An open resource for
     transdiagnostic research in pediatric mental health and learning

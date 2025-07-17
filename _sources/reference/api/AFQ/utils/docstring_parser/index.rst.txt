@@ -1,0 +1,53 @@
+:py:mod:`AFQ.utils.docstring_parser`
+====================================
+
+.. py:module:: AFQ.utils.docstring_parser
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   AFQ.utils.docstring_parser.parse_numpy_docstring
+
+
+
+.. py:function:: parse_numpy_docstring(docstring)
+
+   
+   Parse a NumPy-style docstring into parameter information.
+
+   Returns:
+       dict: {
+           "description": str (first section of docstring),
+           "arguments": {
+               param_name: {
+                   "help": str (description),
+                   "metavar": str (type),
+                   "default": any (default value)
+               }
+           }
+       }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+

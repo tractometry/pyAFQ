@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**12:50.847** total execution time for 3 files **from tutorials/tutorial_examples**:
+**34:36.758** total execution time for 7 files **from tutorials/tutorial_examples**:
 
 .. container::
 
@@ -32,12 +32,24 @@ Computation times
    * - Example
      - Time
      - Mem (MB)
-   * - :ref:`sphx_glr_tutorials_tutorial_examples_plot_002_bids_layout.py` (``plot_002_bids_layout.py``)
-     - 10:02.620
-     - 2520.3
-   * - :ref:`sphx_glr_tutorials_tutorial_examples_plot_001_afq_api.py` (``plot_001_afq_api.py``)
-     - 02:29.964
-     - 1363.5
-   * - :ref:`sphx_glr_tutorials_tutorial_examples_plot_003_viz.py` (``plot_003_viz.py``)
-     - 00:18.262
-     - 889.5
+   * - :ref:`sphx_glr_tutorials_tutorial_examples_plot_006_bids_layout.py` (``plot_006_bids_layout.py``)
+     - 10:58.197
+     - 1847.7
+   * - :ref:`sphx_glr_tutorials_tutorial_examples_plot_002_participant_afq_api.py` (``plot_002_participant_afq_api.py``)
+     - 10:50.558
+     - 1671.1
+   * - :ref:`sphx_glr_tutorials_tutorial_examples_plot_004_export.py` (``plot_004_export.py``)
+     - 05:19.636
+     - 1350.2
+   * - :ref:`sphx_glr_tutorials_tutorial_examples_plot_001_group_afq_api.py` (``plot_001_group_afq_api.py``)
+     - 03:30.558
+     - 845.5
+   * - :ref:`sphx_glr_tutorials_tutorial_examples_plot_007_rois.py` (``plot_007_rois.py``)
+     - 01:49.829
+     - 428.6
+   * - :ref:`sphx_glr_tutorials_tutorial_examples_plot_003_rerun.py` (``plot_003_rerun.py``)
+     - 01:42.065
+     - 661.6
+   * - :ref:`sphx_glr_tutorials_tutorial_examples_plot_005_viz.py` (``plot_005_viz.py``)
+     - 00:25.914
+     - 429.4

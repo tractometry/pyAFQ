@@ -23,35 +23,69 @@ tutorial, and will save results as it goes along.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="There are two ways to use pyAFQ &lt;/howto/getting_started&gt;: through the command line interface, and by writing Python code. This tutorial will walk you through the basics of the latter, using pyAFQ&#x27;s Python Application Programming Interface (API).">
+    <div class="sphx-glr-thumbcontainer" tooltip="There are two ways to use pyAFQ &lt;/tutorials/index&gt;: through the command line interface, and by writing Python code. This tutorial will walk you through the basics of the latter, using pyAFQ&#x27;s Python Application Programming Interface (API).">
 
 .. only:: html
 
-  .. image:: /tutorials/tutorial_examples/images/thumb/sphx_glr_plot_001_afq_api_thumb.png
+  .. image:: /tutorials/tutorial_examples/images/thumb/sphx_glr_plot_001_group_afq_api_thumb.png
     :alt:
 
-  :ref:`sphx_glr_tutorials_tutorial_examples_plot_001_afq_api.py`
+  :ref:`sphx_glr_tutorials_tutorial_examples_plot_001_group_afq_api.py`
 
 .. raw:: html
 
-      <div class="sphx-glr-thumbnail-title">Getting started programming with pyAFQ</div>
+      <div class="sphx-glr-thumbnail-title">Getting started with pyAFQ - GroupAFQ</div>
     </div>
 
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="The pyAFQ API relies heavily on the Brain Imaging Data Standard (BIDS), a widely used standard for organizing and describing neuroimaging data. This means that the software assumes that its inputs are organized according to the BIDS specification and its outputs conform where possible with BIDS.">
+    <div class="sphx-glr-thumbcontainer" tooltip="Getting started with pyAFQ - ParticipantAFQ">
 
 .. only:: html
 
-  .. image:: /tutorials/tutorial_examples/images/thumb/sphx_glr_plot_002_bids_layout_thumb.png
+  .. image:: /tutorials/tutorial_examples/images/thumb/sphx_glr_plot_002_participant_afq_api_thumb.png
     :alt:
 
-  :ref:`sphx_glr_tutorials_tutorial_examples_plot_002_bids_layout.py`
+  :ref:`sphx_glr_tutorials_tutorial_examples_plot_002_participant_afq_api.py`
 
 .. raw:: html
 
-      <div class="sphx-glr-thumbnail-title">How pyAFQ uses BIDS</div>
+      <div class="sphx-glr-thumbnail-title">Getting started with pyAFQ - ParticipantAFQ</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="pyAFQ saves derivatives as it goes, so if you re-run pyAFQ after changing parameters, it could use derivatives from previous runs with the old parameters.">
+
+.. only:: html
+
+  .. image:: /tutorials/tutorial_examples/images/thumb/sphx_glr_plot_003_rerun_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_tutorials_tutorial_examples_plot_003_rerun.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Re-running pyAFQ</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to use the export methods to obtain results from the ParticipantAFQ object. The export methods are used to calculate derived quantities from the data, such as DTI parameters, tract profiles, and bundle segmentations. ">
+
+.. only:: html
+
+  .. image:: /tutorials/tutorial_examples/images/thumb/sphx_glr_plot_004_export_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_tutorials_tutorial_examples_plot_004_export.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Exporting pyAFQ Results</div>
     </div>
 
 
@@ -61,14 +95,48 @@ tutorial, and will save results as it goes along.
 
 .. only:: html
 
-  .. image:: /tutorials/tutorial_examples/images/thumb/sphx_glr_plot_003_viz_thumb.png
+  .. image:: /tutorials/tutorial_examples/images/thumb/sphx_glr_plot_005_viz_thumb.png
     :alt:
 
-  :ref:`sphx_glr_tutorials_tutorial_examples_plot_003_viz.py`
+  :ref:`sphx_glr_tutorials_tutorial_examples_plot_005_viz.py`
 
 .. raw:: html
 
       <div class="sphx-glr-thumbnail-title">Visualizing AFQ derivatives</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="The pyAFQ API relies heavily on the Brain Imaging Data Standard (BIDS), a widely used standard for organizing and describing neuroimaging data. This means that the software assumes that its inputs are organized according to the BIDS specification and its outputs conform where possible with BIDS.">
+
+.. only:: html
+
+  .. image:: /tutorials/tutorial_examples/images/thumb/sphx_glr_plot_006_bids_layout_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_tutorials_tutorial_examples_plot_006_bids_layout.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">How pyAFQ uses BIDS</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="The visualization helps understand the spatial relationships between tracts and their defining ROIs.">
+
+.. only:: html
+
+  .. image:: /tutorials/tutorial_examples/images/thumb/sphx_glr_plot_007_rois_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_tutorials_tutorial_examples_plot_007_rois.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Plotting Default Regions of Interest (ROIs) to Understand the Tracts</div>
     </div>
 
 
@@ -82,9 +150,13 @@ tutorial, and will save results as it goes along.
 .. toctree::
    :hidden:
 
-   /tutorials/tutorial_examples/plot_001_afq_api
-   /tutorials/tutorial_examples/plot_002_bids_layout
-   /tutorials/tutorial_examples/plot_003_viz
+   /tutorials/tutorial_examples/plot_001_group_afq_api
+   /tutorials/tutorial_examples/plot_002_participant_afq_api
+   /tutorials/tutorial_examples/plot_003_rerun
+   /tutorials/tutorial_examples/plot_004_export
+   /tutorials/tutorial_examples/plot_005_viz
+   /tutorials/tutorial_examples/plot_006_bids_layout
+   /tutorials/tutorial_examples/plot_007_rois
 
 
 .. only:: html

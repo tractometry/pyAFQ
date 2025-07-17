@@ -429,7 +429,7 @@ Attributes
    ..
        !! processed by numpydoc !!
 
-.. py:function:: csd_params(dwi, brain_mask, gtab, data, csd_response=None, csd_sh_order=None, csd_lambda_=1, csd_tau=0.1, csd_fa_thr=0.7)
+.. py:function:: csd_params(dwi, brain_mask, gtab, data, csd_response=None, csd_sh_order_max=None, csd_lambda_=1, csd_tau=0.1, csd_fa_thr=0.7)
 
    
    full path to a nifti file containing
@@ -446,7 +446,7 @@ Attributes
            these values.
            Default: None
 
-       **csd_sh_order** : int or None, optional.
+       **csd_sh_order_max** : int or None, optional.
            default: infer the number of parameters from the number of data
            volumes, but no larger than 8.
            Default: None
@@ -783,7 +783,7 @@ Attributes
    ..
        !! processed by numpydoc !!
 
-.. py:function:: opdt_params(base_fname, data, gtab, dwi_affine, brain_mask, opdt_sh_order=8)
+.. py:function:: opdt_params(base_fname, data, gtab, dwi_affine, brain_mask, opdt_sh_order_max=8)
 
    
    full path to a nifti file containing
@@ -862,7 +862,7 @@ Attributes
    ..
        !! processed by numpydoc !!
 
-.. py:function:: csa_params(base_fname, data, gtab, dwi_affine, brain_mask, csa_sh_order=8)
+.. py:function:: csa_params(base_fname, data, gtab, dwi_affine, brain_mask, csa_sh_order_max=8)
 
    
    full path to a nifti file containing
@@ -1581,7 +1581,7 @@ Attributes
    ..
        !! processed by numpydoc !!
 
-.. py:function:: get_bundle_dict(segmentation_params, brain_mask, b0, bundle_info=None, reg_template_spec='mni_T1', reg_template_space_name='mni')
+.. py:function:: get_bundle_dict(brain_mask, b0, bundle_info=None, reg_template_spec='mni_T1', reg_template_space_name='mni')
 
    
    Dictionary defining the different bundles to be segmented,

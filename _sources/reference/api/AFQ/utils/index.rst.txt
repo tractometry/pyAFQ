@@ -12,6 +12,7 @@ Submodules
 
    bin/index.rst
    docs/index.rst
+   docstring_parser/index.rst
    models/index.rst
    path/index.rst
    stats/index.rst

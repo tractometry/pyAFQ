@@ -18,7 +18,7 @@ Functions
 
 
 
-.. py:function:: extract_odf(odf, sphere=default_sphere, sh_order=8)
+.. py:function:: extract_odf(odf, sphere=default_sphere, sh_order_max=8)
 
    
    Calculates spherical harmonics coefficients and

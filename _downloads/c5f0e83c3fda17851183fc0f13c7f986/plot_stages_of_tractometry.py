@@ -1,7 +1,7 @@
 """
-=================================================
-Making videos the different stages of tractometry
-=================================================
+=============================================================
+Understanding the different stages of tractometry with videos
+=============================================================
 
 Two-dimensional figures of anatomical data are somewhat limited, because of the
 complex three-dimensional configuration of the brain. Therefored, dynamic
@@ -200,7 +200,9 @@ for bval, slicers in zip([0, 1000, 2000],
                   n_frames=n_frames, path_numbering=True)
 
     make_video(
-        [f'{tmp}/b{bval}{ii:06d}.png' for ii in range(n_frames)], f'b{bval}.gif')
+        [f'{tmp}/b{bval}{ii:06d}.png' for ii in range(n_frames)],
+        f'b{bval}.gif')
+
 #############################################################################
 # Visualizing whole-brain tractography
 # ------------------------------------
@@ -209,6 +211,15 @@ for bval, slicers in zip([0, 1000, 2000],
 # in the FA image, which is used as a reference for the tractography. We then
 # load the whole brain tractography, and transform the coordinates of the
 # streamlines into the coordinate frame of the T1-weighted data.
+#
+# If you are interested in learning more about the different steps of the
+# tractometry pipeline, you can reference DIPY examples. Here are some
+# relevant links:
+#
+# For an example of fitting FA, see:
+# https://docs.dipy.org/1.11.0/examples_built/reconstruction/reconst_dti.html
+# For an exmaple of running tractography, see:
+# https://docs.dipy.org/1.11.0/examples_built/fiber_tracking/tracking_probabilistic.html
 
 afq_path = op.join(
     deriv_path,
@@ -272,6 +283,10 @@ make_video([f"{tmp}/whole_brain{ii:06d}.png" for ii in range(n_frames)],
 # We can also generate a gif video with the whole brain tractography and the
 # waypoints that are used to define the bundles. We will use the same scene as
 # before, but we will add the waypoints as contours to the scene.
+#
+# To get these waypoints in subject space, we had to register to MNI.
+# Once again, there is a helpful DIPY example for details:
+# https://docs.dipy.org/1.11.0/examples_built/registration/syn_registration_3d.html
 
 scene.clear()
 whole_brain_actor = lines_as_tubes(whole_brain_t1w, 2)
@@ -318,7 +333,6 @@ make_video([f"{tmp}/whole_brain_with_waypoints{ii:06d}.png" for ii in range(n_fr
 
 bundle_path = op.join(afq_path,
                       'bundles')
-
 
 #############################################################################
 # Visualize the arcuate bundle
@@ -422,6 +436,9 @@ make_video([f"{tmp}/arc3{ii:06d}.png" for ii in range(n_frames)], "arc3.gif")
 # we will visualize the fractional anisotropy (FA) along the arcuate bundle.
 # This is done by using a colormap to color the streamlines according to the
 # values of the tissue property, with `fury.colormap.create_colormap`.
+#
+# There is a DIPY example with more details here:
+# https://docs.dipy.org/1.11.0/examples_built/streamline_analysis/afq_tract_profiles.html
 
 lut_args = dict(scale_range=(0, 1),
                 hue_range=(1, 0),
@@ -503,7 +520,8 @@ window.record(scene, out_path=f'{tmp}/all_bundles', size=(2400, 2400),
               n_frames=n_frames, path_numbering=True)
 
 make_video(
-    [f"{tmp}/all_bundles{ii:06d}.png" for ii in range(n_frames)], "all_bundles.gif")
+    [f"{tmp}/all_bundles{ii:06d}.png" for ii in range(n_frames)],
+    "all_bundles.gif")
 
 
 scene.clear()
@@ -563,4 +581,4 @@ ax.set_xticks(np.arange(0, 20 * len(bundles), 20))
 ax.set_xticklabels(bundles, rotation=45, ha='right')
 fig.set_size_inches(10, 5)
 plt.subplots_adjust(bottom=0.2)
-fig.savefig('tract_profiles_as_table.png')
+fig.savefig("tract_profiles_table.png")

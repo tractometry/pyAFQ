@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**152:07.417** total execution time for 16 files **from all galleries**:
+**85:05.261** total execution time for 21 files **from all galleries**:
 
 .. container::
 
@@ -32,33 +32,39 @@ Computation times
    * - Example
      - Time
      - Mem (MB)
-   * - :ref:`sphx_glr_howto_howto_examples_plot_afq_fwdti.py` (``../../examples/howto_examples/plot_afq_fwdti.py``)
-     - 36:14.791
-     - 3804.4
-   * - :ref:`sphx_glr_howto_howto_examples_plot_acoustic_radiations.py` (``../../examples/howto_examples/plot_acoustic_radiations.py``)
-     - 30:25.338
-     - 4608.0
    * - :ref:`sphx_glr_howto_howto_examples_plot_stages_of_tractometry.py` (``../../examples/howto_examples/plot_stages_of_tractometry.py``)
-     - 26:20.585
-     - 4531.3
-   * - :ref:`sphx_glr_howto_howto_examples_plot_optic_radiations.py` (``../../examples/howto_examples/plot_optic_radiations.py``)
-     - 23:08.142
-     - 4152.1
+     - 25:59.970
+     - 4658.8
    * - :ref:`sphx_glr_howto_howto_examples_plot_recobundles.py` (``../../examples/howto_examples/plot_recobundles.py``)
-     - 12:14.370
-     - 2737.9
+     - 13:31.401
+     - 2757.7
+   * - :ref:`sphx_glr_tutorials_tutorial_examples_plot_006_bids_layout.py` (``../../examples/tutorial_examples/plot_006_bids_layout.py``)
+     - 10:58.197
+     - 1847.7
    * - :ref:`sphx_glr_howto_howto_examples_plot_afq_callosal.py` (``../../examples/howto_examples/plot_afq_callosal.py``)
-     - 10:53.344
-     - 2709.6
-   * - :ref:`sphx_glr_tutorials_tutorial_examples_plot_002_bids_layout.py` (``../../examples/tutorial_examples/plot_002_bids_layout.py``)
-     - 10:02.620
-     - 2520.3
-   * - :ref:`sphx_glr_tutorials_tutorial_examples_plot_001_afq_api.py` (``../../examples/tutorial_examples/plot_001_afq_api.py``)
-     - 02:29.964
-     - 1363.5
-   * - :ref:`sphx_glr_tutorials_tutorial_examples_plot_003_viz.py` (``../../examples/tutorial_examples/plot_003_viz.py``)
-     - 00:18.262
-     - 889.5
+     - 10:57.133
+     - 2857.3
+   * - :ref:`sphx_glr_tutorials_tutorial_examples_plot_002_participant_afq_api.py` (``../../examples/tutorial_examples/plot_002_participant_afq_api.py``)
+     - 10:50.558
+     - 1671.1
+   * - :ref:`sphx_glr_tutorials_tutorial_examples_plot_004_export.py` (``../../examples/tutorial_examples/plot_004_export.py``)
+     - 05:19.636
+     - 1350.2
+   * - :ref:`sphx_glr_tutorials_tutorial_examples_plot_001_group_afq_api.py` (``../../examples/tutorial_examples/plot_001_group_afq_api.py``)
+     - 03:30.558
+     - 845.5
+   * - :ref:`sphx_glr_tutorials_tutorial_examples_plot_007_rois.py` (``../../examples/tutorial_examples/plot_007_rois.py``)
+     - 01:49.829
+     - 428.6
+   * - :ref:`sphx_glr_tutorials_tutorial_examples_plot_003_rerun.py` (``../../examples/tutorial_examples/plot_003_rerun.py``)
+     - 01:42.065
+     - 661.6
+   * - :ref:`sphx_glr_tutorials_tutorial_examples_plot_005_viz.py` (``../../examples/tutorial_examples/plot_005_viz.py``)
+     - 00:25.914
+     - 429.4
+   * - :ref:`sphx_glr_howto_howto_examples_acoustic_radiations.py` (``../../examples/howto_examples/acoustic_radiations.py``)
+     - 00:00.000
+     - 0.0
    * - :ref:`sphx_glr_howto_howto_examples_add_custom_bundle.py` (``../../examples/howto_examples/add_custom_bundle.py``)
      - 00:00.000
      - 0.0
@@ -72,6 +78,15 @@ Computation times
      - 00:00.000
      - 0.0
    * - :ref:`sphx_glr_howto_howto_examples_cloudknot_hcp_example.py` (``../../examples/howto_examples/cloudknot_hcp_example.py``)
+     - 00:00.000
+     - 0.0
+   * - :ref:`sphx_glr_howto_howto_examples_optic_radiations.py` (``../../examples/howto_examples/optic_radiations.py``)
+     - 00:00.000
+     - 0.0
+   * - :ref:`sphx_glr_howto_howto_examples_run_afq_fwdti.py` (``../../examples/howto_examples/run_afq_fwdti.py``)
+     - 00:00.000
+     - 0.0
+   * - :ref:`sphx_glr_howto_howto_examples_run_pyAFQ_with_GPU.py` (``../../examples/howto_examples/run_pyAFQ_with_GPU.py``)
      - 00:00.000
      - 0.0
    * - :ref:`sphx_glr_howto_howto_examples_use_subject_space_rois_from_freesurfer.py` (``../../examples/howto_examples/use_subject_space_rois_from_freesurfer.py``)

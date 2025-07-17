@@ -1,0 +1,1645 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Guide &#8212; AFQ 2.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/design-tabs.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'guides_index';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Getting started with pyAFQ" href="tutorials/index.html" />
+    <link rel="prev" title="Automated Fiber Quantification in Python (pyAFQ)" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="AFQ 2.1 documentation - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="AFQ 2.1 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="#">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="developing/index.html">
+    Developing pyAFQ
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="bib.html">
+    Bibliography
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="reference/api/index.html">
+    API Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/tractometry/pyAFQ" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="#">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="developing/index.html">
+    Developing pyAFQ
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="bib.html">
+    Bibliography
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="reference/api/index.html">
+    API Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/tractometry/pyAFQ" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="tutorials/index.html">Getting started with pyAFQ</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="tutorials/tutorial_examples/index.html">Tutorials: getting started with the pyAFQ Python library</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/tutorial_examples/plot_001_group_afq_api.html">Getting started with pyAFQ - GroupAFQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/tutorial_examples/plot_002_participant_afq_api.html">Getting started with pyAFQ - ParticipantAFQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/tutorial_examples/plot_003_rerun.html">Re-running pyAFQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/tutorial_examples/plot_004_export.html">Exporting pyAFQ Results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/tutorial_examples/plot_005_viz.html">Visualizing AFQ derivatives</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/tutorial_examples/plot_006_bids_layout.html">How pyAFQ uses BIDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/tutorial_examples/plot_007_rois.html">Plotting Default Regions of Interest (ROIs) to Understand the Tracts</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="howto/index.html">How To</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="howto/installation_guide.html">How to install <code class="docutils literal notranslate"><span class="pre">pyAFQ</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/getting_help.html">How to get help using pyAFQ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/cite.html">How to cite our work</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/data.html">Organizing your data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/rerun.html">Re-running pyAFQ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/scalars.html">How to add custom tissue properties from another pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/converter.html">Tractography from other pipelines</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="howto/docker.html">The pyAFQ docker image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/singularity.html">The pyAFQ singularity image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/image.html">The pyAFQ Image API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/tractography_params.html">Tractography Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/segmentation_params.html">Segmentation Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/cleaning_params.html">Cleaning Parameters</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="howto/howto_examples/index.html">How to examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="howto/howto_examples/acoustic_radiations.html">How to add new bundles into pyAFQ (Acoustic Radiations Example)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="howto/howto_examples/add_custom_bundle.html">How to add new bundles into pyAFQ (SLF 1/2/3 Example)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="howto/howto_examples/baby_afq.html">BabyAFQ : tractometry for infant dMRI data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="howto/howto_examples/cerebellar_peduncles.html">Delineating cerebellar peduncles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="howto/howto_examples/cloudknot_example.html">Using cloudknot to run pyAFQ on AWS batch:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="howto/howto_examples/cloudknot_hcp_example.html">AFQ with HCP data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="howto/howto_examples/optic_radiations.html">How to add new bundles into pyAFQ(Optic Radiations Example)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="howto/howto_examples/plot_afq_callosal.html">Callosal bundles using AFQ API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="howto/howto_examples/plot_recobundles.html">Using RecoBundles for bundle recognition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="howto/howto_examples/plot_stages_of_tractometry.html">Understanding the different stages of tractometry with videos</a></li>
+<li class="toctree-l3"><a class="reference internal" href="howto/howto_examples/run_afq_fwdti.html">How to use Free water DTI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="howto/howto_examples/run_pyAFQ_with_GPU.html">Running pyAFQ using the GPU for tractography</a></li>
+<li class="toctree-l3"><a class="reference internal" href="howto/howto_examples/use_subject_space_rois_from_freesurfer.html">Using Subject Space ROIs from Freesurfer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="howto/howto_examples/vof_example.html">How to segment out only some bundles</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="explanations/index.html">Explanations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="explanations/tractometry_pipeline.html">AFQ Tractometry Pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="explanations/bundle_orientation.html">Bundle Orientation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="explanations/modeling.html">Modeling White Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="explanations/profiling.html">Profiling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="explanations/recognition.html">Bundle Recognition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="explanations/tractography.html">Tractography</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="reference/index.html">Reference Documentation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="reference/api/index.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="reference/api/AFQ/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ</span></code></a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/api/AFQ/api/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.api</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/api/AFQ/data/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.data</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/api/AFQ/definitions/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.definitions</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/api/AFQ/models/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.models</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/api/AFQ/recognition/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.recognition</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/api/AFQ/tasks/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.tasks</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/api/AFQ/tractography/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.tractography</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/api/AFQ/utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.utils</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/api/AFQ/viz/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.viz</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/api/AFQ/registration/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.registration</span></code></a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/bundledict.html">Defining Custom Bundle Dictionaries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/fibertracts.html">Major Fiber Tracts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/tissue_properties.html">Tissue Properties in pyAFQ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/methods.html">The pyAFQ API methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/viz_backend.html">Visualization Backends</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="reference/mapping.html">The pyAFQ Mapping API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/config.html">The pyAFQ configuration file</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">User Guide</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="section" id="user-guide">
+<h1>User Guide<a class="headerlink" href="#user-guide" title="Permalink to this heading">#</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/index.html">Getting started with pyAFQ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/tutorial_examples/index.html">Tutorials: getting started with the pyAFQ Python library</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="howto/index.html">How To</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="howto/installation_guide.html">How to install <code class="docutils literal notranslate"><span class="pre">pyAFQ</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="howto/installation_guide.html#how-to-install-the-release-version">How to install the release version</a></li>
+<li class="toctree-l3"><a class="reference internal" href="howto/installation_guide.html#how-to-install-the-development-version">How to install the development version</a></li>
+<li class="toctree-l3"><a class="reference internal" href="howto/installation_guide.html#how-to-install-using-docker">How to install using Docker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="howto/installation_guide.html#how-to-build-an-apptainer-singularity-image">How to build an Apptainer (Singularity) image</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="howto/getting_help.html">How to get help using pyAFQ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/cite.html">How to cite our work</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/data.html">Organizing your data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="howto/data.html#example-data">Example data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="howto/data.html#preprocessing">Preprocessing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="howto/rerun.html">Re-running pyAFQ</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="howto/rerun.html#method-parameters">Method Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="howto/rerun.html#examples">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="howto/scalars.html">How to add custom tissue properties from another pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/converter.html">Tractography from other pipelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/converter.html#matlab-afq-to-python-afq-conversion">Matlab AFQ to Python AFQ conversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/docker.html">The pyAFQ docker image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/singularity.html">The pyAFQ singularity image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/image.html">The pyAFQ Image API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/tractography_params.html">Tractography Parameters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="howto/tractography_params.html#example-usage">Example Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="howto/tractography_params.html#tractography-parameter-reference">Tractography Parameter Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="howto/segmentation_params.html">Segmentation Parameters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="howto/segmentation_params.html#example-usage">Example Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="howto/segmentation_params.html#segmentation-parameter-reference">Segmentation Parameter Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="howto/cleaning_params.html">Cleaning Parameters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="howto/cleaning_params.html#example-usage">Example Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="howto/cleaning_params.html#cleaning-parameter-reference">Cleaning Parameter Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="howto/howto_examples/index.html">How to examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="explanations/index.html">Explanations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="explanations/index.html#automated-fiber-quantification">Automated Fiber Quantification</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="explanations/tractometry_pipeline.html">AFQ Tractometry Pipeline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="explanations/bundle_orientation.html">Bundle Orientation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="explanations/modeling.html">Modeling White Matter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="explanations/profiling.html">Profiling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="explanations/recognition.html">Bundle Recognition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="explanations/tractography.html">Tractography</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference/index.html">Reference Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/api/index.html">API Reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/api/AFQ/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/api/AFQ/index.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="reference/api/AFQ/api/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.api</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="reference/api/AFQ/api/index.html#submodules">Submodules</a><ul>
+<li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/api/bundle_dict/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.api.bundle_dict</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/api/bundle_dict/index.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/api/bundle_dict/index.html#classes">Classes</a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/api/bundle_dict/index.html#functions">Functions</a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/api/bundle_dict/index.html#AFQ.api.bundle_dict.default18_bd"><code class="docutils literal notranslate"><span class="pre">default18_bd()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/api/bundle_dict/index.html#AFQ.api.bundle_dict.baby_bd"><code class="docutils literal notranslate"><span class="pre">baby_bd()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/api/bundle_dict/index.html#AFQ.api.bundle_dict.callosal_bd"><code class="docutils literal notranslate"><span class="pre">callosal_bd()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/api/bundle_dict/index.html#AFQ.api.bundle_dict.reco_bd"><code class="docutils literal notranslate"><span class="pre">reco_bd()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/api/bundle_dict/index.html#AFQ.api.bundle_dict.cerebellar_bd"><code class="docutils literal notranslate"><span class="pre">cerebellar_bd()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/api/bundle_dict/index.html#AFQ.api.bundle_dict.BundleDict"><code class="docutils literal notranslate"><span class="pre">BundleDict</span></code></a><ul>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/api/bundle_dict/index.html#AFQ.api.bundle_dict.BundleDict.__print__"><code class="docutils literal notranslate"><span class="pre">BundleDict.__print__()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/api/bundle_dict/index.html#AFQ.api.bundle_dict.BundleDict.update_max_includes"><code class="docutils literal notranslate"><span class="pre">BundleDict.update_max_includes()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/api/bundle_dict/index.html#AFQ.api.bundle_dict.BundleDict._use_bids_info"><code class="docutils literal notranslate"><span class="pre">BundleDict._use_bids_info()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/api/bundle_dict/index.html#AFQ.api.bundle_dict.BundleDict._cond_load"><code class="docutils literal notranslate"><span class="pre">BundleDict._cond_load()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/api/bundle_dict/index.html#AFQ.api.bundle_dict.BundleDict.get_b_info"><code class="docutils literal notranslate"><span class="pre">BundleDict.get_b_info()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/api/bundle_dict/index.html#AFQ.api.bundle_dict.BundleDict.__getitem__"><code class="docutils literal notranslate"><span class="pre">BundleDict.__getitem__()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/api/bundle_dict/index.html#AFQ.api.bundle_dict.BundleDict.__setitem__"><code class="docutils literal notranslate"><span class="pre">BundleDict.__setitem__()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/api/bundle_dict/index.html#AFQ.api.bundle_dict.BundleDict.__len__"><code class="docutils literal notranslate"><span class="pre">BundleDict.__len__()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/api/bundle_dict/index.html#AFQ.api.bundle_dict.BundleDict.__delitem__"><code class="docutils literal notranslate"><span class="pre">BundleDict.__delitem__()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/api/bundle_dict/index.html#AFQ.api.bundle_dict.BundleDict.__iter__"><code class="docutils literal notranslate"><span class="pre">BundleDict.__iter__()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/api/bundle_dict/index.html#AFQ.api.bundle_dict.BundleDict.copy"><code class="docutils literal notranslate"><span class="pre">BundleDict.copy()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/api/bundle_dict/index.html#AFQ.api.bundle_dict.BundleDict.apply_to_rois"><code class="docutils literal notranslate"><span class="pre">BundleDict.apply_to_rois()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/api/bundle_dict/index.html#AFQ.api.bundle_dict.BundleDict._cond_load_bundle"><code class="docutils literal notranslate"><span class="pre">BundleDict._cond_load_bundle()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/api/bundle_dict/index.html#AFQ.api.bundle_dict.BundleDict.is_bundle_in_template"><code class="docutils literal notranslate"><span class="pre">BundleDict.is_bundle_in_template()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/api/bundle_dict/index.html#AFQ.api.bundle_dict.BundleDict._roi_transform_helper"><code class="docutils literal notranslate"><span class="pre">BundleDict._roi_transform_helper()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/api/bundle_dict/index.html#AFQ.api.bundle_dict.BundleDict.transform_rois"><code class="docutils literal notranslate"><span class="pre">BundleDict.transform_rois()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/api/bundle_dict/index.html#AFQ.api.bundle_dict.BundleDict.__add__"><code class="docutils literal notranslate"><span class="pre">BundleDict.__add__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/api/group/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.api.group</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/api/group/index.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/api/group/index.html#classes">Classes</a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ"><code class="docutils literal notranslate"><span class="pre">GroupAFQ</span></code></a><ul>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ.clobber"><code class="docutils literal notranslate"><span class="pre">GroupAFQ.clobber</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ.combine_profiles"><code class="docutils literal notranslate"><span class="pre">GroupAFQ.combine_profiles()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ.get_streamlines_json"><code class="docutils literal notranslate"><span class="pre">GroupAFQ.get_streamlines_json()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ.export"><code class="docutils literal notranslate"><span class="pre">GroupAFQ.export()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ.export_up_to"><code class="docutils literal notranslate"><span class="pre">GroupAFQ.export_up_to()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ.export_all"><code class="docutils literal notranslate"><span class="pre">GroupAFQ.export_all()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ.cmd_outputs"><code class="docutils literal notranslate"><span class="pre">GroupAFQ.cmd_outputs()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ.make_all_participant_montages"><code class="docutils literal notranslate"><span class="pre">GroupAFQ.make_all_participant_montages()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ.group_montage"><code class="docutils literal notranslate"><span class="pre">GroupAFQ.group_montage()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ.combine_bundle"><code class="docutils literal notranslate"><span class="pre">GroupAFQ.combine_bundle()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ.upload_to_s3"><code class="docutils literal notranslate"><span class="pre">GroupAFQ.upload_to_s3()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ.export_group_density"><code class="docutils literal notranslate"><span class="pre">GroupAFQ.export_group_density()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ.assemble_AFQ_browser"><code class="docutils literal notranslate"><span class="pre">GroupAFQ.assemble_AFQ_browser()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/api/participant/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.api.participant</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/api/participant/index.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/api/participant/index.html#classes">Classes</a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/api/participant/index.html#AFQ.api.participant.ParticipantAFQ"><code class="docutils literal notranslate"><span class="pre">ParticipantAFQ</span></code></a><ul>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/api/participant/index.html#AFQ.api.participant.ParticipantAFQ.clobber"><code class="docutils literal notranslate"><span class="pre">ParticipantAFQ.clobber</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/api/participant/index.html#AFQ.api.participant.ParticipantAFQ.make_workflow"><code class="docutils literal notranslate"><span class="pre">ParticipantAFQ.make_workflow()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/api/participant/index.html#AFQ.api.participant.ParticipantAFQ.export"><code class="docutils literal notranslate"><span class="pre">ParticipantAFQ.export()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/api/participant/index.html#AFQ.api.participant.ParticipantAFQ.export_up_to"><code class="docutils literal notranslate"><span class="pre">ParticipantAFQ.export_up_to()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/api/participant/index.html#AFQ.api.participant.ParticipantAFQ.export_all"><code class="docutils literal notranslate"><span class="pre">ParticipantAFQ.export_all()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/api/participant/index.html#AFQ.api.participant.ParticipantAFQ.participant_montage"><code class="docutils literal notranslate"><span class="pre">ParticipantAFQ.participant_montage()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/api/participant/index.html#AFQ.api.participant.ParticipantAFQ.cmd_outputs"><code class="docutils literal notranslate"><span class="pre">ParticipantAFQ.cmd_outputs()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/api/utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.api.utils</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/api/utils/index.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/api/utils/index.html#AFQ.api.utils.methods_descriptors"><code class="docutils literal notranslate"><span class="pre">methods_descriptors</span></code></a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/api/utils/index.html#AFQ.api.utils.kwargs_descriptors"><code class="docutils literal notranslate"><span class="pre">kwargs_descriptors</span></code></a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/api/utils/index.html#AFQ.api.utils.AFQclass_doc"><code class="docutils literal notranslate"><span class="pre">AFQclass_doc</span></code></a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/api/utils/index.html#id0"><code class="docutils literal notranslate"><span class="pre">AFQclass_doc</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="reference/api/AFQ/data/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.data</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="reference/api/AFQ/data/index.html#submodules">Submodules</a><ul>
+<li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/data/fetch/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.data.fetch</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/data/fetch/index.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/data/fetch/index.html#functions">Functions</a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/data/fetch/index.html#attributes">Attributes</a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/data/fetch/index.html#AFQ.data.fetch.fetch_callosum_templates"><code class="docutils literal notranslate"><span class="pre">fetch_callosum_templates</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/data/fetch/index.html#AFQ.data.fetch.read_callosum_templates"><code class="docutils literal notranslate"><span class="pre">read_callosum_templates()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/data/fetch/index.html#AFQ.data.fetch.fetch_templates"><code class="docutils literal notranslate"><span class="pre">fetch_templates</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/data/fetch/index.html#AFQ.data.fetch.read_templates"><code class="docutils literal notranslate"><span class="pre">read_templates()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/data/fetch/index.html#AFQ.data.fetch.fetch_or_templates"><code class="docutils literal notranslate"><span class="pre">fetch_or_templates</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/data/fetch/index.html#AFQ.data.fetch.read_or_templates"><code class="docutils literal notranslate"><span class="pre">read_or_templates()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/data/fetch/index.html#AFQ.data.fetch.fetch_stanford_hardi_tractography"><code class="docutils literal notranslate"><span class="pre">fetch_stanford_hardi_tractography</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/data/fetch/index.html#AFQ.data.fetch.read_stanford_hardi_tractography"><code class="docutils literal notranslate"><span class="pre">read_stanford_hardi_tractography()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/data/fetch/index.html#AFQ.data.fetch.organize_stanford_data"><code class="docutils literal notranslate"><span class="pre">organize_stanford_data()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/data/fetch/index.html#AFQ.data.fetch.fetch_stanford_hardi_lv1"><code class="docutils literal notranslate"><span class="pre">fetch_stanford_hardi_lv1</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/data/utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.data.utils</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/data/utils/index.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/data/utils/index.html#functions">Functions</a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/data/utils/index.html#attributes">Attributes</a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/data/utils/index.html#AFQ.data.utils.BUNDLE_RECO_2_AFQ"><code class="docutils literal notranslate"><span class="pre">BUNDLE_RECO_2_AFQ</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/data/utils/index.html#AFQ.data.utils.BUNDLE_MAT_2_PYTHON"><code class="docutils literal notranslate"><span class="pre">BUNDLE_MAT_2_PYTHON</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/data/utils/index.html#AFQ.data.utils.aws_import_msg_error"><code class="docutils literal notranslate"><span class="pre">aws_import_msg_error()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="reference/api/AFQ/definitions/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.definitions</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="reference/api/AFQ/definitions/index.html#submodules">Submodules</a><ul>
+<li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/definitions/image/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.definitions.image</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/definitions/image/index.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/definitions/image/index.html#classes">Classes</a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ImageFile"><code class="docutils literal notranslate"><span class="pre">ImageFile</span></code></a><ul>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ImageFile.find_path"><code class="docutils literal notranslate"><span class="pre">ImageFile.find_path()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ImageFile.get_path_data_affine"><code class="docutils literal notranslate"><span class="pre">ImageFile.get_path_data_affine()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ImageFile.apply_conditions"><code class="docutils literal notranslate"><span class="pre">ImageFile.apply_conditions()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ImageFile.get_name"><code class="docutils literal notranslate"><span class="pre">ImageFile.get_name()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ImageFile.get_image_getter"><code class="docutils literal notranslate"><span class="pre">ImageFile.get_image_getter()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.FullImage"><code class="docutils literal notranslate"><span class="pre">FullImage</span></code></a><ul>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.FullImage.get_name"><code class="docutils literal notranslate"><span class="pre">FullImage.get_name()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.FullImage.get_image_getter"><code class="docutils literal notranslate"><span class="pre">FullImage.get_image_getter()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.RoiImage"><code class="docutils literal notranslate"><span class="pre">RoiImage</span></code></a><ul>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.RoiImage.get_name"><code class="docutils literal notranslate"><span class="pre">RoiImage.get_name()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.RoiImage.get_image_getter"><code class="docutils literal notranslate"><span class="pre">RoiImage.get_image_getter()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.GQImage"><code class="docutils literal notranslate"><span class="pre">GQImage</span></code></a><ul>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.GQImage.get_name"><code class="docutils literal notranslate"><span class="pre">GQImage.get_name()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.GQImage.get_image_getter"><code class="docutils literal notranslate"><span class="pre">GQImage.get_image_getter()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.B0Image"><code class="docutils literal notranslate"><span class="pre">B0Image</span></code></a><ul>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.B0Image.get_name"><code class="docutils literal notranslate"><span class="pre">B0Image.get_name()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.B0Image.get_image_getter"><code class="docutils literal notranslate"><span class="pre">B0Image.get_image_getter()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.LabelledImageFile"><code class="docutils literal notranslate"><span class="pre">LabelledImageFile</span></code></a><ul>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.LabelledImageFile.apply_conditions"><code class="docutils literal notranslate"><span class="pre">LabelledImageFile.apply_conditions()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ThresholdedImageFile"><code class="docutils literal notranslate"><span class="pre">ThresholdedImageFile</span></code></a><ul>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ThresholdedImageFile.apply_conditions"><code class="docutils literal notranslate"><span class="pre">ThresholdedImageFile.apply_conditions()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ScalarImage"><code class="docutils literal notranslate"><span class="pre">ScalarImage</span></code></a><ul>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ScalarImage.get_name"><code class="docutils literal notranslate"><span class="pre">ScalarImage.get_name()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ScalarImage.get_image_getter"><code class="docutils literal notranslate"><span class="pre">ScalarImage.get_image_getter()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.ThresholdedScalarImage"><code class="docutils literal notranslate"><span class="pre">ThresholdedScalarImage</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.TemplateImage"><code class="docutils literal notranslate"><span class="pre">TemplateImage</span></code></a><ul>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.TemplateImage.get_name"><code class="docutils literal notranslate"><span class="pre">TemplateImage.get_name()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.TemplateImage.get_image_getter"><code class="docutils literal notranslate"><span class="pre">TemplateImage.get_image_getter()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/definitions/mapping/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.definitions.mapping</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/definitions/mapping/index.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/definitions/mapping/index.html#classes">Classes</a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/definitions/mapping/index.html#AFQ.definitions.mapping.FnirtMap"><code class="docutils literal notranslate"><span class="pre">FnirtMap</span></code></a><ul>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/definitions/mapping/index.html#AFQ.definitions.mapping.FnirtMap.find_path"><code class="docutils literal notranslate"><span class="pre">FnirtMap.find_path()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/definitions/mapping/index.html#AFQ.definitions.mapping.FnirtMap.get_for_subses"><code class="docutils literal notranslate"><span class="pre">FnirtMap.get_for_subses()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/definitions/mapping/index.html#AFQ.definitions.mapping.IdentityMap"><code class="docutils literal notranslate"><span class="pre">IdentityMap</span></code></a><ul>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/definitions/mapping/index.html#AFQ.definitions.mapping.IdentityMap.get_for_subses"><code class="docutils literal notranslate"><span class="pre">IdentityMap.get_for_subses()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/definitions/mapping/index.html#AFQ.definitions.mapping.SynMap"><code class="docutils literal notranslate"><span class="pre">SynMap</span></code></a><ul>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/definitions/mapping/index.html#AFQ.definitions.mapping.SynMap.gen_mapping"><code class="docutils literal notranslate"><span class="pre">SynMap.gen_mapping()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/definitions/mapping/index.html#AFQ.definitions.mapping.SlrMap"><code class="docutils literal notranslate"><span class="pre">SlrMap</span></code></a><ul>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/definitions/mapping/index.html#AFQ.definitions.mapping.SlrMap.gen_mapping"><code class="docutils literal notranslate"><span class="pre">SlrMap.gen_mapping()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/definitions/mapping/index.html#AFQ.definitions.mapping.AffMap"><code class="docutils literal notranslate"><span class="pre">AffMap</span></code></a><ul>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/definitions/mapping/index.html#AFQ.definitions.mapping.AffMap.gen_mapping"><code class="docutils literal notranslate"><span class="pre">AffMap.gen_mapping()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/definitions/utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.definitions.utils</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/definitions/utils/index.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/definitions/utils/index.html#classes">Classes</a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/definitions/utils/index.html#functions">Functions</a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/definitions/utils/index.html#AFQ.definitions.utils.Definition"><code class="docutils literal notranslate"><span class="pre">Definition</span></code></a><ul>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/definitions/utils/index.html#AFQ.definitions.utils.Definition.find_path"><code class="docutils literal notranslate"><span class="pre">Definition.find_path()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/definitions/utils/index.html#AFQ.definitions.utils.Definition.str_for_toml"><code class="docutils literal notranslate"><span class="pre">Definition.str_for_toml()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/definitions/utils/index.html#AFQ.definitions.utils.name_from_path"><code class="docutils literal notranslate"><span class="pre">name_from_path()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/definitions/utils/index.html#AFQ.definitions.utils.find_file"><code class="docutils literal notranslate"><span class="pre">find_file()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="reference/api/AFQ/models/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.models</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="reference/api/AFQ/models/index.html#submodules">Submodules</a><ul>
+<li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/models/QBallTP/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.models.QBallTP</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/models/QBallTP/index.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/models/QBallTP/index.html#functions">Functions</a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/models/QBallTP/index.html#AFQ.models.QBallTP.extract_odf"><code class="docutils literal notranslate"><span class="pre">extract_odf()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/models/QBallTP/index.html#AFQ.models.QBallTP.anisotropic_index"><code class="docutils literal notranslate"><span class="pre">anisotropic_index()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/models/csd/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.models.csd</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/models/csd/index.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/models/csd/index.html#functions">Functions</a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/models/csd/index.html#AFQ.models.csd.fit_csd"><code class="docutils literal notranslate"><span class="pre">fit_csd()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/models/dki/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.models.dki</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/models/dki/index.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/models/dki/index.html#functions">Functions</a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/models/dki/index.html#AFQ.models.dki.fit_dki"><code class="docutils literal notranslate"><span class="pre">fit_dki()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/models/dki/index.html#AFQ.models.dki.predict"><code class="docutils literal notranslate"><span class="pre">predict()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/models/dti/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.models.dti</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/models/dti/index.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/models/dti/index.html#functions">Functions</a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/models/dti/index.html#AFQ.models.dti.fit_dti"><code class="docutils literal notranslate"><span class="pre">fit_dti()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/models/dti/index.html#AFQ.models.dti.predict"><code class="docutils literal notranslate"><span class="pre">predict()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/models/fwdti/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.models.fwdti</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/models/fwdti/index.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/models/fwdti/index.html#functions">Functions</a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/models/fwdti/index.html#AFQ.models.fwdti.fit_fwdti"><code class="docutils literal notranslate"><span class="pre">fit_fwdti()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="reference/api/AFQ/recognition/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.recognition</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="reference/api/AFQ/recognition/index.html#submodules">Submodules</a><ul>
+<li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/recognition/cleaning/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.recognition.cleaning</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/recognition/cleaning/index.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/recognition/cleaning/index.html#functions">Functions</a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/recognition/cleaning/index.html#attributes">Attributes</a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/cleaning/index.html#AFQ.recognition.cleaning.logger"><code class="docutils literal notranslate"><span class="pre">logger</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/cleaning/index.html#AFQ.recognition.cleaning.clean_by_orientation"><code class="docutils literal notranslate"><span class="pre">clean_by_orientation()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/cleaning/index.html#AFQ.recognition.cleaning.clean_bundle"><code class="docutils literal notranslate"><span class="pre">clean_bundle()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/recognition/criteria/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.recognition.criteria</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/recognition/criteria/index.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/recognition/criteria/index.html#functions">Functions</a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/recognition/criteria/index.html#attributes">Attributes</a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/criteria/index.html#AFQ.recognition.criteria.bundle_criterion_order"><code class="docutils literal notranslate"><span class="pre">bundle_criterion_order</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/criteria/index.html#AFQ.recognition.criteria.valid_noncriterion"><code class="docutils literal notranslate"><span class="pre">valid_noncriterion</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/criteria/index.html#AFQ.recognition.criteria.logger"><code class="docutils literal notranslate"><span class="pre">logger</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/criteria/index.html#AFQ.recognition.criteria.prob_map"><code class="docutils literal notranslate"><span class="pre">prob_map()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/criteria/index.html#AFQ.recognition.criteria.cross_midline"><code class="docutils literal notranslate"><span class="pre">cross_midline()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/criteria/index.html#AFQ.recognition.criteria.start"><code class="docutils literal notranslate"><span class="pre">start()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/criteria/index.html#AFQ.recognition.criteria.end"><code class="docutils literal notranslate"><span class="pre">end()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/criteria/index.html#AFQ.recognition.criteria.length"><code class="docutils literal notranslate"><span class="pre">length()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/criteria/index.html#AFQ.recognition.criteria.primary_axis"><code class="docutils literal notranslate"><span class="pre">primary_axis()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/criteria/index.html#AFQ.recognition.criteria.include"><code class="docutils literal notranslate"><span class="pre">include()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/criteria/index.html#AFQ.recognition.criteria.curvature"><code class="docutils literal notranslate"><span class="pre">curvature()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/criteria/index.html#AFQ.recognition.criteria.exclude"><code class="docutils literal notranslate"><span class="pre">exclude()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/criteria/index.html#AFQ.recognition.criteria.recobundles"><code class="docutils literal notranslate"><span class="pre">recobundles()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/criteria/index.html#AFQ.recognition.criteria.qb_thresh"><code class="docutils literal notranslate"><span class="pre">qb_thresh()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/criteria/index.html#AFQ.recognition.criteria.clean_by_other_bundle"><code class="docutils literal notranslate"><span class="pre">clean_by_other_bundle()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/criteria/index.html#AFQ.recognition.criteria.mahalanobis"><code class="docutils literal notranslate"><span class="pre">mahalanobis()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/criteria/index.html#AFQ.recognition.criteria.run_bundle_rec_plan"><code class="docutils literal notranslate"><span class="pre">run_bundle_rec_plan()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/recognition/curvature/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.recognition.curvature</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/recognition/curvature/index.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/recognition/curvature/index.html#functions">Functions</a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/curvature/index.html#AFQ.recognition.curvature.sl_curve"><code class="docutils literal notranslate"><span class="pre">sl_curve()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/curvature/index.html#AFQ.recognition.curvature.sl_curve_dist"><code class="docutils literal notranslate"><span class="pre">sl_curve_dist()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/recognition/other_bundles/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.recognition.other_bundles</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/recognition/other_bundles/index.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/recognition/other_bundles/index.html#functions">Functions</a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/recognition/other_bundles/index.html#attributes">Attributes</a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/other_bundles/index.html#AFQ.recognition.other_bundles.logger"><code class="docutils literal notranslate"><span class="pre">logger</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/other_bundles/index.html#AFQ.recognition.other_bundles.clean_by_other_density_map"><code class="docutils literal notranslate"><span class="pre">clean_by_other_density_map()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/other_bundles/index.html#AFQ.recognition.other_bundles.clean_relative_to_other_core"><code class="docutils literal notranslate"><span class="pre">clean_relative_to_other_core()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/recognition/preprocess/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.recognition.preprocess</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/recognition/preprocess/index.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/recognition/preprocess/index.html#functions">Functions</a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/recognition/preprocess/index.html#attributes">Attributes</a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/preprocess/index.html#AFQ.recognition.preprocess.logger"><code class="docutils literal notranslate"><span class="pre">logger</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/preprocess/index.html#AFQ.recognition.preprocess.tolerance_mm_to_vox"><code class="docutils literal notranslate"><span class="pre">tolerance_mm_to_vox()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/preprocess/index.html#AFQ.recognition.preprocess.fgarray"><code class="docutils literal notranslate"><span class="pre">fgarray()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/preprocess/index.html#AFQ.recognition.preprocess.crosses"><code class="docutils literal notranslate"><span class="pre">crosses()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/preprocess/index.html#AFQ.recognition.preprocess.get_preproc_plan"><code class="docutils literal notranslate"><span class="pre">get_preproc_plan()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/recognition/recognize/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.recognition.recognize</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/recognition/recognize/index.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/recognition/recognize/index.html#functions">Functions</a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/recognition/recognize/index.html#attributes">Attributes</a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/recognize/index.html#AFQ.recognition.recognize.logger"><code class="docutils literal notranslate"><span class="pre">logger</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/recognize/index.html#AFQ.recognition.recognize.recognize"><code class="docutils literal notranslate"><span class="pre">recognize()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/recognize/index.html#AFQ.recognition.recognize._return_empty"><code class="docutils literal notranslate"><span class="pre">_return_empty()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/recognize/index.html#AFQ.recognition.recognize._add_bundle_to_fiber_group"><code class="docutils literal notranslate"><span class="pre">_add_bundle_to_fiber_group()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/recognize/index.html#AFQ.recognition.recognize._add_bundle_to_meta"><code class="docutils literal notranslate"><span class="pre">_add_bundle_to_meta()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/recognition/roi/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.recognition.roi</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/recognition/roi/index.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/recognition/roi/index.html#functions">Functions</a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/roi/index.html#AFQ.recognition.roi._interp3d"><code class="docutils literal notranslate"><span class="pre">_interp3d()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/roi/index.html#AFQ.recognition.roi.check_sls_with_inclusion"><code class="docutils literal notranslate"><span class="pre">check_sls_with_inclusion()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/roi/index.html#AFQ.recognition.roi.check_sl_with_inclusion"><code class="docutils literal notranslate"><span class="pre">check_sl_with_inclusion()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/roi/index.html#AFQ.recognition.roi.check_sl_with_exclusion"><code class="docutils literal notranslate"><span class="pre">check_sl_with_exclusion()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/roi/index.html#AFQ.recognition.roi.clean_by_endpoints"><code class="docutils literal notranslate"><span class="pre">clean_by_endpoints()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/recognition/utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.recognition.utils</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/recognition/utils/index.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/recognition/utils/index.html#classes">Classes</a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/recognition/utils/index.html#functions">Functions</a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/recognition/utils/index.html#attributes">Attributes</a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.logger"><code class="docutils literal notranslate"><span class="pre">logger</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.flip_sls"><code class="docutils literal notranslate"><span class="pre">flip_sls()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.cut_sls_by_closest"><code class="docutils literal notranslate"><span class="pre">cut_sls_by_closest()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.read_tg"><code class="docutils literal notranslate"><span class="pre">read_tg()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.orient_by_streamline"><code class="docutils literal notranslate"><span class="pre">orient_by_streamline()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.move_streamlines"><code class="docutils literal notranslate"><span class="pre">move_streamlines()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.resample_tg"><code class="docutils literal notranslate"><span class="pre">resample_tg()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.SlsBeingRecognized"><code class="docutils literal notranslate"><span class="pre">SlsBeingRecognized</span></code></a><ul>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.SlsBeingRecognized.initiate_selection"><code class="docutils literal notranslate"><span class="pre">SlsBeingRecognized.initiate_selection()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.SlsBeingRecognized.select"><code class="docutils literal notranslate"><span class="pre">SlsBeingRecognized.select()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.SlsBeingRecognized.get_selected_sls"><code class="docutils literal notranslate"><span class="pre">SlsBeingRecognized.get_selected_sls()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.SlsBeingRecognized.reorient"><code class="docutils literal notranslate"><span class="pre">SlsBeingRecognized.reorient()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.SlsBeingRecognized.__bool__"><code class="docutils literal notranslate"><span class="pre">SlsBeingRecognized.__bool__()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.SlsBeingRecognized.__len__"><code class="docutils literal notranslate"><span class="pre">SlsBeingRecognized.__len__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="reference/api/AFQ/tasks/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.tasks</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="reference/api/AFQ/tasks/index.html#submodules">Submodules</a><ul>
+<li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.tasks.data</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#functions">Functions</a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#attributes">Attributes</a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.logger"><code class="docutils literal notranslate"><span class="pre">logger</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.DIPY_GH"><code class="docutils literal notranslate"><span class="pre">DIPY_GH</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.get_data_gtab"><code class="docutils literal notranslate"><span class="pre">get_data_gtab()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.b0"><code class="docutils literal notranslate"><span class="pre">b0()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.b0_mask"><code class="docutils literal notranslate"><span class="pre">b0_mask()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.dti_fit"><code class="docutils literal notranslate"><span class="pre">dti_fit()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.dti_params"><code class="docutils literal notranslate"><span class="pre">dti_params()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.fwdti_fit"><code class="docutils literal notranslate"><span class="pre">fwdti_fit()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.fwdti_params"><code class="docutils literal notranslate"><span class="pre">fwdti_params()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.dki_fit"><code class="docutils literal notranslate"><span class="pre">dki_fit()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.dki_params"><code class="docutils literal notranslate"><span class="pre">dki_params()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.msdki_fit"><code class="docutils literal notranslate"><span class="pre">msdki_fit()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.msdki_params"><code class="docutils literal notranslate"><span class="pre">msdki_params()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.msdki_msd"><code class="docutils literal notranslate"><span class="pre">msdki_msd()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.msdki_msk"><code class="docutils literal notranslate"><span class="pre">msdki_msk()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.csd_params"><code class="docutils literal notranslate"><span class="pre">csd_params()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.anisotropic_power_map"><code class="docutils literal notranslate"><span class="pre">anisotropic_power_map()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.csd_anisotropic_index"><code class="docutils literal notranslate"><span class="pre">csd_anisotropic_index()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.gq"><code class="docutils literal notranslate"><span class="pre">gq()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.gq_pmap"><code class="docutils literal notranslate"><span class="pre">gq_pmap()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.gq_ai"><code class="docutils literal notranslate"><span class="pre">gq_ai()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.rumba_model"><code class="docutils literal notranslate"><span class="pre">rumba_model()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.rumba_params"><code class="docutils literal notranslate"><span class="pre">rumba_params()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.rumba_fit"><code class="docutils literal notranslate"><span class="pre">rumba_fit()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.rumba_f_csf"><code class="docutils literal notranslate"><span class="pre">rumba_f_csf()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.rumba_f_gm"><code class="docutils literal notranslate"><span class="pre">rumba_f_gm()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.rumba_f_wm"><code class="docutils literal notranslate"><span class="pre">rumba_f_wm()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.opdt_params"><code class="docutils literal notranslate"><span class="pre">opdt_params()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.opdt_pmap"><code class="docutils literal notranslate"><span class="pre">opdt_pmap()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.opdt_ai"><code class="docutils literal notranslate"><span class="pre">opdt_ai()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.csa_params"><code class="docutils literal notranslate"><span class="pre">csa_params()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.csa_pmap"><code class="docutils literal notranslate"><span class="pre">csa_pmap()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.csa_ai"><code class="docutils literal notranslate"><span class="pre">csa_ai()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.fwdti_fa"><code class="docutils literal notranslate"><span class="pre">fwdti_fa()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.fwdti_md"><code class="docutils literal notranslate"><span class="pre">fwdti_md()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.fwdti_fwf"><code class="docutils literal notranslate"><span class="pre">fwdti_fwf()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.dti_fa"><code class="docutils literal notranslate"><span class="pre">dti_fa()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.dti_lt"><code class="docutils literal notranslate"><span class="pre">dti_lt()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.dti_cfa"><code class="docutils literal notranslate"><span class="pre">dti_cfa()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.dti_pdd"><code class="docutils literal notranslate"><span class="pre">dti_pdd()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.dti_md"><code class="docutils literal notranslate"><span class="pre">dti_md()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.dti_ga"><code class="docutils literal notranslate"><span class="pre">dti_ga()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.dti_rd"><code class="docutils literal notranslate"><span class="pre">dti_rd()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.dti_ad"><code class="docutils literal notranslate"><span class="pre">dti_ad()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.dki_kt"><code class="docutils literal notranslate"><span class="pre">dki_kt()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.dki_lt"><code class="docutils literal notranslate"><span class="pre">dki_lt()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.dki_fa"><code class="docutils literal notranslate"><span class="pre">dki_fa()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.dki_md"><code class="docutils literal notranslate"><span class="pre">dki_md()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.dki_awf"><code class="docutils literal notranslate"><span class="pre">dki_awf()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.dki_mk"><code class="docutils literal notranslate"><span class="pre">dki_mk()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.dki_kfa"><code class="docutils literal notranslate"><span class="pre">dki_kfa()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.dki_ga"><code class="docutils literal notranslate"><span class="pre">dki_ga()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.dki_rd"><code class="docutils literal notranslate"><span class="pre">dki_rd()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.dki_ad"><code class="docutils literal notranslate"><span class="pre">dki_ad()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.dki_rk"><code class="docutils literal notranslate"><span class="pre">dki_rk()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.dki_ak"><code class="docutils literal notranslate"><span class="pre">dki_ak()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.brain_mask"><code class="docutils literal notranslate"><span class="pre">brain_mask()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.get_bundle_dict"><code class="docutils literal notranslate"><span class="pre">get_bundle_dict()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.get_data_plan"><code class="docutils literal notranslate"><span class="pre">get_data_plan()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/tasks/decorators/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.tasks.decorators</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/tasks/decorators/index.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/tasks/decorators/index.html#functions">Functions</a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/decorators/index.html#AFQ.tasks.decorators.as_file"><code class="docutils literal notranslate"><span class="pre">as_file()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/decorators/index.html#AFQ.tasks.decorators.as_fit_deriv"><code class="docutils literal notranslate"><span class="pre">as_fit_deriv()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/decorators/index.html#AFQ.tasks.decorators.as_img"><code class="docutils literal notranslate"><span class="pre">as_img()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/tasks/mapping/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.tasks.mapping</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/tasks/mapping/index.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/tasks/mapping/index.html#functions">Functions</a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/tasks/mapping/index.html#attributes">Attributes</a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/mapping/index.html#AFQ.tasks.mapping.logger"><code class="docutils literal notranslate"><span class="pre">logger</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/mapping/index.html#AFQ.tasks.mapping.export_registered_b0"><code class="docutils literal notranslate"><span class="pre">export_registered_b0()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/mapping/index.html#AFQ.tasks.mapping.template_xform"><code class="docutils literal notranslate"><span class="pre">template_xform()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/mapping/index.html#AFQ.tasks.mapping.export_rois"><code class="docutils literal notranslate"><span class="pre">export_rois()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/mapping/index.html#AFQ.tasks.mapping.mapping"><code class="docutils literal notranslate"><span class="pre">mapping()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/mapping/index.html#AFQ.tasks.mapping.sls_mapping"><code class="docutils literal notranslate"><span class="pre">sls_mapping()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/mapping/index.html#AFQ.tasks.mapping.get_reg_subject"><code class="docutils literal notranslate"><span class="pre">get_reg_subject()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/mapping/index.html#AFQ.tasks.mapping.get_mapping_plan"><code class="docutils literal notranslate"><span class="pre">get_mapping_plan()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/tasks/segmentation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.tasks.segmentation</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/tasks/segmentation/index.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/tasks/segmentation/index.html#functions">Functions</a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/tasks/segmentation/index.html#attributes">Attributes</a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/segmentation/index.html#AFQ.tasks.segmentation.has_trx"><code class="docutils literal notranslate"><span class="pre">has_trx</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/segmentation/index.html#AFQ.tasks.segmentation.logger"><code class="docutils literal notranslate"><span class="pre">logger</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/segmentation/index.html#AFQ.tasks.segmentation.segment"><code class="docutils literal notranslate"><span class="pre">segment()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/segmentation/index.html#AFQ.tasks.segmentation.export_bundles"><code class="docutils literal notranslate"><span class="pre">export_bundles()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/segmentation/index.html#AFQ.tasks.segmentation.export_sl_counts"><code class="docutils literal notranslate"><span class="pre">export_sl_counts()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/segmentation/index.html#AFQ.tasks.segmentation.export_bundle_lengths"><code class="docutils literal notranslate"><span class="pre">export_bundle_lengths()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/segmentation/index.html#AFQ.tasks.segmentation.export_density_maps"><code class="docutils literal notranslate"><span class="pre">export_density_maps()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/segmentation/index.html#AFQ.tasks.segmentation.tract_profiles"><code class="docutils literal notranslate"><span class="pre">tract_profiles()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/segmentation/index.html#AFQ.tasks.segmentation.get_scalar_dict"><code class="docutils literal notranslate"><span class="pre">get_scalar_dict()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/segmentation/index.html#AFQ.tasks.segmentation.get_segmentation_plan"><code class="docutils literal notranslate"><span class="pre">get_segmentation_plan()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/tasks/tractography/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.tasks.tractography</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/tasks/tractography/index.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/tasks/tractography/index.html#functions">Functions</a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/tasks/tractography/index.html#attributes">Attributes</a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/tractography/index.html#AFQ.tasks.tractography.has_ray"><code class="docutils literal notranslate"><span class="pre">has_ray</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/tractography/index.html#AFQ.tasks.tractography.has_gputrack"><code class="docutils literal notranslate"><span class="pre">has_gputrack</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/tractography/index.html#AFQ.tasks.tractography.logger"><code class="docutils literal notranslate"><span class="pre">logger</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/tractography/index.html#AFQ.tasks.tractography._meta_from_tracking_params"><code class="docutils literal notranslate"><span class="pre">_meta_from_tracking_params()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/tractography/index.html#AFQ.tasks.tractography.export_seed_mask"><code class="docutils literal notranslate"><span class="pre">export_seed_mask()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/tractography/index.html#AFQ.tasks.tractography.export_seed_mask_thresholded"><code class="docutils literal notranslate"><span class="pre">export_seed_mask_thresholded()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/tractography/index.html#AFQ.tasks.tractography.export_stop_mask"><code class="docutils literal notranslate"><span class="pre">export_stop_mask()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/tractography/index.html#AFQ.tasks.tractography.export_stop_mask_thresholded"><code class="docutils literal notranslate"><span class="pre">export_stop_mask_thresholded()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/tractography/index.html#AFQ.tasks.tractography.export_stop_mask_pft"><code class="docutils literal notranslate"><span class="pre">export_stop_mask_pft()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/tractography/index.html#AFQ.tasks.tractography.streamlines"><code class="docutils literal notranslate"><span class="pre">streamlines()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/tractography/index.html#AFQ.tasks.tractography.fiber_odf"><code class="docutils literal notranslate"><span class="pre">fiber_odf()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/tractography/index.html#AFQ.tasks.tractography.custom_tractography"><code class="docutils literal notranslate"><span class="pre">custom_tractography()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/tractography/index.html#AFQ.tasks.tractography.gpu_tractography"><code class="docutils literal notranslate"><span class="pre">gpu_tractography()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/tractography/index.html#AFQ.tasks.tractography.get_tractography_plan"><code class="docutils literal notranslate"><span class="pre">get_tractography_plan()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/tasks/utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.tasks.utils</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/tasks/utils/index.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/tasks/utils/index.html#functions">Functions</a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/utils/index.html#AFQ.tasks.utils.get_base_fname"><code class="docutils literal notranslate"><span class="pre">get_base_fname()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/utils/index.html#AFQ.tasks.utils.get_fname"><code class="docutils literal notranslate"><span class="pre">get_fname()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/utils/index.html#AFQ.tasks.utils.with_name"><code class="docutils literal notranslate"><span class="pre">with_name()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/tasks/viz/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.tasks.viz</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/tasks/viz/index.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/tasks/viz/index.html#functions">Functions</a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/tasks/viz/index.html#attributes">Attributes</a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/viz/index.html#AFQ.tasks.viz.logger"><code class="docutils literal notranslate"><span class="pre">logger</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/viz/index.html#AFQ.tasks.viz._viz_prepare_vol"><code class="docutils literal notranslate"><span class="pre">_viz_prepare_vol()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/viz/index.html#AFQ.tasks.viz.viz_bundles"><code class="docutils literal notranslate"><span class="pre">viz_bundles()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/viz/index.html#AFQ.tasks.viz.viz_indivBundle"><code class="docutils literal notranslate"><span class="pre">viz_indivBundle()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/viz/index.html#AFQ.tasks.viz.plot_tract_profiles"><code class="docutils literal notranslate"><span class="pre">plot_tract_profiles()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/viz/index.html#AFQ.tasks.viz.init_viz_backend"><code class="docutils literal notranslate"><span class="pre">init_viz_backend()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tasks/viz/index.html#AFQ.tasks.viz.get_viz_plan"><code class="docutils literal notranslate"><span class="pre">get_viz_plan()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="reference/api/AFQ/tractography/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.tractography</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="reference/api/AFQ/tractography/index.html#submodules">Submodules</a><ul>
+<li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/tractography/gputractography/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.tractography.gputractography</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/tractography/gputractography/index.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/tractography/gputractography/index.html#functions">Functions</a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/tractography/gputractography/index.html#attributes">Attributes</a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tractography/gputractography/index.html#AFQ.tractography.gputractography.logger"><code class="docutils literal notranslate"><span class="pre">logger</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tractography/gputractography/index.html#AFQ.tractography.gputractography.gpu_track"><code class="docutils literal notranslate"><span class="pre">gpu_track()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/tractography/tractography/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.tractography.tractography</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/tractography/tractography/index.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/tractography/tractography/index.html#functions">Functions</a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tractography/tractography/index.html#AFQ.tractography.tractography.track"><code class="docutils literal notranslate"><span class="pre">track()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tractography/tractography/index.html#AFQ.tractography.tractography._tracking"><code class="docutils literal notranslate"><span class="pre">_tracking()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/tractography/utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.tractography.utils</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/tractography/utils/index.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/tractography/utils/index.html#functions">Functions</a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/tractography/utils/index.html#attributes">Attributes</a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tractography/utils/index.html#AFQ.tractography.utils.logger"><code class="docutils literal notranslate"><span class="pre">logger</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tractography/utils/index.html#AFQ.tractography.utils.get_percentile_threshold"><code class="docutils literal notranslate"><span class="pre">get_percentile_threshold()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/tractography/utils/index.html#AFQ.tractography.utils.gen_seeds"><code class="docutils literal notranslate"><span class="pre">gen_seeds()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="reference/api/AFQ/utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.utils</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="reference/api/AFQ/utils/index.html#submodules">Submodules</a><ul>
+<li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/utils/bin/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.utils.bin</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/utils/bin/index.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/utils/bin/index.html#functions">Functions</a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/utils/bin/index.html#attributes">Attributes</a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.model_input_parser"><code class="docutils literal notranslate"><span class="pre">model_input_parser()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.model_predict_input_parser"><code class="docutils literal notranslate"><span class="pre">model_predict_input_parser()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.toml_to_val"><code class="docutils literal notranslate"><span class="pre">toml_to_val()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.val_to_toml"><code class="docutils literal notranslate"><span class="pre">val_to_toml()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.dict_to_toml"><code class="docutils literal notranslate"><span class="pre">dict_to_toml()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.qsi_prep_ignore_params"><code class="docutils literal notranslate"><span class="pre">qsi_prep_ignore_params</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.dict_to_json"><code class="docutils literal notranslate"><span class="pre">dict_to_json()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.func_dict_to_arg_dict"><code class="docutils literal notranslate"><span class="pre">func_dict_to_arg_dict()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.parse_config_run_afq"><code class="docutils literal notranslate"><span class="pre">parse_config_run_afq()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.generate_config"><code class="docutils literal notranslate"><span class="pre">generate_config()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.generate_json"><code class="docutils literal notranslate"><span class="pre">generate_json()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/utils/docs/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.utils.docs</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/utils/docs/index.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/utils/docs/index.html#classes">Classes</a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/docs/index.html#AFQ.utils.docs.PNGScraper"><code class="docutils literal notranslate"><span class="pre">PNGScraper</span></code></a><ul>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/utils/docs/index.html#AFQ.utils.docs.PNGScraper.__repr__"><code class="docutils literal notranslate"><span class="pre">PNGScraper.__repr__()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/utils/docs/index.html#AFQ.utils.docs.PNGScraper.__call__"><code class="docutils literal notranslate"><span class="pre">PNGScraper.__call__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/docs/index.html#AFQ.utils.docs.GIFScraper"><code class="docutils literal notranslate"><span class="pre">GIFScraper</span></code></a><ul>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/utils/docs/index.html#AFQ.utils.docs.GIFScraper.__repr__"><code class="docutils literal notranslate"><span class="pre">GIFScraper.__repr__()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/utils/docs/index.html#AFQ.utils.docs.GIFScraper.__call__"><code class="docutils literal notranslate"><span class="pre">GIFScraper.__call__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/utils/docstring_parser/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.utils.docstring_parser</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/utils/docstring_parser/index.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/utils/docstring_parser/index.html#functions">Functions</a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/docstring_parser/index.html#AFQ.utils.docstring_parser.parse_numpy_docstring"><code class="docutils literal notranslate"><span class="pre">parse_numpy_docstring()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/utils/models/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.utils.models</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/utils/models/index.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/utils/models/index.html#functions">Functions</a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/models/index.html#AFQ.utils.models.prepare_data"><code class="docutils literal notranslate"><span class="pre">prepare_data()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/utils/path/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.utils.path</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/utils/path/index.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/utils/path/index.html#functions">Functions</a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/path/index.html#AFQ.utils.path.write_json"><code class="docutils literal notranslate"><span class="pre">write_json()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/path/index.html#AFQ.utils.path.read_json"><code class="docutils literal notranslate"><span class="pre">read_json()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/path/index.html#AFQ.utils.path.drop_extension"><code class="docutils literal notranslate"><span class="pre">drop_extension()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/path/index.html#AFQ.utils.path.space_from_fname"><code class="docutils literal notranslate"><span class="pre">space_from_fname()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/path/index.html#AFQ.utils.path.apply_cmd_to_afq_derivs"><code class="docutils literal notranslate"><span class="pre">apply_cmd_to_afq_derivs()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/utils/stats/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.utils.stats</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/utils/stats/index.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/utils/stats/index.html#functions">Functions</a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/stats/index.html#AFQ.utils.stats.contrast_index"><code class="docutils literal notranslate"><span class="pre">contrast_index()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/utils/streamlines/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.utils.streamlines</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/utils/streamlines/index.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/utils/streamlines/index.html#classes">Classes</a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/utils/streamlines/index.html#functions">Functions</a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/utils/streamlines/index.html#attributes">Attributes</a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/streamlines/index.html#AFQ.utils.streamlines.has_trx"><code class="docutils literal notranslate"><span class="pre">has_trx</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/streamlines/index.html#AFQ.utils.streamlines.SegmentedSFT"><code class="docutils literal notranslate"><span class="pre">SegmentedSFT</span></code></a><ul>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/utils/streamlines/index.html#AFQ.utils.streamlines.SegmentedSFT.get_sft_and_sidecar"><code class="docutils literal notranslate"><span class="pre">SegmentedSFT.get_sft_and_sidecar()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/utils/streamlines/index.html#AFQ.utils.streamlines.SegmentedSFT.get_bundle"><code class="docutils literal notranslate"><span class="pre">SegmentedSFT.get_bundle()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/utils/streamlines/index.html#AFQ.utils.streamlines.SegmentedSFT.get_bundle_param_info"><code class="docutils literal notranslate"><span class="pre">SegmentedSFT.get_bundle_param_info()</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/utils/streamlines/index.html#AFQ.utils.streamlines.SegmentedSFT.fromfile"><code class="docutils literal notranslate"><span class="pre">SegmentedSFT.fromfile()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/streamlines/index.html#AFQ.utils.streamlines.split_streamline"><code class="docutils literal notranslate"><span class="pre">split_streamline()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/utils/volume/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.utils.volume</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/utils/volume/index.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/utils/volume/index.html#functions">Functions</a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/utils/volume/index.html#attributes">Attributes</a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/volume/index.html#AFQ.utils.volume.logger"><code class="docutils literal notranslate"><span class="pre">logger</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/volume/index.html#AFQ.utils.volume.transform_inverse_roi"><code class="docutils literal notranslate"><span class="pre">transform_inverse_roi()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/volume/index.html#AFQ.utils.volume.patch_up_roi"><code class="docutils literal notranslate"><span class="pre">patch_up_roi()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/volume/index.html#AFQ.utils.volume.density_map"><code class="docutils literal notranslate"><span class="pre">density_map()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/volume/index.html#AFQ.utils.volume.dice_coeff"><code class="docutils literal notranslate"><span class="pre">dice_coeff()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="reference/api/AFQ/viz/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.viz</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="reference/api/AFQ/viz/index.html#submodules">Submodules</a><ul>
+<li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/viz/altair/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.viz.altair</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/viz/altair/index.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/viz/altair/index.html#functions">Functions</a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/viz/altair/index.html#AFQ.viz.altair.altair_color_dict"><code class="docutils literal notranslate"><span class="pre">altair_color_dict()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/viz/altair/index.html#AFQ.viz.altair.combined_profiles_df_to_altair_df"><code class="docutils literal notranslate"><span class="pre">combined_profiles_df_to_altair_df()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/viz/altair/index.html#AFQ.viz.altair.altair_df_to_chart"><code class="docutils literal notranslate"><span class="pre">altair_df_to_chart()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/viz/fury_backend/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.viz.fury_backend</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/viz/fury_backend/index.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/viz/fury_backend/index.html#functions">Functions</a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/viz/fury_backend/index.html#attributes">Attributes</a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/viz/fury_backend/index.html#AFQ.viz.fury_backend.viz_logger"><code class="docutils literal notranslate"><span class="pre">viz_logger</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/viz/fury_backend/index.html#AFQ.viz.fury_backend._inline_interact"><code class="docutils literal notranslate"><span class="pre">_inline_interact()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/viz/fury_backend/index.html#AFQ.viz.fury_backend.visualize_bundles"><code class="docutils literal notranslate"><span class="pre">visualize_bundles()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/viz/fury_backend/index.html#AFQ.viz.fury_backend.scene_rotate_forward"><code class="docutils literal notranslate"><span class="pre">scene_rotate_forward()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/viz/fury_backend/index.html#AFQ.viz.fury_backend.create_gif"><code class="docutils literal notranslate"><span class="pre">create_gif()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/viz/fury_backend/index.html#AFQ.viz.fury_backend.visualize_roi"><code class="docutils literal notranslate"><span class="pre">visualize_roi()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/viz/fury_backend/index.html#AFQ.viz.fury_backend.visualize_volume"><code class="docutils literal notranslate"><span class="pre">visualize_volume()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/viz/fury_backend/index.html#AFQ.viz.fury_backend._draw_core"><code class="docutils literal notranslate"><span class="pre">_draw_core()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/viz/fury_backend/index.html#AFQ.viz.fury_backend.single_bundle_viz"><code class="docutils literal notranslate"><span class="pre">single_bundle_viz()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/viz/plot/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.viz.plot</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/viz/plot/index.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/viz/plot/index.html#functions">Functions</a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/viz/plot/index.html#AFQ.viz.plot.visualize_tract_profiles"><code class="docutils literal notranslate"><span class="pre">visualize_tract_profiles()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/viz/plot/index.html#AFQ.viz.plot.visualize_gif_inline"><code class="docutils literal notranslate"><span class="pre">visualize_gif_inline()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/viz/plotly_backend/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.viz.plotly_backend</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/viz/plotly_backend/index.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/viz/plotly_backend/index.html#classes">Classes</a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/viz/plotly_backend/index.html#functions">Functions</a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/viz/plotly_backend/index.html#attributes">Attributes</a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/viz/plotly_backend/index.html#AFQ.viz.plotly_backend.scope"><code class="docutils literal notranslate"><span class="pre">scope</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/viz/plotly_backend/index.html#AFQ.viz.plotly_backend.viz_logger"><code class="docutils literal notranslate"><span class="pre">viz_logger</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/viz/plotly_backend/index.html#AFQ.viz.plotly_backend._inline_interact"><code class="docutils literal notranslate"><span class="pre">_inline_interact()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/viz/plotly_backend/index.html#AFQ.viz.plotly_backend._to_color_range"><code class="docutils literal notranslate"><span class="pre">_to_color_range()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/viz/plotly_backend/index.html#AFQ.viz.plotly_backend._color_arr2str"><code class="docutils literal notranslate"><span class="pre">_color_arr2str()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/viz/plotly_backend/index.html#AFQ.viz.plotly_backend.set_layout"><code class="docutils literal notranslate"><span class="pre">set_layout()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/viz/plotly_backend/index.html#AFQ.viz.plotly_backend._draw_streamlines"><code class="docutils literal notranslate"><span class="pre">_draw_streamlines()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/viz/plotly_backend/index.html#AFQ.viz.plotly_backend._plot_profiles"><code class="docutils literal notranslate"><span class="pre">_plot_profiles()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/viz/plotly_backend/index.html#AFQ.viz.plotly_backend.visualize_bundles"><code class="docutils literal notranslate"><span class="pre">visualize_bundles()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/viz/plotly_backend/index.html#AFQ.viz.plotly_backend.create_gif"><code class="docutils literal notranslate"><span class="pre">create_gif()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/viz/plotly_backend/index.html#AFQ.viz.plotly_backend._draw_roi"><code class="docutils literal notranslate"><span class="pre">_draw_roi()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/viz/plotly_backend/index.html#AFQ.viz.plotly_backend.visualize_roi"><code class="docutils literal notranslate"><span class="pre">visualize_roi()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/viz/plotly_backend/index.html#AFQ.viz.plotly_backend.Axes"><code class="docutils literal notranslate"><span class="pre">Axes</span></code></a><ul>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/viz/plotly_backend/index.html#AFQ.viz.plotly_backend.Axes.X"><code class="docutils literal notranslate"><span class="pre">Axes.X</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/viz/plotly_backend/index.html#AFQ.viz.plotly_backend.Axes.Y"><code class="docutils literal notranslate"><span class="pre">Axes.Y</span></code></a></li>
+<li class="toctree-l11"><a class="reference internal" href="reference/api/AFQ/viz/plotly_backend/index.html#AFQ.viz.plotly_backend.Axes.Z"><code class="docutils literal notranslate"><span class="pre">Axes.Z</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/viz/plotly_backend/index.html#AFQ.viz.plotly_backend._draw_slice"><code class="docutils literal notranslate"><span class="pre">_draw_slice()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/viz/plotly_backend/index.html#AFQ.viz.plotly_backend._name_from_enum"><code class="docutils literal notranslate"><span class="pre">_name_from_enum()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/viz/plotly_backend/index.html#AFQ.viz.plotly_backend.visualize_volume"><code class="docutils literal notranslate"><span class="pre">visualize_volume()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/viz/plotly_backend/index.html#AFQ.viz.plotly_backend._draw_core"><code class="docutils literal notranslate"><span class="pre">_draw_core()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/viz/plotly_backend/index.html#AFQ.viz.plotly_backend.single_bundle_viz"><code class="docutils literal notranslate"><span class="pre">single_bundle_viz()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/viz/utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.viz.utils</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/viz/utils/index.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/viz/utils/index.html#classes">Classes</a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/viz/utils/index.html#AFQ.viz.utils.Viz"><code class="docutils literal notranslate"><span class="pre">Viz</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="reference/api/AFQ/index.html#submodules">Submodules</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="reference/api/AFQ/registration/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.registration</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="reference/api/AFQ/registration/index.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/registration/index.html#functions">Functions</a><ul>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/registration/index.html#AFQ.registration.syn_register_dwi"><code class="docutils literal notranslate"><span class="pre">syn_register_dwi()</span></code></a></li>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/registration/index.html#AFQ.registration.write_mapping"><code class="docutils literal notranslate"><span class="pre">write_mapping()</span></code></a></li>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/registration/index.html#AFQ.registration.read_mapping"><code class="docutils literal notranslate"><span class="pre">read_mapping()</span></code></a></li>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/registration/index.html#AFQ.registration.slr_registration"><code class="docutils literal notranslate"><span class="pre">slr_registration()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="reference/api/AFQ/index.html#package-contents">Package Contents</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="reference/api/AFQ/index.html#AFQ._ga_id"><code class="docutils literal notranslate"><span class="pre">_ga_id</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference/bundledict.html">Defining Custom Bundle Dictionaries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/fibertracts.html">Major Fiber Tracts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/tissue_properties.html">Tissue Properties in pyAFQ</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/tissue_properties.html#dti-model-parameters">DTI Model Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/tissue_properties.html#free-water-dti-fwdti-parameters">Free-water DTI (FWDTI) Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/tissue_properties.html#dki-model-parameters">DKI Model Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/tissue_properties.html#mean-signal-dki-msdki-parameters">Mean Signal DKI (MSDKI) Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/tissue_properties.html#csd-model-parameters">CSD Model Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/tissue_properties.html#gq-generalized-q-sampling-parameters">GQ (Generalized Q-Sampling) Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/tissue_properties.html#opdt-orientation-probability-density-transform-parameters">OPDT (Orientation Probability Density Transform) Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/tissue_properties.html#csa-constant-solid-angle-parameters">CSA (Constant Solid Angle) Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/tissue_properties.html#rumba-model-parameters">RUMBA Model Parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference/methods.html">The pyAFQ API methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/viz_backend.html">Visualization Backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/viz_backend.html#fury-dockerfile-for-cloudknot">Fury Dockerfile for Cloudknot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/mapping.html">The pyAFQ Mapping API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/config.html">The pyAFQ configuration file</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Automated Fiber Quantification in Python (pyAFQ)</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="tutorials/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Getting started with pyAFQ</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+
+  
+  <div class="tocsection editthispage">
+    <a href="https://github.com/tractometry/pyAFQ/edit/master/docs/source/guides_index.rst">
+      <i class="fa-solid fa-pencil"></i>
+      
+      
+        
+          Edit on GitHub
+        
+      
+    </a>
+  </div>
+</div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="_sources/guides_index.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2018--, The pyAFQ Contributors.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <div class="footer-content">
+      <div class="copyright">
+        Please Cite the following paper:
+      </div>
+      <div class="citation">
+        <a href="https://doi.org/10.52294/e6198273-b8e3-4b63-babb-6e6b0da10669">Kruper et al. (2021)</a>
+      </div>
+    </div>
+  </div>
+  </div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-156363454-2");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+  </body>
+</html>

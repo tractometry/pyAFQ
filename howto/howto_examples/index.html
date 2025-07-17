@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>How to examples &#8212; AFQ 2.0 documentation</title>
+    <title>How to examples &#8212; AFQ 2.1 documentation</title>
   
   
   
@@ -30,7 +30,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
@@ -53,8 +53,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'howto/howto_examples/index';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="How to add new bundles into pyAFQ (SLF 1/2/3 Example)" href="add_custom_bundle.html" />
-    <link rel="prev" title="How to cite our work" href="../cite.html" />
+    <link rel="next" title="How to add new bundles into pyAFQ (Acoustic Radiations Example)" href="acoustic_radiations.html" />
+    <link rel="prev" title="Cleaning Parameters" href="../cleaning_params.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -134,8 +134,8 @@
       
     
     
-    <img src="../../_static/logo.png" class="logo__image only-light" alt="AFQ 2.0 documentation - Home"/>
-    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.0 documentation - Home"/>`);</script>
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="AFQ 2.1 documentation - Home"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -150,30 +150,23 @@
 <nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../tutorials/index.html">
-    Getting started with pyAFQ
-  </a>
-</li>
-
-
 <li class="nav-item current active">
-  <a class="nav-link nav-internal" href="../index.html">
-    How To
+  <a class="nav-link nav-internal" href="../../guides_index.html">
+    User Guide
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../explanations/index.html">
-    Explanations
+  <a class="nav-link nav-internal" href="../../developing/index.html">
+    Developing pyAFQ
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../reference/index.html">
-    Reference Documentation
+  <a class="nav-link nav-internal" href="../../bib.html">
+    Bibliography
   </a>
 </li>
 
@@ -284,30 +277,23 @@ document.write(`
 <nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../tutorials/index.html">
-    Getting started with pyAFQ
-  </a>
-</li>
-
-
 <li class="nav-item current active">
-  <a class="nav-link nav-internal" href="../index.html">
-    How To
+  <a class="nav-link nav-internal" href="../../guides_index.html">
+    User Guide
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../explanations/index.html">
-    Explanations
+  <a class="nav-link nav-internal" href="../../developing/index.html">
+    Developing pyAFQ
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../reference/index.html">
-    Reference Documentation
+  <a class="nav-link nav-internal" href="../../bib.html">
+    Bibliography
   </a>
 </li>
 
@@ -383,43 +369,87 @@ document.write(`
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../installation_guide.html">How to install <code class="docutils literal notranslate"><span class="pre">pyAFQ</span></code></a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../usage/index.html">How to use <cite>pyAFQ</cite></a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../usage/data.html">Organizing your data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../usage/kwargs.html">The pyAFQ API optional arguments</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../usage/scalars.html">How to add custom tissue properties from another pipeline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../usage/converter.html">Tractography from other pipelines</a></li>
-
-<li class="toctree-l2"><a class="reference internal" href="../usage/docker.html">The pyAFQ docker image</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../usage/methods.html">The pyAFQ API methods</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../usage/image.html">The pyAFQ Image API</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../tutorials/index.html">Getting started with pyAFQ</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../tutorials/tutorial_examples/index.html">Tutorials: getting started with the pyAFQ Python library</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorials/tutorial_examples/plot_001_group_afq_api.html">Getting started with pyAFQ - GroupAFQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorials/tutorial_examples/plot_002_participant_afq_api.html">Getting started with pyAFQ - ParticipantAFQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorials/tutorial_examples/plot_003_rerun.html">Re-running pyAFQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorials/tutorial_examples/plot_004_export.html">Exporting pyAFQ Results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorials/tutorial_examples/plot_005_viz.html">Visualizing AFQ derivatives</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorials/tutorial_examples/plot_006_bids_layout.html">How pyAFQ uses BIDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorials/tutorial_examples/plot_007_rois.html">Plotting Default Regions of Interest (ROIs) to Understand the Tracts</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1"><a class="reference internal" href="../contributing.html">How to contribute to pyAFQ</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../developing/index.html">How to develop <cite>pyAFQ</cite></a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../developing/tasks.html">Adding Tasks to the pyAFQ Workflow</a></li>
-
-
-<li class="toctree-l2"><a class="reference internal" href="../developing/definitions.html">Adding Definitions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developing/releasing.html">How to create a release</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1"><a class="reference internal" href="../getting_help.html">How to get help using pyAFQ</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cite.html">How to cite our work</a></li>
-<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">How to examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="add_custom_bundle.html">How to add new bundles into pyAFQ (SLF 1/2/3 Example)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="baby_afq.html">BabyAFQ : tractometry for infant dMRI data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cerebellar_peduncles.html">Delineating cerebellar peduncles</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cloudknot_example.html">Using cloudknot to run pyAFQ on AWS batch:</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cloudknot_hcp_example.html">AFQ with HCP data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="plot_acoustic_radiations.html">How to add new bundles into pyAFQ (Acoustic Radiations Example)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="plot_afq_callosal.html">Callosal bundles using AFQ API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="plot_afq_fwdti.html">How to use Free water DTI</a></li>
-<li class="toctree-l2"><a class="reference internal" href="plot_optic_radiations.html">How to add new bundles into pyAFQ(Optic Radiations Example)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="plot_recobundles.html">Using RecoBundles for bundle recognition</a></li>
-<li class="toctree-l2"><a class="reference internal" href="plot_stages_of_tractometry.html">Making videos the different stages of tractometry</a></li>
-<li class="toctree-l2"><a class="reference internal" href="use_subject_space_rois_from_freesurfer.html">Using Subject Space ROIs from Freesurfer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="vof_example.html">How to segment out only some bundles</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html">How To</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../installation_guide.html">How to install <code class="docutils literal notranslate"><span class="pre">pyAFQ</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_help.html">How to get help using pyAFQ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cite.html">How to cite our work</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../data.html">Organizing your data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rerun.html">Re-running pyAFQ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../scalars.html">How to add custom tissue properties from another pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../converter.html">Tractography from other pipelines</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../docker.html">The pyAFQ docker image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../singularity.html">The pyAFQ singularity image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../image.html">The pyAFQ Image API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tractography_params.html">Tractography Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation_params.html">Segmentation Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cleaning_params.html">Cleaning Parameters</a></li>
+<li class="toctree-l2 current active has-children"><a class="current reference internal" href="#">How to examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="acoustic_radiations.html">How to add new bundles into pyAFQ (Acoustic Radiations Example)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="add_custom_bundle.html">How to add new bundles into pyAFQ (SLF 1/2/3 Example)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="baby_afq.html">BabyAFQ : tractometry for infant dMRI data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cerebellar_peduncles.html">Delineating cerebellar peduncles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cloudknot_example.html">Using cloudknot to run pyAFQ on AWS batch:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cloudknot_hcp_example.html">AFQ with HCP data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optic_radiations.html">How to add new bundles into pyAFQ(Optic Radiations Example)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_afq_callosal.html">Callosal bundles using AFQ API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_recobundles.html">Using RecoBundles for bundle recognition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_stages_of_tractometry.html">Understanding the different stages of tractometry with videos</a></li>
+<li class="toctree-l3"><a class="reference internal" href="run_afq_fwdti.html">How to use Free water DTI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="run_pyAFQ_with_GPU.html">Running pyAFQ using the GPU for tractography</a></li>
+<li class="toctree-l3"><a class="reference internal" href="use_subject_space_rois_from_freesurfer.html">Using Subject Space ROIs from Freesurfer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vof_example.html">How to segment out only some bundles</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../explanations/index.html">Explanations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../explanations/tractometry_pipeline.html">AFQ Tractometry Pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../explanations/bundle_orientation.html">Bundle Orientation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../explanations/modeling.html">Modeling White Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../explanations/profiling.html">Profiling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../explanations/recognition.html">Bundle Recognition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../explanations/tractography.html">Tractography</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../reference/index.html">Reference Documentation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../reference/api/index.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../reference/api/AFQ/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ</span></code></a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/api/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.api</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/data/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.data</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/definitions/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.definitions</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/models/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.models</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/recognition/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.recognition</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/tasks/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.tasks</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/tractography/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.tractography</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.utils</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/viz/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.viz</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/registration/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.registration</span></code></a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../../reference/bundledict.html">Defining Custom Bundle Dictionaries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../reference/fibertracts.html">Major Fiber Tracts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../reference/tissue_properties.html">Tissue Properties in pyAFQ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../reference/methods.html">The pyAFQ API methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../reference/viz_backend.html">Visualization Backends</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../reference/mapping.html">The pyAFQ Mapping API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../reference/config.html">The pyAFQ configuration file</a></li>
 </ul>
 </details></li>
 </ul>
@@ -460,6 +490,9 @@ document.write(`
       </a>
     </li>
     
+    <li class="breadcrumb-item"><a href="../../guides_index.html" class="nav-link">User Guide</a></li>
+    
+    
     <li class="breadcrumb-item"><a href="../index.html" class="nav-link">How To</a></li>
     
     <li class="breadcrumb-item active" aria-current="page">How to examples</li>
@@ -486,10 +519,13 @@ of pyAFQ. These are intended to provide a reference and answer questions
 about the variety of pyAFQ functionality that is available.</p>
 <div class="toctree-wrapper compound">
 </div>
-<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="pyAFQ is designed to be customizable and extensible. This example shows how you can customize it to define a new bundle based on a definition of waypoint and endpoint ROIs of your design."><img alt="" src="../../_images/sphx_glr_add_custom_bundle_thumb.png" />
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="pyAFQ is designed to be customizable and extensible. This example shows how you can customize it to define a new bundle based on a definition of waypoint and endpoint ROIs of your design. In this case, we add the acoustic radiations."><img alt="" src="../../_images/sphx_glr_acoustic_radiations_thumb.png" />
+<p><a class="reference internal" href="acoustic_radiations.html#sphx-glr-howto-howto-examples-acoustic-radiations-py"><span class="std std-ref">How to add new bundles into pyAFQ (Acoustic Radiations Example)</span></a></p>
+  <div class="sphx-glr-thumbnail-title">How to add new bundles into pyAFQ (Acoustic Radiations Example)</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="pyAFQ is designed to be customizable and extensible. This example shows how you can customize it to define a new bundle based on a definition of waypoint and endpoint ROIs of your design."><img alt="" src="../../_images/sphx_glr_add_custom_bundle_thumb.png" />
 <p><a class="reference internal" href="add_custom_bundle.html#sphx-glr-howto-howto-examples-add-custom-bundle-py"><span class="std std-ref">How to add new bundles into pyAFQ (SLF 1/2/3 Example)</span></a></p>
   <div class="sphx-glr-thumbnail-title">How to add new bundles into pyAFQ (SLF 1/2/3 Example)</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="The following is an example of tractometry for infant bundles. This example and resulting pyAFQ support for pediatric bundles was inspired by and largely due to the work of Grotheer et al. [Grotheer2022]_, as implemented in [Grotheer2023]_."><img alt="" src="../../_images/sphx_glr_baby_afq_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="The following is an example of tractometry for infant bundles. This example and resulting pyAFQ support for pediatric bundles was inspired by and largely due to the work of Grotheer et al. [Grotheer2021]_, as implemented in [Grotheer2023]_."><img alt="" src="../../_images/sphx_glr_baby_afq_thumb.png" />
 <p><a class="reference internal" href="baby_afq.html#sphx-glr-howto-howto-examples-baby-afq-py"><span class="std std-ref">BabyAFQ : tractometry for infant dMRI data</span></a></p>
   <div class="sphx-glr-thumbnail-title">BabyAFQ : tractometry for infant dMRI data</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="The cerebellar peduncles are white matter tracts that connect the cerebellum to the brainstem and cortex. In this example, we show how to delineate the cerebellar peduncles using a subject from the Healthy Brain Network dataset."><img alt="" src="../../_images/sphx_glr_cerebellar_peduncles_thumb.png" />
@@ -501,24 +537,24 @@ about the variety of pyAFQ functionality that is available.</p>
 </div><div class="sphx-glr-thumbcontainer" tooltip="AFQ with HCP data"><img alt="" src="../../_images/sphx_glr_cloudknot_hcp_example_thumb.png" />
 <p><a class="reference internal" href="cloudknot_hcp_example.html#sphx-glr-howto-howto-examples-cloudknot-hcp-example-py"><span class="std std-ref">AFQ with HCP data</span></a></p>
   <div class="sphx-glr-thumbnail-title">AFQ with HCP data</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="pyAFQ is designed to be customizable and extensible. This example shows how you can customize it to define a new bundle based on a definition of waypoint and endpoint ROIs of your design. In this case, we add the acoustic radiations."><img alt="" src="../../_images/sphx_glr_plot_acoustic_radiations_thumb.png" />
-<p><a class="reference internal" href="plot_acoustic_radiations.html#sphx-glr-howto-howto-examples-plot-acoustic-radiations-py"><span class="std std-ref">How to add new bundles into pyAFQ (Acoustic Radiations Example)</span></a></p>
-  <div class="sphx-glr-thumbnail-title">How to add new bundles into pyAFQ (Acoustic Radiations Example)</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="pyAFQ is designed to be customizable and extensible. This example shows how you can customize it to define a new bundle based on a definition of waypoint and endpoint ROIs of your design."><img alt="" src="../../_images/sphx_glr_optic_radiations_thumb.png" />
+<p><a class="reference internal" href="optic_radiations.html#sphx-glr-howto-howto-examples-optic-radiations-py"><span class="std std-ref">How to add new bundles into pyAFQ(Optic Radiations Example)</span></a></p>
+  <div class="sphx-glr-thumbnail-title">How to add new bundles into pyAFQ(Optic Radiations Example)</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Callosal bundles using AFQ API"><img alt="" src="../../_images/sphx_glr_plot_afq_callosal_thumb.png" />
 <p><a class="reference internal" href="plot_afq_callosal.html#sphx-glr-howto-howto-examples-plot-afq-callosal-py"><span class="std std-ref">Callosal bundles using AFQ API</span></a></p>
   <div class="sphx-glr-thumbnail-title">Callosal bundles using AFQ API</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="The free-water DTI model [1, 2]_ fits a two compartment model to dMRI data with more than one non-zero shell. One compartment is a spherical compartment with the diffusivity of water, which accounts for free water in the tissue. The other compartment is the standard diffusion tensor."><img alt="" src="../../_images/sphx_glr_plot_afq_fwdti_thumb.png" />
-<p><a class="reference internal" href="plot_afq_fwdti.html#sphx-glr-howto-howto-examples-plot-afq-fwdti-py"><span class="std std-ref">How to use Free water DTI</span></a></p>
-  <div class="sphx-glr-thumbnail-title">How to use Free water DTI</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="pyAFQ is designed to be customizable and extensible. This example shows how you can customize it to define a new bundle based on a definition of waypoint and endpoint ROIs of your design."><img alt="" src="../../_images/sphx_glr_plot_optic_radiations_thumb.png" />
-<p><a class="reference internal" href="plot_optic_radiations.html#sphx-glr-howto-howto-examples-plot-optic-radiations-py"><span class="std std-ref">How to add new bundles into pyAFQ(Optic Radiations Example)</span></a></p>
-  <div class="sphx-glr-thumbnail-title">How to add new bundles into pyAFQ(Optic Radiations Example)</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="For bundle recognition, pyAFQ defaults to use the waypoint ROI approach described in [Yeatman2012]_. However, as an alternative approach, pyAFQ also supports using the RecoBundles algorithm [Garyfallidis2017]_, which uses an atlas of bundles in streamlines. This example shows how to use RecoBundles for bundle recognition."><img alt="" src="../../_images/sphx_glr_plot_recobundles_thumb.png" />
 <p><a class="reference internal" href="plot_recobundles.html#sphx-glr-howto-howto-examples-plot-recobundles-py"><span class="std std-ref">Using RecoBundles for bundle recognition</span></a></p>
   <div class="sphx-glr-thumbnail-title">Using RecoBundles for bundle recognition</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Two-dimensional figures of anatomical data are somewhat limited, because of the complex three-dimensional configuration of the brain. Therefored, dynamic videos of anatomical data are useful for exploring the data, as well as for creating dynamic presentations of the results. This example visualizes various stages of tractometry, from preprocessed diffusion data to the final tract profiles. We will use the Fury software library to visualize individual frames of the results of each stage, and then create videos of each stage of the process using the Python Image Library (PIL, also known as pillow)."><img alt="" src="../../_images/sphx_glr_plot_stages_of_tractometry_thumb.png" />
-<p><a class="reference internal" href="plot_stages_of_tractometry.html#sphx-glr-howto-howto-examples-plot-stages-of-tractometry-py"><span class="std std-ref">Making videos the different stages of tractometry</span></a></p>
-  <div class="sphx-glr-thumbnail-title">Making videos the different stages of tractometry</div>
+<p><a class="reference internal" href="plot_stages_of_tractometry.html#sphx-glr-howto-howto-examples-plot-stages-of-tractometry-py"><span class="std std-ref">Understanding the different stages of tractometry with videos</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Understanding the different stages of tractometry with videos</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="The free-water DTI model [1, 2]_ fits a two compartment model to dMRI data with more than one non-zero shell. One compartment is a spherical compartment with the diffusivity of water, which accounts for free water in the tissue. The other compartment is the standard diffusion tensor."><img alt="" src="../../_images/sphx_glr_run_afq_fwdti_thumb.png" />
+<p><a class="reference internal" href="run_afq_fwdti.html#sphx-glr-howto-howto-examples-run-afq-fwdti-py"><span class="std std-ref">How to use Free water DTI</span></a></p>
+  <div class="sphx-glr-thumbnail-title">How to use Free water DTI</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Running pyAFQ using the GPU for tractography"><img alt="" src="../../_images/sphx_glr_run_pyAFQ_with_GPU_thumb.png" />
+<p><a class="reference internal" href="run_pyAFQ_with_GPU.html#sphx-glr-howto-howto-examples-run-pyafq-with-gpu-py"><span class="std std-ref">Running pyAFQ using the GPU for tractography</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Running pyAFQ using the GPU for tractography</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="An example using the AFQ API to find bundles as defined by endpoint ROIs from freesurfer. This example can be modified to work with ROIs in subject space from pipelines other than freesurfer."><img alt="" src="../../_images/sphx_glr_use_subject_space_rois_from_freesurfer_thumb.png" />
 <p><a class="reference internal" href="use_subject_space_rois_from_freesurfer.html#sphx-glr-howto-howto-examples-use-subject-space-rois-from-freesurfer-py"><span class="std std-ref">Using Subject Space ROIs from Freesurfer</span></a></p>
   <div class="sphx-glr-thumbnail-title">Using Subject Space ROIs from Freesurfer</div>
@@ -549,20 +585,20 @@ about the variety of pyAFQ functionality that is available.</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../cite.html"
+       href="../cleaning_params.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">How to cite our work</p>
+        <p class="prev-next-title">Cleaning Parameters</p>
       </div>
     </a>
     <a class="right-next"
-       href="add_custom_bundle.html"
+       href="acoustic_radiations.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">How to add new bundles into pyAFQ (SLF 1/2/3 Example)</p>
+        <p class="prev-next-title">How to add new bundles into pyAFQ (Acoustic Radiations Example)</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -647,10 +683,17 @@ about the variety of pyAFQ functionality that is available.</p>
   
     <div class="footer-items__end">
       
-        <div class="footer-item">
-<p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
-</p></div>
+        <div class="footer-item"><div class="footer">
+    <div class="footer-content">
+      <div class="copyright">
+        Please Cite the following paper:
+      </div>
+      <div class="citation">
+        <a href="https://doi.org/10.52294/e6198273-b8e3-4b63-babb-6e6b0da10669">Kruper et al. (2021)</a>
+      </div>
+    </div>
+  </div>
+  </div>
       
     </div>
   

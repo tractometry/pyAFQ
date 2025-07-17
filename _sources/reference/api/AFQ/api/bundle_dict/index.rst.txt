@@ -94,8 +94,10 @@ Functions
            If there are bundles in bundle_info with the 'space' attribute
            set to 'subject', their images (all ROIs and probability maps)
            will be resampled to the affine and shape of this image.
+           If None, resamples to DWI. Be careful if you use this,
+           that this is the correct choice.
            If False, no resampling will be done.
-           Default: None
+           Default: False
 
        **keep_in_memory** : bool, optional
            Whether, once loaded, all ROIs and probability maps will stay
@@ -317,9 +319,9 @@ Functions
               Affine of space transformed into.
 
           **base_fname** : str, optional
-              Base file path to save ROIs too. Additional BIDS
+              Base file path to construct file path from. Additional BIDS
               descriptors will be added to this file path. If None,
-              do not save the ROIs.
+              no file paths returned.
 
           **to_space** : str, optional
               Name for space for exported ROIs. Only used if base_fname
@@ -339,10 +341,10 @@ Functions
           the roi type and values are the transformed ROIs.
               ..
 
-          Otherwise, a list of file names where the transformed
+          Otherwise, a list of file names and a list of transformed ROIs
               ..
 
-          ROIs are saved.
+          are returned.
               ..
 
 

@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.api.group &#8212; AFQ 2.0 documentation</title>
+    <title>AFQ.api.group &#8212; AFQ 2.1 documentation</title>
   
   
   
@@ -30,7 +30,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css" />
@@ -132,8 +132,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 2.0 documentation - Home"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.0 documentation - Home"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 2.1 documentation - Home"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -149,29 +149,22 @@
   <ul class="bd-navbar-elements navbar-nav">
     
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../tutorials/index.html">
-    Getting started with pyAFQ
+  <a class="nav-link nav-internal" href="../../../guides_index.html">
+    User Guide
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../howto/index.html">
-    How To
+  <a class="nav-link nav-internal" href="../../../developing/index.html">
+    Developing pyAFQ
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../explanations/index.html">
-    Explanations
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../reference/index.html">
-    Reference Documentation
+  <a class="nav-link nav-internal" href="../../../bib.html">
+    Bibliography
   </a>
 </li>
 
@@ -281,29 +274,22 @@ document.write(`
   <ul class="bd-navbar-elements navbar-nav">
     
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../tutorials/index.html">
-    Getting started with pyAFQ
+  <a class="nav-link nav-internal" href="../../../guides_index.html">
+    User Guide
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../howto/index.html">
-    How To
+  <a class="nav-link nav-internal" href="../../../developing/index.html">
+    Developing pyAFQ
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../explanations/index.html">
-    Explanations
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../reference/index.html">
-    Reference Documentation
+  <a class="nav-link nav-internal" href="../../../bib.html">
+    Bibliography
   </a>
 </li>
 
@@ -561,7 +547,7 @@ document.write(`
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
-<span class="sd">        api.GroupAFQ(my_path, csd_sh_order=4)</span>
+<span class="sd">        api.GroupAFQ(my_path, csd_sh_order_max=4)</span>
 <span class="sd">        api.GroupAFQ(</span>
 <span class="sd">            my_path,</span>
 <span class="sd">            reg_template_spec=&quot;mni_t2&quot;, reg_subject_spec=&quot;b0&quot;)</span>
@@ -642,8 +628,9 @@ document.write(`
 
         <span class="n">pl_desc_file</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">afq_path</span><span class="p">,</span> <span class="s1">&#39;dataset_description.json&#39;</span><span class="p">)</span>
 
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">pl_desc_file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outfile</span><span class="p">:</span>
-            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">pipeline_description</span><span class="p">,</span> <span class="n">outfile</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">op</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">pl_desc_file</span><span class="p">):</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">pl_desc_file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outfile</span><span class="p">:</span>
+                <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">pipeline_description</span><span class="p">,</span> <span class="n">outfile</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">subjects</span> <span class="o">=</span> <span class="n">bids_layout</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">return_type</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="s1">&#39;subject&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subjects</span><span class="p">):</span>
@@ -844,7 +831,12 @@ document.write(`
             <span class="bp">self</span><span class="o">.</span><span class="n">afq_path</span><span class="p">,</span> <span class="s2">&quot;tract_profiles.csv&quot;</span><span class="p">))</span>
         <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">out_file</span><span class="p">),</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">_df</span> <span class="o">=</span> <span class="n">clean_pandas_df</span><span class="p">(</span><span class="n">_df</span><span class="p">)</span>
-        <span class="n">_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">out_file</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">out_file</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">((</span>
+                <span class="s2">&quot;Unable to update combined tract profile. &quot;</span>
+                <span class="s2">&quot;This is likely due to file permissions.&quot;</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">_df</span></div>
 
 <div class="viewcode-block" id="GroupAFQ.get_streamlines_json"><a class="viewcode-back" href="../../../reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ.get_streamlines_json">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_streamlines_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -936,6 +928,8 @@ document.write(`
 <span class="s2">            None if called without arguments.</span>
 <span class="s2">        &quot;&quot;&quot;</span>
         <span class="n">section</span> <span class="o">=</span> <span class="n">check_attribute</span><span class="p">(</span><span class="n">attr_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">section</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
 
         <span class="c1"># iterate over subjects / sessions,</span>
         <span class="c1"># decide if they need to be calculated or not</span>
@@ -988,6 +982,9 @@ document.write(`
 <span class="s2">            Name of the output to export up to. Default: &quot;help&quot;</span>
 <span class="s2">        &quot;&quot;&quot;</span>
         <span class="n">section</span> <span class="o">=</span> <span class="n">check_attribute</span><span class="p">(</span><span class="n">attr_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">section</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
         <span class="n">wf_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">wf_dict</span><span class="p">[</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">valid_sub_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="bp">self</span><span class="o">.</span><span class="n">valid_ses_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
         <span class="k">if</span> <span class="n">section</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -1206,7 +1203,13 @@ document.write(`
                 <span class="bp">self</span><span class="o">.</span><span class="n">afq_path</span><span class="p">,</span>
                 <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;bundle-</span><span class="si">{</span><span class="n">bundle_name</span><span class="si">}</span><span class="s2">_view-</span><span class="si">{</span><span class="n">view</span><span class="si">}</span><span class="s2">&quot;</span>
                     <span class="sa">f</span><span class="s2">&quot;_idx-</span><span class="si">{</span><span class="n">curr_file_num</span><span class="si">}</span><span class="s2">_montage.png&quot;</span><span class="p">)))</span>
-            <span class="n">curr_img</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">save_path</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">curr_img</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">save_path</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">op</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">save_path</span><span class="p">):</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Montage file already exists, skipping.&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Unable to save montage file, skipping.&quot;</span><span class="p">)</span>
             <span class="n">all_fnames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">save_path</span><span class="p">)</span>
 
         <span class="n">this_img_trimmed</span> <span class="o">=</span> <span class="p">{}</span>
@@ -1299,12 +1302,23 @@ document.write(`
             <span class="n">sls_mni</span><span class="p">,</span>
             <span class="n">reg_template</span><span class="p">,</span>
             <span class="n">Space</span><span class="o">.</span><span class="n">VOX</span><span class="p">)</span>
-        <span class="n">save_tractogram</span><span class="p">(</span>
-            <span class="n">moved_sft</span><span class="p">,</span>
-            <span class="n">op</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">afq_path</span><span class="p">,</span>
-                <span class="sa">f</span><span class="s2">&quot;bundle-</span><span class="si">{</span><span class="n">bundle_name</span><span class="si">}</span><span class="s2">_subjects-all_MNI.trk&quot;</span><span class="p">)),</span>
-            <span class="n">bbox_valid_check</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+        <span class="n">save_path</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">afq_path</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;bundle-</span><span class="si">{</span><span class="n">bundle_name</span><span class="si">}</span><span class="s2">_subjects-all_MNI.trk&quot;</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">save_tractogram</span><span class="p">(</span>
+                <span class="n">moved_sft</span><span class="p">,</span>
+                <span class="n">save_path</span><span class="p">,</span>
+                <span class="n">bbox_valid_check</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">op</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">save_path</span><span class="p">):</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">((</span><span class="s2">&quot;Combined bundles file &quot;</span>
+                             <span class="s2">&quot;already exists, skipping.&quot;</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">((</span>
+                    <span class="s2">&quot;Unable to save combined &quot;</span>
+                    <span class="s2">&quot;bundles file, skipping.&quot;</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="GroupAFQ.upload_to_s3"><a class="viewcode-back" href="../../../reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ.upload_to_s3">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">upload_to_s3</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s3fs</span><span class="p">,</span> <span class="n">remote_path</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Upload entire AFQ derivatives folder to S3&quot;&quot;&quot;</span>
@@ -1757,10 +1771,17 @@ document.write(`
   
     <div class="footer-items__end">
       
-        <div class="footer-item">
-<p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
-</p></div>
+        <div class="footer-item"><div class="footer">
+    <div class="footer-content">
+      <div class="copyright">
+        Please Cite the following paper:
+      </div>
+      <div class="citation">
+        <a href="https://doi.org/10.52294/e6198273-b8e3-4b63-babb-6e6b0da10669">Kruper et al. (2021)</a>
+      </div>
+    </div>
+  </div>
+  </div>
       
     </div>
   

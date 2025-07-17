@@ -1,0 +1,852 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Re-running pyAFQ &#8212; AFQ 2.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/tutorial_examples/plot_003_rerun';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Exporting pyAFQ Results" href="plot_004_export.html" />
+    <link rel="prev" title="Getting started with pyAFQ - ParticipantAFQ" href="plot_002_participant_afq_api.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="AFQ 2.1 documentation - Home"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.1 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../guides_index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../developing/index.html">
+    Developing pyAFQ
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../bib.html">
+    Bibliography
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../reference/api/index.html">
+    API Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/tractometry/pyAFQ" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../guides_index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../developing/index.html">
+    Developing pyAFQ
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../bib.html">
+    Bibliography
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../reference/api/index.html">
+    API Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/tractometry/pyAFQ" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html">Getting started with pyAFQ</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="index.html">Tutorials: getting started with the pyAFQ Python library</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="plot_001_group_afq_api.html">Getting started with pyAFQ - GroupAFQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_002_participant_afq_api.html">Getting started with pyAFQ - ParticipantAFQ</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">Re-running pyAFQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_004_export.html">Exporting pyAFQ Results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_005_viz.html">Visualizing AFQ derivatives</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_006_bids_layout.html">How pyAFQ uses BIDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_007_rois.html">Plotting Default Regions of Interest (ROIs) to Understand the Tracts</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../howto/index.html">How To</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/installation_guide.html">How to install <code class="docutils literal notranslate"><span class="pre">pyAFQ</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/getting_help.html">How to get help using pyAFQ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/cite.html">How to cite our work</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/data.html">Organizing your data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/rerun.html">Re-running pyAFQ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/scalars.html">How to add custom tissue properties from another pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/converter.html">Tractography from other pipelines</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../howto/docker.html">The pyAFQ docker image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/singularity.html">The pyAFQ singularity image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/image.html">The pyAFQ Image API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/tractography_params.html">Tractography Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/segmentation_params.html">Segmentation Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/cleaning_params.html">Cleaning Parameters</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../howto/howto_examples/index.html">How to examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/acoustic_radiations.html">How to add new bundles into pyAFQ (Acoustic Radiations Example)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/add_custom_bundle.html">How to add new bundles into pyAFQ (SLF 1/2/3 Example)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/baby_afq.html">BabyAFQ : tractometry for infant dMRI data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/cerebellar_peduncles.html">Delineating cerebellar peduncles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/cloudknot_example.html">Using cloudknot to run pyAFQ on AWS batch:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/cloudknot_hcp_example.html">AFQ with HCP data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/optic_radiations.html">How to add new bundles into pyAFQ(Optic Radiations Example)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/plot_afq_callosal.html">Callosal bundles using AFQ API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/plot_recobundles.html">Using RecoBundles for bundle recognition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/plot_stages_of_tractometry.html">Understanding the different stages of tractometry with videos</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/run_afq_fwdti.html">How to use Free water DTI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/run_pyAFQ_with_GPU.html">Running pyAFQ using the GPU for tractography</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/use_subject_space_rois_from_freesurfer.html">Using Subject Space ROIs from Freesurfer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/vof_example.html">How to segment out only some bundles</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../explanations/index.html">Explanations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../explanations/tractometry_pipeline.html">AFQ Tractometry Pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../explanations/bundle_orientation.html">Bundle Orientation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../explanations/modeling.html">Modeling White Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../explanations/profiling.html">Profiling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../explanations/recognition.html">Bundle Recognition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../explanations/tractography.html">Tractography</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../reference/index.html">Reference Documentation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../reference/api/index.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../reference/api/AFQ/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ</span></code></a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/api/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.api</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/data/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.data</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/definitions/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.definitions</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/models/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.models</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/recognition/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.recognition</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/tasks/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.tasks</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/tractography/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.tractography</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.utils</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/viz/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.viz</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/registration/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.registration</span></code></a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../../reference/bundledict.html">Defining Custom Bundle Dictionaries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../reference/fibertracts.html">Major Fiber Tracts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../reference/tissue_properties.html">Tissue Properties in pyAFQ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../reference/methods.html">The pyAFQ API methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../reference/viz_backend.html">Visualization Backends</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../reference/mapping.html">The pyAFQ Mapping API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../reference/config.html">The pyAFQ configuration file</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../guides_index.html" class="nav-link">User Guide</a></li>
+    
+    
+    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Tutorials: getting started with the pyAFQ Python library</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Re-running pyAFQ</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-tutorials-tutorial-examples-plot-003-rerun-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code.</p>
+</div>
+<div class="sphx-glr-example-title section" id="re-running-pyafq">
+<span id="sphx-glr-tutorials-tutorial-examples-plot-003-rerun-py"></span><h1>Re-running pyAFQ<a class="headerlink" href="#re-running-pyafq" title="Permalink to this heading">#</a></h1>
+<p>Sometimes you want to change arguments and re-run pyAFQ. This could be to
+try different parameters, to run on changed data, or re-run after updating
+parameters due to an error.</p>
+<p>pyAFQ saves derivatives as it goes, so if you re-run pyAFQ after changing
+parameters, it could use derivatives from previous runs with the
+old parameters.</p>
+<p>To solve this, use the myafq.clobber() or myafq.cmd_outputs() methods. They
+are the same methods. They will delete previous derivatives so you can
+re-run your pipeline.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.api.group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GroupAFQ</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">AFQ.data.fetch</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">afd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">op</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+</pre></div>
+</div>
+<p>We start with some example data. The data we will use here is
+generated from the
+<a class="reference external" href="https://purl.stanford.edu/ng782rw8378">Stanford HARDI dataset</a>.
+We then setup our myafq object which we will use to demonstrate
+the clobber method.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">afd</span><span class="o">.</span><span class="n">organize_stanford_data</span><span class="p">()</span>
+
+<a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tracking_params</span></a> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">n_seeds</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+                       <span class="n">random_seeds</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                       <span class="n">rng_seed</span><span class="o">=</span><span class="mi">2022</span><span class="p">,</span>
+                       <span class="n">trx</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                       <span class="n">num_chunks</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">myafq</span> <span class="o">=</span> <span class="n">GroupAFQ</span><span class="p">(</span>
+    <span class="n">bids_path</span><span class="o">=</span><a href="https://docs.python.org/3/library/os.path.html#os.path.join" title="os.path.join" class="sphx-glr-backref-module-os-path sphx-glr-backref-type-py-function"><span class="n">op</span><span class="o">.</span><span class="n">join</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">afd</span><span class="o">.</span><span class="n">afq_home</span></a><span class="p">,</span> <span class="s1">&#39;stanford_hardi&#39;</span><span class="p">),</span>
+    <span class="n">preproc_pipeline</span><span class="o">=</span><span class="s1">&#39;vistasoft&#39;</span><span class="p">,</span>
+    <a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tracking_params</span></a><span class="o">=</span><a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tracking_params</span></a><span class="p">)</span>
+
+<span class="c1">###################</span>
+<span class="c1"># Delete Everything</span>
+<span class="c1"># -----------------</span>
+<span class="c1"># To delete all pyAFQ outputs in the output directory, simply call::</span>
+<span class="c1">#</span>
+<span class="c1">#     myafq.cmd_outputs()</span>
+<span class="c1">#</span>
+<span class="c1"># or::</span>
+<span class="c1">#</span>
+<span class="c1">#     myafq.clobber()</span>
+<span class="c1">#</span>
+<span class="c1"># This is equivalent to running ``rm -r`` on all pyAFQ outputs. After this,</span>
+<span class="c1"># you can re-run your pipeline from scratch.</span>
+<span class="c1">#</span>
+<span class="c1"># Here, we will delete everything and re-run with a different b0 threshold.</span>
+<span class="c1"># The b0_threshold determines which b-values are considered b0.</span>
+<span class="c1"># The default is 50.</span>
+
+<span class="n">myafq</span><span class="o">.</span><span class="n">cmd_outputs</span><span class="p">()</span>
+
+<span class="n">myafq</span> <span class="o">=</span> <span class="n">GroupAFQ</span><span class="p">(</span>
+    <span class="n">bids_path</span><span class="o">=</span><a href="https://docs.python.org/3/library/os.path.html#os.path.join" title="os.path.join" class="sphx-glr-backref-module-os-path sphx-glr-backref-type-py-function"><span class="n">op</span><span class="o">.</span><span class="n">join</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">afd</span><span class="o">.</span><span class="n">afq_home</span></a><span class="p">,</span> <span class="s1">&#39;stanford_hardi&#39;</span><span class="p">),</span>
+    <span class="n">preproc_pipeline</span><span class="o">=</span><span class="s1">&#39;vistasoft&#39;</span><span class="p">,</span>
+    <span class="n">b0_threshold</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tracking_params</span></a><span class="o">=</span><a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tracking_params</span></a><span class="p">)</span>
+
+<span class="n">myafq</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;b0&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>{&#39;01&#39;: &#39;/home/runner/AFQ_data/stanford_hardi/derivatives/afq/sub-01/ses-01/dwi/sub-01_ses-01_b0ref.nii.gz&#39;}
+</pre></div>
+</div>
+<div class="section" id="delete-some-things">
+<h2>Delete Some Things<a class="headerlink" href="#delete-some-things" title="Permalink to this heading">#</a></h2>
+<p>To delete only specific types of derivatives while preserving others,
+use the <code class="docutils literal notranslate"><span class="pre">dependent_on</span></code> parameter:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Delete only tractography-dependent files</span>
+<span class="n">myafq</span><span class="o">.</span><span class="n">cmd_outputs</span><span class="p">(</span><span class="n">dependent_on</span><span class="o">=</span><span class="s2">&quot;track&quot;</span><span class="p">)</span>
+
+<span class="c1"># Delete only bundle recognition-dependent files</span>
+<span class="n">myafq</span><span class="o">.</span><span class="n">cmd_outputs</span><span class="p">(</span><span class="n">dependent_on</span><span class="o">=</span><span class="s2">&quot;recog&quot;</span><span class="p">)</span>
+
+<span class="c1"># Delete only profiling-dependent files</span>
+<span class="n">myafq</span><span class="o">.</span><span class="n">cmd_outputs</span><span class="p">(</span><span class="n">dependent_on</span><span class="o">=</span><span class="s2">&quot;prof&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can also specify exceptions - files to preserve:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Delete all outputs except the tractography</span>
+<span class="n">myafq</span><span class="o">.</span><span class="n">cmd_outputs</span><span class="p">(</span><span class="n">exceptions</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;streamlines&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Here, we will change the tractography parameters, but we want to keep all
+derivatives not dependent on tractography. Typically, this means keeping
+The mapping from MNI space and fitted models, but deleting recognized
+bundles and tract profiles.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">myafq</span><span class="o">.</span><span class="n">clobber</span><span class="p">(</span><span class="n">dependent_on</span><span class="o">=</span><span class="s2">&quot;track&quot;</span><span class="p">)</span>
+
+<a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tracking_params</span></a> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">n_seeds</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+                       <span class="n">random_seeds</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                       <span class="n">max_angle</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span>
+                       <span class="n">rng_seed</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+                       <span class="n">trx</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                       <span class="n">num_chunks</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">myafq</span> <span class="o">=</span> <span class="n">GroupAFQ</span><span class="p">(</span>
+    <span class="n">bids_path</span><span class="o">=</span><a href="https://docs.python.org/3/library/os.path.html#os.path.join" title="os.path.join" class="sphx-glr-backref-module-os-path sphx-glr-backref-type-py-function"><span class="n">op</span><span class="o">.</span><span class="n">join</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">afd</span><span class="o">.</span><span class="n">afq_home</span></a><span class="p">,</span> <span class="s1">&#39;stanford_hardi&#39;</span><span class="p">),</span>
+    <span class="n">preproc_pipeline</span><span class="o">=</span><span class="s1">&#39;vistasoft&#39;</span><span class="p">,</span>
+    <span class="n">b0_threshold</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tracking_params</span></a><span class="o">=</span><a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tracking_params</span></a><span class="p">)</span>
+
+<span class="n">myafq</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;streamlines&quot;</span><span class="p">)</span>
+
+<span class="c1">##################</span>
+<span class="c1"># Move Some Things</span>
+<span class="c1"># ----------------</span>
+<span class="c1"># The ``cmd_outputs`` method is flexible and can perform other file operations</span>
+<span class="c1"># besides deletion. For example, to copy files::</span>
+
+<span class="c1">#     # Copy only files dependent on tractography</span>
+<span class="c1">#     myafq.cmd_outputs(</span>
+<span class="c1">#           cmd=&quot;cp&quot;,</span>
+<span class="c1">#           dependent_on=&quot;track&quot;,</span>
+<span class="c1">#           suffix=&quot;/path/to/backup/&quot;)</span>
+
+<span class="c1"># Note: The method automatically adds ``-r``</span>
+<span class="c1">#       for &quot;cp&quot; and &quot;rm&quot; operations.</span>
+
+<span class="c1"># Create backup directory</span>
+<a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">backup_dir</span></a> <span class="o">=</span> <a href="https://docs.python.org/3/library/os.path.html#os.path.join" title="os.path.join" class="sphx-glr-backref-module-os-path sphx-glr-backref-type-py-function"><span class="n">op</span><span class="o">.</span><span class="n">join</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">afd</span><span class="o">.</span><span class="n">afq_home</span></a><span class="p">,</span> <span class="s2">&quot;stanford_hardi_backup&quot;</span><span class="p">)</span>
+<a href="https://docs.python.org/3/library/os.html#os.makedirs" title="os.makedirs" class="sphx-glr-backref-module-os sphx-glr-backref-type-py-function"><span class="n">os</span><span class="o">.</span><span class="n">makedirs</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">backup_dir</span></a><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Move the outupts of AFQ to this directory</span>
+<span class="n">myafq</span><span class="o">.</span><span class="n">cmd_outputs</span><span class="p">(</span><span class="n">cmd</span><span class="o">=</span><span class="s2">&quot;mv&quot;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">backup_dir</span></a><span class="p">)</span>
+
+<span class="c1">##############</span>
+<span class="c1"># How It Works</span>
+<span class="c1"># ------------</span>
+<span class="c1"># The method works by:</span>
+<span class="c1"># 1. Identifying all pyAFQ outputs in the output directory</span>
+<span class="c1"># 2. Filtering based on the ``dependent_on`` parameter (if provided)</span>
+<span class="c1"># 3. Removing any files listed in ``exceptions``</span>
+<span class="c1"># 4. Executing the specified command (``rm``, ``mv``, ``cp`` etc.) on the remaining files</span>
+<span class="c1"># 5. Resetting the workflow to ensure subsequent runs regenerate affected derivatives</span>
+<span class="c1">#</span>
+<span class="c1"># We plan to automate this process in the future.</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>(TractActor pid=5540)
+0it [00:00, ?it/s]
+(TractActor pid=5541)
+1it [00:00,  1.27it/s]
+(TractActor pid=5540)
+1it [00:02,  2.46s/it]
+(TractActor pid=5527)
+15it [00:00, 148.95it/s]
+(TractActor pid=5541)
+17it [00:00, 25.61it/s]
+(TractActor pid=5540)
+19it [00:02, 10.27it/s]
+28it [00:02, 10.74it/s]
+(TractActor pid=5527)
+28it [00:00, 137.17it/s]
+(TractActor pid=5541)
+28it [00:00, 28.43it/s]
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (1 minutes 42.065 seconds)</p>
+<p><strong>Estimated memory usage:</strong>  662 MB</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-tutorials-tutorial-examples-plot-003-rerun-py">
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/c064ab36d83f0073f671721019c1c158/plot_003_rerun.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_003_rerun.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/81e4d5da5ce476bc290e8b79237984a5/plot_003_rerun.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_003_rerun.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/9a44617968a8782894f9028d868281ff/plot_003_rerun.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">plot_003_rerun.zip</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</div>
+</div>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="plot_002_participant_afq_api.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Getting started with pyAFQ - ParticipantAFQ</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="plot_004_export.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Exporting pyAFQ Results</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#delete-some-things">Delete Some Things</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  
+  <div class="tocsection editthispage">
+    <a href="https://github.com/tractometry/pyAFQ/edit/master/docs/source/tutorials/tutorial_examples/plot_003_rerun.rst">
+      <i class="fa-solid fa-pencil"></i>
+      
+      
+        
+          Edit on GitHub
+        
+      
+    </a>
+  </div>
+</div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../../_sources/tutorials/tutorial_examples/plot_003_rerun.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2018--, The pyAFQ Contributors.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <div class="footer-content">
+      <div class="copyright">
+        Please Cite the following paper:
+      </div>
+      <div class="citation">
+        <a href="https://doi.org/10.52294/e6198273-b8e3-4b63-babb-6e6b0da10669">Kruper et al. (2021)</a>
+      </div>
+    </div>
+  </div>
+  </div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-156363454-2");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+  </body>
+</html>
