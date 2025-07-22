@@ -16,6 +16,7 @@ import AFQ.utils.streamlines as aus
 from AFQ.tasks.utils import get_default_args
 import AFQ.utils.volume as auv
 from AFQ._fixes import gaussian_weights
+import AFQ.recognition.utils as abu
 
 try:
     from trx.io import load as load_trx
@@ -27,16 +28,22 @@ except ModuleNotFoundError:
 
 from dipy.io.streamline import load_tractogram, save_tractogram
 from dipy.io.stateful_tractogram import Space
+from dipy.io.utils import get_reference_info
 from dipy.stats.analysis import afq_profile
 from dipy.tracking.streamline import set_number_of_points, values_from_volume
 from nibabel.affines import voxel_sizes
 from nibabel.orientations import aff2axcodes
 from dipy.io.stateful_tractogram import StatefulTractogram
+from dipy.align import resample
+from dipy.tracking.utils import density_map
 
 import gzip
 import shutil
 import os.path as op
 from tempfile import mkdtemp
+
+from scipy.ndimage import distance_transform_edt
+
 
 logger = logging.getLogger('AFQ')
 
@@ -275,8 +282,55 @@ def export_density_maps(bundles, data_imap):
             source=bundles, bundles=list(seg_sft.bundle_names))
 
 
-@immlib.calc("profiles")
 @as_file('_desc-profiles_tractography.csv')
+@immlib.calc("endpoint_maps")
+@as_file('_desc-endpoints_tractography.nii.gz',
+         include_track=True,
+         include_seg=True)
+def export_endpoint_maps(bundles, data_imap):
+    """
+    full path to a NIfTI file containing endpoint maps for each bundle
+    """
+    seg_sft = aus.SegmentedSFT.fromfile(bundles)
+    entire_endpoint_map = np.zeros((
+        *data_imap["data"].shape[:3],
+        len(seg_sft.bundle_names)))
+
+    b0_img = nib.load(data_imap["b0"])
+    pve_img = nib.load(data_imap["t1w_pve"])
+    pve_data = pve_img.get_fdata()
+    gm = resample(pve_data[..., 1], b0_img.get_fdata(),
+                  pve_img.affine, b0_img.affine).get_fdata()
+
+    R = b0_img.affine[0:3, 0:3]
+    vox_to_mm = np.mean(np.diag(np.linalg.cholesky(R.T.dot(R))))
+
+    for ii, bundle_name in enumerate(seg_sft.bundle_names):
+        bundle_sl = seg_sft.get_bundle(bundle_name)
+        if len(bundle_sl.streamlines) == 0:
+            continue
+
+        bundle_sl.to_vox()
+
+        endpoints = np.vstack([s[0] for s in bundle_sl.streamlines]
+                              + [s[-1] for s in bundle_sl.streamlines])
+
+        tractogram_density = density_map(
+            endpoints, np.eye(4), b0_img.get_fdata().shape)
+
+        tractogram_distance = distance_transform_edt(
+            tractogram_density == 0)
+
+        entire_endpoint_map[..., ii] = tractogram_distance * (
+            gm > 0.5).astype(np.float32) * vox_to_mm
+
+    return nib.Nifti1Image(
+        entire_endpoint_map, data_imap["dwi_affine"]), dict(
+            source=bundles, bundles=list(seg_sft.bundle_names))
+
+
+@immlib.calc("profiles")
+@as_file('_desc-profiles_tractography.csv', include_track=True, include_seg=True)
 def tract_profiles(bundles,
                    scalar_dict, data_imap,
                    profile_weights="gauss",
@@ -437,6 +491,7 @@ def get_segmentation_plan(kwargs):
         export_bundle_lengths,
         export_bundles,
         export_density_maps,
+        export_endpoint_maps,
         segment,
         tract_profiles])
 
