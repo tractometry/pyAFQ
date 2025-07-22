@@ -2,7 +2,7 @@ import logging
 import numpy as np
 
 import scipy.ndimage as ndim
-from skimage.morphology import binary_dilation, convex_hull_image
+from skimage.morphology import binary_dilation
 from scipy.spatial.distance import dice
 
 import nibabel as nib
