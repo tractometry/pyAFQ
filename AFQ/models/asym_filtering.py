@@ -13,13 +13,15 @@ from tqdm import tqdm
 from numba import njit, prange, set_num_threads
 import ray
 
-from dipy.reconst.shm import sh_to_sf_matrix
+from dipy.reconst.shm import sh_to_sf_matrix, sph_harm_ind_list, sh_to_sf
+from dipy.direction import peak_directions
 from dipy.data import get_sphere
 
 from AFQ.utils.stats import chunk_indices
 
 
-__all__ = ["unified_filtering"]
+__all__ = ["unified_filtering", "compute_asymmetry_index",
+           "compute_odd_power_map", "compute_nufid_asym"]
 
 
 def _get_sh_order_and_fullness(ncoeffs):
@@ -429,3 +431,141 @@ def _evaluate_gaussian_distribution(x, sigma):
         raise ValueError("Sigma must be greater than 0.")
     cnorm = 1.0 / sigma / np.sqrt(2.0 * np.pi)
     return cnorm * np.exp(-x**2 / 2.0 / sigma**2)
+
+
+def compute_asymmetry_index(sh_coeffs, mask):
+    """
+    Compute asymmetry index (ASI) [1] from
+    asymmetric ODF volume expressed in full SH basis.
+
+    Parameters
+    ----------
+    sh_coeffs: ndarray (x, y, z, ncoeffs)
+         Input spherical harmonics coefficients.
+    mask: ndarray (x, y, z), bool
+         Mask inside which ASI should be computed.
+
+    Returns
+    -------
+    asi_map: ndarray (x, y, z)
+         Asymmetry index map.
+
+    References
+    ----------
+    [1] S. Cetin Karayumak, E. Özarslan, and G. Unal,
+        "Asymmetric Orientation Distribution Functions (AODFs)
+        revealing intravoxel geometry in diffusion MRI"
+        Magnetic Resonance Imaging, vol. 49, pp. 145-158, Jun. 2018,
+        doi: https://doi.org/10.1016/j.mri.2018.03.006.
+    """
+    order, full_basis = _get_sh_order_and_fullness(sh_coeffs.shape[-1])
+
+    _, l_list = sph_harm_ind_list(order, full_basis=full_basis)
+
+    sign = np.power(-1.0, l_list)
+    sign = np.reshape(sign, (1, 1, 1, len(l_list)))
+    sh_squared = sh_coeffs**2
+    mask = np.logical_and(sh_squared.sum(axis=-1) > 0., mask)
+
+    asi_map = np.zeros(sh_coeffs.shape[:-1])
+    asi_map[mask] = np.sum(sh_squared * sign, axis=-1)[mask] / \
+        np.sum(sh_squared, axis=-1)[mask]
+
+    # Negatives should not happen (amplitudes always positive)
+    asi_map = np.clip(asi_map, 0.0, 1.0)
+    asi_map = np.sqrt(1 - asi_map**2) * mask
+
+    return asi_map
+
+
+def compute_odd_power_map(sh_coeffs, mask):
+    """
+    Compute odd-power map [1] from
+    asymmetric ODF volume expressed in full SH basis.
+
+    Parameters
+    ----------
+    sh_coeffs: ndarray (x, y, z, ncoeffs)
+         Input spherical harmonics coefficients.
+    mask: ndarray (x, y, z), bool
+         Mask inside which odd-power map should be computed.
+
+    Returns
+    -------
+    odd_power_map: ndarray (x, y, z)
+         Odd-power map.
+
+    References
+    ----------
+    [1] C. Poirier, E. St-Onge, and M. Descoteaux,
+        "Investigating the Occurence of Asymmetric Patterns in
+        White Matter Fiber Orientation Distribution Functions"
+        [Abstract], In: Proc. Intl. Soc. Mag. Reson. Med. 29 (2021),
+        2021 May 15-20, Vancouver, BC, Abstract number 0865.
+    """
+    order, full_basis = _get_sh_order_and_fullness(sh_coeffs.shape[-1])
+    _, l_list = sph_harm_ind_list(order, full_basis=full_basis)
+    odd_l_list = (l_list % 2 == 1).reshape((1, 1, 1, -1))
+
+    odd_order_norm = np.linalg.norm(sh_coeffs * odd_l_list,
+                                    ord=2, axis=-1)
+
+    full_order_norm = np.linalg.norm(sh_coeffs, ord=2, axis=-1)
+
+    asym_map = np.zeros(sh_coeffs.shape[:-1])
+    mask = np.logical_and(full_order_norm > 0, mask)
+    asym_map[mask] = odd_order_norm[mask] / full_order_norm[mask]
+
+    return asym_map
+
+
+def compute_nufid_asym(sh_coeffs, sphere, csf, mask):
+    """
+    Number of fiber directions (nufid) map [1].
+
+    Parameters
+    ----------
+    sh_coeffs: ndarray (x, y, z, ncoeffs)
+        Input spherical harmonics coefficients.
+
+    sphere: DIPY sphere
+        Sphere for SH to SF projection.
+
+    csf: ndarray (x, y, z)
+        CSF probability map, used to guess the absolute threshold.
+
+    mask: ndarray (x, y, z), bool
+         Mask inside which ASI should be computed.
+
+    References
+    ----------
+    [1] C. Poirier and M. Descoteaux,
+        "Filtering Methods for Asymmetric ODFs:
+        Where and How Asymmetry Occurs in the White Matter."
+        bioRxiv. 2022 Jan 1; 2022.12.18.520881.
+        doi: https://doi.org/10.1101/2022.12.18.520881
+    """
+    sh_order, full_basis = _get_sh_order_and_fullness(sh_coeffs.shape[-1])
+    odf = sh_to_sf(
+        sh_coeffs, sphere,
+        sh_order_max=sh_order,
+        basis_type='descoteaux07',
+        full_basis=full_basis,
+        legacy=False)
+
+    # Guess at threshold from 2.0 * mean of ODF maxes in CSF
+    absolute_threshold = 2.0 * np.mean(np.max(odf[csf > 0.99], axis=-1))
+    odf[odf < absolute_threshold] = 0.
+
+    nufid_data = np.zeros(sh_coeffs.shape[:-1], dtype=np.float32)
+    for ii in tqdm(range(sh_coeffs.shape[0])):
+        for jj in range(sh_coeffs.shape[1]):
+            for kk in range(sh_coeffs.shape[2]):
+                if mask[ii, jj, kk]:
+                    _, peaks, _ = peak_directions(
+                        odf[ii, jj, kk], sphere,
+                        is_symmetric=False)
+
+                    nufid_data[ii, jj, kk] = np.count_nonzero(peaks)
+
+    return nufid_data

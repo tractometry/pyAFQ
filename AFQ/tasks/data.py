@@ -47,7 +47,9 @@ from AFQ.models.QBallTP import (
 from AFQ.models.dam import fit_dam, csf_dam, t1_dam
 from AFQ.models.wmgm_interface import fit_wm_gm_interface
 from AFQ.models.msmt import MultiShellDeconvModel
-
+from AFQ.models.asym_filtering import (
+    unified_filtering, compute_asymmetry_index,
+    compute_odd_power_map, compute_nufid_asym)
 
 logger = logging.getLogger('AFQ')
 
@@ -643,8 +645,6 @@ def msmt_aodf(msmtcsd_params):
         Estimating Asymmetric Orientation Distribution Functions",
         Neuroimage, https://doi.org/10.1016/j.neuroimage.2024.120516
     """
-    from AFQ.models.asym_filtering import unified_filtering
-
     sh_coeff = nib.load(msmtcsd_params).get_fdata()
 
     logger.info("Applying unified filtering to MSMT CSD ODFs...")
@@ -655,6 +655,96 @@ def msmt_aodf(msmtcsd_params):
     return aodf, dict(
         MSMTCSDParamsFile=msmtcsd_params,
         Sphere="repulsion724")
+
+
+@immlib.calc("msmt_aodf_asi")
+@as_file(suffix='_model-msmtcsd_param-asi_dwimap.nii.gz',
+         subfolder="models")
+@as_img
+def msmt_aodf_asi(msmt_aodf_params, brain_mask):
+    """
+    full path to a nifti file containing
+    the MSMT CSD Asymmetric Index (ASI) [1]
+
+    References
+    ----------
+    [1] S. Cetin Karayumak, E. Özarslan, and G. Unal,
+        "Asymmetric Orientation Distribution Functions (AODFs)
+        revealing intravoxel geometry in diffusion MRI"
+        Magnetic Resonance Imaging, vol. 49, pp. 145-158, Jun. 2018,
+        doi: https://doi.org/10.1016/j.mri.2018.03.006.
+    """
+
+    aodf = nib.load(msmt_aodf_params).get_fdata()
+    brain_mask = nib.load(brain_mask).get_fdata().astype(bool)
+    asi = compute_asymmetry_index(aodf, brain_mask)
+
+    return asi, dict(MSMTCSDParamsFile=msmt_aodf_params)
+
+
+@immlib.calc("msmt_aodf_opm")
+@as_file(suffix='_model-msmtcsd_param-opm_dwimap.nii.gz',
+         subfolder="models")
+@as_img
+def msmt_aodf_opm(msmt_aodf_params, brain_mask):
+    """
+    full path to a nifti file containing
+    the MSMT CSD odd-power map [1]
+
+    References
+    ----------
+    [1] C. Poirier, E. St-Onge, and M. Descoteaux,
+        "Investigating the Occurence of Asymmetric Patterns in
+        White Matter Fiber Orientation Distribution Functions"
+        [Abstract], In: Proc. Intl. Soc. Mag. Reson. Med. 29 (2021),
+        2021 May 15-20, Vancouver, BC, Abstract number 0865.
+    """
+
+    aodf = nib.load(msmt_aodf_params).get_fdata()
+    brain_mask = nib.load(brain_mask).get_fdata().astype(bool)
+    opm = compute_odd_power_map(aodf, brain_mask)
+
+    return opm, dict(MSMTCSDParamsFile=msmt_aodf_params)
+
+
+@immlib.calc("msmt_aodf_nufid")
+@as_file(suffix='_model-msmtcsd_param-nufid_dwimap.nii.gz',
+         subfolder="models")
+@as_img
+def msmt_aodf_nufid(msmt_aodf_params, brain_mask,
+                    t1w_pve):
+    """
+    full path to a nifti file containing
+    the MSMT CSD Number of fiber directions (nufid) map [1]
+
+    References
+    ----------
+    [1] C. Poirier and M. Descoteaux,
+        "Filtering Methods for Asymmetric ODFs:
+        Where and How Asymmetry Occurs in the White Matter."
+        bioRxiv. 2022 Jan 1; 2022.12.18.520881.
+        doi: https://doi.org/10.1101/2022.12.18.520881
+    """
+    pve_img = nib.load(t1w_pve)
+    pve_data = pve_img.get_fdata()
+
+    aodf_img = nib.load(msmt_aodf_params)
+    aodf = aodf_img.get_fdata()
+
+    csf = resample(pve_data[..., 0], aodf[..., 0],
+                   pve_img.affine, aodf_img.affine).get_fdata()
+
+    # Only sphere we use for AODF currently
+    sphere = get_sphere(name="repulsion724")
+
+    brain_mask = nib.load(brain_mask).get_fdata().astype(bool)
+
+    logger.info("Number of fiber directions (nufid) map from AODF...")
+    nufid = compute_nufid_asym(aodf, sphere, csf, brain_mask)
+
+    return nufid, dict(
+        MSMTCSDParamsFile=msmt_aodf_params,
+        PVE=t1w_pve)
 
 
 @immlib.calc("csd_params")
@@ -1585,6 +1675,7 @@ def get_data_plan(kwargs):
         dti_fit, dki_fit, fwdti_fit, anisotropic_power_map,
         csd_anisotropic_index,
         msmt_params, msmt_apm, msmt_aodf,
+        msmt_aodf_asi, msmt_aodf_opm, msmt_aodf_nufid,
         dti_fa, dti_lt, dti_cfa, dti_pdd, dti_md, dki_kt, dki_lt, dki_fa,
         gq, gq_pmap, gq_ai, opdt_params, opdt_pmap, opdt_ai,
         csa_params, csa_pmap, csa_ai,
