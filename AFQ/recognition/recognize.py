@@ -206,8 +206,8 @@ def recognize(
         logger.warning((
             "Conflicts in bundle assignment detected. "
             f"{conflicts} conflicts detected in total out of "
-            f"{n_streamlines} total streamlines."
-            "Defaulting to whichever bundle appears first"
+            f"{n_streamlines} total streamlines. "
+            "Defaulting to whichever bundle appears first "
             "in the bundle_dict."))
     bundle_decisions = np.concatenate((
         bundle_decisions, np.ones((n_streamlines, 1))), axis=1)
