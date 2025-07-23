@@ -372,8 +372,8 @@ class ParticipantAFQ(object):
         _save_file(curr_img)
         return all_fnames
 
-    def cmd_outputs(self, cmd="rm", dependent_on=None, exceptions=[],
-                    suffix=""):
+    def cmd_outputs(self, cmd="rm", dependent_on=None, up_to=None,
+                    exceptions=[], suffix=""):
         """
         Perform some command some or all outputs of pyafq.
         This is useful if you change a parameter and need
@@ -394,6 +394,15 @@ class ParticipantAFQ(object):
             bundle recognition.
             If "prof", perform on all derivatives that depend on the
             bundle profiling.
+            Default: None
+        up_to : str or None
+            If None, will perform on all derivatives.
+            If "track", will perform on all derivatives up to 
+            (but not including) tractography.
+            If "recog", will perform on all derivatives up to
+            (but not including) bundle recognition.
+            If "prof", will perform on all derivatives up to
+            (but not including) bundle profiling.
             Default: None
         exceptions : list of str
             Name outputs that the command should not be applied to.
@@ -418,7 +427,8 @@ class ParticipantAFQ(object):
             cmd=cmd,
             exception_file_names=exception_file_names,
             suffix=suffix,
-            dependent_on=dependent_on
+            dependent_on=dependent_on,
+            up_to=up_to,
         )
 
         # do not assume previous calculations are still valid

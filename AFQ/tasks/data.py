@@ -821,6 +821,33 @@ def csd_params(dwi, brain_mask, gtab, data,
     return csdf.shm_coeff, meta
 
 
+@immlib.calc("csd_aodf_params")
+@as_file(suffix='_model-csd_param-aodf_dwimap.nii.gz',
+         subfolder="models")
+@as_img
+def csd_aodf(csd_params):
+    """
+    full path to a nifti file containing
+    SSST CSD ODFs filtered by unified filtering [1]
+
+    References
+    ----------
+    [1] Poirier and Descoteaux, 2024, "A Unified Filtering Method for
+        Estimating Asymmetric Orientation Distribution Functions",
+        Neuroimage, https://doi.org/10.1016/j.neuroimage.2024.120516
+    """
+    sh_coeff = nib.load(csd_params).get_fdata()
+
+    logger.info("Applying unified filtering to CSD ODFs...")
+    aodf = unified_filtering(
+        sh_coeff,
+        get_sphere(name="repulsion724"))
+
+    return aodf, dict(
+        CSDParamsFile=csd_params,
+        Sphere="repulsion724")
+
+
 @immlib.calc("csd_pmap")
 @as_file(suffix='_model-csd_param-apm_dwimap.nii.gz',
          subfolder="models")
@@ -1673,7 +1700,7 @@ def get_data_plan(kwargs):
         t1w_pve, wm_gm_interface,
         dam_fit, dam_csf, dam_pseudot1,
         dti_fit, dki_fit, fwdti_fit, anisotropic_power_map,
-        csd_anisotropic_index,
+        csd_anisotropic_index, csd_aodf,
         msmt_params, msmt_apm, msmt_aodf,
         msmt_aodf_asi, msmt_aodf_opm, msmt_aodf_nufid,
         dti_fa, dti_lt, dti_cfa, dti_pdd, dti_md, dki_kt, dki_lt, dki_fa,
