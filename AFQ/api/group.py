@@ -630,8 +630,8 @@ class GroupAFQ(object):
         self.logger.info(
             f"Time taken for export all: {str(time() - start_time)}")
 
-    def cmd_outputs(self, cmd="rm", dependent_on=None, exceptions=[],
-                    suffix=""):
+    def cmd_outputs(self, cmd="rm", dependent_on=None, up_to=None,
+                    exceptions=[], suffix=""):
         """
         Perform some command some or all outputs of pyafq.
         This is useful if you change a parameter and need
@@ -651,6 +651,15 @@ class GroupAFQ(object):
             If "recog", perform on all derivatives that depend on the
             bundle recognition.
             Default: None
+        up_to : str or None
+            If None, will perform on all derivatives.
+            If "track", will perform on all derivatives up to 
+            (but not including) tractography.
+            If "recog", will perform on all derivatives up to
+            (but not including) bundle recognition.
+            If "prof", will perform on all derivatives up to
+            (but not including) bundle profiling.
+            Default: None
         exceptions : list of str
             Name outputs that the command should not be applied to.
             Default: []
@@ -668,7 +677,12 @@ class GroupAFQ(object):
             suffix="~/my_other_folder/")
         """
         for pAFQ in self.pAFQ_list:
-            pAFQ.cmd_outputs(cmd, dependent_on, exceptions, suffix=suffix)
+            pAFQ.cmd_outputs(
+                cmd=cmd,
+                dependent_on=dependent_on,
+                up_to=up_to,
+                exceptions=exceptions,
+                suffix=suffix)
 
     clobber = cmd_outputs  # alias for default of cmd_outputs
 

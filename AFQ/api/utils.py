@@ -36,10 +36,15 @@ methods_sections = {
     "dwi_data_file": "data",
     "bval_file": "data",
     "bvec_file": "data",
+    "t1_file": "data",
     "output_dir": "data",
     "best_scalar": "tractography",
     "base_fname": "data",
+    "pve_wm": "tractography",
+    "pve_gm": "tractography",
+    "pve_csf": "tractography",
 }
+
 kwargs_descriptors = {}
 for task_module in task_modules:
     kwargs_descriptors[task_module] = {}
