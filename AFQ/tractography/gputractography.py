@@ -1,6 +1,7 @@
 import cuslines
 
 import numpy as np
+import nibabel as nib
 from math import radians
 from tqdm import tqdm
 import logging
@@ -21,7 +22,7 @@ logger = logging.getLogger('AFQ')
 
 
 # Modified from https://github.com/dipy/GPUStreamlines/blob/master/run_dipy_gpu.py
-def gpu_track(data, gtab, seed_img, stop_img,
+def gpu_track(data, gtab, seed_path, stop_path,
               odf_model, sphere, directions,
               seed_threshold, stop_threshold, thresholds_as_percentages,
               max_angle, step_size, n_seeds, random_seeds, rng_seed, use_trx, ngpus,
@@ -35,18 +36,18 @@ def gpu_track(data, gtab, seed_img, stop_img,
         DWI data.
     gtab : GradientTable
         The gradient table.
-    seed_img : Nifti1Image
+    seed_path : str
         Float or binary mask describing the ROI within which we seed for
         tracking.
-    stop_img : Nifti1Image
+    stop_path : str
         A float or binary mask that determines a stopping criterion
         (e.g. FA).
     odf_model : str, optional
         One of {"OPDT", "CSA"}
     seed_threshold : float
-        The value of the seed_img above which tracking is seeded.
+        The value of the seed_path above which tracking is seeded.
     stop_threshold : float
-        The value of the stop_img below which tracking is
+        The value of the stop_path below which tracking is
         terminated.
     thresholds_as_percentages : bool
         Interpret seed_threshold and stop_threshold as percentages of the
@@ -80,6 +81,14 @@ def gpu_track(data, gtab, seed_img, stop_img,
     """
     sh_order_max = 8
 
+    # Roughly handle ACT/CMC for now
+    if isinstance(stop_threshold, str):
+        stop_threshold = 0.5
+        stop_img = nib.load(stop_path[0])
+    else:
+        stop_img = nib.load(stop_path)
+
+    seed_img = nib.load(seed_path)
     seed_data = seed_img.get_fdata()
     stop_data = stop_img.get_fdata()
 
