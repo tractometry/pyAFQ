@@ -84,7 +84,7 @@ def gpu_track(data, gtab, seed_path, stop_path,
     # Roughly handle ACT/CMC for now
     if isinstance(stop_threshold, str):
         stop_threshold = 0.5
-        stop_img = nib.load(stop_path[0])
+        stop_img = stop_path[0]
     else:
         stop_img = nib.load(stop_path)
 
