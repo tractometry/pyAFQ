@@ -368,7 +368,7 @@ def gpu_tractography(data_imap, tracking_params, fodf, seed, stop,
 
     sft = gpu_track(
         data, data_imap["gtab"],
-        nib.load(seed), nib.load(stop),
+        seed, stop,
         tracking_params["odf_model"],
         sphere,
         tracking_params["directions"],
