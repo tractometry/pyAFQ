@@ -9,6 +9,7 @@ import logging
 from dipy.reconst.shm import OpdtModel, CsaOdfModel
 from dipy.reconst import shm
 from dipy.io.stateful_tractogram import StatefulTractogram, Space
+from dipy.align import resample
 
 from nibabel.streamlines.array_sequence import concatenate
 from nibabel.streamlines.tractogram import Tractogram
@@ -81,14 +82,21 @@ def gpu_track(data, gtab, seed_path, stop_path,
     """
     sh_order_max = 8
 
+    seed_img = nib.load(seed_path)
+
     # Roughly handle ACT/CMC for now
     if isinstance(stop_threshold, str):
-        stop_threshold = 0.5
-        stop_img = stop_path[0]
+        stop_threshold = 0.3
+        stop_img = stop_path[0]  # Grab WM
+
+        stop_img = resample(
+            stop_img.get_fdata(),
+            seed_img.get_fdata(),
+            moving_affine=stop_img.affine,
+            static_affine=seed_img.affine)
     else:
         stop_img = nib.load(stop_path)
 
-    seed_img = nib.load(seed_path)
     seed_data = seed_img.get_fdata()
     stop_data = stop_img.get_fdata()
 
