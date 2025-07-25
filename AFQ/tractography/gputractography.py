@@ -80,8 +80,6 @@ def gpu_track(data, gtab, seed_path, stop_path,
     Returns
     -------
     """
-    sh_order_max = 8
-
     seed_img = nib.load(seed_path)
 
     # Roughly handle ACT/CMC for now
@@ -106,9 +104,30 @@ def gpu_track(data, gtab, seed_path, stop_path,
 
     theta = sphere.theta
     phi = sphere.phi
-    sampling_matrix, _, _ = shm.real_sym_sh_basis(sh_order_max, theta, phi)
 
     if directions == "boot":
+        sh_order_max = 6
+        full_basis = False
+    else:
+        # Determine sh_order and full_basis
+        sym_order = (-3.0 + np.sqrt(1.0 + 8.0 * data.shape[3])) / 2.0
+        if sym_order.is_integer():
+            sh_order_max = sym_order
+            full_basis = False
+        full_order = np.sqrt(data.shape[3]) - 1.0
+        if full_order.is_integer():
+            sh_order_max = full_order
+            full_basis = True
+
+    sampling_matrix, _, _ = shm.real_sh_descoteaux(
+        sh_order_max, theta, phi,
+        full_basis=full_basis,
+        legacy=False)
+
+    if directions == "boot":
+        sh_order_max = 6
+        full_basis = False
+
         if odf_model.lower() == "opdt":
             model_type = cuslines.ModelType.OPDT
             model = OpdtModel(
