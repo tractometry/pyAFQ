@@ -59,6 +59,38 @@ masked_b0:
     full path to a nifti file containing the mean b0 after applying the brain mask
 
 
+dam_params:
+    direction-averaged signal map (DAM) [1] slope and intercept
+
+
+dam_csf:
+    CSF probability map from DAM intercept
+
+
+dam_pseudot1:
+    Pseudo T1 map from DAM fit
+
+
+dki_csf:
+    CSF probability map from DKI MD inspired by [1]
+
+
+dki_wm:
+    WM probability map from DKI FA
+
+
+dki_gm:
+    GM probability map from DKI FA
+
+
+t1w_pve:
+    Tissue classification using the Markov Random Fields modeling approach on the T1w image [1, 2]
+
+
+wm_gm_interface:
+
+
+
 dti_tf:
     DTI TensorFit object
 
@@ -99,8 +131,36 @@ msdki_msk:
     full path to a nifti file containing the MSDKI mean signal kurtosis
 
 
+msmtcsd_params:
+    full path to a nifti file containing parameters for the MSMT CSD fit
+
+
+msmt_apm:
+    full path to a nifti file containing the anisotropic power map
+
+
+msmt_aodf_params:
+    full path to a nifti file containing MSMT CSD ODFs filtered by unified filtering [1]
+
+
+msmt_aodf_asi:
+    full path to a nifti file containing the MSMT CSD Asymmetric Index (ASI) [1]
+
+
+msmt_aodf_opm:
+    full path to a nifti file containing the MSMT CSD odd-power map [1]
+
+
+msmt_aodf_nufid:
+    full path to a nifti file containing the MSMT CSD Number of fiber directions (nufid) map [1]
+
+
 csd_params:
     full path to a nifti file containing parameters for the CSD fit
+
+
+csd_aodf_params:
+    full path to a nifti file containing SSST CSD ODFs filtered by unified filtering [1]
 
 
 csd_pmap:
@@ -355,6 +415,18 @@ dki_kfa:
     full path to a nifti file containing the DKI kurtosis FA file
 
 
+dki_cl:
+    full path to a nifti file containing the DKI linearity file
+
+
+dki_cp:
+    full path to a nifti file containing the DKI planarity file
+
+
+dki_cs:
+    full path to a nifti file containing the DKI sphericity file
+
+
 dki_ga:
     full path to a nifti file containing the DKI geodesic anisotropy
 
@@ -429,6 +501,10 @@ median_bundle_lengths:
 
 density_maps:
     full path to 4d nifti file containing streamline counts per voxel per bundle, where the 4th dimension encodes the bundle
+
+
+endpoint_maps:
+    full path to a NIfTI file containing endpoint maps for each bundle
 
 
 profiles:
