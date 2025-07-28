@@ -125,9 +125,6 @@ def gpu_track(data, gtab, seed_path, stop_path,
         legacy=False)
 
     if directions == "boot":
-        sh_order_max = 6
-        full_basis = False
-
         if odf_model.lower() == "opdt":
             model_type = cuslines.ModelType.OPDT
             model = OpdtModel(

@@ -28,22 +28,19 @@ except ModuleNotFoundError:
 
 from dipy.io.streamline import load_tractogram, save_tractogram
 from dipy.io.stateful_tractogram import Space
-from dipy.io.utils import get_reference_info
 from dipy.stats.analysis import afq_profile
 from dipy.tracking.streamline import set_number_of_points, values_from_volume
 from nibabel.affines import voxel_sizes
 from nibabel.orientations import aff2axcodes
 from dipy.io.stateful_tractogram import StatefulTractogram
 from dipy.align import resample
-from dipy.tracking.utils import density_map
+from scipy.spatial import cKDTree
+
 
 import gzip
 import shutil
 import os.path as op
 from tempfile import mkdtemp
-
-from scipy.ndimage import distance_transform_edt
-
 
 logger = logging.getLogger('AFQ')
 
@@ -287,9 +284,17 @@ def export_density_maps(bundles, data_imap):
 @as_file('_desc-endpoints_tractography.nii.gz',
          include_track=True,
          include_seg=True)
-def export_endpoint_maps(bundles, data_imap):
+def export_endpoint_maps(bundles, data_imap, endpoint_threshold=3):
     """
     full path to a NIfTI file containing endpoint maps for each bundle
+
+    Parameters
+    ----------
+    endpoint_threshold : float, optional
+        The threshold for the endpoint maps.
+        If None, no endpoint maps are exported as distance to endpoints maps,
+        which the user can then threshold as needed.
+        Default: 3
     """
     seg_sft = aus.SegmentedSFT.fromfile(bundles)
     entire_endpoint_map = np.zeros((
@@ -315,14 +320,23 @@ def export_endpoint_maps(bundles, data_imap):
         endpoints = np.vstack([s[0] for s in bundle_sl.streamlines]
                               + [s[-1] for s in bundle_sl.streamlines])
 
-        tractogram_density = density_map(
-            endpoints, np.eye(4), b0_img.get_fdata().shape)
+        shape = b0_img.get_fdata().shape
+        xv, yv, zv = np.meshgrid(np.arange(shape[0]),
+                                 np.arange(shape[1]),
+                                 np.arange(shape[2]), indexing='ij')
+        grid_points = np.column_stack([xv.ravel(), yv.ravel(), zv.ravel()])
 
-        tractogram_distance = distance_transform_edt(
-            tractogram_density == 0)
+        kdtree = cKDTree(endpoints)
+        distances, _ = kdtree.query(grid_points)
+        tractogram_distance = distances.reshape(shape)
 
         entire_endpoint_map[..., ii] = tractogram_distance * (
             gm > 0.5).astype(np.float32) * vox_to_mm
+
+    if endpoint_threshold is not None:
+        entire_endpoint_map = np.logical_and(
+            entire_endpoint_map < endpoint_threshold,
+            entire_endpoint_map != 0.0).astype(np.float32)
 
     return nib.Nifti1Image(
         entire_endpoint_map, data_imap["dwi_affine"]), dict(
