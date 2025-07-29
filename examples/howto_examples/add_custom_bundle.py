@@ -184,7 +184,6 @@ my_afq = GroupAFQ(
                      "directions": "prob",
                      "odf_model": "CSD",
                      "seed_mask": RoiImage()},
-    segmentation_params={"parallel_segmentation": {"engine": "serial"}},
     bundle_info=bundles)
 
 # If you want to redo different stages you can use the `clobber` method.

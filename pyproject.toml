@@ -9,7 +9,6 @@ markers = [
     "nightly_anisotropic",
     "nightly_reco",
     "nightly_reco80",
-    "nightly_pft",
     "nightly_custom",
     "nightly",
 ]

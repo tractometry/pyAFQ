@@ -128,7 +128,7 @@ def primary_axis(b_sls, bundle_def, img, **kwargs):
 
 
 def include(b_sls, bundle_def, preproc_imap, max_includes,
-            parallel_segmentation, **kwargs):
+            n_cpus, **kwargs):
     accept_idx = b_sls.initiate_selection("include")
     flip_using_include = len(bundle_def["include"]) > 1\
         and not b_sls.oriented_yet
@@ -144,13 +144,13 @@ def include(b_sls, bundle_def, preproc_imap, max_includes,
 
     # with parallel segmentation, the first for loop will
     # only collect streamlines and does not need tqdm
-    if parallel_segmentation["engine"] != "serial":
+    if n_cpus > 1:
         inc_results = paramap(
             abr.check_sl_with_inclusion, b_sls.get_selected_sls(),
             func_args=[
                 bundle_def["include"], include_roi_tols],
-            **parallel_segmentation)
-
+            engine="ray",
+            n_jobs=n_cpus,)
     else:
         inc_results = abr.check_sls_with_inclusion(
             b_sls.get_selected_sls(),
@@ -182,14 +182,7 @@ def include(b_sls, bundle_def, preproc_imap, max_includes,
                     accept_idx[sl_idx] = 1
             else:
                 accept_idx[sl_idx] = 1
-    # see https://github.com/joblib/joblib/issues/945
-    if (
-        (parallel_segmentation.get(
-            "engine", "joblib") != "serial")
-        and (parallel_segmentation.get(
-            "backend", "loky") == "loky")):
-        from joblib.externals.loky import get_reusable_executor
-        get_reusable_executor().shutdown(wait=True)
+
     b_sls.roi_closest = roi_closest.T
     if flip_using_include:
         b_sls.reorient(to_flip)
@@ -335,17 +328,13 @@ def orient_mahal(b_sls, bundle_def, **kwargs):
     b_sls.select(accept_idx, "orient_mahal")
 
 
-def isolation_forest(b_sls, bundle_def, parallel_segmentation, **kwargs):
+def isolation_forest(b_sls, bundle_def, n_cpus, **kwargs):
     b_sls.initiate_selection("isolation_forest")
-    if parallel_segmentation["engine"] == "serial":
-        n_jobs = None
-    else:
-        n_jobs = parallel_segmentation.get("n_jobs", -1)
     accept_idx = abc.clean_by_isolation_forest(
         b_sls.get_selected_sls(),
         percent_outlier_thresh=bundle_def["isolation_forest"].get(
             "percent_outlier_thresh", 25),
-        n_jobs=n_jobs)
+        n_jobs=n_cpus)
     b_sls.select(accept_idx, "isolation_forest")
 
 

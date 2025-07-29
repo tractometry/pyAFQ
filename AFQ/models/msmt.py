@@ -336,7 +336,8 @@ def _fit(self, data, mask=None, max_iter=1e3, tol=1e-6,
         config.THREADING_LAYER = numba_threading_layer
 
     if n_cpus is None:
-        n_cpus = multiprocessing.cpu_count() - 1
+        n_cpus = max(
+            multiprocessing.cpu_count() - 1 - n_threads, 1)
 
     og_data_shape = data.shape
     if len(data.shape) < 4:

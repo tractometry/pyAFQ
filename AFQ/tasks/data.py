@@ -1,6 +1,7 @@
 import nibabel as nib
 import numpy as np
 import logging
+import multiprocessing
 
 from dipy.io.gradients import read_bvals_bvecs
 import dipy.core.gradients as dpg
@@ -99,6 +100,33 @@ def get_data_gtab(dwi_data_file, bval_file, bvec_file, min_bval=-np.inf,
         b0_threshold=b0_threshold)
     img = nib.Nifti1Image(data, img.affine)
     return data, gtab, img, img.affine
+
+
+@immlib.calc("n_cpus", "n_threads")
+def configure_ncpus_nthreads(ray_n_cpus=None, numba_n_threads=None):
+    """
+    Configure the number of CPUs to use for parallel processing with Ray,
+    the number of threads to use for Numba
+
+    Parameters
+    ----------
+    ray_n_cpus : int, optional
+        The number of CPUs to use for parallel processing with Ray.
+        If None, uses the number of available CPUs minus one.
+        Tractography and Recognition use Ray.
+        Default: None
+    numba_n_threads : int, optional 
+        The number of threads to use for Numba.
+        If None, uses the number of available CPUs minus one.
+        MSMT and ASYM fits use Numba.
+        Default: None
+    """
+    if ray_n_cpus is None:
+        ray_n_cpus = multiprocessing.cpu_count() - 1
+    if numba_n_threads is None:
+        numba_n_threads = multiprocessing.cpu_count() - 1
+
+    return ray_n_cpus, numba_n_threads
 
 
 @immlib.calc("b0")
@@ -534,11 +562,9 @@ def msdki_msk(msdki_tf):
 @as_img
 def msmt_params(brain_mask, gtab, data,
                 dwi_affine, t1w_pve,
+                n_threads,
                 msmt_sh_order=8,
-                msmt_fa_thr=0.7,
-                ray_n_cpus=None,
-                numba_n_threads=None,
-                numba_threading_layer="workqueue"):
+                msmt_fa_thr=0.7):
     """
     full path to a nifti file containing
     parameters for the MSMT CSD fit
@@ -552,16 +578,6 @@ def msmt_params(brain_mask, gtab, data,
         The threshold on the FA used to calculate the multi shell auto
         response. Can be useful to reduce for baby subjects.
         Default: 0.7
-    ray_n_cpus : int, optional.
-        The number of CPUs to use for the MSMT CSD fit.
-        Default: None
-    numba_n_threads : int, optional.
-        The number of threads to use for the MSMT CSD fit.
-        Default: None, which will use the default number of threads
-        for the system.
-    numba_threading_layer : str, optional.
-        The threading layer to use for Numba.
-        Default: "workqueue".
 
     References
     ----------
@@ -607,8 +623,7 @@ def msmt_params(brain_mask, gtab, data,
     mcsd_model = MultiShellDeconvModel(gtab, response_mcsd)
     logger.info("Fitting Multi-Shell CSD model...")
     mcsd_fit = mcsd_model.fit(
-        data, mask, n_cpus=ray_n_cpus, n_threads=numba_n_threads,
-        numba_threading_layer=numba_threading_layer)
+        data, mask, n_threads=n_threads)
 
     meta = dict(
         SphericalHarmonicDegree=msmt_sh_order,
@@ -634,7 +649,7 @@ def msmt_apm(msmtcsd_params):
 @as_file(suffix='_model-msmtcsd_param-aodf_dwimap.nii.gz',
          subfolder="models")
 @as_img
-def msmt_aodf(msmtcsd_params):
+def msmt_aodf(msmtcsd_params, n_threads):
     """
     full path to a nifti file containing
     MSMT CSD ODFs filtered by unified filtering [1]
@@ -650,7 +665,8 @@ def msmt_aodf(msmtcsd_params):
     logger.info("Applying unified filtering to MSMT CSD ODFs...")
     aodf = unified_filtering(
         sh_coeff,
-        get_sphere(name="repulsion724"))
+        get_sphere(name="repulsion724"),
+        n_threads=n_threads)
 
     return aodf, dict(
         MSMTCSDParamsFile=msmtcsd_params,
@@ -825,7 +841,7 @@ def csd_params(dwi, brain_mask, gtab, data,
 @as_file(suffix='_model-csd_param-aodf_dwimap.nii.gz',
          subfolder="models")
 @as_img
-def csd_aodf(csd_params):
+def csd_aodf(csd_params, n_threads):
     """
     full path to a nifti file containing
     SSST CSD ODFs filtered by unified filtering [1]
@@ -841,7 +857,8 @@ def csd_aodf(csd_params):
     logger.info("Applying unified filtering to CSD ODFs...")
     aodf = unified_filtering(
         sh_coeff,
-        get_sphere(name="repulsion724"))
+        get_sphere(name="repulsion724"),
+        n_threads=n_threads)
 
     return aodf, dict(
         CSDParamsFile=csd_params,
@@ -1697,6 +1714,7 @@ def get_data_plan(kwargs):
 
     data_tasks = with_name([
         get_data_gtab, b0, b0_mask, brain_mask,
+        configure_ncpus_nthreads,
         t1w_pve, wm_gm_interface,
         dam_fit, dam_csf, dam_pseudot1,
         dti_fit, dki_fit, fwdti_fit, anisotropic_power_map,

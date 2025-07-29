@@ -7,17 +7,13 @@
 # Replaced with numba
 
 import numpy as np
-import multiprocessing
 from tqdm import tqdm
 
 from numba import njit, prange, set_num_threads, config
-import ray
 
 from dipy.reconst.shm import sh_to_sf_matrix, sph_harm_ind_list, sh_to_sf
 from dipy.direction import peak_directions
 from dipy.data import get_sphere
-
-from AFQ.utils.stats import chunk_indices
 
 
 __all__ = ["unified_filtering", "compute_asymmetry_index",
@@ -44,7 +40,7 @@ def unified_filtering(sh_data, sphere,
                       sh_basis='descoteaux07', is_legacy=False,
                       sigma_spatial=1.0, sigma_align=0.8,
                       sigma_angle=None, rel_sigma_range=0.2,
-                      n_threads=None, n_cpus=None):
+                      n_threads=None):
     """
     Unified asymmetric filtering as described in [1].
 
@@ -77,10 +73,6 @@ def unified_filtering(sh_data, sphere,
         Number of threads to use for numba. If None, uses
         the number of available threads.
         Default: None.
-    n_cpus: int or None
-        Number of CPUs to use for parallel processing with Ray.
-        If None, uses the number of available CPUs minus one.
-        Default: None.
 
     References
     ----------
@@ -103,9 +95,6 @@ def unified_filtering(sh_data, sphere,
 
     if n_threads is not None:
         set_num_threads(n_threads)
-
-    if n_cpus is None:
-        n_cpus = multiprocessing.cpu_count() - 1
 
     sh_order, full_basis = _get_sh_order_and_fullness(sh_data.shape[-1])
 
@@ -130,8 +119,7 @@ def unified_filtering(sh_data, sphere,
 
     return _unified_filter_call_python(
         sh_data, nx_filter, uv_filter,
-        sigma_range, B, B_inv, sphere,
-        n_cpus)
+        sigma_range, B, B_inv, sphere)
 
 
 @njit(fastmath=True, cache=True)
@@ -244,7 +232,7 @@ def _get_sf_range(sh_data, B_mat):
 
 
 def _unified_filter_call_python(sh_data, nx_filter, uv_filter, sigma_range,
-                                B_mat, B_inv, sphere, n_cpus):
+                                B_mat, B_inv, sphere):
     """
     Run filtering using pure python implementation.
 
@@ -264,8 +252,6 @@ def _unified_filter_call_python(sh_data, nx_filter, uv_filter, sigma_range,
         SF to SH projection matrix.
     sphere: DIPY sphere
         Sphere for SH to SF projection.
-    n_cpus: int
-        Number of CPUs to use for parallel processing with Ray.
 
     Returns
     -------
@@ -287,44 +273,6 @@ def _unified_filter_call_python(sh_data, nx_filter, uv_filter, sigma_range,
         mode='constant'
     ), dtype=np.float64)
 
-    # # Apply filter to each sphere vertice
-    # if n_cpus > 1:
-    #     ray.init(ignore_reinit_error=True)
-
-    #     sh_data_id = ray.put(sh_data)
-    #     sh_data_padded_id = ray.put(sh_data_padded)
-    #     nx_filter_id = ray.put(nx_filter)
-    #     uv_filter_id = ray.put(uv_filter)
-    #     B_mat_id = ray.put(B_mat)
-
-    #     @ray.remote(num_cpus=n_cpus)
-    #     def _correlate_batch_remote(batch_u_ids, sh_data, sh_data_padded,
-    #                                 nx_filter, uv_filter, sigma_range, B_mat):
-    #         results = []
-    #         for u_sph_id in batch_u_ids:
-    #             corr = _correlate(
-    #                 sh_data, sh_data_padded, nx_filter,
-    #                 uv_filter, sigma_range, u_sph_id, B_mat
-    #             )
-    #             results.append((u_sph_id, corr))
-    #         return results
-
-    #     all_u_ids = list(range(nb_sf))
-    #     futures = [
-    #         _correlate_batch_remote.remote(
-    #             batch, sh_data_id, sh_data_padded_id,
-    #             nx_filter_id, uv_filter_id,
-    #             sigma_range, B_mat_id
-    #         )
-    #         for batch in chunk_indices(all_u_ids, n_cpus * 2)
-    #     ]
-
-    #     # Gather and write results
-    #     for future in tqdm(futures):
-    #         batch_results = ray.get(future)
-    #         for u_sph_id, correlation in batch_results:
-    #             mean_sf[..., u_sph_id] = correlation
-    # else:
     for u_sph_id in tqdm(range(nb_sf)):
         mean_sf[..., u_sph_id] = _correlate(sh_data, sh_data_padded,
                                             nx_filter, uv_filter,

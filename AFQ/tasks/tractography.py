@@ -184,10 +184,7 @@ def streamlines(data_imap, seed, stop, fodf,
 
     is_trx = this_tracking_params.get("trx", False)
 
-    num_chunks = this_tracking_params.pop("num_chunks", False)
-
-    if num_chunks is True:
-        num_chunks = multiprocessing.cpu_count() - 1
+    num_chunks = data_imap["n_cpus"]
 
     if is_trx:
         start_time = time()
@@ -448,22 +445,15 @@ def get_tractography_plan(kwargs):
     if isinstance(kwargs["tracking_params"]["odf_model"], str):
         kwargs["tracking_params"]["odf_model"] =\
             kwargs["tracking_params"]["odf_model"].upper()
+
     if kwargs["tracking_params"]["seed_mask"] is None:
-        if kwargs["tracking_params"]["tracker"] == "pft":
-            kwargs["tracking_params"]["seed_mask"] = ScalarImage(
-                "wm_gm_interface")
-            kwargs["tracking_params"]["seed_threshold"] = 0.5
-            logger.info((
-                "No seed mask given, using GM-WM interface "
-                "from 3T prob maps esimated from T1w"))
-        else:
-            kwargs["tracking_params"]["seed_mask"] = ScalarImage(
-                kwargs["best_scalar"])
-            kwargs["tracking_params"]["seed_threshold"] = 0.2
-            logger.info((
-                "No seed mask given, using FA "
-                "(or first scalar if none are FA) "
-                "thresholded to 0.2"))
+        kwargs["tracking_params"]["seed_mask"] = ScalarImage(
+            "wm_gm_interface")
+        kwargs["tracking_params"]["seed_threshold"] = 0.5
+        logger.info((
+            "No seed mask given, using GM-WM interface "
+            "from 3T prob maps esimated from T1w"))
+
     if kwargs["tracking_params"]["stop_mask"] is None:
         kwargs["tracking_params"]["stop_threshold"] = "ACT"
         kwargs["tracking_params"]["stop_mask"] = ThreeTImage()

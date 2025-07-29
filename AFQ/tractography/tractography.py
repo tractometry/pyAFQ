@@ -25,10 +25,10 @@ from AFQ.tractography.utils import gen_seeds, get_percentile_threshold
 
 def track(params_file, directions="prob", max_angle=30., sphere=None,
           seed_mask=None, seed_threshold=0.5, thresholds_as_percentages=False,
-          n_seeds=1, random_seeds=False, rng_seed=None, stop_mask=None,
+          n_seeds=2000000, random_seeds=True, rng_seed=None, stop_mask=None,
           stop_threshold=0.5, step_size=0.5, minlen=50, maxlen=250,
           odf_model="CSD", basis_type="descoteaux07", legacy=True,
-          tracker="local", trx=False):
+          tracker="pft", trx=False):
     """
     Tractography
 
@@ -58,10 +58,10 @@ def track(params_file, directions="prob", max_angle=30., sphere=None,
         voxel on each dimension (for example, 2 => [2, 2, 2]). If this is a 2D
         array, these are the coordinates of the seeds. Unless random_seeds is
         set to True, in which case this is the total number of random seeds
-        to generate within the mask. Default: 1
+        to generate within the mask. Default: 2000000
     random_seeds : bool
         Whether to generate a total of n_seeds random seeds in the mask.
-        Default: False.
+        Default: True
     rng_seed : int
         random seed used to generate random seeds if random_seeds is
         set to True. Default: None
@@ -109,7 +109,7 @@ def track(params_file, directions="prob", max_angle=30., sphere=None,
     tracker : str, optional
         Which strategy to use in tracking. This can be the standard local
         tracking ("local") or Particle Filtering Tracking ([Girard2014]_).
-        One of {"local", "pft"}. Default: "local"
+        One of {"local", "pft"}. Default: "pft"
     trx : bool, optional
         Whether to return the streamlines compatible with input to TRX file
         (i.e., as a LazyTractogram class instance).

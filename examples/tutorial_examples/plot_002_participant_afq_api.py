@@ -10,11 +10,9 @@ import os.path as op
 import matplotlib.pyplot as plt
 import nibabel as nib
 import plotly
-import pandas as pd
 
 from AFQ.api.participant import ParticipantAFQ
 import AFQ.data.fetch as afd
-import AFQ.viz.altair as ava
 
 ##########################################################################
 # Example data
