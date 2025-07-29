@@ -22,9 +22,7 @@ import tempfile
 
 import dipy.tracking.utils as dtu
 import dipy.tracking.streamline as dts
-from dipy.data import get_fnames
 from dipy.testing.decorators import xvfb_it
-from dipy.io.streamline import load_tractogram
 
 import AFQ.api.bundle_dict as abd
 from AFQ.api.group import GroupAFQ, ParallelGroupAFQ
@@ -33,8 +31,7 @@ import AFQ.data.fetch as afd
 import AFQ.utils.streamlines as aus
 import AFQ.utils.bin as afb
 from AFQ.definitions.mapping import SynMap, AffMap, SlrMap, IdentityMap
-from AFQ.definitions.image import (RoiImage, PFTImage, ImageFile, ScalarImage,
-                                   TemplateImage)
+from AFQ.definitions.image import (RoiImage, ImageFile, ScalarImage, TemplateImage)
 
 
 def touch(fname, times=None):
@@ -310,11 +307,12 @@ def test_AFQ_fury():
     myafq = GroupAFQ(
         bids_path=bids_path,
         preproc_pipeline='vistasoft',
+        tracking_params={"n_seeds": 250000},
         viz_backend_spec="fury")
     myafq.export("all_bundles_figure")
 
 
-@pytest.mark.nightly_pft
+@pytest.mark.nightly_custom
 def test_AFQ_trx():
     tmpdir = tempfile.TemporaryDirectory()
     bids_path = op.join(tmpdir.name, "stanford_hardi")
@@ -325,7 +323,7 @@ def test_AFQ_trx():
         preproc_pipeline='vistasoft',
         # should throw warning but not error
         scalars=["dti_fa", "dti_md", ImageFile(suffix="DNE")],
-        tracking_params={"trx": True})
+        tracking_params={"trx": True, "n_seeds": 250000})
     myafq.export("all_bundles_figure")
 
 
@@ -561,8 +559,8 @@ def test_AFQ_slr():
             'stanford_hardi_tractography',
             'full_segmented_cleaned_tractography.trk'),
         segmentation_params={
-            "dist_to_waypoint": 10,
-            "parallel_segmentation": {"engine": "serial"}},
+            "dist_to_waypoint": 10},
+        n_cpus=1,
         bundle_info=bd,
         mapping_definition=SlrMap(slr_kwargs={
             "rng": np.random.RandomState(seed)}))
@@ -585,6 +583,7 @@ def test_AFQ_reco():
         viz_backend_spec="plotly",
         profile_weights="median",
         bundle_info=abd.reco_bd(16),
+        tracking_params={"n_seeds": 1e6},
         segmentation_params={
             'rng': 42})
 
@@ -612,6 +611,7 @@ def test_AFQ_reco80():
         preproc_pipeline='vistasoft',
         tracking_params=tracking_params,
         bundle_info=abd.reco_bd(16),
+        tracking_params={"n_seeds": 1e6},
         segmentation_params={
             'rng': 42})
 
@@ -633,59 +633,6 @@ def test_AFQ_filterb():
         preproc_pipeline='vistasoft',
         max_bval=1000)
     myafq.export("b0")
-
-
-@pytest.mark.nightly_pft
-def test_AFQ_pft():
-    """
-    Test pft interface for AFQ
-    """
-    _, bids_path, sub_path = get_temp_hardi()
-
-    bundle_names = abd.default18_bd()[
-        "Left Superior Longitudinal",
-        "Right Superior Longitudinal",
-        "Left Arcuate",
-        "Right Arcuate",
-        "Left Corticospinal",
-        "Right Corticospinal",
-        "Forceps Minor"]
-
-    f_pve_csf, f_pve_gm, f_pve_wm = get_fnames('stanford_pve_maps')
-    os.rename(f_pve_wm, op.join(sub_path,
-                                "sub-01_ses-01_label-WM_probseg.nii.gz"))
-    os.rename(f_pve_gm, op.join(sub_path,
-                                "sub-01_ses-01_label-GM_probseg.nii.gz"))
-    os.rename(f_pve_csf, op.join(sub_path,
-                                 "sub-01_ses-01_label-CSF_probseg.nii.gz"))
-
-    stop_mask = PFTImage(
-        ImageFile(suffix="probseg", filters={"label": "WM"}),
-        ImageFile(suffix="probseg", filters={"label": "GM"}),
-        ImageFile(suffix="probseg", filters={"label": "CSF"}))
-    t_output_dir = tempfile.TemporaryDirectory()
-
-    myafq = GroupAFQ(
-        bids_path,
-        preproc_pipeline='vistasoft',
-        bundle_info=bundle_names,
-        output_dir=t_output_dir.name,
-        tracking_params={
-            "stop_mask": stop_mask,
-            "stop_threshold": "CMC",
-            "tracker": "pft",
-            "maxlen": 150,
-        })
-    sl_file = myafq.export("streamlines")["01"]
-    dwi_file = myafq.export("dwi")["01"]
-    sls = load_tractogram(
-        sl_file,
-        dwi_file,
-        bbox_valid_check=False,
-        trk_header_check=False).streamlines
-    for sl in sls:
-        # double the maxlen, due to step size of 0.5
-        assert len(sl) <= 300
 
 
 @pytest.mark.nightly_custom

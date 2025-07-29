@@ -51,6 +51,14 @@ dwi_affine:
     the affine transformation of the DWI data
 
 
+n_cpus:
+    Configure the number of CPUs to use for parallel processing with Ray
+
+
+n_threads:
+    the number of threads to use for Numba
+
+
 b0:
     full path to a nifti file containing the mean b0
 

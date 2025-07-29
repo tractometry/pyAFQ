@@ -21,10 +21,10 @@ def recognize(
         mapping,
         bundle_dict,
         reg_template,
+        n_cpus,
         nb_points=False,
         nb_streamlines=False,
         clip_edges=False,
-        parallel_segmentation={"engine": "serial"},
         rb_recognize_params=dict(
             model_clust_thr=1.25,
             reduction_thr=25,
@@ -53,6 +53,8 @@ def recognize(
         Dictionary of bundles to segment.
     reg_template : str, nib.Nifti1Image
         Template image for registration.
+    n_cpus : int
+        Number of CPUs to use for parallelization.
     nb_points : int, boolean
         Resample streamlines to nb_points number of points.
         If False, no resampling is done. Default: False
@@ -62,13 +64,6 @@ def recognize(
     clip_edges : bool
         Whether to clip the streamlines to be only in between the ROIs.
         Default: False
-    parallel_segmentation : dict or AFQ.api.BundleDict
-        How to parallelize segmentation across processes when performing
-        waypoint ROI segmentation. Set to {"engine": "serial"} to not
-        perform parallelization. Some engines may cause errors, depending
-        on the system. See ``dipy.utils.parallel.paramap`` for
-        details.
-        Default: {"engine": "serial"}
     rb_recognize_params : dict
         RecoBundles parameters for the recognize function.
         Default: dict(model_clust_thr=1.25, reduction_thr=25, pruning_thr=12)
@@ -185,7 +180,7 @@ def recognize(
             bundle_name, bundle_idx, bundle_to_flip, bundle_roi_closest,
             bundle_decisions,
             clip_edges=clip_edges,
-            parallel_segmentation=parallel_segmentation,
+            n_cpus=n_cpus,
             rb_recognize_params=rb_recognize_params,
             prob_threshold=prob_threshold,
             refine_reco=refine_reco,

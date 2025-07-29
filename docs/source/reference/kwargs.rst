@@ -29,6 +29,12 @@ filter_b: bool
 b0_threshold: int
 	The value of b under which it is considered to be b0. Default: 50.
 
+ray_n_cpus: int
+	The number of CPUs to use for parallel processing with Ray. If None, uses the number of available CPUs minus one. Tractography and Recognition use Ray. Default: None
+
+numba_n_threads: int
+	The number of threads to use for Numba. If None, uses the number of available CPUs minus one. MSMT and ASYM fits use Numba. Default: None
+
 dam_low_signal_thresh: float
 	The threshold below which a voxel is considered to have low signal. Default: 50
 
@@ -49,15 +55,6 @@ msmt_sh_order: int
 
 msmt_fa_thr: float
 	The threshold on the FA used to calculate the multi shell auto response. Can be useful to reduce for baby subjects. Default: 0.7
-
-ray_n_cpus: int
-	The number of CPUs to use for the MSMT CSD fit. Default: None
-
-numba_n_threads: int
-	The number of threads to use for the MSMT CSD fit. Default: None, which will use the default number of threads for the system.
-
-numba_threading_layer: str
-	The threading layer to use for Numba. Default: "workqueue".
 
 csd_response: tuple or None
 	The response function to be used by CSD, as a tuple with two elements. The first is the eigen-values as an (3,) ndarray and the second is the signal value for the response function without diffusion-weighting (i.e. S0). If not provided, auto_response will be used to calculate these values. Default: None
