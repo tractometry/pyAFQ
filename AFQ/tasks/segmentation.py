@@ -119,6 +119,7 @@ def segment(data_imap, mapping_imap,
         mapping_imap["mapping"],
         bundle_dict,
         reg_template,
+        data_imap["n_cpus"],
         **segmentation_params)
 
     seg_sft = aus.SegmentedSFT(bundles, Space.VOX)

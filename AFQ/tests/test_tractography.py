@@ -84,10 +84,9 @@ def test_pft_tracking():
             ["DTI", "CSD"]):
         img = nib.load(fdata)
         data_shape  = img.shape
-        data_affine = img.affine
-        pve_wm_data = nib.Nifti1Image(np.ones(data_shape[:3]), img.affine)
-        pve_gm_data = nib.Nifti1Image(np.zeros(data_shape[:3]), img.affine)
-        pve_csf_data = nib.Nifti1Image(np.zeros(data_shape[:3]), img.affine)
+        pve_wm_data = np.ones(data_shape[:3])
+        pve_gm_data = np.ones(data_shape[:3])
+        pve_csf_data = np.ones(data_shape[:3])
         stop_mask = (pve_wm_data, pve_gm_data, pve_csf_data)
 
         for directions in ["det", "prob"]:

@@ -797,6 +797,7 @@ def test_AFQ_data_waypoint():
         op.join(vista_folder, "sub-01_ses-01_dwi.nii.gz"),
         op.join(vista_folder, "sub-01_ses-01_dwi.bval"),
         op.join(vista_folder, "sub-01_ses-01_dwi.bvec"),
+        t1_path,
         afq_folder,
         bundle_info=bundle_info,
         scalars=[

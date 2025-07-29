@@ -179,6 +179,8 @@ def streamlines(data_imap, seed, stop, fodf,
     this_tracking_params['seed_mask'] = nib.load(seed).get_fdata()
     if isinstance(stop, str):
         this_tracking_params['stop_mask'] = nib.load(stop).get_fdata()
+    elif isinstance(stop, nib.Nifti1Image):
+        this_tracking_params['stop_mask'] = stop.get_fdata()
     else:
         this_tracking_params['stop_mask'] = stop
 

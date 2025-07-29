@@ -1127,6 +1127,7 @@ class ParallelGroupAFQ():
                 pAFQ_kwargs.dwi_data_file,
                 pAFQ_kwargs.bval_file,
                 pAFQ_kwargs.bvec_file,
+                pAFQ_kwargs.t1_file,
                 pAFQ_kwargs.results_dir,
                 **pAFQ_kwargs.kwargs)
             pAFQ.export(attr_name)
@@ -1176,6 +1177,7 @@ class ParallelGroupAFQ():
                 pAFQ_kwargs.dwi_data_file,
                 pAFQ_kwargs.bval_file,
                 pAFQ_kwargs.bvec_file,
+                pAFQ_kwargs.t1_file,
                 pAFQ_kwargs.results_dir,
                 **pAFQ_kwargs.kwargs)
             pAFQ.export_all(viz, xforms, indiv)

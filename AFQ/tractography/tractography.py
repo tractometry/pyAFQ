@@ -199,28 +199,33 @@ def track(params_file, directions="prob", max_angle=30., sphere=None,
                 "3 iterable for `stop_mask`. "
                 "Expected a (pve_wm, pve_gm, pve_csf) tuple.")
         pves = []
-        pve_imgs = []
+        pve_affines = []
         for pve in stop_mask:
             if isinstance(pve, str):
-                img = nib.load(pve)
+                seg_data = nib.load(pve).get_fdata()
+                seg_affine = nib.load(pve).affine
+            elif isinstance(pve, nib.Nifti1Image):
+                seg_data = pve.get_fdata()
+                seg_affine = pve.affine
             else:
-                img = pve
-            pve_imgs.append(img)
-            pves.append(pve_imgs[-1].get_fdata())
+                seg_data = pve
+                seg_affine = params_img.affine
+            pves.append(seg_data)
+            pve_affines.append(seg_affine)
 
-        pve_wm_img, pve_gm_img, pve_csf_img = pve_imgs
         pve_wm_data, pve_gm_data, pve_csf_data = pves
+        pve_wm_affine, pve_gm_affine, pve_csf_affine = pve_affines
         pve_wm_data = resample(
             pve_wm_data, model_params[..., 0],
-            moving_affine=pve_wm_img.affine,
+            moving_affine=pve_wm_affine,
             static_affine=params_img.affine).get_fdata()
         pve_gm_data = resample(
             pve_gm_data, model_params[..., 0],
-            moving_affine=pve_gm_img.affine,
+            moving_affine=pve_gm_affine,
             static_affine=params_img.affine).get_fdata()
         pve_csf_data = resample(
             pve_csf_data, model_params[..., 0],
-            moving_affine=pve_csf_img.affine,
+            moving_affine=pve_csf_affine,
             static_affine=params_img.affine).get_fdata()
 
         if stop_threshold == "CMC":
@@ -237,6 +242,12 @@ def track(params_file, directions="prob", max_angle=30., sphere=None,
                 pve_gm_data,
                 pve_csf_data)
     else:
+        if len(stop_mask) == 3:
+            raise RuntimeError(
+                "You are not using CMC/ACT stropping, but provided tissue "
+                "probability maps in `stop_mask`. Please provide a single "
+                "3D array for `stop_mask` or use CMC/ACT")
+
         if len(np.unique(stop_mask)) <= 2:
             stopping_criterion = ThresholdStoppingCriterion(stop_mask,
                                                             0.5)
