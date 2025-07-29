@@ -612,7 +612,6 @@ def test_AFQ_reco80():
         preproc_pipeline='vistasoft',
         tracking_params=tracking_params,
         bundle_info=abd.reco_bd(16),
-        tracking_params={"n_seeds": 1e6},
         segmentation_params={
             'rng': 42})
 
