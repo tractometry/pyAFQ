@@ -261,15 +261,16 @@ def recobundles(b_sls, mapping, bundle_def, reg_template, img, refine_reco,
         StatefulTractogram(b_sls.get_selected_sls(), img, Space.VOX),
         "template", mapping, reg_template,
         save_intermediates=save_intermediates).streamlines
+    moved_sl_resampled = abu.resample_tg(moved_sl, 100)
     rb = RecoBundles(moved_sl, verbose=True, rng=rng)
     _, rec_labels = rb.recognize(
         bundle_def['recobundles']['sl'],
         **rb_recognize_params)
     if refine_reco:
         _, rec_labels = rb.refine(
-            bundle_def['recobundles']['sl'], moved_sl[rec_labels],
+            bundle_def['recobundles']['sl'], moved_sl_resampled[rec_labels],
             **rb_recognize_params)
-    if not b_sls.oriented_yet:
+    if not b_sls.oriented_yet and np.sum(rec_labels) > 0:
         standard_sl = next(iter(bundle_def['recobundles']['centroid']))
         oriented_idx = abu.orient_by_streamline(
             moved_sl[rec_labels],
