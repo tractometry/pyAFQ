@@ -115,7 +115,7 @@ def configure_ncpus_nthreads(ray_n_cpus=None, numba_n_threads=None):
         If None, uses the number of available CPUs minus one.
         Tractography and Recognition use Ray.
         Default: None
-    numba_n_threads : int, optional 
+    numba_n_threads : int, optional
         The number of threads to use for Numba.
         If None, uses the number of available CPUs minus one.
         MSMT and ASYM fits use Numba.
