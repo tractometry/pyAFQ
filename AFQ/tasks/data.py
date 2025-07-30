@@ -350,7 +350,7 @@ def t1w_pve(t1_file, brain_mask, pve_nclass=3, pve_beta=0.1):
         static_affine=t1w.affine).get_fdata()
 
     t1w_masked = t1w.get_fdata().copy()
-    t1w_masked[~bm_in_tw1.astype(np.bool)] = 0
+    t1w_masked[~bm_in_tw1.astype(np.bool_)] = 0
 
     hmrf = TissueClassifierHMRF()
     logger.info((
