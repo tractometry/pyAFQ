@@ -27,7 +27,7 @@ def recognize(
         clip_edges=False,
         rb_recognize_params=dict(
             model_clust_thr=1.25,
-            reduction_thr=25,
+            reduction_thr=50,
             pruning_thr=12),
         refine_reco=False,
         prob_threshold=0,
