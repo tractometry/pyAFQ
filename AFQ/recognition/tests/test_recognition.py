@@ -69,7 +69,7 @@ def test_segment():
         nib.load(hardi_fdata),
         mapping,
         bundles,
-        reg_template, 1)
+        reg_template, 2)
 
     # We asked for 2 fiber groups:
     npt.assert_equal(len(fiber_groups), 2)

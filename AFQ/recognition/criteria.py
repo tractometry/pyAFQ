@@ -3,11 +3,11 @@ from time import time
 
 import numpy as np
 import nibabel as nib
+import ray
 
 from scipy.ndimage import distance_transform_edt
 
 import dipy.tracking.streamline as dts
-from dipy.utils.parallel import paramap
 from dipy.segment.clustering import QuickBundles
 from dipy.segment.metricspeed import AveragePointwiseEuclideanMetric
 from dipy.segment.featurespeed import ResampleFeature
@@ -21,6 +21,8 @@ import AFQ.recognition.cleaning as abc
 import AFQ.recognition.curvature as abv
 import AFQ.recognition.roi as abr
 import AFQ.recognition.other_bundles as abo
+from AFQ.utils.stats import chunk_indices
+
 
 criteria_order_pre_other_bundles = [
     "prob_map", "cross_midline", "start", "end",
@@ -145,12 +147,25 @@ def include(b_sls, bundle_def, preproc_imap, max_includes,
     # with parallel segmentation, the first for loop will
     # only collect streamlines and does not need tqdm
     if n_cpus > 1:
-        inc_results = paramap(
-            abr.check_sl_with_inclusion, b_sls.get_selected_sls(),
-            func_args=[
-                bundle_def["include"], include_roi_tols],
-            engine="ray",
-            n_jobs=n_cpus,)
+        inc_results = np.zeros(len(b_sls), dtype=tuple)
+
+        inc_rois_id = ray.put(bundle_def["include"])
+        inc_roi_tols_id = ray.put(include_roi_tols)
+
+        _check_inc_parallel = ray.remote(
+            num_cpus=n_cpus)(abr.check_sls_with_inclusion)
+
+        sls_chunks = list(chunk_indices(np.arange(len(b_sls)), n_cpus))
+        futures = [
+            _check_inc_parallel.remote(
+                b_sls.get_selected_sls()[sls_chunk],
+                inc_rois_id,
+                inc_roi_tols_id)
+            for sls_chunk in sls_chunks
+        ]
+
+        for ii, future in enumerate(futures):
+            inc_results[sls_chunks[ii]] = ray.get(future)
     else:
         inc_results = abr.check_sls_with_inclusion(
             b_sls.get_selected_sls(),

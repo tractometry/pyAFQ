@@ -50,7 +50,7 @@ def clean_by_overlap(this_bundle_sls, other_bundle_sls,
 
     Examples
     --------
-    >>> clean_idx = clean_by_other_density_map(bundle1, bundle2, 5, img, True)
+    >>> clean_idx = clean_by_overlap(bundle1, bundle2, 5, img, True)
     >>> cleaned_bundle = [s for i, s in enumerate(bundle1) if clean_idx[i]]
     """
     other_bundle_density_map = dtu.density_map(
