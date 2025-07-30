@@ -91,7 +91,7 @@ def unified_filtering(sh_data, sphere,
             raise ValueError('sigma_align cannot be <= 0.')
     if sigma_angle is not None:
         if sigma_angle <= 0.0:
-            raise ValueError('sigma_align cannot be <= 0.')
+            raise ValueError('sigma_angle cannot be <= 0.')
 
     if n_threads is not None:
         set_num_threads(n_threads)
