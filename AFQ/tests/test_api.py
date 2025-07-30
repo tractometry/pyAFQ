@@ -752,6 +752,9 @@ def test_AFQ_data_waypoint():
     vista_folder = op.join(
         bids_path,
         "derivatives/vistasoft/sub-01/ses-01/dwi")
+    freesurfer_folder = op.join(
+        bids_path,
+        "derivatives/freesurfer/sub-01/ses-01/anat")
 
     # Prepare LV1 ROI
     lv1_files, lv1_folder = afd.fetch_stanford_hardi_lv1()
@@ -785,8 +788,7 @@ def test_AFQ_data_waypoint():
     }
 
     tracking_params = dict(odf_model="csd",
-                           seed_mask=RoiImage(),
-                           n_seeds=200,
+                           n_seeds=5000,
                            random_seeds=True,
                            rng_seed=42)
     segmentation_params = dict(return_idx=True)
@@ -797,7 +799,7 @@ def test_AFQ_data_waypoint():
         op.join(vista_folder, "sub-01_ses-01_dwi.nii.gz"),
         op.join(vista_folder, "sub-01_ses-01_dwi.bval"),
         op.join(vista_folder, "sub-01_ses-01_dwi.bvec"),
-        t1_path,
+        op.join(freesurfer_folder, "sub-01_ses-01_T1w.nii.gz"),
         afq_folder,
         bundle_info=bundle_info,
         scalars=[
@@ -840,14 +842,14 @@ def test_AFQ_data_waypoint():
     seg_sft = aus.SegmentedSFT.fromfile(
         myafq.export("bundles"))
     npt.assert_(len(seg_sft.get_bundle(
-        'Left Corticospinal').streamlines) > 0)
+        'Left Superior Longitudinal').streamlines) > 0)
 
     # Test bundles exporting:
     myafq.export("indiv_bundles")
     assert op.exists(op.join(
         myafq.export("output_dir"),
         'bundles',
-        'sub-01_ses-01_desc-LeftCorticospinal_tractography.trk'))  # noqa
+        'sub-01_ses-01_desc-RightSuperiorLongitudinal_tractography.trk'))  # noqa
 
     # Test that the returned indices are correct:
     with open(op.join(
@@ -907,11 +909,11 @@ def test_AFQ_data_waypoint():
 
     # Set up config to use the same parameters as above:
     # ROI mask needs to be put in quotes in config
-    tracking_params = dict(odf_model="CSD",
-                           seed_mask="RoiImage()",
-                           n_seeds=200,
-                           random_seeds=True,
-                           rng_seed=42)
+    tracking_params = dict(
+        odf_model="CSD",
+        n_seeds=5000,
+        random_seeds=True,
+        rng_seed=42)
     bundle_dict_as_str = (
         'default18_bd()['
         '"Left Superior Longitudinal",'
