@@ -293,7 +293,7 @@ def clean_by_isolation_forest(tg, n_points=100, percent_outlier_thresh=15,
     # We don't even bother if there aren't enough streamlines:
     if len(streamlines) < min_sl:
         logger.warning((
-            "LOD cleaning not performed"
+            "Isolation Forest cleaning not performed"
             " due to low streamline count"))
         return np.ones(len(streamlines), dtype=bool)
 
