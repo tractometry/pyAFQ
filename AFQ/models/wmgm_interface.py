@@ -51,7 +51,7 @@ def fit_wm_gm_interface(PVE_img, dwiref_img):
     gm_smoothed = gaussian_filter(gm, 1)
     csf_smoothed = gaussian_filter(csf, 1)
 
-    wm_boundary[~gm_smoothed.astype(np.bool)] = 0
+    wm_boundary[~gm_smoothed.astype(bool)] = 0
     wm_boundary[csf_smoothed > gm_smoothed] = 0
 
     return nib.Nifti1Image(
