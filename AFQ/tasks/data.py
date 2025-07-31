@@ -1698,7 +1698,7 @@ def get_bundle_dict(brain_mask, b0,
             bundle_info,
             resample_to=reg_template)
 
-    if bundle_dict.resample_subject_to is None:
+    if bundle_dict.resample_subject_to == True:
         bundle_dict.resample_subject_to = b0
 
     return bundle_dict, reg_template, reg_template_space_name
