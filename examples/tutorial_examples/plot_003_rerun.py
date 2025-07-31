@@ -32,8 +32,7 @@ afd.organize_stanford_data()
 tracking_params = dict(n_seeds=100,
                        random_seeds=True,
                        rng_seed=2022,
-                       trx=True,
-                       num_chunks=True)
+                       trx=True)
 
 myafq = GroupAFQ(
     bids_path=op.join(afd.afq_home, 'stanford_hardi'),
@@ -99,8 +98,7 @@ tracking_params = dict(n_seeds=100,
                        random_seeds=True,
                        max_angle=60,
                        rng_seed=12,
-                       trx=True,
-                       num_chunks=True)
+                       trx=True)
 
 myafq = GroupAFQ(
     bids_path=op.join(afd.afq_home, 'stanford_hardi'),
