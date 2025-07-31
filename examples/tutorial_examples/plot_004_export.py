@@ -31,6 +31,9 @@ data_dir = op.join(afd.afq_home, "stanford_hardi", "derivatives", "vistasoft",
 dwi_data_file = op.join(data_dir, "sub-01_ses-01_dwi.nii.gz")
 bval_file = op.join(data_dir, "sub-01_ses-01_dwi.bval")
 bvec_file = op.join(data_dir, "sub-01_ses-01_dwi.bvec")
+t1_file = op.join(afd.afq_home, "stanford_hardi", "derivatives",
+                  "freesurfer", "sub-01", "ses-01", "anat",
+                  "sub-01_ses-01_T1w.nii.gz")
 
 output_dir = op.join(afd.afq_home, "stanford_hardi",
                      "derivatives", "afq", "sub-01", "ses-01", "dwi")
@@ -41,6 +44,7 @@ myafq = ParticipantAFQ(
     dwi_data_file=dwi_data_file,
     bval_file=bval_file,
     bvec_file=bvec_file,
+    t1_file=t1_file,
     output_dir=output_dir,
     tracking_params={
         "n_seeds": 25000,
