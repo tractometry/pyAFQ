@@ -150,6 +150,8 @@ class GroupAFQ(object):
         if not isinstance(bids_filters, dict):
             raise TypeError("bids_filters must be a dict")
         # preproc_pipeline typechecking handled by pyBIDS
+        if t1_pipeline is None:
+            t1_pipeline = preproc_pipeline
         if participant_labels is not None\
                 and not isinstance(participant_labels, list):
             raise TypeError(
