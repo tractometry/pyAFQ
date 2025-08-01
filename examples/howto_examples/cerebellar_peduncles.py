@@ -49,18 +49,6 @@ cp_bundles = abd.cerebellar_bd()
 
 """
 The bundle dict has been defined, and now we are ready to run the AFQ pipeline.
-In this case, we are using data that has been preprocessed with QSIprep, so
-we have a brain mask that was generated from the T1w data of this subject.
-"""
-
-brain_mask_definition = ImageFile(
-    suffix="mask",
-    filters={'desc': 'brain',
-             'space': 'T1w',
-             'scope': 'qsiprep'})
-
-
-"""
 Next, we define a GroupAFQ object. In this case, the tracking parameters
 focus specifically on the CP, by using the ``RoiImage`` class to define the
 seed region. We seed extensively in the ROIs that define the CPs.
@@ -70,7 +58,6 @@ cp_afq = GroupAFQ(
     name="cp_afq",
     bids_path=bids_path,
     preproc_pipeline="qsiprep",
-    brain_mask_definition=brain_mask_definition,
     tracking_params={
         "n_seeds": 4,
         "directions": "prob",

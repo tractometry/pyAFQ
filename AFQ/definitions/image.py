@@ -3,7 +3,6 @@ import logging
 
 import nibabel as nib
 
-from dipy.segment.mask import median_otsu
 from dipy.align import resample
 
 from AFQ.definitions.utils import Definition, find_file, name_from_path
@@ -12,9 +11,9 @@ from skimage.morphology import convex_hull_image, binary_opening
 
 
 __all__ = [
-    "ImageFile", "FullImage", "RoiImage", "B0Image", "LabelledImageFile",
+    "ImageFile", "FullImage", "RoiImage", "LabelledImageFile",
     "ThresholdedImageFile", "ScalarImage", "ThresholdedScalarImage",
-    "TemplateImage", "GQImage", "ThreeTImage"]
+    "TemplateImage", "ThreeTImage"]
 
 
 logger = logging.getLogger('AFQ')

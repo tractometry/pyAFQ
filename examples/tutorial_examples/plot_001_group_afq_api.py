@@ -49,7 +49,8 @@ import AFQ.viz.altair as ava
 # stored in the `~/AFQ_data/stanford_hardi/` BIDS directory. Set it to None if
 # you want to use the results of previous runs.
 
-afd.organize_stanford_data(clear_previous_afq="track")
+# clear_previous_afq="track"
+afd.organize_stanford_data(clear_previous_afq="all")
 
 ##########################################################################
 # Set tractography parameters (optional)
@@ -59,9 +60,9 @@ afd.organize_stanford_data(clear_previous_afq="track")
 # distributed in the white matter. We only do this to make this example
 # faster and consume less space.
 
-tracking_params = dict(n_seeds=25000,
+tracking_params = dict(n_seeds=100000,
                        random_seeds=True,
-                       rng_seed=2022,
+                       rng_seed=2025,
                        trx=True)
 
 ##########################################################################

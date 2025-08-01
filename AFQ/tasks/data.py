@@ -2,6 +2,8 @@ import nibabel as nib
 import numpy as np
 import logging
 import multiprocessing
+import subprocess
+import os.path as op
 
 from dipy.io.gradients import read_bvals_bvecs
 import dipy.core.gradients as dpg
@@ -23,18 +25,16 @@ from dipy.reconst.mcsd import (
     multi_shell_fiber_response,
     response_from_mask_msmt)
 from dipy.core.gradients import unique_bvals_tolerance
-from dipy.segment.tissue import TissueClassifierHMRF
 from dipy.align import resample
 
 from AFQ.tasks.decorators import as_file, as_img, as_fit_deriv
-from AFQ.tasks.utils import get_fname, with_name, str_to_desc
+from AFQ.tasks.utils import get_fname, with_name
 import AFQ.api.bundle_dict as abd
 import AFQ.data.fetch as afd
 from AFQ.utils.path import drop_extension, write_json
 from AFQ._fixes import gwi_odf
 
 from AFQ.definitions.utils import Definition
-from AFQ.definitions.image import B0Image
 
 from AFQ.models.dti import noise_from_b0
 from AFQ.models.csd import _fit as csd_fit_model
@@ -46,7 +46,7 @@ from AFQ.models.fwdti import _fit as fwdti_fit_model
 from AFQ.models.QBallTP import (
     extract_odf, anisotropic_index, anisotropic_power)
 from AFQ.models.dam import fit_dam, csf_dam, t1_dam
-from AFQ.models.wmgm_interface import fit_wm_gm_interface
+from AFQ.models.wmgm_interface import fit_wm_gm_interface, pve_from_subcortex
 from AFQ.models.msmt import MultiShellDeconvModel
 from AFQ.models.asym_filtering import (
     unified_filtering, compute_asymmetry_index,
@@ -308,61 +308,17 @@ def dki_gm(dki_fa, dki_csf, dki_wm_ll=0.1, dki_gm_ul=0.3):
 
 @immlib.calc("t1w_pve")
 @as_file(suffix='_desc-pve_probseg.nii.gz')
-def t1w_pve(t1_file, brain_mask, pve_nclass=3, pve_beta=0.1):
+def t1w_pve(t1_subcortex):
     """
-    Tissue classification using the
-    Markov Random Fields modeling approach on the T1w image [1, 2]
-
-    Parameters
-    ----------
-    pve_nclass : int, optional
-        The number of tissue classes to segment
-        Default: 3
-
-    pve_beta : float, optional
-        The beta parameter for the HMRF model (smoothness)
-        Default: 0.1
-
-    References
-    ----------
-    [1] Zhang et al., 2001
-        Yongyue Zhang, Michael Brady, and Stephen Smith.
-        "Segmentation of brain MR images through a hidden Markov
-        random field model and the expectation-maximization algorithm."
-        IEEE Transactions on Medical Imaging, 20(1):45–57, 2001.
-        https://doi.org/10.1109/42.906424
-
-    [2] Avants et al., 2011
-        Brian B. Avants, Nicholas J. Tustison, Jue Wu,
-        Philip A. Cook, and James C. Gee.
-        "An Open Source Multivariate Framework for n-Tissue
-        Segmentation with Evaluation on Public Data."
-        Neuroinformatics, 9(4):381–400, 2011.
-        https://doi.org/10.1007/s12021-011-9109-y
+    WM, GM, CSF segmentations from subcortex segmentation
+    from brainchop on T1w image
     """
-    t1w = nib.load(t1_file)
-    bm = nib.load(brain_mask)
+    t1_subcortex_img = nib.load(t1_subcortex)
+    PVE = pve_from_subcortex(t1_subcortex_img.get_fdata())
 
-    bm_in_tw1 = resample(
-        bm.get_fdata(),
-        t1w.get_fdata(),
-        moving_affine=bm.affine,
-        static_affine=t1w.affine).get_fdata()
-
-    t1w_masked = t1w.get_fdata().copy()
-    t1w_masked[~bm_in_tw1.astype(np.bool_)] = 0
-
-    hmrf = TissueClassifierHMRF()
-    logger.info((
-        "Generating Tissue Segmentations from T1w image "
-        "using HMRF, this could take a minute..."))
-    _, _, PVE = hmrf.classify(t1w_masked, pve_nclass, pve_beta)
-
-    return nib.Nifti1Image(PVE, t1w.affine), dict(
-        T1wFile=t1_file,
-        BrainMaskFile=brain_mask,
-        TissueClasses=pve_nclass,
-        Beta=pve_beta,)
+    return nib.Nifti1Image(PVE, t1_subcortex_img.affine), dict(
+        SubCortexParcellation=t1_subcortex,
+        labels=["csf", "gm", "wm"],)
 
 
 @immlib.calc("wm_gm_interface")
@@ -1599,27 +1555,115 @@ def dki_ak(dki_tf):
     return dki_tf.ak
 
 
+@immlib.calc("t1_brain_mask", "t1_masked")
+def t1_brain_mask(base_fname, t1_file):
+    """
+    full path to a nifti file containing brain mask from T1w image,
+    full path to a nifti file containing T1w image masked by the brain mask
+
+    References
+    ----------
+    [1] Masoud, M., Hu, F., & Plis, S. (2023). Brainchop: In-browser MRI
+        volumetric segmentation and rendering. Journal of Open Source
+        Software, 8(83), 5098.
+        https://doi.org/10.21105/joss.05098
+    """
+    bm_file = get_fname(
+        base_fname,
+        f"_desc-brain_mask.nii.gz")
+    bm_file_json = get_fname(
+        base_fname,
+        f"_desc-brain_mask.json")
+    t1_masked_file = get_fname(
+        base_fname,
+        f"_desc-masked_T1w.nii.gz")
+    t1_masked_json = get_fname(
+        base_fname,
+        f"_desc-masked_T1w.json")
+
+    if not op.exists(bm_file) or not op.exists(t1_masked_file):
+        logger.info(
+            "Creating brain mask using Brainchop...")
+
+        command = [
+            "brainchop",
+            t1_file,
+            "-o", t1_masked_file,
+            "-a", bm_file,
+            "-m", "mindgrab"
+        ]
+
+        subprocess.run(command, check=True, capture_output=True, text=True)
+
+        meta = dict(
+            T1w=t1_file,
+            model="brainchop")
+
+        write_json(bm_file_json, meta)
+        write_json(t1_masked_json, meta)
+
+    return bm_file, t1_masked_file
+
+
+@immlib.calc("t1_subcortex")
+def t1_subcortex(base_fname, t1_masked):
+    """
+    full path to a nifti file containing segmentation of
+    subcortical structures from T1w image using Brainchop
+
+    References
+    ----------
+    [1] Masoud, M., Hu, F., & Plis, S. (2023). Brainchop: In-browser MRI
+        volumetric segmentation and rendering. Journal of Open Source
+        Software, 8(83), 5098.
+        https://doi.org/10.21105/joss.05098
+    """
+    t1_subcortex_file = get_fname(
+        base_fname,
+        f"_desc-subcortex_probseg.nii.gz")
+    t1_subcortex_json = get_fname(
+        base_fname,
+        f"_desc-subcortex_probseg.json")
+
+    if not op.exists(t1_subcortex_file):
+        logger.info(
+            "Creating subcortical segmentation using Brainchop...")
+
+        command = [
+            "brainchop",
+            t1_masked,
+            "-i",
+            "-o", t1_subcortex_file,
+            "-m", "subcortical"
+        ]
+
+        subprocess.run(command, check=True, capture_output=True, text=True)
+
+        meta = dict(
+            T1w=t1_masked,
+            model="subcortical",
+            labels=[
+                "Unknown", "Cerebral-White-Matter", "Cerebral-Cortex",
+                "Lateral-Ventricle", "Inferior-Lateral-Ventricle",
+                "Cerebellum-White-Matter", "Cerebellum-Cortex",
+                "Thalamus", "Caudate", "Putamen", "Pallidum",
+                "3rd-Ventricle", "4th-Ventricle", "Brain-Stem",
+                "Hippocampus", "Amygdala", "Accumbens-area", "VentralDC"])
+
+        write_json(t1_subcortex_json, meta)
+
+    return t1_subcortex_file
+
+
 @immlib.calc("brain_mask")
 @as_file('_desc-brain_mask.nii.gz')
-def brain_mask(b0, brain_mask_definition=None):
+@as_img
+def brain_mask(t1_brain_mask, b0):
     """
-    full path to a nifti file containing
-    the brain mask
-
-    Parameters
-    ----------
-    brain_mask_definition : instance from `AFQ.definitions.image`, optional
-        This will be used to create
-        the brain mask, which gets applied before registration to a
-        template.
-        If you want no brain mask to be applied, use FullImage.
-        If None, use B0Image()
-        Default: None
+    full path to a nifti file containing the brain mask
     """
-    # Note that any case where brain_mask_definition is not None
-    # is handled in get_data_plan
-    # This is just the default
-    return B0Image().get_image_getter("data")(b0)
+    return resample(t1_brain_mask, b0), dict(
+        BrainMaskinT1w=t1_brain_mask)
 
 
 @immlib.calc("bundle_dict", "reg_template", "tmpl_name")
@@ -1713,7 +1757,8 @@ def get_data_plan(kwargs):
             "strings/scalar definitions")
 
     data_tasks = with_name([
-        get_data_gtab, b0, b0_mask, brain_mask,
+        get_data_gtab, b0, b0_mask, brain_mask, t1_brain_mask,
+        t1_subcortex,
         configure_ncpus_nthreads,
         t1w_pve, wm_gm_interface,
         dam_fit, dam_csf, dam_pseudot1,
@@ -1752,19 +1797,5 @@ def get_data_plan(kwargs):
             else:
                 scalars.append(scalar)
         kwargs["scalars"] = scalars
-
-    bm_def = kwargs.get(
-        "brain_mask_definition", None)
-    if bm_def is not None:
-        if not isinstance(bm_def, Definition):
-            raise TypeError(
-                "brain_mask_definition must be a Definition")
-        del kwargs["brain_mask_definition"]
-        data_tasks["brain_mask_res"] = immlib.calc("brain_mask")(
-            as_file(
-                suffix=(
-                    f'_desc-{str_to_desc(bm_def.get_name())}'
-                    '_mask.nii.gz'),
-                subfolder="models")(bm_def.get_image_getter("data")))
 
     return immlib.plan(**data_tasks)

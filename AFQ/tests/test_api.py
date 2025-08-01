@@ -450,23 +450,16 @@ def test_API_type_checking():
     del myafq
 
     with pytest.raises(
-            TypeError,
-            match="brain_mask_definition must be a Definition"):
-        myafq = GroupAFQ(
-            bids_path,
-            preproc_pipeline='vistasoft',
-            brain_mask_definition="not a brain mask")
-
-    with pytest.raises(
             ValueError,
             match=r"No file found with these parameters:\n*"):
         myafq = GroupAFQ(
             bids_path,
             preproc_pipeline='vistasoft',
-            brain_mask_definition=ImageFile(
-                suffix='dne_dne',
-                filters={'scope': 'dne_dne'}))
-        myafq.export("brain_mask")
+            tracking_params=dict(
+                seed_mask=ImageFile(
+                    suffix='dne_dne',
+                    filters={'scope': 'dne_dne'})))
+        myafq.export("seed_mask")
 
     with pytest.raises(
             TypeError,

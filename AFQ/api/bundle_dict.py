@@ -110,8 +110,7 @@ def default18_bd():
             'exclude': [],
             'space': 'template',
             'prob_map': templates['CST_L_prob_map'],
-            'end': templates['CST_L_start'],
-            'start': templates['CST_L_end']},
+            'end': templates['CST_L_start']},
         'Right Corticospinal': {
             'cross_midline': False,
             'include': [templates['CST_roi2_R'],
@@ -119,8 +118,7 @@ def default18_bd():
             'exclude': [],
             'space': 'template',
             'prob_map': templates['CST_R_prob_map'],
-            'end': templates['CST_R_start'],
-            'start': templates['CST_R_end']},
+            'end': templates['CST_R_start']},
         'Left Inferior Fronto-occipital': {
             'cross_midline': False,
             'include': [templates['IFO_roi2_L'],
