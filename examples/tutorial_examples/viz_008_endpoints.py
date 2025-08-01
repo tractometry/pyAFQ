@@ -33,10 +33,6 @@ subject_id = "NDARKP893TWU"  # Example subject ID
 ses_id = "HBNsiteRU"  # Example session ID
 _, study_dir = afd.fetch_hbn_preproc([subject_id])
 
-brain_mask_definition = afm.ImageFile(
-    suffix="mask",
-    filters={"scope": "qsiprep", "desc": "brain"})
-
 endpoint_maps = {  # Endpoint maps by threshold in mm
     "2": {},
     "3": {},
@@ -85,8 +81,7 @@ for odf_model in ["csd", "msmtcsd"]:
                 "n_seeds": 2000000,
                 "random_seeds": True},
             output_dir=output_dir,
-            endpoint_threshold=None,
-            brain_mask_definition=brain_mask_definition)
+            endpoint_threshold=None)
 
         endpoints_maps = myafq.export("endpoint_maps")
 
