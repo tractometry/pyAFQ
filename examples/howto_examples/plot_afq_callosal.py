@@ -67,6 +67,7 @@ segmentation_params = {"clip_edges": True}
 myafq = GroupAFQ(
     bids_path=op.join(afd.afq_home, 'stanford_hardi'),
     preproc_pipeline='vistasoft',
+    t1_pipeline='freesurfer',
     bundle_info=abd.callosal_bd(),
     tracking_params=tracking_params,
     segmentation_params=segmentation_params,

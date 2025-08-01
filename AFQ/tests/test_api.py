@@ -264,6 +264,7 @@ def test_AFQ_custom_tract():
     myafq = GroupAFQ(
         bids_path,
         preproc_pipeline='vistasoft',
+        t1_pipeline='freesurfer',
         bundle_info=bundle_info,
         import_tract={
             "suffix": "tractography",
@@ -299,6 +300,7 @@ def test_AFQ_fury():
     myafq = GroupAFQ(
         bids_path=bids_path,
         preproc_pipeline='vistasoft',
+        t1_pipeline='freesurfer',
         tracking_params={"n_seeds": 250000},
         viz_backend_spec="fury")
     myafq.export("all_bundles_figure")
@@ -313,6 +315,7 @@ def test_AFQ_trx():
     myafq = GroupAFQ(
         bids_path=bids_path,
         preproc_pipeline='vistasoft',
+        t1_pipeline='freesurfer',
         # should throw warning but not error
         scalars=["dti_fa", "dti_md", ImageFile(suffix="DNE")],
         tracking_params={"trx": True, "n_seeds": 250000})
@@ -368,6 +371,7 @@ def test_AFQ_data():
         myafq = GroupAFQ(
             bids_path=bids_path,
             preproc_pipeline='vistasoft',
+            t1_pipeline='freesurfer',
             mapping_definition=mapping)
         npt.assert_equal(nib.load(myafq.export("b0")["01"]).shape,
                          myafq.export("dwi")["01"].shape[:3])
@@ -389,6 +393,7 @@ def test_AFQ_anisotropic():
     myafq = GroupAFQ(
         bids_path=bids_path,
         preproc_pipeline='vistasoft',
+        t1_pipeline='freesurfer',
         min_bval=1990,
         max_bval=2010,
         b0_threshold=50,
@@ -441,6 +446,7 @@ def test_API_type_checking():
             myafq = GroupAFQ(
                 bids_path,
                 preproc_pipeline='vistasoft',
+                t1_pipeline='freesurfer',
                 import_tract=["dwi"])
             myafq.export("streamlines")
         except LazyError as e:
@@ -455,6 +461,7 @@ def test_API_type_checking():
         myafq = GroupAFQ(
             bids_path,
             preproc_pipeline='vistasoft',
+            t1_pipeline='freesurfer',
             tracking_params=dict(
                 seed_mask=ImageFile(
                     suffix='dne_dne',
@@ -469,6 +476,7 @@ def test_API_type_checking():
         myafq = GroupAFQ(
             bids_path,
             preproc_pipeline='vistasoft',
+            t1_pipeline='freesurfer',
             bundle_info=[2, 3])
         try:
             myafq.export("bundle_dict")
@@ -485,6 +493,7 @@ def test_API_type_checking():
         myafq = GroupAFQ(
             bids_path,
             preproc_pipeline='vistasoft',
+            t1_pipeline='freesurfer',
             mapping_definition=IdentityMap(),
             reg_subject_spec="dti_fa_subject",
             tracking_params={
@@ -509,6 +518,7 @@ def test_API_type_checking():
         myafq = GroupAFQ(
             bids_path,
             preproc_pipeline='vistasoft',
+            t1_pipeline='freesurfer',
             viz_backend_spec="matplotlib")
         try:
             myafq.export("viz_backend")
@@ -536,6 +546,7 @@ def test_AFQ_slr():
     myafq = GroupAFQ(
         bids_path=bids_path,
         preproc_pipeline='vistasoft',
+        t1_pipeline='freesurfer',
         reg_subject_spec='subject_sls',
         reg_template_spec='hcp_atlas',
         import_tract=op.join(
@@ -565,6 +576,7 @@ def test_AFQ_reco():
     myafq = GroupAFQ(
         bids_path=bids_path,
         preproc_pipeline='vistasoft',
+        t1_pipeline='freesurfer',
         viz_backend_spec="plotly",
         profile_weights="median",
         bundle_info=abd.reco_bd(16),
@@ -594,6 +606,7 @@ def test_AFQ_reco80():
     myafq = GroupAFQ(
         bids_path=bids_path,
         preproc_pipeline='vistasoft',
+        t1_pipeline='freesurfer',
         tracking_params=tracking_params,
         bundle_info=abd.reco_bd(16),
         segmentation_params={
@@ -622,6 +635,7 @@ def test_AFQ_filterb():
     myafq = GroupAFQ(
         bids_path=bids_path,
         preproc_pipeline='vistasoft',
+        t1_pipeline='freesurfer',
         max_bval=1000)
     myafq.export("b0")
 
@@ -646,6 +660,7 @@ def test_AFQ_custom_subject_reg():
     b0_file = GroupAFQ(
         bids_path,
         preproc_pipeline='vistasoft',
+        t1_pipeline='freesurfer',
         bundle_info=bundle_info).export("b0")["01"]
 
     # make a different temporary directly to test this custom file in
@@ -656,6 +671,7 @@ def test_AFQ_custom_subject_reg():
     myafq = GroupAFQ(
         bids_path,
         preproc_pipeline='vistasoft',
+        t1_pipeline='freesurfer',
         bundle_info=bundle_info,
         reg_template_spec="mni_T2",
         reg_subject_spec=ImageFile(
@@ -674,6 +690,7 @@ def test_AFQ_FA():
     myafq = GroupAFQ(
         bids_path=bids_path,
         preproc_pipeline='vistasoft',
+        t1_pipeline='freesurfer',
         reg_template_spec='dti_fa_template',
         reg_subject_spec='dti_fa_subject')
     myafq.export("rois")
@@ -705,27 +722,6 @@ def test_auto_cli():
             ValueError,
             match="There must be a dataset_description.json in bids_path"):
         afb.parse_config_run_afq(config_file, arg_dict, False)
-
-
-@pytest.mark.skip(reason="causes segmentation fault")
-def test_run_using_auto_cli():
-    tmpdir, bids_path, _ = get_temp_hardi()
-    config_file = op.join(tmpdir.name, 'test.toml')
-
-    arg_dict = afb.func_dict_to_arg_dict()
-
-    # set our custom defaults for the toml file
-    # It is easier to edit them here, than to parse the file and edit them
-    # after the file is written
-    arg_dict['BIDS_PARAMS']['bids_path']['default'] = bids_path
-    arg_dict['BIDS_PARAMS']['dmriprep']['default'] = 'vistasoft'
-    arg_dict['DATA']['bundle_info']['default'] = abd.default18_bd()[(
-        "Left Corticospinal")]
-    arg_dict['TRACTOGRAPHY_PARAMS']['n_seeds']['default'] = 500
-    arg_dict['TRACTOGRAPHY_PARAMS']['random_seeds']['default'] = True
-
-    afb.generate_config(config_file, arg_dict, False)
-    afb.parse_config_run_afq(config_file, arg_dict, False)
 
 
 def test_AFQ_data_waypoint():
@@ -779,7 +775,7 @@ def test_AFQ_data_waypoint():
     }
 
     tracking_params = dict(odf_model="csd",
-                           n_seeds=5000,
+                           n_seeds=2000,
                            random_seeds=True,
                            rng_seed=42)
     segmentation_params = dict(return_idx=True)
@@ -920,7 +916,8 @@ def test_AFQ_data_waypoint():
     config = dict(
         BIDS_PARAMS=dict(
             bids_path=bids_path,
-            preproc_pipeline='vistasoft'),
+            preproc_pipeline='vistasoft',
+            t1_pipeline='freesurfer',),
         DATA=dict(
             bundle_info=bundle_dict_as_str),
         SEGMENTATION=dict(

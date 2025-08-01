@@ -139,6 +139,7 @@ bundles = abd.BundleDict({
 myafq = GroupAFQ(
     bids_path=op.join(afd.afq_home, 'stanford_hardi'),
     preproc_pipeline='vistasoft',
+    t1_pipeline='freesurfer',
     tracking_params=tracking_params,
     bundle_info=bundles)
 
