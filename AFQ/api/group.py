@@ -79,6 +79,7 @@ class GroupAFQ(object):
                  bids_path,
                  bids_filters={"suffix": "dwi"},
                  preproc_pipeline="all",
+                 t1_pipeline=None,
                  participant_labels=None,
                  output_dir=None,
                  parallel_params={"engine": "serial"},
@@ -99,6 +100,10 @@ class GroupAFQ(object):
         preproc_pipeline : str, optional.
             The name of the pipeline used to preprocess the DWI data.
             Default: "all".
+        t1_pipeline : str or None, optional
+            The name of the pipeline used to preprocess the T1w data.
+            If None, defaults to the same as preproc_pipeline.
+            Default: None
         participant_labels : list or None, optional
             List of participant labels (subject IDs) to perform
             processing on. If None, all subjects are used.
@@ -309,6 +314,8 @@ class GroupAFQ(object):
                 bval_file = bids_layout.get_bval(
                     dwi_data_file,
                     **nearby_filters)
+                nearby_filters.pop("scope", None)
+                nearby_filters["scope"] = t1_pipeline
                 t1_file = find_file(
                     bids_layout, dwi_data_file,
                     nearby_filters,

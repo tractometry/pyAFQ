@@ -37,6 +37,7 @@ tracking_params = dict(n_seeds=100,
 myafq = GroupAFQ(
     bids_path=op.join(afd.afq_home, 'stanford_hardi'),
     preproc_pipeline='vistasoft',
+    t1_pipeline='freesurfer',
     tracking_params=tracking_params)
 
 ###################
@@ -62,6 +63,7 @@ myafq.cmd_outputs()
 myafq = GroupAFQ(
     bids_path=op.join(afd.afq_home, 'stanford_hardi'),
     preproc_pipeline='vistasoft',
+    t1_pipeline='freesurfer',
     b0_threshold=100,
     tracking_params=tracking_params)
 
@@ -103,6 +105,7 @@ tracking_params = dict(n_seeds=100,
 myafq = GroupAFQ(
     bids_path=op.join(afd.afq_home, 'stanford_hardi'),
     preproc_pipeline='vistasoft',
+    t1_pipeline='freesurfer',
     b0_threshold=100,
     tracking_params=tracking_params)
 
