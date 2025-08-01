@@ -15,6 +15,7 @@ from AFQ.api.utils import (
 import AFQ.utils.streamlines as aus
 from AFQ.viz.utils import get_eye
 from AFQ.data.utils import aws_import_msg_error
+from AFQ.definitions.utils import find_file
 
 from dipy.utils.parallel import paramap
 from dipy.io.stateful_tractogram import StatefulTractogram, Space
@@ -300,20 +301,18 @@ class GroupAFQ(object):
                 # files. Maintain input ``bids_filters`` in case user wants to
                 # specify acquisition labels, but pop suffix since it is
                 # already specified inside ``get_bvec()`` and ``get_bval()``
-                suffix = bids_filters.pop("suffix", None)
+                nearby_filters = {**bids_filters, "scope": preproc_pipeline}
+                nearby_filters.pop("suffix", None)
                 bvec_file = bids_layout.get_bvec(
                     dwi_data_file,
-                    **bids_filters)
+                    **nearby_filters)
                 bval_file = bids_layout.get_bval(
                     dwi_data_file,
-                    **bids_filters)
-                t1_files = bids_layout.get(suffix="T1w", **bids_filters)
-                if (not len(t1_files)):
-                    self.logger.warning(
-                        f"No T1w found for subject {subject} and session "
-                        f"{session}. Skipping.")
-                    continue
-                t1_file = t1_files[0]
+                    **nearby_filters)
+                t1_file = find_file(
+                    bids_layout, dwi_data_file,
+                    nearby_filters,
+                    "T1w", session, subject)
 
                 self.logger.info(
                     f"Using the following files for subject {subject} "
@@ -322,9 +321,6 @@ class GroupAFQ(object):
                 self.logger.info(f"  BVAL: {bval_file}")
                 self.logger.info(f"  BVEC: {bvec_file}")
                 self.logger.info(f"  T1: {t1_file}")
-
-                if suffix is not None:
-                    bids_filters["suffix"] = suffix
 
                 # Call find path for all definitions
                 for key, value in this_kwargs.items():
@@ -1097,7 +1093,7 @@ class ParallelGroupAFQ():
             if "'NoneType' object has no attribute 'replace'" not in str(e):
                 raise
 
-    def export(self, attr_name="help", collapse=True):
+    def export(self, attr_name="help"):
         f"""
         Export a specific output. To print a list of available outputs,
         call export without arguments.
@@ -1107,9 +1103,6 @@ class ParallelGroupAFQ():
         ----------
         attr_name : str
             Name of the output to export. Default: "help"
-        collapse : bool
-            Whether to collapse session dimension if there is only 1 session.
-            Default: True
 
         Returns
         -------

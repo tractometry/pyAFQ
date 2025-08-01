@@ -2,7 +2,6 @@ import nibabel as nib
 import numpy as np
 import logging
 import multiprocessing
-import subprocess
 import os.path as op
 
 from dipy.io.gradients import read_bvals_bvecs
@@ -51,6 +50,8 @@ from AFQ.models.msmt import MultiShellDeconvModel
 from AFQ.models.asym_filtering import (
     unified_filtering, compute_asymmetry_index,
     compute_odd_power_map, compute_nufid_asym)
+
+from AFQ.nn.brainchop import run_brainchop
 
 logger = logging.getLogger('AFQ')
 
@@ -1555,11 +1556,11 @@ def dki_ak(dki_tf):
     return dki_tf.ak
 
 
-@immlib.calc("t1_brain_mask", "t1_masked")
-def t1_brain_mask(base_fname, t1_file):
+@immlib.calc("t1_brain_mask")  # TODO: t1_masked
+@as_file(suffix='_desc-T1w_mask.nii.gz')
+def t1_brain_mask(t1_file):
     """
     full path to a nifti file containing brain mask from T1w image,
-    full path to a nifti file containing T1w image masked by the brain mask
 
     References
     ----------
@@ -1568,45 +1569,14 @@ def t1_brain_mask(base_fname, t1_file):
         Software, 8(83), 5098.
         https://doi.org/10.21105/joss.05098
     """
-    bm_file = get_fname(
-        base_fname,
-        f"_desc-brain_mask.nii.gz")
-    bm_file_json = get_fname(
-        base_fname,
-        f"_desc-brain_mask.json")
-    t1_masked_file = get_fname(
-        base_fname,
-        f"_desc-masked_T1w.nii.gz")
-    t1_masked_json = get_fname(
-        base_fname,
-        f"_desc-masked_T1w.json")
-
-    if not op.exists(bm_file) or not op.exists(t1_masked_file):
-        logger.info(
-            "Creating brain mask using Brainchop...")
-
-        command = [
-            "brainchop",
-            t1_file,
-            "-o", t1_masked_file,
-            "-a", bm_file,
-            "-m", "mindgrab"
-        ]
-
-        subprocess.run(command, check=True, capture_output=True, text=True)
-
-        meta = dict(
-            T1w=t1_file,
-            model="brainchop")
-
-        write_json(bm_file_json, meta)
-        write_json(t1_masked_json, meta)
-
-    return bm_file, t1_masked_file
+    return run_brainchop(nib.load(t1_file), "mindgrab"), dict(
+        T1w=t1_file,
+        model="brainchop")
 
 
 @immlib.calc("t1_subcortex")
-def t1_subcortex(base_fname, t1_masked):
+@as_file(suffix='_desc-subcortex_probseg.nii.gz')
+def t1_subcortex(t1_file, t1_brain_mask):
     """
     full path to a nifti file containing segmentation of
     subcortical structures from T1w image using Brainchop
@@ -1618,46 +1588,32 @@ def t1_subcortex(base_fname, t1_masked):
         Software, 8(83), 5098.
         https://doi.org/10.21105/joss.05098
     """
-    t1_subcortex_file = get_fname(
-        base_fname,
-        f"_desc-subcortex_probseg.nii.gz")
-    t1_subcortex_json = get_fname(
-        base_fname,
-        f"_desc-subcortex_probseg.json")
+    t1_img = nib.load(t1_file)
+    t1_data = t1_img.get_fdata()
+    t1_mask = nib.load(t1_brain_mask)
+    t1_data[t1_mask.get_fdata() == 0] = 0
+    t1_img_masked = nib.Nifti1Image(
+        t1_data, t1_img.affine)
 
-    if not op.exists(t1_subcortex_file):
-        logger.info(
-            "Creating subcortical segmentation using Brainchop...")
+    subcortical_img = run_brainchop(
+        t1_img_masked, "subcortical")
 
-        command = [
-            "brainchop",
-            t1_masked,
-            "-i",
-            "-o", t1_subcortex_file,
-            "-m", "subcortical"
-        ]
+    meta = dict(
+        T1w=t1_file,
+        model="subcortical",
+        labels=[
+            "Unknown", "Cerebral-White-Matter", "Cerebral-Cortex",
+            "Lateral-Ventricle", "Inferior-Lateral-Ventricle",
+            "Cerebellum-White-Matter", "Cerebellum-Cortex",
+            "Thalamus", "Caudate", "Putamen", "Pallidum",
+            "3rd-Ventricle", "4th-Ventricle", "Brain-Stem",
+            "Hippocampus", "Amygdala", "Accumbens-area", "VentralDC"])
 
-        subprocess.run(command, check=True, capture_output=True, text=True)
-
-        meta = dict(
-            T1w=t1_masked,
-            model="subcortical",
-            labels=[
-                "Unknown", "Cerebral-White-Matter", "Cerebral-Cortex",
-                "Lateral-Ventricle", "Inferior-Lateral-Ventricle",
-                "Cerebellum-White-Matter", "Cerebellum-Cortex",
-                "Thalamus", "Caudate", "Putamen", "Pallidum",
-                "3rd-Ventricle", "4th-Ventricle", "Brain-Stem",
-                "Hippocampus", "Amygdala", "Accumbens-area", "VentralDC"])
-
-        write_json(t1_subcortex_json, meta)
-
-    return t1_subcortex_file
+    return subcortical_img, meta
 
 
 @immlib.calc("brain_mask")
 @as_file('_desc-brain_mask.nii.gz')
-@as_img
 def brain_mask(t1_brain_mask, b0):
     """
     full path to a nifti file containing the brain mask

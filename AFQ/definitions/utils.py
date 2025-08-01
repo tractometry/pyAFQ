@@ -96,6 +96,8 @@ def find_file(bids_layout, path, filters, suffix, session, subject,
     Helper function
     Generic calls to get_nearest to find a file
     """
+    filters = filters.copy()
+
     if "extension" not in filters:
         filters["extension"] = extension
     if "suffix" not in filters:
