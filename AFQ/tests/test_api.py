@@ -618,7 +618,6 @@ def test_AFQ_reco80():
     npt.assert_(len(seg_sft.get_bundle('CCMid').streamlines) > 0)
 
 
-@pytest.mark.skip(reason="fixed in next tinygrad update (0.10.4)")
 def test_AFQ_pydra():
     participants = ["NDARAA948VFH", "NDARAV554TP2"]
     _, bids_path = afd.fetch_hbn_preproc(participants)
