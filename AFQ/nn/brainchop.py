@@ -43,7 +43,7 @@ def run_brainchop(t1_img, model):
         use_cpu = (os.getenv("CC") is not None) or \
             (os.getenv("clang") is not None)
 
-        with Context(DEBUG=7):
+        with Context(JIT=0):
             output_channels = model(image)
 
         output = (
