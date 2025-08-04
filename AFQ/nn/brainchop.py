@@ -40,10 +40,14 @@ def run_brainchop(t1_img, model):
             "... -> 1 1 ..."
         )
 
-        use_cpu = (os.getenv("CC") is not None) or \
-            (os.getenv("clang") is not None)
+        if (os.getenv("CC") is None) and \
+                (os.getenv("clang") is None):
+            logger.info("No C compiler found, brainchop may be slower.")
+            use_cpu = 0
+        else:
+            use_cpu = 1
 
-        with Context(JIT=0):
+        with Context(ALLOW_DEVICE_USAGE=use_cpu):
             output_channels = model(image)
 
         output = (
