@@ -1,5 +1,6 @@
 import subprocess
 import tempfile
+import os
 
 import numpy as np
 import nibabel as nib
@@ -10,6 +11,7 @@ from brainchop.niimath import (
     bwlabel)
 
 from tinygrad import Tensor
+from tinygrad.helpers import Context
 
 import logging
 
@@ -38,7 +40,11 @@ def run_brainchop(t1_img, model):
             "... -> 1 1 ..."
         )
 
-        output_channels = model(image)
+        use_cpu = (os.getenv("CC") is not None) or \
+            (os.getenv("clang") is not None)
+
+        with Context(cpu=use_cpu):
+            output_channels = model(image)
 
         output = (
             output_channels.argmax(axis=1)
