@@ -20,7 +20,7 @@ import AFQ.api.bundle_dict as abd
 
 afd.organize_stanford_data(clear_previous_afq="track")
 
-tracking_params = dict(n_seeds=100000,
+tracking_params = dict(n_seeds=25000,
                        random_seeds=True,
                        rng_seed=42)
 
