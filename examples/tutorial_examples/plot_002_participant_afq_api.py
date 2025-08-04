@@ -81,7 +81,7 @@ os.makedirs(output_dir, exist_ok=True)
 # distributed in the white matter. We only do this to make this example
 # faster and consume less space.
 
-tracking_params = dict(n_seeds=100000,
+tracking_params = dict(n_seeds=25000,
                        random_seeds=True,
                        rng_seed=2025,
                        trx=True)
