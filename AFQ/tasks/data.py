@@ -9,7 +9,6 @@ import dipy.core.gradients as dpg
 from dipy.data import default_sphere, get_sphere
 
 import immlib
-import pimms
 
 import dipy.reconst.dki as dpy_dki
 import dipy.reconst.dti as dpy_dti
@@ -162,7 +161,7 @@ def b0_mask(b0, brain_mask):
     return masked_data, meta
 
 
-@pimms.calc("dam_params")
+@immlib.calc("dam_params")
 @as_file(suffix='_model-dam_param-slopeintercept_dwimap.nii.gz',
          subfolder="models")
 @as_img
@@ -193,7 +192,7 @@ def dam_fit(data, gtab, masked_b0,
     return params_map, dict(low_signal_thresh=dam_low_signal_thresh)
 
 
-@pimms.calc("dam_csf")
+@immlib.calc("dam_csf")
 @as_file(suffix='_model-dam_param-csf_probseg.nii.gz',
          subfolder="models")
 @as_img
@@ -209,7 +208,7 @@ def dam_csf(dam_params):
         threshold=threshold)
 
 
-@pimms.calc("dam_pseudot1")
+@immlib.calc("dam_pseudot1")
 @as_file(suffix='_model-dam_param-pseudot1_dwimap.nii.gz',
          subfolder="models")
 @as_img
@@ -225,7 +224,7 @@ def dam_pseudot1(dam_params, dam_csf):
     return pseudo_t1, dict(source=dam_params)
 
 
-@pimms.calc("dki_csf")
+@immlib.calc("dki_csf")
 @as_file(suffix='_model-dki_param-csf_probseg.nii.gz',
          subfolder="models")
 @as_img
@@ -251,7 +250,7 @@ def dki_csf(dki_md):
         peak_sigma=peak_sigma)
 
 
-@pimms.calc("dki_wm")
+@immlib.calc("dki_wm")
 @as_file(suffix='_model-dki_param-wm_probseg.nii.gz',
          subfolder="models")
 @as_img
@@ -278,7 +277,7 @@ def dki_wm(dki_fa, dki_wm_ll=0.1, dki_gm_ul=0.3):
         dki_gm_ul=dki_gm_ul)
 
 
-@pimms.calc("dki_gm")
+@immlib.calc("dki_gm")
 @as_file(suffix='_model-dki_param-gm_probseg.nii.gz',
          subfolder="models")
 @as_img
@@ -1556,7 +1555,7 @@ def dki_ak(dki_tf):
     return dki_tf.ak
 
 
-@immlib.calc("t1_brain_mask")  # TODO: t1_masked
+@immlib.calc("t1_brain_mask")
 @as_file(suffix='_desc-T1w_mask.nii.gz')
 def t1_brain_mask(t1_file):
     """
@@ -1623,7 +1622,7 @@ def brain_mask(t1_brain_mask, b0):
 
 
 @immlib.calc("bundle_dict", "reg_template", "tmpl_name")
-def get_bundle_dict(brain_mask, b0,
+def get_bundle_dict(b0,
                     bundle_info=None, reg_template_spec="mni_T1",
                     reg_template_space_name="mni"):
     """
@@ -1667,24 +1666,20 @@ def get_bundle_dict(brain_mask, b0,
     if bundle_info is None:
         bundle_info = abd.default18_bd() + abd.callosal_bd()
 
-    use_brain_mask = True
-    brain_mask = nib.load(brain_mask).get_fdata()
-    if np.all(brain_mask == 1.0):
-        use_brain_mask = False
     if isinstance(reg_template_spec, nib.Nifti1Image):
         reg_template = reg_template_spec
     else:
         img_l = reg_template_spec.lower()
         if img_l == "mni_t2":
             reg_template = afd.read_mni_template(
-                mask=use_brain_mask, weight="T2w")
+                mask=True, weight="T2w")
         elif img_l == "mni_t1":
             reg_template = afd.read_mni_template(
-                mask=use_brain_mask, weight="T1w")
+                mask=True, weight="T1w")
         elif img_l == "dti_fa_template":
-            reg_template = afd.read_ukbb_fa_template(mask=use_brain_mask)
+            reg_template = afd.read_ukbb_fa_template(mask=True)
         elif img_l == "hcp_atlas":
-            reg_template = afd.read_mni_template(mask=use_brain_mask)
+            reg_template = afd.read_mni_template(mask=True)
         elif img_l == "pediatric":
             reg_template = afd.read_pediatric_templates()[
                 "UNCNeo-withCerebellum-for-babyAFQ"]

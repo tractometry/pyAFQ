@@ -529,6 +529,7 @@ def test_API_type_checking():
     del myafq
 
 
+@pytest.mark.nightly_anisotropic
 def test_AFQ_slr():
     """
     Test if API can run using slr map

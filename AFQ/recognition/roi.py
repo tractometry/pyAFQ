@@ -56,7 +56,7 @@ def clean_by_endpoints(streamlines, target, target_idx, tol=0,
         Where N is number of nodes in the array, the collection of
         streamlines to filter down to.
     target: Nifti1Image
-        Nifti1Image containing a boolean representation of the ROI.
+        Nifti1Image containing a distance transform of the ROI.
     target_idx: int.
         Index within each streamline to check if within the target region.
         Typically 0 for startpoint ROIs or -1 for endpoint ROIs.
