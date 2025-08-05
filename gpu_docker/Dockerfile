@@ -8,7 +8,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 # upgrade
 RUN apt-get update && apt-get install --assume-yes apt-transport-https \
 	ca-certificates gnupg software-properties-common \
-	gcc git wget curl numactl cmake
+	gcc git wget curl numactl cmake clang
 
 # Miniconda3
 RUN curl -L "https://repo.anaconda.com/miniconda/Miniconda3-py312_25.3.1-1-Linux-x86_64.sh" \
@@ -18,6 +18,7 @@ RUN rm -rf /tmp/Miniconda3.sh
 RUN cd /opt && eval "$(/opt/anaconda/bin/conda shell.bash hook)"
 ENV PATH /opt/anaconda/bin:${PATH}
 ENV LD_LIBRARY_PATH /opt/anaconda/lib:${LD_LIBRARY_PATH}
+ENV LD_LIBRARY_PATH /usr/lib/x86_64-linux-gnu:${LD_LIBRARY_PATH}
 
 # python prereqs
 RUN conda install -c conda-forge git
