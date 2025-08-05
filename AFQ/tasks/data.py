@@ -122,9 +122,10 @@ def configure_ncpus_nthreads(ray_n_cpus=None, numba_n_threads=None):
         Default: None
     """
     if ray_n_cpus is None:
-        ray_n_cpus = multiprocessing.cpu_count() - 1
+        ray_n_cpus = max(multiprocessing.cpu_count() - 1, 1)
     if numba_n_threads is None:
-        numba_n_threads = multiprocessing.cpu_count() - 1
+        numba_n_threads = min(
+            max(multiprocessing.cpu_count() - 1, 1), 16)
 
     return ray_n_cpus, numba_n_threads
 
