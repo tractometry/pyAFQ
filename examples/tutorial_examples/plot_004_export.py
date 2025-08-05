@@ -47,7 +47,7 @@ myafq = ParticipantAFQ(
     t1_file=t1_file,
     output_dir=output_dir,
     tracking_params={
-        "n_seeds": 25000,
+        "n_seeds": 10000,
         "random_seeds": True,
         "rng_seed": 2022,
         "trx": True
