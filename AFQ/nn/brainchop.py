@@ -40,7 +40,14 @@ def run_brainchop(t1_img, model):
             "... -> 1 1 ..."
         )
 
-        output_channels = model(image)
+        try:
+            output_channels = model(image)
+        except Exception as e:
+            if "clang" in str(e).lower():
+                with Context(PYTHON=1):
+                    output_channels = model(image)
+            else:
+                raise
 
         output = (
             output_channels.argmax(axis=1)
