@@ -35,7 +35,7 @@ afd.organize_stanford_data(clear_previous_afq="track")
 # We only do this to make this example faster and consume less space.
 
 tracking_params = dict(seed_mask=RoiImage(),
-                       n_seeds=10000,
+                       n_seeds=25000,
                        random_seeds=True,
                        rng_seed=42)
 
