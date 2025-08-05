@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=42", "wheel", "setuptools_scm[toml]>=3.4"]
+requires = ["setuptools>=42", "wheel", "setuptools_scm>=3.4"]
 build-backend = "setuptools.build_meta"
 
 [tool.pytest.ini_options]
@@ -12,3 +12,6 @@ markers = [
     "nightly_custom",
     "nightly",
 ]
+
+[tool.setuptools_scm]
+write_to = "pyAFQ/_version.py"
