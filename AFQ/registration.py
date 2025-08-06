@@ -33,8 +33,8 @@ def syn_register_dwi(dwi, gtab, template=None, **syn_kwargs):
     -----------
     dwi : nifti image or str
         Image containing DWI data, or full path to a nifti file with DWI.
-    gtab : GradientTable or list of strings
-        The gradients associated with the DWI data, or a string with [fbcal, ]
+    gtab : GradientTable
+        The gradients associated with the DWI data
     template : nifti image or str, optional
 
     syn_kwargs : key-word arguments for :func:`syn_registration`
@@ -54,9 +54,6 @@ def syn_register_dwi(dwi, gtab, template=None, **syn_kwargs):
 
     if isinstance(dwi, str):
         dwi = nib.load(dwi)
-
-    if not isinstance(gtab, dpg.GradientTable):
-        gtab = dpg.gradient_table(*gtab)
 
     dwi_affine = dwi.affine
     dwi_data = dwi.get_fdata()

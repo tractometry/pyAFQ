@@ -62,7 +62,7 @@ def test_predict_dti():
         make_dti_data(fbval, fbvec, fdata)
         file_dict = dti.fit_dti(fdata, fbval, fbvec, out_dir=tmpdir)
         params_file = file_dict['params']
-        gtab = dpg.gradient_table(fbval, fbvec)
+        gtab = dpg.gradient_table(bvals=fbval, bvecs=fbvec)
         predict_fname = dti.predict(params_file, gtab, S0_file=fdata,
                                     out_dir=tmpdir)
         prediction = nib.load(predict_fname).get_fdata()
