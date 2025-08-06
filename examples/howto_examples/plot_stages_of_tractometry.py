@@ -131,9 +131,9 @@ dmri_img = nib.load(op.join(
 
 gtab = gradient_table(
     bvecs=op.join(qsiprep_path, "dwi",
-                  "sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi.bvecs"),
+                  "sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi.bvec"),
     bvals=op.join(qsiprep_path, "dwi",
-                  "sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi.bvals"))
+                  "sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi.bval"))
 
 dmri_data = dmri_img.get_fdata()
 
