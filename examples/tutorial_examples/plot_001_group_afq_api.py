@@ -56,10 +56,13 @@ afd.organize_stanford_data(clear_previous_afq="track")
 # ---------------------------------------
 # We make create a `tracking_params` variable, which we will pass to the
 # GroupAFQ object which specifies that we want 25,000 seeds randomly
-# distributed in the white matter. We only do this to make this example
-# faster and consume less space.
+# distributed in the white matter, propogated using DIPY's probabilistic
+# algorithm. We only do this to make this example faster and consume less
+# space; normally, we use more seeds and particle filtering tractography
+# (PFT)
 
 tracking_params = dict(n_seeds=25000,
+                       directions='prob',
                        random_seeds=True,
                        rng_seed=2025,
                        trx=True)
