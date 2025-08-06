@@ -44,7 +44,7 @@ Takemura et al. (2024)
 When you collect diffusion data, you are perturburing water molecules
 and observing how they respond. Within the gray matter and corticospinal
 fluid (CSF), they typically respond roughly isotroptically. But in large
-groups of axons, the myelin sheath costrains water diffusion and
+groups of axons, the myelin sheath constrains water diffusion and
 produces an anisotropic signal! Here we visualize this as a tensor,
 which is how diffusion tensor imaging (DTI) models the data.
 
@@ -88,7 +88,7 @@ such as myelination, axon coherence, density of axons.
 
 Notice: There are many models for modelling diffusion data, and many
 acronyms! Here we introduced diffusion tensor imaging (DTI), and one
-metric from DTI: fractional anistropy (FA). But pyAFQ uses many more
+metric from DTI: fractional anisotropy (FA). But pyAFQ uses many more
 models and metrics than just this!
 
 .. image:: ../_static/beaware.png
@@ -133,7 +133,7 @@ these streamlines are not biologically plausible.
 Jeurissen et al., 2017, also: Behrens, 2013,
 Descoteaux, 2014, Dell'Acqua, 2014, Tournier, 2014
 
-Notice: probabilistic tracking is used due to the inherit ambiguity of
+Notice: probabilistic tracking is used due to the inherent ambiguity of
 the data 
 
 .. image:: ../_static/inherintambiguity.png
