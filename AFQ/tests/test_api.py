@@ -421,6 +421,7 @@ def test_AFQ_anisotropic():
         'models/sub-01_ses-01_model-csd_param-apm_dwimap.nii.gz'))
 
 
+@pytest.mark.nightly_basic
 def test_API_type_checking():
     _, bids_path, _ = get_temp_hardi()
     seed = 2022
