@@ -777,6 +777,7 @@ def test_AFQ_data_waypoint():
 
     tracking_params = dict(odf_model="csd",
                            n_seeds=2000,
+                           directions="prob",  # for efficiency
                            random_seeds=True,
                            rng_seed=42)
     segmentation_params = dict(return_idx=True)
@@ -899,7 +900,8 @@ def test_AFQ_data_waypoint():
     # ROI mask needs to be put in quotes in config
     tracking_params = dict(
         odf_model="CSD",
-        n_seeds=5000,
+        n_seeds=2000,
+        directions="prob",  # for efficiency
         random_seeds=True,
         rng_seed=42)
     bundle_dict_as_str = (
