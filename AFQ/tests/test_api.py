@@ -619,6 +619,7 @@ def test_AFQ_reco80():
     npt.assert_(len(seg_sft.get_bundle('CCMid').streamlines) > 0)
 
 
+@pytest.mark.nightly_reco80
 def test_AFQ_pydra():
     participants = ["NDARAA948VFH", "NDARAV554TP2"]
     _, bids_path = afd.fetch_hbn_preproc(participants)
