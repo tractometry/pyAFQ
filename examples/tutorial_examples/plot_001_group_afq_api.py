@@ -91,7 +91,7 @@ tracking_params = dict(n_seeds=25000,
 # We will also be using plotly to generate an interactive visualization.
 # The value `plotly_no_gif` indicates that interactive visualizations will be
 # generated as html web-pages that can be opened in a browser, but not as
-# static gif files. We set ray_num_cpus=1 to avoid memory issues running this
+# static gif files. We set ray_n_cpus=1 to avoid memory issues running this
 # example on servers.
 
 myafq = GroupAFQ(
@@ -99,7 +99,7 @@ myafq = GroupAFQ(
     preproc_pipeline='vistasoft',
     t1_pipeline='freesurfer',
     tracking_params=tracking_params,
-    ray_num_cpus=1,
+    ray_n_cpus=1,
     viz_backend_spec='plotly_no_gif')
 
 ##########################################################################

@@ -105,7 +105,7 @@ tracking_params = dict(n_seeds=10000,
 #
 # To initialize the object, we will pass in the diffusion data files and specify
 # the output directory where we want to store the results. We will also
-# pass in the tracking parameters we defined above. We set ray_num_cpus=1
+# pass in the tracking parameters we defined above. We set ray_n_cpus=1
 # to avoid memory issues running this example on servers.
 
 myafq = ParticipantAFQ(
@@ -115,7 +115,7 @@ myafq = ParticipantAFQ(
     t1_file=t1_file,
     output_dir=output_dir,
     tracking_params=tracking_params,
-    ray_num_cpus=1,
+    ray_n_cpus=1,
 )
 
 ##########################################################################
