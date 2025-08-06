@@ -33,7 +33,8 @@ tracking_params = dict(n_seeds=5000,
 # Parameters of this process are set through a dictionary input to the
 # `segmentation_params` argument of the GroupAFQ object. In this case, we
 # use `abd.reco_bd(16)`, which tells pyAFQ to use the RecoBundles
-# algorithm for bundle recognition.
+# algorithm for bundle recognition. This uses 16 bundles, there is also
+# an atlas `abd.reco_bd(80)` which uses 80 bundles.
 
 myafq = GroupAFQ(
     output_dir=op.join(afd.afq_home, 'stanford_hardi', 'derivatives',

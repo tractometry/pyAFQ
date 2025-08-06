@@ -61,7 +61,7 @@ afd.organize_stanford_data(clear_previous_afq="track")
 # space; normally, we use more seeds and particle filtering tractography
 # (PFT)
 
-tracking_params = dict(n_seeds=25000,
+tracking_params = dict(n_seeds=10000,
                        directions='prob',
                        random_seeds=True,
                        rng_seed=2025,
@@ -226,7 +226,7 @@ for ind in bundle_counts.index:
     if ind == "Total Recognized":
         threshold = 1000
     elif "Callosum" in ind:
-        threshold = 5
+        threshold = 0
     else:
         threshold = 10
     if bundle_counts["n_streamlines"][ind] < threshold:
