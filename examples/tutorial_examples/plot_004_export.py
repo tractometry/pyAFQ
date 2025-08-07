@@ -23,7 +23,7 @@ import AFQ.data.fetch as afd
 # :doc:`plot_002_participant_afq_api` example. Please refer to that
 # example for a detailed description of the parameters.
 
-afd.organize_stanford_data(clear_previous_afq="track")
+afd.organize_stanford_data()
 
 data_dir = op.join(afd.afq_home, "stanford_hardi", "derivatives", "vistasoft",
                    "sub-01", "ses-01", "dwi")
