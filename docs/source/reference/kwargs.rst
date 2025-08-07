@@ -44,9 +44,6 @@ dki_wm_ll: float
 dki_gm_ul: float
 	Upper limit of FA in gray matter to calculate probability mask. Default: 0.3
 
-pve_nclass: int
-	The number of tissue classes to segment Default: 3
-
 robust_tensor_fitting: bool
 	Whether to use robust_tensor_fitting when doing dti. Only applies to dti. Default: False
 
@@ -97,9 +94,6 @@ sphere: Sphere class instance
 
 gtol: float
 	This input is to refine kurtosis maxima under the precision of the directions sampled on the sphere class instance. The gradient of the convergence procedure must be less than gtol before successful termination. If gtol is None, fiber direction is directly taken from the initial sampled directions of the given sphere object. Default: 1e-2
-
-brain_mask_definition: instance from `AFQ.definitions.image`
-	This will be used to create the brain mask, which gets applied before registration to a template. If you want no brain mask to be applied, use FullImage. If None, use B0Image() Default: None
 
 bundle_info: dict or BundleDict
 	A dictionary or BundleDict for use in segmentation. See `Defining Custom Bundle Dictionaries` in the `usage` section of pyAFQ's documentation for details. If None, will get all appropriate bundles for the chosen segmentation algorithm. Default: None
