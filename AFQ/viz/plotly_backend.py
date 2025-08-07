@@ -94,7 +94,9 @@ def _draw_streamlines(figure, sls, dimensions, color, name, cbv=None, cbs=None,
         line_color = np.zeros((plotting_shape, cbs.shape[1]))
         color = cbs[0, :]
     elif cbv is not None:
-        cbv = np.max(cbv) - cbv  # Darker in higher values
+        # Invert the color mapping so that higher
+        # values in cbv are mapped to darker colors
+        cbv = np.max(cbv) - cbv
         if sbv_lims[0] is None:
             sbv_lims[0] = np.percentile(cbv, 1)
         if sbv_lims[1] is None:
@@ -245,7 +247,6 @@ def _plot_profiles(profiles, bundle_name, color, fig, scalar):
         for indiv_color in color:
             line_color.append(_color_arr2str(indiv_color))
 
-    viz_logger.info(_color_arr2str(np.maximum(color - 0.2, 0)))
     fig.add_trace(
         go.Scatter3d(
             x=x,

@@ -69,7 +69,7 @@ def segment(data_imap, mapping_imap,
         is_trx = True
         trx = load_trx(streamlines, data_imap["dwi"])
 
-        # Prepapre StatefulTractogram
+        # Prepare StatefulTractogram
         affine = np.array(trx.header["VOXEL_TO_RASMM"], dtype=np.float32)
         dimensions = np.array(trx.header["DIMENSIONS"], dtype=np.uint16)
         vox_sizes = np.array(voxel_sizes(affine), dtype=np.float32)
