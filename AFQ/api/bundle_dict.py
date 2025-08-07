@@ -992,7 +992,6 @@ class BundleDict(MutableMapping):
         if isinstance(roi_or_sl, nib.Nifti1Image):
             fdata = roi_or_sl.get_fdata()
             if len(np.unique(fdata)) <= 2:
-                fdata = fdata.astype(np.uint8)
                 boolean_ = True
             else:
                 boolean_ = False
