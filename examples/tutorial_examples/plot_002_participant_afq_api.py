@@ -39,37 +39,38 @@ import AFQ.viz.altair as ava
 # stored in the ``~/AFQ_data/stanford_hardi/`` BIDS directory. Set it to None if
 # you want to use the results of previous runs.
 
-afd.organize_stanford_data(clear_previous_afq = "track")
+afd.organize_stanford_data(clear_previous_afq="track")
 
 ##########################################################################
 # Defining data files
 # --------------------
 # If your data is not in BIDS format, you can still use pyAFQ. If you have BIDS
-# compliant dataset, you can use ``GroupAFQ`` instead (:doc:`plot_001_group_afq_api`). 
-# Otherwise, You will need to define the data files that you want to use. In 
-# this case, we will define the data files for the subject we downloaded above. 
+# compliant dataset, you can use ``GroupAFQ`` instead (:doc:`plot_001_group_afq_api`).
+# Otherwise, You will need to define the data files that you want to use. In
+# this case, we will define the data files for the subject we downloaded above.
 # The data files are located in the ``~/AFQ_data/stanford_hardi/derivatives/vistasoft``
-# directory, and are organized into a BIDS compliant directory structure. The 
+# directory, and are organized into a BIDS compliant directory structure. The
 # data files are located in the ``dwi`` directories. The data files
-# are:  
+# are:
 #
 # - ``sub-01_dwi.nii.gz`` (the diffusion-weighted imaging data)
 # - ``sub-01_dwi.bval``   (the b-values)
 # - ``sub-01_dwi.bvec``   (the b-vectors)
 
-data_dir = op.join(afd.afq_home, "stanford_hardi", "derivatives", "vistasoft", 
+data_dir = op.join(afd.afq_home, "stanford_hardi", "derivatives", "vistasoft",
                    "sub-01", "ses-01", "dwi")
 
 dwi_data_file = op.join(data_dir, "sub-01_ses-01_dwi.nii.gz")
-bval_file     = op.join(data_dir, "sub-01_ses-01_dwi.bval")
-bvec_file     = op.join(data_dir, "sub-01_ses-01_dwi.bvec")
+bval_file = op.join(data_dir, "sub-01_ses-01_dwi.bval")
+bvec_file = op.join(data_dir, "sub-01_ses-01_dwi.bvec")
 
 # You will also need to define the output directory where you want to store the
 # results. The output directory needs to exist before exporting ParticipantAFQ
 # results.
 
-output_dir = op.join(afd.afq_home, "stanford_hardi", "derivatives", "afq", "sub-01")
-os.makedirs(output_dir, exist_ok = True)
+output_dir = op.join(afd.afq_home, "stanford_hardi",
+                     "derivatives", "afq", "sub-01")
+os.makedirs(output_dir, exist_ok=True)
 
 ##########################################################################
 # Set tractography parameters (optional)
@@ -92,8 +93,8 @@ tracking_params = dict(n_seeds=25000,
 # Initialize a ParticipantAFQ object:
 # -------------------------
 #
-# Creates a ParticipantAFQ object, that encapsulates tractometry. This object 
-# can be used to manage the entire :doc:`/explanations/tractometry_pipeline`, including:
+# Creates a ParticipantAFQ object, that encapsulates tractometry. This object
+# can be used to manage the entire :doc:`/explanations/index`, including:
 #
 # - Tractography
 # - Registration
@@ -104,14 +105,14 @@ tracking_params = dict(n_seeds=25000,
 #
 # To initialize the object, we will pass in the diffusion data files and specify
 # the output directory where we want to store the results. We will also
-# pass in the tracking parameters we defined above. 
+# pass in the tracking parameters we defined above.
 
 myafq = ParticipantAFQ(
-    dwi_data_file = dwi_data_file, 
-    bval_file = bval_file,
-    bvec_file = bvec_file,
-    output_dir = output_dir,
-    tracking_params = tracking_params,
+    dwi_data_file=dwi_data_file,
+    bval_file=bval_file,
+    bvec_file=bvec_file,
+    output_dir=output_dir,
+    tracking_params=tracking_params,
 )
 
 ##########################################################################
@@ -122,8 +123,8 @@ myafq = ParticipantAFQ(
 #
 # For example, FA can be computed using the DTI model, by explicitly
 # calling ``myafq.export("dti_fa")``. This triggers the computation of DTI
-# parameters, and stores the results in the AFQ derivatives directory. 
-# In addition, it calculates the FA from these parameters and stores it in a 
+# parameters, and stores the results in the AFQ derivatives directory.
+# In addition, it calculates the FA from these parameters and stores it in a
 # different file in the same directory.
 #
 # .. note::
@@ -132,7 +133,7 @@ myafq = ParticipantAFQ(
 #    are not computed until they are required. This means that the first
 #    line below is the one that requires time.
 #
-# The result of the call to ``export`` is the filename of the corresponding FA 
+# The result of the call to ``export`` is the filename of the corresponding FA
 # files.
 
 FA_fname = myafq.export("dti_fa")
@@ -212,4 +213,3 @@ fig_files = myafq.export("tract_profile_plots")
 ##########################################################################
 # .. figure:: {{ fig_files[0] }}
 #
-

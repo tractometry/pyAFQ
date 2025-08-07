@@ -29,7 +29,7 @@ def make_dti_data(out_fbval, out_fbvec, out_fdata, out_shape=(5, 6, 7)):
     fimg, fbvals, fbvecs = dpd.get_fnames('small_64D')
     img = nib.load(fimg)
     bvals, bvecs = dio.read_bvals_bvecs(fbvals, fbvecs)
-    gtab = dpg.gradient_table(bvals, bvecs)
+    gtab = dpg.gradient_table(bvals=bvals, bvecs=bvecs)
 
     # Simulate a signal based on the DTI model:
     signal = single_tensor(gtab, S0=100)
@@ -58,7 +58,7 @@ def make_dki_data(out_fbval, out_fbvec, out_fdata, out_shape=(5, 6, 7)):
     # So  we create two shells out of it
     bvals_2s = np.concatenate((bvals, bvals * 2), axis=0)
     bvecs_2s = np.concatenate((bvecs, bvecs), axis=0)
-    gtab_2s = dpg.gradient_table(bvals_2s, bvecs_2s)
+    gtab_2s = dpg.gradient_table(bvals=bvals_2s, bvecs=bvecs_2s)
 
     # Simulate a signal based on the DKI model:
     mevals_cross = np.array([[0.00099, 0, 0], [0.00226, 0.00087, 0.00087],

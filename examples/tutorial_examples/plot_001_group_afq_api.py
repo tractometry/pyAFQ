@@ -73,7 +73,7 @@ tracking_params = dict(n_seeds=25000,
 # -------------------------
 #
 # Creates a GroupAFQ object, that encapsulates tractometry. This object can be
-# used to manage the entire :doc:`/explanations/tractometry_pipeline`, including:
+# used to manage the entire :doc:`/explanations/index`, including:
 #
 # - Tractography
 # - Registration

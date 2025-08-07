@@ -23,7 +23,7 @@ def test_GQI_fix():
         fbvec = op.join(tmpdir, 'dki.bvec')
         fdata = op.join(tmpdir, 'dki.nii.gz')
         make_dki_data(fbval, fbvec, fdata)
-        gtab = dpg.gradient_table(fbval, fbvec)
+        gtab = dpg.gradient_table(bvals=fbval, bvecs=fbvec)
         data = nib.load(fdata).get_fdata()
 
         gqmodel = GeneralizedQSamplingModel(

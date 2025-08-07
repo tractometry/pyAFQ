@@ -42,8 +42,8 @@ def _model(gtab, data, response=None, sh_order_max=None, csd_fa_thr=0.7):
         unique_bvals = unique_bvals_magnitude(gtab.bvals)
         if len(unique_bvals[unique_bvals > 0]) > 1:
             low_shell_idx = gtab.bvals <= unique_bvals[unique_bvals > 0][0]
-            response_gtab = gradient_table(gtab.bvals[low_shell_idx],
-                                           gtab.bvecs[low_shell_idx])
+            response_gtab = gradient_table(bvals=gtab.bvals[low_shell_idx],
+                                           bvecs=gtab.bvecs[low_shell_idx])
             data = data[..., low_shell_idx]
         else:
             response_gtab = gtab

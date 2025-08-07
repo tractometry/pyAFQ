@@ -1,3 +1,18 @@
+2.1 (July 17, 2025)
+===================
+Overhaul of pyAFQ Documentation, including new examples, better
+organization, and a few new pages.
+
+  * Upgrade deprecated key-word argument (#79)
+  * Remove a warning now raised in DIPY, in advance of deprecation in 2.0.0 (#101)
+  * [DOC] Restructure Docs (#100)
+  * [FIX] cast certain user inputs before calling GPU Streamlines (#96)
+  * Fix combined bundles/ group montage read-only logic (#95)
+  * Don't overwrite existing files (#69)
+  * [FIX] Fix Spelling of 'Sagittal' in Pediatric Templates (#94)
+  * [DOC] Re-tool Video example so it can become more prominent (#85)
+  * [FIX] allowed larger offsets for massive TRX files (#93)
+
 2.0.1 (May 15, 2025)
 ====================
 Minor Fixes to VOF, ROI dists, baby BD primary axis filtering, import_tract
