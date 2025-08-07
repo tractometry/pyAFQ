@@ -526,3 +526,124 @@ isbn="978-3-031-47292-3"
               Tractometry; White matter",
   language = "en"
 }
+
+@ARTICLE{Jeurissen2014,
+  title    = "Multi-tissue constrained spherical deconvolution for improved
+              analysis of multi-shell diffusion {MRI} data",
+  author   = "Jeurissen, Ben and Tournier, Jacques-Donald and Dhollander, Thijs
+              and Connelly, Alan and Sijbers, Jan",
+  abstract = "Constrained spherical deconvolution (CSD) has become one of the
+              most widely used methods to extract white matter (WM) fibre
+              orientation information from diffusion-weighted MRI (DW-MRI)
+              data, overcoming the crossing fibre limitations inherent in the
+              diffusion tensor model. It is routinely used to obtain high
+              quality fibre orientation distribution function (fODF) estimates
+              and fibre tractograms and is increasingly used to obtain apparent
+              fibre density (AFD) measures. Unfortunately, CSD typically only
+              supports data acquired on a single shell in q-space. With
+              multi-shell data becoming more and more prevalent, there is a
+              growing need for CSD to fully support such data. Furthermore, CSD
+              can only provide high quality fODF estimates in voxels containing
+              WM only. In voxels containing other tissue types such as grey
+              matter (GM) and cerebrospinal fluid (CSF), the WM response
+              function may no longer be appropriate and spherical deconvolution
+              produces unreliable, noisy fODF estimates. The aim of this study
+              is to incorporate support for multi-shell data into the CSD
+              approach as well as to exploit the unique b-value dependencies of
+              the different tissue types to estimate a multi-tissue ODF. The
+              resulting approach is dubbed multi-shell, multi-tissue CSD
+              (MSMT-CSD) and is compared to the state-of-the-art single-shell,
+              single-tissue CSD (SSST-CSD) approach. Using both simulations and
+              real data, we show that MSMT-CSD can produce reliable WM/GM/CSF
+              volume fraction maps, directly from the DW data, whereas SSST-CSD
+              has a tendency to overestimate the WM volume in voxels containing
+              GM and/or CSF. In addition, compared to SSST-CSD, MSMT-CSD can
+              substantially increase the precision of the fODF fibre
+              orientations and reduce the presence of spurious fODF peaks in
+              voxels containing GM and/or CSF. Both effects translate into more
+              reliable AFD measures and tractography results with MSMT-CSD
+              compared to SSST-CSD.",
+  journal  = "Neuroimage",
+  volume   =  103,
+  pages    = "411--426",
+  month    =  dec,
+  year     =  2014,
+  keywords = "Diffusion MRI; Fibre orientation distribution functions;
+              Multi-shell acquisition; Multiple tissue types; Spherical
+              deconvolution; Tissue segmentation",
+  language = "en"
+}
+
+@ARTICLE{Takemura2024,
+  title     = "Tractometry of human visual white matter pathways in health and
+               disease",
+  author    = "Takemura, Hiromasa and Kruper, John A and Miyata, Toshikazu and
+               Rokem, Ariel",
+  journal   = "Magn. Reson. Med. Sci.",
+  publisher = "Japanese Society for Magnetic Resonance in Medicine",
+  volume    =  23,
+  number    =  3,
+  pages     = "316--340",
+  month     =  jul,
+  year      =  2024,
+  keywords  = "diffusion magnetic resonance imaging; tractography; tractometry;
+               vision; white matter",
+  language  = "en"
+}
+
+@ARTICLE{Maier-Hein2017,
+  title    = "The challenge of mapping the human connectome based on diffusion
+              tractography",
+  author   = "Maier-Hein, Klaus H and Neher, Peter F and Houde, Jean-Christophe
+              and C{\^o}t{\'e}, Marc-Alexandre and Garyfallidis, Eleftherios
+              and Zhong, Jidan and Chamberland, Maxime and Yeh, Fang-Cheng and
+              Lin, Ying-Chia and Ji, Qing and Reddick, Wilburn E and Glass,
+              John O and Chen, David Qixiang and Feng, Yuanjing and Gao,
+              Chengfeng and Wu, Ye and Ma, Jieyan and He, Renjie and Li, Qiang
+              and Westin, Carl-Fredrik and Deslauriers-Gauthier, Samuel and
+              Gonz{\'a}lez, J Omar Ocegueda and Paquette, Michael and St-Jean,
+              Samuel and Girard, Gabriel and Rheault, Fran{\c c}ois and Sidhu,
+              Jasmeen and Tax, Chantal M W and Guo, Fenghua and Mesri, Hamed Y
+              and D{\'a}vid, Szabolcs and Froeling, Martijn and Heemskerk,
+              Anneriet M and Leemans, Alexander and Bor{\'e}, Arnaud and
+              Pinsard, Basile and Bedetti, Christophe and Desrosiers, Matthieu
+              and Brambati, Simona and Doyon, Julien and Sarica, Alessia and
+              Vasta, Roberta and Cerasa, Antonio and Quattrone, Aldo and
+              Yeatman, Jason and Khan, Ali R and Hodges, Wes and Alexander,
+              Simon and Romascano, David and Barakovic, Muhamed and Aur{\'\i}a,
+              Anna and Esteban, Oscar and Lemkaddem, Alia and Thiran,
+              Jean-Philippe and Cetingul, H Ertan and Odry, Benjamin L and
+              Mailhe, Boris and Nadar, Mariappan S and Pizzagalli, Fabrizio and
+              Prasad, Gautam and Villalon-Reina, Julio E and Galvis, Justin and
+              Thompson, Paul M and Requejo, Francisco De Santiago and Laguna,
+              Pedro Luque and Lacerda, Luis Miguel and Barrett, Rachel and
+              Dell'Acqua, Flavio and Catani, Marco and Petit, Laurent and
+              Caruyer, Emmanuel and Daducci, Alessandro and Dyrby, Tim B and
+              Holland-Letz, Tim and Hilgetag, Claus C and Stieltjes, Bram and
+              Descoteaux, Maxime",
+  abstract = "Tractography based on non-invasive diffusion imaging is central
+              to the study of human brain connectivity. To date, the approach
+              has not been systematically validated in ground truth studies.
+              Based on a simulated human brain data set with ground truth
+              tracts, we organized an open international tractography
+              challenge, which resulted in 96 distinct submissions from 20
+              research groups. Here, we report the encouraging finding that
+              most state-of-the-art algorithms produce tractograms containing
+              90\% of the ground truth bundles (to at least some extent).
+              However, the same tractograms contain many more invalid than
+              valid bundles, and half of these invalid bundles occur
+              systematically across research groups. Taken together, our
+              results demonstrate and confirm fundamental ambiguities inherent
+              in tract reconstruction based on orientation information alone,
+              which need to be considered when interpreting tractography and
+              connectivity results. Our approach provides a novel framework for
+              estimating reliability of tractography and encourages innovation
+              to address its current limitations.",
+  journal  = "Nat. Commun.",
+  volume   =  8,
+  number   =  1,
+  pages    = "1349",
+  month    =  nov,
+  year     =  2017,
+  language = "en"
+}

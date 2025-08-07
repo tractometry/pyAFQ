@@ -1,5 +1,5 @@
 ############
- Tractometry
+Explanations
 ############
 
 Tractography based on diffusion weighted MRI (dMRI) is used to find the major
@@ -38,8 +38,8 @@ measuring? The patterns of large groups of axons!
 .. image:: ../_static/dtiexplanation.jpg
    :width: 100%
    :align: left
-   
-Takemura et al. (2024)
+
+Source: :cite:`Takemura2024`.
 
 When you collect diffusion data, you are perturburing water molecules
 and observing how they respond. Within the gray matter and corticospinal
@@ -130,8 +130,7 @@ these streamlines are not biologically plausible.
             :width: 100%
             :align: center
 
-Jeurissen et al., 2017, also: Behrens, 2013,
-Descoteaux, 2014, Dell'Acqua, 2014, Tournier, 2014
+Source: :cite:`Jeurissen2019,Jeurissen2014`.
 
 Notice: probabilistic tracking is used due to the inherent ambiguity of
 the data 
@@ -140,7 +139,7 @@ the data
    :width: 100%
    :align: left
 
-Maier-Hein et al., 2014
+Source: :cite:`Maier-Hein2017`.
 
 ROIs and Recognized Bundles
 ---------------------------
@@ -253,7 +252,7 @@ Resources Overview
    :width: 100%
    :align: left
 
-Kruper et al., 2025
+Kruper et al., 2025 (*in review*)
 
 Ecosystem Examples
 ==================
