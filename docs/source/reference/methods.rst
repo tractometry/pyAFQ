@@ -92,7 +92,7 @@ dki_gm:
 
 
 t1w_pve:
-    Tissue classification using the Markov Random Fields modeling approach on the T1w image [1, 2]
+    WM, GM, CSF segmentations from subcortex segmentation from brainchop on T1w image
 
 
 wm_gm_interface:
@@ -453,6 +453,14 @@ dki_rk:
 
 dki_ak:
     full path to a nifti file containing the DKI axial kurtosis file
+
+
+t1_brain_mask:
+    full path to a nifti file containing brain mask from T1w image,
+
+
+t1_subcortex:
+    full path to a nifti file containing segmentation of subcortical structures from T1w image using Brainchop
 
 
 brain_mask:
