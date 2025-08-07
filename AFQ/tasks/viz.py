@@ -43,7 +43,7 @@ def viz_bundles(base_fname,
                 segmentation_imap,
                 best_scalar,
                 sbv_lims_bundles=[None, None],
-                volume_opacity_bundles=0.3,
+                volume_opacity_bundles=0.5,
                 n_points_bundles=40):
     """
     figure for the visualizaion of the recognized
@@ -144,7 +144,7 @@ def viz_indivBundle(base_fname,
                     segmentation_imap,
                     best_scalar,
                     sbv_lims_indiv=[None, None],
-                    volume_opacity_indiv=0.3,
+                    volume_opacity_indiv=0.5,
                     n_points_indiv=40):
     """
     list of full paths to html or gif files

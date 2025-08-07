@@ -382,7 +382,7 @@ def viz_import_msg_error(module):
 
 
 def tract_generator(trk_file, bundle, colors, n_points,
-                    n_sls_viz=3600, n_sls_min=75):
+                    n_sls_viz=65536, n_sls_min=256):
     """
     Generates bundles of streamlines from the tractogram.
     Only generates from relevant bundle if bundle is set.

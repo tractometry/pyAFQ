@@ -990,11 +990,23 @@ class BundleDict(MutableMapping):
                               new_affine, bundle_name):
         roi_or_sl = self._cond_load(roi_or_sl, self.resample_to)
         if isinstance(roi_or_sl, nib.Nifti1Image):
+            fdata = roi_or_sl.get_fdata()
+            if len(np.unique(fdata)) <= 2:
+                fdata = fdata.astype(np.uint8)
+                boolean_ = True
+            else:
+                boolean_ = False
+
             warped_img = auv.transform_inverse_roi(
-                roi_or_sl.get_fdata(),
+                fdata,
                 mapping,
                 bundle_name=bundle_name)
-            warped_img = nib.Nifti1Image(warped_img, new_affine)
+
+            if boolean_:
+                warped_img = warped_img.astype(np.uint8)
+            warped_img = nib.Nifti1Image(
+                warped_img,
+                new_affine)
             return warped_img
         else:
             return roi_or_sl
