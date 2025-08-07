@@ -6,7 +6,7 @@ from dipy.io.gradients import read_bvals_bvecs
 import dipy.core.gradients as dpg
 from dipy.data import default_sphere
 
-import pimms
+import immlib
 
 import dipy.reconst.dki as dpy_dki
 import dipy.reconst.dti as dpy_dti
@@ -43,7 +43,7 @@ logger = logging.getLogger('AFQ')
 DIPY_GH = "https://github.com/dipy/dipy/blob/master/dipy/"
 
 
-@pimms.calc("data", "gtab", "dwi", "dwi_affine")
+@immlib.calc("data", "gtab", "dwi", "dwi_affine")
 def get_data_gtab(dwi_data_file, bval_file, bvec_file, min_bval=None,
                   max_bval=None, filter_b=True, b0_threshold=50):
     """
@@ -92,7 +92,7 @@ def get_data_gtab(dwi_data_file, bval_file, bvec_file, min_bval=None,
     return data, gtab, img, img.affine
 
 
-@pimms.calc("b0")
+@immlib.calc("b0")
 @as_file('_b0ref.nii.gz')
 def b0(dwi, gtab):
     """
@@ -104,7 +104,7 @@ def b0(dwi, gtab):
     return mean_b0_img, meta
 
 
-@pimms.calc("masked_b0")
+@immlib.calc("masked_b0")
 @as_file('_desc-masked_b0ref.nii.gz')
 def b0_mask(b0, brain_mask):
     """
@@ -124,7 +124,7 @@ def b0_mask(b0, brain_mask):
     return masked_b0_img, meta
 
 
-@pimms.calc("dti_tf")
+@immlib.calc("dti_tf")
 def dti_fit(dti_params, gtab):
     """DTI TensorFit object"""
     dti_params = nib.load(dti_params).get_fdata()
@@ -132,7 +132,7 @@ def dti_fit(dti_params, gtab):
     return dpy_dti.TensorFit(tm, dti_params)
 
 
-@pimms.calc("dti_params")
+@immlib.calc("dti_params")
 @as_file(suffix='_model-dti_param-diffusivity_dwimap.nii.gz',
          subfolder="models")
 @as_img
@@ -174,7 +174,7 @@ def dti_params(brain_mask, data, gtab,
     return dtf.model_params, meta
 
 
-@pimms.calc("fwdti_tf")
+@immlib.calc("fwdti_tf")
 def fwdti_fit(fwdti_params, gtab):
     """Free-water DTI TensorFit object"""
     fwdti_params = nib.load(fwdti_params).get_fdata()
@@ -182,7 +182,7 @@ def fwdti_fit(fwdti_params, gtab):
     return dpy_fwdti.FreeWaterTensorFit(fwtm, fwdti_params)
 
 
-@pimms.calc("fwdti_params")
+@immlib.calc("fwdti_params")
 @as_file(suffix='_model-fwdti_param-diffusivity_dwimap.nii.gz',
          subfolder="models")
 @as_img
@@ -203,7 +203,7 @@ def fwdti_params(brain_mask, data, gtab):
     return dtf.model_params, meta
 
 
-@pimms.calc("dki_tf")
+@immlib.calc("dki_tf")
 def dki_fit(dki_params, gtab):
     """DKI DiffusionKurtosisFit object"""
     dki_params = nib.load(dki_params).get_fdata()
@@ -211,7 +211,7 @@ def dki_fit(dki_params, gtab):
     return dpy_dki.DiffusionKurtosisFit(tm, dki_params)
 
 
-@pimms.calc("dki_params")
+@immlib.calc("dki_params")
 @as_file(suffix='_model-dki_param-diffusivity_dwimap.nii.gz',
          subfolder="models")
 @as_img
@@ -238,7 +238,7 @@ def dki_params(brain_mask, gtab, data):
     return dkf.model_params, meta
 
 
-@pimms.calc("msdki_tf")
+@immlib.calc("msdki_tf")
 def msdki_fit(msdki_params, gtab):
     """Mean Signal DKI DiffusionKurtosisFit object"""
     msdki_params = nib.load(msdki_params).get_fdata()
@@ -246,7 +246,7 @@ def msdki_fit(msdki_params, gtab):
     return dpy_msdki.MeanDiffusionKurtosisFit(tm, msdki_params)
 
 
-@pimms.calc("msdki_params")
+@immlib.calc("msdki_params")
 @as_file(suffix='_model-msdki_param-diffusivity_dwimap.nii.gz',
          subfolder="models")
 @as_img
@@ -264,7 +264,7 @@ def msdki_params(brain_mask, gtab, data):
     return msdki_fit.model_params, meta
 
 
-@pimms.calc("msdki_msd")
+@immlib.calc("msdki_msd")
 @as_file('_model-msdki_param-msd_dwimap.nii.gz',
          subfolder="models")
 @as_fit_deriv('MSDKI')
@@ -276,7 +276,7 @@ def msdki_msd(msdki_tf):
     return msdki_tf.msd
 
 
-@pimms.calc("msdki_msk")
+@immlib.calc("msdki_msk")
 @as_file('_model-msdki_param-msk_dwimap.nii.gz',
          subfolder="models")
 @as_fit_deriv('MSDKI')
@@ -288,7 +288,7 @@ def msdki_msk(msdki_tf):
     return msdki_tf.msk
 
 
-@pimms.calc("csd_params")
+@immlib.calc("csd_params")
 @as_file(suffix='_model-csd_param-fod_dwimap.nii.gz',
          subfolder="models")
 @as_img
@@ -359,7 +359,7 @@ def csd_params(dwi, brain_mask, gtab, data,
     return csdf.shm_coeff, meta
 
 
-@pimms.calc("csd_pmap")
+@immlib.calc("csd_pmap")
 @as_file(suffix='_model-csd_param-apm_dwimap.nii.gz',
          subfolder="models")
 @as_img
@@ -373,7 +373,7 @@ def anisotropic_power_map(csd_params):
     return pmap, dict(CSDParamsFile=csd_params)
 
 
-@pimms.calc("csd_ai")
+@immlib.calc("csd_ai")
 @as_file(suffix='_model-csd_param-ai_dwimap.nii.gz',
          subfolder="models")
 @as_img
@@ -387,7 +387,7 @@ def csd_anisotropic_index(csd_params):
     return AI, dict(CSDParamsFile=csd_params)
 
 
-@pimms.calc("gq_params", "gq_iso", "gq_aso")
+@immlib.calc("gq_params", "gq_iso", "gq_aso")
 def gq(base_fname, gtab, dwi_affine, data,
        gq_sampling_length=1.2):
     """
@@ -444,7 +444,7 @@ def gq(base_fname, gtab, dwi_affine, data,
     return params_fname, ISO_fname, ASO_fname
 
 
-@pimms.calc("gq_pmap")
+@immlib.calc("gq_pmap")
 @as_file(suffix='_model-gq_param-apm_dwimap.nii.gz',
          subfolder="models")
 @as_img
@@ -458,7 +458,7 @@ def gq_pmap(gq_params):
     return pmap, dict(GQParamsFile=gq_params)
 
 
-@pimms.calc("gq_ai")
+@immlib.calc("gq_ai")
 @as_file(suffix='_model-gq_param-ai_dwimap.nii.gz',
          subfolder="models")
 @as_img
@@ -472,7 +472,7 @@ def gq_ai(gq_params):
     return AI, dict(GQParamsFile=gq_params)
 
 
-@pimms.calc("rumba_model")
+@immlib.calc("rumba_model")
 def rumba_model(gtab,
                 rumba_wm_response=[0.0017, 0.0002, 0.0002],
                 rumba_gm_response=0.0008,
@@ -514,7 +514,7 @@ def rumba_model(gtab,
         verbose=True)
 
 
-@pimms.calc("rumba_params")
+@immlib.calc("rumba_params")
 @as_file(suffix='_model-rumba_param-fod_dwimap.nii.gz',
          subfolder="models")
 @as_img
@@ -532,7 +532,7 @@ def rumba_params(rumba_model, data, brain_mask):
     return rumba_shm, meta
 
 
-@pimms.calc("rumba_fit")
+@immlib.calc("rumba_fit")
 def rumba_fit(rumba_model, rumba_params):
     """RUMBA FIT"""
     return RumbaFit(
@@ -540,7 +540,7 @@ def rumba_fit(rumba_model, rumba_params):
         nib.load(rumba_params).get_fdata())
 
 
-@pimms.calc("rumba_f_csf")
+@immlib.calc("rumba_f_csf")
 @as_file(suffix='_model-rumba_param-csf_probseg.nii.gz',
          subfolder="models")
 @as_fit_deriv('RUMBA')
@@ -552,7 +552,7 @@ def rumba_f_csf(rumba_fit):
     return rumba_fit.f_csf  # CSF volume fractions
 
 
-@pimms.calc("rumba_f_gm")
+@immlib.calc("rumba_f_gm")
 @as_file(suffix='_model-rumba_param-gm_probseg.nii.gz',
          subfolder="models")
 @as_fit_deriv('RUMBA')
@@ -564,7 +564,7 @@ def rumba_f_gm(rumba_fit):
     return rumba_fit.f_gm  # gray matter volume fractions
 
 
-@pimms.calc("rumba_f_wm")
+@immlib.calc("rumba_f_wm")
 @as_file(suffix='_model-rumba_param-wm_probseg.nii.gz',
          subfolder="models")
 @as_fit_deriv('RUMBA')
@@ -576,7 +576,7 @@ def rumba_f_wm(rumba_fit):
     return rumba_fit.f_wm  # white matter volume fractions
 
 
-@pimms.calc("opdt_params", "opdt_gfa")
+@immlib.calc("opdt_params", "opdt_gfa")
 def opdt_params(base_fname, data, gtab,
                 dwi_affine, brain_mask,
                 opdt_sh_order_max=8):
@@ -616,7 +616,7 @@ def opdt_params(base_fname, data, gtab,
     return params_fname, GFA_fname
 
 
-@pimms.calc("opdt_pmap")
+@immlib.calc("opdt_pmap")
 @as_file(suffix='_model-opdt_param-apm_dwimap.nii.gz',
          subfolder="models")
 @as_img
@@ -630,7 +630,7 @@ def opdt_pmap(opdt_params):
     return pmap, dict(OPDTParamsFile=opdt_params)
 
 
-@pimms.calc("opdt_ai")
+@immlib.calc("opdt_ai")
 @as_file(suffix='_model-opdt_param-ai_dwimap.nii.gz',
          subfolder="models")
 @as_img
@@ -644,7 +644,7 @@ def opdt_ai(opdt_params):
     return AI, dict(OPDTParamsFile=opdt_params)
 
 
-@pimms.calc("csa_params", "csa_gfa")
+@immlib.calc("csa_params", "csa_gfa")
 def csa_params(base_fname, data, gtab,
                dwi_affine, brain_mask,
                csa_sh_order_max=8):
@@ -687,7 +687,7 @@ def csa_params(base_fname, data, gtab,
     return params_fname, GFA_fname
 
 
-@pimms.calc("csa_pmap")
+@immlib.calc("csa_pmap")
 @as_file(suffix='_model-csa_param-apm_dwimap.nii.gz',
          subfolder="models")
 @as_img
@@ -701,7 +701,7 @@ def csa_pmap(csa_params):
     return pmap, dict(CSAParamsFile=csa_params)
 
 
-@pimms.calc("csa_ai")
+@immlib.calc("csa_ai")
 @as_file(suffix='_model-csa_param-ai_dwimap.nii.gz',
          subfolder="models")
 @as_img
@@ -715,7 +715,7 @@ def csa_ai(csa_params):
     return AI, dict(CSAParamsFile=csa_params)
 
 
-@pimms.calc("fwdti_fa")
+@immlib.calc("fwdti_fa")
 @as_file(suffix='_model-fwdti_param-fa_dwimap.nii.gz',
          subfolder="models")
 @as_fit_deriv('FWDTI')
@@ -727,7 +727,7 @@ def fwdti_fa(fwdti_tf):
     return fwdti_tf.fa
 
 
-@pimms.calc("fwdti_md")
+@immlib.calc("fwdti_md")
 @as_file(suffix='_model-fwdti_param-md_dwimap.nii.gz',
          subfolder="models")
 @as_fit_deriv('FWDTI')
@@ -738,7 +738,7 @@ def fwdti_md(fwdti_tf):
     return fwdti_tf.md
 
 
-@pimms.calc("fwdti_fwf")
+@immlib.calc("fwdti_fwf")
 @as_file(suffix='_model-fwdti_param-fwf_dwimap.nii.gz',
          subfolder="models")
 @as_fit_deriv('FWDTI')
@@ -749,7 +749,7 @@ def fwdti_fwf(fwdti_tf):
     return fwdti_tf.f
 
 
-@pimms.calc("dti_fa")
+@immlib.calc("dti_fa")
 @as_file(suffix='_model-dti_param-fa_dwimap.nii.gz',
          subfolder="models")
 @as_fit_deriv('DTI')
@@ -761,7 +761,7 @@ def dti_fa(dti_tf):
     return dti_tf.fa
 
 
-@pimms.calc("dti_lt0", "dti_lt1", "dti_lt2", "dti_lt3", "dti_lt4", "dti_lt5")
+@immlib.calc("dti_lt0", "dti_lt1", "dti_lt2", "dti_lt3", "dti_lt4", "dti_lt5")
 def dti_lt(dti_tf, dwi_affine):
     """
     Image of first element in the DTI tensor according to DIPY convention
@@ -790,7 +790,7 @@ def dti_lt(dti_tf, dwi_affine):
     return dti_lt_dict
 
 
-@pimms.calc("dti_cfa")
+@immlib.calc("dti_cfa")
 @as_file(suffix='_model-dti_param-cfa_dwimap.nii.gz',
          subfolder="models")
 @as_fit_deriv('DTI')
@@ -802,7 +802,7 @@ def dti_cfa(dti_tf):
     return dti_tf.color_fa
 
 
-@pimms.calc("dti_pdd")
+@immlib.calc("dti_pdd")
 @as_file(suffix='_model-dti_param-pdd_dwimap.nii.gz',
          subfolder="models")
 @as_fit_deriv('DTI')
@@ -817,7 +817,7 @@ def dti_pdd(dti_tf):
     return pdd
 
 
-@pimms.calc("dti_md")
+@immlib.calc("dti_md")
 @as_file('_model-dti_param-md_dwimap.nii.gz',
          subfolder="models")
 @as_fit_deriv('DTI')
@@ -829,7 +829,7 @@ def dti_md(dti_tf):
     return dti_tf.md
 
 
-@pimms.calc("dti_ga")
+@immlib.calc("dti_ga")
 @as_file(suffix='_model-dti_param-ga_dwimap.nii.gz',
          subfolder="models")
 @as_fit_deriv('DTI')
@@ -841,7 +841,7 @@ def dti_ga(dti_tf):
     return dti_tf.ga
 
 
-@pimms.calc("dti_rd")
+@immlib.calc("dti_rd")
 @as_file(suffix='_model-dti_param-rd_dwimap.nii.gz',
          subfolder="models")
 @as_fit_deriv('DTI')
@@ -853,7 +853,7 @@ def dti_rd(dti_tf):
     return dti_tf.rd
 
 
-@pimms.calc("dti_ad")
+@immlib.calc("dti_ad")
 @as_file(suffix='_model-dti_param-ad_dwimap.nii.gz',
          subfolder="models")
 @as_fit_deriv('DTI')
@@ -865,7 +865,7 @@ def dti_ad(dti_tf):
     return dti_tf.ad
 
 
-@pimms.calc(
+@immlib.calc(
     "dki_kt0", "dki_kt1", "dki_kt2", "dki_kt3", "dki_kt4",
     "dki_kt5", "dki_kt6", "dki_kt7", "dki_kt8", "dki_kt9",
     "dki_kt10", "dki_kt11", "dki_kt12", "dki_kt13", "dki_kt14")
@@ -895,7 +895,7 @@ def dki_kt(dki_tf, dwi_affine):
     return dki_kt_dict
 
 
-@pimms.calc("dki_lt0", "dki_lt1", "dki_lt2", "dki_lt3", "dki_lt4", "dki_lt5")
+@immlib.calc("dki_lt0", "dki_lt1", "dki_lt2", "dki_lt3", "dki_lt4", "dki_lt5")
 def dki_lt(dki_tf, dwi_affine):
     """
     Image of first element in the DTI tensor from DKI,
@@ -913,7 +913,7 @@ def dki_lt(dki_tf, dwi_affine):
     return dki_lt_dict
 
 
-@pimms.calc("dki_fa")
+@immlib.calc("dki_fa")
 @as_file('_model-dki_param-fa_dwimap.nii.gz',
          subfolder="models")
 @as_fit_deriv('DKI')
@@ -925,7 +925,7 @@ def dki_fa(dki_tf):
     return dki_tf.fa
 
 
-@pimms.calc("dki_md")
+@immlib.calc("dki_md")
 @as_file('_model-dki_param-md_dwimap.nii.gz',
          subfolder="models")
 @as_fit_deriv('DKI')
@@ -937,7 +937,7 @@ def dki_md(dki_tf):
     return dki_tf.md
 
 
-@pimms.calc("dki_awf")
+@immlib.calc("dki_awf")
 @as_file('_model-dki_param-awf_dwimap.nii.gz',
          subfolder="models")
 @as_fit_deriv('DKI')
@@ -966,7 +966,7 @@ def dki_awf(dki_params,
     return axonal_water_fraction(dki_params, sphere=sphere, gtol=gtol)
 
 
-@pimms.calc("dki_mk")
+@immlib.calc("dki_mk")
 @as_file('_model-dki_param-mk_dwimap.nii.gz',
          subfolder="models")
 @as_fit_deriv('DKI')
@@ -978,7 +978,7 @@ def dki_mk(dki_tf):
     return dki_tf.mk()
 
 
-@pimms.calc("dki_kfa")
+@immlib.calc("dki_kfa")
 @as_file('_model-dki_param-kfa_dwimap.nii.gz',
          subfolder="models")
 @as_fit_deriv('DKI')
@@ -997,7 +997,7 @@ def dki_kfa(dki_tf):
     return dki_tf.kfa
 
 
-@pimms.calc("dki_ga")
+@immlib.calc("dki_ga")
 @as_file(suffix='_model-dki_param-ga_dwimap.nii.gz',
          subfolder="models")
 @as_fit_deriv('DKI')
@@ -1009,7 +1009,7 @@ def dki_ga(dki_tf):
     return dki_tf.ga
 
 
-@pimms.calc("dki_rd")
+@immlib.calc("dki_rd")
 @as_file(suffix='_model-dki_param-rd_dwimap.nii.gz',
          subfolder="models")
 @as_fit_deriv('DKI')
@@ -1021,7 +1021,7 @@ def dki_rd(dki_tf):
     return dki_tf.rd
 
 
-@pimms.calc("dki_ad")
+@immlib.calc("dki_ad")
 @as_file(suffix='_model-dki_param-ad_dwimap.nii.gz',
          subfolder="models")
 @as_fit_deriv('DKI')
@@ -1033,7 +1033,7 @@ def dki_ad(dki_tf):
     return dki_tf.ad
 
 
-@pimms.calc("dki_rk")
+@immlib.calc("dki_rk")
 @as_file(suffix='_model-dki_param-rk_dwimap.nii.gz',
          subfolder="models")
 @as_fit_deriv('DKI')
@@ -1045,7 +1045,7 @@ def dki_rk(dki_tf):
     return dki_tf.rk
 
 
-@pimms.calc("dki_ak")
+@immlib.calc("dki_ak")
 @as_file(suffix='_model-dki_param-ak_dwimap.nii.gz',
          subfolder="models")
 @as_fit_deriv('DKI')
@@ -1057,7 +1057,7 @@ def dki_ak(dki_tf):
     return dki_tf.ak
 
 
-@pimms.calc("brain_mask")
+@immlib.calc("brain_mask")
 @as_file('_desc-brain_mask.nii.gz')
 def brain_mask(b0, brain_mask_definition=None):
     """
@@ -1080,7 +1080,7 @@ def brain_mask(b0, brain_mask_definition=None):
     return B0Image().get_image_getter("data")(b0)
 
 
-@pimms.calc("bundle_dict", "reg_template", "tmpl_name")
+@immlib.calc("bundle_dict", "reg_template", "tmpl_name")
 def get_bundle_dict(brain_mask, b0,
                     bundle_info=None, reg_template_spec="mni_T1",
                     reg_template_space_name="mni"):
@@ -1210,11 +1210,11 @@ def get_data_plan(kwargs):
         if not isinstance(bm_def, Definition):
             raise TypeError(
                 "brain_mask_definition must be a Definition")
-        data_tasks["brain_mask_res"] = pimms.calc("brain_mask")(
+        data_tasks["brain_mask_res"] = immlib.calc("brain_mask")(
             as_file(
                 suffix=(
                     f'_desc-{str_to_desc(bm_def.get_name())}'
                     '_mask.nii.gz'),
                 subfolder="models")(bm_def.get_image_getter("data")))
 
-    return pimms.plan(**data_tasks)
+    return immlib.plan(**data_tasks)

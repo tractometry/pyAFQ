@@ -5,7 +5,7 @@ import logging
 
 import dipy.data as dpd
 
-import pimms
+import immlib
 import multiprocessing
 
 from AFQ.tasks.decorators import as_file
@@ -61,7 +61,7 @@ def _meta_from_tracking_params(
     return meta
 
 
-@pimms.calc("seed")
+@immlib.calc("seed")
 @as_file('_desc-seed_dwimap.nii.gz',
          include_track=True,
          subfolder="tractography")
@@ -82,7 +82,7 @@ def export_seed_mask(data_imap, tracking_params):
         seed_mask_desc
 
 
-@pimms.calc("seed_thresh")
+@immlib.calc("seed_thresh")
 @as_file('_desc-seedThreshed_mask.nii.gz',
          include_track=True,
          subfolder="tractography")
@@ -99,7 +99,7 @@ def export_seed_mask_thresholded(data_imap, seed, tracking_params):
         data_imap["dwi_affine"]), seed_mask_desc
 
 
-@pimms.calc("stop")
+@immlib.calc("stop")
 @as_file('_desc-stop_dwimap.nii.gz',
          include_track=True,
          subfolder="tractography")
@@ -120,7 +120,7 @@ def export_stop_mask(data_imap, tracking_params):
         stop_mask_desc
 
 
-@pimms.calc("stop_thresh")
+@immlib.calc("stop_thresh")
 @as_file('_desc-stopThreshed_mask.nii.gz',
          include_track=True,
          subfolder="tractography")
@@ -137,7 +137,7 @@ def export_stop_mask_thresholded(data_imap, stop, tracking_params):
         data_imap["dwi_affine"]), stop_mask_desc
 
 
-@pimms.calc("stop")
+@immlib.calc("stop")
 def export_stop_mask_pft(pve_wm, pve_gm, pve_csf):
     """
     full path to a nifti file containing the
@@ -146,7 +146,7 @@ def export_stop_mask_pft(pve_wm, pve_gm, pve_csf):
     return {"stop": [pve_wm, pve_gm, pve_csf]}
 
 
-@pimms.calc("streamlines")
+@immlib.calc("streamlines")
 @as_file('_tractography',
          include_track=True,
          subfolder="tractography")
@@ -292,7 +292,7 @@ def streamlines(data_imap, seed, stop, fodf,
         n_streamlines, seed, stop)
 
 
-@pimms.calc("fodf")
+@immlib.calc("fodf")
 def fiber_odf(data_imap, tracking_params):
     """
     Nifti Image containing the fiber orientation distribution function
@@ -307,7 +307,7 @@ def fiber_odf(data_imap, tracking_params):
     return params_file
 
 
-@pimms.calc("streamlines")
+@immlib.calc("streamlines")
 def custom_tractography(import_tract=None):
     """
     full path to the complete, unsegmented tractography file
@@ -327,7 +327,7 @@ def custom_tractography(import_tract=None):
     return import_tract
 
 
-@pimms.calc("streamlines")
+@immlib.calc("streamlines")
 @as_file('_tractography', include_track=True, subfolder="tractography")
 def gpu_tractography(data_imap, tracking_params, fodf, seed, stop,
                      tractography_ngpus=0, chunk_size=100000):
@@ -462,13 +462,13 @@ def get_tractography_plan(kwargs):
 
     if kwargs["tracking_params"]["tracker"] == "pft":
         probseg_funcs = stop_mask.get_image_getter("tractography")
-        tractography_tasks["wm_res"] = pimms.calc("pve_wm")(probseg_funcs[0])
-        tractography_tasks["gm_res"] = pimms.calc("pve_gm")(probseg_funcs[1])
-        tractography_tasks["csf_res"] = pimms.calc("pve_csf")(probseg_funcs[2])
+        tractography_tasks["wm_res"] = immlib.calc("pve_wm")(probseg_funcs[0])
+        tractography_tasks["gm_res"] = immlib.calc("pve_gm")(probseg_funcs[1])
+        tractography_tasks["csf_res"] = immlib.calc("pve_csf")(probseg_funcs[2])
         tractography_tasks["export_stop_mask_res"] = \
             export_stop_mask_pft
     elif isinstance(stop_mask, Definition):
-        tractography_tasks["export_stop_mask_res"] = pimms.calc("stop")(
+        tractography_tasks["export_stop_mask_res"] = immlib.calc("stop")(
             as_file(
                 '_desc-stop_mask.nii.gz',
                 include_track=True,
@@ -476,7 +476,7 @@ def get_tractography_plan(kwargs):
                     stop_mask.get_image_getter("tractography")))
 
     if isinstance(seed_mask, Definition):
-        tractography_tasks["export_seed_mask_res"] = pimms.calc("seed")(
+        tractography_tasks["export_seed_mask_res"] = immlib.calc("seed")(
             as_file(
                 '_desc-seed_mask.nii.gz',
                 include_track=True,
@@ -484,7 +484,7 @@ def get_tractography_plan(kwargs):
                     seed_mask.get_image_getter("tractography")))
 
     if isinstance(odf_model, Definition):
-        tractography_tasks["fiber_odf_res"] = pimms.calc("fodf")(
+        tractography_tasks["fiber_odf_res"] = immlib.calc("fodf")(
             odf_model.get_image_getter("tractography"))
 
-    return pimms.plan(**tractography_tasks)
+    return immlib.plan(**tractography_tasks)

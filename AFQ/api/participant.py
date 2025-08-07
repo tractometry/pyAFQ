@@ -99,7 +99,7 @@ class ParticipantAFQ(object):
         self.make_workflow()
 
     def make_workflow(self):
-        # construct pimms plans
+        # construct immlib plans
         if "mapping_definition" in self.kwargs and isinstance(
                 self.kwargs["mapping_definition"], SlrMap):
             plans = {  # if using SLR map, do tractography first

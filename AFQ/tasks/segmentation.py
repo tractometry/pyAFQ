@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 import logging
 
-import pimms
+import immlib
 
 from AFQ.tasks.decorators import as_file
 from AFQ.tasks.utils import get_fname, with_name, str_to_desc
@@ -38,7 +38,7 @@ from tempfile import mkdtemp
 logger = logging.getLogger('AFQ')
 
 
-@pimms.calc("bundles")
+@immlib.calc("bundles")
 @as_file('_desc-bundles_tractography',
          include_track=True,
          include_seg=True)
@@ -133,7 +133,7 @@ def segment(data_imap, mapping_imap,
     return tgram, meta
 
 
-@pimms.calc("indiv_bundles")
+@immlib.calc("indiv_bundles")
 def export_bundles(base_fname, output_dir,
                    bundles,
                    tracking_params):
@@ -183,7 +183,7 @@ def export_bundles(base_fname, output_dir,
     return op.dirname(fname)
 
 
-@pimms.calc("sl_counts")
+@immlib.calc("sl_counts")
 @as_file('_desc-slCount_tractography.csv',
          include_track=True,
          include_seg=True,
@@ -207,7 +207,7 @@ def export_sl_counts(bundles):
     return counts_df, dict(source=bundles)
 
 
-@pimms.calc("median_bundle_lengths")
+@immlib.calc("median_bundle_lengths")
 @as_file(
     '_desc-medianBundleLengths_tractography.csv',
     include_track=True, include_seg=True,
@@ -237,7 +237,7 @@ def export_bundle_lengths(bundles):
     return counts_df, dict(source=bundles)
 
 
-@pimms.calc("density_maps")
+@immlib.calc("density_maps")
 @as_file('_desc-density_tractography.nii.gz',
          include_track=True,
          include_seg=True)
@@ -261,7 +261,7 @@ def export_density_maps(bundles, data_imap):
             source=bundles, bundles=list(seg_sft.bundle_names))
 
 
-@pimms.calc("profiles")
+@immlib.calc("profiles")
 @as_file('_desc-profiles_tractography.csv', include_track=True, include_seg=True)
 def tract_profiles(bundles,
                    scalar_dict, data_imap,
@@ -380,7 +380,7 @@ def tract_profiles(bundles,
     return profile_dframe, meta
 
 
-@pimms.calc("scalar_dict")
+@immlib.calc("scalar_dict")
 def get_scalar_dict(data_imap, mapping_imap, scalars=["dti_fa", "dti_md"]):
     """
     dicionary mapping scalar names
@@ -432,4 +432,4 @@ def get_segmentation_plan(kwargs):
             default_seg_params[k] = kwargs["segmentation_params"][k]
 
     kwargs["segmentation_params"] = default_seg_params
-    return pimms.plan(**segmentation_tasks)
+    return immlib.plan(**segmentation_tasks)

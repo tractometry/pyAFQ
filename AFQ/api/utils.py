@@ -2,7 +2,7 @@ import contextlib
 from importlib import import_module
 from AFQ.viz.utils import viz_import_msg_error
 from AFQ.utils.docstring_parser import parse_numpy_docstring
-import pimms
+import immlib
 import logging
 import warnings
 
@@ -44,7 +44,7 @@ for task_module in task_modules:
     kwargs_descriptors[task_module] = {}
     for calc_obj in import_module(
             f"AFQ.tasks.{task_module}").__dict__.values():
-        if isinstance(calc_obj, pimms.calculation.Calc):
+        if isinstance(calc_obj, immlib.workflow.calc):
             docstr_parsed = parse_numpy_docstring(calc_obj.function)
             if len(calc_obj.efferents) > 1:
                 eff_descs = docstr_parsed["description"].split(",")

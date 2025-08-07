@@ -21,7 +21,7 @@ from AFQ.tasks.utils import get_fname
 from AFQ.utils.path import drop_extension, write_json
 
 
-# These should only be used with pimms.calc
+# These should only be used with immlib.calc
 __all__ = ["as_file", "as_fit_deriv", "as_img"]
 
 
@@ -41,7 +41,7 @@ def get_args_and_kwargs(func):
 
 
 # replaces *args and **kwargs with specific parameters from og_func
-# so that pimms can see original parameter names after wrapping
+# so that immlib can see original parameter names after wrapping
 # also adds on any args the decorator requires
 # these will be extracted with extract_added_args
 def has_args(og_func, needed_args):

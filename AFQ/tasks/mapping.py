@@ -3,7 +3,7 @@ import numpy as np
 import os.path as op
 import logging
 
-import pimms
+import immlib
 from AFQ.tasks.decorators import as_file
 from AFQ.tasks.utils import with_name, str_to_desc, get_fname
 import AFQ.data.fetch as afd
@@ -20,7 +20,7 @@ from dipy.io.stateful_tractogram import Space
 logger = logging.getLogger('AFQ')
 
 
-@pimms.calc("b0_warped")
+@immlib.calc("b0_warped")
 def export_registered_b0(base_fname, data_imap, mapping):
     """
     full path to a nifti file containing
@@ -47,7 +47,7 @@ def export_registered_b0(base_fname, data_imap, mapping):
     return warped_b0_fname
 
 
-@pimms.calc("template_xform")
+@immlib.calc("template_xform")
 def template_xform(base_fname, dwi_data_file, data_imap, mapping):
     """
     full path to a nifti file containing
@@ -73,7 +73,7 @@ def template_xform(base_fname, dwi_data_file, data_imap, mapping):
     return template_xform_fname
 
 
-@pimms.calc("rois")
+@immlib.calc("rois")
 def export_rois(base_fname, output_dir, dwi_data_file, data_imap, mapping):
     """
     dictionary of full paths to Nifti1Image files of ROIs
@@ -103,7 +103,7 @@ def export_rois(base_fname, output_dir, dwi_data_file, data_imap, mapping):
     return {'rois': roi_files}
 
 
-@pimms.calc("mapping")
+@immlib.calc("mapping")
 def mapping(base_fname, dwi_data_file, reg_subject, data_imap,
             mapping_definition=None):
     """
@@ -132,7 +132,7 @@ def mapping(base_fname, dwi_data_file, reg_subject, data_imap,
         reg_subject, reg_template, tmpl_name)
 
 
-@pimms.calc("mapping")
+@immlib.calc("mapping")
 def sls_mapping(base_fname, dwi_data_file, reg_subject, data_imap,
                 tractography_imap, mapping_definition=None):
     """
@@ -182,7 +182,7 @@ def sls_mapping(base_fname, dwi_data_file, reg_subject, data_imap,
         template_sls=hcp_atlas.streamlines)
 
 
-@pimms.calc("reg_subject")
+@immlib.calc("reg_subject")
 def get_reg_subject(data_imap,
                     reg_subject_spec="power_map"):
     """
@@ -234,7 +234,7 @@ def get_mapping_plan(kwargs, use_sls=False):
     for scalar in kwargs["scalars"]:
         if isinstance(scalar, Definition):
             mapping_tasks[f"{scalar.get_name()}_res"] =\
-                pimms.calc(f"{scalar.get_name()}")(
+                immlib.calc(f"{scalar.get_name()}")(
                     as_file((
                         f'_desc-{str_to_desc(scalar.get_name())}'
                         '_dwimap.nii.gz'), subfolder="models")(
@@ -246,9 +246,9 @@ def get_mapping_plan(kwargs, use_sls=False):
     reg_ss = kwargs.get("reg_subject_spec", None)
     if isinstance(reg_ss, ImageDefinition):
         del kwargs["reg_subject_spec"]
-        mapping_tasks["reg_subject_spec_res"] = pimms.calc("reg_subject_spec")(
+        mapping_tasks["reg_subject_spec_res"] = immlib.calc("reg_subject_spec")(
             as_file((
                 f'_desc-{str_to_desc(reg_ss.get_name())}'
                 '_dwiref.nii.gz'))(reg_ss.get_image_getter("mapping")))
 
-    return pimms.plan(**mapping_tasks)
+    return immlib.plan(**mapping_tasks)
