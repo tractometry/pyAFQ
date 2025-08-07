@@ -37,7 +37,7 @@ import AFQ.data.fetch as afd
 # stored in the ``~/AFQ_data/stanford_hardi/`` BIDS directory. Set it to None if
 # you want to use the results of previous runs.
 
-afd.organize_stanford_data(clear_previous_afq="track")
+afd.organize_stanford_data()
 
 ##########################################################################
 # Defining data files
@@ -70,7 +70,8 @@ t1_file = op.join(afd.afq_home, "stanford_hardi", "derivatives",
 # results.
 
 output_dir = op.join(afd.afq_home, "stanford_hardi",
-                     "derivatives", "afq", "sub-01")
+                     "derivatives", "afq", "sub-01",
+                     "ses-01", "dwi")
 os.makedirs(output_dir, exist_ok=True)
 
 ##########################################################################
@@ -79,12 +80,10 @@ os.makedirs(output_dir, exist_ok=True)
 # We make create a `tracking_params` variable, which we will pass to the
 # ParticipantAFQ object which specifies that we want 10,000 seeds randomly
 # distributed in the white matter, propogated using DIPY's probabilistic
-# algorithm. We only do this to make this example faster and consume less
-# space; normally, we use more seeds and particle filtering tractography
-# (PFT)
+# algorithm. We only do this to make this example faster
+# and consume less space; normally, we use more seeds
 
-tracking_params = dict(n_seeds=10000,
-                       directions='prob',
+tracking_params = dict(n_seeds=25000,
                        random_seeds=True,
                        rng_seed=2025,
                        trx=True)
