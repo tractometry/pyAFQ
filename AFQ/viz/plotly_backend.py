@@ -225,11 +225,11 @@ def _draw_streamlines(figure, sls, dimensions, color, name, cbv=None, cbs=None,
 
 
 def _plot_profiles(profiles, bundle_name, color, fig, scalar):
-    sc_max = np.max(profiles[scalar].to_numpy())
-    sc_90 = np.percentile(profiles[scalar].to_numpy(), 10)
-    sc_1 = np.percentile(profiles[scalar].to_numpy(), 99)
-
     if isinstance(profiles, pd.DataFrame):
+        sc_max = np.max(profiles[scalar].to_numpy())
+        sc_90 = np.percentile(profiles[scalar].to_numpy(), 10)
+        sc_1 = np.percentile(profiles[scalar].to_numpy(), 99)
+
         profiles = profiles[profiles.tractID == bundle_name]
         x = profiles["nodeID"]
         y = profiles[scalar]
