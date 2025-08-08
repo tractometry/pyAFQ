@@ -468,6 +468,10 @@ def tract_generator(trk_file, bundle, colors, n_points,
                 yield these_sls, color, bundle_name, seg_sft.sft.dimensions
         else:
             these_sls = seg_sft.get_bundle(bundle).streamlines
+            if len(these_sls) > n_sls_viz:
+                idx = np.random.choice(
+                    len(these_sls), size=n_sls_viz, replace=False)
+                these_sls = these_sls[idx]
             if n_points is not None:
                 these_sls = dps.set_number_of_points(these_sls, n_points)
             if isinstance(colors, dict):
