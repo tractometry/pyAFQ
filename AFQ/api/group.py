@@ -159,7 +159,7 @@ class GroupAFQ(object):
         self.logger = logger
 
         self.parallel_params = parallel_params
-        self.wf_dict = {}
+        self.plans_dict = {}
 
         # validate input and fail early
         if not op.exists(bids_path):
@@ -265,7 +265,7 @@ class GroupAFQ(object):
         self.pAFQ_list = []
         self.pAFQ_inputs_list = []
         for subject in self.subjects:
-            self.wf_dict[subject] = {}
+            self.plans_dict[subject] = {}
             for session in self.sessions:
                 this_kwargs = kwargs.copy()
                 results_dir = op.join(self.afq_path, 'sub-' + subject)
@@ -394,7 +394,7 @@ class GroupAFQ(object):
                     this_pAFQ_inputs.bvec_file,
                     this_pAFQ_inputs.results_dir,
                     **this_pAFQ_inputs.kwargs)
-                self.wf_dict[subject][str(session)] = this_pAFQ.wf_dict
+                self.plans_dict[subject][str(session)] = this_pAFQ.plans_dict
                 self.pAFQ_list.append(this_pAFQ)
                 self.pAFQ_inputs_list.append(this_pAFQ_inputs)
 
@@ -520,16 +520,16 @@ class GroupAFQ(object):
             if subject not in results:
                 results[subject] = {}
             session = self.valid_ses_list[ii]
-            wf_dict = self.wf_dict[subject][str(session)]
+            plans_dict = self.plans_dict[subject][str(session)]
             if section is not None:
-                wf_dict = wf_dict[section]
+                plans_dict = plans_dict[section]
             if ((self.parallel_params.get("engine", False) != "serial")
-                    and (hasattr(wf_dict, "efferents"))
-                    and (attr_name not in wf_dict.efferents)):
-                in_list.append((wf_dict))
+                    and (hasattr(plans_dict, "outputs"))
+                    and (attr_name not in plans_dict.outputs)):
+                in_list.append((plans_dict))
                 to_calc_list.append((subject, session))
             else:
-                results[subject][session] = wf_dict[attr_name]
+                results[subject][session] = plans_dict[attr_name]
 
         # if some need to be calculated, do those in parallel
         if to_calc_list:
@@ -565,11 +565,11 @@ class GroupAFQ(object):
         if section == False:
             return None
 
-        wf_dict = self.wf_dict[
+        plans_dict = self.plans_dict[
             self.valid_sub_list[0]][self.valid_ses_list[0]]
         if section is not None:
-            wf_dict = wf_dict[section]
-        for dependent in wf_dict.plan.dependencies[attr_name]:
+            plans_dict = plans_dict[section]
+        for dependent in plans_dict.dependencies[attr_name]:
             self.export(dependent)
 
     def export_all(self, viz=True, afqbrowser=True, xforms=True,
@@ -846,10 +846,10 @@ class GroupAFQ(object):
         Name of the bundle to transform, should be one of the bundles in
         bundle_dict.
         """
-        reference_wf_dict = self.wf_dict[
+        reference_plans_dict = self.plans_dict[
             self.valid_sub_list[0]][self.valid_ses_list[0]]
-        if "mapping_definition" in reference_wf_dict:
-            mapping_definition = reference_wf_dict["mapping_definition"]
+        if "mapping_definition" in reference_plans_dict:
+            mapping_definition = reference_plans_dict["mapping_definition"]
             if mapping_definition is not None and not isinstance(
                     mapping_definition, SynMap):
                 raise NotImplementedError((

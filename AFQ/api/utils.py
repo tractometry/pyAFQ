@@ -44,17 +44,17 @@ for task_module in task_modules:
     kwargs_descriptors[task_module] = {}
     for calc_obj in import_module(
             f"AFQ.tasks.{task_module}").__dict__.values():
-        if isinstance(calc_obj, immlib.workflow.calc):
-            docstr_parsed = parse_numpy_docstring(calc_obj.function)
-            if len(calc_obj.efferents) > 1:
+        if immlib.is_calcfn(calc_obj):
+            docstr_parsed = parse_numpy_docstring(calc_obj)
+            if len(calc_obj.calc.outputs) > 1:
                 eff_descs = docstr_parsed["description"].split(",")
-                if len(eff_descs) != len(calc_obj.efferents):
+                if len(eff_descs) != len(calc_obj.calc.outputs):
                     raise NotImplementedError((
                         "If calc method has mutliple outputs, "
                         "their descriptions must be divided by commas."
                         f" {calc_obj.name} has {len(eff_descs)} comma-divided"
-                        f"sections but {len(calc_obj.efferents)} outputs"))
-                for ii in range(len(calc_obj.efferents)):
+                        f"sections but {len(calc_obj.calc.outputs)} outputs"))
+                for ii in range(len(calc_obj.calc.outputs)):
                     if eff_descs[ii][0] in [' ', '\n']:
                         eff_descs[ii] = eff_descs[ii][1:]
                     if eff_descs[ii][:3] == "and":
@@ -62,15 +62,15 @@ for task_module in task_modules:
                     if eff_descs[ii][0] in [' ', '\n']:
                         eff_descs[ii] = eff_descs[ii][1:]
                     methods_descriptors[
-                        calc_obj.efferents[ii]] =\
+                        calc_obj.calc.outputs[ii]] =\
                         eff_descs[ii]
-                    methods_sections[calc_obj.efferents[ii]] =\
+                    methods_sections[calc_obj.calc.outputs[ii]] =\
                         task_module
             else:
                 methods_descriptors[
-                    calc_obj.efferents[0]] =\
+                    calc_obj.calc.outputs[0]] =\
                     docstr_parsed["description"]
-                methods_sections[calc_obj.efferents[0]] =\
+                methods_sections[calc_obj.calc.outputs[0]] =\
                     task_module
             for arg, info in docstr_parsed["arguments"].items():
                 if "help" in info:
@@ -116,10 +116,7 @@ def check_attribute(attr_name):
         return None
 
     if attr_name in methods_sections:
-        if methods_sections[attr_name] == task_modules[-1]:
-            return None
-        else:
-            return f"{methods_sections[attr_name]}_imap"
+        return f"{methods_sections[attr_name]}_imap"
 
     raise ValueError(
         f"{attr_name} not found for export. {valid_exports_string}")

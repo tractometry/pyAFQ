@@ -588,7 +588,7 @@ def opdt_params(base_fname, data, gtab,
 
     Parameters
     ----------
-    opdt_sh_order : int
+    opdt_sh_order_max : int
         Spherical harmonics order for OPDT model. Must be even.
         Default: 8
     """
@@ -656,7 +656,7 @@ def csa_params(base_fname, data, gtab,
 
     Parameters
     ----------
-    csa_sh_order : int
+    csa_sh_order_max : int
         Spherical harmonics order for CSA model. Must be even.
         Default: 8
     """

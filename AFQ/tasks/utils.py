@@ -61,7 +61,7 @@ def get_fname(base_fname, suffix, subfolder=None):
 
 # Turn list of tasks into dictionary with names for each task
 def with_name(task_list):
-    return {f"{task.function.__name__}_res": task for task in task_list}
+    return {f"{task.__name__}_res": task for task in task_list}
 
 
 def get_default_args(func):
