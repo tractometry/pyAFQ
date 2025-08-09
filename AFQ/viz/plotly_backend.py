@@ -59,12 +59,10 @@ def _color_arr2str(color_arr, opacity=1.0):
     )
 
 
-def set_layout(figure, color=None):
-    if color is None:
-        color = "rgba(0,0,0,0)"
-
+def set_layout(figure):
     figure.update_layout(
-        plot_bgcolor=color,
+        plot_bgcolor='black',
+        paper_bgcolor='black',
         scene1=dict(
             xaxis=dict(
                 showbackground=False, showticklabels=False, title=''),
@@ -96,13 +94,16 @@ def _draw_streamlines(figure, sls, dimensions, color, name, cbv=None, cbs=None,
         line_color = np.zeros((plotting_shape, cbs.shape[1]))
         color = cbs[0, :]
     elif cbv is not None:
+        # Invert the color mapping so that higher
+        # values in cbv are mapped to darker colors
+        cbv = np.max(cbv) - cbv
         if sbv_lims[0] is None:
-            sbv_lims[0] = 0
+            sbv_lims[0] = np.percentile(cbv, 1)
         if sbv_lims[1] is None:
-            sbv_lims[1] = cbv.max()
+            sbv_lims[1] = np.percentile(cbv, 90)
 
         color_constant = (color / color.max())\
-            * (1.4 / (sbv_lims[1] - sbv_lims[0])) + sbv_lims[0]
+            / (sbv_lims[1] - sbv_lims[0])
         line_color = np.zeros((plotting_shape, 3))
     else:
         color_constant = color
@@ -130,11 +131,11 @@ def _draw_streamlines(figure, sls, dimensions, color, name, cbv=None, cbs=None,
             color_constant = cbs[sl_index]
 
         if cbv is not None:
-            brightness = cbv[
+            brightness = np.minimum(np.maximum(cbv[
                 sl[:, 0].astype(int),
                 sl[:, 1].astype(int),
                 sl[:, 2].astype(int)
-            ]
+            ] - sbv_lims[0], 0), sbv_lims[1])
 
             line_color[total_offset:total_offset + sl_length, :] = \
                 np.outer(brightness, color_constant)
@@ -163,6 +164,10 @@ def _draw_streamlines(figure, sls, dimensions, color, name, cbv=None, cbs=None,
         f'TP: {i1}<br>Node ID: {i2}'
         for i1, i2 in zip(
             customdata_tp, customdata_nodes)]
+
+    # Slight brightness
+    line_color = np.minimum(line_color + 0.2, 0.999)
+
     figure.add_trace(
         go.Scatter3d(
             x=x_pts,
@@ -172,10 +177,10 @@ def _draw_streamlines(figure, sls, dimensions, color, name, cbv=None, cbs=None,
             legendgroup=vut.display_string(name),
             marker=dict(
                 size=0.0001,
-                color=_color_arr2str(color)
+                color=_color_arr2str(np.maximum(color - 0.2, 0))
             ),  # this is necessary to add color to legend
             line=dict(
-                width=8,
+                width=2,
                 color=line_color,
             ),
             hovertext=hovertext,
@@ -184,17 +189,57 @@ def _draw_streamlines(figure, sls, dimensions, color, name, cbv=None, cbs=None,
         ),
         row=1, col=1
     )
+
+    figure.update_layout(
+        legend=dict(
+            font=dict(
+                color="white"
+            )
+        )
+    )
+
+    figure.update_layout(
+        scene=dict(
+            xaxis=dict(
+                gridcolor='rgba(57, 255, 20, 0.1)',  # Neon green
+                showbackground=False,
+                backgroundcolor='rgba(0,0,0,0)',  # Transparent background
+                showgrid=True
+            ),
+            yaxis=dict(
+                gridcolor='rgba(57, 255, 20, 0.1)',
+                showbackground=False,
+                backgroundcolor='rgba(0,0,0,0)',
+                showgrid=True
+            ),
+            zaxis=dict(
+                gridcolor='rgba(57, 255, 20, 0.1)',
+                showbackground=False,
+                backgroundcolor='rgba(0,0,0,0)',
+                showgrid=True
+            )
+        )
+    )
+
     return color_constant
 
 
 def _plot_profiles(profiles, bundle_name, color, fig, scalar):
     if isinstance(profiles, pd.DataFrame):
+        sc_max = np.max(profiles[scalar].to_numpy())
+        sc_90 = np.percentile(profiles[scalar].to_numpy(), 10)
+        sc_1 = np.percentile(profiles[scalar].to_numpy(), 99)
+
         profiles = profiles[profiles.tractID == bundle_name]
         x = profiles["nodeID"]
         y = profiles[scalar]
         line_color = []
+
         for scalar_val in profiles[scalar].to_numpy():
-            line_color.append(_color_arr2str(scalar_val * color))
+            xformed_scalar = np.minimum(
+                (sc_max - scalar_val) / (sc_1 - sc_90) + sc_90 + 0.1,
+                0.999)
+            line_color.append(_color_arr2str(xformed_scalar * color))
     else:
         x = np.arange(len(profiles))
         y = profiles
@@ -208,12 +253,37 @@ def _plot_profiles(profiles, bundle_name, color, fig, scalar):
             y=y,
             z=np.zeros(len(y)),
             name=vut.display_string(bundle_name),
-            line=dict(color=line_color, width=15),
+            line=dict(color=line_color, width=5),
             mode="lines",
+            hoverinfo='x+y',
             legendgroup=vut.display_string(bundle_name)),
         row=1, col=2)
 
-    font = dict(size=20, family="Overpass")
+    fig.update_layout(
+        scene2=dict(
+            xaxis=dict(
+                gridcolor='rgba(0,0,0,0)',
+                showbackground=False,
+                backgroundcolor='rgba(0,0,0,0)',
+                showgrid=False
+            ),
+            yaxis=dict(
+                gridcolor='rgba(0,0,0,0)',
+                showbackground=False,
+                backgroundcolor='rgba(0,0,0,0)',
+                showgrid=False,
+            ),
+            zaxis=dict(
+                gridcolor='rgba(0,0,0,0)',
+                showbackground=False,
+                backgroundcolor='rgba(0,0,0,0)',
+                showgrid=False,
+                visible=False
+            )
+        )
+    )
+
+    font = dict(color='white', size=20, family="Overpass")
     fixed_camera_for_2d = dict(
         projection=dict(type="orthographic"),
         up=dict(x=0, y=1, z=0),
@@ -223,10 +293,13 @@ def _plot_profiles(profiles, bundle_name, color, fig, scalar):
         margin={"t": 15, "b": 0, "l": 0, "r": 0},
         scene2=dict(
             camera=fixed_camera_for_2d,
-            zaxis=dict(visible=False),
             dragmode=False,
-            xaxis_title=dict(text="Location", font=font),
-            yaxis_title=dict(text=vut.display_string(scalar), font=font)))
+            xaxis=dict(
+                title=dict(text="Location", font=font),
+                tickfont=dict(color='white')),
+            yaxis=dict(
+                title=dict(text=vut.display_string(scalar), font=font),
+                tickfont=dict(color='white'))))
 
 
 def visualize_bundles(seg_sft, n_points=None,
@@ -234,7 +307,7 @@ def visualize_bundles(seg_sft, n_points=None,
                       color_by_streamline=None, n_sls_viz=3600,
                       sbv_lims=[None, None], include_profiles=(None, None),
                       flip_axes=[False, False, False], opacity=1.0,
-                      figure=None, background=(1, 1, 1), interact=False,
+                      figure=None, interact=False,
                       inline=False, **kwargs):
     """
     Visualize bundles in 3D
@@ -307,10 +380,6 @@ def visualize_bundles(seg_sft, n_points=None,
         Float between 0 and 1 defining the opacity of the bundle.
         Default: 1.0
 
-    background : tuple, optional
-        RGB values for the background. Default: (1, 1, 1), which is white
-        background.
-
     figure : Plotly Figure object, optional
         If provided, the visualization will be added to this Figure. Default:
         Initialize a new Figure.
@@ -341,7 +410,7 @@ def visualize_bundles(seg_sft, n_points=None,
                 rows=1, cols=2,
                 specs=[[{"type": "scene"}, {"type": "scene"}]])
 
-    set_layout(figure, color=_color_arr2str(background))
+    set_layout(figure)
 
     for (sls, color, name, dimensions) in vut.tract_generator(
             seg_sft, bundle, colors, n_points,
@@ -529,8 +598,8 @@ def _draw_slice(figure, axis, volume, opacity=0.3, pos=0.5,
                 colorscale="greys", invert_colorscale=False):
     height = int(volume.shape[axis] * pos)
 
-    v_min = volume.min()
-    sf = volume.max() - v_min
+    v_min = np.percentile(volume, 10)
+    sf = np.percentile(volume, 90) - v_min
 
     if axis == Axes.X:
         X, Y, Z = np.mgrid[height:height + 1,
@@ -557,6 +626,7 @@ def _draw_slice(figure, axis, volume, opacity=0.3, pos=0.5,
             value=values,
             colorscale=colorscale,
             surface_count=1,
+            isomin=0.01,
             showscale=False,
             opacity=opacity,
             name=_name_from_enum(axis),
@@ -564,6 +634,14 @@ def _draw_slice(figure, axis, volume, opacity=0.3, pos=0.5,
             showlegend=True
         ),
         row=1, col=1
+    )
+
+    figure.update_layout(
+        legend=dict(
+            font=dict(
+                color="white"
+            )
+        )
     )
 
 
@@ -712,7 +790,7 @@ def _draw_core(sls, n_points, figure, bundle_name, indiv_profile,
             z=fgarray[:, 2],
             name=vut.display_string(bundle_name + "_core"),
             line=dict(
-                width=25,
+                width=35,
                 color=line_color,
             ),
             hovertext=indiv_profile,

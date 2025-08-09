@@ -29,6 +29,9 @@ from dipy.io.streamline import load_tractogram, save_tractogram
 from dipy.io.stateful_tractogram import Space
 from dipy.stats.analysis import afq_profile
 from dipy.tracking.streamline import set_number_of_points, values_from_volume
+from nibabel.affines import voxel_sizes
+from nibabel.orientations import aff2axcodes
+from dipy.io.stateful_tractogram import StatefulTractogram
 
 import gzip
 import shutil
@@ -65,8 +68,20 @@ def segment(data_imap, mapping_imap,
     elif streamlines.endswith(".trx"):
         is_trx = True
         trx = load_trx(streamlines, data_imap["dwi"])
-        trx.streamlines._data = trx.streamlines._data.astype(np.float32)
-        tg = trx.to_sft()
+
+        # Prepare StatefulTractogram
+        affine = np.array(trx.header["VOXEL_TO_RASMM"], dtype=np.float32)
+        dimensions = np.array(trx.header["DIMENSIONS"], dtype=np.uint16)
+        vox_sizes = np.array(voxel_sizes(affine), dtype=np.float32)
+        vox_order = "".join(aff2axcodes(affine))
+        space_attributes = (affine, dimensions, vox_sizes, vox_order)
+
+        # Avoid deep copy triggered by to_sft
+        tg = StatefulTractogram(
+            trx.streamlines,
+            space_attributes,
+            Space.RASMM)
+        del trx
     elif streamlines.endswith(".tck.gz"):
         # uncompress tck.gz to a temporary tck:
         temp_tck = op.join(mkdtemp(), op.split(
@@ -86,9 +101,12 @@ def segment(data_imap, mapping_imap,
                          " tractography parameters or the"
                          " seed/stop masks.")
 
-    indices_to_remove, _ = tg.remove_invalid_streamlines()
-    if len(indices_to_remove) > 0:
-        logger.warning(f"{len(indices_to_remove)} invalid streamlines removed")
+    if not is_trx:
+        indices_to_remove, _ = tg.remove_invalid_streamlines()
+        if len(indices_to_remove) > 0:
+            logger.warning((
+                f"{len(indices_to_remove)} invalid "
+                "streamlines removed"))
 
     start_time = time()
     bundles, bundle_meta = recognize(
