@@ -77,7 +77,6 @@ for task_module in task_modules:
             for arg, info in docstr_parsed["arguments"].items():
                 param = sig.parameters.get(arg)
                 if "help" in info:
-                    default = info["default"] if "default" in info else None
                     kwargs_descriptors[task_module][arg] = dict(
                         desc=info["help"],
                         kind=info["metavar"],
