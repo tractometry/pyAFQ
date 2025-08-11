@@ -310,7 +310,7 @@ def csd_params(dwi, brain_mask, gtab, data,
         these values.
         Default: None
     csd_sh_order_max : int or None, optional.
-        default: infer the number of parameters from the number of data
+        If None, infer the number of parameters from the number of data
         volumes, but no larger than 8.
         Default: None
     csd_lambda_ : float, optional.
