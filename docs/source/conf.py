@@ -240,6 +240,7 @@ sphinx_gallery_conf = {
     'image_scrapers': image_scrapers,
     'reset_modules': (reset_progressbars),
     'show_memory': True,
+    'abort_on_example_error': True,
     'within_subsection_order': FileNameSortKey,
 }
 
