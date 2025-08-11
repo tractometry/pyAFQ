@@ -39,9 +39,7 @@ logger = logging.getLogger('AFQ')
 
 
 @immlib.calc("bundles")
-@as_file('_desc-bundles_tractography',
-         include_track=True,
-         include_seg=True)
+@as_file('_desc-bundles_tractography')
 def segment(data_imap, mapping_imap,
             tractography_imap, segmentation_params):
     """
@@ -185,8 +183,6 @@ def export_bundles(base_fname, output_dir,
 
 @immlib.calc("sl_counts")
 @as_file('_desc-slCount_tractography.csv',
-         include_track=True,
-         include_seg=True,
          subfolder="stats")
 def export_sl_counts(bundles):
     """
@@ -210,7 +206,6 @@ def export_sl_counts(bundles):
 @immlib.calc("median_bundle_lengths")
 @as_file(
     '_desc-medianBundleLengths_tractography.csv',
-    include_track=True, include_seg=True,
     subfolder="stats")
 def export_bundle_lengths(bundles):
     """
@@ -238,9 +233,7 @@ def export_bundle_lengths(bundles):
 
 
 @immlib.calc("density_maps")
-@as_file('_desc-density_tractography.nii.gz',
-         include_track=True,
-         include_seg=True)
+@as_file('_desc-density_tractography.nii.gz')
 def export_density_maps(bundles, data_imap):
     """
     full path to 4d nifti file containing streamline counts per voxel
@@ -262,7 +255,7 @@ def export_density_maps(bundles, data_imap):
 
 
 @immlib.calc("profiles")
-@as_file('_desc-profiles_tractography.csv', include_track=True, include_seg=True)
+@as_file('_desc-profiles_tractography.csv')
 def tract_profiles(bundles,
                    scalar_dict, data_imap,
                    profile_weights="gauss",

@@ -63,7 +63,6 @@ def _meta_from_tracking_params(
 
 @immlib.calc("seed")
 @as_file('_desc-seed_dwimap.nii.gz',
-         include_track=True,
          subfolder="tractography")
 def export_seed_mask(data_imap, tracking_params):
     """
@@ -71,6 +70,10 @@ def export_seed_mask(data_imap, tracking_params):
     tractography seed mask
     """
     seed_mask = tracking_params['seed_mask']
+    if not isinstance(seed_mask, Definition):
+        raise ValueError(
+            "seed_mask must be a Definition instance")
+
     seed_threshold = tracking_params['seed_threshold']
     if tracking_params['thresholds_as_percentages']:
         seed_threshold = get_percentile_threshold(
@@ -84,7 +87,6 @@ def export_seed_mask(data_imap, tracking_params):
 
 @immlib.calc("seed_thresh")
 @as_file('_desc-seedThreshed_mask.nii.gz',
-         include_track=True,
          subfolder="tractography")
 def export_seed_mask_thresholded(data_imap, seed, tracking_params):
     """
@@ -101,7 +103,6 @@ def export_seed_mask_thresholded(data_imap, seed, tracking_params):
 
 @immlib.calc("stop")
 @as_file('_desc-stop_dwimap.nii.gz',
-         include_track=True,
          subfolder="tractography")
 def export_stop_mask(data_imap, tracking_params):
     """
@@ -109,6 +110,10 @@ def export_stop_mask(data_imap, tracking_params):
     tractography stop mask
     """
     stop_mask = tracking_params['stop_mask']
+    if not isinstance(stop_mask, Definition):
+        raise ValueError(
+            "stop_mask must be a Definition instance")
+
     stop_threshold = tracking_params['stop_threshold']
     if tracking_params['thresholds_as_percentages']:
         stop_threshold = get_percentile_threshold(
@@ -122,7 +127,6 @@ def export_stop_mask(data_imap, tracking_params):
 
 @immlib.calc("stop_thresh")
 @as_file('_desc-stopThreshed_mask.nii.gz',
-         include_track=True,
          subfolder="tractography")
 def export_stop_mask_thresholded(data_imap, stop, tracking_params):
     """
@@ -148,7 +152,6 @@ def export_stop_mask_pft(pve_wm, pve_gm, pve_csf):
 
 @immlib.calc("streamlines")
 @as_file('_tractography',
-         include_track=True,
          subfolder="tractography")
 def streamlines(data_imap, seed, stop, fodf,
                 tracking_params):
@@ -328,7 +331,7 @@ def custom_tractography(import_tract=None):
 
 
 @immlib.calc("streamlines")
-@as_file('_tractography', include_track=True, subfolder="tractography")
+@as_file('_tractography', subfolder="tractography")
 def gpu_tractography(data_imap, tracking_params, fodf, seed, stop,
                      tractography_ngpus=0, chunk_size=100000):
     """
@@ -471,7 +474,6 @@ def get_tractography_plan(kwargs):
         tractography_tasks["export_stop_mask_res"] = immlib.calc("stop")(
             as_file(
                 '_desc-stop_mask.nii.gz',
-                include_track=True,
                 subfolder="tractography")(
                     stop_mask.get_image_getter("tractography")))
 
@@ -479,7 +481,6 @@ def get_tractography_plan(kwargs):
         tractography_tasks["export_seed_mask_res"] = immlib.calc("seed")(
             as_file(
                 '_desc-seed_mask.nii.gz',
-                include_track=True,
                 subfolder="tractography")(
                     seed_mask.get_image_getter("tractography")))
 
