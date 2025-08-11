@@ -389,8 +389,9 @@ def init_viz_backend(viz_backend_spec="plotly_no_gif",
     Parameters
     ----------
     virtual_frame_buffer : bool, optional
-        Whether to use a virtual fram buffer. This is neccessary if
-        generating GIFs in a headless environment. Default: False
+        Whether to use a virtual frame buffer. This is neccessary if
+        generating GIFs in a headless environment.
+        Default: False
     viz_backend_spec : str, optional
         Which visualization backend to use.
         See Visualization Backends page in documentation for details

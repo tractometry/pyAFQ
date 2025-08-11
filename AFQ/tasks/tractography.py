@@ -161,7 +161,7 @@ def streamlines(data_imap, seed, stop, fodf,
     Parameters
     ----------
     tracking_params : dict, optional
-        The parameters for tracking. Default: use the default behavior of
+        The parameters for tracking. Defaults to using the default behavior of
         the aft.track function. Seed mask and seed threshold, if not
         specified, are replaced with scalar masks from scalar[0]
         thresholded to 0.2. The ``seed_mask`` and ``stop_mask`` items of

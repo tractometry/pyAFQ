@@ -50,7 +50,7 @@ def segment(data_imap, mapping_imap,
     ----------
     segmentation_params : dict, optional
         The parameters for segmentation.
-        Default: use the default behavior of the seg.Segmentation object.
+        Defaults to using the default behavior of the seg.Segmentation object.
     """
     bundle_dict = data_imap["bundle_dict"]
     reg_template = data_imap["reg_template"]

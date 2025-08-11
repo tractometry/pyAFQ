@@ -5,6 +5,7 @@ from AFQ.utils.docstring_parser import parse_numpy_docstring
 import immlib
 import logging
 import warnings
+import inspect
 
 from dipy.io.stateful_tractogram import set_sft_logger_level
 
@@ -72,13 +73,15 @@ for task_module in task_modules:
                     docstr_parsed["description"]
                 methods_sections[calc_obj.calc.outputs[0]] =\
                     task_module
+            sig = inspect.signature(calc_obj)
             for arg, info in docstr_parsed["arguments"].items():
+                param = sig.parameters.get(arg)
                 if "help" in info:
                     default = info["default"] if "default" in info else None
                     kwargs_descriptors[task_module][arg] = dict(
                         desc=info["help"],
                         kind=info["metavar"],
-                        default=default)
+                        default=param.default)
                 if arg not in methods_sections:
                     methods_sections[arg] = task_module
 

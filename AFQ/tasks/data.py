@@ -44,8 +44,8 @@ DIPY_GH = "https://github.com/dipy/dipy/blob/master/dipy/"
 
 
 @immlib.calc("data", "gtab", "dwi", "dwi_affine")
-def get_data_gtab(dwi_data_file, bval_file, bvec_file, min_bval=None,
-                  max_bval=None, filter_b=True, b0_threshold=50):
+def get_data_gtab(dwi_data_file, bval_file, bvec_file, min_bval=-np.inf,
+                  max_bval=np.inf, b0_threshold=50):
     """
     DWI data as an ndarray for selected b values,
     A DIPY GradientTable with all the gradient information,
@@ -57,34 +57,29 @@ def get_data_gtab(dwi_data_file, bval_file, bvec_file, min_bval=None,
     min_bval : float, optional
         Minimum b value you want to use
         from the dataset (other than b0), inclusive.
-        If None, there is no minimum limit. Default: None
+        If None, there is no minimum limit.
+        Default: -np.inf
     max_bval : float, optional
         Maximum b value you want to use
         from the dataset (other than b0), inclusive.
-        If None, there is no maximum limit. Default: None
-    filter_b : bool, optional
-        Whether to filter the DWI data based on min or max bvals.
-        Default: True
+        If None, there is no maximum limit.
+        Default: np.inf
     b0_threshold : int, optional
         The value of b under which
-        it is considered to be b0. Default: 50.
+        it is considered to be b0.
+        Default: 50
     """
     img = nib.load(dwi_data_file)
     bvals, bvecs = read_bvals_bvecs(bval_file, bvec_file)
 
     data = img.get_fdata()
-    if filter_b and (min_bval is not None):
-        valid_b = np.logical_or(
-            (bvals >= min_bval), (bvals <= b0_threshold))
-        data = data[..., valid_b]
-        bvals = bvals[valid_b]
-        bvecs = bvecs[valid_b]
-    if filter_b and (max_bval is not None):
-        valid_b = np.logical_or(
-            (bvals <= max_bval), (bvals <= b0_threshold))
-        data = data[..., valid_b]
-        bvals = bvals[valid_b]
-        bvecs = bvecs[valid_b]
+    valid_b = np.logical_or(
+        np.logical_and(bvals >= min_bval, bvals <= max_bval),
+        bvals <= b0_threshold)
+    data = data[..., valid_b]
+    bvals = bvals[valid_b]
+    bvecs = bvecs[valid_b]
+
     gtab = dpg.gradient_table(
         bvals=bvals, bvecs=bvecs,
         b0_threshold=b0_threshold)
@@ -151,7 +146,8 @@ def dti_params(brain_mask, data, gtab,
         Default: False
     b0_threshold : int, optional
         The value of b under which
-        it is considered to be b0. Default: 50.
+        it is considered to be b0.
+        Default: 50.
     """
     mask =\
         nib.load(brain_mask).get_fdata()
@@ -315,17 +311,20 @@ def csd_params(dwi, brain_mask, gtab, data,
         Default: None
     csd_lambda_ : float, optional.
         weight given to the constrained-positivity regularization part of
-        the deconvolution equation. Default: 1
+        the deconvolution equation.
+        Default: 1
     csd_tau : float, optional.
         threshold controlling the amplitude below which the corresponding
         fODF is assumed to be zero.  Ideally, tau should be set to
         zero. However, to improve the stability of the algorithm, tau is
         set to tau*100 percent of the mean fODF amplitude (here, 10 percent
         by default)
-        (see [1]_). Default: 0.1
+        (see [1]_).
+        Default: 0.1
     csd_fa_thr : float, optional.
         The threshold on the FA used to calculate the single shell auto
-        response. Can be useful to reduce for baby subjects. Default: 0.7
+        response. Can be useful to reduce for baby subjects.
+        Default: 0.7
 
     References
     ----------
