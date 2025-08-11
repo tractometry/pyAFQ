@@ -129,6 +129,9 @@ class ParticipantAFQ(object):
             for key, value in kwargs_in_section.items():
                 if key not in self.kwargs:
                     self.kwargs[key] = value.get("default", None)
+                if isinstance(self.kwargs[key], str) and\
+                        len(self.kwargs[key]) < 1:
+                    self.kwargs[key] = None
 
         # chain together a complete plan from individual plans
         used_kwargs = {key: 0 for key in self.kwargs}
