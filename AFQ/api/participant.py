@@ -23,6 +23,7 @@ from AFQ.tasks.utils import get_base_fname
 from AFQ.utils.path import apply_cmd_to_afq_derivs
 from AFQ.viz.utils import BEST_BUNDLE_ORIENTATIONS, trim, get_eye
 from AFQ.api.utils import kwargs_descriptors
+from AFQ.utils.bin import pyafq_str_to_val
 
 
 __all__ = ["ParticipantAFQ"]
@@ -129,9 +130,7 @@ class ParticipantAFQ(object):
             for key, value in kwargs_in_section.items():
                 if key not in self.kwargs:
                     self.kwargs[key] = value.get("default", None)
-                if isinstance(self.kwargs[key], str) and\
-                        len(self.kwargs[key]) < 1:
-                    self.kwargs[key] = None
+                self.kwargs[key] = pyafq_str_to_val(self.kwargs[key])
 
         # chain together a complete plan from individual plans
         used_kwargs = {key: 0 for key in self.kwargs}
