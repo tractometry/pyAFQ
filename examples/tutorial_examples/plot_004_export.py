@@ -47,7 +47,7 @@ myafq = ParticipantAFQ(
         "random_seeds": True,
         "rng_seed": 2022,
         "trx": True,
-        "num_chunks": True
+        "num_chunks": False
     },
 )
 
