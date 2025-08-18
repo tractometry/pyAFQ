@@ -171,7 +171,7 @@ def track(params_file, directions="prob", max_angle=30., sphere=None,
 
     if odf_model == "DTI" or odf_model == "DKI":
         evals, evecs = decompose_tensor(
-            from_lower_triangular(model_params[:6]))
+            from_lower_triangular(model_params))
         odf = tensor_odf(evals, evecs, sphere)
         dg = dg.from_pmf(odf, max_angle=max_angle, sphere=sphere)
     else:

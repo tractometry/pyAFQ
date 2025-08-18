@@ -134,7 +134,7 @@ def dti_fit(dti_params, gtab):
     evecs = np.reshape(evecs, (evecs.shape[0],
                                evecs.shape[1],
                                evecs.shape[2],
-                               -1))
+                       -1))
     return dpy_dti.TensorFit(tm, np.concatenate([evals, evecs], -1))
 
 
