@@ -5,6 +5,7 @@ import logging
 from tqdm import tqdm
 
 import dipy.data as dpd
+from dipy.reconst.dti import decompose_tensor, from_lower_triangular
 from dipy.align import resample
 from dipy.direction import (DeterministicMaximumDirectionGetter,
                             ProbabilisticDirectionGetter)
@@ -99,7 +100,7 @@ def track(params_file, directions="prob", max_angle=30., sphere=None,
         coefficients.
         Defaults to use "CSD"
     basis_type : str, optional
-        The spherical harmonic basis type used to represent the coefficients. 
+        The spherical harmonic basis type used to represent the coefficients.
         One of {"descoteaux07", "tournier07"}. Deafult: "descoteaux07"
     legacy : bool, optional
         Whether to use the legacy implementation of the direction getter.
@@ -169,8 +170,8 @@ def track(params_file, directions="prob", max_angle=30., sphere=None,
     logger.debug(f"Using legacy DG: {legacy}")
 
     if odf_model == "DTI" or odf_model == "DKI":
-        evals = model_params[..., :3]
-        evecs = model_params[..., 3:12].reshape(params_img.shape[:3] + (3, 3))
+        evals, evecs = decompose_tensor(
+            from_lower_triangular(model_params))
         odf = tensor_odf(evals, evecs, sphere)
         dg = dg.from_pmf(odf, max_angle=max_angle, sphere=sphere)
     else:
