@@ -33,7 +33,7 @@ bval_file = op.join(data_dir, "sub-01_ses-01_dwi.bval")
 bvec_file = op.join(data_dir, "sub-01_ses-01_dwi.bvec")
 
 output_dir = op.join(afd.afq_home, "stanford_hardi",
-                     "derivatives", "afq", "sub-01")
+                     "derivatives", "afq", "sub-01", "ses-01", "dwi")
 os.makedirs(output_dir, exist_ok=True)
 
 # Initialize the ParticipantAFQ object

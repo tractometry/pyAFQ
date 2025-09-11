@@ -562,15 +562,17 @@ class GroupAFQ(object):
             Name of the output to export up to. Default: "help"
         """
         section = check_attribute(attr_name)
-        if section == False:
+        if section == False or section is None:
             return None
 
         plans_dict = self.plans_dict[
             self.valid_sub_list[0]][self.valid_ses_list[0]]
-        if section is not None:
-            plans_dict = plans_dict[section]
-        for dependent in plans_dict.dependencies[attr_name]:
-            self.export(dependent)
+        calcdata = plans_dict[section].plan.calcdata
+        idx = calcdata.sources['bundles']
+        if isinstance(idx, tuple):
+            idx = idx[0]
+        for inputs in calcdata.calcs[idx].inputs:
+            self.export(inputs)
 
     def export_all(self, viz=True, afqbrowser=True, xforms=True,
                    indiv=True):

@@ -60,18 +60,18 @@ def as_file(suffix, subfolder=None):
     """
     def _as_file(func):
         new_signature, new_params = get_new_signature(
-            func, ["base_fname", "output_dir"])
+            func, ["base_fname", "output_dir", "tracking_params"])
 
         @functools.wraps(func)
         def wrapper_as_file(*args, **kwargs):
             base_fname = get_param(kwargs, new_params, "base_fname")
             output_dir = get_param(kwargs, new_params, "output_dir")
+            tracking_params = get_param(kwargs, new_params, "tracking_params")
 
             this_file = get_fname(base_fname, suffix, subfolder=subfolder)
 
             # if file has no extension, we need to determine it
             if not op.splitext(this_file)[1]:
-                tracking_params = kwargs.get("tracking_params", {})
                 if tracking_params.get("trx", False):
                     this_file = this_file + ".trx"
                 else:

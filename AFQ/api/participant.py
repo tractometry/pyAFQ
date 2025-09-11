@@ -91,6 +91,10 @@ class ParticipantAFQ(object):
 
         self.logger = logging.getLogger('AFQ')
 
+        # This is remembered to warn users
+        # if their inputs are unused
+        self.og_kwargs = kwargs.copy()
+
         self.kwargs = dict(
             dwi_data_file=dwi_data_file,
             bval_file=bval_file,
@@ -133,7 +137,7 @@ class ParticipantAFQ(object):
                 self.kwargs[key] = pyafq_str_to_val(self.kwargs[key])
 
         # chain together a complete plan from individual plans
-        used_kwargs = {key: 0 for key in self.kwargs}
+        used_kwargs = {key: 0 for key in self.og_kwargs}
         previous_plans = {}
         for name, plan in plans.items():
             plan_kwargs = {}
@@ -197,14 +201,15 @@ class ParticipantAFQ(object):
             Name of the output to export up to. Default: "help"
         """
         section = check_attribute(attr_name)
-        if section == False:
+        if section == False or section is None:
             return None
 
-        plans_dict = self.plans_dict
-        if section is not None:
-            plans_dict = plans_dict[section]
-        for dependent in plans_dict.dependencies[attr_name]:
-            self.export(dependent)
+        calcdata = self.plans_dict[section].plan.calcdata
+        idx = calcdata.sources['bundles']
+        if isinstance(idx, tuple):
+            idx = idx[0]
+        for inputs in calcdata.calcs[idx].inputs:
+            self.export(inputs)
 
     def export_all(self, viz=True, xforms=True,
                    indiv=True):
