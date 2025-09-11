@@ -568,7 +568,7 @@ class GroupAFQ(object):
         plans_dict = self.plans_dict[
             self.valid_sub_list[0]][self.valid_ses_list[0]]
         calcdata = plans_dict[section].plan.calcdata
-        idx = calcdata.sources['bundles']
+        idx = calcdata.sources[attr_name]
         if isinstance(idx, tuple):
             idx = idx[0]
         for inputs in calcdata.calcs[idx].inputs:

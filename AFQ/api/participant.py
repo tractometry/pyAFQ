@@ -205,7 +205,7 @@ class ParticipantAFQ(object):
             return None
 
         calcdata = self.plans_dict[section].plan.calcdata
-        idx = calcdata.sources['bundles']
+        idx = calcdata.sources[attr_name]
         if isinstance(idx, tuple):
             idx = idx[0]
         for inputs in calcdata.calcs[idx].inputs:
