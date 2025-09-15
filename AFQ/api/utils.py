@@ -2,9 +2,10 @@ import contextlib
 from importlib import import_module
 from AFQ.viz.utils import viz_import_msg_error
 from AFQ.utils.docstring_parser import parse_numpy_docstring
-import pimms
+import immlib
 import logging
 import warnings
+import inspect
 
 from dipy.io.stateful_tractogram import set_sft_logger_level
 
@@ -44,17 +45,17 @@ for task_module in task_modules:
     kwargs_descriptors[task_module] = {}
     for calc_obj in import_module(
             f"AFQ.tasks.{task_module}").__dict__.values():
-        if isinstance(calc_obj, pimms.calculation.Calc):
-            docstr_parsed = parse_numpy_docstring(calc_obj.function)
-            if len(calc_obj.efferents) > 1:
+        if immlib.is_calcfn(calc_obj):
+            docstr_parsed = parse_numpy_docstring(calc_obj)
+            if len(calc_obj.calc.outputs) > 1:
                 eff_descs = docstr_parsed["description"].split(",")
-                if len(eff_descs) != len(calc_obj.efferents):
+                if len(eff_descs) != len(calc_obj.calc.outputs):
                     raise NotImplementedError((
                         "If calc method has mutliple outputs, "
                         "their descriptions must be divided by commas."
                         f" {calc_obj.name} has {len(eff_descs)} comma-divided"
-                        f"sections but {len(calc_obj.efferents)} outputs"))
-                for ii in range(len(calc_obj.efferents)):
+                        f"sections but {len(calc_obj.calc.outputs)} outputs"))
+                for ii in range(len(calc_obj.calc.outputs)):
                     if eff_descs[ii][0] in [' ', '\n']:
                         eff_descs[ii] = eff_descs[ii][1:]
                     if eff_descs[ii][:3] == "and":
@@ -62,23 +63,24 @@ for task_module in task_modules:
                     if eff_descs[ii][0] in [' ', '\n']:
                         eff_descs[ii] = eff_descs[ii][1:]
                     methods_descriptors[
-                        calc_obj.efferents[ii]] =\
+                        calc_obj.calc.outputs[ii]] =\
                         eff_descs[ii]
-                    methods_sections[calc_obj.efferents[ii]] =\
+                    methods_sections[calc_obj.calc.outputs[ii]] =\
                         task_module
             else:
                 methods_descriptors[
-                    calc_obj.efferents[0]] =\
+                    calc_obj.calc.outputs[0]] =\
                     docstr_parsed["description"]
-                methods_sections[calc_obj.efferents[0]] =\
+                methods_sections[calc_obj.calc.outputs[0]] =\
                     task_module
+            sig = inspect.signature(calc_obj)
             for arg, info in docstr_parsed["arguments"].items():
+                param = sig.parameters.get(arg)
                 if "help" in info:
-                    default = info["default"] if "default" in info else None
                     kwargs_descriptors[task_module][arg] = dict(
                         desc=info["help"],
                         kind=info["metavar"],
-                        default=default)
+                        default=param.default)
                 if arg not in methods_sections:
                     methods_sections[arg] = task_module
 
@@ -116,10 +118,7 @@ def check_attribute(attr_name):
         return None
 
     if attr_name in methods_sections:
-        if methods_sections[attr_name] == task_modules[-1]:
-            return None
-        else:
-            return f"{methods_sections[attr_name]}_imap"
+        return f"{methods_sections[attr_name]}_imap"
 
     raise ValueError(
         f"{attr_name} not found for export. {valid_exports_string}")

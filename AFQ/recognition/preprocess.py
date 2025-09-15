@@ -1,6 +1,6 @@
 import numpy as np
 import nibabel as nib
-import pimms
+import immlib
 from time import time
 import logging
 
@@ -12,7 +12,7 @@ import AFQ.recognition.utils as abu
 logger = logging.getLogger('AFQ')
 
 
-@pimms.calc("tol", "dist_to_atlas", "vox_dim")
+@immlib.calc("tol", "dist_to_atlas", "vox_dim")
 def tolerance_mm_to_vox(img, dist_to_waypoint, input_dist_to_atlas):
     # We need to calculate the size of a voxel, so we can transform
     # from mm to voxel units:
@@ -30,7 +30,7 @@ def tolerance_mm_to_vox(img, dist_to_waypoint, input_dist_to_atlas):
     return tol, dist_to_atlas, vox_dim
 
 
-@pimms.calc("fgarray")
+@immlib.calc("fgarray")
 def fgarray(tg):
     """
     Streamlines resampled to 20 points.
@@ -44,7 +44,7 @@ def fgarray(tg):
     return fg_array
 
 
-@pimms.calc("crosses")
+@immlib.calc("crosses")
 def crosses(fgarray, img):
     """
     Classify the streamlines by whether they cross the midline.
@@ -71,7 +71,7 @@ def crosses(fgarray, img):
 # Things that can be calculated for multiple bundles at once
 # (i.e., for a whole tractogram) go here
 def get_preproc_plan(img, tg, dist_to_waypoint, dist_to_atlas):
-    preproc_plan = pimms.Plan(
+    preproc_plan = immlib.plan(
         tolerance_mm_to_vox=tolerance_mm_to_vox,
         fgarray=fgarray,
         crosses=crosses)

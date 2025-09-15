@@ -10,7 +10,6 @@ with warnings.catch_warnings():
 
     print("Loading AFQ libraries...")
 
-    import AFQ
     import AFQ.utils.bin as afb
 
     import logging

@@ -22,6 +22,8 @@ from AFQ.tasks.viz import get_viz_plan
 from AFQ.tasks.utils import get_base_fname
 from AFQ.utils.path import apply_cmd_to_afq_derivs
 from AFQ.viz.utils import BEST_BUNDLE_ORIENTATIONS, trim, get_eye
+from AFQ.api.utils import kwargs_descriptors
+from AFQ.utils.bin import pyafq_str_to_val
 
 
 __all__ = ["ParticipantAFQ"]
@@ -89,6 +91,10 @@ class ParticipantAFQ(object):
 
         self.logger = logging.getLogger('AFQ')
 
+        # This is remembered to warn users
+        # if their inputs are unused
+        self.og_kwargs = kwargs.copy()
+
         self.kwargs = dict(
             dwi_data_file=dwi_data_file,
             bval_file=bval_file,
@@ -99,7 +105,7 @@ class ParticipantAFQ(object):
         self.make_workflow()
 
     def make_workflow(self):
-        # construct pimms plans
+        # construct immlib plans
         if "mapping_definition" in self.kwargs and isinstance(
                 self.kwargs["mapping_definition"], SlrMap):
             plans = {  # if using SLR map, do tractography first
@@ -123,15 +129,41 @@ class ParticipantAFQ(object):
                 "segmentation": get_segmentation_plan(self.kwargs),
                 "viz": get_viz_plan(self.kwargs)}
 
-        # chain together a complete plan from individual plans
-        previous_data = {}
-        for name, plan in plans.items():
-            previous_data[f"{name}_imap"] = plan(
-                **self.kwargs,
-                **previous_data)
+        # Fill in defaults not already set
+        for _, kwargs_in_section in kwargs_descriptors.items():
+            for key, value in kwargs_in_section.items():
+                if key not in self.kwargs:
+                    self.kwargs[key] = value.get("default", None)
+                self.kwargs[key] = pyafq_str_to_val(self.kwargs[key])
 
-        self.wf_dict =\
-            previous_data[f"{name}_imap"]
+        # chain together a complete plan from individual plans
+        used_kwargs = {key: 0 for key in self.og_kwargs}
+        previous_plans = {}
+        for name, plan in plans.items():
+            plan_kwargs = {}
+            for key in plan.inputs:
+                # Mark kwarg was used
+                if key in used_kwargs:
+                    used_kwargs[key] = 1
+
+                # Construct kwargs for plan
+                if key in self.kwargs:
+                    plan_kwargs[key] = self.kwargs[key]
+                elif key in previous_plans:
+                    plan_kwargs[key] = previous_plans[key]
+                else:
+                    raise NotImplementedError(
+                        f"Missing required parameter {key} for {name} plan")
+
+            previous_plans[f"{name}_imap"] = plan(**plan_kwargs)
+
+        for key, val in used_kwargs.items():
+            if val == 0:
+                self.logger.warning(
+                    f"Parameter {key} was not used in any plan. "
+                    "This may be a mistake, please check your parameters.")
+
+        self.plans_dict = previous_plans
 
     def export(self, attr_name="help"):
         """
@@ -153,8 +185,8 @@ class ParticipantAFQ(object):
             return None
 
         if section is None:
-            return self.wf_dict[attr_name]
-        return self.wf_dict[section][attr_name]
+            return self.plans_dict[attr_name]
+        return self.plans_dict[section][attr_name]
 
     def export_up_to(self, attr_name="help"):
         f"""
@@ -169,14 +201,15 @@ class ParticipantAFQ(object):
             Name of the output to export up to. Default: "help"
         """
         section = check_attribute(attr_name)
-        if section == False:
+        if section == False or section is None:
             return None
 
-        wf_dict = self.wf_dict
-        if section is not None:
-            wf_dict = wf_dict[section]
-        for dependent in wf_dict.plan.dependencies[attr_name]:
-            self.export(dependent)
+        calcdata = self.plans_dict[section].plan.calcdata
+        idx = calcdata.sources[attr_name]
+        if isinstance(idx, tuple):
+            idx = idx[0]
+        for inputs in calcdata.calcs[idx].inputs:
+            self.export(inputs)
 
     def export_all(self, viz=True, xforms=True,
                    indiv=True):

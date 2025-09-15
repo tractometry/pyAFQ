@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 import logging
 
-import pimms
+import immlib
 
 from AFQ.tasks.decorators import as_file
 from AFQ.tasks.utils import get_fname, with_name, str_to_desc
@@ -41,10 +41,8 @@ from tempfile import mkdtemp
 logger = logging.getLogger('AFQ')
 
 
-@pimms.calc("bundles")
-@as_file('_desc-bundles_tractography',
-         include_track=True,
-         include_seg=True)
+@immlib.calc("bundles")
+@as_file('_desc-bundles_tractography')
 def segment(data_imap, mapping_imap,
             tractography_imap, segmentation_params):
     """
@@ -55,7 +53,7 @@ def segment(data_imap, mapping_imap,
     ----------
     segmentation_params : dict, optional
         The parameters for segmentation.
-        Default: use the default behavior of the seg.Segmentation object.
+        Defaults to using the default behavior of the seg.Segmentation object.
     """
     bundle_dict = data_imap["bundle_dict"]
     reg_template = data_imap["reg_template"]
@@ -151,7 +149,7 @@ def segment(data_imap, mapping_imap,
     return tgram, meta
 
 
-@pimms.calc("indiv_bundles")
+@immlib.calc("indiv_bundles")
 def export_bundles(base_fname, output_dir,
                    bundles,
                    tracking_params):
@@ -201,10 +199,8 @@ def export_bundles(base_fname, output_dir,
     return op.dirname(fname)
 
 
-@pimms.calc("sl_counts")
+@immlib.calc("sl_counts")
 @as_file('_desc-slCount_tractography.csv',
-         include_track=True,
-         include_seg=True,
          subfolder="stats")
 def export_sl_counts(bundles):
     """
@@ -225,10 +221,9 @@ def export_sl_counts(bundles):
     return counts_df, dict(source=bundles)
 
 
-@pimms.calc("median_bundle_lengths")
+@immlib.calc("median_bundle_lengths")
 @as_file(
     '_desc-medianBundleLengths_tractography.csv',
-    include_track=True, include_seg=True,
     subfolder="stats")
 def export_bundle_lengths(bundles):
     """
@@ -255,10 +250,8 @@ def export_bundle_lengths(bundles):
     return counts_df, dict(source=bundles)
 
 
-@pimms.calc("density_maps")
-@as_file('_desc-density_tractography.nii.gz',
-         include_track=True,
-         include_seg=True)
+@immlib.calc("density_maps")
+@as_file('_desc-density_tractography.nii.gz')
 def export_density_maps(bundles, data_imap):
     """
     full path to 4d nifti file containing streamline counts per voxel
@@ -279,8 +272,8 @@ def export_density_maps(bundles, data_imap):
             source=bundles, bundles=list(seg_sft.bundle_names))
 
 
-@pimms.calc("profiles")
-@as_file('_desc-profiles_tractography.csv', include_track=True, include_seg=True)
+@immlib.calc("profiles")
+@as_file('_desc-profiles_tractography.csv')
 def tract_profiles(bundles,
                    scalar_dict, data_imap,
                    profile_weights="gauss",
@@ -398,7 +391,7 @@ def tract_profiles(bundles,
     return profile_dframe, meta
 
 
-@pimms.calc("scalar_dict")
+@immlib.calc("scalar_dict")
 def get_scalar_dict(data_imap, mapping_imap, scalars=["dti_fa", "dti_md"]):
     """
     dicionary mapping scalar names
@@ -450,4 +443,4 @@ def get_segmentation_plan(kwargs):
             default_seg_params[k] = kwargs["segmentation_params"][k]
 
     kwargs["segmentation_params"] = default_seg_params
-    return pimms.plan(**segmentation_tasks)
+    return immlib.plan(**segmentation_tasks)

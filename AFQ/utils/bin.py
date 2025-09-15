@@ -66,13 +66,13 @@ def model_predict_input_parser(usage):
     return parser
 
 
-def toml_to_val(t):
+def pyafq_str_to_val(t):
     if isinstance(t, str) and len(t) < 1:
         return None
     elif isinstance(t, list):
         ls = []
         for e in t:
-            ls.append(toml_to_val(e))
+            ls.append(pyafq_str_to_val(e))
         return ls
     elif isinstance(t, str) and t[0] == '[':
         return eval(t)
@@ -256,7 +256,7 @@ def parse_config_run_afq(toml_file, default_arg_dict, to_call="export_all",
             if arg == 'bids_path':
                 bids_path = default
             else:
-                val = toml_to_val(default)
+                val = pyafq_str_to_val(default)
                 is_special = False
                 for toml_key, doc_arg in special_args.items():
                     if section == toml_key:

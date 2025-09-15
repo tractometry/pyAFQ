@@ -1,12 +1,11 @@
 import nibabel as nib
 import logging
 import numpy as np
-import os
 import os.path as op
 from time import time
 import pandas as pd
 
-import pimms
+import immlib
 
 from dipy.align import resample
 
@@ -35,7 +34,7 @@ def _viz_prepare_vol(vol, xform, mapping, scalar_dict):
     return vol
 
 
-@pimms.calc("all_bundles_figure")
+@immlib.calc("all_bundles_figure")
 def viz_bundles(base_fname,
                 viz_backend,
                 data_imap,
@@ -135,7 +134,7 @@ def viz_bundles(base_fname,
         return [figure, fname]
 
 
-@pimms.calc("indiv_bundles_figures")
+@immlib.calc("indiv_bundles_figures")
 def viz_indivBundle(base_fname,
                     output_dir,
                     viz_backend,
@@ -326,7 +325,7 @@ def viz_indivBundle(base_fname,
     return {"indiv_bundles_figures": figures}
 
 
-@pimms.calc("tract_profile_plots")
+@immlib.calc("tract_profile_plots")
 def plot_tract_profiles(base_fname, output_dir, scalars, segmentation_imap):
     """
     list of full paths to png files,
@@ -357,7 +356,7 @@ def plot_tract_profiles(base_fname, output_dir, scalars, segmentation_imap):
     return fnames
 
 
-@pimms.calc("viz_backend")
+@immlib.calc("viz_backend")
 def init_viz_backend(viz_backend_spec="plotly_no_gif",
                      virtual_frame_buffer=False):
     """
@@ -366,8 +365,9 @@ def init_viz_backend(viz_backend_spec="plotly_no_gif",
     Parameters
     ----------
     virtual_frame_buffer : bool, optional
-        Whether to use a virtual fram buffer. This is neccessary if
-        generating GIFs in a headless environment. Default: False
+        Whether to use a virtual frame buffer. This is neccessary if
+        generating GIFs in a headless environment.
+        Default: False
     viz_backend_spec : str, optional
         Which visualization backend to use.
         See Visualization Backends page in documentation for details
@@ -393,4 +393,4 @@ def init_viz_backend(viz_backend_spec="plotly_no_gif",
 def get_viz_plan(kwargs):
     viz_tasks = with_name([
         plot_tract_profiles, viz_bundles, viz_indivBundle, init_viz_backend])
-    return pimms.plan(**viz_tasks)
+    return immlib.plan(**viz_tasks)

@@ -79,7 +79,7 @@ def name_from_path(path):
     elif "_" in file_name:
         return file_name.split("_")[-1]  # get suffix if exists
     else:
-        return file_name
+        return file_name.replace(" ", "_").replace("-", "_")
 
 
 def _ff_helper(required, err_msg):

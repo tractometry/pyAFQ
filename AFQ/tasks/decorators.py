@@ -21,7 +21,7 @@ from AFQ.tasks.utils import get_fname
 from AFQ.utils.path import drop_extension, write_json
 
 
-# These should only be used with pimms.calc
+# These should only be used with immlib.calc
 __all__ = ["as_file", "as_fit_deriv", "as_img"]
 
 
@@ -29,115 +29,50 @@ logger = logging.getLogger('AFQ')
 logger.setLevel(logging.INFO)
 
 
-# get args and kwargs from function
-def get_args_and_kwargs(func):
-    param_dict = inspect.signature(func).parameters
-    param_list = func.__code__.co_varnames[
-        :func.__code__.co_argcount]
-    is_param_kwarg = {
-        name: name in param_dict and param_dict[name].default is
-        not param_dict[name].empty for name in param_list}
-    return param_list, is_param_kwarg, param_dict
+def get_new_signature(og_func, needed_args):
+    sig = inspect.signature(og_func)
+    param_dict = sig.parameters
+
+    existing_args = set(param_dict)
+    new_param_names = [arg for arg in needed_args if arg not in existing_args]
+
+    new_params = [
+        inspect.Parameter(name, inspect.Parameter.POSITIONAL_OR_KEYWORD)
+        for name in new_param_names]
+
+    parameters = new_params + list(param_dict.values())
+    new_sig = sig.replace(parameters=parameters)
+
+    return new_sig, new_param_names
 
 
-# replaces *args and **kwargs with specific parameters from og_func
-# so that pimms can see original parameter names after wrapping
-# also adds on any args the decorator requires
-# these will be extracted with extract_added_args
-def has_args(og_func, needed_args):
-    def _has_args(func):
-        header = "def wrapper_has_args_func("
-        content = "):\n    return func("
-        found_args = []
-        param_list, is_param_kwarg, param_dict = get_args_and_kwargs(og_func)
-
-        # add func args
-        for name in param_list:
-            if not is_param_kwarg[name]:
-                header += f"{name}, "
-                content += f"{name}, "
-                found_args.append(name)
-
-        # add decorator args
-        for arg in needed_args:
-            if arg not in found_args:
-                header += f"{arg}, "
-                content += f"{arg}, "
-
-        # add func kwargs
-        for name in param_list:
-            if is_param_kwarg[name]:
-                default = param_dict[name].default
-                if isinstance(default, str):
-                    header += f"{name}='{default}', "
-                else:
-                    header += f"{name}={default}, "
-                content += f"{name}={name}, "
-
-        header = header[:-2]
-        content = content[:-2]
-        content = f"{content})"
-
-        wrapper_has_args = header + content
-        scope = {"func": func}
-        exec(wrapper_has_args, scope)
-        return scope['wrapper_has_args_func']
-    return _has_args
+def get_param(kwargs, new_params, arg_name):
+    if arg_name in new_params:
+        return kwargs.pop(arg_name)
+    else:
+        return kwargs.get(arg_name)
 
 
-# from function where needed args (like base_fname) are added,
-# return length of args before added args, and the added args
-def extract_added_args(func, names, args, includes=None):
-    vals = []
-    param_list, is_param_kwarg, _ = get_args_and_kwargs(func)
-    arg_list = [param for param in param_list if not is_param_kwarg[param]]
-    extra_count = 0
-    for jj, name in enumerate(names):
-        if includes is not None and not includes[jj]:
-            vals.append(None)
-            continue
-
-        found = False
-        for ii, arg_name in enumerate(arg_list):
-            if arg_name == name:
-                vals.append(args[ii])
-                found = True
-                break
-        if not found:
-            vals.append(args[len(arg_list) + extra_count])
-            extra_count = extra_count + 1
-
-    return len(arg_list), *vals
-
-
-def as_file(suffix, include_track=False, include_seg=False, subfolder=None):
+def as_file(suffix, subfolder=None):
     """
     return img and meta as saved file path, with json,
     and only run if not already found
     """
     def _as_file(func):
-        needed_args = ["base_fname", "output_dir"]
-        if include_track:
-            needed_args.append("tracking_params")
-        if include_seg:
-            needed_args.append("segmentation_params")
+        new_signature, new_params = get_new_signature(
+            func, ["base_fname", "output_dir", "tracking_params"])
 
         @functools.wraps(func)
-        @has_args(func, needed_args)
         def wrapper_as_file(*args, **kwargs):
-            og_arg_count, base_fname, output_dir, \
-                tracking_params, segmentation_params =\
-                extract_added_args(
-                    func,
-                    ["base_fname", "output_dir",
-                     "tracking_params", "segmentation_params"],
-                    args,
-                    includes=[True, True, include_track, include_seg])
+            base_fname = get_param(kwargs, new_params, "base_fname")
+            output_dir = get_param(kwargs, new_params, "output_dir")
+            tracking_params = get_param(kwargs, new_params, "tracking_params")
+
             this_file = get_fname(base_fname, suffix, subfolder=subfolder)
 
-            # tracking_params is defined and file has no extension
-            if tracking_params is not None and not op.splitext(this_file)[1]:
-                if tracking_params["trx"]:
+            # if file has no extension, we need to determine it
+            if not op.splitext(this_file)[1]:
+                if tracking_params.get("trx", False):
                     this_file = this_file + ".trx"
                 else:
                     this_file = this_file + ".trk"
@@ -145,7 +80,8 @@ def as_file(suffix, include_track=False, include_seg=False, subfolder=None):
             if not op.exists(this_file):
                 logger.info(f"Calculating {suffix}")
 
-                gen, meta = func(*args[:og_arg_count], **kwargs)
+                gen, meta = func(
+                    *args, **kwargs)
 
                 logger.info(f"{suffix} completed. Saving to {this_file}")
                 if isinstance(gen, nib.Nifti1Image):
@@ -162,11 +98,13 @@ def as_file(suffix, include_track=False, include_seg=False, subfolder=None):
 
                 # these are used to determine dependencies
                 # when clobbering derivatives
-                if "_desc-profiles" in suffix:
+                if "_desc-profiles" in suffix or\
+                        "viz" in inspect.getfile(func):
                     meta["dependent"] = "prof"
-                elif include_seg:
+                elif "segmentation" in inspect.getfile(func) or\
+                        "mapping" in inspect.getfile(func):
                     meta["dependent"] = "rec"
-                elif include_track:
+                elif "tractography" in inspect.getfile(func):
                     meta["dependent"] = "trk"
                 else:
                     meta["dependent"] = "dwi"
@@ -180,6 +118,9 @@ def as_file(suffix, include_track=False, include_seg=False, subfolder=None):
                     subfolder=subfolder)
                 write_json(meta_fname, meta)
             return this_file
+
+        wrapper_as_file.__signature__ = new_signature
+
         return wrapper_as_file
     return _as_file
 
@@ -189,16 +130,21 @@ def as_fit_deriv(tf_name):
     return data as nibabel image, meta with params information
     """
     def _as_fit_deriv(func):
-        needed_args = ["dwi_affine", f"{tf_name.lower()}_params"]
+        new_signature, new_params = get_new_signature(
+            func, ["dwi_affine", f"{tf_name.lower()}_params"])
 
         @functools.wraps(func)
-        @has_args(func, needed_args)
         def wrapper_as_fit_deriv(*args, **kwargs):
-            og_arg_count, dwi_affine, params = extract_added_args(
-                func, needed_args, args)
+            dwi_affine = get_param(kwargs, new_params, "dwi_affine")
+            params = get_param(kwargs, new_params,
+                               f"{tf_name.lower()}_params")
+
             img = nib.Nifti1Image(
-                func(*args[:og_arg_count], **kwargs), dwi_affine)
+                func(*args, **kwargs), dwi_affine)
             return img, {f"{tf_name}ParamsFile": params}
+
+        wrapper_as_fit_deriv.__signature__ = new_signature
+
         return wrapper_as_fit_deriv
     return _as_fit_deriv
 
@@ -207,16 +153,18 @@ def as_img(func):
     """
     return data, meta as nibabel image, meta with timing
     """
-    needed_args = ["dwi_affine"]
+    new_signature, new_params = get_new_signature(
+        func, ["dwi_affine"])
 
     @functools.wraps(func)
-    @has_args(func, needed_args)
     def wrapper_as_img(*args, **kwargs):
-        og_arg_count, affine = extract_added_args(
-            func, needed_args, args)
+        dwi_affine = get_param(kwargs, new_params, "dwi_affine")
         start_time = time()
-        data, meta = func(*args[:og_arg_count], **kwargs)
+        data, meta = func(*args, **kwargs)
         meta['timing'] = time() - start_time
-        img = nib.Nifti1Image(data.astype(np.float32), affine)
+        img = nib.Nifti1Image(data.astype(np.float32), dwi_affine)
         return img, meta
+
+    wrapper_as_img.__signature__ = new_signature
+
     return wrapper_as_img

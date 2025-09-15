@@ -15,6 +15,8 @@ import pytest
 import pandas as pd
 from pandas.testing import assert_series_equal
 
+from pcollections._lazy import LazyError
+
 import nibabel as nib
 import tempfile
 
@@ -31,7 +33,7 @@ import AFQ.data.fetch as afd
 import AFQ.utils.streamlines as aus
 import AFQ.utils.bin as afb
 from AFQ.definitions.mapping import SynMap, AffMap, SlrMap, IdentityMap
-from AFQ.definitions.image import (RoiImage, PFTImage, ImageFile,
+from AFQ.definitions.image import (RoiImage, PFTImage, ImageFile, ScalarImage,
                                    TemplateImage)
 
 
@@ -441,15 +443,20 @@ def test_API_type_checking():
         GroupAFQ(2)
 
     with pytest.raises(
-            TypeError,
-            match=(
-                "import_tract must be"
-                " either a dict or a str")):
-        myafq = GroupAFQ(
-            bids_path,
-            preproc_pipeline='vistasoft',
-            import_tract=["dwi"])
-        myafq.export("streamlines")
+        TypeError,
+        match=(
+            "import_tract must be "
+            "either a dict or a str")):
+        try:
+            myafq = GroupAFQ(
+                bids_path,
+                preproc_pipeline='vistasoft',
+                import_tract=["dwi"])
+            myafq.export("streamlines")
+        except LazyError as e:
+            while e.__context__:
+                e = e.__context__
+            raise e
     del myafq
 
     with pytest.raises(
@@ -480,7 +487,12 @@ def test_API_type_checking():
             bids_path,
             preproc_pipeline='vistasoft',
             bundle_info=[2, 3])
-        myafq.export("bundle_dict")
+        try:
+            myafq.export("bundle_dict")
+        except LazyError as e:
+            while e.__context__:
+                e = e.__context__
+            raise e
     del myafq
 
     with pytest.raises(
@@ -491,14 +503,21 @@ def test_API_type_checking():
             bids_path,
             preproc_pipeline='vistasoft',
             mapping_definition=IdentityMap(),
+            reg_subject_spec="dti_fa_subject",
             tracking_params={
                 "n_seeds": 10,
                 "rng_seed": seed,
                 "random_seeds": True,
+                "seed_mask": ScalarImage("dti_fa"),
                 "directions": "det",
                 "odf_model": "DTI"},
             bundle_info=abd.default18_bd()["Left Arcuate", "Right Arcuate"])
-        myafq.export("bundles")
+        try:
+            myafq.export("bundles")
+        except LazyError as e:
+            while e.__context__:
+                e = e.__context__
+            raise e
     del myafq
 
     with pytest.raises(
@@ -508,7 +527,12 @@ def test_API_type_checking():
             bids_path,
             preproc_pipeline='vistasoft',
             viz_backend_spec="matplotlib")
-        myafq.export("viz_backend")
+        try:
+            myafq.export("viz_backend")
+        except LazyError as e:
+            while e.__context__:
+                e = e.__context__
+            raise e
     del myafq
 
 
