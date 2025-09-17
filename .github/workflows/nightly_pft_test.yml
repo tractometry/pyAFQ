@@ -1,4 +1,4 @@
-name: Nightly test suite
+name: Nightly PFT test suite
 
 on:
   schedule:
