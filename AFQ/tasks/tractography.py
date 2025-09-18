@@ -465,9 +465,15 @@ def get_tractography_plan(kwargs):
 
     if kwargs["tracking_params"]["tracker"] == "pft":
         probseg_funcs = stop_mask.get_image_getter("tractography")
-        tractography_tasks["wm_res"] = immlib.calc("pve_wm")(probseg_funcs[0])
-        tractography_tasks["gm_res"] = immlib.calc("pve_gm")(probseg_funcs[1])
-        tractography_tasks["csf_res"] = immlib.calc("pve_csf")(probseg_funcs[2])
+        tractography_tasks["wm_res"] = immlib.calc("pve_wm")(as_file(
+            '_desc-wm_probseg.nii.gz', subfolder="tractography")(
+                probseg_funcs[0]))
+        tractography_tasks["gm_res"] = immlib.calc("pve_gm")(as_file(
+            '_desc-gm_probseg.nii.gz', subfolder="tractography")(
+                probseg_funcs[1]))
+        tractography_tasks["csf_res"] = immlib.calc("pve_csf")(as_file(
+            '_desc-csf_probseg.nii.gz', subfolder="tractography")(
+                probseg_funcs[2]))
         tractography_tasks["export_stop_mask_res"] = \
             export_stop_mask_pft
     elif isinstance(stop_mask, Definition):

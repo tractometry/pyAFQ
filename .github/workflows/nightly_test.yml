@@ -1,4 +1,4 @@
-name: Nightly test suite
+name: Nightly Other Datasets test suite
 
 on:
   schedule:

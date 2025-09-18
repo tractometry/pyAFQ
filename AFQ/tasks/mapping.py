@@ -121,8 +121,13 @@ def mapping(base_fname, dwi_data_file, reg_subject, data_imap,
     """
     reg_template = data_imap["reg_template"]
     tmpl_name = data_imap["tmpl_name"]
+
     if mapping_definition is None:
         mapping_definition = SynMap()
+
+    if isinstance(reg_subject, str):
+        reg_subject = nib.load(reg_subject)
+
     if not isinstance(mapping_definition, Definition):
         raise TypeError(
             "mapping must be a mapping defined"
@@ -246,7 +251,7 @@ def get_mapping_plan(kwargs, use_sls=False):
     reg_ss = kwargs.get("reg_subject_spec", None)
     if isinstance(reg_ss, ImageDefinition):
         del kwargs["reg_subject_spec"]
-        mapping_tasks["reg_subject_spec_res"] = immlib.calc("reg_subject_spec")(
+        mapping_tasks["get_reg_subject_res"] = immlib.calc("reg_subject")(
             as_file((
                 f'_desc-{str_to_desc(reg_ss.get_name())}'
                 '_dwiref.nii.gz'))(reg_ss.get_image_getter("mapping")))

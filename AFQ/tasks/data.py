@@ -1224,6 +1224,7 @@ def get_data_plan(kwargs):
         if not isinstance(bm_def, Definition):
             raise TypeError(
                 "brain_mask_definition must be a Definition")
+        del kwargs["brain_mask_definition"]
         data_tasks["brain_mask_res"] = immlib.calc("brain_mask")(
             as_file(
                 suffix=(

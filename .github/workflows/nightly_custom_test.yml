@@ -1,4 +1,4 @@
-name: Nightly test suite
+name: Nightly Custom test suite
 
 on:
   schedule:
