@@ -14,4 +14,4 @@ markers = [
 ]
 
 [tool.setuptools_scm]
-write_to = "pyAFQ/_version.py"
+write_to = "AFQ/version.py"
