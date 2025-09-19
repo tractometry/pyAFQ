@@ -282,9 +282,7 @@ def export_density_maps(bundles, data_imap):
 
 @as_file('_desc-profiles_tractography.csv')
 @immlib.calc("endpoint_maps")
-@as_file('_desc-endpoints_tractography.nii.gz',
-         include_track=True,
-         include_seg=True)
+@as_file('_desc-endpoints_tractography.nii.gz')
 def export_endpoint_maps(bundles, data_imap, endpoint_threshold=3):
     """
     full path to a NIfTI file containing endpoint maps for each bundle
@@ -345,7 +343,7 @@ def export_endpoint_maps(bundles, data_imap, endpoint_threshold=3):
 
 
 @immlib.calc("profiles")
-@as_file('_desc-profiles_tractography.csv', include_track=True, include_seg=True)
+@as_file('_desc-profiles_tractography.csv')
 def tract_profiles(bundles,
                    scalar_dict, data_imap,
                    profile_weights="gauss",
