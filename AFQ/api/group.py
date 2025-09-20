@@ -420,6 +420,7 @@ class GroupAFQ(object):
                 self.plans_dict[subject][str(session)] = this_pAFQ.plans_dict
                 self.pAFQ_list.append(this_pAFQ)
                 self.pAFQ_inputs_list.append(this_pAFQ_inputs)
+        self.kwargs = self.pAFQ_list[-1].kwargs
 
     def combine_profiles(self):
         tract_profiles_dict = self.export("profiles")

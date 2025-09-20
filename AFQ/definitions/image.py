@@ -771,19 +771,19 @@ class ThreeTImage(ImageDefinition):
             PVE = nib.load(data_imap["t1w_pve"])
             return nib.Nifti1Image(
                 PVE.get_fdata()[..., 0].astype(np.float32),
-                PVE.affine)
+                PVE.affine), dict(source=data_imap["t1w_pve"])
 
         def gm_getter(data_imap):
             PVE = nib.load(data_imap["t1w_pve"])
             return nib.Nifti1Image(
                 PVE.get_fdata()[..., 1].astype(np.float32),
-                PVE.affine)
+                PVE.affine), dict(source=data_imap["t1w_pve"])
 
         def wm_getter(data_imap):
             PVE = nib.load(data_imap["t1w_pve"])
             return nib.Nifti1Image(
                 PVE.get_fdata()[..., 2].astype(np.float32),
-                PVE.affine)
+                PVE.affine), dict(source=data_imap["t1w_pve"])
 
         return [wm_getter, gm_getter, csf_getter]
 
