@@ -16,6 +16,7 @@ import AFQ.utils.streamlines as aus
 from AFQ.tasks.utils import get_default_args
 import AFQ.utils.volume as auv
 from AFQ._fixes import gaussian_weights
+import AFQ.recognition.utils as abu
 
 try:
     from trx.io import load as load_trx
@@ -32,6 +33,9 @@ from dipy.tracking.streamline import set_number_of_points, values_from_volume
 from nibabel.affines import voxel_sizes
 from nibabel.orientations import aff2axcodes
 from dipy.io.stateful_tractogram import StatefulTractogram
+from dipy.align import resample
+from scipy.spatial import cKDTree
+
 
 import gzip
 import shutil
@@ -58,7 +62,9 @@ def segment(data_imap, mapping_imap,
     bundle_dict = data_imap["bundle_dict"]
     reg_template = data_imap["reg_template"]
     streamlines = tractography_imap["streamlines"]
-    if streamlines.endswith(".trk") or streamlines.endswith(".tck"):
+    if streamlines.endswith(".trk") or\
+        streamlines.endswith(".tck") or\
+            streamlines.endswith(".vtk"):
         tg = load_tractogram(
             streamlines, data_imap["dwi"], Space.VOX,
             bbox_valid_check=False)
@@ -113,6 +119,7 @@ def segment(data_imap, mapping_imap,
         mapping_imap["mapping"],
         bundle_dict,
         reg_template,
+        data_imap["n_cpus"],
         **segmentation_params)
 
     seg_sft = aus.SegmentedSFT(bundles, Space.VOX)
@@ -269,6 +276,68 @@ def export_density_maps(bundles, data_imap):
 
     return nib.Nifti1Image(
         entire_density_map, data_imap["dwi_affine"]), dict(
+            source=bundles, bundles=list(seg_sft.bundle_names))
+
+
+@as_file('_desc-profiles_tractography.csv')
+@immlib.calc("endpoint_maps")
+@as_file('_desc-endpoints_tractography.nii.gz')
+def export_endpoint_maps(bundles, data_imap, endpoint_threshold=3):
+    """
+    full path to a NIfTI file containing endpoint maps for each bundle
+
+    Parameters
+    ----------
+    endpoint_threshold : float, optional
+        The threshold for the endpoint maps.
+        If None, no endpoint maps are exported as distance to endpoints maps,
+        which the user can then threshold as needed.
+        Default: 3
+    """
+    seg_sft = aus.SegmentedSFT.fromfile(bundles)
+    entire_endpoint_map = np.zeros((
+        *data_imap["data"].shape[:3],
+        len(seg_sft.bundle_names)))
+
+    b0_img = nib.load(data_imap["b0"])
+    pve_img = nib.load(data_imap["t1w_pve"])
+    pve_data = pve_img.get_fdata()
+    gm = resample(pve_data[..., 1], b0_img.get_fdata(),
+                  pve_img.affine, b0_img.affine).get_fdata()
+
+    R = b0_img.affine[0:3, 0:3]
+    vox_to_mm = np.mean(np.diag(np.linalg.cholesky(R.T.dot(R))))
+
+    for ii, bundle_name in enumerate(seg_sft.bundle_names):
+        bundle_sl = seg_sft.get_bundle(bundle_name)
+        if len(bundle_sl.streamlines) == 0:
+            continue
+
+        bundle_sl.to_vox()
+
+        endpoints = np.vstack([s[0] for s in bundle_sl.streamlines]
+                              + [s[-1] for s in bundle_sl.streamlines])
+
+        shape = b0_img.get_fdata().shape
+        xv, yv, zv = np.meshgrid(np.arange(shape[0]),
+                                 np.arange(shape[1]),
+                                 np.arange(shape[2]), indexing='ij')
+        grid_points = np.column_stack([xv.ravel(), yv.ravel(), zv.ravel()])
+
+        kdtree = cKDTree(endpoints)
+        distances, _ = kdtree.query(grid_points)
+        tractogram_distance = distances.reshape(shape)
+
+        entire_endpoint_map[..., ii] = tractogram_distance * (
+            gm > 0.5).astype(np.float32) * vox_to_mm
+
+    if endpoint_threshold is not None:
+        entire_endpoint_map = np.logical_and(
+            entire_endpoint_map < endpoint_threshold,
+            entire_endpoint_map != 0.0).astype(np.float32)
+
+    return nib.Nifti1Image(
+        entire_endpoint_map, data_imap["dwi_affine"]), dict(
             source=bundles, bundles=list(seg_sft.bundle_names))
 
 
@@ -434,6 +503,7 @@ def get_segmentation_plan(kwargs):
         export_bundle_lengths,
         export_bundles,
         export_density_maps,
+        export_endpoint_maps,
         segment,
         tract_profiles])
 

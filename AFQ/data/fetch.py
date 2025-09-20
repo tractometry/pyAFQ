@@ -1165,6 +1165,10 @@ def organize_stanford_data(path=None, clear_previous_afq=None):
     if not op.exists(derivatives_path):
         logger.info(f'creating derivatives directory: {derivatives_path}')
 
+        os.makedirs(dmriprep_folder, exist_ok=True)
+        os.makedirs(freesurfer_folder, exist_ok=True)
+        os.makedirs(afq_folder, exist_ok=True)
+
         # anatomical data
         anat_folder = op.join(freesurfer_folder, 'sub-01', 'ses-01', 'anat')
         os.makedirs(anat_folder, exist_ok=True)

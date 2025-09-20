@@ -29,8 +29,29 @@ filter_b: bool
 b0_threshold: int
 	The value of b under which it is considered to be b0. Default: 50.
 
+ray_n_cpus: int
+	The number of CPUs to use for parallel processing with Ray. If None, uses the number of available CPUs minus one. Tractography and Recognition use Ray. Default: None
+
+numba_n_threads: int
+	The number of threads to use for Numba. If None, uses the number of available CPUs minus one. MSMT and ASYM fits use Numba. Default: None
+
+dam_low_signal_thresh: float
+	The threshold below which a voxel is considered to have low signal. Default: 50
+
+dki_wm_ll: float
+	Lower limit of FA in white matter to calculate probability mask. Default: 0.1
+
+dki_gm_ul: float
+	Upper limit of FA in gray matter to calculate probability mask. Default: 0.3
+
 robust_tensor_fitting: bool
 	Whether to use robust_tensor_fitting when doing dti. Only applies to dti. Default: False
+
+msmt_sh_order: int
+	Spherical harmonic order to use for the MSMT CSD fit. Default: 8
+
+msmt_fa_thr: float
+	The threshold on the FA used to calculate the multi shell auto response. Can be useful to reduce for baby subjects. Default: 0.7
 
 csd_response: tuple or None
 	The response function to be used by CSD, as a tuple with two elements. The first is the eigen-values as an (3,) ndarray and the second is the signal value for the response function without diffusion-weighting (i.e. S0). If not provided, auto_response will be used to calculate these values. Default: None
@@ -74,9 +95,6 @@ sphere: Sphere class instance
 gtol: float
 	This input is to refine kurtosis maxima under the precision of the directions sampled on the sphere class instance. The gradient of the convergence procedure must be less than gtol before successful termination. If gtol is None, fiber direction is directly taken from the initial sampled directions of the given sphere object. Default: 1e-2
 
-brain_mask_definition: instance from `AFQ.definitions.image`
-	This will be used to create the brain mask, which gets applied before registration to a template. If you want no brain mask to be applied, use FullImage. If None, use B0Image() Default: None
-
 bundle_info: dict or BundleDict
 	A dictionary or BundleDict for use in segmentation. See `Defining Custom Bundle Dictionaries` in the `usage` section of pyAFQ's documentation for details. If None, will get all appropriate bundles for the chosen segmentation algorithm. Default: None
 
@@ -102,6 +120,9 @@ SEGMENTATION
 ==========================================================
 segmentation_params: dict
 	The parameters for segmentation. Default: use the default behavior of the seg.Segmentation object.
+
+endpoint_threshold: float
+	The threshold for the endpoint maps. If None, no endpoint maps are exported as distance to endpoints maps, which the user can then threshold as needed. Default: 3
 
 profile_weights: str
 	How to weight each streamline (1D) or each node (2D) when calculating the tract-profiles. If callable, this is a function that calculates weights. If None, no weighting will be applied. If "gauss", gaussian weights will be used. If "median", the median of values at each node will be used instead of a mean or weighted mean. Default: "gauss"

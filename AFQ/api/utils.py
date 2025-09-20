@@ -36,10 +36,15 @@ methods_sections = {
     "dwi_data_file": "data",
     "bval_file": "data",
     "bvec_file": "data",
+    "t1_file": "data",
     "output_dir": "data",
     "best_scalar": "tractography",
     "base_fname": "data",
+    "pve_wm": "tractography",
+    "pve_gm": "tractography",
+    "pve_csf": "tractography",
 }
+
 kwargs_descriptors = {}
 for task_module in task_modules:
     kwargs_descriptors[task_module] = {}
@@ -142,7 +147,11 @@ def export_all_helper(api_afq_object, xforms, indiv, viz):
     api_afq_object.export("median_bundle_lengths")
     api_afq_object.export("profiles")
     api_afq_object.export("seed_thresh")
-    api_afq_object.export("stop_thresh")
+    stop_threshold = api_afq_object.kwargs.get(
+        "tracking_params", {}).get(
+            "stop_threshold", None)
+    if not isinstance(stop_threshold, str):
+        api_afq_object.export("stop_thresh")
 
     if viz:
         try:

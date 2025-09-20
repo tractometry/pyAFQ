@@ -32,6 +32,7 @@ myafq = GroupAFQ(
     op.join(afd.afq_home, 'stanford_hardi'),
     bundle_info=bundle_dict,
     preproc_pipeline='vistasoft',
+    t1_pipeline='freesurfer',
     tracking_params={
         "n_seeds": 50000,
         "random_seeds": True,
