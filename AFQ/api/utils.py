@@ -147,10 +147,11 @@ def export_all_helper(api_afq_object, xforms, indiv, viz):
     api_afq_object.export("median_bundle_lengths")
     api_afq_object.export("profiles")
     api_afq_object.export("seed_thresh")
-    try:
+    stop_threshold = api_afq_object.kwargs.get(
+        "tracking_params", {}).get(
+            "stop_threshold", None)
+    if not isinstance(stop_threshold, str):
         api_afq_object.export("stop_thresh")
-    except ValueError:
-        pass
 
     if viz:
         try:
