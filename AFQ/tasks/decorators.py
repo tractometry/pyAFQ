@@ -80,8 +80,12 @@ def as_file(suffix, subfolder=None):
             if not op.exists(this_file):
                 logger.info(f"Calculating {suffix}")
 
-                gen, meta = func(
-                    *args, **kwargs)
+                try:
+                    gen, meta = func(
+                        *args, **kwargs)
+                except Exception:
+                    print(f"Error in task: {func.__qualname__}")
+                    raise
 
                 logger.info(f"{suffix} completed. Saving to {this_file}")
                 if isinstance(gen, nib.Nifti1Image):
