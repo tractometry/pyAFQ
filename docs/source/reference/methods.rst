@@ -35,6 +35,18 @@ base_fname:
     Base file name for outputs
 
 
+pve_wm:
+    White matter partial volume estimate map
+
+
+pve_gm:
+    Gray matter partial volume estimate map
+
+
+pve_csf:
+    Cerebrospinal fluid partial volume estimate map
+
+
 data:
     DWI data as an ndarray for selected b values
 
@@ -65,30 +77,6 @@ b0:
 
 masked_b0:
     full path to a nifti file containing the mean b0 after applying the brain mask
-
-
-dam_params:
-    direction-averaged signal map (DAM) [1] slope and intercept
-
-
-dam_csf:
-    CSF probability map from DAM intercept
-
-
-dam_pseudot1:
-    Pseudo T1 map from DAM fit
-
-
-dki_csf:
-    CSF probability map from DKI MD inspired by [1]
-
-
-dki_wm:
-    WM probability map from DKI FA
-
-
-dki_gm:
-    GM probability map from DKI FA
 
 
 t1w_pve:
@@ -457,6 +445,10 @@ dki_ak:
 
 t1_brain_mask:
     full path to a nifti file containing brain mask from T1w image,
+
+
+t1_masked:
+    full path to a nifti file containing the T1w masked
 
 
 t1_subcortex:

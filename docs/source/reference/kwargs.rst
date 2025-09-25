@@ -18,13 +18,10 @@ Here are the arguments you can pass to kwargs, to customize the tractometry pipe
 DATA
 ==========================================================
 min_bval: float
-	Minimum b value you want to use from the dataset (other than b0), inclusive. If None, there is no minimum limit. Default: None
+	Minimum b value you want to use from the dataset (other than b0), inclusive. If None, there is no minimum limit. Default: -np.inf
 
 max_bval: float
-	Maximum b value you want to use from the dataset (other than b0), inclusive. If None, there is no maximum limit. Default: None
-
-filter_b: bool
-	Whether to filter the DWI data based on min or max bvals. Default: True
+	Maximum b value you want to use from the dataset (other than b0), inclusive. If None, there is no maximum limit. Default: np.inf
 
 b0_threshold: int
 	The value of b under which it is considered to be b0. Default: 50.
@@ -34,15 +31,6 @@ ray_n_cpus: int
 
 numba_n_threads: int
 	The number of threads to use for Numba. If None, uses the number of available CPUs minus one. MSMT and ASYM fits use Numba. Default: None
-
-dam_low_signal_thresh: float
-	The threshold below which a voxel is considered to have low signal. Default: 50
-
-dki_wm_ll: float
-	Lower limit of FA in white matter to calculate probability mask. Default: 0.1
-
-dki_gm_ul: float
-	Upper limit of FA in gray matter to calculate probability mask. Default: 0.3
 
 robust_tensor_fitting: bool
 	Whether to use robust_tensor_fitting when doing dti. Only applies to dti. Default: False
@@ -57,7 +45,7 @@ csd_response: tuple or None
 	The response function to be used by CSD, as a tuple with two elements. The first is the eigen-values as an (3,) ndarray and the second is the signal value for the response function without diffusion-weighting (i.e. S0). If not provided, auto_response will be used to calculate these values. Default: None
 
 csd_sh_order_max: int or None
-	default: infer the number of parameters from the number of data volumes, but no larger than 8. Default: None
+	If None, infer the number of parameters from the number of data volumes, but no larger than 8. Default: None
 
 csd_lambda_: float
 	weight given to the constrained-positivity regularization part of the deconvolution equation. Default: 1
@@ -83,10 +71,10 @@ rumba_csf_response: float
 rumba_n_iter: int
 	Number of iterations for fODF estimation. Must be a positive int. Default: 600
 
-opdt_sh_order: int
+opdt_sh_order_max: int
 	Spherical harmonics order for OPDT model. Must be even. Default: 8
 
-csa_sh_order: int
+csa_sh_order_max: int
 	Spherical harmonics order for CSA model. Must be even. Default: 8
 
 sphere: Sphere class instance
@@ -119,7 +107,7 @@ reg_subject_spec: str
 SEGMENTATION
 ==========================================================
 segmentation_params: dict
-	The parameters for segmentation. Default: use the default behavior of the seg.Segmentation object.
+	The parameters for segmentation. Defaults to using the default behavior of the seg.Segmentation object.
 
 endpoint_threshold: float
 	The threshold for the endpoint maps. If None, no endpoint maps are exported as distance to endpoints maps, which the user can then threshold as needed. Default: 3
@@ -138,7 +126,7 @@ scalars: list of strings and/or scalar definitions
 TRACTOGRAPHY
 ==========================================================
 tracking_params: dict
-	The parameters for tracking. Default: use the default behavior of the aft.track function. Seed mask and seed threshold, if not specified, are replaced with scalar masks from scalar[0] thresholded to 0.2. The ``seed_mask`` and ``stop_mask`` items of this dict may be ``AFQ.definitions.image.ImageFile`` instances. If ``tracker`` is set to "pft" then ``stop_mask`` should be an instance of ``AFQ.definitions.image.PFTImage``.
+	The parameters for tracking. Defaults to using the default behavior of the aft.track function. Seed mask and seed threshold, if not specified, are replaced with scalar masks from scalar[0] thresholded to 0.2. The ``seed_mask`` and ``stop_mask`` items of this dict may be ``AFQ.definitions.image.ImageFile`` instances. If ``tracker`` is set to "pft" then ``stop_mask`` should be an instance of ``AFQ.definitions.image.PFTImage``.
 
 import_tract: dict or str or None
 	BIDS filters for inputing a user made tractography file, or a path to the tractography file. If None, DIPY is used to generate the tractography. Default: None
@@ -172,7 +160,7 @@ n_points_indiv: int or None
 	n_points to resample streamlines to before plotting. If None, no resampling is done. Default: 40
 
 virtual_frame_buffer: bool
-	Whether to use a virtual fram buffer. This is neccessary if generating GIFs in a headless environment. Default: False
+	Whether to use a virtual frame buffer. This is neccessary if generating GIFs in a headless environment. Default: False
 
 viz_backend_spec: str
 	Which visualization backend to use. See Visualization Backends page in documentation for details https://tractometry.org/pyAFQ/reference/viz_backend.html One of {"fury", "plotly", "plotly_no_gif"}. Default: "plotly_no_gif"
