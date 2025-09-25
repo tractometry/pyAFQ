@@ -66,8 +66,13 @@ def run_brainchop(t1_img, model):
         subprocess.run(cmd, input=full_input, check=True)
 
         output_img = nib.load(tmp_out_file)
+        # This line below forces the data into memory to avoid issues with
+        # temporary files being deleted too early.
+        # Otherwise, nibabel lazy-loads the data and the file gets deleted
+        # before the data is accessed, because the file is in a temporary
+        # Directory.
         output_img = nib.Nifti1Image(
             output_img.get_fdata().copy(),
-            output_img.affine.copy())  # force into memory
+            output_img.affine.copy())
 
     return output_img

@@ -6,14 +6,13 @@ import logging
 import dipy.data as dpd
 
 import immlib
-import multiprocessing
 
 from AFQ.tasks.decorators import as_file
 from AFQ.tasks.utils import with_name
 from AFQ.definitions.utils import Definition
 import AFQ.tractography.tractography as aft
 from AFQ.tasks.utils import get_default_args
-from AFQ.definitions.image import ScalarImage, ThreeTImage
+from AFQ.definitions.image import ScalarImage, ThreeTissueImage
 from AFQ.tractography.utils import gen_seeds, get_percentile_threshold
 
 from trx.trx_file_memmap import TrxFile
@@ -458,7 +457,7 @@ def get_tractography_plan(kwargs):
 
     if kwargs["tracking_params"]["stop_mask"] is None:
         kwargs["tracking_params"]["stop_threshold"] = "ACT"
-        kwargs["tracking_params"]["stop_mask"] = ThreeTImage()
+        kwargs["tracking_params"]["stop_mask"] = ThreeTissueImage()
         logger.info((
             "No stop mask given, using ACT "
             "and 3T prob maps esimated from T1w"))

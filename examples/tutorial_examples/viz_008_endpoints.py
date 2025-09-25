@@ -27,7 +27,7 @@ from AFQ.viz.utils import COLOR_DICT
 from dipy.align import resample
 
 ############################################################
-# Use an example subject from the Human Brain Network (HBN).
+# Use an example subject from the Healthy Brain Network (HBN).
 
 subject_id = "NDARKP893TWU"  # Example subject ID
 ses_id = "HBNsiteRU"  # Example session ID
@@ -76,7 +76,7 @@ for odf_model in ["csd", "msmtcsd"]:
                 "sphere": get_sphere(name="repulsion724"),
                 "seed_mask": afm.ScalarImage("wm_gm_interface"),
                 "seed_threshold": 0.5,
-                "stop_mask": afm.ThreeTImage(),
+                "stop_mask": afm.ThreeTissueImage(),
                 "stop_threshold": "ACT",
                 "n_seeds": 2000000,
                 "random_seeds": True},

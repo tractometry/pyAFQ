@@ -13,7 +13,7 @@ from skimage.morphology import convex_hull_image, binary_opening
 __all__ = [
     "ImageFile", "FullImage", "RoiImage", "LabelledImageFile",
     "ThresholdedImageFile", "ScalarImage", "ThresholdedScalarImage",
-    "TemplateImage", "ThreeTImage"]
+    "TemplateImage", "ThreeTissueImage"]
 
 
 logger = logging.getLogger('AFQ')
@@ -741,16 +741,16 @@ class PFTImage(ImageDefinition):
                 for probseg in self.probsegs]
 
 
-class ThreeTImage(ImageDefinition):
+class ThreeTissueImage(ImageDefinition):
     """
-    Define an image for use in PFT tractography. Only use
+    Define a three tissue image for use in PFT tractography. Only use
     if tracker set to 'pft' in tractography. Use to generate
     WM/GM/CSF probsegs from T1w.
 
     Examples
     --------
     api.GroupAFQ(tracking_params={
-        "stop_image": ThreeTImage(),
+        "stop_image": ThreeTissueImage(),
         "stop_threshold": "ACT",
         "tracker": "pft"})
     """
@@ -764,7 +764,7 @@ class ThreeTImage(ImageDefinition):
     def get_image_getter(self, task_name):
         if task_name == "data":
             raise ValueError((
-                "ThreeTImage cannot be used in this context, as they"
+                "ThreeTissueImage cannot be used in this context, as they"
                 "require later derivatives to be calculated"))
 
         def csf_getter(data_imap):
