@@ -7,6 +7,7 @@ import AFQ.data.fetch as afd
 import AFQ.recognition.curvature as abv
 import AFQ.recognition.utils as abu
 import AFQ.recognition.cleaning as abc
+import AFQ.recognition.other_bundles as abo
 
 
 from dipy.io.stateful_tractogram import StatefulTractogram, Space
@@ -21,6 +22,16 @@ streamlines = file_dict['tractography_subsampled.trk']
 tg = StatefulTractogram(streamlines, hardi_img, Space.RASMM)
 tg.to_vox()
 streamlines = tg.streamlines
+
+
+def _make_straight_streamlines(n_sl=5, length=10, axis=0, offset=0):
+    """Utility: make straight streamlines along one axis."""
+    sls = []
+    for i in range(n_sl):
+        sl = np.zeros((length, 3))
+        sl[:, axis] = np.linspace(0, length - 1, length) + offset
+        sls.append(sl)
+    return sls
 
 
 def test_segment_sl_curve():
@@ -93,3 +104,79 @@ def test_segment_orientation():
                                  primary_axis="I/S", affine=np.eye(4),
                                  tol=33)
     npt.assert_array_equal(cleaned_idx_tol, cleaned_idx)
+
+
+def test_clean_isolation_forest_basic():
+    cleaned_idx = abc.clean_by_isolation_forest(streamlines,
+                                                n_points=20,
+                                                min_sl=10)
+    # Should return either a boolean mask or integer indices
+    npt.assert_(isinstance(cleaned_idx, (np.ndarray,)))
+    npt.assert_(cleaned_idx.shape[0] <= len(streamlines))
+
+
+def test_clean_isolation_forest_outlier_thresh():
+    cleaned_loose = abc.clean_by_isolation_forest(streamlines,
+                                                  n_points=20,
+                                                  percent_outlier_thresh=50,
+                                                  min_sl=10)
+    cleaned_strict = abc.clean_by_isolation_forest(streamlines,
+                                                   n_points=20,
+                                                   percent_outlier_thresh=5,
+                                                   min_sl=10)
+    npt.assert_(np.sum(cleaned_loose) >= np.sum(cleaned_strict))
+
+
+def test_clean_by_overlap_keep_remove():
+    img = nib.Nifti1Image(np.zeros((20, 20, 20)), np.eye(4))
+
+    this_bundle = _make_straight_streamlines(n_sl=3, length=10, axis=0)
+    other_bundle = _make_straight_streamlines(n_sl=3, length=10, axis=0)
+
+    cleaned_remove = abo.clean_by_overlap(this_bundle, other_bundle,
+                                          overlap=5, img=img, remove=True)
+    npt.assert_equal(cleaned_remove, np.zeros(3, dtype=bool))
+
+    cleaned_keep = abo.clean_by_overlap(this_bundle, other_bundle,
+                                        overlap=5, img=img, remove=False)
+    npt.assert_equal(cleaned_keep, np.ones(3, dtype=bool))
+
+
+def test_clean_by_overlap_partial_overlap():
+    img = nib.Nifti1Image(np.zeros((20, 20, 20)), np.eye(4))
+
+    this_bundle = _make_straight_streamlines(n_sl=2, length=10, axis=0)
+    other_bundle = _make_straight_streamlines(n_sl=2, length=10, axis=1)
+
+    # These bundles are orthogonal, so minimal overlap
+    cleaned = abo.clean_by_overlap(this_bundle, other_bundle,
+                                   overlap=2, img=img, remove=False)
+    npt.assert_equal(cleaned, np.zeros(2, dtype=bool))
+
+
+def test_clean_relative_to_other_core_entire_vs_closest():
+    # Two bundles along x axis, separated along z
+    this_bundle = np.array(_make_straight_streamlines(n_sl=2,
+                                                      length=5,
+                                                      axis=0))
+    this_bundle[0, :, 2] += 5
+    this_bundle[1, :, 2] -= 5
+    other_bundle = np.array(_make_straight_streamlines(n_sl=2,
+                                                       length=5,
+                                                       axis=0))
+    affine = np.eye(4)
+    cleaned_entire = abo.clean_relative_to_other_core('inferior',
+                                                      this_bundle,
+                                                      other_bundle,
+                                                      affine,
+                                                      entire=True)
+    npt.assert_equal(cleaned_entire, [True, False])
+
+    # With entire=False, same result in this synthetic case
+    cleaned_closest = abo.clean_relative_to_other_core('inferior',
+                                                       this_bundle,
+                                                       other_bundle,
+                                                       affine,
+                                                       entire=False)
+    npt.assert_equal(cleaned_closest, [True, False])
+
