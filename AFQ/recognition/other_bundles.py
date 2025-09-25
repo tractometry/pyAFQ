@@ -10,7 +10,7 @@ logger = logging.getLogger('AFQ')
 
 
 def clean_by_overlap(this_bundle_sls, other_bundle_sls,
-                     overlap, img, remove):
+                     overlap, img, remove=False):
     """
     Cleans a set of streamlines by only keeping (or removing) those with
     significant overlap with another set of streamlines.
@@ -28,10 +28,11 @@ def clean_by_overlap(this_bundle_sls, other_bundle_sls,
     img : nibabel.Nifti1Image or ndarray
         A reference 3D image that defines the spatial dimensions for the density 
         map.
-    remove : bool
+    remove : bool, optional
         If True, streamlines that overlap in less than `overlap` nodes are
         removed. If False, streamlines that overlap in more than `overlap` nodes
         are removed.
+        Default: False.
 
     Returns
     -------
@@ -67,7 +68,7 @@ def clean_by_overlap(this_bundle_sls, other_bundle_sls,
 
 
 def clean_relative_to_other_core(core, this_fgarray, other_fgarray, affine,
-                                 entire):
+                                 entire=False):
     """
     Removes streamlines from a set that lie on the opposite side of a specified 
     core axis compared to another set of streamlines.
@@ -84,10 +85,11 @@ def clean_relative_to_other_core(core, this_fgarray, other_fgarray, affine,
         An array of reference streamlines to define the core.
     affine : ndarray
         The affine transformation matrix.
-    entire : bool
+    entire : bool, optional
         If True, the entire streamline must lie on the correct side of the core 
         to be retained. If False, only the closest point on the streamline to 
         the core is considered.
+        Default: False.
 
     Returns
     -------
