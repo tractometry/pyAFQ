@@ -51,7 +51,7 @@ class ParticipantAFQ(object):
             Path to bvec file.
         t1_file : str
             Path to T1-weighted image file. Must already be registered
-            to the DWI data.
+            to the DWI data, though not resampled.
         output_dir : str
             Path to output directory.
         kwargs : additional optional parameters

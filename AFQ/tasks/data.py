@@ -43,7 +43,6 @@ from AFQ.models.dti import _fit as dti_fit_model
 from AFQ.models.fwdti import _fit as fwdti_fit_model
 from AFQ.models.QBallTP import (
     extract_odf, anisotropic_index, anisotropic_power)
-from AFQ.models.dam import fit_dam, csf_dam, t1_dam
 from AFQ.models.wmgm_interface import fit_wm_gm_interface, pve_from_subcortex
 from AFQ.models.msmt import MultiShellDeconvModel
 from AFQ.models.asym_filtering import (
@@ -160,69 +159,6 @@ def b0_mask(b0, brain_mask):
         source=b0,
         masked=True)
     return masked_data, meta
-
-
-@immlib.calc("dam_params")
-@as_file(suffix='_model-dam_param-slopeintercept_dwimap.nii.gz',
-         subfolder="models")
-@as_img
-def dam_fit(data, gtab, masked_b0,
-            dam_low_signal_thresh=50):
-    """
-    direction-averaged signal map (DAM) [1] slope and intercept
-
-    Parameters
-    ----------
-    dam_low_signal_thresh : float, optional
-        The threshold below which a voxel is considered to have low signal.
-        Default: 50
-
-    References
-    ----------
-    .. [1] Cheng, H., Newman, S., Afzali, M., Fadnavis, S.,
-            & Garyfallidis, E. (2020). Segmentation of the brain using
-            direction-averaged signal of DWI images. 
-            Magnetic Resonance Imaging, 69, 1-7. Elsevier. 
-            https://doi.org/10.1016/j.mri.2020.02.010
-    """
-    b0_img = nib.load(masked_b0)
-    params_map = fit_dam(
-        data, gtab, b0_img,
-        dam_low_signal_thresh=dam_low_signal_thresh)
-
-    return params_map, dict(low_signal_thresh=dam_low_signal_thresh)
-
-
-@immlib.calc("dam_csf")
-@as_file(suffix='_model-dam_param-csf_probseg.nii.gz',
-         subfolder="models")
-@as_img
-def dam_csf(dam_params):
-    """
-    CSF probability map from DAM intercept
-    """
-    dam_intercept_data = nib.load(dam_params).get_fdata()[..., 1]
-    csf, threshold = csf_dam(dam_intercept_data)
-
-    return csf, dict(
-        DAMParamsFile=dam_params,
-        threshold=threshold)
-
-
-@immlib.calc("dam_pseudot1")
-@as_file(suffix='_model-dam_param-pseudot1_dwimap.nii.gz',
-         subfolder="models")
-@as_img
-def dam_pseudot1(dam_params, dam_csf):
-    """
-    Pseudo T1 map from DAM fit
-    """
-    dam_slope_data = nib.load(dam_params).get_fdata()[..., 0]
-    dam_csf_data = nib.load(dam_csf).get_fdata()
-
-    pseudo_t1 = t1_dam(dam_slope_data, dam_csf_data)
-
-    return pseudo_t1, dict(source=dam_params)
 
 
 @immlib.calc("dki_csf")
@@ -1713,7 +1649,6 @@ def get_data_plan(kwargs):
         t1_subcortex,
         configure_ncpus_nthreads,
         t1w_pve, wm_gm_interface,
-        dam_fit, dam_csf, dam_pseudot1,
         dti_fit, dki_fit, fwdti_fit, anisotropic_power_map,
         csd_anisotropic_index, csd_aodf,
         msmt_params, msmt_apm, msmt_aodf,
