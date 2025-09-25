@@ -280,10 +280,12 @@ def streamlines(data_imap, seed, stop, fodf,
             sft = trx_concatenate(sfts)
         else:
             lazyt = aft.track(fodf, **this_tracking_params)
+            # Chunk size is number of streamlines tracked before saving to disk.
             sft = TrxFile.from_lazy_tractogram(
                 lazyt,
                 seed,
-                dtype_dict=dtype_dict)
+                dtype_dict=dtype_dict,
+                chunk_size=1e5)
         n_streamlines = len(sft)
 
     else:
