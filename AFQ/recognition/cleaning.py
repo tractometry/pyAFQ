@@ -68,15 +68,17 @@ def clean_by_orientation(streamlines, primary_axis, affine, tol=None):
 
 
 def clean_by_orientation_mahalanobis(streamlines, n_points=100,
-                                     core_only=True, min_sl=20,
+                                     core_only=0.6, min_sl=20,
                                      distance_threshold=3,
                                      clean_rounds=5):
     fgarray = np.array(abu.resample_tg(streamlines, n_points))
 
-    if core_only:
-        fgarray = fgarray[:,
-                          int(n_points * 0.2):int(n_points * 0.8),
-                          :]  # Crop to middle 60%
+    if core_only != 0:
+        crop_edge = (1.0 - core_only) / 2
+        fgarray = fgarray[
+            :,
+            int(n_points * crop_edge):int(n_points * (1 - crop_edge)),
+            :]  # Crop to middle 60%
 
     fgarray_dists = fgarray[:, 1:, :] - fgarray[:, :-1, :]
     idx = np.arange(len(fgarray))
@@ -119,7 +121,7 @@ def clean_by_orientation_mahalanobis(streamlines, n_points=100,
 
 def clean_bundle(tg, n_points=100, clean_rounds=5, distance_threshold=3,
                  length_threshold=4, min_sl=20, stat=np.mean,
-                 core_only=True, return_idx=False):
+                 core_only=0.6, return_idx=False):
     """
     Clean a segmented fiber group based on the Mahalnobis distance of
     each streamline
@@ -147,13 +149,13 @@ def clean_bundle(tg, n_points=100, clean_rounds=5, distance_threshold=3,
     stat : callable or str, optional.
         The statistic of each node relative to which the Mahalanobis is
         calculated. Default: `np.mean` (but can also use median, etc.)
-    core_only : bool, optional
-        If True, only the core of the bundle is used for cleaning.
-        The core is defined as the middle 60% of each streamline.
-        This means streamlines are allowed to deviate in the starting
-        and ending 20% of the bundle. This is useful for allowing more
-        diverse endpoints.
-        Default: True.
+    core_only : float, optional
+        If non-zero, only the core of the bundle is used for cleaning.
+        The core is commonly defined as the middle 60% of each streamline,
+        thus our default is 0.6. This means streamlines are allowed to
+        deviate in the starting and ending 20% of the bundle. This is useful
+        for allowing more diverse endpoints.
+        Default: 0.6
     return_idx : bool
         Whether to return indices in the original streamlines.
         Default: False.
@@ -184,10 +186,12 @@ def clean_bundle(tg, n_points=100, clean_rounds=5, distance_threshold=3,
 
     # Resample once up-front:
     fgarray = np.asarray(abu.resample_tg(streamlines, n_points))
-    if core_only:
-        fgarray = fgarray[:,
-                          int(n_points * 0.2):int(n_points * 0.8),
-                          :]  # Crop to middle 60%
+    if core_only != 0:
+        crop_edge = (1.0 - core_only) / 2
+        fgarray = fgarray[
+            :,
+            int(n_points * crop_edge):int(n_points * (1 - crop_edge)),
+            :]  # Crop to middle 60%
 
     # Keep this around, so you can use it for indexing at the very end:
     idx = np.arange(len(fgarray))
