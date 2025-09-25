@@ -1427,9 +1427,26 @@ def t1_brain_mask(t1_file):
         model="brainchop")
 
 
+@immlib.calc("t1_masked")
+@as_file(suffix='_desc-masked_T1w.nii.gz')
+def t1_masked(t1_file, t1_brain_mask):
+    """
+    full path to a nifti file containing the T1w masked
+    """
+    t1_img = nib.load(t1_file)
+    t1_data = t1_img.get_fdata()
+    t1_mask = nib.load(t1_brain_mask)
+    t1_data[t1_mask.get_fdata() == 0] = 0
+    t1_img_masked = nib.Nifti1Image(
+        t1_data, t1_img.affine)
+    return t1_img_masked, dict(
+        T1w=t1_file,
+        BrainMask=t1_brain_mask)
+
+
 @immlib.calc("t1_subcortex")
 @as_file(suffix='_desc-subcortex_probseg.nii.gz')
-def t1_subcortex(t1_file, t1_brain_mask):
+def t1_subcortex(t1_masked):
     """
     full path to a nifti file containing segmentation of
     subcortical structures from T1w image using Brainchop
@@ -1441,18 +1458,13 @@ def t1_subcortex(t1_file, t1_brain_mask):
         Software, 8(83), 5098.
         https://doi.org/10.21105/joss.05098
     """
-    t1_img = nib.load(t1_file)
-    t1_data = t1_img.get_fdata()
-    t1_mask = nib.load(t1_brain_mask)
-    t1_data[t1_mask.get_fdata() == 0] = 0
-    t1_img_masked = nib.Nifti1Image(
-        t1_data, t1_img.affine)
+    t1_img_masked = nib.load(t1_masked)
 
     subcortical_img = run_brainchop(
         t1_img_masked, "subcortical")
 
     meta = dict(
-        T1w=t1_file,
+        T1w=t1_masked,
         model="subcortical",
         labels=[
             "Unknown", "Cerebral-White-Matter", "Cerebral-Cortex",
@@ -1562,8 +1574,8 @@ def get_data_plan(kwargs):
             "strings/scalar definitions")
 
     data_tasks = with_name([
-        get_data_gtab, b0, b0_mask, brain_mask, t1_brain_mask,
-        t1_subcortex,
+        get_data_gtab, b0, b0_mask, brain_mask,
+        t1_brain_mask, t1_subcortex, t1_masked,
         configure_ncpus_nthreads,
         t1w_pve, wm_gm_interface,
         dti_fit, dki_fit, fwdti_fit, anisotropic_power_map,

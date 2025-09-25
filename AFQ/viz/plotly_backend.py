@@ -598,8 +598,8 @@ def _draw_slice(figure, axis, volume, opacity=0.3, pos=0.5,
                 colorscale="greys", invert_colorscale=False):
     height = int(volume.shape[axis] * pos)
 
-    v_min = np.percentile(volume, 10)
-    sf = np.percentile(volume, 90) - v_min
+    v_min = np.percentile(volume, 20)
+    sf = np.percentile(volume, 80) - v_min
 
     if axis == Axes.X:
         X, Y, Z = np.mgrid[height:height + 1,
