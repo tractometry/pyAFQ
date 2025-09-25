@@ -38,7 +38,6 @@ from AFQ.models.dti import noise_from_b0
 from AFQ.models.csd import _fit as csd_fit_model
 from AFQ.models.csd import CsdNanResponseError
 from AFQ.models.dki import _fit as dki_fit_model
-from AFQ.models.dki import fit_dki_csf, fit_dki_gm, fit_dki_wm
 from AFQ.models.dti import _fit as dti_fit_model
 from AFQ.models.fwdti import _fit as fwdti_fit_model
 from AFQ.models.QBallTP import (
@@ -159,88 +158,6 @@ def b0_mask(b0, brain_mask):
         source=b0,
         masked=True)
     return masked_data, meta
-
-
-@immlib.calc("dki_csf")
-@as_file(suffix='_model-dki_param-csf_probseg.nii.gz',
-         subfolder="models")
-@as_img
-def dki_csf(dki_md):
-    """
-    CSF probability map from DKI MD inspired by [1]
-
-    References
-    ----------
-    .. [1] Cheng, H., Newman, S., Afzali, M., Fadnavis, S.,
-            & Garyfallidis, E. (2020). Segmentation of the brain using
-            direction-averaged signal of DWI images. 
-            Magnetic Resonance Imaging, 69, 1-7. Elsevier. 
-            https://doi.org/10.1016/j.mri.2020.02.010
-    """
-    dki_md_data = nib.load(dki_md).get_fdata()
-
-    dki_md_data, main_peak_val, peak_sigma = fit_dki_csf(dki_md_data)
-
-    return dki_md_data, dict(
-        DKI_MD_source=dki_md,
-        main_peak_val=main_peak_val,
-        peak_sigma=peak_sigma)
-
-
-@immlib.calc("dki_wm")
-@as_file(suffix='_model-dki_param-wm_probseg.nii.gz',
-         subfolder="models")
-@as_img
-def dki_wm(dki_fa, dki_wm_ll=0.1, dki_gm_ul=0.3):
-    """
-    WM probability map from DKI FA
-
-    Parameters
-    ----------
-    dki_wm_ll : float, optional
-        Lower limit of FA in white matter to calculate probability mask.
-        Default: 0.1
-    dki_gm_ul : float, optional
-        Upper limit of FA in gray matter to calculate probability mask.
-        Default: 0.3
-    """
-    dki_fa_data = nib.load(dki_fa).get_fdata()
-
-    wm_data = fit_dki_wm(dki_fa_data, dki_wm_ll, dki_gm_ul)
-
-    return wm_data, dict(
-        DKI_FA_source=dki_fa,
-        dki_wm_ll=dki_wm_ll,
-        dki_gm_ul=dki_gm_ul)
-
-
-@immlib.calc("dki_gm")
-@as_file(suffix='_model-dki_param-gm_probseg.nii.gz',
-         subfolder="models")
-@as_img
-def dki_gm(dki_fa, dki_csf, dki_wm_ll=0.1, dki_gm_ul=0.3):
-    """
-    GM probability map from DKI FA
-
-    Parameters
-    ----------
-    dki_wm_ll : float, optional
-        Lower limit of FA in white matter to calculate probability mask.
-        Default: 0.1
-    dki_gm_ul : float, optional
-        Upper limit of FA in gray matter to calculate probability mask.
-        Default: 0.3
-    """
-    dki_fa_data = nib.load(dki_fa).get_fdata()
-    dki_csf_data = nib.load(dki_csf).get_fdata()
-
-    gm_data = fit_dki_gm(dki_fa_data, dki_csf_data, dki_wm_ll, dki_gm_ul)
-
-    return gm_data, dict(
-        DKI_FA_source=dki_fa,
-        DKI_CSF_source=dki_csf,
-        dki_wm_ll=dki_wm_ll,
-        dki_gm_ul=dki_gm_ul)
 
 
 @immlib.calc("t1w_pve")
@@ -1662,7 +1579,6 @@ def get_data_plan(kwargs):
         dti_ga, dti_rd, dti_ad,
         dki_ad, dki_rk, dki_ak, dti_params, dki_params, fwdti_params,
         dki_cl, dki_cp, dki_cs,
-        dki_csf, dki_wm, dki_gm,
         rumba_fit, rumba_params, rumba_model,
         rumba_f_csf, rumba_f_gm, rumba_f_wm,
         csd_params, get_bundle_dict])
