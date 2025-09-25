@@ -31,7 +31,11 @@ methods_descriptors = {
     "output_dir": "Path to output directory",
     "best_scalar": "Go-to scalar for visualizations",
     "base_fname": "Base file name for outputs",
+    "pve_wm": "White matter partial volume estimate map",
+    "pve_gm": "Gray matter partial volume estimate map",
+    "pve_csf": "Cerebrospinal fluid partial volume estimate map",
 }
+
 methods_sections = {
     "dwi_data_file": "data",
     "bval_file": "data",
