@@ -344,13 +344,13 @@ def orient_mahal(b_sls, bundle_def, **kwargs):
     b_sls.select(accept_idx, "orient_mahal")
 
 
-def isolation_forest(b_sls, bundle_def, n_cpus, **kwargs):
+def isolation_forest(b_sls, bundle_def, n_cpus, rng, **kwargs):
     b_sls.initiate_selection("isolation_forest")
     accept_idx = abc.clean_by_isolation_forest(
         b_sls.get_selected_sls(),
         percent_outlier_thresh=bundle_def["isolation_forest"].get(
             "percent_outlier_thresh", 25),
-        n_jobs=n_cpus)
+        n_jobs=n_cpus, random_state=rng)
     b_sls.select(accept_idx, "isolation_forest")
 
 
