@@ -260,7 +260,7 @@ def clean_bundle(tg, n_points=100, clean_rounds=5, distance_threshold=3,
 
 
 def clean_by_isolation_forest(tg, n_points=100, percent_outlier_thresh=15,
-                              min_sl=20, n_jobs=None):
+                              min_sl=20, n_jobs=None, random_state=None):
     """
     Use Isolation Forest (IF) to clean streamlines.
     Nodes are passed to IF, and outlier nodes are identified.
@@ -284,6 +284,9 @@ def clean_by_isolation_forest(tg, n_points=100, percent_outlier_thresh=15,
     n_jobs : int, optional
         Number of parallel jobs to use for LOF.
         Default: None (single-threaded).
+    random_state : int, optional
+        Random state for IsolationForest.
+        Default: None
 
     Returns
     -------
@@ -312,7 +315,7 @@ def clean_by_isolation_forest(tg, n_points=100, percent_outlier_thresh=15,
         axis=1)
     idx = np.arange(len(fgarray))
 
-    lof = IsolationForest(n_jobs=n_jobs)
+    lof = IsolationForest(n_jobs=n_jobs, random_state=random_state)
     outliers = lof.fit_predict(X_)
     outliers = outliers.reshape(fgarray.shape[:2])
     outliers = np.sum(outliers == -1, axis=1)

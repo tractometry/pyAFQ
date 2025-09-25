@@ -119,11 +119,13 @@ def test_clean_isolation_forest_outlier_thresh():
     cleaned_loose = abc.clean_by_isolation_forest(streamlines,
                                                   n_points=20,
                                                   percent_outlier_thresh=50,
-                                                  min_sl=10)
+                                                  min_sl=10,
+                                                  random_state=42)
     cleaned_strict = abc.clean_by_isolation_forest(streamlines,
                                                    n_points=20,
                                                    percent_outlier_thresh=5,
-                                                   min_sl=10)
+                                                   min_sl=10,
+                                                   random_state=42)
     npt.assert_(np.sum(cleaned_loose) >= np.sum(cleaned_strict))
 
 
