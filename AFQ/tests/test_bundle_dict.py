@@ -29,6 +29,9 @@ def test_BundleDict():
 
     assert len(afq_bundles) == 2
 
+    del afq_bundles["Left Arcuate"]
+    assert len(afq_bundles) == 1
+
     # Forceps Minor and Major
     afq_bundles = abd.default18_bd()["Forceps Major", "Forceps Minor"]
 
