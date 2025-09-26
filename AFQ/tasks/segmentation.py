@@ -280,7 +280,6 @@ def export_density_maps(bundles, data_imap):
             source=bundles, bundles=list(seg_sft.bundle_names))
 
 
-@as_file('_desc-profiles_tractography.csv')
 @immlib.calc("endpoint_maps")
 @as_file('_desc-endpoints_tractography.nii.gz')
 def export_endpoint_maps(bundles, data_imap, endpoint_threshold=3):
