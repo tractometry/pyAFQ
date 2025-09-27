@@ -806,7 +806,7 @@ class BundleDict(MutableMapping):
                 " are co-located, and AFQ"
                 " assigns each streamline to only one bundle."
                 " Only Callosum Occipital will be used."))
-            self.bundle_names.remove("Forceps Major")
+            del self["Forceps Major"]
         if "Forceps Minor" in self.bundle_names\
                 and "Callosum Orbital" in self.bundle_names:
             self.logger.info((
@@ -814,7 +814,7 @@ class BundleDict(MutableMapping):
                 " are co-located, and AFQ"
                 " assigns each streamline to only one bundle."
                 " Only Callosum Orbital will be used."))
-            self.bundle_names.remove("Forceps Minor")
+            del self["Forceps Minor"]
         if "Forceps Minor" in self.bundle_names\
                 and "Callosum Anterior Frontal" in self.bundle_names:
             self.logger.info((
@@ -822,7 +822,7 @@ class BundleDict(MutableMapping):
                 " are co-located, and AFQ"
                 " assigns each streamline to only one bundle."
                 " Only Callosum Anterior Frontal will be used."))
-            self.bundle_names.remove("Forceps Minor")
+            del self["Forceps Minor"]
 
     def __print__(self):
         print(self._dict)
