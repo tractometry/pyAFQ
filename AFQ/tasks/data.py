@@ -111,12 +111,13 @@ def configure_ncpus_nthreads(ray_n_cpus=None, numba_n_threads=None):
     ray_n_cpus : int, optional
         The number of CPUs to use for parallel processing with Ray.
         If None, uses the number of available CPUs minus one.
-        Tractography and Recognition use Ray.
+        Tractography, Recognition, and MSMT use Ray.
         Default: None
     numba_n_threads : int, optional
         The number of threads to use for Numba.
-        If None, uses the number of available CPUs minus one.
-        MSMT and ASYM fits use Numba.
+        If None, uses the number of available CPUs minus one,
+        but with a maximum of 16.
+        ASYM fit uses Numba.
         Default: None
     """
     if ray_n_cpus is None:
@@ -372,7 +373,7 @@ def msdki_msk(msdki_tf):
 @as_img
 def msmt_params(brain_mask, gtab, data,
                 dwi_affine, t1w_pve,
-                n_threads,
+                n_cpus,
                 msmt_sh_order=8,
                 msmt_fa_thr=0.7):
     """
@@ -433,7 +434,7 @@ def msmt_params(brain_mask, gtab, data,
     mcsd_model = MultiShellDeconvModel(gtab, response_mcsd)
     logger.info("Fitting Multi-Shell CSD model...")
     mcsd_fit = mcsd_model.fit(
-        data, mask, n_threads=n_threads)
+        data, mask, n_cpus=n_cpus)
 
     meta = dict(
         SphericalHarmonicDegree=msmt_sh_order,
