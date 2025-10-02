@@ -15,6 +15,7 @@ from AFQ.utils.path import space_from_fname
 
 from dipy.io.streamline import load_tractogram
 from dipy.io.stateful_tractogram import Space
+from dipy.align import resample
 
 
 logger = logging.getLogger('AFQ')
@@ -189,7 +190,7 @@ def sls_mapping(base_fname, dwi_data_file, reg_subject, data_imap,
 
 @immlib.calc("reg_subject")
 def get_reg_subject(data_imap,
-                    reg_subject_spec="power_map"):
+                    reg_subject_spec="t1w"):
     """
     Nifti1Image which represents this subject
     when registering the subject to the template
@@ -199,11 +200,11 @@ def get_reg_subject(data_imap,
     reg_subject_spec : str, instance of `AFQ.definitions.ImageDefinition`, optional  # noqa
         The source image data to be registered.
         Can either be a Nifti1Image, an ImageFile, or str.
-        if "b0", "dti_fa_subject", "subject_sls", or "power_map,"
+        if "b0", "dti_fa_subject", "subject_sls", "t1w", or "power_map,"
         image data will be loaded automatically.
         If "subject_sls" is used, slr registration will be used
         and reg_template should be "hcp_atlas".
-        Default: "power_map"
+        Default: "t1w"
     """
     if not isinstance(reg_subject_spec, str)\
             and not isinstance(reg_subject_spec, nib.Nifti1Image):
@@ -216,6 +217,7 @@ def get_reg_subject(data_imap,
         "power_map": "csd_pmap",
         "dti_fa_subject": "dti_fa",
         "subject_sls": "b0",
+        "t1w": "t1_masked"
     }
     bm = nib.load(data_imap["brain_mask"])
 
@@ -223,6 +225,11 @@ def get_reg_subject(data_imap,
         reg_subject_spec = data_imap[filename_dict[reg_subject_spec]]
     if isinstance(reg_subject_spec, str):
         img = nib.load(reg_subject_spec)
+
+    if not np.allclose(img.affine, bm.affine) or not np.allclose(
+            img.get_fdata().shape, bm.get_fdata().shape):
+        img = resample(img, bm)
+
     bm = bm.get_fdata().astype(bool)
     masked_data = img.get_fdata()
     masked_data[~bm] = 0
