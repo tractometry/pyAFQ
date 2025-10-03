@@ -3,6 +3,16 @@ import numpy as np
 import nibabel as nib
 import os.path as op
 
+# This is useful for cleaning debugging
+import logging
+import sys
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(levelname)s - %(name)s - %(message)s',
+    stream=sys.stdout,
+    force=True
+)
+
 import AFQ.data.fetch as afd
 import AFQ.recognition.curvature as abv
 import AFQ.recognition.utils as abu
@@ -34,6 +44,20 @@ def test_segment_sl_curve():
     sl_disp_1 = abv.sl_curve(streamlines[2], 4)
     mean_angle_diff = abv.sl_curve_dist(sl_disp_0, sl_disp_1)
     npt.assert_almost_equal(mean_angle_diff, 1.701458, decimal=3)
+
+
+def test_cleaning():
+    out, returned_idx = abc.clean_bundle(
+        tg,
+        n_points=100, clean_rounds=5,
+        distance_threshold=2, length_threshold=4,
+        min_sl=20, return_idx=True)
+    for idx, sl in enumerate(out.streamlines):
+        idx_sl = tg.streamlines[returned_idx][idx]
+        for node_idx, node in enumerate(sl):
+            npt.assert_equal(
+                node,
+                idx_sl[node_idx])
 
 
 def test_segment_clip_edges():

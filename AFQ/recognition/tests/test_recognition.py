@@ -127,6 +127,13 @@ def test_segment_return_idx():
     npt.assert_equal(len(fiber_groups), 2)
     npt.assert_(len(fiber_groups['Right Corticospinal']['sl']) > 0)
     npt.assert_(len(fiber_groups['Right Corticospinal']['idx']) > 0)
+    for idx, sl in enumerate(fiber_groups['Right Corticospinal']['sl'].streamlines):
+        idx_sl = tg.streamlines[
+            fiber_groups['Right Corticospinal']['idx']][idx]
+        for node_idx, node in enumerate(sl):
+            npt.assert_equal(
+                node,
+                idx_sl[node_idx])
 
 
 @pytest.mark.nightly
