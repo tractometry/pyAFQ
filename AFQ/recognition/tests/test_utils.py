@@ -3,16 +3,6 @@ import numpy as np
 import nibabel as nib
 import os.path as op
 
-# This is useful for cleaning debugging
-import logging
-import sys
-logging.basicConfig(
-    level=logging.DEBUG,
-    format='%(levelname)s - %(name)s - %(message)s',
-    stream=sys.stdout,
-    force=True
-)
-
 import AFQ.data.fetch as afd
 import AFQ.recognition.curvature as abv
 import AFQ.recognition.utils as abu
