@@ -36,6 +36,20 @@ def test_segment_sl_curve():
     npt.assert_almost_equal(mean_angle_diff, 1.701458, decimal=3)
 
 
+def test_cleaning():
+    out, returned_idx = abc.clean_bundle(
+        tg,
+        n_points=100, clean_rounds=5,
+        distance_threshold=2, length_threshold=4,
+        min_sl=20, return_idx=True)
+    for idx, sl in enumerate(out.streamlines):
+        idx_sl = tg.streamlines[returned_idx][idx]
+        for node_idx, node in enumerate(sl):
+            npt.assert_equal(
+                node,
+                idx_sl[node_idx])
+
+
 def test_segment_clip_edges():
     sls = tg.streamlines
     idx = np.arange(len(tg.streamlines))
