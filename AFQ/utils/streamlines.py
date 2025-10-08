@@ -21,12 +21,12 @@ class SegmentedSFT():
         self.sidecar_info = sidecar_info
         sls = []
         idxs = {}
-        this_tracking_idxs = []
+        this_tracking_idxs = {}
         idx_count = 0
         for b_name in bundles:
             if isinstance(bundles[b_name], dict):
                 this_sls = bundles[b_name]['sl']
-                this_tracking_idxs.extend(bundles[b_name]['idx'])
+                this_tracking_idxs[b_name] = bundles[b_name]['idx']
             else:
                 this_sls = bundles[b_name]
             if reference is None:
@@ -40,7 +40,7 @@ class SegmentedSFT():
 
         self.sft = StatefulTractogram(sls, reference, space)
         self.bundle_idxs = idxs
-        if len(this_tracking_idxs) > 1:
+        if len(this_tracking_idxs.keys()) > 1:
             self.this_tracking_idxs = this_tracking_idxs
         else:
             self.this_tracking_idxs = None
