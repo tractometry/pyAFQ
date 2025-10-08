@@ -40,7 +40,7 @@ class SegmentedSFT():
 
         self.sft = StatefulTractogram(sls, reference, space)
         self.bundle_idxs = idxs
-        if len(this_tracking_idxs.keys()) > 1:
+        if len(this_tracking_idxs) > 1:
             self.this_tracking_idxs = this_tracking_idxs
         else:
             self.this_tracking_idxs = None
