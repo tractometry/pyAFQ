@@ -13,6 +13,7 @@ from dipy.io.stateful_tractogram import StatefulTractogram, Space
 from dipy.tracking.stopping_criterion import (ThresholdStoppingCriterion,
                                               CmcStoppingCriterion,
                                               ActStoppingCriterion)
+from dipy.reconst import shm
 
 from nibabel.streamlines.tractogram import LazyTractogram
 
@@ -24,10 +25,10 @@ from AFQ.tractography.utils import gen_seeds, get_percentile_threshold
 
 def track(params_file, directions="prob", max_angle=30., sphere=None,
           seed_mask=None, seed_threshold=0.5, thresholds_as_percentages=False,
-          n_seeds=1, random_seeds=False, rng_seed=None, stop_mask=None,
+          n_seeds=2000000, random_seeds=True, rng_seed=None, stop_mask=None,
           stop_threshold=0.5, step_size=0.5, minlen=50, maxlen=250,
           odf_model="CSD", basis_type="descoteaux07", legacy=True,
-          tracker="local", trx=False):
+          tracker="pft", trx=False):
     """
     Tractography
 
@@ -57,10 +58,10 @@ def track(params_file, directions="prob", max_angle=30., sphere=None,
         voxel on each dimension (for example, 2 => [2, 2, 2]). If this is a 2D
         array, these are the coordinates of the seeds. Unless random_seeds is
         set to True, in which case this is the total number of random seeds
-        to generate within the mask. Default: 1
+        to generate within the mask. Default: 2000000
     random_seeds : bool
         Whether to generate a total of n_seeds random seeds in the mask.
-        Default: False.
+        Default: True
     rng_seed : int
         random seed used to generate random seeds if random_seeds is
         set to True. Default: None
@@ -108,7 +109,7 @@ def track(params_file, directions="prob", max_angle=30., sphere=None,
     tracker : str, optional
         Which strategy to use in tracking. This can be the standard local
         tracking ("local") or Particle Filtering Tracking ([Girard2014]_).
-        One of {"local", "pft"}. Default: "local"
+        One of {"local", "pft"}. Default: "pft"
     trx : bool, optional
         Whether to return the streamlines compatible with input to TRX file
         (i.e., as a LazyTractogram class instance).
@@ -174,65 +175,59 @@ def track(params_file, directions="prob", max_angle=30., sphere=None,
             from_lower_triangular(model_params))
         odf = tensor_odf(evals, evecs, sphere)
         dg = dg.from_pmf(odf, max_angle=max_angle, sphere=sphere)
+    elif "AODF" in odf_model:
+        sh_order = shm.order_from_ncoef(
+            model_params.shape[3], full_basis=True)
+        pmf = shm.sh_to_sf(
+            model_params, sphere,
+            sh_order_max=sh_order, full_basis=True)
+        pmf[pmf < 0] = 0
+        dg = dg.from_pmf(
+            np.asarray(pmf, dtype=float),
+            max_angle=max_angle, sphere=sphere)
     else:
         dg = dg.from_shcoeff(model_params, max_angle=max_angle, sphere=sphere,
                              basis_type=basis_type, legacy=legacy)
 
-    if tracker == "local":
-        if stop_mask is None:
-            stop_mask = np.ones(params_img.shape[:3])
+    if stop_mask is None:
+        stop_mask = np.ones(params_img.shape[:3])
 
-        if len(np.unique(stop_mask)) <= 2:
-            stopping_criterion = ThresholdStoppingCriterion(stop_mask,
-                                                            0.5)
-        else:
-            if thresholds_as_percentages:
-                stop_threshold = get_percentile_threshold(
-                    stop_mask, stop_threshold)
-            stop_mask_copy = np.copy(stop_mask)
-            stop_thresh_copy = np.copy(stop_threshold)
-            stopping_criterion = ThresholdStoppingCriterion(stop_mask_copy,
-                                                            stop_thresh_copy)
-
-        my_tracker = LocalTracking
-
-    elif tracker == "pft":
-        if not isinstance(stop_threshold, str):
-            raise RuntimeError(
-                "You are using PFT tracking, but did not provide a string ",
-                "'stop_threshold' input. ",
-                "Possible inputs are: 'CMC' or 'ACT'")
+    if isinstance(stop_threshold, str):
         if not (isinstance(stop_mask, Iterable) and len(stop_mask) == 3):
             raise RuntimeError(
-                "You are using PFT tracking, but did not provide a length "
+                "You are using CMC/ACT stropping, but did not provide a length "
                 "3 iterable for `stop_mask`. "
                 "Expected a (pve_wm, pve_gm, pve_csf) tuple.")
         pves = []
-        pve_imgs = []
-        for ii, pve in enumerate(stop_mask):
+        pve_affines = []
+        for pve in stop_mask:
             if isinstance(pve, str):
-                img = nib.load(pve)
+                seg_data = nib.load(pve).get_fdata()
+                seg_affine = nib.load(pve).affine
+            elif isinstance(pve, nib.Nifti1Image):
+                seg_data = pve.get_fdata()
+                seg_affine = pve.affine
             else:
-                img = pve
-            pve_imgs.append(img)
-            pves.append(pve_imgs[-1].get_fdata())
+                seg_data = pve
+                seg_affine = params_img.affine
+            pves.append(seg_data)
+            pve_affines.append(seg_affine)
 
-        pve_wm_img, pve_gm_img, pve_csf_img = pve_imgs
         pve_wm_data, pve_gm_data, pve_csf_data = pves
+        pve_wm_affine, pve_gm_affine, pve_csf_affine = pve_affines
         pve_wm_data = resample(
             pve_wm_data, model_params[..., 0],
-            moving_affine=pve_wm_img.affine,
+            moving_affine=pve_wm_affine,
             static_affine=params_img.affine).get_fdata()
         pve_gm_data = resample(
             pve_gm_data, model_params[..., 0],
-            moving_affine=pve_gm_img.affine,
+            moving_affine=pve_gm_affine,
             static_affine=params_img.affine).get_fdata()
         pve_csf_data = resample(
             pve_csf_data, model_params[..., 0],
-            moving_affine=pve_csf_img.affine,
+            moving_affine=pve_csf_affine,
             static_affine=params_img.affine).get_fdata()
 
-        my_tracker = ParticleFilteringTracking
         if stop_threshold == "CMC":
             stopping_criterion = CmcStoppingCriterion.from_pve(
                 pve_wm_data,
@@ -246,6 +241,32 @@ def track(params_file, directions="prob", max_angle=30., sphere=None,
                 pve_wm_data,
                 pve_gm_data,
                 pve_csf_data)
+    else:
+        if len(stop_mask) == 3:
+            raise RuntimeError(
+                "You are not using CMC/ACT stropping, but provided tissue "
+                "probability maps in `stop_mask`. Please provide a single "
+                "3D array for `stop_mask` or use CMC/ACT")
+
+        if len(np.unique(stop_mask)) <= 2:
+            stopping_criterion = ThresholdStoppingCriterion(stop_mask,
+                                                            0.5)
+        else:
+            if thresholds_as_percentages:
+                stop_threshold = get_percentile_threshold(
+                    stop_mask, stop_threshold)
+            stop_mask_copy = np.copy(stop_mask)
+            stop_thresh_copy = np.copy(stop_threshold)
+            stopping_criterion = ThresholdStoppingCriterion(stop_mask_copy,
+                                                            stop_thresh_copy)
+
+    if tracker == "local":
+        my_tracker = LocalTracking
+    elif tracker == "pft":
+        my_tracker = ParticleFilteringTracking
+    else:
+        raise ValueError(f"Unrecognized tracker '{tracker}'. Must be one of "
+                         "{'local', 'pft'}.")
 
     logger.info(
         f"Tracking with {len(seeds)} seeds, 2 directions per seed...")

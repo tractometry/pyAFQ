@@ -6,14 +6,13 @@ import logging
 import dipy.data as dpd
 
 import immlib
-import multiprocessing
 
 from AFQ.tasks.decorators import as_file
 from AFQ.tasks.utils import with_name
 from AFQ.definitions.utils import Definition
 import AFQ.tractography.tractography as aft
 from AFQ.tasks.utils import get_default_args
-from AFQ.definitions.image import ScalarImage
+from AFQ.definitions.image import ScalarImage, ThreeTissueImage
 from AFQ.tractography.utils import gen_seeds, get_percentile_threshold
 
 from trx.trx_file_memmap import TrxFile
@@ -133,12 +132,16 @@ def export_stop_mask_thresholded(data_imap, stop, tracking_params):
     full path to a nifti file containing the
     tractography stop mask thresholded
     """
-    thresh = tracking_params['stop_threshold']
-    threshed_data = nib.load(stop).get_fdata() > thresh
-    stop_mask_desc = dict(source=stop, thresh=thresh)
-    return nib.Nifti1Image(
-        threshed_data.astype(np.float32),
-        data_imap["dwi_affine"]), stop_mask_desc
+    if isinstance(tracking_params['stop_threshold'], str):
+        raise ValueError("Cannot generate thresholded "
+                         "stop mask for CMC or ACT")
+    else:
+        thresh = tracking_params['stop_threshold']
+        threshed_data = nib.load(stop).get_fdata() > thresh
+        stop_mask_desc = dict(source=stop, thresh=thresh)
+        return nib.Nifti1Image(
+            threshed_data.astype(np.float32),
+            data_imap["dwi_affine"]), stop_mask_desc
 
 
 @immlib.calc("stop")
@@ -175,15 +178,14 @@ def streamlines(data_imap, seed, stop, fodf,
     this_tracking_params['seed_mask'] = nib.load(seed).get_fdata()
     if isinstance(stop, str):
         this_tracking_params['stop_mask'] = nib.load(stop).get_fdata()
+    elif isinstance(stop, nib.Nifti1Image):
+        this_tracking_params['stop_mask'] = stop.get_fdata()
     else:
         this_tracking_params['stop_mask'] = stop
 
     is_trx = this_tracking_params.get("trx", False)
 
-    num_chunks = this_tracking_params.pop("num_chunks", False)
-
-    if num_chunks is True:
-        num_chunks = multiprocessing.cpu_count() - 1
+    num_chunks = data_imap["n_cpus"]
 
     if is_trx:
         start_time = time()
@@ -278,10 +280,12 @@ def streamlines(data_imap, seed, stop, fodf,
             sft = trx_concatenate(sfts)
         else:
             lazyt = aft.track(fodf, **this_tracking_params)
+            # Chunk size is number of streamlines tracked before saving to disk.
             sft = TrxFile.from_lazy_tractogram(
                 lazyt,
                 seed,
-                dtype_dict=dtype_dict)
+                dtype_dict=dtype_dict,
+                chunk_size=1e5)
         n_streamlines = len(sft)
 
     else:
@@ -364,7 +368,7 @@ def gpu_tractography(data_imap, tracking_params, fodf, seed, stop,
 
     sft = gpu_track(
         data, data_imap["gtab"],
-        nib.load(seed), nib.load(stop),
+        seed, stop,
         tracking_params["odf_model"],
         sphere,
         tracking_params["directions"],
@@ -444,26 +448,27 @@ def get_tractography_plan(kwargs):
     if isinstance(kwargs["tracking_params"]["odf_model"], str):
         kwargs["tracking_params"]["odf_model"] =\
             kwargs["tracking_params"]["odf_model"].upper()
+
     if kwargs["tracking_params"]["seed_mask"] is None:
         kwargs["tracking_params"]["seed_mask"] = ScalarImage(
-            kwargs["best_scalar"])
-        kwargs["tracking_params"]["seed_threshold"] = 0.2
+            "wm_gm_interface")
+        kwargs["tracking_params"]["seed_threshold"] = 0.5
         logger.info((
-            "No seed mask given, using FA (or first scalar if none are FA)"
-            "thresholded to 0.2"))
+            "No seed mask given, using GM-WM interface "
+            "from 3T prob maps esimated from T1w"))
+
     if kwargs["tracking_params"]["stop_mask"] is None:
-        kwargs["tracking_params"]["stop_mask"] = ScalarImage(
-            kwargs["best_scalar"])
-        kwargs["tracking_params"]["stop_threshold"] = 0.2
+        kwargs["tracking_params"]["stop_threshold"] = "ACT"
+        kwargs["tracking_params"]["stop_mask"] = ThreeTissueImage()
         logger.info((
-            "No stop mask given, using FA (or first scalar if none are FA)"
-            "thresholded to 0.2"))
+            "No stop mask given, using ACT "
+            "and 3T prob maps esimated from T1w"))
 
     stop_mask = kwargs["tracking_params"]['stop_mask']
     seed_mask = kwargs["tracking_params"]['seed_mask']
     odf_model = kwargs["tracking_params"]['odf_model']
 
-    if kwargs["tracking_params"]["tracker"] == "pft":
+    if isinstance(kwargs["tracking_params"]["stop_threshold"], str):
         probseg_funcs = stop_mask.get_image_getter("tractography")
         tractography_tasks["wm_res"] = immlib.calc("pve_wm")(as_file(
             '_desc-wm_probseg.nii.gz', subfolder="tractography")(

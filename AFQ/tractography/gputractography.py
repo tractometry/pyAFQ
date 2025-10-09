@@ -1,6 +1,7 @@
 import cuslines
 
 import numpy as np
+import nibabel as nib
 from math import radians
 from tqdm import tqdm
 import logging
@@ -8,6 +9,7 @@ import logging
 from dipy.reconst.shm import OpdtModel, CsaOdfModel
 from dipy.reconst import shm
 from dipy.io.stateful_tractogram import StatefulTractogram, Space
+from dipy.align import resample
 
 from nibabel.streamlines.array_sequence import concatenate
 from nibabel.streamlines.tractogram import Tractogram
@@ -21,7 +23,7 @@ logger = logging.getLogger('AFQ')
 
 
 # Modified from https://github.com/dipy/GPUStreamlines/blob/master/run_dipy_gpu.py
-def gpu_track(data, gtab, seed_img, stop_img,
+def gpu_track(data, gtab, seed_path, stop_path,
               odf_model, sphere, directions,
               seed_threshold, stop_threshold, thresholds_as_percentages,
               max_angle, step_size, n_seeds, random_seeds, rng_seed, use_trx, ngpus,
@@ -35,18 +37,18 @@ def gpu_track(data, gtab, seed_img, stop_img,
         DWI data.
     gtab : GradientTable
         The gradient table.
-    seed_img : Nifti1Image
+    seed_path : str
         Float or binary mask describing the ROI within which we seed for
         tracking.
-    stop_img : Nifti1Image
+    stop_path : str
         A float or binary mask that determines a stopping criterion
         (e.g. FA).
     odf_model : str, optional
         One of {"OPDT", "CSA"}
     seed_threshold : float
-        The value of the seed_img above which tracking is seeded.
+        The value of the seed_path above which tracking is seeded.
     stop_threshold : float
-        The value of the stop_img below which tracking is
+        The value of the stop_path below which tracking is
         terminated.
     thresholds_as_percentages : bool
         Interpret seed_threshold and stop_threshold as percentages of the
@@ -78,7 +80,20 @@ def gpu_track(data, gtab, seed_img, stop_img,
     Returns
     -------
     """
-    sh_order_max = 8
+    seed_img = nib.load(seed_path)
+
+    # Roughly handle ACT/CMC for now
+    if isinstance(stop_threshold, str):
+        stop_threshold = 0.3
+        stop_img = stop_path[0]  # Grab WM
+
+        stop_img = resample(
+            stop_img.get_fdata(),
+            seed_img.get_fdata(),
+            moving_affine=stop_img.affine,
+            static_affine=seed_img.affine)
+    else:
+        stop_img = nib.load(stop_path)
 
     seed_data = seed_img.get_fdata()
     stop_data = stop_img.get_fdata()
@@ -89,7 +104,25 @@ def gpu_track(data, gtab, seed_img, stop_img,
 
     theta = sphere.theta
     phi = sphere.phi
-    sampling_matrix, _, _ = shm.real_sym_sh_basis(sh_order_max, theta, phi)
+
+    if directions == "boot":
+        sh_order_max = 6
+        full_basis = False
+    else:
+        # Determine sh_order and full_basis
+        sym_order = (-3.0 + np.sqrt(1.0 + 8.0 * data.shape[3])) / 2.0
+        if sym_order.is_integer():
+            sh_order_max = sym_order
+            full_basis = False
+        full_order = np.sqrt(data.shape[3]) - 1.0
+        if full_order.is_integer():
+            sh_order_max = full_order
+            full_basis = True
+
+    sampling_matrix, _, _ = shm.real_sh_descoteaux(
+        sh_order_max, theta, phi,
+        full_basis=full_basis,
+        legacy=False)
 
     if directions == "boot":
         if odf_model.lower() == "opdt":

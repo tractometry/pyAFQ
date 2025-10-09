@@ -6,30 +6,28 @@ def _interp3d(roi, sl):
     return interpolate_scalar_3d(roi.get_fdata(), np.asarray(sl))[0]
 
 
-def check_sls_with_inclusion(sls, include_rois, include_roi_tols):
-    for sl in sls:
-        yield check_sl_with_inclusion(
-            sl,
-            include_rois,
-            include_roi_tols)
+def check_sls_with_inclusion(
+        sls, include_rois, include_roi_tols):
+    inc_results = np.zeros(len(sls), dtype=tuple)
+    include_rois = [roi_.get_fdata().copy() for roi_ in include_rois]
+    for jj, sl in enumerate(sls):
+        closest = np.zeros(len(include_rois), dtype=np.int32)
+        sl = np.asarray(sl)
+        valid = True
+        for ii, roi in enumerate(include_rois):
+            dist = interpolate_scalar_3d(roi, sl)[0]
 
+            closest[ii] = np.argmin(dist)
+            if dist[closest[ii]] > include_roi_tols[ii]:
+                # Too far from one of them:
+                inc_results[jj] = (False, [])
+                valid = False
+                break
 
-def check_sl_with_inclusion(sl, include_rois,
-                            include_roi_tols):
-    """
-    Helper function to check that a streamline is close to a list of
-    inclusion ROIS.
-    """
-    closest = np.zeros(len(include_rois), dtype=np.int32)
-    for ii, roi in enumerate(include_rois):
-        dist = _interp3d(roi, sl)
-        closest[ii] = np.argmin(dist)
-        if dist[closest[ii]] > include_roi_tols[ii]:
-            # Too far from one of them:
-            return False, []
-
-    # Apparently you checked all the ROIs and it was close to all of them
-    return True, closest
+        # Checked all the ROIs and it was close to all of them
+        if valid:
+            inc_results[jj] = (True, closest)
+    return inc_results
 
 
 def check_sl_with_exclusion(sl, exclude_rois,
@@ -58,7 +56,7 @@ def clean_by_endpoints(streamlines, target, target_idx, tol=0,
         Where N is number of nodes in the array, the collection of
         streamlines to filter down to.
     target: Nifti1Image
-        Nifti1Image containing a boolean representation of the ROI.
+        Nifti1Image containing a distance transform of the ROI.
     target_idx: int.
         Index within each streamline to check if within the target region.
         Typically 0 for startpoint ROIs or -1 for endpoint ROIs.

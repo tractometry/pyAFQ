@@ -1,3 +1,9 @@
+def chunk_indices(indices, num_batches):
+    batch_size = (len(indices) + num_batches - 1) // num_batches
+    for i in range(0, len(indices), batch_size):
+        yield indices[i:i + batch_size]
+
+
 def contrast_index(x1, x2, double=True):
     """
     Calculate the contrast index between two arrays.

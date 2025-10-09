@@ -14,17 +14,28 @@ img_sample = np.zeros((5, 5, 5))
 node_thresh_sample = 1
 
 
-def test_clean_by_other_density_map():
-    cleaned_idx = abo.clean_by_other_density_map(
+def test_clean_by_overlap():
+    cleaned_idx = abo.clean_by_overlap(
         this_bundle_sls_sample,
         other_bundle_sls_sample,
         node_thresh_sample,
-        img_sample
+        img_sample,
+        True
     )
     assert isinstance(cleaned_idx, np.ndarray)
     assert cleaned_idx.shape[0] == this_bundle_sls_sample.shape[0]
     assert np.all(cleaned_idx == [False, True])
 
+    cleaned_idx = abo.clean_by_overlap(
+        this_bundle_sls_sample,
+        other_bundle_sls_sample,
+        node_thresh_sample,
+        img_sample,
+        False
+    )
+    assert isinstance(cleaned_idx, np.ndarray)
+    assert cleaned_idx.shape[0] == this_bundle_sls_sample.shape[0]
+    assert np.all(cleaned_idx == [True, False])
 
 def test_clean_relative_to_other_core():
     for core in ['anterior', 'posterior', 'superior', 'inferior', 'right', 'left']:
@@ -32,12 +43,32 @@ def test_clean_relative_to_other_core():
             core,
             this_bundle_sls_sample,
             other_bundle_sls_sample,
-            np.eye(4)
+            np.eye(4),
+            entire=False
         )
 
         assert isinstance(cleaned_idx_core, np.ndarray)
         assert cleaned_idx_core.shape[0] == this_bundle_sls_sample.shape[0]
         if core == "inferior" or core == "right":
             assert np.all(cleaned_idx_core == [True, True])
+        else:
+            assert np.all(cleaned_idx_core == [False, False])
+
+        cleaned_idx_core = abo.clean_relative_to_other_core(
+            core,
+            this_bundle_sls_sample,
+            other_bundle_sls_sample,
+            np.eye(4),
+            entire=True
+        )
+
+        assert isinstance(cleaned_idx_core, np.ndarray)
+        assert cleaned_idx_core.shape[0] == this_bundle_sls_sample.shape[0]
+        if core == "inferior":
+            assert np.all(cleaned_idx_core == [True, True])
+        elif core == "right":
+            assert np.all(cleaned_idx_core == [True, False])
+        elif core == "posterior" or core == "left":
+            assert np.all(cleaned_idx_core == [False, True])
         else:
             assert np.all(cleaned_idx_core == [False, False])

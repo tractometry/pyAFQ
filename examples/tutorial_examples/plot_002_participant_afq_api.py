@@ -10,11 +10,9 @@ import os.path as op
 import matplotlib.pyplot as plt
 import nibabel as nib
 import plotly
-import pandas as pd
 
 from AFQ.api.participant import ParticipantAFQ
 import AFQ.data.fetch as afd
-import AFQ.viz.altair as ava
 
 ##########################################################################
 # Example data
@@ -39,7 +37,7 @@ import AFQ.viz.altair as ava
 # stored in the ``~/AFQ_data/stanford_hardi/`` BIDS directory. Set it to None if
 # you want to use the results of previous runs.
 
-afd.organize_stanford_data(clear_previous_afq="track")
+afd.organize_stanford_data()
 
 ##########################################################################
 # Defining data files
@@ -63,31 +61,32 @@ data_dir = op.join(afd.afq_home, "stanford_hardi", "derivatives", "vistasoft",
 dwi_data_file = op.join(data_dir, "sub-01_ses-01_dwi.nii.gz")
 bval_file = op.join(data_dir, "sub-01_ses-01_dwi.bval")
 bvec_file = op.join(data_dir, "sub-01_ses-01_dwi.bvec")
+t1_file = op.join(afd.afq_home, "stanford_hardi", "derivatives",
+                  "freesurfer", "sub-01", "ses-01", "anat",
+                  "sub-01_ses-01_T1w.nii.gz")
 
 # You will also need to define the output directory where you want to store the
 # results. The output directory needs to exist before exporting ParticipantAFQ
 # results.
 
 output_dir = op.join(afd.afq_home, "stanford_hardi",
-                     "derivatives", "afq", "sub-01")
+                     "derivatives", "afq", "sub-01",
+                     "ses-01", "dwi")
 os.makedirs(output_dir, exist_ok=True)
 
 ##########################################################################
 # Set tractography parameters (optional)
 # ---------------------------------------
 # We make create a `tracking_params` variable, which we will pass to the
-# ParticipantAFQ object which specifies that we want 25,000 seeds randomly
-# distributed in the white matter. We only do this to make this example
-# faster and consume less space. We also set ``num_chunks`` to `True`,
-# which will use ray to parallelize the tracking across all cores.
-# This can be removed to process in serial, or set to use a particular
-# distribution of work by setting `n_chunks` to an integer number.
+# ParticipantAFQ object which specifies that we want 10,000 seeds randomly
+# distributed in the white matter, propogated using DIPY's probabilistic
+# algorithm. We only do this to make this example faster
+# and consume less space; normally, we use more seeds
 
 tracking_params = dict(n_seeds=25000,
                        random_seeds=True,
-                       rng_seed=2022,
-                       trx=True,
-                       num_chunks=True)
+                       rng_seed=2025,
+                       trx=True)
 
 ##########################################################################
 # Initialize a ParticipantAFQ object:
@@ -105,14 +104,17 @@ tracking_params = dict(n_seeds=25000,
 #
 # To initialize the object, we will pass in the diffusion data files and specify
 # the output directory where we want to store the results. We will also
-# pass in the tracking parameters we defined above.
+# pass in the tracking parameters we defined above. We set ray_n_cpus=1
+# to avoid memory issues running this example on servers.
 
 myafq = ParticipantAFQ(
     dwi_data_file=dwi_data_file,
     bval_file=bval_file,
     bvec_file=bvec_file,
+    t1_file=t1_file,
     output_dir=output_dir,
     tracking_params=tracking_params,
+    ray_n_cpus=1,
 )
 
 ##########################################################################

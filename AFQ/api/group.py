@@ -15,6 +15,7 @@ from AFQ.api.utils import (
 import AFQ.utils.streamlines as aus
 from AFQ.viz.utils import get_eye
 from AFQ.data.utils import aws_import_msg_error
+from AFQ.definitions.utils import find_file
 
 from dipy.utils.parallel import paramap
 from dipy.io.stateful_tractogram import StatefulTractogram, Space
@@ -60,11 +61,13 @@ def clean_pandas_df(df):
 
 class _ParticipantAFQInputs:
     def __init__(
-            self, dwi_data_file, bval_file, bvec_file, results_dir,
+            self, dwi_data_file, bval_file, bvec_file,
+            t1_file, results_dir,
             kwargs):
         self.dwi_data_file = dwi_data_file
         self.bval_file = bval_file
         self.bvec_file = bvec_file
+        self.t1_file = t1_file
         self.results_dir = results_dir
         self.kwargs = kwargs
 
@@ -76,6 +79,7 @@ class GroupAFQ(object):
                  bids_path,
                  bids_filters={"suffix": "dwi"},
                  preproc_pipeline="all",
+                 t1_pipeline=None,
                  participant_labels=None,
                  output_dir=None,
                  parallel_params={"engine": "serial"},
@@ -96,6 +100,10 @@ class GroupAFQ(object):
         preproc_pipeline : str, optional.
             The name of the pipeline used to preprocess the DWI data.
             Default: "all".
+        t1_pipeline : str or None, optional
+            The name of the pipeline used to preprocess the T1w data.
+            If None, defaults to the same as preproc_pipeline.
+            Default: None
         participant_labels : list or None, optional
             List of participant labels (subject IDs) to perform
             processing on. If None, all subjects are used.
@@ -142,6 +150,8 @@ class GroupAFQ(object):
         if not isinstance(bids_filters, dict):
             raise TypeError("bids_filters must be a dict")
         # preproc_pipeline typechecking handled by pyBIDS
+        if t1_pipeline is None:
+            t1_pipeline = preproc_pipeline
         if participant_labels is not None\
                 and not isinstance(participant_labels, list):
             raise TypeError(
@@ -250,15 +260,13 @@ class GroupAFQ(object):
         if len(self.sessions) * len(self.subjects) < 2:
             self.parallel_params["engine"] = "serial"
 
-        # do not parallelize segmentation if parallelizing across
+        # do not parallelize within subject if parallelizing across
         # subject-sessions
         if self.parallel_params["engine"] != "serial":
-            if "segmentation_params" not in kwargs:
-                kwargs["segmentation_params"] = {}
-            if "parallel_segmentation" not in kwargs["segmentation_params"]:
-                kwargs["segmentation_params"]["parallel_segmentation"] = {}
-            kwargs["segmentation_params"]["parallel_segmentation"]["engine"] =\
-                "serial"
+            if "ray_n_cpus" not in kwargs:
+                kwargs["ray_n_cpus"] = 1
+            if "numba_n_threads" not in kwargs:
+                kwargs["numba_n_threads"] = 1
 
         self.valid_sub_list = []
         self.valid_ses_list = []
@@ -300,15 +308,28 @@ class GroupAFQ(object):
                 # files. Maintain input ``bids_filters`` in case user wants to
                 # specify acquisition labels, but pop suffix since it is
                 # already specified inside ``get_bvec()`` and ``get_bval()``
-                suffix = bids_filters.pop("suffix", None)
+                nearby_filters = {**bids_filters, "scope": preproc_pipeline}
+                nearby_filters.pop("suffix", None)
                 bvec_file = bids_layout.get_bvec(
                     dwi_data_file,
-                    **bids_filters)
+                    **nearby_filters)
                 bval_file = bids_layout.get_bval(
                     dwi_data_file,
-                    **bids_filters)
-                if suffix is not None:
-                    bids_filters["suffix"] = suffix
+                    **nearby_filters)
+                nearby_filters.pop("scope", None)
+                nearby_filters["scope"] = t1_pipeline
+                t1_file = find_file(
+                    bids_layout, dwi_data_file,
+                    nearby_filters,
+                    "T1w", session, subject)
+
+                self.logger.info(
+                    f"Using the following files for subject {subject} "
+                    f"and session {session}:")
+                self.logger.info(f"  DWI: {dwi_data_file}")
+                self.logger.info(f"  BVAL: {bval_file}")
+                self.logger.info(f"  BVEC: {bvec_file}")
+                self.logger.info(f"  T1: {t1_file}")
 
                 # Call find path for all definitions
                 for key, value in this_kwargs.items():
@@ -386,17 +407,20 @@ class GroupAFQ(object):
                 this_pAFQ_inputs = _ParticipantAFQInputs(
                     dwi_data_file,
                     bval_file, bvec_file,
+                    t1_file,
                     results_dir,
                     this_kwargs)
                 this_pAFQ = ParticipantAFQ(
                     this_pAFQ_inputs.dwi_data_file,
                     this_pAFQ_inputs.bval_file,
                     this_pAFQ_inputs.bvec_file,
+                    this_pAFQ_inputs.t1_file,
                     this_pAFQ_inputs.results_dir,
                     **this_pAFQ_inputs.kwargs)
                 self.plans_dict[subject][str(session)] = this_pAFQ.plans_dict
                 self.pAFQ_list.append(this_pAFQ)
                 self.pAFQ_inputs_list.append(this_pAFQ_inputs)
+        self.kwargs = self.pAFQ_list[-1].kwargs
 
     def combine_profiles(self):
         tract_profiles_dict = self.export("profiles")
@@ -610,8 +634,8 @@ class GroupAFQ(object):
         self.logger.info(
             f"Time taken for export all: {str(time() - start_time)}")
 
-    def cmd_outputs(self, cmd="rm", dependent_on=None, exceptions=[],
-                    suffix=""):
+    def cmd_outputs(self, cmd="rm", dependent_on=None, up_to=None,
+                    exceptions=[], suffix=""):
         """
         Perform some command some or all outputs of pyafq.
         This is useful if you change a parameter and need
@@ -631,6 +655,15 @@ class GroupAFQ(object):
             If "recog", perform on all derivatives that depend on the
             bundle recognition.
             Default: None
+        up_to : str or None
+            If None, will perform on all derivatives.
+            If "track", will perform on all derivatives up to 
+            (but not including) tractography.
+            If "recog", will perform on all derivatives up to
+            (but not including) bundle recognition.
+            If "prof", will perform on all derivatives up to
+            (but not including) bundle profiling.
+            Default: None
         exceptions : list of str
             Name outputs that the command should not be applied to.
             Default: []
@@ -648,7 +681,12 @@ class GroupAFQ(object):
             suffix="~/my_other_folder/")
         """
         for pAFQ in self.pAFQ_list:
-            pAFQ.cmd_outputs(cmd, dependent_on, exceptions, suffix=suffix)
+            pAFQ.cmd_outputs(
+                cmd=cmd,
+                dependent_on=dependent_on,
+                up_to=up_to,
+                exceptions=exceptions,
+                suffix=suffix)
 
     clobber = cmd_outputs  # alias for default of cmd_outputs
 
@@ -1065,7 +1103,7 @@ class ParallelGroupAFQ():
             if "'NoneType' object has no attribute 'replace'" not in str(e):
                 raise
 
-    def export(self, attr_name="help", collapse=True):
+    def export(self, attr_name="help"):
         f"""
         Export a specific output. To print a list of available outputs,
         call export without arguments.
@@ -1075,9 +1113,6 @@ class ParallelGroupAFQ():
         ----------
         attr_name : str
             Name of the output to export. Default: "help"
-        collapse : bool
-            Whether to collapse session dimension if there is only 1 session.
-            Default: True
 
         Returns
         -------
@@ -1095,6 +1130,7 @@ class ParallelGroupAFQ():
                 pAFQ_kwargs.dwi_data_file,
                 pAFQ_kwargs.bval_file,
                 pAFQ_kwargs.bvec_file,
+                pAFQ_kwargs.t1_file,
                 pAFQ_kwargs.results_dir,
                 **pAFQ_kwargs.kwargs)
             pAFQ.export(attr_name)
@@ -1144,6 +1180,7 @@ class ParallelGroupAFQ():
                 pAFQ_kwargs.dwi_data_file,
                 pAFQ_kwargs.bval_file,
                 pAFQ_kwargs.bvec_file,
+                pAFQ_kwargs.t1_file,
                 pAFQ_kwargs.results_dir,
                 **pAFQ_kwargs.kwargs)
             pAFQ.export_all(viz, xforms, indiv)
