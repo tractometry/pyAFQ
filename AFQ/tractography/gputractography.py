@@ -87,6 +87,9 @@ def gpu_track(data, gtab, seed_path, stop_path,
         stop_threshold = 0.3
         stop_img = stop_path[0]  # Grab WM
 
+        if isinstance(stop_img, str):
+            stop_img = nib.load(stop_img)
+
         stop_img = resample(
             stop_img.get_fdata(),
             seed_img.get_fdata(),

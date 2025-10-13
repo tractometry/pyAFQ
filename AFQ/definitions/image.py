@@ -341,6 +341,18 @@ class RoiImage(ImageDefinition):
             if self.only_wmgmi:
                 wmgmi = nib.load(
                     data_imap["wm_gm_interface"]).get_fdata()
+                if not np.allclose(wmgmi.shape, image_data.shape):
+                    logger.error("WM/GM Interface shape: %s", wmgmi.shape)
+                    logger.error("ROI image shape: %s", image_data.shape)
+                    raise ValueError((
+                        "wm_gm_interface and ROI image do not have the "
+                        "same shape, cannot apply wm_gm_interface."
+                        "If ROI image shape is different from DWI shape, "
+                        "consider if you need to map your ROIs to DWI space. "
+                        "If only resampling is required, "
+                        "set resample_subject_to "
+                        "to True in your BundleDict instantiation."))
+
                 image_data = np.logical_and(
                     image_data, wmgmi)
                 if np.sum(image_data) == 0:
