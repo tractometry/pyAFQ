@@ -159,12 +159,12 @@ def export_all_helper(api_afq_object, xforms, indiv, viz):
 
     if viz:
         try:
+            import pingouin
+            import seaborn
+            import IPython
+        except (ImportError, ModuleNotFoundError):
+            api_afq_object.logger.warning(viz_import_msg_error("plot"))
+        else:
             api_afq_object.export("tract_profile_plots")
-        except ImportError as e:
-            plot_err_message = viz_import_msg_error("plot")
-            if str(e) != plot_err_message:
-                raise
-            else:
-                api_afq_object.logger.warning(plot_err_message)
         api_afq_object.export("all_bundles_figure")
         api_afq_object.export("indiv_bundles_figures")
