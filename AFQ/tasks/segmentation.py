@@ -129,7 +129,7 @@ def segment(data_imap, mapping_imap,
     else:
         tgram = seg_sft.sft
 
-    meta = seg_sft.sidecar
+    meta = seg_sft.sidecar_info
 
     seg_params_out = {}
     for arg_name, value in segmentation_params.items():
