@@ -266,6 +266,7 @@ class ParticipantAFQ(object):
         self.logger.info("Generating Montage...")
         viz_backend = self.export("viz_backend")
         best_scalar = self.export(self.export("best_scalar"))
+        t1 = nib.load(self.export("t1_masked"))
         size = (images_per_row, math.ceil(len(bundle_dict) / images_per_row))
         for ii, bundle_name in enumerate(tqdm(bundle_dict)):
             flip_axes = [False, False, False]
@@ -273,12 +274,13 @@ class ParticipantAFQ(object):
                 flip_axes[i] = (self.export("dwi_affine")[i, i] < 0)
 
             figure = viz_backend.visualize_volume(
-                best_scalar,
+                t1,
                 flip_axes=flip_axes,
                 interact=False,
                 inline=False)
             figure = viz_backend.visualize_bundles(
                 self.export("bundles"),
+                affine=t1.affine,
                 shade_by_volume=best_scalar,
                 color_by_direction=True,
                 flip_axes=flip_axes,

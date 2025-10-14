@@ -737,6 +737,7 @@ class GroupAFQ(object):
         best_scalar = self.export("best_scalar", collapse=False)[
             self.valid_sub_list[0]][self.valid_ses_list[0]]
 
+        t1_dict = self.export("t1_masked", collapse=False)
         viz_backend_dict = self.export("viz_backend", collapse=False)
         b0_backend_dict = self.export("b0", collapse=False)
         dwi_affine_dict = self.export("dwi_affine", collapse=False)
@@ -750,6 +751,7 @@ class GroupAFQ(object):
             this_ses = self.valid_ses_list[ii]
             viz_backend = viz_backend_dict[this_sub][this_ses]
             b0 = b0_backend_dict[this_sub][this_ses]
+            t1 = nib.load(t1_dict[this_sub][this_ses])
             dwi_affine = dwi_affine_dict[this_sub][this_ses]
             bundles = bundles_dict[this_sub][this_ses]
             best_scalar = best_scalar_dict[this_sub][this_ses]
@@ -774,7 +776,7 @@ class GroupAFQ(object):
                     slice_kwargs["z_pos"] = slice_pos
 
                 figure = viz_backend.visualize_volume(
-                    best_scalar,
+                    t1,
                     opacity=1.0,
                     flip_axes=flip_axes,
                     interact=False,
@@ -785,6 +787,7 @@ class GroupAFQ(object):
 
             figure = viz_backend.visualize_bundles(
                 bundles,
+                affine=t1.affine,
                 shade_by_volume=best_scalar,
                 flip_axes=flip_axes,
                 bundle=bundle_name,

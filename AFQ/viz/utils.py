@@ -8,10 +8,11 @@ from PIL import Image, ImageChops
 
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
-import matplotlib.transforms as mtransforms
 
 import nibabel as nib
 import dipy.tracking.streamlinespeed as dps
+from dipy.tracking.streamline import transform_streamlines
+from dipy.io.stateful_tractogram import StatefulTractogram, Space
 from dipy.align import resample
 
 import AFQ.utils.volume as auv
@@ -381,8 +382,17 @@ def viz_import_msg_error(module):
     return msg
 
 
+def _sls_to_t1(sls, ref_sft, t1_affine):
+    sft = StatefulTractogram.from_sft(sls, ref_sft)
+    sft.to_rasmm()
+    sls = transform_streamlines(
+        sft.streamlines,
+        np.linalg.inv(t1_affine))
+    return sls
+
+
 def tract_generator(trk_file, bundle, colors, n_points,
-                    n_sls_viz=65536, n_sls_min=256):
+                    t1_affine, n_sls_viz=65536, n_sls_min=256):
     """
     Generates bundles of streamlines from the tractogram.
     Only generates from relevant bundle if bundle is set.
@@ -407,11 +417,15 @@ def tract_generator(trk_file, bundle, colors, n_points,
         n_points to resample streamlines to before plotting. If None, no
         resampling is done.
 
+    t1_affine : ndarray (4, 4)
+        Affine of the T1-weighted image to register streamlines to.
+
     n_sls_viz : int
         Number of streamlines to randomly select if plotting
         all bundles. Selections will be proportional to the original number of
         streamlines per bundle.
         Default: 3600
+
     n_sls_min : int
         Minimun number of streamlines to display per bundle.
         Default: 75
@@ -429,7 +443,10 @@ def tract_generator(trk_file, bundle, colors, n_points,
     if colors is None:
         colors = gen_color_dict(seg_sft.bundle_names)
 
-    seg_sft.sft.to_vox()
+    if t1_affine is None:
+        t1_affine = np.eye(4)
+
+    seg_sft.sft.to_rasmm()
     streamlines = seg_sft.sft.streamlines
     viz_logger.info("Generating colorful lines from tractography...")
 
@@ -445,7 +462,8 @@ def tract_generator(trk_file, bundle, colors, n_points,
             streamlines = streamlines[idx]
         if n_points is not None:
             streamlines = dps.set_number_of_points(streamlines, n_points)
-        yield streamlines, colors[0], "all_bundles", seg_sft.sft.dimensions
+        yield _sls_to_t1(streamlines, seg_sft.sft, t1_affine), \
+            colors[0], "all_bundles", seg_sft.sft.dimensions
     else:
         if bundle is None:
             # No selection: visualize all of them:
@@ -465,7 +483,8 @@ def tract_generator(trk_file, bundle, colors, n_points,
                     color = colors[bundle_name]
                 else:
                     color = colors[0]
-                yield these_sls, color, bundle_name, seg_sft.sft.dimensions
+                yield _sls_to_t1(these_sls, seg_sft.sft, t1_affine), \
+                    color, bundle_name, seg_sft.sft.dimensions
         else:
             these_sls = seg_sft.get_bundle(bundle).streamlines
             if len(these_sls) > n_sls_viz:
@@ -478,7 +497,8 @@ def tract_generator(trk_file, bundle, colors, n_points,
                 color = colors[bundle]
             else:
                 color = colors[0]
-            yield these_sls, color, bundle, seg_sft.sft.dimensions
+            yield _sls_to_t1(these_sls, seg_sft.sft, t1_affine), \
+                color, bundle, seg_sft.sft.dimensions
 
 
 def bbox(img):
