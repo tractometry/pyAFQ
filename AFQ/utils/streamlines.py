@@ -55,7 +55,7 @@ class SegmentedSFT():
         if self.this_tracking_idxs is not None:
             for kk, vv in self.this_tracking_idxs.items():
                 self.this_tracking_idxs[kk] =\
-                    self.this_tracking_idxs[kk].astype(int)
+                    self.this_tracking_idxs[kk].astype(int).tolist()
             self.sidecar_info["tracking_idx"] = self.this_tracking_idxs
 
     def get_bundle(self, b_name):
