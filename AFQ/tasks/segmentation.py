@@ -125,10 +125,11 @@ def segment(data_imap, mapping_imap,
                                   'offsets': np.uint32}
         tgram = TrxFile.from_sft(seg_sft.sft)
         tgram.groups = seg_sft.bundle_idxs
-        meta = {}
 
     else:
-        tgram, meta = seg_sft.get_sft_and_sidecar()
+        tgram = seg_sft.sft
+
+    meta = seg_sft.sidecar
 
     seg_params_out = {}
     for arg_name, value in segmentation_params.items():
