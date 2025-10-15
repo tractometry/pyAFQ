@@ -18,15 +18,14 @@ class SegmentedSFT():
     def __init__(self, bundles, space, sidecar_info={}):
         reference = None
         self.bundle_names = []
-        self.sidecar_info = sidecar_info
         sls = []
         idxs = {}
-        this_tracking_idxs = []
+        this_tracking_idxs = {}
         idx_count = 0
         for b_name in bundles:
             if isinstance(bundles[b_name], dict):
                 this_sls = bundles[b_name]['sl']
-                this_tracking_idxs.extend(bundles[b_name]['idx'])
+                this_tracking_idxs[b_name] = bundles[b_name]['idx']
             else:
                 this_sls = bundles[b_name]
             if reference is None:
@@ -45,20 +44,19 @@ class SegmentedSFT():
         else:
             self.this_tracking_idxs = None
 
-    def get_sft_and_sidecar(self):
-        sidecar_info = {}
-        sidecar_info["bundle_ids"] = {}
+        self.sidecar_info = sidecar_info
+        self.sidecar_info["bundle_ids"] = {}
         dps = np.zeros(len(self.sft.streamlines))
         for ii, bundle_name in enumerate(self.bundle_names):
-            sidecar_info["bundle_ids"][f"{bundle_name}"] = ii + 1
+            self.sidecar_info["bundle_ids"][f"{bundle_name}"] = ii + 1
             dps[self.bundle_idxs[bundle_name]] = ii + 1
         dps = {"bundle": dps}
         self.sft.data_per_streamline = dps
         if self.this_tracking_idxs is not None:
-            for ii in range(len(self.this_tracking_idxs)):
-                self.this_tracking_idxs[ii] = int(self.this_tracking_idxs[ii])
-            sidecar_info["tracking_idx"] = self.this_tracking_idxs
-        return self.sft, sidecar_info
+            for kk, vv in self.this_tracking_idxs.items():
+                self.this_tracking_idxs[kk] =\
+                    self.this_tracking_idxs[kk].astype(int).tolist()
+            self.sidecar_info["tracking_idx"] = self.this_tracking_idxs
 
     def get_bundle(self, b_name):
         return self.sft[self.bundle_idxs[b_name]]

@@ -5,6 +5,7 @@ import shutil
 import subprocess
 import gc
 import random
+import json
 
 import toml
 
@@ -900,6 +901,32 @@ def test_AFQ_data_waypoint():
         myafq.export("output_dir"),
         'bundles',
         'sub-01_ses-01_desc-LeftCorticospinal_tractography.trk'))  # noqa
+
+    # Test that the returned indices are correct:
+    with open(op.join(
+        myafq.export("output_dir"),
+        "sub-01_ses-01_desc-bundles_tractography.json")) as meta_file:
+        meta_dict = json.load(meta_file)
+
+    # These are the indices into the full tractogram:
+    cst_indices = meta_dict["tracking_idx"]["Left Corticospinal"]
+
+    all_sl = load_tractogram(op.join(
+        myafq.export("output_dir"), "tractography",
+        "sub-01_ses-01_tractography.trk"), reference="same").streamlines
+
+    # Select the first streamline for testing. Here by index:
+    cst_by_index = all_sl[cst_indices[0]]
+
+    # And here from the segmentation:
+    cst_streamlines = load_tractogram(op.join(
+        myafq.export("output_dir"),
+        'bundles',
+        'sub-01_ses-01_desc-LeftCorticospinal_tractography.trk'),
+        reference="same").streamlines[0]
+
+    # Should be identical in all positions if the index is correct:
+    np.testing.assert_equal(cst_by_index, cst_streamlines)
 
     tract_profile_fname = myafq.export("profiles")
     tract_profiles = pd.read_csv(tract_profile_fname)
