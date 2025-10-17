@@ -10,7 +10,6 @@ import immlib
 from dipy.align import resample
 
 from AFQ.tasks.utils import get_fname, with_name, str_to_desc
-import AFQ.utils.volume as auv
 from AFQ.viz.utils import Viz
 import AFQ.utils.streamlines as aus
 from AFQ.utils.path import write_json, drop_extension
@@ -20,12 +19,14 @@ from plotly.subplots import make_subplots
 logger = logging.getLogger('AFQ')
 
 
-def _viz_prepare_vol(vol, xform, mapping, scalar_dict):
+def _viz_prepare_vol(vol, xform, mapping, scalar_dict, ref):
     if vol in scalar_dict.keys():
         vol = scalar_dict[vol]
 
     if isinstance(vol, str):
         vol = nib.load(vol)
+
+    vol = resample(vol, ref)
 
     vol = vol.get_fdata()
     if xform:
@@ -75,12 +76,12 @@ def viz_bundles(base_fname,
     mapping = mapping_imap["mapping"]
     scalar_dict = segmentation_imap["scalar_dict"]
     profiles_file = segmentation_imap["profiles"]
-    volume = data_imap["t1_masked"]
+    volume = nib.load(data_imap["t1_masked"])
     t1_affine = nib.load(data_imap["t1_masked"]).affine
     shade_by_volume = data_imap[best_scalar]
-    volume = _viz_prepare_vol(volume, False, mapping, scalar_dict)
     shade_by_volume = _viz_prepare_vol(
-        shade_by_volume, False, mapping, scalar_dict)
+        shade_by_volume, False, mapping, scalar_dict, volume)
+    volume = _viz_prepare_vol(volume, False, mapping, scalar_dict, volume)
 
     flip_axes = [False, False, False]
     for i in range(3):
@@ -171,16 +172,16 @@ def viz_indivBundle(base_fname,
     mapping = mapping_imap["mapping"]
     bundle_dict = data_imap["bundle_dict"]
     scalar_dict = segmentation_imap["scalar_dict"]
-    volume = data_imap["t1_masked"]
+    volume = nib.load(data_imap["t1_masked"])
     t1_affine = nib.load(data_imap["t1_masked"]).affine
     shade_by_volume = data_imap[best_scalar]
     profiles = pd.read_csv(segmentation_imap["profiles"])
 
     start_time = time()
-    volume = _viz_prepare_vol(
-        volume, False, mapping, scalar_dict)
     shade_by_volume = _viz_prepare_vol(
-        shade_by_volume, False, mapping, scalar_dict)
+        shade_by_volume, False, mapping, scalar_dict, volume)
+    volume = _viz_prepare_vol(
+        volume, False, mapping, scalar_dict, volume)
 
     flip_axes = [False, False, False]
     for i in range(3):
