@@ -172,16 +172,16 @@ def viz_indivBundle(base_fname,
     mapping = mapping_imap["mapping"]
     bundle_dict = data_imap["bundle_dict"]
     scalar_dict = segmentation_imap["scalar_dict"]
-    volume = nib.load(data_imap["t1_masked"])
+    volume_img = nib.load(data_imap["t1_masked"])
     t1_affine = nib.load(data_imap["t1_masked"]).affine
     shade_by_volume = data_imap[best_scalar]
     profiles = pd.read_csv(segmentation_imap["profiles"])
 
     start_time = time()
-    shade_by_volume = _viz_prepare_vol(
-        shade_by_volume, False, mapping, scalar_dict, volume)
     volume = _viz_prepare_vol(
-        volume, False, mapping, scalar_dict, volume)
+        volume_img, False, mapping, scalar_dict, volume_img)
+    shade_by_volume = _viz_prepare_vol(
+        shade_by_volume, False, mapping, scalar_dict, volume_img)
 
     flip_axes = [False, False, False]
     for i in range(3):
@@ -235,8 +235,10 @@ def viz_indivBundle(base_fname,
             name = roi_fname.split("desc-")[1].split("_")[0]
             if "probseg" in roi_fname:
                 name = f"{name}Probseg"
+            roi_img = nib.load(roi_fname)
+            roi_img = resample(roi_img, volume_img)
             figure = viz_backend.visualize_roi(
-                roi_fname,
+                roi_img,
                 name=name,
                 flip_axes=flip_axes,
                 inline=False,
