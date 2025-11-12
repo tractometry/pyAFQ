@@ -487,7 +487,8 @@ def get_scalar_dict(data_imap, mapping_imap, t1_file,
             sc = scalar.lower()
             if sc == "t1w":
                 scalar_dict[sc] = t1_file
-            scalar_dict[sc] = data_imap[f"{sc}"]
+            else:
+                scalar_dict[sc] = data_imap[f"{sc}"]
         elif f"{scalar.get_name()}" in mapping_imap:
             scalar_dict[scalar.get_name()] = mapping_imap[
                 f"{scalar.get_name()}"]
