@@ -1601,10 +1601,10 @@ def get_data_plan(kwargs):
         if len(dpg.unique_bvals_magnitude(bvals)) > 2:
             kwargs["scalars"] = [
                 "dki_fa", "dki_md",
-                "dki_kfa", "dki_mk"]
+                "dki_kfa", "dki_mk", "t1w"]
         else:
             kwargs["scalars"] = [
-                "dti_fa", "dti_md"]
+                "dti_fa", "dti_md", "t1w"]
     else:
         scalars = []
         for scalar in kwargs["scalars"]:

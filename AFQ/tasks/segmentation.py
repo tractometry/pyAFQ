@@ -461,7 +461,8 @@ def tract_profiles(bundles,
 
 
 @immlib.calc("scalar_dict")
-def get_scalar_dict(data_imap, mapping_imap, scalars=["dti_fa", "dti_md"]):
+def get_scalar_dict(data_imap, mapping_imap, t1_file,
+                    scalars=["dti_fa", "dti_md", "t1w"]):
     """
     dicionary mapping scalar names
     to their respective file paths
@@ -471,16 +472,21 @@ def get_scalar_dict(data_imap, mapping_imap, scalars=["dti_fa", "dti_md"]):
     scalars : list of strings and/or scalar definitions, optional
         List of scalars to use.
         Can be any of: "dti_fa", "dti_md", "dki_fa", "dki_md", "dki_awf",
-        "dki_mk". Can also be a scalar from AFQ.definitions.image.
-        Defaults for single shell data to ["dti_fa", "dti_md"],
-        and for multi-shell data to ["dki_fa", "dki_md"].
-        Default: ['dti_fa', 'dti_md']
+        "dki_mk", or other scalars found in AFQ.tasks.data.
+        Can also be a scalar from AFQ.definitions.image.
+        Finally, can also be "t1w".
+        Defaults for single shell data to ["dti_fa", "dti_md", "t1w"],
+        and for multi-shell data to ["dki_fa", "dki_md", "dki_kfa",
+        "dki_mk", "t1w"].
+        Default: ['dti_fa', 'dti_md', 't1w']
     """
     # Note: some scalars preprocessing done in plans, before this step
     scalar_dict = {}
     for scalar in scalars:
         if isinstance(scalar, str):
             sc = scalar.lower()
+            if sc == "t1w":
+                scalar_dict[sc] = t1_file
             scalar_dict[sc] = data_imap[f"{sc}"]
         elif f"{scalar.get_name()}" in mapping_imap:
             scalar_dict[scalar.get_name()] = mapping_imap[
