@@ -13,7 +13,7 @@ from dipy.reconst.mcsd import MultiShellDeconvModel
 from AFQ.utils.stats import chunk_indices
 
 
-__all__ = ["fit"]
+__all__ = ["MultiShellDeconvModel"]
 
 
 def _fit(self, data, mask=None, n_cpus=None):
