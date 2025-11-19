@@ -3,7 +3,8 @@ import os.path as op
 import tempfile
 import numpy.testing as npt
 
-from AFQ.nn.brainchop import run_brainchop, run_multiaxial
+from AFQ.nn.brainchop import run_brainchop
+from AFQ.nn.multiaxial import run_multiaxial
 import AFQ.data.fetch as afd
 
 def test_run_brainchop():
