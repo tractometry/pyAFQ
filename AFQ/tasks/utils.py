@@ -1,9 +1,20 @@
-from AFQ.utils.path import drop_extension
+from AFQ.utils.path import drop_extension, write_json
+
+import nibabel as nib
 import os.path as op
 import os
 import inspect
 
-__all__ = ["get_fname", "with_name", "get_base_fname"]
+__all__ = ["write_img_json", "get_fname", "with_name", "get_base_fname"]
+
+
+def write_img_json(img, base_fname, suffix, metadata):
+    fname = get_fname(base_fname, suffix)
+    nib.save(img, fname)
+    write_json(
+        get_fname(base_fname, f"{drop_extension(suffix)}.json"),
+        metadata
+    )
 
 
 def get_base_fname(output_dir, dwi_data_file):

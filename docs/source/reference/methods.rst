@@ -443,7 +443,7 @@ dki_ak:
     full path to a nifti file containing the DKI axial kurtosis file
 
 
-t1_brain_mask:
+t1w_brain_mask:
     full path to a nifti file containing brain mask from T1w image,
 
 

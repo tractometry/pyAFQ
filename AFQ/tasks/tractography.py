@@ -403,8 +403,10 @@ def get_tractography_plan(kwargs):
     if "tractography_ngpus" in kwargs and kwargs["tractography_ngpus"] != 0:
         if not has_gputrack:
             raise ImportError("Please install from ghcr.io/nrdg/pyafq_gpu"
-                              " docker file to use gpu-accelerated"
-                              "tractography")
+                              " docker file or from "
+                              "https://github.com/dipy/GPUStreamlines"
+                              " to use gpu-accelerated"
+                              " tractography")
         tractography_tasks["streamlines_res"] = gpu_tractography
     # use imported tractography if given
     if "import_tract" in kwargs and kwargs["import_tract"] is not None:

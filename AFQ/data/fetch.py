@@ -47,6 +47,7 @@ finally:
 
 __all__ = ["fetch_callosum_templates", "read_callosum_templates",
            "fetch_or_templates", "read_or_templates",
+           "fetch_brainchop_models", "fetch_multiaxial_models",
            "fetch_templates", "read_templates",
            "fetch_stanford_hardi_tractography",
            "read_stanford_hardi_tractography",
@@ -190,6 +191,59 @@ def read_callosum_templates(as_img=True, resample_to=False):
     logger.debug(f'callosum templates loaded in {toc - tic:0.4f} seconds')
 
     return template_dict
+
+
+multiaxial_fnames = [
+    "sagittal_model.onnx",
+    "axial_model.onnx",
+    "coronal_model.onnx",
+    "consensus_model.onnx"]
+
+multiaxial_md5_hashes = [
+    "ebf2bdc913b2094c2a33e9845934dc7a",
+    "6a793e17463a5f984b886580f01bbea9",
+    "da806b6249ec4e7fd591db439b11cbb5",
+    "77bc5c332ac65e4d35c2439b177d13d6"]
+
+multiax_host = (
+    "https://raw.githubusercontent.com/36000/"
+    "multiaxial_brain_segmenter/"
+    "1c4807f4049375921309250ac06a2b7b59918a81"
+    "/models/onnx/")
+fetch_multiaxial_models = _make_reusable_fetcher(
+    "fetch_multiaxial_models",
+    op.join(afq_home,
+            'multiaxial_models_onnx'),
+    multiax_host, multiaxial_fnames,
+    multiaxial_fnames,
+    md5_list=multiaxial_md5_hashes,
+    doc="Download ONNX Multiaxial models")
+
+
+brainchop_fnames = [
+    "mindgrab.onnx",
+    "mindgrab.onnx.data",
+    "model30chan18cls.onnx",
+    "model30chan18cls.onnx.data"]
+
+brainchop_remote_fnames = [
+    "59672459", "59672462",
+    "59582714", "59582717"]
+
+brainchop_md5_hashes = [
+    "4fbe7a6e8de79866bc43973d69b22d05",
+    "60a491dcbb0f37b843793cf522c266de",
+    "36459c8d29a0b5bb735105cff5319f83",
+    "c0f46152bb59a0ced7125be272e6e909"]
+
+fetch_brainchop_models = _make_reusable_fetcher(
+    "fetch_brainchop_models",
+    op.join(afq_home,
+            'brainchop_models_onnx'),
+    baseurl, brainchop_remote_fnames,
+    brainchop_fnames,
+    md5_list=brainchop_md5_hashes,
+    doc="Download ONNX Brainchop models")
 
 
 ##########################################################################

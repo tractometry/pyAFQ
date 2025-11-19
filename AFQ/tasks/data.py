@@ -26,7 +26,7 @@ from dipy.core.gradients import unique_bvals_tolerance
 from dipy.align import resample
 
 from AFQ.tasks.decorators import as_file, as_img, as_fit_deriv
-from AFQ.tasks.utils import get_fname, with_name
+from AFQ.tasks.utils import get_fname, with_name, write_img_json
 import AFQ.api.bundle_dict as abd
 import AFQ.data.fetch as afd
 from AFQ.utils.path import drop_extension, write_json
@@ -42,13 +42,14 @@ from AFQ.models.dti import _fit as dti_fit_model
 from AFQ.models.fwdti import _fit as fwdti_fit_model
 from AFQ.models.QBallTP import (
     extract_odf, anisotropic_index, anisotropic_power)
-from AFQ.models.wmgm_interface import fit_wm_gm_interface, pve_from_subcortex
+from AFQ.models.wmgm_interface import fit_wm_gm_interface
 from AFQ.models.msmt import MultiShellDeconvModel
 from AFQ.models.asym_filtering import (
     unified_filtering, compute_asymmetry_index,
     compute_odd_power_map, compute_nufid_asym)
 
-from AFQ.nn.brainchop import run_brainchop
+from AFQ.nn.multiaxial import run_multiaxial, extract_brain_mask, extract_pve
+from AFQ.nn.brainchop import run_brainchop, pve_from_subcortex
 
 logger = logging.getLogger('AFQ')
 
@@ -159,21 +160,6 @@ def b0_mask(b0, brain_mask):
         source=b0,
         masked=True)
     return masked_data, meta
-
-
-@immlib.calc("t1w_pve")
-@as_file(suffix='_desc-pve_probseg.nii.gz')
-def t1w_pve(t1_subcortex):
-    """
-    WM, GM, CSF segmentations from subcortex segmentation
-    from brainchop on T1w image
-    """
-    t1_subcortex_img = nib.load(t1_subcortex)
-    PVE = pve_from_subcortex(t1_subcortex_img.get_fdata())
-
-    return nib.Nifti1Image(PVE, t1_subcortex_img.affine), dict(
-        SubCortexParcellation=t1_subcortex,
-        labels=["csf", "gm", "wm"],)
 
 
 @immlib.calc("wm_gm_interface")
@@ -1410,11 +1396,30 @@ def dki_ak(dki_tf):
     return dki_tf.ak
 
 
-@immlib.calc("t1_brain_mask")
-@as_file(suffix='_desc-T1w_mask.nii.gz')
-def t1_brain_mask(t1_file):
+@immlib.calc("mx_model")
+@as_file(suffix='_model-multiaxial_probseg.nii.gz',
+         subfolder="nn")
+def mx_model(t1_masked):
     """
-    full path to a nifti file containing brain mask from T1w image,
+    full path to the multi-axial model for brain extraction
+    outputs
+
+    References
+    ----------
+    [1] Birnbaum, Andrew M., et al. "Full-head segmentation of MRI
+        with abnormal brain anatomy: model and data release." Journal of
+        Medical Imaging 12.5 (2025): 054001-054001.
+    """
+    t1_img = nib.load(t1_masked)
+    predictions = run_multiaxial(t1_img)
+    return predictions, dict(T1w=t1_masked)
+
+
+@immlib.calc("t1w_brain_mask")
+@as_file(suffix='_desc-T1w_mask.nii.gz')
+def t1w_brain_mask(t1_file):
+    """
+    full path to a nifti file containing brain mask from T1w image
 
     References
     ----------
@@ -1425,28 +1430,52 @@ def t1_brain_mask(t1_file):
     """
     return run_brainchop(nib.load(t1_file), "mindgrab"), dict(
         T1w=t1_file,
-        model="brainchop")
+        model="mindgrab")
+
+
+@immlib.calc("t1w_pve")
+@as_file(suffix='_desc-pve_probseg.nii.gz')
+def t1w_pve(t1_subcortex, mx_model):
+    """
+    WM, GM, CSF segmentations from subcortex segmentation
+    from brainchop on T1w image
+    """
+    t1_subcortex_img = nib.load(t1_subcortex)
+    mx_model_img = nib.load(mx_model)
+
+    PVE_brainchop = pve_from_subcortex(
+        t1_subcortex_img.get_fdata()).astype(np.float32)
+    PVE_multiaxial = extract_pve(
+        mx_model_img).get_fdata().astype(np.float32)
+
+    # Use predictions from both to get final esimates
+    PVE = (PVE_brainchop + PVE_multiaxial) / 2
+
+    return nib.Nifti1Image(PVE, t1_subcortex_img.affine), dict(
+        SubCortexParcellation=t1_subcortex,
+        MultiAxialSegmentation=mx_model,
+        labels=["csf", "gm", "wm"],)
 
 
 @immlib.calc("t1_masked")
 @as_file(suffix='_desc-masked_T1w.nii.gz')
-def t1_masked(t1_file, t1_brain_mask):
+def t1_masked(t1_file, t1w_brain_mask):
     """
     full path to a nifti file containing the T1w masked
     """
     t1_img = nib.load(t1_file)
     t1_data = t1_img.get_fdata()
-    t1_mask = nib.load(t1_brain_mask)
+    t1_mask = nib.load(t1w_brain_mask)
     t1_data[t1_mask.get_fdata() == 0] = 0
     t1_img_masked = nib.Nifti1Image(
         t1_data, t1_img.affine)
     return t1_img_masked, dict(
         T1w=t1_file,
-        BrainMask=t1_brain_mask)
+        BrainMask=t1w_brain_mask)
 
 
 @immlib.calc("t1_subcortex")
-@as_file(suffix='_desc-subcortex_probseg.nii.gz')
+@as_file(suffix='_desc-subcortex_probseg.nii.gz', subfolder="nn")
 def t1_subcortex(t1_masked):
     """
     full path to a nifti file containing segmentation of
@@ -1480,12 +1509,12 @@ def t1_subcortex(t1_masked):
 
 @immlib.calc("brain_mask")
 @as_file('_desc-brain_mask.nii.gz')
-def brain_mask(t1_brain_mask, b0):
+def brain_mask(t1w_brain_mask, b0):
     """
     full path to a nifti file containing the brain mask
     """
-    return resample(t1_brain_mask, b0), dict(
-        BrainMaskinT1w=t1_brain_mask)
+    return resample(t1w_brain_mask, b0), dict(
+        BrainMaskinT1w=t1w_brain_mask)
 
 
 @immlib.calc("bundle_dict", "reg_template", "tmpl_name")
@@ -1576,9 +1605,9 @@ def get_data_plan(kwargs):
 
     data_tasks = with_name([
         get_data_gtab, b0, b0_mask, brain_mask,
-        t1_brain_mask, t1_subcortex, t1_masked,
+        t1w_brain_mask, t1_subcortex, t1_masked,
         configure_ncpus_nthreads,
-        t1w_pve, wm_gm_interface,
+        t1w_pve, wm_gm_interface, mx_model,
         dti_fit, dki_fit, fwdti_fit, anisotropic_power_map,
         csd_anisotropic_index, csd_aodf,
         msmt_params, msmt_apm, msmt_aodf,

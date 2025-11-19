@@ -62,7 +62,7 @@ for task_module in task_modules:
                     raise NotImplementedError((
                         "If calc method has mutliple outputs, "
                         "their descriptions must be divided by commas."
-                        f" {calc_obj.name} has {len(eff_descs)} comma-divided"
+                        f" {calc_obj} has {len(eff_descs)} comma-divided"
                         f"sections but {len(calc_obj.calc.outputs)} outputs"))
                 for ii in range(len(calc_obj.calc.outputs)):
                     if eff_descs[ii][0] in [' ', '\n']:
