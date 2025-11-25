@@ -254,8 +254,7 @@ def default18_bd():
                                     'orient_mahal': {
                                         'distance_threshold': 3,
                                         'clean_rounds': 5},
-                                    'isolation_forest': {
-                                        'percent_outlier_thresh': 50},
+                                    'isolation_forest': {},
                                     'primary_axis': 'I/S',
                                     'primary_axis_percentage': 40},
         'Right Vertical Occipital': {'cross_midline': False,
@@ -271,8 +270,7 @@ def default18_bd():
                                      'orient_mahal': {
                                          'distance_threshold': 3,
                                          'clean_rounds': 5},
-                                     'isolation_forest': {
-                                         'percent_outlier_thresh': 50},
+                                     'isolation_forest': {},
                                      'primary_axis': 'I/S',
                                      'primary_axis_percentage': 40}})
 
@@ -531,7 +529,7 @@ def callosal_bd():
             'include': [callosal_templates['R_AntFrontal'],
                         callosal_templates['Callosum_midsag'],
                         callosal_templates['L_AntFrontal']],
-            'isolation_forest': {'percent_outlier_thresh': 20},
+            'isolation_forest': {},
             'exclude': [templates['CST_roi1_L'], templates['CST_roi1_R']],
             'space': 'template'},
         'Callosum Motor': {
@@ -539,7 +537,7 @@ def callosal_bd():
             'include': [callosal_templates['R_Motor'],
                         callosal_templates['Callosum_midsag'],
                         callosal_templates['L_Motor']],
-            'isolation_forest': {'percent_outlier_thresh': 20},
+            'isolation_forest': {},
             'exclude': [templates['CST_roi1_L'], templates['CST_roi1_R']],
             'space': 'template'},
         'Callosum Occipital': {
@@ -547,7 +545,7 @@ def callosal_bd():
             'include': [callosal_templates['R_Occipital'],
                         callosal_templates['Callosum_midsag'],
                         callosal_templates['L_Occipital']],
-            'isolation_forest': {'percent_outlier_thresh': 20},
+            'isolation_forest': {},
             'exclude': [templates['CST_roi1_L'], templates['CST_roi1_R']],
             'space': 'template'},
         'Callosum Orbital': {
@@ -555,7 +553,7 @@ def callosal_bd():
             'include': [callosal_templates['R_Orbital'],
                         callosal_templates['Callosum_midsag'],
                         callosal_templates['L_Orbital']],
-            'isolation_forest': {'percent_outlier_thresh': 20},
+            'isolation_forest': {},
             'exclude': [templates['CST_roi1_L'], templates['CST_roi1_R']],
             'space': 'template'},
         'Callosum Posterior Parietal': {
@@ -563,7 +561,7 @@ def callosal_bd():
             'include': [callosal_templates['R_PostParietal'],
                         callosal_templates['Callosum_midsag'],
                         callosal_templates['L_PostParietal']],
-            'isolation_forest': {'percent_outlier_thresh': 20},
+            'isolation_forest': {},
             'exclude': [templates['CST_roi1_L'], templates['CST_roi1_R']],
             'space': 'template'},
         'Callosum Superior Frontal': {
@@ -571,7 +569,7 @@ def callosal_bd():
             'include': [callosal_templates['R_SupFrontal'],
                         callosal_templates['Callosum_midsag'],
                         callosal_templates['L_SupFrontal']],
-            'isolation_forest': {'percent_outlier_thresh': 20},
+            'isolation_forest': {},
             'exclude': [templates['CST_roi1_L'], templates['CST_roi1_R']],
             'space': 'template'},
         'Callosum Superior Parietal': {
@@ -579,7 +577,7 @@ def callosal_bd():
             'include': [callosal_templates['R_SupParietal'],
                         callosal_templates['Callosum_midsag'],
                         callosal_templates['L_SupParietal']],
-            'isolation_forest': {'percent_outlier_thresh': 20},
+            'isolation_forest': {},
             'exclude': [templates['CST_roi1_L'], templates['CST_roi1_R']],
             'space': 'template'},
         'Callosum Temporal': {
@@ -587,7 +585,7 @@ def callosal_bd():
             'include': [callosal_templates['R_Temporal'],
                         callosal_templates['Callosum_midsag'],
                         callosal_templates['L_Temporal']],
-            'isolation_forest': {'percent_outlier_thresh': 20},
+            'isolation_forest': {},
             'exclude': [templates['CST_roi1_L'], templates['CST_roi1_R']],
             'space': 'template'}})
 

@@ -259,14 +259,16 @@ def clean_bundle(tg, n_points=100, clean_rounds=5, distance_threshold=3,
         return out
 
 
-def clean_by_isolation_forest(tg, n_points=100, percent_outlier_thresh=15,
-                              min_sl=20, n_jobs=None, random_state=None):
+def clean_by_isolation_forest(tg, n_points=100, distance_threshold=3,
+                              n_rounds=5, min_sl=20, n_jobs=None,
+                              random_state=None):
     """
     Use Isolation Forest (IF) to clean streamlines.
-    Nodes are passed to IF, and outlier nodes are identified.
-    These are re-mapped back on to the streamlines, and streamlines
-    with too many outlier nodes are removed. This is better for
-    cleaning bundles that are not tube-like.
+    Nodes are passed to IF, and nodes are assigned anamoly scores.
+    These are re-mapped back on to the streamlines. Streamlines with maximum
+    outlier scores too many s.d. away from the mean outlier score
+    are removed. This is done in several rounds. This is better for cleaning
+    bundles that are not tube-like.
 
     Parameters
     ----------
@@ -275,9 +277,13 @@ def clean_by_isolation_forest(tg, n_points=100, percent_outlier_thresh=15,
     n_points : int, optional
         Number of points to resample streamlines to.
         Default: 100
-    percent_outlier_thresh : int, optional
-        Percentage of outliers allowed in the streamline.
-        Default: 15
+    distance_threshold : int, optional
+        Streamlines with average node anamoly score below this many
+        s.d. of average node anaomly score are removed.
+        Default: 3
+    n_rounds : int, optional.
+        Number of rounds of cleaning based on Isolation Forest.
+        Default: 5
     min_sl : int, optional.
         Number of streamlines in a bundle under which we will
         not bother with cleaning outliers. Default: 20.
@@ -303,28 +309,55 @@ def clean_by_isolation_forest(tg, n_points=100, percent_outlier_thresh=15,
             "Isolation Forest cleaning not performed"
             " due to low streamline count"))
         return np.ones(len(streamlines), dtype=bool)
-
+    
     # Resample once up-front:
     fgarray = np.asarray(abu.resample_tg(streamlines, n_points))
     fgarray_dists = np.zeros_like(fgarray)
     fgarray_dists[:, 1:, :] = fgarray[:, 1:, :] - fgarray[:, :-1, :]
     fgarray_dists[:, 0, :] = fgarray_dists[:, 1, :]
     X_ = np.concatenate((
-        fgarray.reshape((-1, 3)),
-        fgarray_dists.reshape((-1, 3))),
+        fgarray.reshape((-1, n_points, 3)),
+        fgarray_dists.reshape((-1, n_points, 3))),
         axis=1)
     idx = np.arange(len(fgarray))
 
-    lof = IsolationForest(n_jobs=n_jobs, random_state=random_state)
-    outliers = lof.fit_predict(X_)
-    outliers = outliers.reshape(fgarray.shape[:2])
-    outliers = np.sum(outliers == -1, axis=1)
+    rounds_elapsed = 0
+    idx_belong = idx
+    while(rounds_elapsed < n_rounds):
+        # This calculates the Isolation Forest outlier for each node:
+        lof = IsolationForest(n_jobs=n_jobs, random_state=random_state)
+        outliers = lof.fit(X_.reshape(-1, 6))
+        outliers = lof.score_samples(X_.reshape(-1, 6))
+        outliers = outliers.reshape((len(idx), n_points))
+        sl_outliers = np.min(outliers, axis=1)
 
-    idx_belong = outliers * 100 <= n_points * percent_outlier_thresh
+        mean_outlier = np.mean(outliers)
+        sd_outlier = np.std(outliers)
+        logger.debug((
+            f"Mean outlier: {mean_outlier}, "
+            f"SD outlier: {sd_outlier}, "))
 
-    if np.sum(idx_belong) < min_sl:
-        # need to sort and return exactly min_sl:
-        return idx[np.argsort(outliers)[:min_sl].astype(int)]
-    else:
-        # Update by selection:
-        return idx[idx_belong]
+        idx_belong = sl_outliers > mean_outlier - \
+            distance_threshold * sd_outlier
+        
+        if len(idx_belong) == len(idx):
+            break
+
+        if np.sum(idx_belong) < min_sl:
+            # need to sort and return exactly min_sl:
+            idx = idx[np.argsort(-sl_outliers)[:min_sl].astype(int)]
+            logger.debug((
+                f"At rounds elapsed {rounds_elapsed}, "
+                "minimum streamlines reached"))
+            break
+        else:
+            # Update by selection:
+            idx = idx[idx_belong]
+            X_ = X_[idx_belong]
+            rounds_elapsed += 1
+            logger.debug((
+                f"Rounds elapsed: {rounds_elapsed}, "
+                f"num kept: {len(idx)}"))
+            logger.debug(f"Kept indicies: {idx}")
+
+    return idx
