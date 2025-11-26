@@ -222,10 +222,10 @@ bundle_counts = pd.read_csv(myafq.export("sl_counts")["01"], index_col=[0])
 for ind in bundle_counts.index:
     if ind == "Total Recognized":
         threshold = 1000
-    elif "Callosum" in ind:
-        threshold = 0
+    elif "Vertical" in ind:
+        threshold = 5
     else:
-        threshold = 10
+        threshold = 15
     if bundle_counts["n_streamlines"][ind] < threshold:
         raise ValueError((
             "Small number of streamlines found "

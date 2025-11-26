@@ -350,7 +350,7 @@ def isolation_forest(b_sls, bundle_def, n_cpus, rng, **kwargs):
         b_sls.get_selected_sls(),
         distance_threshold=bundle_def["isolation_forest"].get(
             "distance_threshold", 3),
-        distance_threshold=bundle_def["isolation_forest"].get(
+        n_rounds=bundle_def["isolation_forest"].get(
             "n_rounds", 5),
         n_jobs=n_cpus, random_state=rng)
     b_sls.select(accept_idx, "isolation_forest")
