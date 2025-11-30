@@ -16,7 +16,6 @@ import nibabel as nib
 import numpy as np
 
 from AFQ.api.group import GroupAFQ
-import AFQ.definitions.image as afm
 from dipy.data import get_sphere
 
 import os.path as op
@@ -74,10 +73,6 @@ for odf_model in ["csd", "msmtcsd"]:
                 "tracker": tracker,
                 "odf_model": odf_model,
                 "sphere": get_sphere(name="repulsion724"),
-                "seed_mask": afm.ScalarImage("wm_gm_interface"),
-                "seed_threshold": 0.5,
-                "stop_mask": afm.ThreeTissueImage(),
-                "stop_threshold": "ACT",
                 "n_seeds": 2000000,
                 "random_seeds": True},
             output_dir=output_dir,
