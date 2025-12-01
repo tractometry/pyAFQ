@@ -39,18 +39,18 @@ np.random.seed(1234)
 # The fether returns this directory as study_dir:
 
 _, study_dir = afd.fetch_hbn_preproc([
-    'NDARKP893TWU',
-    'NDAREP505XAD',
-    'NDARKT540ZW0',
-    'NDARAG340ERT',
+    # 'NDARKP893TWU',
+    # 'NDAREP505XAD',
+    # 'NDARKT540ZW0',
+    # 'NDARAG340ERT',
     'NDAREM757NBG',
-    'NDARLL894HC3',
-    'NDARFY525TL2',
-    'NDARKV461KGZ',
-    'NDARUC851WHU',
-    'NDARMJ333WJM',
-    'NDARJG687YYX',
-    'NDARJA157YB3',
+    # 'NDARLL894HC3',
+    # 'NDARFY525TL2',
+    # 'NDARKV461KGZ',
+    # 'NDARUC851WHU',
+    # 'NDARMJ333WJM',
+    # 'NDARJG687YYX',
+    # 'NDARJA157YB3',
 ])
 
 #############################################################################
@@ -168,15 +168,16 @@ bundles = abd.BundleDict({
 # `"seed_mask": RoiImage()` in the `tracking_params` dict. The custom bundles
 # are passed as `bundle_info=bundles`. The call to `my_afq.export_all()`
 # initiates the pipeline.
-
+bundles = abd.default18_bd()
 my_afq = GroupAFQ(
     bids_path=study_dir,
     preproc_pipeline="qsiprep",
     output_dir=op.join(study_dir, "derivatives", "afq_slf"),
-    tracking_params={"n_seeds": 4,
+    tracking_params={"n_seeds": 2000000,
                      "directions": "prob",
                      "odf_model": "CSD",
                      "seed_mask": RoiImage()},
+    tractography_ngpus=1,
     bundle_info=bundles)
 
 # If you want to redo different stages you can use the `clobber` method.
@@ -189,6 +190,7 @@ my_afq = GroupAFQ(
 my_afq.clobber(dependent_on='recog')
 
 my_afq.export_all()
+1/0.
 
 #############################################################################
 # Visualize a montage

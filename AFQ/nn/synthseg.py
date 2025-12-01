@@ -6,7 +6,7 @@ from skimage.segmentation import find_boundaries
 
 import onnxruntime
 
-from AFQ.data.fetch import afq_home
+from AFQ.data.fetch import afq_home, fetch_synthseg_models
 
 import logging
 import os.path as op
@@ -27,7 +27,7 @@ def _get_model(model_name):
 
     model_fname = op.join(model_dir, model_dictionary[model_name])
     if not op.exists(model_fname):
-        raise NotImplementedError()
+        fetch_synthseg_models()
 
     return model_fname
 

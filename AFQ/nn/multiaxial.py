@@ -3,10 +3,6 @@ from tqdm import tqdm
 import numpy as np
 import nibabel as nib
 import nibabel.processing as nbp
-from dipy.align import resample
-
-from skimage.measure import label, regionprops
-from skimage.morphology import binary_erosion, binary_dilation
 
 from AFQ.data.fetch import fetch_multiaxial_models, afq_home
 

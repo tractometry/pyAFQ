@@ -48,6 +48,7 @@ finally:
 __all__ = ["fetch_callosum_templates", "read_callosum_templates",
            "fetch_or_templates", "read_or_templates",
            "fetch_brainchop_models", "fetch_multiaxial_models",
+           "fetch_synthseg_models",
            "fetch_templates", "read_templates",
            "fetch_stanford_hardi_tractography",
            "read_stanford_hardi_tractography",
@@ -192,6 +193,20 @@ def read_callosum_templates(as_img=True, resample_to=False):
 
     return template_dict
 
+synthseg_fnames = [
+    "synthseg2.onnx"]
+
+synthseg_md5_hashes = [
+    "c9e74653b96ce1725ec078bae4d63eb4"]
+
+fetch_synthseg_models = _make_reusable_fetcher(
+    "fetch_synthseg_models",
+    op.join(afq_home,
+            'synthseg_onnx'),
+    baseurl, synthseg_fnames,
+    synthseg_fnames,
+    md5_list=synthseg_md5_hashes,
+    doc="Download ONNX SynthSeg models")
 
 multiaxial_fnames = [
     "sagittal_model.onnx",
