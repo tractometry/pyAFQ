@@ -28,6 +28,7 @@ import os.path as op
 import AFQ.api.bundle_dict as abd
 from AFQ.api.group import GroupAFQ
 import AFQ.data.fetch as afd
+import AFQ.definitions.image as afm
 
 
 ##########################################################################
@@ -96,6 +97,20 @@ afd.fetch_stanford_hardi_tractography()
 bids_path = op.join(op.expanduser('~'), 'AFQ_data', 'stanford_hardi')
 tractography_path = op.join(bids_path, 'derivatives', 'my_tractography')
 sub_path = op.join(tractography_path, 'sub-01', 'ses-01', 'dwi')
+
+seg_file = op.join(afd.afq_home, "stanford_hardi", "derivatives",
+                   "freesurfer", "sub-01", "ses-01", "anat",
+                   "sub-01_ses-01_seg.nii.gz")
+pve = afm.PVEImages(
+    afm.LabelledImageFile(
+        path=seg_file,
+        inclusive_labels=[0]),
+    afm.LabelledImageFile(
+        path=seg_file,
+        exclusive_labels=[0, 1, 2], combine="and"),
+    afm.LabelledImageFile(
+        path=seg_file,
+        inclusive_labels=[1, 2]))
 
 os.makedirs(sub_path, exist_ok=True)
 os.rename(
@@ -251,6 +266,7 @@ my_afq = GroupAFQ(
         "suffix": "tractography",
         "scope": "my_tractography"
     },
+    pve=pve,
     segmentation_params={'nb_streamlines': 10000})
 
 ##########################################################################

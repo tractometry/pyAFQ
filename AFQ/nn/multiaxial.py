@@ -161,7 +161,7 @@ def run_multiaxial(t1_img):
 
     output_img = nbp.resample_from_to(
         nib.Nifti1Image(
-            output.astype(np.float32),
+            output.astype(np.uint8),
             t1_img_conformed.affine),
         t1_img)
 

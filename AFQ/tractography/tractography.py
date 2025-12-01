@@ -1,8 +1,9 @@
-from collections.abc import Iterable
 import numpy as np
 import nibabel as nib
 import logging
 from tqdm import tqdm
+
+from skimage.segmentation import find_boundaries
 
 import dipy.data as dpd
 from dipy.reconst.dti import decompose_tensor, from_lower_triangular
@@ -199,6 +200,15 @@ def track(params_file, pve, directions="prob", max_angle=30., sphere=None,
         pve_wm_data, model_params[..., 0],
         moving_affine=pve_img.affine,
         static_affine=params_img.affine).get_fdata()
+
+    # here we treat edges as gm
+    # this is so that streamlines that hit the end of the
+    # (presumably masked) fodf are treated as valid
+    brain_mask = np.any(model_params != 0, axis=-1).astype(np.uint8)
+    edge = find_boundaries(brain_mask, mode='inner')
+    pve_gm_data[edge] = 1.0
+    pve_wm_data[edge] = 0.0
+    pve_csf_data[edge] = 0.0
 
     stopping_criterion = ActStoppingCriterion.from_pve(
         pve_wm_data,

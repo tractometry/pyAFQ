@@ -1,7 +1,7 @@
 import numpy as np
 import nibabel as nib
 import nibabel.processing as nbp
-from scipy.ndimage import gaussian_filter
+from scipy.ndimage import gaussian_filter, binary_dilation
 from skimage.segmentation import find_boundaries
 
 import onnxruntime
@@ -70,9 +70,15 @@ def run_brainchop(t1_img, model_name):
 
     output = output_channels.argmax(axis=1)[0].astype(np.uint8)
 
+    if model_name == "mindgrab":
+        # Mindgrab can be tight sometimes,
+        # better to include a bit more,
+        # than to miss some
+        output = binary_dilation(output, iterations=2)
+
     output_img = nbp.resample_from_to(
         nib.Nifti1Image(
-            output.astype(np.float32),
+            output.astype(np.uint8),
             t1_img_conformed.affine),
         t1_img)
 

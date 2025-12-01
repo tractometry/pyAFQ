@@ -15,6 +15,7 @@ import plotly
 
 from AFQ.api.participant import ParticipantAFQ
 import AFQ.data.fetch as afd
+import AFQ.definitions.image as afm
 
 ##########################################################################
 # Preparing the ParticipantAFQ object
@@ -39,6 +40,20 @@ output_dir = op.join(afd.afq_home, "stanford_hardi",
                      "derivatives", "afq", "sub-01", "ses-01", "dwi")
 os.makedirs(output_dir, exist_ok=True)
 
+seg_file = op.join(afd.afq_home, "stanford_hardi", "derivatives",
+                   "freesurfer", "sub-01", "ses-01", "anat",
+                   "sub-01_ses-01_seg.nii.gz")
+pve = afm.PVEImages(
+    afm.LabelledImageFile(
+        path=seg_file,
+        inclusive_labels=[0]),
+    afm.LabelledImageFile(
+        path=seg_file,
+        exclusive_labels=[0, 1, 2], combine="and"),
+    afm.LabelledImageFile(
+        path=seg_file,
+        inclusive_labels=[1, 2]))
+
 # Initialize the ParticipantAFQ object
 myafq = ParticipantAFQ(
     dwi_data_file=dwi_data_file,
@@ -47,6 +62,7 @@ myafq = ParticipantAFQ(
     t1_file=t1_file,
     output_dir=output_dir,
     ray_n_cpus=1,
+    pve=pve,
     tracking_params={
         "n_seeds": 10000,
         "random_seeds": True,

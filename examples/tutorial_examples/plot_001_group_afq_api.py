@@ -19,6 +19,7 @@ import pandas as pd
 from AFQ.api.group import GroupAFQ
 import AFQ.data.fetch as afd
 import AFQ.viz.altair as ava
+import AFQ.definitions.image as afm
 
 ##########################################################################
 # Example data
@@ -49,7 +50,7 @@ import AFQ.viz.altair as ava
 # stored in the `~/AFQ_data/stanford_hardi/` BIDS directory. Set it to None if
 # you want to use the results of previous runs.
 
-afd.organize_stanford_data(clear_previous_afq="track")
+afd.organize_stanford_data(clear_previous_afq="all")
 
 ##########################################################################
 # Set tractography parameters (optional)
@@ -63,6 +64,30 @@ tracking_params = dict(n_seeds=25000,
                        random_seeds=True,
                        rng_seed=2025,
                        trx=True)
+
+#####################################################################
+# Define PVE images (optional)
+# ----------------------------
+# To improve segmentation and tractography results, we can provide
+# partial volume estimate (PVE) images for the cerebrospinal fluid (CSF),
+# gray matter (GM), and white matter (WM). Here, we define these images
+# using the AFQ.definitions.image.PVEImages class, which takes as input
+# three AFQ.definitions.image.ImageFile objects, one for each tissue type.
+# One can also provide a single PVE image with all three tissue types
+# using the AFQ.definitions.image.PVEImage class. Finally, by default,
+# if no PVE images are provided, pyAFQ will use SynthSeg2 to compute
+# these images.
+
+pve = afm.PVEImages(
+    afm.LabelledImageFile(
+        suffix="seg", filters={"scope": "freesurfer"},
+        inclusive_labels=[0]),
+    afm.LabelledImageFile(
+        suffix="seg", filters={"scope": "freesurfer"},
+        exclusive_labels=[0, 1, 2], combine="and"),
+    afm.LabelledImageFile(
+        suffix="seg", filters={"scope": "freesurfer"},
+        inclusive_labels=[1, 2]))
 
 ##########################################################################
 # Initialize a GroupAFQ object:
@@ -95,6 +120,7 @@ myafq = GroupAFQ(
     bids_path=op.join(afd.afq_home, 'stanford_hardi'),
     preproc_pipeline='vistasoft',
     t1_pipeline='freesurfer',
+    pve=pve,
     tracking_params=tracking_params,
     ray_n_cpus=1,
     viz_backend_spec='plotly_no_gif')

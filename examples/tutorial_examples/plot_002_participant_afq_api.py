@@ -13,6 +13,7 @@ import plotly
 
 from AFQ.api.participant import ParticipantAFQ
 import AFQ.data.fetch as afd
+import AFQ.definitions.image as afm
 
 ##########################################################################
 # Example data
@@ -88,6 +89,32 @@ tracking_params = dict(n_seeds=25000,
                        rng_seed=2025,
                        trx=True)
 
+#####################################################################
+# Define PVE images (optional)
+# ----------------------------
+# To improve segmentation and tractography results, we can provide
+# partial volume estimate (PVE) images for the cerebrospinal fluid (CSF),
+# gray matter (GM), and white matter (WM). Here, we define these images
+# using the AFQ.definitions.image.PVEImages class, which takes as input
+# three AFQ.definitions.image.ImageFile objects, one for each tissue type.
+# One can also provide a single PVE image with all three tissue types
+# using the AFQ.definitions.image.PVEImage class. Finally, by default,
+# if no PVE images are provided, pyAFQ will use SynthSeg2 to compute
+# these images.
+seg_file = op.join(afd.afq_home, "stanford_hardi", "derivatives",
+                   "freesurfer", "sub-01", "ses-01", "anat",
+                   "sub-01_ses-01_seg.nii.gz")
+pve = afm.PVEImages(
+    afm.LabelledImageFile(
+        path=seg_file,
+        inclusive_labels=[0]),
+    afm.LabelledImageFile(
+        path=seg_file,
+        exclusive_labels=[0, 1, 2], combine="and"),
+    afm.LabelledImageFile(
+        path=seg_file,
+        inclusive_labels=[1, 2]))
+
 ##########################################################################
 # Initialize a ParticipantAFQ object:
 # -------------------------
@@ -114,6 +141,7 @@ myafq = ParticipantAFQ(
     t1_file=t1_file,
     output_dir=output_dir,
     tracking_params=tracking_params,
+    pve=pve,
     ray_n_cpus=1,
 )
 

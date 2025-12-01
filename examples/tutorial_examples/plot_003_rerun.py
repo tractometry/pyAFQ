@@ -16,6 +16,7 @@ re-run your pipeline.
 """
 from AFQ.api.group import GroupAFQ
 import AFQ.data.fetch as afd
+import AFQ.definitions.image as afm
 import os.path as op
 import os
 
@@ -34,11 +35,23 @@ tracking_params = dict(n_seeds=100,
                        rng_seed=2022,
                        trx=True)
 
+pve = afm.PVEImages(
+    afm.LabelledImageFile(
+        suffix="seg", filters={"scope": "freesurfer"},
+        inclusive_labels=[0]),
+    afm.LabelledImageFile(
+        suffix="seg", filters={"scope": "freesurfer"},
+        exclusive_labels=[0, 1, 2], combine="and"),
+    afm.LabelledImageFile(
+        suffix="seg", filters={"scope": "freesurfer"},
+        inclusive_labels=[1, 2]))
+
 myafq = GroupAFQ(
     bids_path=op.join(afd.afq_home, 'stanford_hardi'),
     preproc_pipeline='vistasoft',
     t1_pipeline='freesurfer',
-    tracking_params=tracking_params)
+    tracking_params=tracking_params,
+    pve=pve)
 
 ###################
 # Delete Everything
@@ -65,7 +78,8 @@ myafq = GroupAFQ(
     preproc_pipeline='vistasoft',
     t1_pipeline='freesurfer',
     b0_threshold=100,
-    tracking_params=tracking_params)
+    tracking_params=tracking_params,
+    pve=pve)
 
 myafq.export("b0")
 
@@ -107,7 +121,8 @@ myafq = GroupAFQ(
     preproc_pipeline='vistasoft',
     t1_pipeline='freesurfer',
     b0_threshold=100,
-    tracking_params=tracking_params)
+    tracking_params=tracking_params,
+    pve=pve)
 
 myafq.export("streamlines")
 
