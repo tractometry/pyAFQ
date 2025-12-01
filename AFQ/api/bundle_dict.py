@@ -243,6 +243,7 @@ def default18_bd():
                                     'primary_axis_percentage': 40},
         'Left Vertical Occipital': {'cross_midline': False,
                                     'space': 'template',
+                                    'start': templates['VOF_L_start'],
                                     'end': templates['VOF_L_end'],
                                     'Left Arcuate': {
                                         'node_thresh': 20},
@@ -259,6 +260,7 @@ def default18_bd():
                                     'primary_axis_percentage': 40},
         'Right Vertical Occipital': {'cross_midline': False,
                                      'space': 'template',
+                                     'start': templates['VOF_L_start'],
                                      'end': templates['VOF_R_end'],
                                      'Right Arcuate': {
                                          'node_thresh': 20},
