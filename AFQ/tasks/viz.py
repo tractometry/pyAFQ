@@ -9,7 +9,7 @@ import immlib
 
 from dipy.align import resample
 
-from AFQ.tasks.utils import get_fname, with_name, str_to_desc
+from AFQ.tasks.utils import get_fname, with_name, str_to_desc, get_tp
 from AFQ.viz.utils import Viz
 import AFQ.utils.streamlines as aus
 from AFQ.utils.path import write_json, drop_extension
@@ -38,7 +38,9 @@ def _viz_prepare_vol(vol, xform, mapping, scalar_dict, ref):
 @immlib.calc("all_bundles_figure")
 def viz_bundles(base_fname,
                 viz_backend,
+                structural_imap,
                 data_imap,
+                tissue_imap,
                 mapping_imap,
                 segmentation_imap,
                 best_scalar,
@@ -76,9 +78,13 @@ def viz_bundles(base_fname,
     mapping = mapping_imap["mapping"]
     scalar_dict = segmentation_imap["scalar_dict"]
     profiles_file = segmentation_imap["profiles"]
-    volume = nib.load(data_imap["t1_masked"])
-    t1_affine = nib.load(data_imap["t1_masked"]).affine
-    shade_by_volume = data_imap[best_scalar]
+    volume = nib.load(structural_imap["t1_masked"])
+    t1_affine = nib.load(structural_imap["t1_masked"]).affine
+    shade_by_volume = get_tp(
+        best_scalar,
+        structural_imap,
+        data_imap,
+        tissue_imap)
     shade_by_volume = _viz_prepare_vol(
         shade_by_volume, False, mapping, scalar_dict, volume)
     volume = _viz_prepare_vol(volume, False, mapping, scalar_dict, volume)
@@ -141,7 +147,9 @@ def viz_bundles(base_fname,
 def viz_indivBundle(base_fname,
                     output_dir,
                     viz_backend,
+                    structural_imap,
                     data_imap,
+                    tissue_imap,
                     mapping_imap,
                     segmentation_imap,
                     best_scalar,
@@ -172,9 +180,13 @@ def viz_indivBundle(base_fname,
     mapping = mapping_imap["mapping"]
     bundle_dict = data_imap["bundle_dict"]
     scalar_dict = segmentation_imap["scalar_dict"]
-    volume_img = nib.load(data_imap["t1_masked"])
-    t1_affine = nib.load(data_imap["t1_masked"]).affine
-    shade_by_volume = data_imap[best_scalar]
+    volume_img = nib.load(structural_imap["t1_masked"])
+    t1_affine = nib.load(structural_imap["t1_masked"]).affine
+    shade_by_volume = get_tp(
+        best_scalar,
+        structural_imap,
+        data_imap,
+        tissue_imap)
     profiles = pd.read_csv(segmentation_imap["profiles"])
 
     start_time = time()

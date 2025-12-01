@@ -12,8 +12,8 @@ from AFQ.tasks.utils import with_name
 from AFQ.definitions.utils import Definition
 import AFQ.tractography.tractography as aft
 from AFQ.tasks.utils import get_default_args
-from AFQ.definitions.image import ScalarImage, ThreeTissueImage
-from AFQ.tractography.utils import gen_seeds, get_percentile_threshold
+from AFQ.definitions.image import ScalarImage
+from AFQ.tractography.utils import gen_seeds
 
 from trx.trx_file_memmap import TrxFile
 from trx.trx_file_memmap import concatenate as trx_concatenate
@@ -35,7 +35,7 @@ logger = logging.getLogger('AFQ')
 
 def _meta_from_tracking_params(
         tracking_params, start_time,
-        n_streamlines, seed, stop):
+        n_streamlines, seed, pve):
     meta_directions = {
         "det": "deterministic",
         "prob": "probabilistic"}
@@ -49,7 +49,7 @@ def _meta_from_tracking_params(
             ROI=seed,
             n_seeds=tracking_params["n_seeds"],
             random_seeds=tracking_params["random_seeds"]),
-        Constraints=dict(ROI=stop),
+        Constraints=dict(PVE=pve),
         Parameters=dict(
             Units="mm",
             StepSize=tracking_params["step_size"],
@@ -60,103 +60,10 @@ def _meta_from_tracking_params(
     return meta
 
 
-@immlib.calc("seed")
-@as_file('_desc-seed_dwimap.nii.gz',
-         subfolder="tractography")
-def export_seed_mask(data_imap, tracking_params):
-    """
-    full path to a nifti file containing the
-    tractography seed mask
-    """
-    seed_mask = tracking_params['seed_mask']
-    if not isinstance(seed_mask, Definition):
-        raise ValueError(
-            "seed_mask must be a Definition instance")
-
-    seed_threshold = tracking_params['seed_threshold']
-    if tracking_params['thresholds_as_percentages']:
-        seed_threshold = get_percentile_threshold(
-            seed_mask, seed_threshold)
-    seed_mask_desc = dict(
-        source=tracking_params['seed_mask'],
-        threshold=seed_threshold)
-    return nib.Nifti1Image(seed_mask, data_imap["dwi_affine"]), \
-        seed_mask_desc
-
-
-@immlib.calc("seed_thresh")
-@as_file('_desc-seedThreshed_mask.nii.gz',
-         subfolder="tractography")
-def export_seed_mask_thresholded(data_imap, seed, tracking_params):
-    """
-    full path to a nifti file containing the
-    tractography seed mask thresholded
-    """
-    thresh = tracking_params['seed_threshold']
-    threshed_data = nib.load(seed).get_fdata() > thresh
-    seed_mask_desc = dict(source=seed, thresh=thresh)
-    return nib.Nifti1Image(
-        threshed_data.astype(np.float32),
-        data_imap["dwi_affine"]), seed_mask_desc
-
-
-@immlib.calc("stop")
-@as_file('_desc-stop_dwimap.nii.gz',
-         subfolder="tractography")
-def export_stop_mask(data_imap, tracking_params):
-    """
-    full path to a nifti file containing the
-    tractography stop mask
-    """
-    stop_mask = tracking_params['stop_mask']
-    if not isinstance(stop_mask, Definition):
-        raise ValueError(
-            "stop_mask must be a Definition instance")
-
-    stop_threshold = tracking_params['stop_threshold']
-    if tracking_params['thresholds_as_percentages']:
-        stop_threshold = get_percentile_threshold(
-            stop_mask, stop_threshold)
-    stop_mask_desc = dict(
-        source=tracking_params['stop_mask'],
-        stop_threshold=stop_threshold)
-    return nib.Nifti1Image(stop_mask, data_imap["dwi_affine"]), \
-        stop_mask_desc
-
-
-@immlib.calc("stop_thresh")
-@as_file('_desc-stopThreshed_mask.nii.gz',
-         subfolder="tractography")
-def export_stop_mask_thresholded(data_imap, stop, tracking_params):
-    """
-    full path to a nifti file containing the
-    tractography stop mask thresholded
-    """
-    if isinstance(tracking_params['stop_threshold'], str):
-        raise ValueError("Cannot generate thresholded "
-                         "stop mask for CMC or ACT")
-    else:
-        thresh = tracking_params['stop_threshold']
-        threshed_data = nib.load(stop).get_fdata() > thresh
-        stop_mask_desc = dict(source=stop, thresh=thresh)
-        return nib.Nifti1Image(
-            threshed_data.astype(np.float32),
-            data_imap["dwi_affine"]), stop_mask_desc
-
-
-@immlib.calc("stop")
-def export_stop_mask_pft(pve_wm, pve_gm, pve_csf):
-    """
-    full path to a nifti file containing the
-    tractography stop mask
-    """
-    return {"stop": [pve_wm, pve_gm, pve_csf]}
-
-
 @immlib.calc("streamlines")
 @as_file('_tractography',
          subfolder="tractography")
-def streamlines(data_imap, seed, stop, fodf,
+def streamlines(data_imap, seed, tissue_imap, fodf,
                 tracking_params):
     """
     full path to the complete, unsegmented tractography file
@@ -167,21 +74,14 @@ def streamlines(data_imap, seed, stop, fodf,
         The parameters for tracking. Defaults to using the default behavior of
         the aft.track function. Seed mask and seed threshold, if not
         specified, are replaced with scalar masks from scalar[0]
-        thresholded to 0.2. The ``seed_mask`` and ``stop_mask`` items of
+        thresholded to 0.2. The ``seed_mask`` items of
         this dict may be ``AFQ.definitions.image.ImageFile`` instances.
-        If ``tracker`` is set to "pft" then ``stop_mask`` should be
-        an instance of ``AFQ.definitions.image.PFTImage``.
     """
     this_tracking_params = tracking_params.copy()
 
     # get masks
     this_tracking_params['seed_mask'] = nib.load(seed).get_fdata()
-    if isinstance(stop, str):
-        this_tracking_params['stop_mask'] = nib.load(stop).get_fdata()
-    elif isinstance(stop, nib.Nifti1Image):
-        this_tracking_params['stop_mask'] = stop.get_fdata()
-    else:
-        this_tracking_params['stop_mask'] = stop
+    this_tracking_params['pve'] = tissue_imap["pve_internal"]
 
     is_trx = this_tracking_params.get("trx", False)
 
@@ -296,17 +196,24 @@ def streamlines(data_imap, seed, stop, fodf,
 
     return sft, _meta_from_tracking_params(
         tracking_params, start_time,
-        n_streamlines, seed, stop)
+        n_streamlines, seed, tissue_imap["pve_internal"])
 
 
 @immlib.calc("fodf")
-def fiber_odf(data_imap, tracking_params):
+def fiber_odf(data_imap, tissue_imap, tracking_params):
     """
     Nifti Image containing the fiber orientation distribution function
     """
     odf_model = tracking_params["odf_model"]
     if isinstance(odf_model, str):
-        params_file = data_imap[f"{odf_model.lower()}_params"]
+        calc_name = f"{odf_model.lower()}_params"
+        if calc_name in data_imap:
+            params_file = data_imap[calc_name]
+        elif calc_name in tissue_imap:
+            params_file = tissue_imap[calc_name]
+        else:
+            raise ValueError((
+                f"Could not find {odf_model}"))
     else:
         raise TypeError((
             "odf_model must be a string or Definition"))
@@ -336,7 +243,8 @@ def custom_tractography(import_tract=None):
 
 @immlib.calc("streamlines")
 @as_file('_tractography', subfolder="tractography")
-def gpu_tractography(data_imap, tracking_params, fodf, seed, stop,
+def gpu_tractography(data_imap, tracking_params, fodf, seed,
+                     tissue_imap,
                      tractography_ngpus=0, chunk_size=100000):
     """
     full path to the complete, unsegmented tractography file
@@ -362,18 +270,19 @@ def gpu_tractography(data_imap, tracking_params, fodf, seed, stop,
             fodf = nib.load(fodf)
         data = fodf.get_fdata()
 
+    pve = tissue_imap["pve_internal"]
+
     sphere = tracking_params["sphere"]
     if sphere is None:
         sphere = dpd.default_sphere
 
     sft = gpu_track(
         data, data_imap["gtab"],
-        seed, stop,
+        seed, pve,
         tracking_params["odf_model"],
         sphere,
         tracking_params["directions"],
         tracking_params["seed_threshold"],
-        tracking_params["stop_threshold"],
         tracking_params["thresholds_as_percentages"],
         tracking_params["max_angle"], tracking_params["step_size"],
         tracking_params["n_seeds"],
@@ -385,7 +294,7 @@ def gpu_tractography(data_imap, tracking_params, fodf, seed, stop,
 
     return sft, _meta_from_tracking_params(
         tracking_params, start_time,
-        sft, seed, stop)
+        sft, seed, pve)
 
 
 def get_tractography_plan(kwargs):
@@ -395,8 +304,6 @@ def get_tractography_plan(kwargs):
             "tracking_params a dict")
 
     tractography_tasks = with_name([
-        export_seed_mask, export_seed_mask_thresholded,
-        export_stop_mask, export_stop_mask_thresholded,
         streamlines, fiber_odf])
 
     # use GPU accelerated tractography if asked for
@@ -434,7 +341,7 @@ def get_tractography_plan(kwargs):
     if not fa_found:
         logger.warning(
             "FA not found in list of scalars, will use first scalar"
-            " for the seed and stop mask and visualizations"
+            " for visualizations"
             " unless these are also specified")
     kwargs["best_scalar"] = best_scalar
 
@@ -457,38 +364,10 @@ def get_tractography_plan(kwargs):
         kwargs["tracking_params"]["seed_threshold"] = 0.5
         logger.info((
             "No seed mask given, using GM-WM interface "
-            "from 3T prob maps esimated from T1w"))
+            "from 3T prob maps"))
 
-    if kwargs["tracking_params"]["stop_mask"] is None:
-        kwargs["tracking_params"]["stop_threshold"] = "ACT"
-        kwargs["tracking_params"]["stop_mask"] = ThreeTissueImage()
-        logger.info((
-            "No stop mask given, using ACT "
-            "and 3T prob maps esimated from T1w"))
-
-    stop_mask = kwargs["tracking_params"]['stop_mask']
     seed_mask = kwargs["tracking_params"]['seed_mask']
     odf_model = kwargs["tracking_params"]['odf_model']
-
-    if isinstance(kwargs["tracking_params"]["stop_threshold"], str):
-        probseg_funcs = stop_mask.get_image_getter("tractography")
-        tractography_tasks["wm_res"] = immlib.calc("pve_wm")(as_file(
-            '_desc-wm_probseg.nii.gz', subfolder="tractography")(
-                probseg_funcs[0]))
-        tractography_tasks["gm_res"] = immlib.calc("pve_gm")(as_file(
-            '_desc-gm_probseg.nii.gz', subfolder="tractography")(
-                probseg_funcs[1]))
-        tractography_tasks["csf_res"] = immlib.calc("pve_csf")(as_file(
-            '_desc-csf_probseg.nii.gz', subfolder="tractography")(
-                probseg_funcs[2]))
-        tractography_tasks["export_stop_mask_res"] = \
-            export_stop_mask_pft
-    elif isinstance(stop_mask, Definition):
-        tractography_tasks["export_stop_mask_res"] = immlib.calc("stop")(
-            as_file(
-                '_desc-stop_mask.nii.gz',
-                subfolder="tractography")(
-                    stop_mask.get_image_getter("tractography")))
 
     if isinstance(seed_mask, Definition):
         tractography_tasks["export_seed_mask_res"] = immlib.calc("seed")(

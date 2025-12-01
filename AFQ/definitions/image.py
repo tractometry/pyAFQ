@@ -6,14 +6,13 @@ import nibabel as nib
 from dipy.align import resample
 
 from AFQ.definitions.utils import Definition, find_file, name_from_path
-
-from skimage.morphology import convex_hull_image, binary_opening
+from AFQ.tasks.utils import get_tp
 
 
 __all__ = [
     "ImageFile", "FullImage", "RoiImage", "LabelledImageFile",
     "ThresholdedImageFile", "ScalarImage", "ThresholdedScalarImage",
-    "TemplateImage", "ThreeTissueImage"]
+    "TemplateImage", "PVEImage", "PVEImages"]
 
 
 logger = logging.getLogger('AFQ')
@@ -95,7 +94,7 @@ class ImageFile(ImageDefinition):
     Define an image based on a file.
     Does not apply any labels or thresholds;
     Generates image with floating point data.
-    Useful for seed and stop images, where threshold can be applied
+    Useful for seed images, where threshold can be applied
     after interpolation (see example).
 
     Parameters
@@ -289,8 +288,11 @@ class RoiImage(ImageDefinition):
         return "roi"
 
     def get_image_getter(self, task_name):
-        def _image_getter_helper(mapping,
-                                 data_imap, segmentation_params):
+        def _image_getter_helper(mapping_imap,
+                                 data_imap,
+                                 structural_imap,
+                                 tissue_imap,
+                                 segmentation_params):
             image_data = None
             bundle_dict = data_imap["bundle_dict"]
             if self.use_presegment:
@@ -302,7 +304,7 @@ class RoiImage(ImageDefinition):
             for bundle_name in bundle_dict:
                 bundle_entry = bundle_dict.transform_rois(
                     bundle_name,
-                    mapping,
+                    mapping_imap,
                     data_imap["dwi_affine"])
                 rois = []
                 if self.use_endpoints:
@@ -319,7 +321,11 @@ class RoiImage(ImageDefinition):
                         image_data,
                         warped_roi.astype(bool))
             if self.tissue_property is not None:
-                tp = nib.load(data_imap[self.tissue_property]).get_fdata()
+                tp = nib.load(get_tp(
+                    self.tissue_property,
+                    structural_imap,
+                    data_imap,
+                    tissue_imap)).get_fdata()
                 image_data = image_data.astype(np.float32) * tp
                 if self.tissue_property_threshold is not None:
                     zero_mask = image_data == 0
@@ -340,7 +346,7 @@ class RoiImage(ImageDefinition):
 
             if self.only_wmgmi:
                 wmgmi = nib.load(
-                    data_imap["wm_gm_interface"]).get_fdata()
+                    tissue_imap["wm_gm_interface"]).get_fdata()
                 if not np.allclose(wmgmi.shape, image_data.shape):
                     logger.error("WM/GM Interface shape: %s", wmgmi.shape)
                     logger.error("ROI image shape: %s", image_data.shape)
@@ -364,25 +370,14 @@ class RoiImage(ImageDefinition):
                 image_data.astype(np.float32),
                 data_imap["dwi_affine"]), dict(source="ROIs")
 
-        if task_name == "data":
+        if task_name == "data"\
+            or task_name == "structural" or\
+                task_name == "tissue" or\
+                    task_name == "mapping":
             raise ValueError((
                 "RoiImage cannot be used in this context, as they"
                 "require later derivatives to be calculated"))
-        elif task_name == "mapping":
-            def image_getter(
-                    mapping,
-                    data_imap, segmentation_params):
-                return _image_getter_helper(
-                    mapping,
-                    data_imap, segmentation_params)
-        else:
-            def image_getter(
-                    mapping_imap,
-                    data_imap, segmentation_params):
-                return _image_getter_helper(
-                    mapping_imap["mapping"],
-                    data_imap, segmentation_params)
-        return image_getter
+        return _image_getter_helper
 
 
 class GQImage(ImageDefinition):
@@ -540,8 +535,8 @@ class LabelledImageFile(ImageFile, CombineImageMixin):
 class ThresholdedImageFile(ImageFile, CombineImageMixin):
     """
     Define an image based on thresholding a file.
-    Note that this should not be used to directly make a seed image
-    or a stop image. In those cases, consider thresholding after
+    Note that this should not be used to directly make a seed image.
+    In those cases, consider thresholding after
     interpolation, as in the example for ImageFile.
 
     Parameters
@@ -625,7 +620,7 @@ class ScalarImage(ImageDefinition):
     Define an image based on a scalar.
     Does not apply any labels or thresholds;
     Generates image with floating point data.
-    Useful for seed and stop images, where threshold can be applied
+    Useful for seed images, where threshold can be applied
     after interpolation (see example).
 
     Parameters
@@ -650,22 +645,35 @@ class ScalarImage(ImageDefinition):
         return self.scalar
 
     def get_image_getter(self, task_name):
-        if task_name == "data":
+        if task_name in ["structural", "data"]:
             raise ValueError((
                 "ScalarImage cannot be used in this context, as they"
                 "require later derivatives to be calculated"))
 
-        def image_getter(data_imap):
-            return nib.load(data_imap[self.scalar]), dict(
-                FromScalar=self.scalar)
+        if task_name == "tissue":
+            def image_getter(structural_imap, data_imap):
+                return nib.load(get_tp(
+                    self.scalar,
+                    structural_imap,
+                    data_imap,
+                    None)), dict(
+                        FromScalar=self.scalar)
+        else:
+            def image_getter(data_imap, structural_imap, tissue_imap):
+                return nib.load(get_tp(
+                    self.scalar,
+                    structural_imap,
+                    data_imap,
+                    tissue_imap)), dict(
+                        FromScalar=self.scalar)
         return image_getter
 
 
 class ThresholdedScalarImage(ThresholdedImageFile, ScalarImage):
     """
     Define an image based on thresholding a scalar image.
-    Note that this should not be used to directly make a seed image
-    or a stop image. In those cases, consider thresholding after
+    Note that this should not be used to directly make a seed image.
+    In those cases, consider thresholding after
     interpolation, as in the example for ScalarImage.
 
     Parameters
@@ -703,101 +711,140 @@ class ThresholdedScalarImage(ThresholdedImageFile, ScalarImage):
         self.upper_bound = upper_bound
 
 
-class PFTImage(ImageDefinition):
+class PVEImage(ImageDefinition):
     """
-    Define an image for use in PFT tractography. Only use
-    if tracker set to 'pft' in tractography. Used to provide
-    custom segmentations.
+    Define an CSF/GM/WM PVE image from a single file.
 
     Parameters
     ----------
-    WM_probseg : ImageFile
-        White matter segmentation file.
-    GM_probseg : ImageFile
-        Gray matter segmentation file.
+    pve_order : str
+        Order of PVEs in file. Should be a list of three strings,
+        each of "csf", "gm", or "wm", indicating which volume
+        in the file corresponds to which tissue type.
+    path : str, optional
+        path to file to get image from. Use this or suffix.
+        Default: None
+    suffix : str, optional
+        suffix to pass to bids_layout.get() to identify the file.
+        Default: None
+    filters : str, optional
+        Additional filters to pass to bids_layout.get() to identify
+        the file.
+        Default: {}
+    resample : bool, optional
+        Whether to resample the image to the DWI data.
+        Default: True
+    Examples
+    --------
+    pve = PVEImage(
+        pve_order=["csf", "gm", "wm"],
+        suffix="pve")
+    api.GroupAFQ(..., pve=pve)
+    """
+    def __init__(self,
+                 pve_order=["csf", "gm", "wm"],
+                 path=None,
+                 suffix=None,
+                 filters={},
+                 resample=True):
+        self.pve_order = pve_order
+        super().__init__(
+            path=path,
+            suffix=suffix,
+            filters=filters,
+            resample=resample
+        )
+    
+    def get_image_getter(self, task_name):
+        def _image_getter_helper(dwi, dwi_data_file):
+            # Load data
+            image_file, image_data_orig, image_affine = \
+                self.get_path_data_affine(dwi_data_file)
+
+            # Apply any conditions on the data
+            image_data, meta = self.apply_conditions(
+                image_data_orig, image_file)
+
+            if self.resample:
+                # Resample to DWI data:
+                image_data, did_resample = _resample_image(
+                    image_data,
+                    dwi.get_fdata(),
+                    image_affine,
+                    dwi.affine)
+                meta["resampled"] = did_resample
+            else:
+                meta["resampled"] = False
+
+            pve_data = []
+            for tissue_type in ["csf", "gm", "wm"]:
+                pve_index = self.pve_order.index(tissue_type)
+                pve_data.append(image_data[..., pve_index])
+            return nib.Nifti1Image(
+                np.asarray(pve_data).astype(np.float32),
+                dwi.affine), meta
+
+        if task_name == "data":
+            def image_getter(dwi, dwi_data_file):
+                return _image_getter_helper(dwi, dwi_data_file)
+        else:
+            def image_getter(data_imap, dwi_data_file):
+                return _image_getter_helper(data_imap["dwi"], dwi_data_file)
+        return image_getter
+
+
+class PVEImages(ImageDefinition):
+    """
+    Define a CSF/GM/WM PVE image from three separate files.
+
+    Parameters
+    ----------
     CSF_probseg : ImageFile
         Corticospinal fluid segmentation file.
+    GM_probseg : ImageFile
+        Gray matter segmentation file.
+    WM_probseg : ImageFile
+        White matter segmentation file.
 
     Examples
     --------
-    stop_image = PFTImage(
-        afm.ImageFile(suffix="WMprobseg"),
+    pve = PVEImage(
+        afm.ImageFile(suffix="CSFprobseg"),
         afm.ImageFile(suffix="GMprobseg"),
-        afm.ImageFile(suffix="CSFprobseg"))
-    api.GroupAFQ(tracking_params={
-        "stop_image": stop_image,
-        "stop_threshold": "ACT",
-        "tracker": "pft"})
+        afm.ImageFile(suffix="WMprobseg"))
+    api.GroupAFQ(..., pve=pve)
     """
 
-    def __init__(self, WM_probseg, GM_probseg, CSF_probseg):
-        self.probsegs = (WM_probseg, GM_probseg, CSF_probseg)
+    def __init__(self, CSF_probseg, GM_probseg, WM_probseg):
+        self.probsegs = (CSF_probseg, GM_probseg, WM_probseg)
 
     def find_path(self, bids_layout, from_path,
                   subject, session, required=True):
         if required == False:
             raise ValueError(
-                "PFTImage cannot be used in this context")
+                "PVEImage cannot be used in this context")
         for probseg in self.probsegs:
             probseg.find_path(
                 bids_layout, from_path, subject, session,
                 required=required)
 
     def get_name(self):
-        return "pft"
+        return "pves"
 
     def get_image_getter(self, task_name):
-        if task_name == "data":
-            raise ValueError("PFTImage cannot be used in this context")
-        return [probseg.get_image_getter(task_name)
-                for probseg in self.probsegs]
-
-
-class ThreeTissueImage(ImageDefinition):
-    """
-    Define a three tissue image for use in PFT tractography. Only use
-    if tracker set to 'pft' in tractography. Use to generate
-    WM/GM/CSF probsegs from T1w.
-
-    Examples
-    --------
-    api.GroupAFQ(tracking_params={
-        "stop_image": ThreeTissueImage(),
-        "stop_threshold": "ACT",
-        "tracker": "pft"})
-    """
-
-    def __init__(self):
-        pass
-
-    def get_name(self):
-        return "ThreeT"
-
-    def get_image_getter(self, task_name):
-        if task_name == "data":
-            raise ValueError((
-                "ThreeTissueImage cannot be used in this context, as they"
-                "require later derivatives to be calculated"))
-
-        def csf_getter(data_imap):
-            PVE = nib.load(data_imap["t1w_pve"])
+        self.probseg_funcs = [
+            probseg.get_image_getter(task_name) for probseg in self.probsegs]
+        def _image_getter_helper(pve_csf, pve_gm, pve_wm, dwi_affine):
+            pve_data = []
+            for pve in [pve_csf, pve_gm, pve_wm]:
+                pve_data.append(nib.load(pve).get_fdata())
             return nib.Nifti1Image(
-                PVE.get_fdata()[..., 0].astype(np.float32),
-                PVE.affine), dict(source=data_imap["t1w_pve"])
-
-        def gm_getter(data_imap):
-            PVE = nib.load(data_imap["t1w_pve"])
-            return nib.Nifti1Image(
-                PVE.get_fdata()[..., 1].astype(np.float32),
-                PVE.affine), dict(source=data_imap["t1w_pve"])
-
-        def wm_getter(data_imap):
-            PVE = nib.load(data_imap["t1w_pve"])
-            return nib.Nifti1Image(
-                PVE.get_fdata()[..., 2].astype(np.float32),
-                PVE.affine), dict(source=data_imap["t1w_pve"])
-
-        return [wm_getter, gm_getter, csf_getter]
+                np.asarray(pve_data).astype(np.float32),
+                dwi_affine), {
+                    "CSF PVE": pve_csf,
+                    "GM PVE": pve_gm,
+                    "WM PVE": pve_wm}
+        return _image_getter_helper
 
 
 class TemplateImage(ImageDefinition):

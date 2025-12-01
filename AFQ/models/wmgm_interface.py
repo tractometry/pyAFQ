@@ -47,6 +47,7 @@ def fit_wm_gm_interface(PVE_img, dwiref_img):
 
     wm_boundary[~gm_smoothed.astype(bool)] = 0
     wm_boundary[csf_smoothed > gm_smoothed] = 0
+    wm_boundary[~wm.astype(bool)] = 0
 
     return nib.Nifti1Image(
         wm_boundary.astype(np.float32), dwiref_img.affine)

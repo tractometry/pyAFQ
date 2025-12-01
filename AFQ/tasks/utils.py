@@ -1,20 +1,21 @@
-from AFQ.utils.path import drop_extension, write_json
+from AFQ.utils.path import drop_extension
 
-import nibabel as nib
 import os.path as op
 import os
 import inspect
 
-__all__ = ["write_img_json", "get_fname", "with_name", "get_base_fname"]
+__all__ = ["get_tp", "get_fname", "with_name", "get_base_fname"]
 
 
-def write_img_json(img, base_fname, suffix, metadata):
-    fname = get_fname(base_fname, suffix)
-    nib.save(img, fname)
-    write_json(
-        get_fname(base_fname, f"{drop_extension(suffix)}.json"),
-        metadata
-    )
+def get_tp(tp_name, structural_imap, data_imap, tissue_imap):
+    if tp_name in data_imap:
+        return data_imap[tp_name]
+    elif tp_name in structural_imap:
+        return structural_imap[tp_name]
+    elif tissue_imap is not None and tp_name in tissue_imap:
+        return tissue_imap[tp_name]
+    else:
+        raise NotImplementedError(f"tp_name {tp_name} not found")
 
 
 def get_base_fname(output_dir, dwi_data_file):

@@ -150,7 +150,7 @@ plotly.io.show(bundle_html[0])
 #
 # This method will export the following results, if possible:
 # - Transformation maps and files
-# - Start and stop mask images, associated diffusion scalar files
+# - Start and PVE mask images, associated diffusion scalar files
 # - Tractography, segmented tractography in to bundles
 # - Tract profiles, streamline counts, median tract length
 # - Visuzalizations of the bundles and tract profiles

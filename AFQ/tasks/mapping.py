@@ -5,7 +5,7 @@ import logging
 
 import immlib
 from AFQ.tasks.decorators import as_file
-from AFQ.tasks.utils import with_name, str_to_desc, get_fname
+from AFQ.tasks.utils import with_name, str_to_desc, get_fname, get_tp
 import AFQ.data.fetch as afd
 from AFQ.utils.path import drop_extension, write_json
 from AFQ.definitions.mapping import SynMap
@@ -189,7 +189,7 @@ def sls_mapping(base_fname, dwi_data_file, reg_subject, data_imap,
 
 
 @immlib.calc("reg_subject")
-def get_reg_subject(data_imap,
+def get_reg_subject(structural_imap, data_imap, tissue_imap,
                     reg_subject_spec="t1w"):
     """
     Nifti1Image which represents this subject
@@ -222,7 +222,11 @@ def get_reg_subject(data_imap,
     bm = nib.load(data_imap["brain_mask"])
 
     if reg_subject_spec in filename_dict:
-        reg_subject_spec = data_imap[filename_dict[reg_subject_spec]]
+        reg_subject_spec = get_tp(
+            filename_dict[reg_subject_spec],
+            structural_imap,
+            data_imap,
+            tissue_imap)
     if isinstance(reg_subject_spec, str):
         img = nib.load(reg_subject_spec)
 

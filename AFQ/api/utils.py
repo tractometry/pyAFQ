@@ -1,18 +1,11 @@
-import contextlib
 from importlib import import_module
 from AFQ.viz.utils import viz_import_msg_error
 from AFQ.utils.docstring_parser import parse_numpy_docstring
 import immlib
 import logging
-import warnings
 import inspect
 
 from dipy.io.stateful_tractogram import set_sft_logger_level
-
-
-with contextlib.suppress(Exception):  # only works on python 3.9
-    from outdated import OutdatedPackageWarning
-    warnings.filterwarnings("ignore", category=OutdatedPackageWarning)
 
 
 __all__ = [
@@ -22,7 +15,9 @@ __all__ = [
 set_sft_logger_level(logging.CRITICAL)
 
 
-task_modules = ["data", "mapping", "segmentation", "tractography", "viz"]
+task_modules = [
+    "structural", "data", "tissue", "mapping",
+    "segmentation", "tractography", "viz"]
 
 methods_descriptors = {
     "dwi_data_file": "Path to DWI data file",
@@ -31,9 +26,9 @@ methods_descriptors = {
     "output_dir": "Path to output directory",
     "best_scalar": "Go-to scalar for visualizations",
     "base_fname": "Base file name for outputs",
-    "pve_wm": "White matter partial volume estimate map",
-    "pve_gm": "Gray matter partial volume estimate map",
     "pve_csf": "Cerebrospinal fluid partial volume estimate map",
+    "pve_gm": "Gray matter partial volume estimate map",
+    "pve_wm": "White matter partial volume estimate map",
 }
 
 methods_sections = {
@@ -44,9 +39,9 @@ methods_sections = {
     "output_dir": "data",
     "best_scalar": "tractography",
     "base_fname": "data",
-    "pve_wm": "tractography",
-    "pve_gm": "tractography",
     "pve_csf": "tractography",
+    "pve_gm": "tractography",
+    "pve_wm": "tractography",
 }
 
 kwargs_descriptors = {}
@@ -150,12 +145,6 @@ def export_all_helper(api_afq_object, xforms, indiv, viz):
     api_afq_object.export("sl_counts")
     api_afq_object.export("median_bundle_lengths")
     api_afq_object.export("profiles")
-    api_afq_object.export("seed_thresh")
-    stop_threshold = api_afq_object.kwargs.get(
-        "tracking_params", {}).get(
-            "stop_threshold", None)
-    if not isinstance(stop_threshold, str):
-        api_afq_object.export("stop_thresh")
 
     if viz:
         try:

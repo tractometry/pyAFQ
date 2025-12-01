@@ -14,11 +14,14 @@ from AFQ.api.utils import (
     check_attribute, AFQclass_doc,
     export_all_helper, valid_exports_string)
 
+from AFQ.tasks.structural import get_structural_plan
 from AFQ.tasks.data import get_data_plan
+from AFQ.tasks.tissue import get_tissue_plan
 from AFQ.tasks.mapping import get_mapping_plan
 from AFQ.tasks.tractography import get_tractography_plan
 from AFQ.tasks.segmentation import get_segmentation_plan
 from AFQ.tasks.viz import get_viz_plan
+
 from AFQ.tasks.utils import get_base_fname
 from AFQ.utils.path import apply_cmd_to_afq_derivs
 from AFQ.viz.utils import BEST_BUNDLE_ORIENTATIONS, trim, get_eye
@@ -114,7 +117,9 @@ class ParticipantAFQ(object):
         if "mapping_definition" in self.kwargs and isinstance(
                 self.kwargs["mapping_definition"], SlrMap):
             plans = {  # if using SLR map, do tractography first
+                "structural": get_structural_plan(self.kwargs),
                 "data": get_data_plan(self.kwargs),
+                "tissue": get_tissue_plan(self.kwargs),
                 "tractography": get_tractography_plan(
                     self.kwargs
                 ),
@@ -126,7 +131,9 @@ class ParticipantAFQ(object):
                 "viz": get_viz_plan(self.kwargs)}
         else:
             plans = {  # Otherwise, do mapping first
+                "structural": get_structural_plan(self.kwargs),
                 "data": get_data_plan(self.kwargs),
+                "tissue": get_tissue_plan(self.kwargs),
                 "mapping": get_mapping_plan(self.kwargs),
                 "tractography": get_tractography_plan(
                     self.kwargs
@@ -156,6 +163,10 @@ class ParticipantAFQ(object):
                     plan_kwargs[key] = self.kwargs[key]
                 elif key in previous_plans:
                     plan_kwargs[key] = previous_plans[key]
+                elif name not in ["data", "structural"]\
+                        and key == "dwi_affine":
+                    # simplifies syntax to access comonly used dwi_affine 
+                    plan_kwargs[key] = previous_plans["data_imap"][key]
                 else:
                     raise NotImplementedError(
                         f"Missing required parameter {key} for {name} plan")

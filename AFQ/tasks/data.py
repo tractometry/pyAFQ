@@ -2,7 +2,6 @@ import nibabel as nib
 import numpy as np
 import logging
 import multiprocessing
-import os.path as op
 
 from dipy.io.gradients import read_bvals_bvecs
 import dipy.core.gradients as dpg
@@ -18,15 +17,10 @@ from dipy.reconst.gqi import GeneralizedQSamplingModel
 from dipy.reconst.rumba import RumbaSDModel, RumbaFit
 from dipy.reconst import shm
 from dipy.reconst.dki_micro import axonal_water_fraction
-from dipy.reconst.mcsd import (
-    mask_for_response_msmt,
-    multi_shell_fiber_response,
-    response_from_mask_msmt)
-from dipy.core.gradients import unique_bvals_tolerance
 from dipy.align import resample
 
 from AFQ.tasks.decorators import as_file, as_img, as_fit_deriv
-from AFQ.tasks.utils import get_fname, with_name, write_img_json
+from AFQ.tasks.utils import get_fname, with_name
 import AFQ.api.bundle_dict as abd
 import AFQ.data.fetch as afd
 from AFQ.utils.path import drop_extension, write_json
@@ -42,14 +36,7 @@ from AFQ.models.dti import _fit as dti_fit_model
 from AFQ.models.fwdti import _fit as fwdti_fit_model
 from AFQ.models.QBallTP import (
     extract_odf, anisotropic_index, anisotropic_power)
-from AFQ.models.wmgm_interface import fit_wm_gm_interface
-from AFQ.models.msmt import MultiShellDeconvModel
-from AFQ.models.asym_filtering import (
-    unified_filtering, compute_asymmetry_index,
-    compute_odd_power_map, compute_nufid_asym)
-
-from AFQ.nn.multiaxial import run_multiaxial, extract_brain_mask, extract_pve
-from AFQ.nn.brainchop import run_brainchop, pve_from_subcortex
+from AFQ.models.asym_filtering import unified_filtering
 
 logger = logging.getLogger('AFQ')
 
@@ -160,17 +147,6 @@ def b0_mask(b0, brain_mask):
         source=b0,
         masked=True)
     return masked_data, meta
-
-
-@immlib.calc("wm_gm_interface")
-@as_file(suffix='_desc-wmgmi_mask.nii.gz')
-def wm_gm_interface(t1w_pve, b0):
-    PVE_img = nib.load(t1w_pve)
-    b0_img = nib.load(b0)
-
-    wmgmi_img = fit_wm_gm_interface(PVE_img, b0_img)
-
-    return wmgmi_img, dict(FromPVE=t1w_pve)
 
 
 @immlib.calc("dti_tf")
@@ -351,213 +327,6 @@ def msdki_msk(msdki_tf):
     the MSDKI mean signal kurtosis
     """
     return msdki_tf.msk
-
-
-@immlib.calc("msmtcsd_params")
-@as_file(suffix='_model-msmtcsd_param-fod_dwimap.nii.gz',
-         subfolder="models")
-@as_img
-def msmt_params(brain_mask, gtab, data,
-                dwi_affine, t1w_pve,
-                n_cpus,
-                msmt_sh_order=8,
-                msmt_fa_thr=0.7):
-    """
-    full path to a nifti file containing
-    parameters for the MSMT CSD fit
-
-    Parameters
-    ----------
-    msmt_sh_order : int, optional.
-        Spherical harmonic order to use for the MSMT CSD fit.
-        Default: 8
-    msmt_fa_thr : float, optional.
-        The threshold on the FA used to calculate the multi shell auto
-        response. Can be useful to reduce for baby subjects.
-        Default: 0.7
-
-    References
-    ----------
-    .. [1] B. Jeurissen, J.-D. Tournier, T. Dhollander, A. Connelly, 
-            and J. Sijbers. Multi-tissue constrained spherical
-            deconvolution for improved analysis of multi-shell diffusion
-            MRI data. NeuroImage, 103 (2014), pp. 411–426
-    """
-    mask =\
-        nib.load(brain_mask).get_fdata()
-
-    pve_img = nib.load(t1w_pve)
-    pve_data = pve_img.get_fdata()
-    csf = resample(pve_data[..., 0], data[..., 0],
-                   pve_img.affine, dwi_affine).get_fdata()
-    gm = resample(pve_data[..., 1], data[..., 0],
-                  pve_img.affine, dwi_affine).get_fdata()
-    wm = resample(pve_data[..., 2], data[..., 0],
-                  pve_img.affine, dwi_affine).get_fdata()
-
-    mask_wm, mask_gm, mask_csf = mask_for_response_msmt(
-        gtab,
-        data,
-        roi_radii=10,
-        wm_fa_thr=msmt_fa_thr,
-        gm_fa_thr=0.3,
-        csf_fa_thr=0.15,
-        gm_md_thr=0.001,
-        csf_md_thr=0.0032)
-    mask_wm *= wm > 0.5
-    mask_gm *= gm > 0.5
-    mask_csf *= csf > 0.5
-    response_wm, response_gm, response_csf = response_from_mask_msmt(
-        gtab, data, mask_wm, mask_gm, mask_csf)
-    ubvals = unique_bvals_tolerance(gtab.bvals)
-    response_mcsd = multi_shell_fiber_response(
-        msmt_sh_order,
-        ubvals,
-        response_wm,
-        response_gm,
-        response_csf)
-
-    mcsd_model = MultiShellDeconvModel(gtab, response_mcsd)
-    logger.info("Fitting Multi-Shell CSD model...")
-    mcsd_fit = mcsd_model.fit(
-        data, mask, n_cpus=n_cpus)
-
-    meta = dict(
-        SphericalHarmonicDegree=msmt_sh_order,
-        SphericalHarmonicBasis="DESCOTEAUX")
-    return mcsd_fit.shm_coeff, meta
-
-
-@immlib.calc("msmt_apm")
-@as_file(suffix='_model-msmtcsd_param-apm_dwimap.nii.gz',
-         subfolder="models")
-@as_img
-def msmt_apm(msmtcsd_params):
-    """
-    full path to a nifti file containing
-    the anisotropic power map
-    """
-    sh_coeff = nib.load(msmtcsd_params).get_fdata()
-    pmap = anisotropic_power(sh_coeff)
-    return pmap, dict(MSMTCSDParamsFile=msmtcsd_params)
-
-
-@immlib.calc("msmt_aodf_params")
-@as_file(suffix='_model-msmtcsd_param-aodf_dwimap.nii.gz',
-         subfolder="models")
-@as_img
-def msmt_aodf(msmtcsd_params, n_threads):
-    """
-    full path to a nifti file containing
-    MSMT CSD ODFs filtered by unified filtering [1]
-
-    References
-    ----------
-    [1] Poirier and Descoteaux, 2024, "A Unified Filtering Method for
-        Estimating Asymmetric Orientation Distribution Functions",
-        Neuroimage, https://doi.org/10.1016/j.neuroimage.2024.120516
-    """
-    sh_coeff = nib.load(msmtcsd_params).get_fdata()
-
-    logger.info("Applying unified filtering to MSMT CSD ODFs...")
-    aodf = unified_filtering(
-        sh_coeff,
-        get_sphere(name="repulsion724"),
-        n_threads=n_threads)
-
-    return aodf, dict(
-        MSMTCSDParamsFile=msmtcsd_params,
-        Sphere="repulsion724")
-
-
-@immlib.calc("msmt_aodf_asi")
-@as_file(suffix='_model-msmtcsd_param-asi_dwimap.nii.gz',
-         subfolder="models")
-@as_img
-def msmt_aodf_asi(msmt_aodf_params, brain_mask):
-    """
-    full path to a nifti file containing
-    the MSMT CSD Asymmetric Index (ASI) [1]
-
-    References
-    ----------
-    [1] S. Cetin Karayumak, E. Özarslan, and G. Unal,
-        "Asymmetric Orientation Distribution Functions (AODFs)
-        revealing intravoxel geometry in diffusion MRI"
-        Magnetic Resonance Imaging, vol. 49, pp. 145-158, Jun. 2018,
-        doi: https://doi.org/10.1016/j.mri.2018.03.006.
-    """
-
-    aodf = nib.load(msmt_aodf_params).get_fdata()
-    brain_mask = nib.load(brain_mask).get_fdata().astype(bool)
-    asi = compute_asymmetry_index(aodf, brain_mask)
-
-    return asi, dict(MSMTCSDParamsFile=msmt_aodf_params)
-
-
-@immlib.calc("msmt_aodf_opm")
-@as_file(suffix='_model-msmtcsd_param-opm_dwimap.nii.gz',
-         subfolder="models")
-@as_img
-def msmt_aodf_opm(msmt_aodf_params, brain_mask):
-    """
-    full path to a nifti file containing
-    the MSMT CSD odd-power map [1]
-
-    References
-    ----------
-    [1] C. Poirier, E. St-Onge, and M. Descoteaux,
-        "Investigating the Occurence of Asymmetric Patterns in
-        White Matter Fiber Orientation Distribution Functions"
-        [Abstract], In: Proc. Intl. Soc. Mag. Reson. Med. 29 (2021),
-        2021 May 15-20, Vancouver, BC, Abstract number 0865.
-    """
-
-    aodf = nib.load(msmt_aodf_params).get_fdata()
-    brain_mask = nib.load(brain_mask).get_fdata().astype(bool)
-    opm = compute_odd_power_map(aodf, brain_mask)
-
-    return opm, dict(MSMTCSDParamsFile=msmt_aodf_params)
-
-
-@immlib.calc("msmt_aodf_nufid")
-@as_file(suffix='_model-msmtcsd_param-nufid_dwimap.nii.gz',
-         subfolder="models")
-@as_img
-def msmt_aodf_nufid(msmt_aodf_params, brain_mask,
-                    t1w_pve):
-    """
-    full path to a nifti file containing
-    the MSMT CSD Number of fiber directions (nufid) map [1]
-
-    References
-    ----------
-    [1] C. Poirier and M. Descoteaux,
-        "Filtering Methods for Asymmetric ODFs:
-        Where and How Asymmetry Occurs in the White Matter."
-        bioRxiv. 2022 Jan 1; 2022.12.18.520881.
-        doi: https://doi.org/10.1101/2022.12.18.520881
-    """
-    pve_img = nib.load(t1w_pve)
-    pve_data = pve_img.get_fdata()
-
-    aodf_img = nib.load(msmt_aodf_params)
-    aodf = aodf_img.get_fdata()
-
-    csf = resample(pve_data[..., 0], aodf[..., 0],
-                   pve_img.affine, aodf_img.affine).get_fdata()
-
-    # Only sphere we use for AODF currently
-    sphere = get_sphere(name="repulsion724")
-
-    brain_mask = nib.load(brain_mask).get_fdata().astype(bool)
-
-    logger.info("Number of fiber directions (nufid) map from AODF...")
-    nufid = compute_nufid_asym(aodf, sphere, csf, brain_mask)
-
-    return nufid, dict(
-        MSMTCSDParamsFile=msmt_aodf_params,
-        PVE=t1w_pve)
 
 
 @immlib.calc("csd_params")
@@ -1396,125 +1165,14 @@ def dki_ak(dki_tf):
     return dki_tf.ak
 
 
-@immlib.calc("mx_model")
-@as_file(suffix='_model-multiaxial_probseg.nii.gz',
-         subfolder="nn")
-def mx_model(t1_masked):
-    """
-    full path to the multi-axial model for brain extraction
-    outputs
-
-    References
-    ----------
-    [1] Birnbaum, Andrew M., et al. "Full-head segmentation of MRI
-        with abnormal brain anatomy: model and data release." Journal of
-        Medical Imaging 12.5 (2025): 054001-054001.
-    """
-    t1_img = nib.load(t1_masked)
-    predictions = run_multiaxial(t1_img)
-    return predictions, dict(T1w=t1_masked)
-
-
-@immlib.calc("t1w_brain_mask")
-@as_file(suffix='_desc-T1w_mask.nii.gz')
-def t1w_brain_mask(t1_file):
-    """
-    full path to a nifti file containing brain mask from T1w image
-
-    References
-    ----------
-    [1] Masoud, M., Hu, F., & Plis, S. (2023). Brainchop: In-browser MRI
-        volumetric segmentation and rendering. Journal of Open Source
-        Software, 8(83), 5098.
-        https://doi.org/10.21105/joss.05098
-    """
-    return run_brainchop(nib.load(t1_file), "mindgrab"), dict(
-        T1w=t1_file,
-        model="mindgrab")
-
-
-@immlib.calc("t1w_pve")
-@as_file(suffix='_desc-pve_probseg.nii.gz')
-def t1w_pve(t1_subcortex, mx_model):
-    """
-    WM, GM, CSF segmentations from subcortex segmentation
-    from brainchop on T1w image
-    """
-    t1_subcortex_img = nib.load(t1_subcortex)
-    mx_model_img = nib.load(mx_model)
-
-    PVE_brainchop = pve_from_subcortex(
-        t1_subcortex_img.get_fdata()).astype(np.float32)
-    PVE_multiaxial = extract_pve(
-        mx_model_img).get_fdata().astype(np.float32)
-
-    # Use predictions from both to get final esimates
-    PVE = (PVE_brainchop + PVE_multiaxial) / 2
-
-    return nib.Nifti1Image(PVE, t1_subcortex_img.affine), dict(
-        SubCortexParcellation=t1_subcortex,
-        MultiAxialSegmentation=mx_model,
-        labels=["csf", "gm", "wm"],)
-
-
-@immlib.calc("t1_masked")
-@as_file(suffix='_desc-masked_T1w.nii.gz')
-def t1_masked(t1_file, t1w_brain_mask):
-    """
-    full path to a nifti file containing the T1w masked
-    """
-    t1_img = nib.load(t1_file)
-    t1_data = t1_img.get_fdata()
-    t1_mask = nib.load(t1w_brain_mask)
-    t1_data[t1_mask.get_fdata() == 0] = 0
-    t1_img_masked = nib.Nifti1Image(
-        t1_data, t1_img.affine)
-    return t1_img_masked, dict(
-        T1w=t1_file,
-        BrainMask=t1w_brain_mask)
-
-
-@immlib.calc("t1_subcortex")
-@as_file(suffix='_desc-subcortex_probseg.nii.gz', subfolder="nn")
-def t1_subcortex(t1_masked):
-    """
-    full path to a nifti file containing segmentation of
-    subcortical structures from T1w image using Brainchop
-
-    References
-    ----------
-    [1] Masoud, M., Hu, F., & Plis, S. (2023). Brainchop: In-browser MRI
-        volumetric segmentation and rendering. Journal of Open Source
-        Software, 8(83), 5098.
-        https://doi.org/10.21105/joss.05098
-    """
-    t1_img_masked = nib.load(t1_masked)
-
-    subcortical_img = run_brainchop(
-        t1_img_masked, "subcortical")
-
-    meta = dict(
-        T1w=t1_masked,
-        model="subcortical",
-        labels=[
-            "Unknown", "Cerebral-White-Matter", "Cerebral-Cortex",
-            "Lateral-Ventricle", "Inferior-Lateral-Ventricle",
-            "Cerebellum-White-Matter", "Cerebellum-Cortex",
-            "Thalamus", "Caudate", "Putamen", "Pallidum",
-            "3rd-Ventricle", "4th-Ventricle", "Brain-Stem",
-            "Hippocampus", "Amygdala", "Accumbens-area", "VentralDC"])
-
-    return subcortical_img, meta
-
-
 @immlib.calc("brain_mask")
 @as_file('_desc-brain_mask.nii.gz')
-def brain_mask(t1w_brain_mask, b0):
+def brain_mask(structural_imap, b0):
     """
     full path to a nifti file containing the brain mask
     """
-    return resample(t1w_brain_mask, b0), dict(
-        BrainMaskinT1w=t1w_brain_mask)
+    return resample(structural_imap["t1w_brain_mask"], b0), dict(
+        BrainMaskinT1w=structural_imap["t1w_brain_mask"])
 
 
 @immlib.calc("bundle_dict", "reg_template", "tmpl_name")
@@ -1605,13 +1263,9 @@ def get_data_plan(kwargs):
 
     data_tasks = with_name([
         get_data_gtab, b0, b0_mask, brain_mask,
-        t1w_brain_mask, t1_subcortex, t1_masked,
         configure_ncpus_nthreads,
-        t1w_pve, wm_gm_interface, mx_model,
         dti_fit, dki_fit, fwdti_fit, anisotropic_power_map,
         csd_anisotropic_index, csd_aodf,
-        msmt_params, msmt_apm, msmt_aodf,
-        msmt_aodf_asi, msmt_aodf_opm, msmt_aodf_nufid,
         dti_fa, dti_lt, dti_cfa, dti_pdd, dti_md, dki_kt, dki_lt, dki_fa,
         gq, gq_pmap, gq_ai, opdt_params, opdt_pmap, opdt_ai,
         csa_params, csa_pmap, csa_ai,

@@ -9,7 +9,7 @@ import logging
 import immlib
 
 from AFQ.tasks.decorators import as_file
-from AFQ.tasks.utils import get_fname, with_name, str_to_desc
+from AFQ.tasks.utils import get_fname, with_name, str_to_desc, get_tp
 from AFQ.recognition.recognize import recognize
 from AFQ.utils.path import drop_extension, write_json
 import AFQ.utils.streamlines as aus
@@ -103,7 +103,7 @@ def segment(data_imap, mapping_imap,
         raise ValueError(f"There are no streamlines in {streamlines}."
                          " This is likely due to errors in defining the "
                          " tractography parameters or the"
-                         " seed/stop masks.")
+                         " seed/PVE masks.")
 
     if not is_trx:
         indices_to_remove, _ = tg.remove_invalid_streamlines()
@@ -282,7 +282,8 @@ def export_density_maps(bundles, data_imap):
 
 @immlib.calc("endpoint_maps")
 @as_file('_desc-endpoints_tractography.nii.gz')
-def export_endpoint_maps(bundles, data_imap, endpoint_threshold=3):
+def export_endpoint_maps(bundles, data_imap, tissue_imap,
+                         endpoint_threshold=3):
     """
     full path to a NIfTI file containing endpoint maps for each bundle
 
@@ -290,7 +291,8 @@ def export_endpoint_maps(bundles, data_imap, endpoint_threshold=3):
     ----------
     endpoint_threshold : float, optional
         The threshold for the endpoint maps.
-        If None, no endpoint maps are exported as distance to endpoints maps,
+        If None, no endpoint maps are exported
+        as distance to endpoints maps,
         which the user can then threshold as needed.
         Default: 3
     """
@@ -300,7 +302,7 @@ def export_endpoint_maps(bundles, data_imap, endpoint_threshold=3):
         len(seg_sft.bundle_names)))
 
     b0_img = nib.load(data_imap["b0"])
-    pve_img = nib.load(data_imap["t1w_pve"])
+    pve_img = nib.load(tissue_imap["pve_internal"])
     pve_data = pve_img.get_fdata()
     gm = resample(pve_data[..., 1], b0_img.get_fdata(),
                   pve_img.affine, b0_img.affine).get_fdata()
@@ -344,7 +346,7 @@ def export_endpoint_maps(bundles, data_imap, endpoint_threshold=3):
 @immlib.calc("profiles")
 @as_file('_desc-profiles_tractography.csv')
 def tract_profiles(bundles,
-                   scalar_dict, data_imap,
+                   scalar_dict, dwi_affine,
                    profile_weights="gauss",
                    n_points_profile=100):
     """
@@ -415,7 +417,7 @@ def tract_profiles(bundles,
                             values_from_volume(
                                 scalar_data,
                                 fgarray,
-                                data_imap["dwi_affine"]))
+                                dwi_affine))
                         weights = np.zeros(values.shape)
                         for ii, jj in enumerate(
                             np.argsort(values, axis=0)[
@@ -437,7 +439,7 @@ def tract_profiles(bundles,
             this_profile[ii] = afq_profile(
                 scalar_data,
                 this_sl,
-                data_imap["dwi_affine"],
+                dwi_affine,
                 weights=this_prof_weights,
                 n_points=n_points_profile)
             profiles[ii].extend(list(this_profile[ii]))
@@ -461,7 +463,9 @@ def tract_profiles(bundles,
 
 
 @immlib.calc("scalar_dict")
-def get_scalar_dict(data_imap, mapping_imap, t1_file,
+def get_scalar_dict(structural_imap, data_imap, tissue_imap,
+                    mapping_imap,
+                    t1_file,
                     scalars=["dti_fa", "dti_md", "t1w"]):
     """
     dicionary mapping scalar names
@@ -480,7 +484,7 @@ def get_scalar_dict(data_imap, mapping_imap, t1_file,
         "dki_mk", "t1w"].
         Default: ['dti_fa', 'dti_md', 't1w']
     """
-    # Note: some scalars preprocessing done in plans, before this step
+    # Note: some scalars preprocessing done in mapping plan, before this step
     scalar_dict = {}
     for scalar in scalars:
         if isinstance(scalar, str):
@@ -488,7 +492,10 @@ def get_scalar_dict(data_imap, mapping_imap, t1_file,
             if sc == "t1w":
                 scalar_dict[sc] = t1_file
             else:
-                scalar_dict[sc] = data_imap[f"{sc}"]
+                scalar_dict[sc] = get_tp(f"{sc}", 
+                                         structural_imap,
+                                         data_imap,
+                                         tissue_imap)
         elif f"{scalar.get_name()}" in mapping_imap:
             scalar_dict[scalar.get_name()] = mapping_imap[
                 f"{scalar.get_name()}"]

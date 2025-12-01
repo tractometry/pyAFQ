@@ -16,16 +16,16 @@ from nibabel.streamlines.tractogram import Tractogram
 
 from trx.trx_file_memmap import TrxFile
 
-from AFQ.tractography.utils import gen_seeds, get_percentile_threshold
+from AFQ.tractography.utils import gen_seeds
 
 
 logger = logging.getLogger('AFQ')
 
 
 # Modified from https://github.com/dipy/GPUStreamlines/blob/master/run_dipy_gpu.py
-def gpu_track(data, gtab, seed_path, stop_path,
+def gpu_track(data, gtab, seed_path, pve_path,
               odf_model, sphere, directions,
-              seed_threshold, stop_threshold, thresholds_as_percentages,
+              seed_threshold, thresholds_as_percentages,
               max_angle, step_size, n_seeds, random_seeds, rng_seed, use_trx, ngpus,
               chunk_size):
     """
@@ -40,19 +40,15 @@ def gpu_track(data, gtab, seed_path, stop_path,
     seed_path : str
         Float or binary mask describing the ROI within which we seed for
         tracking.
-    stop_path : str
-        A float or binary mask that determines a stopping criterion
-        (e.g. FA).
+    pve_path : str
+        Esimations of partial volumes of WM, GM, and CSF.
     odf_model : str, optional
         One of {"OPDT", "CSA"}
     seed_threshold : float
         The value of the seed_path above which tracking is seeded.
-    stop_threshold : float
-        The value of the stop_path below which tracking is
-        terminated.
     thresholds_as_percentages : bool
-        Interpret seed_threshold and stop_threshold as percentages of the
-        total non-nan voxels in the seed and stop mask to include
+        Interpret seed_threshold as percentages of the
+        total non-nan voxels in the seed mask to include
         (between 0 and 100), instead of as a threshold on the
         values themselves. 
     max_angle : float
@@ -83,27 +79,18 @@ def gpu_track(data, gtab, seed_path, stop_path,
     seed_img = nib.load(seed_path)
 
     # Roughly handle ACT/CMC for now
-    if isinstance(stop_threshold, str):
-        stop_threshold = 0.3
-        stop_img = stop_path[0]  # Grab WM
+    wm_threshold = 0.01
 
-        if isinstance(stop_img, str):
-            stop_img = nib.load(stop_img)
+    pve_img = nib.load(pve_path)
 
-        stop_img = resample(
-            stop_img.get_fdata(),
-            seed_img.get_fdata(),
-            moving_affine=stop_img.affine,
-            static_affine=seed_img.affine)
-    else:
-        stop_img = nib.load(stop_path)
+    pve_img = resample(
+        pve_img.get_fdata(),
+        seed_img.get_fdata(),
+        moving_affine=pve_img.affine,
+        static_affine=seed_img.affine)
+    wm_data = pve_img.get_fdata()[..., 2]
 
     seed_data = seed_img.get_fdata()
-    stop_data = stop_img.get_fdata()
-
-    if thresholds_as_percentages:
-        stop_threshold = get_percentile_threshold(
-            stop_data, stop_threshold)
 
     theta = sphere.theta
     phi = sphere.phi
@@ -173,7 +160,7 @@ def gpu_track(data, gtab, seed_path, stop_path,
         model_type,
         radians(max_angle),
         1.0,
-        float(stop_threshold),
+        float(wm_threshold),
         float(step_size),
         0.25,  # relative peak threshold
         radians(45),  # min separation angle
@@ -181,7 +168,7 @@ def gpu_track(data, gtab, seed_path, stop_path,
         H.astype(np.float64), R.astype(np.float64),
         delta_b.astype(np.float64), delta_q.astype(np.float64),
         b0s_mask.astype(np.int32),
-        np.ascontiguousarray(stop_data).astype(np.float64),
+        np.ascontiguousarray(wm_data).astype(np.float64),
         sampling_matrix.astype(np.float64),
         sphere.vertices.astype(np.float64), sphere.edges.astype(np.int32),
         ngpus=ngpus, rng_seed=0)
