@@ -67,6 +67,10 @@ def pve_internal(structural_imap, pve="synthseg"):
     """
     if isinstance(pve, str):
         if pve=="synthseg":
+            logger.warning((
+                "Using SynthSeg2 for PVE estimation. "
+                "This may use considerable memory resources. "))
+
             synthseg_seg = nib.load(structural_imap["synthseg_model"])
             PVE = pve_from_synthseg(synthseg_seg.get_fdata())
 
@@ -74,6 +78,12 @@ def pve_internal(structural_imap, pve="synthseg"):
                 SynthsegParcellation=structural_imap["synthseg_model"],
                 labels=["csf", "gm", "wm"],)
         elif pve=="multiaxial+brainchop":
+            logger.warning((
+                "Using MultiAxial+BrainChop for PVE estimation. "
+                "MultiAxial requires downloading "
+                "the pre-trained multi-axial model which is licensed with "
+                "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 "
+                "International."))
             t1_subcortex_img = nib.load(structural_imap["t1_subcortex"])
             mx_model_img = nib.load(structural_imap["mx_model"])
 
@@ -325,5 +335,10 @@ def get_tissue_plan(kwargs):
         tissue_tasks["pve_internal_res"] = immlib.calc("pve_internal")(
             as_file('_desc-pve_probseg.nii.gz')(
                 pve.get_image_getter("tissue")))
+    else:
+        logger.warning("It is reccomended to provide CSF/GM/WM "
+                       "segmentations using PVEImage or PVEImages "
+                       "in AFQ.definitions.image. Otherwise, "
+                       "SynthSeg2 will be used")
 
     return immlib.plan(**tissue_tasks)
