@@ -362,9 +362,6 @@ def get_tractography_plan(kwargs):
         kwargs["tracking_params"]["seed_mask"] = ScalarImage(
             "wm_gm_interface")
         kwargs["tracking_params"]["seed_threshold"] = 0.5
-        logger.info((
-            "No seed mask given, using GM-WM interface "
-            "from 3T prob maps"))
 
     seed_mask = kwargs["tracking_params"]['seed_mask']
     odf_model = kwargs["tracking_params"]['odf_model']

@@ -180,7 +180,8 @@ def track(params_file, pve, directions="prob", max_angle=30., sphere=None,
 
     if not len(pve_data.shape) == 4 or pve_data.shape[3] != 3:
         raise RuntimeError(
-            "For pve, expected a (pve_wm, pve_gm, pve_csf) tuple.")
+            "For pve, expected pve_data with shape [x, y, z, 3]. "
+            f"Instead, got {pve_data.shape}.")
 
     pve_csf_data = pve_data[..., 0]
     pve_gm_data = pve_data[..., 1]

@@ -835,9 +835,9 @@ class PVEImages(ImageDefinition):
         self.probseg_funcs = [
             probseg.get_image_getter(task_name) for probseg in self.probsegs]
         def _image_getter_helper(pve_csf, pve_gm, pve_wm, dwi_affine):
-            pve_data = []
-            for pve in [pve_csf, pve_gm, pve_wm]:
-                pve_data.append(nib.load(pve).get_fdata())
+            pve_data = np.stack(
+                [nib.load(p).get_fdata() for p in (pve_csf, pve_gm, pve_wm)],
+                axis=-1)
             return nib.Nifti1Image(
                 np.asarray(pve_data).astype(np.float32),
                 dwi_affine), {
