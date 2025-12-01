@@ -83,12 +83,12 @@ def gpu_track(data, gtab, seed_path, pve_path,
 
     pve_img = nib.load(pve_path)
 
-    pve_img = resample(
-        pve_img.get_fdata(),
+    wm_img = resample(
+        pve_img.get_fdata()[..., 2],
         seed_img.get_fdata(),
         moving_affine=pve_img.affine,
         static_affine=seed_img.affine)
-    wm_data = pve_img.get_fdata()[..., 2]
+    wm_data = wm_img.get_fdata()
 
     seed_data = seed_img.get_fdata()
 
