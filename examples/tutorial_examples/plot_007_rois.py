@@ -13,7 +13,7 @@ their defining ROIs.
 """
 
 ####################################################
-# Import libraries, load the defautl tract templates
+# Import libraries, load the default tract templates
 
 import numpy as np
 

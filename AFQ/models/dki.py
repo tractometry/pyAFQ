@@ -4,10 +4,6 @@ import os.path as op
 import numpy as np
 import nibabel as nib
 
-from scipy.signal import find_peaks, peak_widths
-from scipy.special import erf
-from scipy.ndimage import gaussian_filter1d
-
 from dipy.reconst import dki
 from dipy.reconst import dki_micro
 from dipy.core.ndindex import ndindex

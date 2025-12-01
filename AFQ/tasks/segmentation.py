@@ -16,7 +16,6 @@ import AFQ.utils.streamlines as aus
 from AFQ.tasks.utils import get_default_args
 import AFQ.utils.volume as auv
 from AFQ._fixes import gaussian_weights
-import AFQ.recognition.utils as abu
 
 try:
     from trx.io import load as load_trx
@@ -33,9 +32,6 @@ from dipy.tracking.streamline import set_number_of_points, values_from_volume
 from nibabel.affines import voxel_sizes
 from nibabel.orientations import aff2axcodes
 from dipy.io.stateful_tractogram import StatefulTractogram
-from dipy.align import resample
-from scipy.spatial import cKDTree
-
 
 import gzip
 import shutil

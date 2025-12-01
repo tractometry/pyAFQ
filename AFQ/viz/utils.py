@@ -12,7 +12,7 @@ import matplotlib.patches as mpatches
 import nibabel as nib
 import dipy.tracking.streamlinespeed as dps
 from dipy.tracking.streamline import transform_streamlines
-from dipy.io.stateful_tractogram import StatefulTractogram, Space
+from dipy.io.stateful_tractogram import StatefulTractogram
 from dipy.align import resample
 
 import AFQ.utils.volume as auv

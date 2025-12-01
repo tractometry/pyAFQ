@@ -15,7 +15,7 @@ import os.path as op
 logger = logging.getLogger('AFQ')
 
 
-__all__ = ["run_brainchop"]
+__all__ = ["run_synthseg"]
 
 
 def _get_model(model_name):

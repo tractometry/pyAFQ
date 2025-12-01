@@ -83,7 +83,6 @@ def clean_by_orientation_mahalanobis(streamlines, n_points=100,
     fgarray_dists = fgarray[:, 1:, :] - fgarray[:, :-1, :]
     idx = np.arange(len(fgarray))
     rounds_elapsed = 0
-    idx_dist = idx
     while rounds_elapsed < clean_rounds:
         # This calculates the Mahalanobis for each streamline/node:
         m_dist = gaussian_weights(
@@ -199,7 +198,6 @@ def clean_bundle(tg, n_points=100, clean_rounds=5, distance_threshold=3,
     lengths = np.array([sl.shape[0] for sl in streamlines])
     # We'll only do this for clean_rounds
     rounds_elapsed = 0
-    idx_belong = idx
     while rounds_elapsed < clean_rounds:
         # This calculates the Mahalanobis for each streamline/node:
         m_dist = gaussian_weights(
@@ -326,7 +324,7 @@ def clean_by_isolation_forest(tg, n_points=100, distance_threshold=3,
     while(rounds_elapsed < n_rounds):
         # This calculates the Isolation Forest outlier for each node:
         lof = IsolationForest(n_jobs=n_jobs, random_state=random_state)
-        outliers = lof.fit(X_.reshape(-1, 6))
+        lof.fit(X_.reshape(-1, 6))
         outliers = lof.score_samples(X_.reshape(-1, 6))
         outliers = outliers.reshape((len(idx), n_points))
         sl_outliers = np.min(outliers, axis=1)
