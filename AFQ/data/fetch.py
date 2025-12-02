@@ -193,6 +193,9 @@ def read_callosum_templates(as_img=True, resample_to=False):
 
     return template_dict
 
+synthseg_remote_fnames = [
+    "60017432"]
+
 synthseg_fnames = [
     "synthseg2.onnx"]
 
@@ -203,7 +206,7 @@ fetch_synthseg_models = _make_reusable_fetcher(
     "fetch_synthseg_models",
     op.join(afq_home,
             'synthseg_onnx'),
-    baseurl, synthseg_fnames,
+    baseurl, synthseg_remote_fnames,
     synthseg_fnames,
     md5_list=synthseg_md5_hashes,
     doc="Download ONNX SynthSeg models")
