@@ -25,11 +25,11 @@ def _resample_image(image_data, dwi_data, image_affine, dwi_affine):
     Resamples image to dwi if necessary
     '''
     def _resample_slice(slice_data):
-        return np.round(resample(
+        return resample(
             slice_data.astype(float),
             dwi_data[..., 0],
             moving_affine=image_affine,
-            static_affine=dwi_affine).get_fdata()).astype(image_type)
+            static_affine=dwi_affine).get_fdata().astype(image_type)
 
     image_type = image_data.dtype
     if ((dwi_data is not None)
@@ -250,7 +250,7 @@ class RoiImage(ImageDefinition):
         Note: this must be a built-in tissue property.
         Default: None
     tissue_property_n_voxel : int or None
-        Threshold `tissue_property` to a boolean mask with 
+        Threshold `tissue_property` to a boolean mask with
         tissue_property_n_voxel number of voxels set to True.
         Default: None
     tissue_property_threshold : int or None
@@ -362,7 +362,7 @@ class RoiImage(ImageDefinition):
 
 class GQImage(ImageDefinition):
     """
-    Threshold the anisotropic diffusion component of the 
+    Threshold the anisotropic diffusion component of the
     Generalized Q-Sampling Model to generate a brain mask
     which will include the eyes, optic nerve, and cerebrum
     but will exclude most or all of the skull.
