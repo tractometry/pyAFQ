@@ -57,6 +57,10 @@ class ImageDefinition(Definition):
         raise NotImplementedError(
             "Please implement a get_image_getter method")
 
+    # This function is set up to be overriden by other images
+    def apply_conditions(self, image_data_orig, image_file):
+        return image_data_orig, dict(source=image_file)
+
 
 class CombineImageMixin(object):
     """
@@ -87,6 +91,40 @@ class CombineImageMixin(object):
         raise TypeError((
             f"combine should be either 'or' or 'and',"
             f" you set combine to {self.combine}"))
+
+
+class ThresholdMixin(CombineImageMixin):
+    def __init__(self, combine, lower_bound, upper_bound, as_percentage):
+        CombineImageMixin.__init__(self, combine)
+        self.lower_bound = lower_bound
+        self.upper_bound = upper_bound
+        self.as_percentage = as_percentage
+
+    def apply_conditions(self, image_data_orig, image_file):
+        # Apply thresholds
+        self.reset_image_draft(image_data_orig.shape)
+        if self.upper_bound is not None:
+            if self.as_percentage:
+                upper_bound = np.nanpercentile(
+                    image_data_orig,
+                    self.upper_bound)
+            else:
+                upper_bound = self.upper_bound
+            self.image_draft = self * (image_data_orig < upper_bound)
+        if self.lower_bound is not None:
+            if self.as_percentage:
+                lower_bound = np.nanpercentile(
+                    image_data_orig,
+                    100 - self.lower_bound)
+            else:
+                lower_bound = self.lower_bound
+            self.image_draft = self * (image_data_orig > lower_bound)
+
+        meta = dict(source=image_file,
+                    upper_bound=self.upper_bound,
+                    lower_bound=self.lower_bound,
+                    combined_with=self.combine)
+        return self.image_draft, meta
 
 
 class ImageFile(ImageDefinition):
@@ -159,10 +197,6 @@ class ImageFile(ImageDefinition):
             image_file = self.fnames[dwi_path]
         image_img = nib.load(image_file)
         return image_file, image_img.get_fdata(), image_img.affine
-
-    # This function is set up to be overriden by other images
-    def apply_conditions(self, image_data_orig, image_file):
-        return image_data_orig, dict(source=image_file)
 
     def get_name(self):
         return name_from_path(self.fname) if self._from_path else self.suffix
@@ -429,7 +463,6 @@ class LabelledImageFile(ImageFile, CombineImageMixin):
         self.inclusive_labels = inclusive_labels
         self.exclusive_labels = exclusive_labels
 
-    # overrides ImageFile
     def apply_conditions(self, image_data_orig, image_file):
         # For different sets of labels, extract all the voxels that
         # have any / all of these values:
@@ -448,7 +481,7 @@ class LabelledImageFile(ImageFile, CombineImageMixin):
         return self.image_draft, meta
 
 
-class ThresholdedImageFile(ImageFile, CombineImageMixin):
+class ThresholdedImageFile(ThresholdMixin, ImageFile):
     """
     Define an image based on thresholding a file.
     Note that this should not be used to directly make a seed image.
@@ -498,37 +531,8 @@ class ThresholdedImageFile(ImageFile, CombineImageMixin):
     def __init__(self, path=None, suffix=None, filters={}, lower_bound=None,
                  upper_bound=None, as_percentage=False, combine="and"):
         ImageFile.__init__(self, path, suffix, filters)
-        CombineImageMixin.__init__(self, combine)
-        self.lower_bound = lower_bound
-        self.upper_bound = upper_bound
-        self.as_percentage = as_percentage
-
-    # overrides ImageFile
-    def apply_conditions(self, image_data_orig, image_file):
-        # Apply thresholds
-        self.reset_image_draft(image_data_orig.shape)
-        if self.upper_bound is not None:
-            if self.as_percentage:
-                upper_bound = np.nanpercentile(
-                    image_data_orig,
-                    self.upper_bound)
-            else:
-                upper_bound = self.upper_bound
-            self.image_draft = self * (image_data_orig < upper_bound)
-        if self.lower_bound is not None:
-            if self.as_percentage:
-                lower_bound = np.nanpercentile(
-                    image_data_orig,
-                    100 - self.lower_bound)
-            else:
-                lower_bound = self.lower_bound
-            self.image_draft = self * (image_data_orig > lower_bound)
-
-        meta = dict(source=image_file,
-                    upper_bound=self.upper_bound,
-                    lower_bound=self.lower_bound,
-                    combined_with=self.combine)
-        return self.image_draft, meta
+        ThresholdMixin.__init__(self, combine, lower_bound,
+                                upper_bound, as_percentage)
 
 
 class ScalarImage(ImageDefinition):
@@ -563,29 +567,40 @@ class ScalarImage(ImageDefinition):
     def get_image_getter(self, task_name):
         if task_name in ["structural", "data"]:
             raise ValueError((
-                "ScalarImage cannot be used in this context, as they"
-                "require later derivatives to be calculated"))
+                "ThresholdedScalarImage cannot be used in this context, as it"
+                " requires later derivatives to be calculated"))
+
+        def _helper(structural_imap, data_imap, tissue_imap):
+            scalar_path = get_tp(
+                self.scalar,
+                structural_imap,
+                data_imap,
+                tissue_imap,
+            )
+
+            img = nib.load(scalar_path)
+            img_data = img.get_fdata()
+
+            thresh_data, meta = self.apply_conditions(
+                img_data, scalar_path
+            )
+
+            return nib.Nifti1Image(
+                thresh_data.astype(np.float32),
+                img.affine
+            ), meta
 
         if task_name == "tissue":
             def image_getter(structural_imap, data_imap):
-                return nib.load(get_tp(
-                    self.scalar,
-                    structural_imap,
-                    data_imap,
-                    None)), dict(
-                        FromScalar=self.scalar)
+                return _helper(structural_imap, data_imap, None)
         else:
             def image_getter(data_imap, structural_imap, tissue_imap):
-                return nib.load(get_tp(
-                    self.scalar,
-                    structural_imap,
-                    data_imap,
-                    tissue_imap)), dict(
-                        FromScalar=self.scalar)
+                return _helper(structural_imap, data_imap, tissue_imap)
+
         return image_getter
 
 
-class ThresholdedScalarImage(ThresholdedImageFile, ScalarImage):
+class ThresholdedScalarImage(ThresholdMixin, ScalarImage):
     """
     Define an image based on thresholding a scalar image.
     Note that this should not be used to directly make a seed image.
@@ -605,6 +620,11 @@ class ThresholdedScalarImage(ThresholdedImageFile, ScalarImage):
         Upper bound to generate boolean image from data in the file.
         If None, no upper bound is applied.
         Default: None.
+    as_percentage : bool, optional
+        Interpret lower_bound and upper_bound as percentages of the
+        total non-nan voxels in the image to include (between 0 and 100),
+        instead of as a threshold on the values themselves.
+        Default: False
     combine : str, optional
         How to combine the boolean images generated by lower_bound
         and upper_bound. If "and", they will be and'd together.
@@ -620,11 +640,11 @@ class ThresholdedScalarImage(ThresholdedImageFile, ScalarImage):
     """
 
     def __init__(self, scalar, lower_bound=None, upper_bound=None,
-                 combine="and"):
-        self.scalar = scalar
+                 as_percentage=False, combine="and"):
         CombineImageMixin.__init__(self, combine)
-        self.lower_bound = lower_bound
-        self.upper_bound = upper_bound
+        ThresholdMixin.__init__(self, combine, lower_bound,
+                                upper_bound, as_percentage)
+        self.scalar = scalar
 
 
 class PVEImage(ImageDefinition):
@@ -657,6 +677,7 @@ class PVEImage(ImageDefinition):
         suffix="pve")
     api.GroupAFQ(..., pve=pve)
     """
+
     def __init__(self,
                  pve_order=["csf", "gm", "wm"],
                  path=None,
@@ -740,9 +761,10 @@ class PVEImages(ImageDefinition):
             raise ValueError(
                 "PVEImage cannot be used in this context")
         for probseg in self.probsegs:
-            probseg.find_path(
-                bids_layout, from_path, subject, session,
-                required=required)
+            if hasattr(probseg, 'find_path'):
+                probseg.find_path(
+                    bids_layout, from_path, subject, session,
+                    required=required)
 
     def get_name(self):
         return "pves"
