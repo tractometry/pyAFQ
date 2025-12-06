@@ -141,7 +141,7 @@ myafq = GroupAFQ(
 # This means that to extract the filename corresponding to the FA of the first
 # subject, we can do:
 
-FA_fname = myafq.export("dki_fa")["NDARAA948VFH"]["HBNsiteRU"]
+FA_fname = myafq.export("dki_fa", collapse=False)["NDARAA948VFH"]["HBNsiteRU"]
 
 # We will then use `nibabel` to load the deriviative file and retrieve the
 # data array.
@@ -202,7 +202,7 @@ myafq.export('profiles')
 #    single bundle by double clicking the legend. The interactive
 #    visualization will also all you to pan, zoom, and rotate.
 
-bundle_html = myafq.export("all_bundles_figure")
+bundle_html = myafq.export("all_bundles_figure", collapse=False)
 plotly.io.show(bundle_html["NDARAA948VFH"]["HBNsiteRU"][0])
 
 ##########################################################################
@@ -212,7 +212,8 @@ plotly.io.show(bundle_html["NDARAA948VFH"]["HBNsiteRU"][0])
 # `pip install pyAFQ[plot]` so that you have the necessary dependencies.
 #
 
-fig_files = myafq.export("tract_profile_plots")["NDARAA948VFH"]["HBNsiteRU"]
+fig_files = myafq.export("tract_profile_plots", collapse=False)[
+    "NDARAA948VFH"]["HBNsiteRU"]
 
 ##########################################################################
 # .. figure:: {{ fig_files[0] }}
@@ -239,7 +240,8 @@ altair_chart.display()
 # every bundle is found with a reasonable amount of streamlines.
 
 bundle_counts = pd.read_csv(
-    myafq.export("sl_counts")["NDARAA948VFH"]["HBNsiteRU"], index_col=[0])
+    myafq.export("sl_counts", collapse=False)[
+        "NDARAA948VFH"]["HBNsiteRU"], index_col=[0])
 for ind in bundle_counts.index:
     if ind == "Total Recognized":
         threshold = 1000

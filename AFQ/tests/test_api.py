@@ -24,6 +24,8 @@ import tempfile
 import dipy.tracking.utils as dtu
 import dipy.tracking.streamline as dts
 from dipy.testing.decorators import xvfb_it
+from dipy.io.streamline import load_tractogram
+from dipy.segment.metric import mdf
 
 import AFQ.api.bundle_dict as abd
 from AFQ.api.group import GroupAFQ, ParallelGroupAFQ
@@ -855,17 +857,22 @@ def test_AFQ_data_waypoint():
         "sub-01_ses-01_tractography.trk"), reference="same").streamlines
 
     # Select the first streamline for testing. Here by index:
-    cst_by_index = all_sl[cst_indices[0]]
+    cst_by_index = all_sl[cst_indices]
 
     # And here from the segmentation:
     cst_streamlines = load_tractogram(op.join(
         myafq.export("output_dir"),
         'bundles',
         'sub-01_ses-01_desc-LeftCorticospinal_tractography.trk'),
-        reference="same").streamlines[0]
+        reference="same").streamlines
 
     # Should be identical in all positions if the index is correct:
-    np.testing.assert_equal(cst_by_index, cst_streamlines)
+    total_error = 0
+    for ii in range(len(cst_by_index)):
+        sl_by_index = np.asarray(cst_by_index[ii])
+        sl_segmented = np.asarray(cst_streamlines[ii])
+        total_error += mdf(sl_by_index, sl_segmented)
+    npt.assert_almost_equal(total_error, 0)
 
     tract_profile_fname = myafq.export("profiles")
     tract_profiles = pd.read_csv(tract_profile_fname)
