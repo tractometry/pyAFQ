@@ -47,6 +47,8 @@ finally:
 
 __all__ = ["fetch_callosum_templates", "read_callosum_templates",
            "fetch_or_templates", "read_or_templates",
+           "fetch_brainchop_models", "fetch_multiaxial_models",
+           "fetch_synthseg_models",
            "fetch_templates", "read_templates",
            "fetch_stanford_hardi_tractography",
            "read_stanford_hardi_tractography",
@@ -190,6 +192,76 @@ def read_callosum_templates(as_img=True, resample_to=False):
     logger.debug(f'callosum templates loaded in {toc - tic:0.4f} seconds')
 
     return template_dict
+
+synthseg_remote_fnames = [
+    "60017432"]
+
+synthseg_fnames = [
+    "synthseg2.onnx"]
+
+synthseg_md5_hashes = [
+    "c9e74653b96ce1725ec078bae4d63eb4"]
+
+fetch_synthseg_models = _make_reusable_fetcher(
+    "fetch_synthseg_models",
+    op.join(afq_home,
+            'synthseg_onnx'),
+    baseurl, synthseg_remote_fnames,
+    synthseg_fnames,
+    md5_list=synthseg_md5_hashes,
+    doc="Download ONNX SynthSeg models")
+
+multiaxial_fnames = [
+    "sagittal_model.onnx",
+    "axial_model.onnx",
+    "coronal_model.onnx",
+    "consensus_model.onnx"]
+
+multiaxial_md5_hashes = [
+    "ebf2bdc913b2094c2a33e9845934dc7a",
+    "6a793e17463a5f984b886580f01bbea9",
+    "da806b6249ec4e7fd591db439b11cbb5",
+    "77bc5c332ac65e4d35c2439b177d13d6"]
+
+multiax_host = (
+    "https://raw.githubusercontent.com/36000/"
+    "multiaxial_brain_segmenter/"
+    "1c4807f4049375921309250ac06a2b7b59918a81"
+    "/models/onnx/")
+fetch_multiaxial_models = _make_reusable_fetcher(
+    "fetch_multiaxial_models",
+    op.join(afq_home,
+            'multiaxial_models_onnx'),
+    multiax_host, multiaxial_fnames,
+    multiaxial_fnames,
+    md5_list=multiaxial_md5_hashes,
+    doc="Download ONNX Multiaxial models")
+
+
+brainchop_fnames = [
+    "mindgrab.onnx",
+    "mindgrab.onnx.data",
+    "model30chan18cls.onnx",
+    "model30chan18cls.onnx.data"]
+
+brainchop_remote_fnames = [
+    "59672459", "59672462",
+    "59582714", "59582717"]
+
+brainchop_md5_hashes = [
+    "4fbe7a6e8de79866bc43973d69b22d05",
+    "60a491dcbb0f37b843793cf522c266de",
+    "36459c8d29a0b5bb735105cff5319f83",
+    "c0f46152bb59a0ced7125be272e6e909"]
+
+fetch_brainchop_models = _make_reusable_fetcher(
+    "fetch_brainchop_models",
+    op.join(afq_home,
+            'brainchop_models_onnx'),
+    baseurl, brainchop_remote_fnames,
+    brainchop_fnames,
+    md5_list=brainchop_md5_hashes,
+    doc="Download ONNX Brainchop models")
 
 
 ##########################################################################
@@ -1165,6 +1237,10 @@ def organize_stanford_data(path=None, clear_previous_afq=None):
     if not op.exists(derivatives_path):
         logger.info(f'creating derivatives directory: {derivatives_path}')
 
+        os.makedirs(dmriprep_folder, exist_ok=True)
+        os.makedirs(freesurfer_folder, exist_ok=True)
+        os.makedirs(afq_folder, exist_ok=True)
+
         # anatomical data
         anat_folder = op.join(freesurfer_folder, 'sub-01', 'ses-01', 'anat')
         os.makedirs(anat_folder, exist_ok=True)
@@ -1638,7 +1714,7 @@ def fetch_hcp(subjects,
     return data_files, op.join(my_path, study)
 
 
-def fetch_hbn_preproc(subjects, path=None):
+def fetch_hbn_preproc(subjects, path=None, clear_previous_afq=None):
     """
     Fetches data from the Healthy Brain Network POD2 study [1, 2]_.
 
@@ -1649,7 +1725,11 @@ def fetch_hbn_preproc(subjects, path=None):
         For example: ["NDARAA112DMH", "NDARAA117NEJ"].
     path : string, optional
         Path to save files into. Default: '~/AFQ_data'
-
+    clear_previous_afq : str or None
+        Whether to clear previous afq results in the stanford
+        hardi dataset. If not None, can be "all", "track", "recog", "prof".
+        Default: None
+        
     Returns
     -------
     dict with remote and local names of these files,
@@ -1722,6 +1802,30 @@ def fetch_hbn_preproc(subjects, path=None):
                 pbar.set_description_str(f"Downloading {k}")
                 client.download_file("fcp-indi", download_files[k], k)
                 pbar.update()
+
+    afq_folder = op.join(my_path, "HBN", 'derivatives', 'afq')
+    if clear_previous_afq is not None and op.exists(afq_folder):
+        if clear_previous_afq == "all":
+            shutil.rmtree(afq_folder)
+        else:
+            for subject in subjects:
+                sub_folder = op.join(
+                    afq_folder,
+                    f'sub-{subject}')
+                sessions = [
+                    d.split("-")[1]
+                    for d in os.listdir(sub_folder)
+                    if d.startswith("ses-") and op.isdir(
+                        op.join(sub_folder, d))]
+                for session in sessions:
+                    apply_cmd_to_afq_derivs(
+                        op.join(afq_folder,
+                                f"sub-{subject}/ses-{session}/dwi/"),
+                        op.join(afq_folder,
+                                (
+                                    f"sub-{subject}/ses-{session}/dwi"
+                                    f"/sub-{subject}_ses-{session}")),
+                        dependent_on=clear_previous_afq)
 
     # Create the BIDS dataset description file text
     hbn_acknowledgements = """XXX""",  # noqa

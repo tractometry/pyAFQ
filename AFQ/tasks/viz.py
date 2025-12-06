@@ -9,8 +9,7 @@ import immlib
 
 from dipy.align import resample
 
-from AFQ.tasks.utils import get_fname, with_name, str_to_desc
-import AFQ.utils.volume as auv
+from AFQ.tasks.utils import get_fname, with_name, str_to_desc, get_tp
 from AFQ.viz.utils import Viz
 import AFQ.utils.streamlines as aus
 from AFQ.utils.path import write_json, drop_extension
@@ -20,14 +19,16 @@ from plotly.subplots import make_subplots
 logger = logging.getLogger('AFQ')
 
 
-def _viz_prepare_vol(vol, xform, mapping, scalar_dict):
+def _viz_prepare_vol(vol, xform, mapping, scalar_dict, ref):
     if vol in scalar_dict.keys():
         vol = scalar_dict[vol]
-        if isinstance(vol, str):
-            vol = nib.load(vol)
-        vol = vol.get_fdata()
+
     if isinstance(vol, str):
-        vol = nib.load(vol).get_fdata()
+        vol = nib.load(vol)
+
+    vol = resample(vol, ref)
+
+    vol = vol.get_fdata()
     if xform:
         vol = mapping.transform_inverse(vol)
     vol[np.isnan(vol)] = 0
@@ -37,7 +38,9 @@ def _viz_prepare_vol(vol, xform, mapping, scalar_dict):
 @immlib.calc("all_bundles_figure")
 def viz_bundles(base_fname,
                 viz_backend,
+                structural_imap,
                 data_imap,
+                tissue_imap,
                 mapping_imap,
                 segmentation_imap,
                 best_scalar,
@@ -75,11 +78,16 @@ def viz_bundles(base_fname,
     mapping = mapping_imap["mapping"]
     scalar_dict = segmentation_imap["scalar_dict"]
     profiles_file = segmentation_imap["profiles"]
-    volume = data_imap["masked_b0"]
-    shade_by_volume = data_imap[best_scalar]
-    volume = _viz_prepare_vol(volume, False, mapping, scalar_dict)
+    volume = nib.load(structural_imap["t1_masked"])
+    t1_affine = nib.load(structural_imap["t1_masked"]).affine
+    shade_by_volume = get_tp(
+        best_scalar,
+        structural_imap,
+        data_imap,
+        tissue_imap)
     shade_by_volume = _viz_prepare_vol(
-        shade_by_volume, False, mapping, scalar_dict)
+        shade_by_volume, False, mapping, scalar_dict, volume)
+    volume = _viz_prepare_vol(volume, False, mapping, scalar_dict, volume)
 
     flip_axes = [False, False, False]
     for i in range(3):
@@ -102,6 +110,7 @@ def viz_bundles(base_fname,
 
     figure = viz_backend.visualize_bundles(
         segmentation_imap["bundles"],
+        affine=t1_affine,
         shade_by_volume=shade_by_volume,
         sbv_lims=sbv_lims_bundles,
         include_profiles=(pd.read_csv(profiles_file), best_scalar),
@@ -138,7 +147,9 @@ def viz_bundles(base_fname,
 def viz_indivBundle(base_fname,
                     output_dir,
                     viz_backend,
+                    structural_imap,
                     data_imap,
+                    tissue_imap,
                     mapping_imap,
                     segmentation_imap,
                     best_scalar,
@@ -168,17 +179,21 @@ def viz_indivBundle(base_fname,
     """
     mapping = mapping_imap["mapping"]
     bundle_dict = data_imap["bundle_dict"]
-    reg_template = data_imap["reg_template"]
     scalar_dict = segmentation_imap["scalar_dict"]
-    volume = data_imap["masked_b0"]
-    shade_by_volume = data_imap[best_scalar]
+    volume_img = nib.load(structural_imap["t1_masked"])
+    t1_affine = nib.load(structural_imap["t1_masked"]).affine
+    shade_by_volume = get_tp(
+        best_scalar,
+        structural_imap,
+        data_imap,
+        tissue_imap)
     profiles = pd.read_csv(segmentation_imap["profiles"])
 
     start_time = time()
     volume = _viz_prepare_vol(
-        volume, False, mapping, scalar_dict)
+        volume_img, False, mapping, scalar_dict, volume_img)
     shade_by_volume = _viz_prepare_vol(
-        shade_by_volume, False, mapping, scalar_dict)
+        shade_by_volume, False, mapping, scalar_dict, volume_img)
 
     flip_axes = [False, False, False]
     for i in range(3):
@@ -214,6 +229,7 @@ def viz_indivBundle(base_fname,
         if len(bundles.get_bundle(bundle_name)) > 0:
             figure = viz_backend.visualize_bundles(
                 bundles,
+                affine=t1_affine,
                 shade_by_volume=shade_by_volume,
                 sbv_lims=sbv_lims_indiv,
                 bundle=bundle_name,
@@ -231,8 +247,10 @@ def viz_indivBundle(base_fname,
             name = roi_fname.split("desc-")[1].split("_")[0]
             if "probseg" in roi_fname:
                 name = f"{name}Probseg"
+            roi_img = nib.load(roi_fname)
+            roi_img = resample(roi_img, volume_img)
             figure = viz_backend.visualize_roi(
-                roi_fname,
+                roi_img,
                 name=name,
                 flip_axes=flip_axes,
                 inline=False,
@@ -293,6 +311,7 @@ def viz_indivBundle(base_fname,
                     inline=False)
                 core_fig = viz_backend.visualize_bundles(
                     segmentation_imap["bundles"],
+                    affine=t1_affine,
                     shade_by_volume=shade_by_volume,
                     sbv_lims=sbv_lims_indiv,
                     bundle=bundle_name,
@@ -307,6 +326,7 @@ def viz_indivBundle(base_fname,
                     segmentation_imap["bundles"],
                     bundle_name,
                     best_scalar,
+                    affine=t1_affine,
                     flip_axes=flip_axes,
                     figure=core_fig,
                     include_profile=True)

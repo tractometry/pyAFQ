@@ -14,15 +14,18 @@ from AFQ.api.utils import (
     check_attribute, AFQclass_doc,
     export_all_helper, valid_exports_string)
 
+from AFQ.tasks.structural import get_structural_plan
 from AFQ.tasks.data import get_data_plan
+from AFQ.tasks.tissue import get_tissue_plan
 from AFQ.tasks.mapping import get_mapping_plan
 from AFQ.tasks.tractography import get_tractography_plan
 from AFQ.tasks.segmentation import get_segmentation_plan
 from AFQ.tasks.viz import get_viz_plan
+
 from AFQ.tasks.utils import get_base_fname
 from AFQ.utils.path import apply_cmd_to_afq_derivs
 from AFQ.viz.utils import BEST_BUNDLE_ORIENTATIONS, trim, get_eye
-from AFQ.api.utils import kwargs_descriptors
+from AFQ.api.utils import kwargs_descriptors, used_kwargs_exceptions
 from AFQ.utils.bin import pyafq_str_to_val
 
 
@@ -35,6 +38,7 @@ class ParticipantAFQ(object):
     def __init__(self,
                  dwi_data_file,
                  bval_file, bvec_file,
+                 t1_file,
                  output_dir,
                  **kwargs):
         """
@@ -48,6 +52,9 @@ class ParticipantAFQ(object):
             Path to bval file.
         bvec_file : str
             Path to bvec file.
+        t1_file : str
+            Path to T1-weighted image file. Must already be registered
+            to the DWI data, though not resampled.
         output_dir : str
             Path to output directory.
         kwargs : additional optional parameters
@@ -57,10 +64,10 @@ class ParticipantAFQ(object):
         Examples
         --------
         api.ParticipantAFQ(
-            dwi_data_file, bval_file, bvec_file, output_dir,
+            dwi_data_file, bval_file, bvec_file, t1_file, output_dir,
             csd_sh_order_max=4)
         api.ParticipantAFQ(
-            dwi_data_file, bval_file, bvec_file, output_dir,
+            dwi_data_file, bval_file, bvec_file, t1_file, output_dir,
             reg_template_spec="mni_t2", reg_subject_spec="b0")
 
         Notes
@@ -99,6 +106,7 @@ class ParticipantAFQ(object):
             dwi_data_file=dwi_data_file,
             bval_file=bval_file,
             bvec_file=bvec_file,
+            t1_file=t1_file,
             output_dir=output_dir,
             base_fname=get_base_fname(output_dir, dwi_data_file),
             **kwargs)
@@ -109,7 +117,9 @@ class ParticipantAFQ(object):
         if "mapping_definition" in self.kwargs and isinstance(
                 self.kwargs["mapping_definition"], SlrMap):
             plans = {  # if using SLR map, do tractography first
+                "structural": get_structural_plan(self.kwargs),
                 "data": get_data_plan(self.kwargs),
+                "tissue": get_tissue_plan(self.kwargs),
                 "tractography": get_tractography_plan(
                     self.kwargs
                 ),
@@ -121,7 +131,9 @@ class ParticipantAFQ(object):
                 "viz": get_viz_plan(self.kwargs)}
         else:
             plans = {  # Otherwise, do mapping first
+                "structural": get_structural_plan(self.kwargs),
                 "data": get_data_plan(self.kwargs),
+                "tissue": get_tissue_plan(self.kwargs),
                 "mapping": get_mapping_plan(self.kwargs),
                 "tractography": get_tractography_plan(
                     self.kwargs
@@ -151,6 +163,10 @@ class ParticipantAFQ(object):
                     plan_kwargs[key] = self.kwargs[key]
                 elif key in previous_plans:
                     plan_kwargs[key] = previous_plans[key]
+                elif name not in ["data", "structural"]\
+                        and key == "dwi_affine":
+                    # simplifies syntax to access comonly used dwi_affine 
+                    plan_kwargs[key] = previous_plans["data_imap"][key]
                 else:
                     raise NotImplementedError(
                         f"Missing required parameter {key} for {name} plan")
@@ -158,7 +174,7 @@ class ParticipantAFQ(object):
             previous_plans[f"{name}_imap"] = plan(**plan_kwargs)
 
         for key, val in used_kwargs.items():
-            if val == 0:
+            if val == 0 and key not in used_kwargs_exceptions:
                 self.logger.warning(
                     f"Parameter {key} was not used in any plan. "
                     "This may be a mistake, please check your parameters.")
@@ -261,6 +277,7 @@ class ParticipantAFQ(object):
         self.logger.info("Generating Montage...")
         viz_backend = self.export("viz_backend")
         best_scalar = self.export(self.export("best_scalar"))
+        t1 = nib.load(self.export("t1_masked"))
         size = (images_per_row, math.ceil(len(bundle_dict) / images_per_row))
         for ii, bundle_name in enumerate(tqdm(bundle_dict)):
             flip_axes = [False, False, False]
@@ -268,12 +285,13 @@ class ParticipantAFQ(object):
                 flip_axes[i] = (self.export("dwi_affine")[i, i] < 0)
 
             figure = viz_backend.visualize_volume(
-                best_scalar,
+                t1,
                 flip_axes=flip_axes,
                 interact=False,
                 inline=False)
             figure = viz_backend.visualize_bundles(
                 self.export("bundles"),
+                affine=t1.affine,
                 shade_by_volume=best_scalar,
                 color_by_direction=True,
                 flip_axes=flip_axes,
@@ -367,8 +385,8 @@ class ParticipantAFQ(object):
         _save_file(curr_img)
         return all_fnames
 
-    def cmd_outputs(self, cmd="rm", dependent_on=None, exceptions=[],
-                    suffix=""):
+    def cmd_outputs(self, cmd="rm", dependent_on=None, up_to=None,
+                    exceptions=[], suffix=""):
         """
         Perform some command some or all outputs of pyafq.
         This is useful if you change a parameter and need
@@ -389,6 +407,15 @@ class ParticipantAFQ(object):
             bundle recognition.
             If "prof", perform on all derivatives that depend on the
             bundle profiling.
+            Default: None
+        up_to : str or None
+            If None, will perform on all derivatives.
+            If "track", will perform on all derivatives up to 
+            (but not including) tractography.
+            If "recog", will perform on all derivatives up to
+            (but not including) bundle recognition.
+            If "prof", will perform on all derivatives up to
+            (but not including) bundle profiling.
             Default: None
         exceptions : list of str
             Name outputs that the command should not be applied to.
@@ -413,7 +440,8 @@ class ParticipantAFQ(object):
             cmd=cmd,
             exception_file_names=exception_file_names,
             suffix=suffix,
-            dependent_on=dependent_on
+            dependent_on=dependent_on,
+            up_to=up_to,
         )
 
         # do not assume previous calculations are still valid

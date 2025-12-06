@@ -261,7 +261,7 @@ class ScriptRunner(object):
         return proc.returncode, opp(stdout), opp(stderr)
 
 
-def make_tracking_data(out_fbval, out_fbvec, out_fdata):
+def make_tracking_data(out_fbval, out_fbvec, out_fdata, out_pve):
     fimg, fbvals, fbvecs = dpd.get_fnames('small_101D')
     bvals = np.loadtxt(fbvals)
     bvecs = np.loadtxt(fbvecs)
@@ -271,6 +271,16 @@ def make_tracking_data(out_fbval, out_fbvec, out_fdata):
                        [0., 0., 2., -60.],
                        [0., 0., 0., 1.]])
 
-    nib.save(nib.Nifti1Image(nib.load(fimg).get_fdata(), affine), out_fdata)
+    img = nib.load(fimg)
+    nib.save(nib.Nifti1Image(img.get_fdata(), affine), out_fdata)
     np.savetxt(out_fbval, bvals)
     np.savetxt(out_fbvec, bvecs)
+
+    # PVE data shows white matter on interior, gray matter on border
+    pve_data = np.ones(img.get_fdata().shape[:3] + (3,))
+    interior = (slice(1, -1), slice(1, -1), slice(1, -1))
+    pve_data[interior + (0,)] = 1.0
+    pve_data[..., 1] = 1.0
+    pve_data[interior + (1,)] = 0.0
+    nib.save(
+        nib.Nifti1Image(pve_data, img.affine), out_pve)

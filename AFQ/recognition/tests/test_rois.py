@@ -6,7 +6,6 @@ import numpy as np
 from scipy.ndimage import distance_transform_edt
 from AFQ.recognition.roi import (
     check_sls_with_inclusion,
-    check_sl_with_inclusion,
     check_sl_with_exclusion)
 
 shape = (15, 15, 15)
@@ -83,15 +82,15 @@ def test_check_sls_with_inclusion():
 
 
 def test_check_sl_with_inclusion_pass():
-    result, dists = check_sl_with_inclusion(
-        streamline1, include_rois, include_roi_tols)
+    result, dists = check_sls_with_inclusion(
+        [streamline1], include_rois, include_roi_tols)[0]
     assert result is True
     assert len(dists) == 2
 
 
 def test_check_sl_with_inclusion_fail():
-    result, dists = check_sl_with_inclusion(
-        streamline2, include_rois, include_roi_tols)
+    result, dists = check_sls_with_inclusion(
+        [streamline2], include_rois, include_roi_tols)[0]
     assert result is False
     assert dists == []
 
