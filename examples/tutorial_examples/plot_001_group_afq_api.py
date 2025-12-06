@@ -105,7 +105,8 @@ pve = afm.PVEImages(
 # the name of the t1 preprocessing pipeline we want to use (in this case,
 # its the same, qsiprep [3]), the participant labels we want to process
 # (in this case, just a single subject), the PVE images we defined above, and
-# the tracking parameters we defined above. We set ray_n_cpus=1 to
+# the tracking parameters we defined above. We set ray_n_cpus=1 and
+# numba_n_threads=4 to
 # avoid memory issues running this example on servers.
 
 myafq = GroupAFQ(
@@ -115,7 +116,8 @@ myafq = GroupAFQ(
     participant_labels=['NDARAA948VFH'],
     pve=pve,
     tracking_params=tracking_params,
-    ray_n_cpus=1)
+    ray_n_cpus=1,
+    numba_n_threads=4)
 
 ##########################################################################
 # Calculating DKI FA (Diffusion Kurtosis Imaging Fractional Anisotropy)

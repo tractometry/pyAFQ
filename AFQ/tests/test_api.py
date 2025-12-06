@@ -790,6 +790,7 @@ def test_AFQ_data_waypoint():
             TemplateImage(t1_path)],
         n_points_profile=50,
         ray_n_cpus=1,
+        numba_n_threads=4,
         tracking_params=tracking_params,
         segmentation_params=segmentation_params)
 
@@ -919,7 +920,8 @@ def test_AFQ_data_waypoint():
             t1_pipeline='freesurfer',),
         DATA=dict(
             bundle_info=bundle_dict_as_str,
-            ray_n_cpus=1),
+            ray_n_cpus=1,
+            numba_n_threads=4),
         SEGMENTATION=dict(
             n_points_profile=50,
             scalars=[
