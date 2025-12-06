@@ -5,7 +5,7 @@ Exporting pyAFQ Results
 
 This example shows how to use the ``export`` methods to obtain results from
 the ParticipantAFQ object. The ``export`` methods are used to calculate
-derived quantities from the data, such as DTI parameters, tract profiles,
+derived quantities from the data, such as DKI parameters, tract profiles,
 and bundle segmentations. 
 
 """
@@ -24,35 +24,40 @@ import AFQ.definitions.image as afm
 # :doc:`plot_002_participant_afq_api` example. Please refer to that
 # example for a detailed description of the parameters.
 
-afd.organize_stanford_data()
+afd.fetch_hbn_preproc(["NDARAA948VFH"])
 
-data_dir = op.join(afd.afq_home, "stanford_hardi", "derivatives", "vistasoft",
-                   "sub-01", "ses-01", "dwi")
+sub_dir = op.join(afd.afq_home, "HBN", "derivatives", "qsiprep",
+                   "sub-NDARAA948VFH")
+dwi_data_file = op.join(sub_dir, "dwi", "ses-HBNsiteRU", (
+    "sub-NDARAA948VFH_"
+    "ses-HBNsiteRU_"
+    "acq-64dir_space-T1w_desc-preproc_dwi.nii.gz"))
+bval_file = op.join(sub_dir, "dwi", "ses-HBNsiteRU", (
+    "sub-NDARAA948VFH_"
+    "ses-HBNsiteRU_"
+    "acq-64dir_space-T1w_desc-preproc_dwi.bval"))
+bvec_file = op.join(sub_dir, "dwi", "ses-HBNsiteRU", (
+    "sub-NDARAA948VFH_"
+    "ses-HBNsiteRU_"
+    "acq-64dir_space-T1w_desc-preproc_dwi.bvec"))
+t1_file = op.join(sub_dir, "anat",
+                  "sub-NDARAA948VFH_desc-preproc_T1w.nii.gz")
 
-dwi_data_file = op.join(data_dir, "sub-01_ses-01_dwi.nii.gz")
-bval_file = op.join(data_dir, "sub-01_ses-01_dwi.bval")
-bvec_file = op.join(data_dir, "sub-01_ses-01_dwi.bvec")
-t1_file = op.join(afd.afq_home, "stanford_hardi", "derivatives",
-                  "freesurfer", "sub-01", "ses-01", "anat",
-                  "sub-01_ses-01_T1w.nii.gz")
-
-output_dir = op.join(afd.afq_home, "stanford_hardi",
-                     "derivatives", "afq", "sub-01", "ses-01", "dwi")
+output_dir = op.join(afd.afq_home, "HBN",
+                     "derivatives", "afq", "sub-NDARAA948VFH",
+                     "ses-HBNsiteRU", "dwi")
 os.makedirs(output_dir, exist_ok=True)
 
-seg_file = op.join(afd.afq_home, "stanford_hardi", "derivatives",
-                   "freesurfer", "sub-01", "ses-01", "anat",
-                   "sub-01_ses-01_seg.nii.gz")
 pve = afm.PVEImages(
-    afm.LabelledImageFile(
-        path=seg_file,
-        inclusive_labels=[0]),
-    afm.LabelledImageFile(
-        path=seg_file,
-        exclusive_labels=[0, 1, 2], combine="and"),
-    afm.LabelledImageFile(
-        path=seg_file,
-        inclusive_labels=[1, 2]))
+    afm.ImageFile(
+        path=op.join(sub_dir, "anat", 
+                     "sub-NDARAA948VFH_label-CSF_probseg.nii.gz")),
+    afm.ImageFile(
+        path=op.join(sub_dir, "anat", 
+                     "sub-NDARAA948VFH_label-GM_probseg.nii.gz")),
+    afm.ImageFile(
+        path=op.join(sub_dir, "anat", 
+                     "sub-NDARAA948VFH_label-WM_probseg.nii.gz")))
 
 # Initialize the ParticipantAFQ object
 myafq = ParticipantAFQ(
@@ -61,8 +66,8 @@ myafq = ParticipantAFQ(
     bvec_file=bvec_file,
     t1_file=t1_file,
     output_dir=output_dir,
-    ray_n_cpus=1,
     pve=pve,
+    ray_n_cpus=1,
     tracking_params={
         "n_seeds": 10000,
         "random_seeds": True,
@@ -96,24 +101,24 @@ myafq.export("help")
 
 
 ##########################################################################
-# Calculating DTI FA (Diffusion Tensor Imaging Fractional Anisotropy)
+# Calculating DKI FA (Diffusion Tensor Imaging Fractional Anisotropy)
 # ------------------------------------------------------------------
-# FA can be computed using the DTI model, by explicitly calling
-# ``myafq.export("dti_fa")``. This triggers the computation of DTI parameters,
+# FA can be computed using the DKI model, by explicitly calling
+# ``myafq.export("dki_fa")``. This triggers the computation of DKI parameters,
 # and stores the results in the AFQ derivatives directory. In addition, it
 # calculates the FA from these parameters and stores it in a different file in
 # the same directory.
 #
 # .. note::
 #
-#    The AFQ API computes quantities lazily. This means that DTI parameters
+#    The AFQ API computes quantities lazily. This means that DKI parameters
 #    are not computed until they are required. This means that the first
 #    line below is the one that requires time.
 #
 # The result of the call to ``export`` is the filename of the corresponding FA
 # files.
 
-FA_fname = myafq.export("dti_fa")
+FA_fname = myafq.export("dki_fa")
 
 
 ##########################################################################

@@ -1714,7 +1714,7 @@ def fetch_hcp(subjects,
     return data_files, op.join(my_path, study)
 
 
-def fetch_hbn_preproc(subjects, path=None):
+def fetch_hbn_preproc(subjects, path=None, clear_previous_afq=None):
     """
     Fetches data from the Healthy Brain Network POD2 study [1, 2]_.
 
@@ -1725,7 +1725,11 @@ def fetch_hbn_preproc(subjects, path=None):
         For example: ["NDARAA112DMH", "NDARAA117NEJ"].
     path : string, optional
         Path to save files into. Default: '~/AFQ_data'
-
+    clear_previous_afq : str or None
+        Whether to clear previous afq results in the stanford
+        hardi dataset. If not None, can be "all", "track", "recog", "prof".
+        Default: None
+        
     Returns
     -------
     dict with remote and local names of these files,
@@ -1798,6 +1802,30 @@ def fetch_hbn_preproc(subjects, path=None):
                 pbar.set_description_str(f"Downloading {k}")
                 client.download_file("fcp-indi", download_files[k], k)
                 pbar.update()
+
+    afq_folder = op.join(my_path, "HBN", 'derivatives', 'afq')
+    if clear_previous_afq is not None and op.exists(afq_folder):
+        if clear_previous_afq == "all":
+            shutil.rmtree(afq_folder)
+        else:
+            for subject in subjects:
+                sub_folder = op.join(
+                    afq_folder,
+                    f'sub-{subject}')
+                sessions = [
+                    d.split("-")[1]
+                    for d in os.listdir(sub_folder)
+                    if d.startswith("ses-") and op.isdir(
+                        op.join(sub_folder, d))]
+                for session in sessions:
+                    apply_cmd_to_afq_derivs(
+                        op.join(afq_folder,
+                                f"sub-{subject}/ses-{session}/dwi/"),
+                        op.join(afq_folder,
+                                (
+                                    f"sub-{subject}/ses-{session}/dwi"
+                                    f"/sub-{subject}_ses-{session}")),
+                        dependent_on=clear_previous_afq)
 
     # Create the BIDS dataset description file text
     hbn_acknowledgements = """XXX""",  # noqa

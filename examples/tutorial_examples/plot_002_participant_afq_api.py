@@ -18,27 +18,16 @@ import AFQ.definitions.image as afm
 ##########################################################################
 # Example data
 # ------------
-# The following call dowloads a dataset that contains a single subject"s
-# high angular resolution diffusion imaging (HARDI) data, collected at the
-# Stanford Vista Lab
+# The following call dowloads a a single subject's data from the Healthy Brain
+# Network Processed Open Diffusion Derivatives dataset (HBN-POD2) [1]_, [2]_
+# and organizes it in BIDS in the user's home directory under::
 #
-# .. note::
-#   See https://purl.stanford.edu/ng782rw8378 for details on dataset.
-#
-# The data are downloaded and organized locally into a BIDS compliant
-# anatomical data folder (``anat``) and a diffusion-weighted imaging data
-# (``dwi``) folder, which are both placed in the user's home directory under::
-#
-#   ``~/AFQ_data/stanford_hardi/``
+#   ``~/AFQ_data/HBN/``
 #
 # The data is also placed in a derivatives directory, signifying that it has
 # already undergone the required preprocessing necessary for pyAFQ to run.
-#
-# The clear_previous_afq is used to remove any previous runs of the afq object
-# stored in the ``~/AFQ_data/stanford_hardi/`` BIDS directory. Set it to None if
-# you want to use the results of previous runs.
 
-afd.organize_stanford_data()
+afd.fetch_hbn_preproc(["NDARAA948VFH"])
 
 ##########################################################################
 # Defining data files
@@ -47,44 +36,46 @@ afd.organize_stanford_data()
 # compliant dataset, you can use ``GroupAFQ`` instead (:doc:`plot_001_group_afq_api`).
 # Otherwise, You will need to define the data files that you want to use. In
 # this case, we will define the data files for the subject we downloaded above.
-# The data files are located in the ``~/AFQ_data/stanford_hardi/derivatives/vistasoft``
+# The data files are located in the ``~/AFQ_data/HBN/derivatives/qsiprep``
 # directory, and are organized into a BIDS compliant directory structure. The
-# data files are located in the ``dwi`` directories. The data files
-# are:
-#
-# - ``sub-01_dwi.nii.gz`` (the diffusion-weighted imaging data)
-# - ``sub-01_dwi.bval``   (the b-values)
-# - ``sub-01_dwi.bvec``   (the b-vectors)
+# data files are located in the ``dwi`` directories. 
 
-data_dir = op.join(afd.afq_home, "stanford_hardi", "derivatives", "vistasoft",
-                   "sub-01", "ses-01", "dwi")
-
-dwi_data_file = op.join(data_dir, "sub-01_ses-01_dwi.nii.gz")
-bval_file = op.join(data_dir, "sub-01_ses-01_dwi.bval")
-bvec_file = op.join(data_dir, "sub-01_ses-01_dwi.bvec")
-t1_file = op.join(afd.afq_home, "stanford_hardi", "derivatives",
-                  "freesurfer", "sub-01", "ses-01", "anat",
-                  "sub-01_ses-01_T1w.nii.gz")
+sub_dir = op.join(afd.afq_home, "HBN", "derivatives", "qsiprep",
+                   "sub-NDARAA948VFH")
+dwi_data_file = op.join(sub_dir, "dwi", "ses-HBNsiteRU", (
+    "sub-NDARAA948VFH_"
+    "ses-HBNsiteRU_"
+    "acq-64dir_space-T1w_desc-preproc_dwi.nii.gz"))
+bval_file = op.join(sub_dir, "dwi", "ses-HBNsiteRU", (
+    "sub-NDARAA948VFH_"
+    "ses-HBNsiteRU_"
+    "acq-64dir_space-T1w_desc-preproc_dwi.bval"))
+bvec_file = op.join(sub_dir, "dwi", "ses-HBNsiteRU", (
+    "sub-NDARAA948VFH_"
+    "ses-HBNsiteRU_"
+    "acq-64dir_space-T1w_desc-preproc_dwi.bvec"))
+t1_file = op.join(sub_dir, "anat",
+                  "sub-NDARAA948VFH_desc-preproc_T1w.nii.gz")
 
 # You will also need to define the output directory where you want to store the
 # results. The output directory needs to exist before exporting ParticipantAFQ
 # results.
 
-output_dir = op.join(afd.afq_home, "stanford_hardi",
-                     "derivatives", "afq", "sub-01",
-                     "ses-01", "dwi")
+output_dir = op.join(afd.afq_home, "HBN",
+                     "derivatives", "afq", "sub-NDARAA948VFH",
+                     "ses-HBNsiteRU", "dwi")
 os.makedirs(output_dir, exist_ok=True)
 
 ##########################################################################
 # Set tractography parameters (optional)
 # ---------------------------------------
 # We make create a `tracking_params` variable, which we will pass to the
-# ParticipantAFQ object which specifies that we want 10,000 seeds randomly
+# ParticipantAFQ object which specifies that we want 50,000 seeds randomly
 # distributed in the white matter, propogated using DIPY's probabilistic
 # algorithm. We only do this to make this example faster
 # and consume less space; normally, we use more seeds
 
-tracking_params = dict(n_seeds=25000,
+tracking_params = dict(n_seeds=50000,
                        random_seeds=True,
                        rng_seed=2025,
                        trx=True)
@@ -101,19 +92,17 @@ tracking_params = dict(n_seeds=25000,
 # using the AFQ.definitions.image.PVEImage class. Finally, by default,
 # if no PVE images are provided, pyAFQ will use SynthSeg2 to compute
 # these images.
-seg_file = op.join(afd.afq_home, "stanford_hardi", "derivatives",
-                   "freesurfer", "sub-01", "ses-01", "anat",
-                   "sub-01_ses-01_seg.nii.gz")
+
 pve = afm.PVEImages(
-    afm.LabelledImageFile(
-        path=seg_file,
-        inclusive_labels=[0]),
-    afm.LabelledImageFile(
-        path=seg_file,
-        exclusive_labels=[0, 1, 2], combine="and"),
-    afm.LabelledImageFile(
-        path=seg_file,
-        inclusive_labels=[1, 2]))
+    afm.ImageFile(
+        path=op.join(sub_dir, "anat", 
+                     "sub-NDARAA948VFH_label-CSF_probseg.nii.gz")),
+    afm.ImageFile(
+        path=op.join(sub_dir, "anat", 
+                     "sub-NDARAA948VFH_label-GM_probseg.nii.gz")),
+    afm.ImageFile(
+        path=op.join(sub_dir, "anat", 
+                     "sub-NDARAA948VFH_label-WM_probseg.nii.gz")))
 
 ##########################################################################
 # Initialize a ParticipantAFQ object:
@@ -146,27 +135,27 @@ myafq = ParticipantAFQ(
 )
 
 ##########################################################################
-# Calculating DTI FA (Diffusion Tensor Imaging Fractional Anisotropy)
+# Calculating DKI FA (Diffusion Tensor Imaging Fractional Anisotropy)
 # ------------------------------------------------------------------
 # The ParticipantAFQ object has a method called ``export``, which allows the user
 # to calculate various derived quantities from the data.
 #
-# For example, FA can be computed using the DTI model, by explicitly
-# calling ``myafq.export("dti_fa")``. This triggers the computation of DTI
+# For example, FA can be computed using the DKI model, by explicitly
+# calling ``myafq.export("dki_fa")``. This triggers the computation of DKI
 # parameters, and stores the results in the AFQ derivatives directory.
 # In addition, it calculates the FA from these parameters and stores it in a
 # different file in the same directory.
 #
 # .. note::
 #
-#    The AFQ API computes quantities lazily. This means that DTI parameters
+#    The AFQ API computes quantities lazily. This means that DKI parameters
 #    are not computed until they are required. This means that the first
 #    line below is the one that requires time.
 #
 # The result of the call to ``export`` is the filename of the corresponding FA
 # files.
 
-FA_fname = myafq.export("dti_fa")
+FA_fname = myafq.export("dki_fa")
 
 ##########################################################################
 # We will then use ``nibabel`` to load the deriviative file and retrieve the
@@ -243,3 +232,18 @@ fig_files = myafq.export("tract_profile_plots")
 ##########################################################################
 # .. figure:: {{ fig_files[0] }}
 #
+
+#############################################################################
+# References
+# ----------
+# .. [1] Alexander LM, Escalera J, Ai L, et al. An open resource for
+#     transdiagnostic research in pediatric mental health and learning
+#     disorders. Sci Data. 2017;4:170181.
+#
+# .. [2] Richie-Halford A, Cieslak M, Ai L, et al. An analysis-ready and quality
+#     controlled resource for pediatric brain white-matter research. Scientific
+#     Data. 2022;9(1):1-27.
+#
+# .. [3] Cieslak M, Cook PA, He X, et al. QSIPrep: an integrative platform for
+#     preprocessing and reconstructing diffusion MRI data. Nat Methods.
+#     2021;18(7):775-778.

@@ -11,7 +11,7 @@ from dipy.align import resample
 from dipy.direction import (DeterministicMaximumDirectionGetter,
                             ProbabilisticDirectionGetter)
 from dipy.io.stateful_tractogram import StatefulTractogram, Space
-from dipy.tracking.stopping_criterion import ActStoppingCriterion
+from dipy.tracking.stopping_criterion import ActStoppingCriterion, CmcStoppingCriterion
 from dipy.reconst import shm
 
 from nibabel.streamlines.tractogram import LazyTractogram
@@ -25,8 +25,8 @@ from AFQ.tractography.utils import gen_seeds
 def track(params_file, pve, directions="prob", max_angle=30., sphere=None,
           seed_mask=None, seed_threshold=0.5, thresholds_as_percentages=False,
           n_seeds=2000000, random_seeds=True, rng_seed=None,
-          step_size=0.5, minlen=50, maxlen=250,
-          odf_model="CSD", basis_type="descoteaux07", legacy=True,
+          step_size=0.5, minlen=20, maxlen=250,
+          odf_model="CSD_AODF", basis_type="descoteaux07", legacy=True,
           tracker="pft", trx=False):
     """
     Tractography
@@ -82,10 +82,10 @@ def track(params_file, pve, directions="prob", max_angle=30., sphere=None,
         The miminal length (mm) in a streamline. Default: 250
     odf_model : str or Definition, optional
         Can be either a string or Definition. If a string, it must be one of
-        {"DTI", "CSD", "DKI", "GQ", "RUMBA"}. If a Definition, we assume
-        it is a definition of a file containing Spherical Harmonics
-        coefficients.
-        Defaults to use "CSD"
+        {"DTI", "CSD", "DKI", "GQ", "RUMBA", "MSMT_AODF", "CSD_AODF", "MSMTCSD"}.
+        If a Definition, we assume it is a definition of a file containing
+        Spherical Harmonics coefficients.
+        Defaults to use "CSD_AODF"
     basis_type : str, optional
         The spherical harmonic basis type used to represent the coefficients.
         One of {"descoteaux07", "tournier07"}. Deafult: "descoteaux07"
@@ -133,8 +133,7 @@ def track(params_file, pve, directions="prob", max_angle=30., sphere=None,
         odf_model = odf_model.upper()
     directions = directions.lower()
 
-    # We need to calculate the size of a voxel, so we can transform
-    # from mm to voxel units:
+    # transform from mm to step size units
     minlen = int(minlen / step_size)
     maxlen = int(maxlen / step_size)
 
@@ -224,7 +223,8 @@ def track(params_file, pve, directions="prob", max_angle=30., sphere=None,
                          "{'local', 'pft'}.")
 
     logger.info(
-        f"Tracking with {len(seeds)} seeds, 2 directions per seed...")
+        f"Tracking with {len(seeds)} seeds, "
+        "average of 1-3 directions per seed...")
 
     return _tracking(my_tracker, seeds, dg, stopping_criterion, params_img,
                      step_size=step_size, minlen=minlen,

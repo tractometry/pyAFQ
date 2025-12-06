@@ -261,7 +261,6 @@ def get_mapping_plan(kwargs, use_sls=False):
 
     reg_ss = kwargs.get("reg_subject_spec", None)
     if isinstance(reg_ss, ImageDefinition):
-        del kwargs["reg_subject_spec"]
         mapping_tasks["get_reg_subject_res"] = immlib.calc("reg_subject")(
             as_file((
                 f'_desc-{str_to_desc(reg_ss.get_name())}'

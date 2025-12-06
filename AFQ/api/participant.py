@@ -25,7 +25,7 @@ from AFQ.tasks.viz import get_viz_plan
 from AFQ.tasks.utils import get_base_fname
 from AFQ.utils.path import apply_cmd_to_afq_derivs
 from AFQ.viz.utils import BEST_BUNDLE_ORIENTATIONS, trim, get_eye
-from AFQ.api.utils import kwargs_descriptors
+from AFQ.api.utils import kwargs_descriptors, used_kwargs_exceptions
 from AFQ.utils.bin import pyafq_str_to_val
 
 
@@ -174,7 +174,7 @@ class ParticipantAFQ(object):
             previous_plans[f"{name}_imap"] = plan(**plan_kwargs)
 
         for key, val in used_kwargs.items():
-            if val == 0:
+            if val == 0 and key not in used_kwargs_exceptions:
                 self.logger.warning(
                     f"Parameter {key} was not used in any plan. "
                     "This may be a mistake, please check your parameters.")

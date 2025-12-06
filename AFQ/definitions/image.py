@@ -808,7 +808,7 @@ class PVEImages(ImageDefinition):
 
     Examples
     --------
-    pve = PVEImage(
+    pve = PVEImages(
         afm.ImageFile(suffix="CSFprobseg"),
         afm.ImageFile(suffix="GMprobseg"),
         afm.ImageFile(suffix="WMprobseg"))

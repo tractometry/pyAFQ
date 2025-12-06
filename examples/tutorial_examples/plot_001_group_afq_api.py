@@ -24,46 +24,43 @@ import AFQ.definitions.image as afm
 ##########################################################################
 # Example data
 # ------------
-# pyAFQ assumes that the data is organized in a BIDS compliant directory.
+# pyAFQ can be called using GroupAFQ to handle data
+# organized in a BIDS compliant directory.
 # If this is not the case, refer to the Participant AFQ example.
 # To get users started with this tutorial, we will download some example
 # data and organize it in a BIDS compliant way (for more details on how
 # BIDS is used in pyAFQ, refer to :doc:`plot_006_bids_layout`).
 #
-# The following call dowloads a dataset that contains a single subject's
-# high angular resolution diffusion imaging (HARDI) data, collected at the
-# Stanford Vista Lab
+# The following call dowloads a a single subject's data from the Healthy Brain
+# Network Processed Open Diffusion Derivatives dataset (HBN-POD2) [1]_, [2]_
+# and organizes it in BIDS in the user's home directory under::
 #
-# .. note::
-#   See https://purl.stanford.edu/ng782rw8378 for details on dataset.
-#
-# The data are downloaded and organized locally into a BIDS compliant
-# anatomical data folder (``anat``) and a diffusion-weighted imaging data
-# (``dwi``) folder, which are both placed in the user's home directory under::
-#
-#   ``~/AFQ_data/stanford_hardi/``
+#   ``~/AFQ_data/HBN/``
 #
 # The data is also placed in a derivatives directory, signifying that it has
 # already undergone the required preprocessing necessary for pyAFQ to run.
 #
 # The clear_previous_afq is used to remove any previous runs of the afq object
-# stored in the `~/AFQ_data/stanford_hardi/` BIDS directory. Set it to None if
+# stored in the `~/AFQ_data/HBN/` BIDS directory. Set it to None if
 # you want to use the results of previous runs.
 
-afd.organize_stanford_data(clear_previous_afq="all")
+bids_path = afd.fetch_hbn_preproc(
+    ["NDARAA948VFH"],
+    clear_previous_afq="all")[1]
 
 ##########################################################################
 # Set tractography parameters (optional)
 # ---------------------------------------
 # We make create a `tracking_params` variable, which we will pass to the
-# GroupAFQ object which specifies that we want 25,000 seeds randomly
+# GroupAFQ object which specifies that we want 50,000 seeds randomly
 # distributed in the white matter. We only do this to make this example faster
 # and consume less space; normally, we use more seeds
 
-tracking_params = dict(n_seeds=25000,
+tracking_params = dict(n_seeds=50000,
                        random_seeds=True,
                        rng_seed=2025,
-                       trx=True)
+                       odf_model="csd_aodf",
+                       trx=False)
 
 #####################################################################
 # Define PVE images (optional)
@@ -79,15 +76,12 @@ tracking_params = dict(n_seeds=25000,
 # these images.
 
 pve = afm.PVEImages(
-    afm.LabelledImageFile(
-        suffix="seg", filters={"scope": "freesurfer"},
-        inclusive_labels=[0]),
-    afm.LabelledImageFile(
-        suffix="seg", filters={"scope": "freesurfer"},
-        exclusive_labels=[0, 1, 2], combine="and"),
-    afm.LabelledImageFile(
-        suffix="seg", filters={"scope": "freesurfer"},
-        inclusive_labels=[1, 2]))
+    afm.ImageFile(
+        suffix="probseg", filters={"scope": "qsiprep", "label": "CSF"}),
+    afm.ImageFile(
+        suffix="probseg", filters={"scope": "qsiprep", "label": "GM"}),
+    afm.ImageFile(
+        suffix="probseg", filters={"scope": "qsiprep", "label": "WM"}))
 
 ##########################################################################
 # Initialize a GroupAFQ object:
@@ -104,35 +98,33 @@ pve = afm.PVEImages(
 # - Visualization
 #
 # This will also create an output folder for the corresponding AFQ derivatives
-# in the AFQ data directory: ``AFQ_data/stanford_hardi/derivatives/afq/``
+# in the AFQ data directory: ``AFQ_data/HBN/derivatives/afq/``
 #
 # To initialize this object we will pass in the path location to our BIDS
-# compliant data, the name of the preprocessing pipeline we want to use, and
-# the tracking parameters we defined above. We will also specify the
-# visualization backend we want to use (see below for more details).
-# We will also be using plotly to generate an interactive visualization.
-# The value `plotly_no_gif` indicates that interactive visualizations will be
-# generated as html web-pages that can be opened in a browser, but not as
-# static gif files. We set ray_n_cpus=1 to avoid memory issues running this
-# example on servers.
+# compliant data, the name of the preprocessing pipeline we want to use, 
+# the name of the t1 preprocessing pipeline we want to use (in this case,
+# its the same, qsiprep [3]), the participant labels we want to process
+# (in this case, just a single subject), the PVE images we defined above, and
+# the tracking parameters we defined above. We set ray_n_cpus=1 to
+# avoid memory issues running this example on servers.
 
 myafq = GroupAFQ(
-    bids_path=op.join(afd.afq_home, 'stanford_hardi'),
-    preproc_pipeline='vistasoft',
-    t1_pipeline='freesurfer',
+    bids_path=op.join(afd.afq_home, 'HBN'),
+    preproc_pipeline='qsiprep',
+    t1_pipeline='qsiprep',
+    participant_labels=['NDARAA948VFH'],
     pve=pve,
     tracking_params=tracking_params,
-    ray_n_cpus=1,
-    viz_backend_spec='plotly_no_gif')
+    ray_n_cpus=1)
 
 ##########################################################################
-# Calculating DTI FA (Diffusion Tensor Imaging Fractional Anisotropy)
+# Calculating DKI FA (Diffusion Kurtosis Imaging Fractional Anisotropy)
 # ------------------------------------------------------------------
 # The GroupAFQ object has a method called `export`, which allows the user
 # to calculate various derived quantities from the data.
 #
-# For example, FA can be computed using the DTI model, by explicitly
-# calling `myafq.export("dti_fa")`. This triggers the computation of DTI
+# For example, FA can be computed using the DKI model, by explicitly
+# calling `myafq.export("dki_fa")`. This triggers the computation of DKI
 # parameters for all subjects in the dataset, and stores the results in
 # the AFQ derivatives directory. In addition, it calculates the FA
 # from these parameters and stores it in a different file in the same
@@ -140,7 +132,7 @@ myafq = GroupAFQ(
 #
 # .. note::
 #
-#    The AFQ API computes quantities lazily. This means that DTI parameters
+#    The AFQ API computes quantities lazily. This means that DKI parameters
 #    are not computed until they are required. This means that the first
 #    line below is the one that requires time.
 #
@@ -149,7 +141,7 @@ myafq = GroupAFQ(
 # This means that to extract the filename corresponding to the FA of the first
 # subject, we can do:
 
-FA_fname = myafq.export("dti_fa")["01"]
+FA_fname = myafq.export("dki_fa")["NDARAA948VFH"]["HBNsiteRU"]
 
 # We will then use `nibabel` to load the deriviative file and retrieve the
 # data array.
@@ -211,7 +203,7 @@ myafq.export('profiles')
 #    visualization will also all you to pan, zoom, and rotate.
 
 bundle_html = myafq.export("all_bundles_figure")
-plotly.io.show(bundle_html["01"][0])
+plotly.io.show(bundle_html["NDARAA948VFH"]["HBNsiteRU"][0])
 
 ##########################################################################
 # We can also visualize the tract profiles in all of the bundles. These
@@ -220,7 +212,7 @@ plotly.io.show(bundle_html["01"][0])
 # `pip install pyAFQ[plot]` so that you have the necessary dependencies.
 #
 
-fig_files = myafq.export("tract_profile_plots")["01"]
+fig_files = myafq.export("tract_profile_plots")["NDARAA948VFH"]["HBNsiteRU"]
 
 ##########################################################################
 # .. figure:: {{ fig_files[0] }}
@@ -235,7 +227,9 @@ fig_files = myafq.export("tract_profile_plots")["01"]
 # `pip install pyAFQ[plot]` so that you have the necessary dependencies.
 #
 profiles_df = myafq.combine_profiles()
-altair_df = ava.combined_profiles_df_to_altair_df(profiles_df)
+altair_df = ava.combined_profiles_df_to_altair_df(
+    profiles_df,
+    tissue_properties=['dki_fa', 'dki_md'])
 altair_chart = ava.altair_df_to_chart(altair_df)
 altair_chart.display()
 
@@ -244,11 +238,12 @@ altair_chart.display()
 # We can check the number of streamlines per bundle, to make sure
 # every bundle is found with a reasonable amount of streamlines.
 
-bundle_counts = pd.read_csv(myafq.export("sl_counts")["01"], index_col=[0])
+bundle_counts = pd.read_csv(
+    myafq.export("sl_counts")["NDARAA948VFH"]["HBNsiteRU"], index_col=[0])
 for ind in bundle_counts.index:
     if ind == "Total Recognized":
         threshold = 1000
-    elif "Vertical" in ind:
+    elif "Fronto-occipital" in ind or "Orbital" in ind:
         threshold = 5
     else:
         threshold = 15
@@ -256,3 +251,19 @@ for ind in bundle_counts.index:
         raise ValueError((
             "Small number of streamlines found "
             f"for bundle(s):\n{bundle_counts}"))
+
+
+#############################################################################
+# References
+# ----------
+# .. [1] Alexander LM, Escalera J, Ai L, et al. An open resource for
+#     transdiagnostic research in pediatric mental health and learning
+#     disorders. Sci Data. 2017;4:170181.
+#
+# .. [2] Richie-Halford A, Cieslak M, Ai L, et al. An analysis-ready and quality
+#     controlled resource for pediatric brain white-matter research. Scientific
+#     Data. 2022;9(1):1-27.
+#
+# .. [3] Cieslak M, Cook PA, He X, et al. QSIPrep: an integrative platform for
+#     preprocessing and reconstructing diffusion MRI data. Nat Methods.
+#     2021;18(7):775-778.
