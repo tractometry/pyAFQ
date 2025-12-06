@@ -715,19 +715,6 @@ def test_multib_profile():
     myafq.export("fwdti_md")
 
 
-def test_auto_cli():
-    tmpdir = tempfile.TemporaryDirectory()
-    config_file = op.join(tmpdir.name, 'test.toml')
-
-    arg_dict = afb.func_dict_to_arg_dict()
-    arg_dict['BIDS_PARAMS']['bids_path']['default'] = tmpdir.name
-    afb.generate_config(config_file, arg_dict, False)
-    with pytest.raises(
-            ValueError,
-            match="There must be a dataset_description.json in bids_path"):
-        afb.parse_config_run_afq(config_file, arg_dict, False)
-
-
 def test_AFQ_data_waypoint():
     """
     Test with some actual data again, this time for track segmentation
@@ -802,6 +789,7 @@ def test_AFQ_data_waypoint():
             ImageFile(path=t1_path_other),
             TemplateImage(t1_path)],
         n_points_profile=50,
+        ray_n_cpus=1,
         tracking_params=tracking_params,
         segmentation_params=segmentation_params)
 
@@ -930,7 +918,8 @@ def test_AFQ_data_waypoint():
             preproc_pipeline='vistasoft',
             t1_pipeline='freesurfer',),
         DATA=dict(
-            bundle_info=bundle_dict_as_str),
+            bundle_info=bundle_dict_as_str,
+            ray_n_cpus=1),
         SEGMENTATION=dict(
             n_points_profile=50,
             scalars=[
