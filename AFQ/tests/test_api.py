@@ -34,7 +34,9 @@ import AFQ.data.fetch as afd
 import AFQ.utils.streamlines as aus
 import AFQ.utils.bin as afb
 from AFQ.definitions.mapping import SynMap, AffMap, SlrMap, IdentityMap
-from AFQ.definitions.image import ImageFile, ScalarImage, TemplateImage
+from AFQ.definitions.image import (
+    ImageFile, ScalarImage, TemplateImage,
+    LabelledImageFile, PVEImages)
 
 
 def touch(fname, times=None):
@@ -734,6 +736,22 @@ def test_AFQ_data_waypoint():
         bids_path,
         "derivatives/freesurfer/sub-01/ses-01/anat")
 
+    # Prepare PVE
+    seg_file = op.join(
+        freesurfer_folder,
+        "sub-01_ses-01_seg.nii.gz")
+
+    pve = PVEImages(
+        LabelledImageFile(
+            path=seg_file,
+            inclusive_labels=[0]),
+        LabelledImageFile(
+            path=seg_file,
+            exclusive_labels=[0, 1, 2], combine="and"),
+        LabelledImageFile(
+            path=seg_file,
+            inclusive_labels=[1, 2]))
+
     # Prepare LV1 ROI
     lv1_files, lv1_folder = afd.fetch_stanford_hardi_lv1()
     lv1_fname = op.join(
@@ -744,8 +762,6 @@ def test_AFQ_data_waypoint():
         "Right Superior Longitudinal",
         "Left Arcuate",
         "Right Arcuate",
-        "Left Corticospinal",
-        "Right Corticospinal",
         "Forceps Minor"]
     bundle_info = abd.default18_bd()[bundle_names]
 
@@ -788,9 +804,9 @@ def test_AFQ_data_waypoint():
             "dti_lt2",
             ImageFile(path=t1_path_other),
             TemplateImage(t1_path)],
+        pve=pve,
         n_points_profile=50,
         ray_n_cpus=1,
-        numba_n_threads=4,
         tracking_params=tracking_params,
         segmentation_params=segmentation_params)
 
@@ -818,7 +834,7 @@ def test_AFQ_data_waypoint():
     assert op.exists(op.join(
         myafq.export("output_dir"),
         'ROIs',
-        'sub-01_ses-01_space-subject_desc-RightCorticospinalInclude1_mask.json'))  # noqa
+        'sub-01_ses-01_space-subject_desc-RightArcuateInclude1_mask.json'))  # noqa
 
     seg_sft = aus.SegmentedSFT.fromfile(
         myafq.export("bundles"))
@@ -839,7 +855,7 @@ def test_AFQ_data_waypoint():
         meta_dict = json.load(meta_file)
 
     # These are the indices into the full tractogram:
-    cst_indices = meta_dict["tracking_idx"]["Left Corticospinal"]
+    cst_indices = meta_dict["tracking_idx"]["Left Arcuate"]
 
     all_sl = load_tractogram(op.join(
         myafq.export("output_dir"), "tractography",
@@ -852,7 +868,7 @@ def test_AFQ_data_waypoint():
     cst_streamlines = load_tractogram(op.join(
         myafq.export("output_dir"),
         'bundles',
-        'sub-01_ses-01_desc-LeftCorticospinal_tractography.trk'),
+        'sub-01_ses-01_desc-LeftArcuate_tractography.trk'),
         reference="same").streamlines
 
     # Should be identical in all positions if the index is correct:
@@ -907,12 +923,21 @@ def test_AFQ_data_waypoint():
         '"Right Superior Longitudinal",'
         '"Left Arcuate",'
         '"Right Arcuate",'
-        '"Left Corticospinal",'
-        '"Right Corticospinal",'
         '"Forceps Minor"]'
         '+ BundleDict({"LV1": {"start": '
         f'"{lv1_fname}", '
         '"space": "subject"}})')
+    pve_as_str = (
+        'PVEImages('
+        'LabelledImageFile('
+        'suffix="seg", filters={"scope": "freesurfer"},'
+        'inclusive_labels=[0]),'
+        'LabelledImageFile('
+        'suffix="seg", filters={"scope": "freesurfer"},'
+        'exclusive_labels=[0, 1, 2], combine="and"),'
+        'LabelledImageFile('
+        'suffix="seg", filters={"scope": "freesurfer"},'
+        'inclusive_labels=[1, 2]))')
     config = dict(
         BIDS_PARAMS=dict(
             bids_path=bids_path,
@@ -920,8 +945,8 @@ def test_AFQ_data_waypoint():
             t1_pipeline='freesurfer',),
         DATA=dict(
             bundle_info=bundle_dict_as_str,
-            ray_n_cpus=1,
-            numba_n_threads=4),
+            ray_n_cpus=1),
+        TISSUE=dict(pve=pve_as_str),
         SEGMENTATION=dict(
             n_points_profile=50,
             scalars=[
