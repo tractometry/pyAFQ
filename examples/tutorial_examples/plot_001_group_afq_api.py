@@ -106,7 +106,7 @@ pve = afm.PVEImages(
 # its the same, qsiprep [3]), the participant labels we want to process
 # (in this case, just a single subject), the PVE images we defined above, and
 # the tracking parameters we defined above. We set ray_n_cpus=1 and
-# numba_n_threads=4 to
+# numba_n_threads=1 to
 # avoid memory issues running this example on servers.
 
 myafq = GroupAFQ(
