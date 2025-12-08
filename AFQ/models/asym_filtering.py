@@ -136,7 +136,7 @@ def unified_filtering(sh_data, sphere,
         if rel_sigma_range <= 0.0:
             raise ValueError('sigma_rangel cannot be <= 0.')
         sigma_range = rel_sigma_range * _get_sf_range(sh_data, B)
-    logger.info("We made it here")
+
     if low_mem:
         return _unified_filter_call_lowmem(
             sh_data, nx_filter, uv_filter,
