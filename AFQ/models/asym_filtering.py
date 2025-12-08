@@ -133,10 +133,12 @@ def unified_filtering(sh_data, sphere,
         sigma_range = rel_sigma_range * _get_sf_range(sh_data, B)
     logger.info("Here4")
     if low_mem:
+        logger.info("Here4a")
         return _unified_filter_call_lowmem(
             sh_data, nx_filter, uv_filter,
             sigma_range, B, B_inv, sphere)
     else:
+        logger.info("Here4b")
         return _unified_filter_call_python(
             sh_data, nx_filter, uv_filter,
             sigma_range, B, B_inv, sphere)
