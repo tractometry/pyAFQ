@@ -117,7 +117,7 @@ myafq = GroupAFQ(
     pve=pve,
     tracking_params=tracking_params,
     ray_n_cpus=1,
-    low_memory=True)
+    low_memory=False)
 
 ##########################################################################
 # Calculating DKI FA (Diffusion Kurtosis Imaging Fractional Anisotropy)

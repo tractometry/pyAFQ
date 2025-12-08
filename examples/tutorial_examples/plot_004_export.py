@@ -28,15 +28,15 @@ afd.fetch_hbn_preproc(["NDARAA948VFH"])
 
 sub_dir = op.join(afd.afq_home, "HBN", "derivatives", "qsiprep",
                    "sub-NDARAA948VFH")
-dwi_data_file = op.join(sub_dir, "dwi", "ses-HBNsiteRU", (
+dwi_data_file = op.join(sub_dir, "ses-HBNsiteRU", "dwi", (
     "sub-NDARAA948VFH_"
     "ses-HBNsiteRU_"
     "acq-64dir_space-T1w_desc-preproc_dwi.nii.gz"))
-bval_file = op.join(sub_dir, "dwi", "ses-HBNsiteRU", (
+bval_file = op.join(sub_dir, "ses-HBNsiteRU", "dwi", (
     "sub-NDARAA948VFH_"
     "ses-HBNsiteRU_"
     "acq-64dir_space-T1w_desc-preproc_dwi.bval"))
-bvec_file = op.join(sub_dir, "dwi", "ses-HBNsiteRU", (
+bvec_file = op.join(sub_dir, "ses-HBNsiteRU", "dwi", (
     "sub-NDARAA948VFH_"
     "ses-HBNsiteRU_"
     "acq-64dir_space-T1w_desc-preproc_dwi.bvec"))
