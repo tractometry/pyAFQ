@@ -104,17 +104,22 @@ def unified_filtering(sh_data, sphere,
     if n_threads is not None:
         set_num_threads(n_threads)
 
+    if low_mem:
+        sh_data = np.ascontiguousarray(sh_data, dtype=np.float32)
+        sphere.vertices = sphere.vertices.astype(np.float32)
+    else:
+        sphere.vertices = sphere.vertices.astype(np.float64)
+
     sh_order, full_basis = _get_sh_order_and_fullness(sh_data.shape[-1])
 
     # build filters
-    logger.info("Here1")
+    config.THREADING_LAYER = "workqueue"
     uv_filter = _unified_filter_build_uv(sigma_angle,
-                                         sphere.vertices.astype(np.float64))
-    logger.info("Here2")
-    nx_filter = _unified_filter_build_nx(sphere.vertices.astype(np.float64),
+                                         sphere.vertices)
+    nx_filter = _unified_filter_build_nx(sphere.vertices,
                                          sigma_spatial, sigma_align,
                                          False, False)
-    logger.info("Here3")
+
     B = sh_to_sf_matrix(
         sphere, sh_order_max=sh_order,
         basis_type=sh_basis, full_basis=full_basis,
@@ -131,14 +136,12 @@ def unified_filtering(sh_data, sphere,
         if rel_sigma_range <= 0.0:
             raise ValueError('sigma_rangel cannot be <= 0.')
         sigma_range = rel_sigma_range * _get_sf_range(sh_data, B)
-    logger.info("Here4")
+    logger.info("We made it here")
     if low_mem:
-        logger.info("Here4a")
         return _unified_filter_call_lowmem(
             sh_data, nx_filter, uv_filter,
             sigma_range, B, B_inv, sphere)
     else:
-        logger.info("Here4b")
         return _unified_filter_call_python(
             sh_data, nx_filter, uv_filter,
             sigma_range, B, B_inv, sphere)
@@ -171,7 +174,7 @@ def _unified_filter_build_uv(sigma_angle, directions):
         weights[mask] = 0.0
         weights /= np.sum(weights, axis=-1)
     else:
-        weights = np.eye(len(directions))
+        weights = np.eye(len(directions), dtype=np.float32)
     return weights
 
 
@@ -386,12 +389,10 @@ def _unified_filter_call_lowmem(sh_data, nx_filter, uv_filter, sigma_range,
     """
     Low-memory version of the filtering function.
     """
-    logger.info("Here5")
     nb_sf = len(sphere.vertices)
-    mean_sf = np.zeros(sh_data.shape[:-1] + (nb_sf,))
-    sh_data = np.ascontiguousarray(sh_data, dtype=np.float64)
-    B_mat = np.ascontiguousarray(B_mat, dtype=np.float64)
-    logger.info("Here6")
+    mean_sf = np.zeros(sh_data.shape[:-1] + (nb_sf,), dtype=np.float32)
+    sh_data = np.ascontiguousarray(sh_data, dtype=np.float32)
+    B_mat = np.ascontiguousarray(B_mat, dtype=np.float32)
 
     config.THREADING_LAYER = "workqueue"
 
@@ -399,9 +400,8 @@ def _unified_filter_call_lowmem(sh_data, nx_filter, uv_filter, sigma_range,
         mean_sf[..., u_sph_id] = _correlate_low_mem(sh_data,
                                             nx_filter, uv_filter,
                                             sigma_range, u_sph_id, B_mat)
-    logger.info("Here7")
     out_sh = np.array([np.dot(i, B_inv) for i in mean_sf],
-                      dtype=sh_data.dtype)
+                      dtype=np.float32)
     return out_sh
 
 
