@@ -106,8 +106,8 @@ pve = afm.PVEImages(
 # its the same, qsiprep [3]), the participant labels we want to process
 # (in this case, just a single subject), the PVE images we defined above, and
 # the tracking parameters we defined above. We set ray_n_cpus=1 and
-# numba_n_threads=1 to
-# avoid memory issues running this example on servers.
+# low_memory=True to avoid memory issues running this example on
+# Github actions. In most other cases, these should not be necessary.
 
 myafq = GroupAFQ(
     bids_path=op.join(afd.afq_home, 'HBN'),
@@ -117,7 +117,7 @@ myafq = GroupAFQ(
     pve=pve,
     tracking_params=tracking_params,
     ray_n_cpus=1,
-    numba_n_threads=1)
+    low_memory=True)
 
 ##########################################################################
 # Calculating DKI FA (Diffusion Kurtosis Imaging Fractional Anisotropy)

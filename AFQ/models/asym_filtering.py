@@ -40,7 +40,7 @@ def unified_filtering(sh_data, sphere,
                       sh_basis='descoteaux07', is_legacy=False,
                       sigma_spatial=1.0, sigma_align=0.8,
                       sigma_angle=None, rel_sigma_range=0.2,
-                      n_threads=None):
+                      n_threads=None, low_mem=False):
     """
     Unified asymmetric filtering as described in [1].
 
@@ -73,6 +73,10 @@ def unified_filtering(sh_data, sphere,
         Number of threads to use for numba. If None, uses
         the number of available threads.
         Default: None.
+    low_mem: bool
+        Whether to use the low-memory version of the filtering.
+        It will be between 50% and 100% slower.
+        Default: False.
 
     References
     ----------
@@ -104,10 +108,14 @@ def unified_filtering(sh_data, sphere,
     nx_filter = _unified_filter_build_nx(sphere.vertices.astype(np.float64),
                                          sigma_spatial, sigma_align,
                                          False, False)
-    B = sh_to_sf_matrix(sphere, sh_order, sh_basis, full_basis,
-                        legacy=is_legacy, return_inv=False)
-    _, B_inv = sh_to_sf_matrix(sphere, sh_order, sh_basis, True,
-                               legacy=is_legacy, return_inv=True)
+    B = sh_to_sf_matrix(
+        sphere, sh_order_max=sh_order,
+        basis_type=sh_basis, full_basis=full_basis,
+        legacy=is_legacy, return_inv=False)
+    _, B_inv = sh_to_sf_matrix(
+        sphere, sh_order_max=sh_order,
+        basis_type=sh_basis, full_basis=True,
+        legacy=is_legacy, return_inv=True)
 
     # compute "real" sigma_range scaled by sf amplitudes
     # if rel_sigma_range is supplied
@@ -117,9 +125,14 @@ def unified_filtering(sh_data, sphere,
             raise ValueError('sigma_rangel cannot be <= 0.')
         sigma_range = rel_sigma_range * _get_sf_range(sh_data, B)
 
-    return _unified_filter_call_python(
-        sh_data, nx_filter, uv_filter,
-        sigma_range, B, B_inv, sphere)
+    if low_mem:
+        return _unified_filter_call_lowmem(
+            sh_data, nx_filter, uv_filter,
+            sigma_range, B, B_inv, sphere)
+    else:
+        return _unified_filter_call_python(
+            sh_data, nx_filter, uv_filter,
+            sigma_range, B, B_inv, sphere)
 
 
 @njit(fastmath=True, cache=True)
@@ -294,7 +307,7 @@ def _correlate(sh_data, sh_data_padded, nx_filter, uv_filter,
     ----------
     sh_data: ndarray
         Input SH coefficients.
-    sh_data: ndarray
+    sh_data_padded: ndarray
         Input SH coefficients, pre-padded.
     nx_filter: ndarray
         Combined spatial and alignment filter.
@@ -355,6 +368,115 @@ def _correlate(sh_data, sh_data_padded, nx_filter, uv_filter,
                 out_sf[ii, jj, kk] = np.sum(
                     sf_v[ii:ii + h_w, jj:jj + h_h, kk:kk + h_d] * res_filter)
                 out_sf[ii, jj, kk] /= np.sum(res_filter)
+
+    return out_sf
+
+
+def _unified_filter_call_lowmem(sh_data, nx_filter, uv_filter, sigma_range,
+                                B_mat, B_inv, sphere):
+    """
+    Low-memory version of the filtering function.
+    """
+    nb_sf = len(sphere.vertices)
+    mean_sf = np.zeros(sh_data.shape[:-1] + (nb_sf,))
+    sh_data = np.ascontiguousarray(sh_data, dtype=np.float64)
+    B_mat = np.ascontiguousarray(B_mat, dtype=np.float64)
+
+    config.THREADING_LAYER = "workqueue"
+
+    for u_sph_id in tqdm(range(nb_sf)):
+        mean_sf[..., u_sph_id] = _correlate_low_mem(sh_data,
+                                            nx_filter, uv_filter,
+                                            sigma_range, u_sph_id, B_mat)
+
+    out_sh = np.array([np.dot(i, B_inv) for i in mean_sf],
+                      dtype=sh_data.dtype)
+    return out_sh
+
+
+@njit(fastmath=True, parallel=True)
+def _correlate_low_mem(
+    sh_data, nx_filter, uv_filter,
+    sigma_range, u_index, B_mat):
+    """
+    Low-memory version of the correlate function.
+    """
+    v_indices = np.flatnonzero(uv_filter[u_index])
+    n_v = v_indices.shape[0]
+
+    h_w = nx_filter.shape[0]
+    h_h = nx_filter.shape[1]
+    h_d = nx_filter.shape[2]
+    half_w = h_w // 2
+    half_h = h_h // 2
+    half_d = h_d // 2
+    nx_filter_u = nx_filter[:, :, :, u_index]
+
+    X = sh_data.shape[0]
+    Y = sh_data.shape[1]
+    Z = sh_data.shape[2]
+    C = sh_data.shape[3]
+    out_sf = np.zeros((X, Y, Z))
+
+    uv_filter_u = np.empty(n_v)
+    for vi in range(n_v):
+        uv_filter_u[vi] = uv_filter[u_index, v_indices[vi]]
+
+    B_u = np.empty(C)
+    for c in range(C):
+        B_u[c] = B_mat[c, u_index]
+
+    B_v = np.empty((C, n_v))
+    for vi in range(n_v):
+        v_idx = v_indices[vi]
+        for c in range(C):
+            B_v[c, vi] = B_mat[c, v_idx]
+
+    use_range = sigma_range is not None
+
+    for ii in prange(X):
+        for jj in range(Y):
+            for kk in range(Z):
+                sf_u_center = 0.0
+                for c in range(C):
+                    sf_u_center += sh_data[ii, jj, kk, c] * B_u[c]
+
+                num = 0.0
+                den = 0.0
+
+                for wx in range(h_w):
+                    i2 = ii + wx - half_w
+                    for wy in range(h_h):
+                        j2 = jj + wy - half_h
+                        for wz in range(h_d):
+                            k2 = kk + wz - half_d
+                            if i2 < 0 or i2 >= X or j2 < 0 or j2 >= Y or k2 < 0 or k2 >= Z:
+                                continue
+
+                            base_nx = nx_filter_u[wx, wy, wz]
+                            if base_nx == 0.0:
+                                continue
+
+                            for vi in range(n_v):
+                                sf_v_val = 0.0
+                                for c in range(C):
+                                    sf_v_val += sh_data[i2, j2, k2, c] * B_v[c, vi]
+
+                                if use_range:
+                                    x = sf_v_val - sf_u_center
+                                    x_norm = x / sigma_range
+                                    range_w = np.exp(-0.5 * x_norm * x_norm)
+                                else:
+                                    range_w = 1.0
+
+                                w = base_nx * uv_filter_u[vi] * range_w
+                                num += sf_v_val * w
+                                den += w
+
+                if den > 0.0:
+                    out_sf[ii, jj, kk] = num / den
+                else:
+                    out_sf[ii, jj, kk] = 0.0
 
     return out_sf
 

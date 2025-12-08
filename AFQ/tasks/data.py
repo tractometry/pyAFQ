@@ -88,11 +88,14 @@ def get_data_gtab(dwi_data_file, bval_file, bvec_file, min_bval=-np.inf,
     return data, gtab, img, img.affine
 
 
-@immlib.calc("n_cpus", "n_threads")
-def configure_ncpus_nthreads(ray_n_cpus=None, numba_n_threads=None):
+@immlib.calc("n_cpus", "n_threads", "low_mem")
+def configure_ncpus_nthreads(ray_n_cpus=None, numba_n_threads=None,
+                             low_memory=False):
     """
     Configure the number of CPUs to use for parallel processing with Ray,
-    the number of threads to use for Numba
+    the number of threads to use for Numba,
+    and whether to use low-memory versions of algorithms
+    where available
 
     Parameters
     ----------
@@ -107,6 +110,10 @@ def configure_ncpus_nthreads(ray_n_cpus=None, numba_n_threads=None):
         but with a maximum of 16.
         ASYM fit uses Numba.
         Default: None
+    low_memory : bool, optional
+        Whether to use low-memory versions of algorithms
+        where available.
+        Default: False
     """
     if ray_n_cpus is None:
         ray_n_cpus = max(multiprocessing.cpu_count() - 1, 1)
@@ -114,7 +121,7 @@ def configure_ncpus_nthreads(ray_n_cpus=None, numba_n_threads=None):
         numba_n_threads = min(
             max(multiprocessing.cpu_count() - 1, 1), 16)
 
-    return ray_n_cpus, numba_n_threads
+    return ray_n_cpus, numba_n_threads, low_memory
 
 
 @immlib.calc("b0")
@@ -407,7 +414,7 @@ def csd_params(dwi, brain_mask, gtab, data,
 @as_file(suffix='_model-csd_param-aodf_dwimap.nii.gz',
          subfolder="models")
 @as_img
-def csd_aodf(csd_params, n_threads):
+def csd_aodf(csd_params, n_threads, low_mem):
     """
     full path to a nifti file containing
     SSST CSD ODFs filtered by unified filtering [1]
@@ -424,7 +431,8 @@ def csd_aodf(csd_params, n_threads):
     aodf = unified_filtering(
         sh_coeff,
         get_sphere(name="repulsion724"),
-        n_threads=n_threads)
+        n_threads=n_threads,
+        low_mem=low_mem)
 
     return aodf, dict(
         CSDParamsFile=csd_params,

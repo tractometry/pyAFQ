@@ -258,6 +258,7 @@ def clean_bundle(tg, n_points=100, clean_rounds=5, distance_threshold=3,
 
 
 def clean_by_isolation_forest(tg, n_points=100, distance_threshold=3,
+                              length_threshold=4,
                               n_rounds=5, min_sl=20, n_jobs=None,
                               random_state=None):
     """
@@ -279,6 +280,11 @@ def clean_by_isolation_forest(tg, n_points=100, distance_threshold=3,
         Streamlines with average node anamoly score below this many
         s.d. of average node anaomly score are removed.
         Default: 3
+    length_threshold: float, optional
+        Threshold for cleaning based on length (in standard deviations).
+        Length of any streamline should not be *more* than this number of
+        stdevs from the mean length.
+        Default: 4.
     n_rounds : int, optional.
         Number of rounds of cleaning based on Isolation Forest.
         Default: 5
@@ -317,6 +323,7 @@ def clean_by_isolation_forest(tg, n_points=100, distance_threshold=3,
         fgarray.reshape((-1, n_points, 3)),
         fgarray_dists.reshape((-1, n_points, 3))),
         axis=1)
+    lengths = np.array([sl.shape[0] for sl in streamlines])
     idx = np.arange(len(fgarray))
 
     rounds_elapsed = 0
@@ -335,9 +342,19 @@ def clean_by_isolation_forest(tg, n_points=100, distance_threshold=3,
             f"Mean outlier: {mean_outlier}, "
             f"SD outlier: {sd_outlier}, "))
 
-        idx_belong = sl_outliers > mean_outlier - \
+        length_z = zscore(lengths)
+        logger.debug(f"Shape of length_z: {length_z.shape}")
+        logger.debug(f"Maximum length_z: {np.max(length_z)}")
+        logger.debug((
+            "length_z for each fiber: "
+            f"{length_z}"))
+        idx_len = length_z < length_threshold
+
+        idx_dist = sl_outliers > mean_outlier - \
             distance_threshold * sd_outlier
         
+        idx_belong = np.logical_and(idx_dist, idx_len)
+
         if len(idx_belong) == len(idx):
             break
 

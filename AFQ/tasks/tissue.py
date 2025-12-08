@@ -213,7 +213,8 @@ def msmt_aodf(msmtcsd_params, data_imap):
     aodf = unified_filtering(
         sh_coeff,
         get_sphere(name="repulsion724"),
-        n_threads=data_imap["n_threads"])
+        n_threads=data_imap["n_threads"],
+        low_mem=data_imap["low_mem"])
 
     return aodf, dict(
         MSMTCSDParamsFile=msmtcsd_params,
