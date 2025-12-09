@@ -371,12 +371,12 @@ def viz_import_msg_error(module):
         msg = "To make plots in pyAFQ, you will need to install "
         msg += "the relevant plotting software packages."
         msg += "You can do that by installing pyAFQ with "
-        msg += "`pip install AFQ[plot]`"
+        msg += "`pip install pyAFQ[plot]`"
     else:
         msg = f"To use {module.upper()} visualizations in pyAFQ, you will "
         msg += f"need to have {module.upper()} installed. "
         msg += "You can do that by installing pyAFQ with "
-        msg += f"`pip install AFQ[{module.lower()}]`, or by "
+        msg += f"`pip install pyAFQ[{module.lower()}]`, or by "
         msg += f"separately installing {module.upper()}: "
         msg += f"`pip install {module.lower()}`."
     return msg
