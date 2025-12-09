@@ -111,8 +111,8 @@ pve = afm.PVEImages(
 
 myafq = GroupAFQ(
     bids_path=op.join(afd.afq_home, 'HBN'),
-    preproc_pipeline='qsiprep',
-    t1_pipeline='qsiprep',
+    dwi_preproc_pipeline='qsiprep',
+    t1_preproc_pipeline='qsiprep',
     participant_labels=['NDARAA948VFH'],
     pve=pve,
     tracking_params=tracking_params,

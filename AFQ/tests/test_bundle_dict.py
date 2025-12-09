@@ -10,7 +10,7 @@ def test_AFQ_custom_bundle_dict():
     bundle_dict = abd.default18_bd()
     GroupAFQ(
         bids_path,
-        preproc_pipeline="synthetic",
+        dwi_preproc_pipeline="synthetic",
         bundle_info=bundle_dict)
 
 

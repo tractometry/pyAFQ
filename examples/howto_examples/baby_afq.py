@@ -80,7 +80,7 @@ with zipfile.ZipFile(baby_zip, 'r') as zip_ref:
 # A few special things to note here:
 #
 # 1. The data were preprocessed using the `vistasoft` pipeline, so we set
-#    `preproc_pipeline = "vistasoft"`.
+#    `dwi_preproc_pipeline = "vistasoft"`.
 # 2. We use the UNC neonatal template, which can be read on a call to the
 #    `read_pediatric_templates` function in `AFQ.data.fetch`.
 # 3. We use the `baby_bd` to define the bundles that we want to
@@ -93,7 +93,7 @@ with zipfile.ZipFile(baby_zip, 'r') as zip_ref:
 myafq = GroupAFQ(
     bids_path=op.join(op.expanduser('~'),
                       "AFQ_data/baby_example/example_bids_subject"),
-    preproc_pipeline="vistasoft",
+    dwi_preproc_pipeline="vistasoft",
     reg_template_spec=afd.read_pediatric_templates(
     )["UNCNeo-withCerebellum-for-babyAFQ"],
     reg_subject_spec="b0",

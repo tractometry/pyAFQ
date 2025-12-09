@@ -220,7 +220,7 @@ def test_AFQ_missing_files():
             ValueError,
             match="No non-json files recognized by pyBIDS"
             + " in the pipeline: missingPipe"):
-        GroupAFQ(bids_path, preproc_pipeline="missingPipe")
+        GroupAFQ(bids_path, dwi_preproc_pipeline="missingPipe")
 
     os.mkdir(op.join(bids_path, "missingPipe"))
     afd.to_bids_description(
@@ -232,7 +232,7 @@ def test_AFQ_missing_files():
             ValueError,
             match="No non-json files recognized by pyBIDS"
             + " in the pipeline: missingPipe"):
-        GroupAFQ(bids_path, preproc_pipeline="missingPipe")
+        GroupAFQ(bids_path, dwi_preproc_pipeline="missingPipe")
 
 
 @pytest.mark.nightly_custom
@@ -267,8 +267,8 @@ def test_AFQ_custom_tract():
     )
     myafq = GroupAFQ(
         bids_path,
-        preproc_pipeline='vistasoft',
-        t1_pipeline='freesurfer',
+        dwi_preproc_pipeline='vistasoft',
+        t1_preproc_pipeline='freesurfer',
         bundle_info=bundle_info,
         import_tract={
             "suffix": "tractography",
@@ -291,7 +291,7 @@ def test_AFQ_no_derivs():
             match=f"No non-json files recognized by pyBIDS in {bids_path}"):
         GroupAFQ(
             bids_path,
-            preproc_pipeline="synthetic")
+            dwi_preproc_pipeline="synthetic")
 
 
 @pytest.mark.nightly_custom
@@ -303,8 +303,8 @@ def test_AFQ_fury():
 
     myafq = GroupAFQ(
         bids_path=bids_path,
-        preproc_pipeline='vistasoft',
-        t1_pipeline='freesurfer',
+        dwi_preproc_pipeline='vistasoft',
+        t1_preproc_pipeline='freesurfer',
         tracking_params={"n_seeds": 250000},
         viz_backend_spec="fury")
     myafq.export("all_bundles_figure")
@@ -318,8 +318,8 @@ def test_AFQ_trx():
 
     myafq = GroupAFQ(
         bids_path=bids_path,
-        preproc_pipeline='vistasoft',
-        t1_pipeline='freesurfer',
+        dwi_preproc_pipeline='vistasoft',
+        t1_preproc_pipeline='freesurfer',
         # should throw warning but not error
         scalars=["dti_fa", "dti_md", ImageFile(suffix="DNE")],
         tracking_params={"trx": True, "n_seeds": 250000})
@@ -354,12 +354,12 @@ def test_AFQ_init():
                         + " See above warnings."):
                     myafq = GroupAFQ(
                         bids_path,
-                        preproc_pipeline="synthetic",
+                        dwi_preproc_pipeline="synthetic",
                         participant_labels=participant_labels)
             else:
                 myafq = GroupAFQ(
                     bids_path,
-                    preproc_pipeline="synthetic",
+                    dwi_preproc_pipeline="synthetic",
                     participant_labels=participant_labels)
                 myafq.export("dwi")
 
@@ -374,8 +374,8 @@ def test_AFQ_data():
     for mapping in [SynMap(use_prealign=False), AffMap()]:
         myafq = GroupAFQ(
             bids_path=bids_path,
-            preproc_pipeline='vistasoft',
-            t1_pipeline='freesurfer',
+            dwi_preproc_pipeline='vistasoft',
+            t1_preproc_pipeline='freesurfer',
             mapping_definition=mapping)
         npt.assert_equal(nib.load(myafq.export("b0")["01"]).shape,
                          myafq.export("dwi")["01"].shape[:3])
@@ -396,8 +396,8 @@ def test_AFQ_anisotropic():
     _, bids_path, _ = get_temp_hardi()
     myafq = GroupAFQ(
         bids_path=bids_path,
-        preproc_pipeline='vistasoft',
-        t1_pipeline='freesurfer',
+        dwi_preproc_pipeline='vistasoft',
+        t1_preproc_pipeline='freesurfer',
         min_bval=1990,
         max_bval=2010,
         b0_threshold=50,
@@ -450,8 +450,8 @@ def test_API_type_checking():
         try:
             myafq = GroupAFQ(
                 bids_path,
-                preproc_pipeline='vistasoft',
-                t1_pipeline='freesurfer',
+                dwi_preproc_pipeline='vistasoft',
+                t1_preproc_pipeline='freesurfer',
                 import_tract=["dwi"])
             myafq.export("streamlines")
         except LazyError as e:
@@ -465,8 +465,8 @@ def test_API_type_checking():
             match=r"No file found with these parameters:\n*"):
         myafq = GroupAFQ(
             bids_path,
-            preproc_pipeline='vistasoft',
-            t1_pipeline='freesurfer',
+            dwi_preproc_pipeline='vistasoft',
+            t1_preproc_pipeline='freesurfer',
             tracking_params=dict(
                 seed_mask=ImageFile(
                     suffix='dne_dne',
@@ -480,8 +480,8 @@ def test_API_type_checking():
                 " a dict, or a BundleDict")):
         myafq = GroupAFQ(
             bids_path,
-            preproc_pipeline='vistasoft',
-            t1_pipeline='freesurfer',
+            dwi_preproc_pipeline='vistasoft',
+            t1_preproc_pipeline='freesurfer',
             bundle_info=[2, 3])
         try:
             myafq.export("bundle_dict")
@@ -497,8 +497,8 @@ def test_API_type_checking():
                 "Fatal: No bundles recognized.")):
         myafq = GroupAFQ(
             bids_path,
-            preproc_pipeline='vistasoft',
-            t1_pipeline='freesurfer',
+            dwi_preproc_pipeline='vistasoft',
+            t1_preproc_pipeline='freesurfer',
             mapping_definition=IdentityMap(),
             reg_subject_spec="dti_fa_subject",
             tracking_params={
@@ -522,8 +522,8 @@ def test_API_type_checking():
             match="viz_backend_spec must contain either 'fury' or 'plotly'"):
         myafq = GroupAFQ(
             bids_path,
-            preproc_pipeline='vistasoft',
-            t1_pipeline='freesurfer',
+            dwi_preproc_pipeline='vistasoft',
+            t1_preproc_pipeline='freesurfer',
             viz_backend_spec="matplotlib")
         try:
             myafq.export("viz_backend")
@@ -551,8 +551,8 @@ def test_AFQ_slr():
 
     myafq = GroupAFQ(
         bids_path=bids_path,
-        preproc_pipeline='vistasoft',
-        t1_pipeline='freesurfer',
+        dwi_preproc_pipeline='vistasoft',
+        t1_preproc_pipeline='freesurfer',
         reg_subject_spec='subject_sls',
         reg_template_spec='hcp_atlas',
         import_tract=op.join(
@@ -581,8 +581,8 @@ def test_AFQ_reco():
     _, bids_path, _ = get_temp_hardi()
     myafq = GroupAFQ(
         bids_path=bids_path,
-        preproc_pipeline='vistasoft',
-        t1_pipeline='freesurfer',
+        dwi_preproc_pipeline='vistasoft',
+        t1_preproc_pipeline='freesurfer',
         viz_backend_spec="plotly",
         profile_weights="median",
         bundle_info=abd.reco_bd(16),
@@ -611,8 +611,8 @@ def test_AFQ_reco80():
 
     myafq = GroupAFQ(
         bids_path=bids_path,
-        preproc_pipeline='vistasoft',
-        t1_pipeline='freesurfer',
+        dwi_preproc_pipeline='vistasoft',
+        t1_preproc_pipeline='freesurfer',
         tracking_params=tracking_params,
         bundle_info=abd.reco_bd(16),
         segmentation_params={
@@ -631,7 +631,7 @@ def test_AFQ_pydra():
         bids_path,
         output_dir=op.join(bids_path, 'derivatives', 'pydra_afq'),
         participant_labels=participants,
-        preproc_pipeline="qsiprep")
+        dwi_preproc_pipeline="qsiprep")
     pga.export("dti_fa")
     pga.export("wm_gm_interface")
 
@@ -640,8 +640,8 @@ def test_AFQ_filterb():
     _, bids_path, _ = get_temp_hardi()
     myafq = GroupAFQ(
         bids_path=bids_path,
-        preproc_pipeline='vistasoft',
-        t1_pipeline='freesurfer',
+        dwi_preproc_pipeline='vistasoft',
+        t1_preproc_pipeline='freesurfer',
         max_bval=1000)
     myafq.export("b0")
 
@@ -665,8 +665,8 @@ def test_AFQ_custom_subject_reg():
 
     b0_file = GroupAFQ(
         bids_path,
-        preproc_pipeline='vistasoft',
-        t1_pipeline='freesurfer',
+        dwi_preproc_pipeline='vistasoft',
+        t1_preproc_pipeline='freesurfer',
         bundle_info=bundle_info).export("b0")["01"]
 
     # make a different temporary directly to test this custom file in
@@ -676,8 +676,8 @@ def test_AFQ_custom_subject_reg():
 
     myafq = GroupAFQ(
         bids_path,
-        preproc_pipeline='vistasoft',
-        t1_pipeline='freesurfer',
+        dwi_preproc_pipeline='vistasoft',
+        t1_preproc_pipeline='freesurfer',
         bundle_info=bundle_info,
         reg_template_spec="mni_T2",
         reg_subject_spec=ImageFile(
@@ -695,8 +695,8 @@ def test_AFQ_FA():
     _, bids_path, _ = get_temp_hardi()
     myafq = GroupAFQ(
         bids_path=bids_path,
-        preproc_pipeline='vistasoft',
-        t1_pipeline='freesurfer',
+        dwi_preproc_pipeline='vistasoft',
+        t1_preproc_pipeline='freesurfer',
         reg_template_spec='dti_fa_template',
         reg_subject_spec='dti_fa_subject')
     myafq.export("rois")
@@ -710,7 +710,7 @@ def test_multib_profile():
     tmpdir = tempfile.TemporaryDirectory()
     afd.organize_cfin_data(path=tmpdir.name)
     myafq = GroupAFQ(bids_path=op.join(tmpdir.name, 'cfin_multib'),
-                    preproc_pipeline='dipy')
+                    dwi_preproc_pipeline='dipy')
     myafq.export("dki_fa")
     myafq.export("dki_md")
     myafq.export("fwdti_fa")
@@ -946,8 +946,8 @@ def test_AFQ_data_waypoint():
     config = dict(
         BIDS_PARAMS=dict(
             bids_path=bids_path,
-            preproc_pipeline='vistasoft',
-            t1_pipeline='freesurfer',),
+            dwi_preproc_pipeline='vistasoft',
+            t1_preproc_pipeline='freesurfer',),
         DATA=dict(
             bundle_info=bundle_dict_as_str,
             ray_n_cpus=1),

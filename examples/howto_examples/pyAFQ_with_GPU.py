@@ -39,8 +39,8 @@ tracking_params = dict(n_seeds=1000000,
 # That's it!
 myafq = GroupAFQ(
     bids_path=op.join(afd.afq_home, 'stanford_hardi'),
-    preproc_pipeline='vistasoft',
-    t1_pipeline='freesurfer',
+    dwi_preproc_pipeline='vistasoft',
+    t1_preproc_pipeline='freesurfer',
     tracking_params=tracking_params,
     tractography_ngpus=1)
 

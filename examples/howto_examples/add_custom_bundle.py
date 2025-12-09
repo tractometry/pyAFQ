@@ -169,7 +169,7 @@ bundles = abd.BundleDict({
 
 my_afq = GroupAFQ(
     bids_path=study_dir,
-    preproc_pipeline="qsiprep",
+    dwi_preproc_pipeline="qsiprep",
     output_dir=op.join(study_dir, "derivatives", "afq_slf"),
     tracking_params={"n_seeds": 200000,
                      "directions": "pft",

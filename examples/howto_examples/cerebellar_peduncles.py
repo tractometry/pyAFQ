@@ -57,7 +57,7 @@ seed region. We seed extensively in the ROIs that define the CPs.
 cp_afq = GroupAFQ(
     name="cp_afq",
     bids_path=bids_path,
-    preproc_pipeline="qsiprep",
+    dwi_preproc_pipeline="qsiprep",
     tracking_params={
         "n_seeds": 4,
         "directions": "prob",

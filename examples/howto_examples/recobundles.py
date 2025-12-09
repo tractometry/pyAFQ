@@ -41,8 +41,8 @@ myafq = GroupAFQ(
     bids_path=op.join(afd.afq_home, 'stanford_hardi'),
     # Set the algorithm to use RecoBundles for bundle recognition:
     bundle_info=abd.reco_bd(16),
-    preproc_pipeline='vistasoft',
-    t1_pipeline='freesurfer',
+    dwi_preproc_pipeline='vistasoft',
+    t1_preproc_pipeline='freesurfer',
     tracking_params=tracking_params,
     viz_backend_spec='plotly_no_gif')
 

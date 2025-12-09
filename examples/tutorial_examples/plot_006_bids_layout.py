@@ -259,8 +259,8 @@ bundle_info = abd.default18_bd()[
 
 my_afq = GroupAFQ(
     bids_path,
-    preproc_pipeline='vistasoft',
-    t1_pipeline='freesurfer',
+    dwi_preproc_pipeline='vistasoft',
+    t1_preproc_pipeline='freesurfer',
     bundle_info=bundle_info,
     import_tract={
         "suffix": "tractography",

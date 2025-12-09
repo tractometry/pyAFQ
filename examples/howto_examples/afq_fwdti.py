@@ -58,7 +58,7 @@ bundle_dict = abd.default18_bd()[bundle_names]
 
 myafq = GroupAFQ(
     bids_path=study_dir,
-    preproc_pipeline='qsiprep',
+    dwi_preproc_pipeline='qsiprep',
     output_dir=op.join(study_dir, "derivatives", "afq_fwdti"),
     bundle_info=bundle_dict,
     tracking_params={

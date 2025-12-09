@@ -88,7 +88,7 @@ bundles = abd.OR_bd()
 
 my_afq = GroupAFQ(
     bids_path=study_dir,
-    preproc_pipeline="qsiprep",
+    dwi_preproc_pipeline="qsiprep",
     participant_labels=["NDARAA948VFH"],
     output_dir=op.join(study_dir, "derivatives", "afq_or"),
     tracking_params={"n_seeds": 4,

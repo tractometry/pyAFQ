@@ -78,8 +78,8 @@ class GroupAFQ(object):
     def __init__(self,
                  bids_path,
                  bids_filters={"suffix": "dwi"},
-                 preproc_pipeline="all",
-                 t1_pipeline=None,
+                 dwi_preproc_pipeline="all",
+                 t1_preproc_pipeline=None,
                  participant_labels=None,
                  output_dir=None,
                  parallel_params={"engine": "serial"},
@@ -97,12 +97,12 @@ class GroupAFQ(object):
         bids_filters : dict
             Filter to pass to bids_layout.get when finding DWI files.
             Default: {"suffix": "dwi"}
-        preproc_pipeline : str, optional.
+        dwi_preproc_pipeline : str, optional.
             The name of the pipeline used to preprocess the DWI data.
             Default: "all".
-        t1_pipeline : str or None, optional
+        t1_preproc_pipeline : str or None, optional
             The name of the pipeline used to preprocess the T1w data.
-            If None, defaults to the same as preproc_pipeline.
+            If None, defaults to the same as dwi_preproc_pipeline.
             Default: None
         participant_labels : list or None, optional
             List of participant labels (subject IDs) to perform
@@ -149,9 +149,9 @@ class GroupAFQ(object):
                              + " in bids_path")
         if not isinstance(bids_filters, dict):
             raise TypeError("bids_filters must be a dict")
-        # preproc_pipeline typechecking handled by pyBIDS
-        if t1_pipeline is None:
-            t1_pipeline = preproc_pipeline
+        # dwi_preproc_pipeline typechecking handled by pyBIDS
+        if t1_preproc_pipeline is None:
+            t1_preproc_pipeline = dwi_preproc_pipeline
         if participant_labels is not None\
                 and not isinstance(participant_labels, list):
             raise TypeError(
@@ -199,13 +199,13 @@ class GroupAFQ(object):
                 - len(bids_layout.get(extension="json")) < 1:
             raise ValueError(
                 f"No non-json files recognized by pyBIDS in {bids_path}")
-        if len(bids_layout.get(scope=preproc_pipeline))\
+        if len(bids_layout.get(scope=dwi_preproc_pipeline))\
                 - len(bids_layout.get(
-                    scope=preproc_pipeline,
+                    scope=dwi_preproc_pipeline,
                     extension="json")) < 1:
             raise ValueError((
                 f"No non-json files recognized by "
-                f"pyBIDS in the pipeline: {preproc_pipeline}"))
+                f"pyBIDS in the pipeline: {dwi_preproc_pipeline}"))
 
         # Add required metadata file at top level (inheriting as needed):
         pipeline_description = {
@@ -287,7 +287,7 @@ class GroupAFQ(object):
                     "subject": subject,
                     "session": session,
                     "return_type": "filename",
-                    "scope": preproc_pipeline,
+                    "scope": dwi_preproc_pipeline,
                     "extension": "nii.gz",
                     "suffix": "dwi",
                 }
@@ -308,7 +308,7 @@ class GroupAFQ(object):
                 # files. Maintain input ``bids_filters`` in case user wants to
                 # specify acquisition labels, but pop suffix since it is
                 # already specified inside ``get_bvec()`` and ``get_bval()``
-                nearby_filters = {**bids_filters, "scope": preproc_pipeline}
+                nearby_filters = {**bids_filters, "scope": dwi_preproc_pipeline}
                 nearby_filters.pop("suffix", None)
                 bvec_file = bids_layout.get_bvec(
                     dwi_data_file,
@@ -317,7 +317,7 @@ class GroupAFQ(object):
                     dwi_data_file,
                     **nearby_filters)
                 nearby_filters.pop("scope", None)
-                nearby_filters["scope"] = t1_pipeline
+                nearby_filters["scope"] = t1_preproc_pipeline
                 t1_file = find_file(
                     bids_layout, dwi_data_file,
                     nearby_filters,

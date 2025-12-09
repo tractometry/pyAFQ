@@ -140,7 +140,7 @@ def dict_to_toml(dictionary):
 # these params are handled internally in the qsiprep pipeline,
 # not shown to the user (mostly BIDS filters stuff)
 qsi_prep_ignore_params = [
-    "bids_path", "bids_filters", "preproc_pipeline",
+    "bids_path", "bids_filters", "dwi_preproc_pipeline",
     "participant_labels", "output_dir"]
 
 

@@ -65,7 +65,7 @@ def afq_process_subject(subject):
     # define the api AFQ object
     myafq = GroupAFQ(
         "local_bids_dir",
-        preproc_pipeline="pipeline_name",
+        dwi_preproc_pipeline="pipeline_name",
         viz_backend_spec='plotly',  # this will generate both interactive html and GIFs # noqa
         scalars=["dki_fa", "dki_md"])
 
