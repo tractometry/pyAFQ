@@ -4,8 +4,6 @@ import nibabel.processing as nbp
 from scipy.ndimage import gaussian_filter
 from skimage.segmentation import find_boundaries
 
-import onnxruntime
-
 from AFQ.data.fetch import afq_home, fetch_synthseg_models
 
 import logging
@@ -32,7 +30,7 @@ def _get_model(model_name):
     return model_fname
 
 
-def run_synthseg(t1_img, model_name):
+def run_synthseg(ort, t1_img, model_name):
     """
     Run the Synthseg Model
 
@@ -63,9 +61,7 @@ def run_synthseg(t1_img, model_name):
     image = t1_data.astype(np.float32)[None, ..., None]
 
     logger.info(f"Running {model_name}...")
-    sess = onnxruntime.InferenceSession(
-        model,
-        providers=["CPUExecutionProvider"])
+    sess = ort.InferenceSession(model)
     input_name = sess.get_inputs()[0].name
     output_name = sess.get_outputs()[0].name
     output_channels = sess.run([output_name], {input_name: image})[0]

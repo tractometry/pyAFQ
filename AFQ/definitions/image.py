@@ -202,30 +202,38 @@ class ImageFile(ImageDefinition):
         return name_from_path(self.fname) if self._from_path else self.suffix
 
     def get_image_getter(self, task_name):
-        def _image_getter_helper(dwi, dwi_data_file):
+        def _image_getter_helper(resample_to, ref_file):
             # Load data
             image_file, image_data_orig, image_affine = \
-                self.get_path_data_affine(dwi_data_file)
+                self.get_path_data_affine(ref_file)
 
             # Apply any conditions on the data
             image_data, meta = self.apply_conditions(
                 image_data_orig, image_file)
 
             if self.resample:
-                # Resample to DWI data:
-                image_data, did_resample = _resample_image(
+                if isinstance(resample_to, str):
+                    resample_to_img = nib.load(resample_to)
+                    meta["resampled"] = resample_to
+                else:
+                    resample_to_img = resample_to
+                    meta["resampled"] = True
+                image_data, _ = _resample_image(
                     image_data,
-                    dwi.get_fdata(),
+                    resample_to_img.get_fdata(),
                     image_affine,
-                    dwi.affine)
-                meta["resampled"] = did_resample
+                    resample_to_img.affine)
+                image_affine = resample_to_img.affine
             else:
                 meta["resampled"] = False
 
             return nib.Nifti1Image(
                 image_data.astype(np.float32),
-                dwi.affine), meta
-        if task_name == "data":
+                image_affine), meta
+        if task_name == "structural":
+            def image_getter(t1_file):
+                return _image_getter_helper(t1_file, t1_file)
+        elif task_name == "data":
             def image_getter(dwi, dwi_data_file):
                 return _image_getter_helper(dwi, dwi_data_file)
         else:
@@ -693,23 +701,24 @@ class PVEImage(ImageDefinition):
         )
     
     def get_image_getter(self, task_name):
-        def _image_getter_helper(dwi, dwi_data_file):
+        def image_getter(t1_file):
             # Load data
             image_file, image_data_orig, image_affine = \
-                self.get_path_data_affine(dwi_data_file)
+                self.get_path_data_affine(t1_file)
 
             # Apply any conditions on the data
             image_data, meta = self.apply_conditions(
                 image_data_orig, image_file)
 
             if self.resample:
-                # Resample to DWI data:
-                image_data, did_resample = _resample_image(
+                resample_to_img = nib.load(t1_file)
+                meta["resampled"] = t1_file
+                image_data, _ = _resample_image(
                     image_data,
-                    dwi.get_fdata(),
+                    resample_to_img.get_fdata(),
                     image_affine,
-                    dwi.affine)
-                meta["resampled"] = did_resample
+                    resample_to_img.affine)
+                image_affine = resample_to_img.affine
             else:
                 meta["resampled"] = False
 
@@ -719,14 +728,8 @@ class PVEImage(ImageDefinition):
                 pve_data.append(image_data[..., pve_index])
             return nib.Nifti1Image(
                 np.asarray(pve_data).astype(np.float32),
-                dwi.affine), meta
+                image_affine), meta
 
-        if task_name == "data":
-            def image_getter(dwi, dwi_data_file):
-                return _image_getter_helper(dwi, dwi_data_file)
-        else:
-            def image_getter(data_imap, dwi_data_file):
-                return _image_getter_helper(data_imap["dwi"], dwi_data_file)
         return image_getter
 
 

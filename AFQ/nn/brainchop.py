@@ -4,8 +4,6 @@ import nibabel.processing as nbp
 from scipy.ndimage import gaussian_filter, binary_dilation
 from skimage.segmentation import find_boundaries
 
-import onnxruntime
-
 from AFQ.data.fetch import fetch_brainchop_models, afq_home
 
 import logging
@@ -33,7 +31,7 @@ def _get_model(model_name):
     return model_fname
 
 
-def run_brainchop(t1_img, model_name):
+def run_brainchop(ort, t1_img, model_name):
     """
     Run the Brainchop command line interface with the provided arguments.
 
@@ -61,9 +59,7 @@ def run_brainchop(t1_img, model_name):
     image = t1_data.astype(np.float32)[None, None, ...]
 
     logger.info(f"Running {model_name}...")
-    sess = onnxruntime.InferenceSession(
-        model,
-        providers=["CPUExecutionProvider"])
+    sess = ort.InferenceSession(model)
     input_name = sess.get_inputs()[0].name
     output_name = sess.get_outputs()[0].name
     output_channels = sess.run([output_name], {input_name: image})[0]

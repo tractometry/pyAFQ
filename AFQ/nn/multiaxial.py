@@ -1,4 +1,3 @@
-import onnxruntime as ort
 from tqdm import tqdm
 import numpy as np
 import nibabel as nib
@@ -15,7 +14,7 @@ logger = logging.getLogger('AFQ')
 __all__ = ["run_multiaxial", "extract_brain_mask", "multiaxial"]
 
 
-def multiaxial(img,
+def multiaxial(ort, img,
                model_sagittal, model_axial, model_coronal,
                consensus_model):
     """
@@ -51,18 +50,18 @@ def multiaxial(img,
     pbar = tqdm(total=4)
 
     input_ = img[..., None]
-    sagittal_results = _run_onnx_model(model_sagittal, input_, coords)
+    sagittal_results = _run_onnx_model(ort, model_sagittal, input_, coords)
     pbar.update(1)
 
     input_ = np.swapaxes(img, 0, 1)[..., None]
     coronal_results = np.swapaxes(
-        _run_onnx_model(model_coronal, input_, coords),
+        _run_onnx_model(ort, model_coronal, input_, coords),
         0, 1)
     pbar.update(1)
 
     input_ = np.transpose(img, (2, 0, 1))[..., None]
     axial_results = np.transpose(
-        _run_onnx_model(model_axial, input_, coords),
+        _run_onnx_model(ort, model_axial, input_, coords),
         (1, 2, 0, 3))
     pbar.update(1)
 
@@ -81,7 +80,7 @@ def multiaxial(img,
 
     return pred
 
-def _run_onnx_model(model, input_, coords):
+def _run_onnx_model(ort, model, input_, coords):
     sess = ort.InferenceSession(model, providers=["CPUExecutionProvider"])
     input_name = sess.get_inputs()[0].name
     coord_name = sess.get_inputs()[1].name
@@ -129,7 +128,7 @@ def _get_multiaxial_model():
     return model_dict
 
 
-def run_multiaxial(t1_img):
+def run_multiaxial(ort, t1_img):
     """
     Run the multiaxial model.
     """
@@ -149,6 +148,7 @@ def run_multiaxial(t1_img):
     
     logger.info("Running multiaxial T1w segmentation...")
     output = multiaxial(
+        ort,
         t1_data,
         model_dict["sagittal_model"],
         model_dict["axial_model"],

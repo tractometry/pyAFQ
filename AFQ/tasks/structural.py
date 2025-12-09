@@ -2,8 +2,10 @@ import immlib
 import nibabel as nib
 import logging
 
-from AFQ.tasks.utils import with_name
+from AFQ.tasks.utils import with_name, check_onnxruntime
 from AFQ.tasks.decorators import as_file
+
+from AFQ.definitions.utils import Definition
 
 from AFQ.nn.brainchop import run_brainchop
 from AFQ.nn.multiaxial import run_multiaxial
@@ -30,8 +32,11 @@ def synthseg_model(t1_masked):
         of any contrast and resolution without retraining." Medical image
         analysis 86 (2023): 102789.
     """
+    ort = check_onnxruntime(
+        "SynthSeg 2.0"
+        "Or, provide your own segmentations using PVEImage or PVEImages.")
     t1_img = nib.load(t1_masked)
-    predictions = run_synthseg(t1_img, "synthseg2")
+    predictions = run_synthseg(ort, t1_img, "synthseg2")
     return predictions, dict(T1w=t1_masked)
 
 
@@ -49,16 +54,29 @@ def mx_model(t1_masked):
         with abnormal brain anatomy: model and data release." Journal of
         Medical Imaging 12.5 (2025): 054001-054001.
     """
+    ort = check_onnxruntime(
+        "Multi-axial"
+        "Or, provide your own segmentations using PVEImage or PVEImages.")
     t1_img = nib.load(t1_masked)
-    predictions = run_multiaxial(t1_img)
+    predictions = run_multiaxial(ort, t1_img)
     return predictions, dict(T1w=t1_masked)
 
 
 @immlib.calc("t1w_brain_mask")
 @as_file(suffix='_desc-T1w_mask.nii.gz')
-def t1w_brain_mask(t1_file):
+def t1w_brain_mask(t1_file, brain_mask_definition=None):
     """
     full path to a nifti file containing brain mask from T1w image
+
+    Parameters
+    ----------
+    brain_mask_definition : instance from `AFQ.definitions.image`, optional
+        This will be used to create
+        the brain mask, which gets applied before registration to a
+        template.
+        If you want no brain mask to be applied, use FullImage.
+        If None, use Brainchop Mindgrab model.
+        Default: None
 
     References
     ----------
@@ -67,7 +85,14 @@ def t1w_brain_mask(t1_file):
         Software, 8(83), 5098.
         https://doi.org/10.21105/joss.05098
     """
-    return run_brainchop(nib.load(t1_file), "mindgrab"), dict(
+    # Note that any case where brain_mask_definition is not None
+    # is handled in get_data_plan
+    # This is just the default
+
+    ort = check_onnxruntime(
+        "Mindgrab"
+        "Or, provide your own brain mask using brain_mask_definition.")
+    return run_brainchop(ort, nib.load(t1_file), "mindgrab"), dict(
         T1w=t1_file,
         model="mindgrab")
 
@@ -103,10 +128,13 @@ def t1_subcortex(t1_masked):
         Software, 8(83), 5098.
         https://doi.org/10.21105/joss.05098
     """
+    ort = check_onnxruntime(
+        "Brainchop Subcortical"
+        "Or, provide your own segmentations using PVEImage or PVEImages.")
     t1_img_masked = nib.load(t1_masked)
 
     subcortical_img = run_brainchop(
-        t1_img_masked, "subcortical")
+        ort, t1_img_masked, "subcortical")
 
     meta = dict(
         T1w=t1_masked,
@@ -126,5 +154,17 @@ def get_structural_plan(kwargs):
     structural_tasks = with_name([
         mx_model, synthseg_model,
         t1w_brain_mask, t1_subcortex, t1_masked])
-    
+
+    bm_def = kwargs.get(
+        "brain_mask_definition", None)
+    if bm_def is not None:
+        if not isinstance(bm_def, Definition):
+            raise TypeError(
+                "brain_mask_definition must be a Definition")
+        structural_tasks["t1w_brain_mask_res"] = immlib.calc(
+            "t1w_brain_mask")(
+                as_file(suffix=(
+                    f'_desc-T1w_mask.nii.gz'))(
+                        bm_def.get_image_getter("structural")))
+
     return immlib.plan(**structural_tasks)

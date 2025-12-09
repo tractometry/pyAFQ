@@ -1,4 +1,5 @@
 from AFQ.utils.path import drop_extension
+from dipy.utils.optpkg import optional_package
 
 import os.path as op
 import os
@@ -46,6 +47,17 @@ def _split_path(path):
                 parts.append(path)
             break
     return parts[::-1]
+
+
+def check_onnxruntime(model_name, alternative_text):
+    ort, have_pkg, _ = optional_package('onnxruntime')
+    if not have_pkg:
+        raise ImportError(
+            f"onnxruntime is required to run the {model_name} model. "
+            f"Please install onnxruntime to use this feature, "
+            f"by doing `pip install onnxruntime` or `pip install pyAFQ[nn]`. "
+            f"{alternative_text}")
+    return ort
 
 
 def get_fname(base_fname, suffix, subfolder=None):

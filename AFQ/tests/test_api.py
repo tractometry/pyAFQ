@@ -741,6 +741,10 @@ def test_AFQ_data_waypoint():
         freesurfer_folder,
         "sub-01_ses-01_seg.nii.gz")
 
+    bm_def = LabelledImageFile(
+        path=seg_file,
+        exclusive_labels=[0])
+
     pve = PVEImages(
         LabelledImageFile(
             path=seg_file,
@@ -805,6 +809,7 @@ def test_AFQ_data_waypoint():
             ImageFile(path=t1_path_other),
             TemplateImage(t1_path)],
         pve=pve,
+        brain_mask_definition=bm_def,
         n_points_profile=50,
         ray_n_cpus=1,
         tracking_params=tracking_params,

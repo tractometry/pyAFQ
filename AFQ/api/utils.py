@@ -46,7 +46,11 @@ methods_sections = {
 
 # These kwargs are used to constrcut the plan, not in the plan
 # so we don't want to warn if they are unused in the plan
-used_kwargs_exceptions = ["pve", "reg_subject_spec", "import_tract"]
+used_kwargs_exceptions = [
+    "pve",
+    "reg_subject_spec",
+    "import_tract",
+    "brain_mask_definition"]
 
 kwargs_descriptors = {}
 for task_module in task_modules:
