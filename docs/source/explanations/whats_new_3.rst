@@ -16,22 +16,32 @@ and the gray matter.
 A number of changes have been done to support this shift. Principally, pyAFQ
 now requires a T1-weighted image. This is used to make a brain mask with
 brainchop. Additionally, it is reccomended to provide partial volume
-estimates (PVEs) from other pipelines such as FSLfast or Freesurfer.
+estimates (PVEs) from other pipelines such as FSLfast
+(https://web.mit.edu/fsl_v5.0.10/fsl/doc/wiki/FAST.html) or Freesurfer
+(https://surfer.nmr.mgh.harvard.edu/).
 If these are not provided, pyAFQ will generate them using SynthSeg
-and the T1.
+and the T1 :cite:`Tzourio-billot_synthseg_2023,billot_robust_2023`.
 
 These PVEs are used for tractography, which has been radically changed in
-pyAFQ. First, we now seed from the white matter gray matter interface to
+pyAFQ 3.0, relative to previous versions: First,
+we now seed from the white matter gray matter interface to
 reduce biases in streamline termination points. Second, we propogate using
 CSD FODs filtered using a unified filtering method to be asymmetric, which
 is necessary to track in the superificial white matter. Third, we use 
-particle filtering tractography (PFT) instead of local tracking, again to
+particle filtering tractography (PFT) :cite:`girard2014towards` instead of
+local tracking, again to
 better track in the superficial white matter. Fourth, we use
-anatomically constrained tractography (ACT) to ensure streamlines terminate
+anatomically constrained tractography (ACT) :cite:`smith2012anatomically`
+to ensure streamlines terminate
 in the gray matter instead of the CSF. Finally, we only consider the middle
 60% of identified bundles for cleaning, to allow fanning near the cortex.
 
 There are also a few minor changes, such as the addition of different fitting
-methods for MSMT, increased parallelization using Ray and Numba, changes to
+methods for MSMT :cite:`jeurissen2014multi`, increased parallelization
+using Ray and Numba, changes to
 vertical occipital fasciculus segmentation, and the addition of using
 IsolationForest to do density-based cleaning for bundles that are not tube-like.
+
+
+If you would like to replicate the behavior of pyAFQ 2.1, you can do that by
+referring to the example :ref:`pyafq-2-settings`.

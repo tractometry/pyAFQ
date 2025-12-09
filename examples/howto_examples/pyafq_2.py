@@ -1,4 +1,6 @@
 """
+.. _pyafq-2-settings:
+
 ======================================
 Running pyAFQ 2.x defauls in pyAFQ 3.x
 ======================================
@@ -17,7 +19,7 @@ afd.organize_stanford_data()
 # --------------------------------------------------------------
 # In pyAFQ 2.x, we used CSD with no asymmetric filtering,
 # and seeded streamlines throughout the white matter instead of
-# on the interface.
+# on the white matter / gray matter interface.
 
 tracking_params = dict(
     odf_model="csd",
