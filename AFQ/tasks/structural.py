@@ -33,7 +33,7 @@ def synthseg_model(t1_masked):
         analysis 86 (2023): 102789.
     """
     ort = check_onnxruntime(
-        "SynthSeg 2.0"
+        "SynthSeg 2.0",
         "Or, provide your own segmentations using PVEImage or PVEImages.")
     t1_img = nib.load(t1_masked)
     predictions = run_synthseg(ort, t1_img, "synthseg2")
@@ -55,7 +55,7 @@ def mx_model(t1_masked):
         Medical Imaging 12.5 (2025): 054001-054001.
     """
     ort = check_onnxruntime(
-        "Multi-axial"
+        "Multi-axial",
         "Or, provide your own segmentations using PVEImage or PVEImages.")
     t1_img = nib.load(t1_masked)
     predictions = run_multiaxial(ort, t1_img)
@@ -90,7 +90,7 @@ def t1w_brain_mask(t1_file, brain_mask_definition=None):
     # This is just the default
 
     ort = check_onnxruntime(
-        "Mindgrab"
+        "Mindgrab",
         "Or, provide your own brain mask using brain_mask_definition.")
     return run_brainchop(ort, nib.load(t1_file), "mindgrab"), dict(
         T1w=t1_file,
@@ -129,7 +129,7 @@ def t1_subcortex(t1_masked):
         https://doi.org/10.21105/joss.05098
     """
     ort = check_onnxruntime(
-        "Brainchop Subcortical"
+        "Brainchop Subcortical",
         "Or, provide your own segmentations using PVEImage or PVEImages.")
     t1_img_masked = nib.load(t1_masked)
 
