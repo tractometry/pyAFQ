@@ -7,6 +7,8 @@ from dipy.io.gradients import read_bvals_bvecs
 import dipy.core.gradients as dpg
 from dipy.data import default_sphere, get_sphere
 
+from numba import get_num_threads
+
 import immlib
 
 import dipy.reconst.dki as dpy_dki
@@ -119,7 +121,7 @@ def configure_ncpus_nthreads(ray_n_cpus=None, numba_n_threads=None,
         ray_n_cpus = max(multiprocessing.cpu_count() - 1, 1)
     if numba_n_threads is None:
         numba_n_threads = min(
-            max(multiprocessing.cpu_count() - 1, 1), 16)
+            max(get_num_threads() - 1, 1), 16)
 
     return ray_n_cpus, numba_n_threads, low_memory
 
