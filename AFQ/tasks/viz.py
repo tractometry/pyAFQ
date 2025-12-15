@@ -135,8 +135,8 @@ def viz_bundles(base_fname,
 
         try:
             figure.write_html(fname)
-        except:
-            logger.warning(f"Failed to write HTML file: {fname}")
+        except Exception as e:
+            logger.warning(f"Failed to write HTML file: {fname}\n{e}")
     if fname is None:
         return figure
     else:

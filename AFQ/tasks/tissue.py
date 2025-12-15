@@ -311,11 +311,52 @@ def msmt_aodf_nufid(msmt_aodf_params, data_imap,
         PVE=pve_internal)
 
 
+@immlib.calc("csd_aodf_nufid")
+@as_file(suffix='_model-csd_param-nufid_dwimap.nii.gz',
+         subfolder="models")
+@as_img
+def csd_aodf_nufid(data_imap,
+                   pve_internal):
+    """
+    full path to a nifti file containing
+    the CSD Number of fiber directions (nufid) map [1]
+
+    References
+    ----------
+    [1] C. Poirier and M. Descoteaux,
+        "Filtering Methods for Asymmetric ODFs:
+        Where and How Asymmetry Occurs in the White Matter."
+        bioRxiv. 2022 Jan 1; 2022.12.18.520881.
+        doi: https://doi.org/10.1101/2022.12.18.520881
+    """
+    pve_img = nib.load(pve_internal)
+    pve_data = pve_img.get_fdata()
+
+    aodf_img = nib.load(data_imap["csd_aodf_params"])
+    aodf = aodf_img.get_fdata()
+
+    csf = resample(pve_data[..., 0], aodf[..., 0],
+                   pve_img.affine, aodf_img.affine).get_fdata()
+
+    # Only sphere we use for AODF currently
+    sphere = get_sphere(name="repulsion724")
+
+    brain_mask = nib.load(data_imap["brain_mask"]).get_fdata().astype(bool)
+
+    logger.info("Number of fiber directions (nufid) map from AODF...")
+    nufid = compute_nufid_asym(aodf, sphere, csf, brain_mask)
+
+    return nufid, dict(
+        CSDParamsFile=data_imap["csd_aodf_params"],
+        PVE=pve_internal)
+
+
 def get_tissue_plan(kwargs):
     tissue_tasks = with_name([
         pve_internal, wm_gm_interface,
         msmt_params, msmt_apm, msmt_aodf,
-        msmt_aodf_asi, msmt_aodf_opm, msmt_aodf_nufid])
+        msmt_aodf_asi, msmt_aodf_opm, msmt_aodf_nufid,
+        csd_aodf_nufid])
 
     pve = kwargs.get("pve", None)        
     if isinstance(pve, PVEImages):

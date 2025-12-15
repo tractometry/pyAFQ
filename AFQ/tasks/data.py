@@ -38,7 +38,9 @@ from AFQ.models.dti import _fit as dti_fit_model
 from AFQ.models.fwdti import _fit as fwdti_fit_model
 from AFQ.models.QBallTP import (
     extract_odf, anisotropic_index, anisotropic_power)
-from AFQ.models.asym_filtering import unified_filtering
+from AFQ.models.asym_filtering import (
+    unified_filtering, compute_asymmetry_index,
+    compute_odd_power_map)
 
 logger = logging.getLogger('AFQ')
 
@@ -439,6 +441,56 @@ def csd_aodf(csd_params, n_threads, low_mem):
     return aodf, dict(
         CSDParamsFile=csd_params,
         Sphere="repulsion724")
+
+
+@immlib.calc("csd_aodf_asi")
+@as_file(suffix='_model-csd_param-asi_dwimap.nii.gz',
+         subfolder="models")
+@as_img
+def csd_aodf_asi(csd_aodf_params, brain_mask):
+    """
+    full path to a nifti file containing
+    the CSD Asymmetric Index (ASI) [1]
+
+    References
+    ----------
+    [1] S. Cetin Karayumak, E. Özarslan, and G. Unal,
+        "Asymmetric Orientation Distribution Functions (AODFs)
+        revealing intravoxel geometry in diffusion MRI"
+        Magnetic Resonance Imaging, vol. 49, pp. 145-158, Jun. 2018,
+        doi: https://doi.org/10.1016/j.mri.2018.03.006.
+    """
+
+    aodf = nib.load(csd_aodf_params).get_fdata()
+    brain_mask = nib.load(brain_mask).get_fdata().astype(bool)
+    asi = compute_asymmetry_index(aodf, brain_mask)
+
+    return asi, dict(CSDParamsFile=csd_aodf_params)
+
+
+@immlib.calc("csd_aodf_opm")
+@as_file(suffix='_model-csd_param-opm_dwimap.nii.gz',
+         subfolder="models")
+@as_img
+def csd_aodf_opm(csd_aodf_params, brain_mask):
+    """
+    full path to a nifti file containing
+    the CSD odd-power map [1]
+
+    References
+    ----------
+    [1] C. Poirier, E. St-Onge, and M. Descoteaux,
+        "Investigating the Occurence of Asymmetric Patterns in
+        White Matter Fiber Orientation Distribution Functions"
+        [Abstract], In: Proc. Intl. Soc. Mag. Reson. Med. 29 (2021),
+        2021 May 15-20, Vancouver, BC, Abstract number 0865.
+    """
+
+    aodf = nib.load(csd_aodf_params).get_fdata()
+    brain_mask = nib.load(brain_mask).get_fdata().astype(bool)
+    opm = compute_odd_power_map(aodf, brain_mask)
+
+    return opm, dict(CSDParamsFile=csd_aodf_params)
 
 
 @immlib.calc("csd_pmap")
@@ -1160,7 +1212,7 @@ def dki_rk(dki_tf):
     full path to a nifti file containing
     the DKI radial kurtosis
     """
-    return dki_tf.rk
+    return dki_tf.rk()
 
 
 @immlib.calc("dki_ak")
@@ -1172,7 +1224,7 @@ def dki_ak(dki_tf):
     full path to a nifti file containing
     the DKI axial kurtosis file
     """
-    return dki_tf.ak
+    return dki_tf.ak()
 
 
 @immlib.calc("brain_mask")
@@ -1276,6 +1328,7 @@ def get_data_plan(kwargs):
         configure_ncpus_nthreads,
         dti_fit, dki_fit, fwdti_fit, anisotropic_power_map,
         csd_anisotropic_index, csd_aodf,
+        csd_aodf_asi, csd_aodf_opm,
         dti_fa, dti_lt, dti_cfa, dti_pdd, dti_md, dki_kt, dki_lt, dki_fa,
         gq, gq_pmap, gq_ai, opdt_params, opdt_pmap, opdt_ai,
         csa_params, csa_pmap, csa_ai,
