@@ -156,7 +156,9 @@ def find_file(bids_layout, path, filters, suffix, session, subject,
             f"from `from_path` file {path}."))
 
     # found file is wrong session
-    if (file_session is not None) and (path_session != file_session):
+    if (file_session is not None)\
+        and (path_session is not None)\
+            and (path_session != file_session):
         return _ff_helper(required, (
             f"Expected session IDs to match for the retrieved image file "
             f"and the supplied `from_path` file. Got ses-{file_session} "

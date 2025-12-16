@@ -18,23 +18,26 @@ __all__ = [
 logger = logging.getLogger('AFQ')
 
 
-def _resample_image(image_data, dwi_data, image_affine, dwi_affine):
+def _resample_image(image_data, ref_data, image_affine, ref_affine):
     '''
     Helper function
     Resamples image to dwi if necessary
     '''
+    if len(ref_data.shape) > 3:  # DWI data
+        ref_data = ref_data[..., 0]
+
     def _resample_slice(slice_data):
         return resample(
             slice_data.astype(float),
-            dwi_data[..., 0],
+            ref_data,
             moving_affine=image_affine,
-            static_affine=dwi_affine).get_fdata().astype(image_type)
+            static_affine=ref_affine).get_fdata().astype(image_type)
 
     image_type = image_data.dtype
-    if ((dwi_data is not None)
-        and (dwi_affine is not None)
-            and ((dwi_data.shape[:3] != image_data.shape[:3]) or (
-                not np.allclose(dwi_affine, image_affine)))):
+    if ((ref_data is not None)
+        and (ref_affine is not None)
+            and ((ref_data.shape[:3] != image_data.shape[:3]) or (
+                not np.allclose(ref_affine, image_affine)))):
         if len(image_data.shape) < 4:
             return _resample_slice(image_data), True
         else:
@@ -230,10 +233,12 @@ class ImageFile(ImageDefinition):
             return nib.Nifti1Image(
                 image_data.astype(np.float32),
                 image_affine), meta
-        if task_name == "structural":
+        
+        # In these tasks, use T1 as ref
+        if task_name == "structural" or task_name == "tissue":
             def image_getter(t1_file):
                 return _image_getter_helper(t1_file, t1_file)
-        elif task_name == "data":
+        elif task_name == "data": # Otherwise, use DWI
             def image_getter(dwi, dwi_data_file):
                 return _image_getter_helper(dwi, dwi_data_file)
         else:

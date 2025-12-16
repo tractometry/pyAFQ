@@ -105,6 +105,18 @@ pve = afm.PVEImages(
                      "sub-NDARAA948VFH_label-WM_probseg.nii.gz")))
 
 ##########################################################################
+# Brain Mask Definition (optional)
+# --------------------------------
+#
+# By default, pyAFQ will compute a brain mask from the T1. However,
+# this requires onnxruntime to be installed. If you do not have onnxruntime
+# installed, or if you want to use a different brain mask, you can specify
+# it here.
+
+brain_mask_definition = afm.ImageFile(
+    path=op.join(sub_dir, "anat", "sub-NDARAA948VFH_desc-brain_mask.nii.gz"))
+
+##########################################################################
 # Initialize a ParticipantAFQ object:
 # -------------------------
 #
@@ -131,6 +143,7 @@ myafq = ParticipantAFQ(
     output_dir=output_dir,
     tracking_params=tracking_params,
     pve=pve,
+    brain_mask_definition=brain_mask_definition,
     ray_n_cpus=1,
 )
 

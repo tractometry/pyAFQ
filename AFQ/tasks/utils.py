@@ -1,5 +1,4 @@
 from AFQ.utils.path import drop_extension
-from dipy.utils.optpkg import optional_package
 
 import os.path as op
 import os
@@ -50,13 +49,18 @@ def _split_path(path):
 
 
 def check_onnxruntime(model_name, alternative_text):
-    ort, have_pkg, _ = optional_package('onnxruntime')
-    if not have_pkg:
+    try:
+        import onnxruntime as ort
+    except ImportError as e:
         raise ImportError(
             f"onnxruntime is required to run the {model_name} model. "
+            f"When we tried to import onnxruntime, we got the "
+            f"following error:\n{e}\n"
             f"Please install onnxruntime to use this feature, "
             f"by doing `pip install onnxruntime` or `pip install pyAFQ[nn]`. "
-            f"{alternative_text}")
+            f"{alternative_text}\n"
+            "If there are still issues, post an issue on "
+            "https://github.com/tractometry/pyAFQ/issues")
     return ort
 
 

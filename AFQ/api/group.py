@@ -379,17 +379,19 @@ class GroupAFQ(object):
                     elif isinstance(value, dict):
                         for _, subvalue in value.items():
                             if isinstance(subvalue, Definition):
-                                subvalue.find_path(
-                                    bids_layout,
-                                    dwi_data_file,
-                                    subject,
-                                    session)
+                                for file_ in [dwi_data_file, t1_file]:
+                                    subvalue.find_path(
+                                        bids_layout,
+                                        file_,
+                                        subject,
+                                        session)
                     elif isinstance(value, Definition):
-                        value.find_path(
-                            bids_layout,
-                            dwi_data_file,
-                            subject,
-                            session)
+                        for file_ in [dwi_data_file, t1_file]:
+                            value.find_path(
+                                bids_layout,
+                                file_,
+                                subject,
+                                session)
 
                 # call find path for all ROIs
                 if "bundle_info" in this_kwargs and isinstance(

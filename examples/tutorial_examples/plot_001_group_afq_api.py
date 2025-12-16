@@ -84,6 +84,18 @@ pve = afm.PVEImages(
         suffix="probseg", filters={"scope": "qsiprep", "label": "WM"}))
 
 ##########################################################################
+# Brain Mask Definition (optional)
+# --------------------------------
+#
+# By default, pyAFQ will compute a brain mask from the T1. However,
+# this requires onnxruntime to be installed. If you do not have onnxruntime
+# installed, or if you want to use a different brain mask, you can specify
+# it here.
+
+brain_mask_definition = afm.ImageFile(
+    suffix="mask", filters={"desc": "brain", "scope": "qsiprep"})
+
+##########################################################################
 # Initialize a GroupAFQ object:
 # -------------------------
 #
@@ -115,6 +127,7 @@ myafq = GroupAFQ(
     t1_preproc_pipeline='qsiprep',
     participant_labels=['NDARAA948VFH'],
     pve=pve,
+    brain_mask_definition=brain_mask_definition,
     tracking_params=tracking_params,
     ray_n_cpus=1,
     low_memory=True)
