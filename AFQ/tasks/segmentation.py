@@ -60,7 +60,7 @@ def segment(data_imap, mapping_imap,
     streamlines = tractography_imap["streamlines"]
     if streamlines.endswith(".trk") or streamlines.endswith(".tck"):
         tg = load_tractogram(
-            streamlines, data_imap["dwi"], Space.VOX,
+            streamlines, data_imap["dwi"], to_space=Space.VOX,
             bbox_valid_check=False)
         is_trx = False
     elif streamlines.endswith(".trx"):
