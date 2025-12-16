@@ -209,7 +209,8 @@ def msmt_aodf(msmtcsd_params, data_imap):
     """
     sh_coeff = nib.load(msmtcsd_params).get_fdata()
 
-    logger.info("Applying unified filtering to MSMT CSD ODFs...")
+    logger.info("Applying unified filtering to generate "
+                "asymmetric MSMT CSD ODFs...")
     aodf = unified_filtering(
         sh_coeff,
         get_sphere(name="repulsion724"),

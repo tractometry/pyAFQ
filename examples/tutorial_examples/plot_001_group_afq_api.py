@@ -59,8 +59,7 @@ bids_path = afd.fetch_hbn_preproc(
 tracking_params = dict(n_seeds=50000,
                        random_seeds=True,
                        rng_seed=2025,
-                       odf_model="csd_aodf",
-                       trx=False)
+                       trx=True)
 
 #####################################################################
 # Define PVE images (optional)
@@ -119,7 +118,10 @@ brain_mask_definition = afm.ImageFile(
 # (in this case, just a single subject), the PVE images we defined above, and
 # the tracking parameters we defined above. We set ray_n_cpus=1 and
 # low_memory=True to avoid memory issues running this example on
-# Github actions. In most other cases, these should not be necessary.
+# Github actions. If these settings are omitted,
+# which can be done in most cases, the default behavior will
+# parallelize processing, resulting in faster runtime,
+# but also in higher memory usage.
 
 myafq = GroupAFQ(
     bids_path=op.join(afd.afq_home, 'HBN'),

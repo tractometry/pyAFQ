@@ -133,7 +133,11 @@ brain_mask_definition = afm.ImageFile(
 # To initialize the object, we will pass in the diffusion data files and specify
 # the output directory where we want to store the results. We will also
 # pass in the tracking parameters we defined above. We set ray_n_cpus=1
-# to avoid memory issues running this example on servers.
+# and low_memory=True to avoid memory issues running this example on
+# Github actions. If these settings are omitted,
+# which can be done in most cases, the default behavior will
+# parallelize processing, resulting in faster runtime,
+# but also in higher memory usage.
 
 myafq = ParticipantAFQ(
     dwi_data_file=dwi_data_file,
