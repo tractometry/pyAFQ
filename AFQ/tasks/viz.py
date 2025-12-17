@@ -78,7 +78,7 @@ def viz_bundles(base_fname,
     mapping = mapping_imap["mapping"]
     scalar_dict = segmentation_imap["scalar_dict"]
     profiles_file = segmentation_imap["profiles"]
-    volume = nib.load(structural_imap["t1_masked"])
+    t1_img = nib.load(structural_imap["t1_masked"])
     t1_affine = nib.load(structural_imap["t1_masked"]).affine
     shade_by_volume = get_tp(
         best_scalar,
@@ -86,12 +86,12 @@ def viz_bundles(base_fname,
         data_imap,
         tissue_imap)
     shade_by_volume = _viz_prepare_vol(
-        shade_by_volume, False, mapping, scalar_dict, volume)
-    volume = _viz_prepare_vol(volume, False, mapping, scalar_dict, volume)
+        shade_by_volume, False, mapping, scalar_dict, t1_img)
+    volume = _viz_prepare_vol(t1_img, False, mapping, scalar_dict, t1_img)
 
     flip_axes = [False, False, False]
     for i in range(3):
-        flip_axes[i] = (data_imap["dwi_affine"][i, i] < 0)
+        flip_axes[i] = (t1_img.affine[i, i] < 0)
 
     if "plotly" in viz_backend.backend:
         figure = make_subplots(
@@ -110,7 +110,7 @@ def viz_bundles(base_fname,
 
     figure = viz_backend.visualize_bundles(
         segmentation_imap["bundles"],
-        affine=t1_affine,
+        img=t1_img,
         shade_by_volume=shade_by_volume,
         sbv_lims=sbv_lims_bundles,
         include_profiles=(pd.read_csv(profiles_file), best_scalar),
@@ -197,7 +197,7 @@ def viz_indivBundle(base_fname,
 
     flip_axes = [False, False, False]
     for i in range(3):
-        flip_axes[i] = (data_imap["dwi_affine"][i, i] < 0)
+        flip_axes[i] = (volume_img.affine[i, i] < 0)
 
     bundles = aus.SegmentedSFT.fromfile(
         segmentation_imap["bundles"])
@@ -229,7 +229,7 @@ def viz_indivBundle(base_fname,
         if len(bundles.get_bundle(bundle_name)) > 0:
             figure = viz_backend.visualize_bundles(
                 bundles,
-                affine=t1_affine,
+                img=volume_img,
                 shade_by_volume=shade_by_volume,
                 sbv_lims=sbv_lims_indiv,
                 bundle=bundle_name,
@@ -311,7 +311,7 @@ def viz_indivBundle(base_fname,
                     inline=False)
                 core_fig = viz_backend.visualize_bundles(
                     segmentation_imap["bundles"],
-                    affine=t1_affine,
+                    img=volume_img,
                     shade_by_volume=shade_by_volume,
                     sbv_lims=sbv_lims_indiv,
                     bundle=bundle_name,
@@ -326,7 +326,7 @@ def viz_indivBundle(base_fname,
                     segmentation_imap["bundles"],
                     bundle_name,
                     best_scalar,
-                    affine=t1_affine,
+                    img=volume_img,
                     flip_axes=flip_axes,
                     figure=core_fig,
                     include_profile=True)

@@ -23,21 +23,22 @@ def _resample_image(image_data, ref_data, image_affine, ref_affine):
     Helper function
     Resamples image to dwi if necessary
     '''
-    if len(ref_data.shape) > 3:  # DWI data
-        ref_data = ref_data[..., 0]
-
-    def _resample_slice(slice_data):
-        return resample(
-            slice_data.astype(float),
-            ref_data,
-            moving_affine=image_affine,
-            static_affine=ref_affine).get_fdata().astype(image_type)
-
-    image_type = image_data.dtype
     if ((ref_data is not None)
         and (ref_affine is not None)
             and ((ref_data.shape[:3] != image_data.shape[:3]) or (
                 not np.allclose(ref_affine, image_affine)))):
+        if len(ref_data.shape) > 3:  # DWI data
+            ref_data = ref_data[..., 0]
+
+        def _resample_slice(slice_data):
+            return resample(
+                slice_data.astype(float),
+                ref_data,
+                moving_affine=image_affine,
+                static_affine=ref_affine).get_fdata().astype(image_type)
+
+        image_type = image_data.dtype
+
         if len(image_data.shape) < 4:
             return _resample_slice(image_data), True
         else:
