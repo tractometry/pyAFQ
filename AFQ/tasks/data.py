@@ -432,7 +432,7 @@ def csd_aodf(csd_params, n_threads, low_mem):
     sh_coeff = nib.load(csd_params).get_fdata()
 
     logger.info("Applying unified filtering to generate "
-                "asymmetric CSD CSD ODFs...")
+                "asymmetric CSD ODFs...")
     aodf = unified_filtering(
         sh_coeff,
         get_sphere(name="repulsion724"),
