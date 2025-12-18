@@ -40,7 +40,7 @@ tracking_params = dict(
 # the PVE images using the FA maps.
 # Note there the CSF map is not used in this case.
 # Additionally, in pyAFQ 2.x, the brain mask was calulated
-# using median OTSU. Here, we import it instead.
+# using median OTSU. Here, we import it from the Freesurfer segmentation instead.
 
 pve = afm.PVEImages(
     afm.ThresholdedScalarImage(
