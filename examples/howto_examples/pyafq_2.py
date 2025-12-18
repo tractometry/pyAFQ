@@ -61,7 +61,7 @@ bm_def = afm.LabelledImageFile(
 # VOF / pAF / CST in the old way
 # --------------------------------------------------------------
 # In pyAFQ 2.x, the vertical occipital fasciculus (VOF)
-# and posterior arcuate fasciculus (pAF) were definded differently.
+# and posterior arcuate fasciculus (pAF) were defined differently.
 # The pAF in 3.0 has an increased restriction that it cannot overlap with
 # the arcuate by more than 30%. The VOF has several changes:
 # 1. one endpoint ROI instead of both, but there is a minimum length
