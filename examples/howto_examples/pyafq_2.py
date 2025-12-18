@@ -39,6 +39,8 @@ tracking_params = dict(
 # seed and stopping masks. Here, we recreate
 # the PVE images using the FA maps.
 # Note there the CSF map is not used in this case.
+# Additionally, in pyAFQ 2.x, the brain mask was calulated
+# using median OTSU. Here, we import it instead.
 
 pve = afm.PVEImages(
     afm.ThresholdedScalarImage(
@@ -50,6 +52,10 @@ pve = afm.PVEImages(
     afm.ThresholdedScalarImage(
         "dti_fa",
         lower_bound=0.2))
+
+bm_def = afm.LabelledImageFile(
+    suffix="seg", filters={"scope": "freesurfer"},
+    exclusive_labels=[0])
 
 ################################################################
 # VOF / pAF / CST in the old way
@@ -219,6 +225,7 @@ myafq = GroupAFQ(
     dwi_preproc_pipeline='vistasoft',
     t1_preproc_pipeline='freesurfer',
     tracking_params=tracking_params,
+    brain_mask_definition=bm_def,
     pve=pve,
     bundle_info=bundle_info)
 
