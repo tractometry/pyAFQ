@@ -5,7 +5,7 @@ import logging
 
 import immlib
 from AFQ.tasks.decorators import as_file
-from AFQ.tasks.utils import with_name, str_to_desc, get_fname
+from AFQ.tasks.utils import with_name, str_to_desc, get_fname, get_tp
 import AFQ.data.fetch as afd
 from AFQ.utils.path import drop_extension, write_json
 from AFQ.definitions.mapping import SynMap
@@ -15,6 +15,7 @@ from AFQ.utils.path import space_from_fname
 
 from dipy.io.streamline import load_tractogram
 from dipy.io.stateful_tractogram import Space
+from dipy.align import resample
 
 
 logger = logging.getLogger('AFQ')
@@ -188,8 +189,8 @@ def sls_mapping(base_fname, dwi_data_file, reg_subject, data_imap,
 
 
 @immlib.calc("reg_subject")
-def get_reg_subject(data_imap,
-                    reg_subject_spec="power_map"):
+def get_reg_subject(structural_imap, data_imap, tissue_imap,
+                    reg_subject_spec="t1w"):
     """
     Nifti1Image which represents this subject
     when registering the subject to the template
@@ -199,11 +200,11 @@ def get_reg_subject(data_imap,
     reg_subject_spec : str, instance of `AFQ.definitions.ImageDefinition`, optional  # noqa
         The source image data to be registered.
         Can either be a Nifti1Image, an ImageFile, or str.
-        if "b0", "dti_fa_subject", "subject_sls", or "power_map,"
+        if "b0", "dti_fa_subject", "subject_sls", "t1w", or "power_map,"
         image data will be loaded automatically.
         If "subject_sls" is used, slr registration will be used
         and reg_template should be "hcp_atlas".
-        Default: "power_map"
+        Default: "t1w"
     """
     if not isinstance(reg_subject_spec, str)\
             and not isinstance(reg_subject_spec, nib.Nifti1Image):
@@ -216,13 +217,23 @@ def get_reg_subject(data_imap,
         "power_map": "csd_pmap",
         "dti_fa_subject": "dti_fa",
         "subject_sls": "b0",
+        "t1w": "t1_masked"
     }
     bm = nib.load(data_imap["brain_mask"])
 
     if reg_subject_spec in filename_dict:
-        reg_subject_spec = data_imap[filename_dict[reg_subject_spec]]
+        reg_subject_spec = get_tp(
+            filename_dict[reg_subject_spec],
+            structural_imap,
+            data_imap,
+            tissue_imap)
     if isinstance(reg_subject_spec, str):
         img = nib.load(reg_subject_spec)
+
+    if not np.allclose(img.affine, bm.affine) or not np.allclose(
+            img.get_fdata().shape, bm.get_fdata().shape):
+        img = resample(img, bm)
+
     bm = bm.get_fdata().astype(bool)
     masked_data = img.get_fdata()
     masked_data[~bm] = 0
@@ -250,7 +261,6 @@ def get_mapping_plan(kwargs, use_sls=False):
 
     reg_ss = kwargs.get("reg_subject_spec", None)
     if isinstance(reg_ss, ImageDefinition):
-        del kwargs["reg_subject_spec"]
         mapping_tasks["get_reg_subject_res"] = immlib.calc("reg_subject")(
             as_file((
                 f'_desc-{str_to_desc(reg_ss.get_name())}'

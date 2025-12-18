@@ -3,7 +3,7 @@ name: Documentation build
 on: [push, pull_request]
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 permissions:
@@ -19,6 +19,12 @@ jobs:
     steps:
     - name: Checkout repo
       uses: actions/checkout@v1
+
+    - name: Increase swap space
+      uses: actionhippie/swap-space@v1
+      with:
+        size: 16G
+
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v1
       with:

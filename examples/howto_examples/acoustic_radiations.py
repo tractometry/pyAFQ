@@ -79,18 +79,11 @@ bundles = abd.BundleDict({
 # are passed as `bundle_info=bundles`. The call to `my_afq.export_all()`
 # initiates the pipeline.
 
-brain_mask_definition = ImageFile(
-    suffix="mask",
-    filters={'desc': 'brain',
-             'space': 'T1w',
-             'scope': 'qsiprep'})
-
 my_afq = GroupAFQ(
     bids_path=study_dir,
-    preproc_pipeline="qsiprep",
+    dwi_preproc_pipeline="qsiprep",
     participant_labels=["NDARAA948VFH"],
     output_dir=op.join(study_dir, "derivatives", "afq_ar"),
-    brain_mask_definition=brain_mask_definition,
     tracking_params={"n_seeds": 4,
                      "directions": "prob",
                      "odf_model": "CSD",

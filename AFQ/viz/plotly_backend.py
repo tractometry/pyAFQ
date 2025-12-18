@@ -302,7 +302,7 @@ def _plot_profiles(profiles, bundle_name, color, fig, scalar):
                 tickfont=dict(color='white'))))
 
 
-def visualize_bundles(seg_sft, n_points=None,
+def visualize_bundles(seg_sft, img=None, n_points=None,
                       bundle=None, colors=None, shade_by_volume=None,
                       color_by_streamline=None, n_sls_viz=3600,
                       sbv_lims=[None, None], include_profiles=(None, None),
@@ -317,6 +317,10 @@ def visualize_bundles(seg_sft, n_points=None,
     seg_sft : SegmentedSFT, str
         A SegmentedSFT containing streamline information
         or a path to a segmented trk file.
+
+    img : Nifti1Image, optional
+        Image to register streamlines to.
+        Default: None
 
     n_points : int or None
         n_points to resample streamlines to before plotting. If None, no
@@ -413,7 +417,7 @@ def visualize_bundles(seg_sft, n_points=None,
     set_layout(figure)
 
     for (sls, color, name, dimensions) in vut.tract_generator(
-            seg_sft, bundle, colors, n_points,
+            seg_sft, bundle, colors, n_points, img,
             n_sls_viz=n_sls_viz):
         if isinstance(color_by_streamline, dict):
             if name in color_by_streamline:
@@ -598,8 +602,8 @@ def _draw_slice(figure, axis, volume, opacity=0.3, pos=0.5,
                 colorscale="greys", invert_colorscale=False):
     height = int(volume.shape[axis] * pos)
 
-    v_min = np.percentile(volume, 10)
-    sf = np.percentile(volume, 90) - v_min
+    v_min = np.percentile(volume[volume != 0], 20)
+    sf = np.percentile(volume[volume != 0], 80) - v_min
 
     if axis == Axes.X:
         X, Y, Z = np.mgrid[height:height + 1,
@@ -808,6 +812,7 @@ def _draw_core(sls, n_points, figure, bundle_name, indiv_profile,
 
 def single_bundle_viz(indiv_profile, seg_sft,
                       bundle, scalar_name,
+                      img=None,
                       flip_axes=[False, False, False],
                       labelled_nodes=[0, -1],
                       figure=None,
@@ -830,6 +835,10 @@ def single_bundle_viz(indiv_profile, seg_sft,
 
     scalar_name : str
         The name of the scalar being used.
+
+    img : Nifti1Image, optional
+        Image to register streamlines to.
+        Default: None
 
     flip_axes : ndarray
         Which axes to flip, to orient the image as RAS, which is how we
@@ -866,7 +875,7 @@ def single_bundle_viz(indiv_profile, seg_sft,
 
     n_points = len(indiv_profile)
     sls, _, bundle_name, dimensions = next(vut.tract_generator(
-        seg_sft, bundle, None, n_points))
+        seg_sft, bundle, None, n_points, img))
 
     line_color = _draw_core(
         sls, n_points, figure, bundle_name, indiv_profile,

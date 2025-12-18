@@ -1,9 +1,21 @@
 from AFQ.utils.path import drop_extension
+
 import os.path as op
 import os
 import inspect
 
-__all__ = ["get_fname", "with_name", "get_base_fname"]
+__all__ = ["get_tp", "get_fname", "with_name", "get_base_fname"]
+
+
+def get_tp(tp_name, structural_imap, data_imap, tissue_imap):
+    if tp_name in data_imap:
+        return data_imap[tp_name]
+    elif tp_name in structural_imap:
+        return structural_imap[tp_name]
+    elif tissue_imap is not None and tp_name in tissue_imap:
+        return tissue_imap[tp_name]
+    else:
+        raise NotImplementedError(f"tp_name {tp_name} not found")
 
 
 def get_base_fname(output_dir, dwi_data_file):
@@ -34,6 +46,22 @@ def _split_path(path):
                 parts.append(path)
             break
     return parts[::-1]
+
+
+def check_onnxruntime(model_name, alternative_text):
+    try:
+        import onnxruntime as ort
+    except ImportError as e:
+        raise ImportError(
+            f"onnxruntime is required to run the {model_name} model. "
+            f"When we tried to import onnxruntime, we got the "
+            f"following error:\n{e}\n"
+            f"Please install onnxruntime to use this feature, "
+            f"by doing `pip install onnxruntime` or `pip install pyAFQ[nn]`. "
+            f"{alternative_text}\n"
+            "If there are still issues, post an issue on "
+            "https://github.com/tractometry/pyAFQ/issues")
+    return ort
 
 
 def get_fname(base_fname, suffix, subfolder=None):

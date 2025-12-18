@@ -69,7 +69,7 @@ def test_segment():
         nib.load(hardi_fdata),
         mapping,
         bundles,
-        reg_template)
+        reg_template, 2)
 
     # We asked for 2 fiber groups:
     npt.assert_equal(len(fiber_groups), 2)
@@ -107,7 +107,7 @@ def test_segment_no_prob():
         nib.load(hardi_fdata),
         mapping,
         bundles_no_prob,
-        reg_template)
+        reg_template, 1)
 
     # This condition should still hold
     npt.assert_equal(len(fiber_groups), 2)
@@ -121,7 +121,7 @@ def test_segment_return_idx():
         nib.load(hardi_fdata),
         mapping,
         bundles,
-        reg_template,
+        reg_template, 1,
         return_idx=True)
 
     npt.assert_equal(len(fiber_groups), 2)
@@ -144,7 +144,7 @@ def test_segment_clip_edges_api():
         nib.load(hardi_fdata),
         mapping,
         bundles,
-        reg_template,
+        reg_template, 1,
         clip_edges=True)
     npt.assert_equal(len(fiber_groups), 2)
     npt.assert_(len(fiber_groups['Right Corticospinal']) > 0)
@@ -164,7 +164,7 @@ def test_segment_reco():
         nib.load(hardi_fdata),
         mapping,
         bundles_reco,
-        reg_template,
+        reg_template, 1,
         rng=np.random.RandomState(seed=8))
 
     # This condition should still hold
@@ -198,7 +198,7 @@ def test_exclusion_ROI():
         nib.load(hardi_fdata),
         mapping,
         slf_bundle,
-        reg_template)
+        reg_template, 1)
      
     npt.assert_equal(len(fiber_groups["Left Superior Longitudinal"]), 2)
 
@@ -210,7 +210,7 @@ def test_exclusion_ROI():
         nib.load(hardi_fdata),
         mapping,
         slf_bundle,
-        reg_template)
+        reg_template, 1)
 
     npt.assert_equal(len(fiber_groups["Left Superior Longitudinal"]), 1)
 
@@ -221,7 +221,7 @@ def test_segment_sampled_streamlines():
         nib.load(hardi_fdata),
         mapping,
         bundles,
-        reg_template)
+        reg_template, 1)
 
     # Already using a subsampled tck
     # the Right Corticospinal has two streamlines and
@@ -237,7 +237,7 @@ def test_segment_sampled_streamlines():
         nib.load(hardi_fdata),
         mapping,
         bundles,
-        reg_template,
+        reg_template, 1,
         nb_streamlines=nb_streamlines)
 
     # sampled streamlines should be subset of the original streamlines

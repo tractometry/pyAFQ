@@ -9,7 +9,7 @@ from dipy.io.stateful_tractogram import StatefulTractogram, Space
 
 import AFQ.recognition.utils as abu
 from AFQ._fixes import gaussian_weights
-
+from sklearn.ensemble import IsolationForest
 
 logger = logging.getLogger('AFQ')
 
@@ -67,9 +67,60 @@ def clean_by_orientation(streamlines, primary_axis, affine, tol=None):
     return cleaned_idx
 
 
+def clean_by_orientation_mahalanobis(streamlines, n_points=100,
+                                     core_only=0.6, min_sl=20,
+                                     distance_threshold=3,
+                                     clean_rounds=5):
+    fgarray = np.array(abu.resample_tg(streamlines, n_points))
+
+    if core_only != 0:
+        crop_edge = (1.0 - core_only) / 2
+        fgarray = fgarray[
+            :,
+            int(n_points * crop_edge):int(n_points * (1 - crop_edge)),
+            :]  # Crop to middle 60%
+
+    fgarray_dists = fgarray[:, 1:, :] - fgarray[:, :-1, :]
+    idx = np.arange(len(fgarray))
+    rounds_elapsed = 0
+    while rounds_elapsed < clean_rounds:
+        # This calculates the Mahalanobis for each streamline/node:
+        m_dist = gaussian_weights(
+            fgarray_dists, return_mahalnobis=True,
+            n_points=None, stat=np.mean)
+        logger.debug(f"Shape of fgarray: {np.asarray(fgarray_dists).shape}")
+        logger.debug((
+            f"Maximum m_dist for each fiber: "
+            f"{np.max(m_dist, axis=1)}"))
+
+        if not (np.any(m_dist >= distance_threshold)):
+            break
+        idx_dist = np.all(m_dist < distance_threshold, axis=-1)
+
+        if np.sum(idx_dist) < min_sl:
+            # need to sort and return exactly min_sl:
+            idx = idx[np.argsort(np.sum(
+                m_dist, axis=-1))[:min_sl].astype(int)]
+            logger.debug((
+                f"At rounds elapsed {rounds_elapsed}, "
+                "minimum streamlines reached"))
+            break
+        else:
+            # Update by selection:
+            idx = idx[idx_dist]
+            fgarray_dists = fgarray_dists[idx_dist]
+            rounds_elapsed += 1
+            logger.debug((
+                f"Rounds elapsed: {rounds_elapsed}, "
+                f"num kept: {len(idx)}"))
+            logger.debug(f"Kept indicies: {idx}")
+
+    return idx
+
+
 def clean_bundle(tg, n_points=100, clean_rounds=5, distance_threshold=3,
-                 length_threshold=4, min_sl=20, stat='mean',
-                 return_idx=False):
+                 length_threshold=4, min_sl=20, stat=np.mean,
+                 core_only=0.6, return_idx=False):
     """
     Clean a segmented fiber group based on the Mahalnobis distance of
     each streamline
@@ -97,6 +148,13 @@ def clean_bundle(tg, n_points=100, clean_rounds=5, distance_threshold=3,
     stat : callable or str, optional.
         The statistic of each node relative to which the Mahalanobis is
         calculated. Default: `np.mean` (but can also use median, etc.)
+    core_only : float, optional
+        If non-zero, only the core of the bundle is used for cleaning.
+        The core is commonly defined as the middle 60% of each streamline,
+        thus our default is 0.6. This means streamlines are allowed to
+        deviate in the starting and ending 20% of the bundle. This is useful
+        for allowing more diverse endpoints.
+        Default: 0.6
     return_idx : bool
         Whether to return indices in the original streamlines.
         Default: False.
@@ -127,6 +185,12 @@ def clean_bundle(tg, n_points=100, clean_rounds=5, distance_threshold=3,
 
     # Resample once up-front:
     fgarray = np.asarray(abu.resample_tg(streamlines, n_points))
+    if core_only != 0:
+        crop_edge = (1.0 - core_only) / 2
+        fgarray = fgarray[
+            :,
+            int(n_points * crop_edge):int(n_points * (1 - crop_edge)),
+            :]  # Crop to middle 60%
 
     # Keep this around, so you can use it for indexing at the very end:
     idx = np.arange(len(fgarray))
@@ -134,7 +198,6 @@ def clean_bundle(tg, n_points=100, clean_rounds=5, distance_threshold=3,
     lengths = np.array([sl.shape[0] for sl in streamlines])
     # We'll only do this for clean_rounds
     rounds_elapsed = 0
-    idx_belong = idx
     while rounds_elapsed < clean_rounds:
         # This calculates the Mahalanobis for each streamline/node:
         m_dist = gaussian_weights(
@@ -192,3 +255,124 @@ def clean_bundle(tg, n_points=100, clean_rounds=5, distance_threshold=3,
         return out, idx
     else:
         return out
+
+
+def clean_by_isolation_forest(tg, n_points=100, distance_threshold=3,
+                              length_threshold=4,
+                              n_rounds=5, min_sl=20, n_jobs=None,
+                              random_state=None):
+    """
+    Use Isolation Forest (IF) to clean streamlines.
+    Nodes are passed to IF, and nodes are assigned anamoly scores.
+    These are re-mapped back on to the streamlines. Streamlines with maximum
+    outlier scores too many s.d. away from the mean outlier score
+    are removed. This is done in several rounds. This is better for cleaning
+    bundles that are not tube-like.
+
+    Parameters
+    ----------
+    tg : StatefulTractogram class instance or ArraySequence
+        A whole-brain tractogram to be segmented.
+    n_points : int, optional
+        Number of points to resample streamlines to.
+        Default: 100
+    distance_threshold : int, optional
+        Streamlines with average node anamoly score below this many
+        s.d. of average node anaomly score are removed.
+        Default: 3
+    length_threshold: float, optional
+        Threshold for cleaning based on length (in standard deviations).
+        Length of any streamline should not be *more* than this number of
+        stdevs from the mean length.
+        Default: 4.
+    n_rounds : int, optional.
+        Number of rounds of cleaning based on Isolation Forest.
+        Default: 5
+    min_sl : int, optional.
+        Number of streamlines in a bundle under which we will
+        not bother with cleaning outliers. Default: 20.
+    n_jobs : int, optional
+        Number of parallel jobs to use for LOF.
+        Default: None (single-threaded).
+    random_state : int, optional
+        Random state for IsolationForest.
+        Default: None
+
+    Returns
+    -------
+    indicies of streamlines that passed cleaning
+    """
+    if hasattr(tg, "streamlines"):
+        streamlines = tg.streamlines
+    else:
+        streamlines = dts.Streamlines(tg)
+
+    # We don't even bother if there aren't enough streamlines:
+    if len(streamlines) < min_sl:
+        logger.warning((
+            "Isolation Forest cleaning not performed"
+            " due to low streamline count"))
+        return np.ones(len(streamlines), dtype=bool)
+    
+    # Resample once up-front:
+    fgarray = np.asarray(abu.resample_tg(streamlines, n_points))
+    fgarray_dists = np.zeros_like(fgarray)
+    fgarray_dists[:, 1:, :] = fgarray[:, 1:, :] - fgarray[:, :-1, :]
+    fgarray_dists[:, 0, :] = fgarray_dists[:, 1, :]
+    X_ = np.concatenate((
+        fgarray.reshape((-1, n_points, 3)),
+        fgarray_dists.reshape((-1, n_points, 3))),
+        axis=1)
+    lengths = np.array([sl.shape[0] for sl in streamlines])
+    idx = np.arange(len(fgarray))
+
+    rounds_elapsed = 0
+    idx_belong = idx
+    while(rounds_elapsed < n_rounds):
+        # This calculates the Isolation Forest outlier for each node:
+        lof = IsolationForest(n_jobs=n_jobs, random_state=random_state)
+        lof.fit(X_.reshape(-1, 6))
+        outliers = lof.score_samples(X_.reshape(-1, 6))
+        outliers = outliers.reshape((len(idx), n_points))
+        sl_outliers = np.min(outliers, axis=1)
+
+        mean_outlier = np.mean(outliers)
+        sd_outlier = np.std(outliers)
+        logger.debug((
+            f"Mean outlier: {mean_outlier}, "
+            f"SD outlier: {sd_outlier}, "))
+
+        length_z = zscore(lengths)
+        logger.debug(f"Shape of length_z: {length_z.shape}")
+        logger.debug(f"Maximum length_z: {np.max(length_z)}")
+        logger.debug((
+            "length_z for each fiber: "
+            f"{length_z}"))
+        idx_len = length_z < length_threshold
+
+        idx_dist = sl_outliers > mean_outlier - \
+            distance_threshold * sd_outlier
+        
+        idx_belong = np.logical_and(idx_dist, idx_len)
+
+        if len(idx_belong) == len(idx):
+            break
+
+        if np.sum(idx_belong) < min_sl:
+            # need to sort and return exactly min_sl:
+            idx = idx[np.argsort(-sl_outliers)[:min_sl].astype(int)]
+            logger.debug((
+                f"At rounds elapsed {rounds_elapsed}, "
+                "minimum streamlines reached"))
+            break
+        else:
+            # Update by selection:
+            idx = idx[idx_belong]
+            X_ = X_[idx_belong]
+            rounds_elapsed += 1
+            logger.debug((
+                f"Rounds elapsed: {rounds_elapsed}, "
+                f"num kept: {len(idx)}"))
+            logger.debug(f"Kept indicies: {idx}")
+
+    return idx

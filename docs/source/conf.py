@@ -239,6 +239,7 @@ sphinx_gallery_conf = {
     'gallery_dirs': ['howto/howto_examples', 'tutorials/tutorial_examples'],
     'image_scrapers': image_scrapers,
     'reset_modules': (reset_progressbars),
+    'filename_pattern': r'/plot_(?!.*(003_rerun|006_bids_layout)).*\.py$',
     'show_memory': True,
     'abort_on_example_error': True,
     'within_subsection_order': FileNameSortKey,

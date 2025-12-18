@@ -35,7 +35,7 @@ afd.organize_stanford_data(clear_previous_afq="track")
 # We only do this to make this example faster and consume less space.
 
 tracking_params = dict(seed_mask=RoiImage(),
-                       n_seeds=10000,
+                       n_seeds=25000,
                        random_seeds=True,
                        rng_seed=42)
 
@@ -66,7 +66,8 @@ segmentation_params = {"clip_edges": True}
 
 myafq = GroupAFQ(
     bids_path=op.join(afd.afq_home, 'stanford_hardi'),
-    preproc_pipeline='vistasoft',
+    dwi_preproc_pipeline='vistasoft',
+    t1_preproc_pipeline='freesurfer',
     bundle_info=abd.callosal_bd(),
     tracking_params=tracking_params,
     segmentation_params=segmentation_params,

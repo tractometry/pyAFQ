@@ -1,18 +1,11 @@
-import contextlib
 from importlib import import_module
 from AFQ.viz.utils import viz_import_msg_error
 from AFQ.utils.docstring_parser import parse_numpy_docstring
 import immlib
 import logging
-import warnings
 import inspect
 
 from dipy.io.stateful_tractogram import set_sft_logger_level
-
-
-with contextlib.suppress(Exception):  # only works on python 3.9
-    from outdated import OutdatedPackageWarning
-    warnings.filterwarnings("ignore", category=OutdatedPackageWarning)
 
 
 __all__ = [
@@ -22,7 +15,9 @@ __all__ = [
 set_sft_logger_level(logging.CRITICAL)
 
 
-task_modules = ["data", "mapping", "segmentation", "tractography", "viz"]
+task_modules = [
+    "structural", "data", "tissue", "mapping",
+    "segmentation", "tractography", "viz"]
 
 methods_descriptors = {
     "dwi_data_file": "Path to DWI data file",
@@ -31,15 +26,32 @@ methods_descriptors = {
     "output_dir": "Path to output directory",
     "best_scalar": "Go-to scalar for visualizations",
     "base_fname": "Base file name for outputs",
+    "pve_csf": "Cerebrospinal fluid partial volume estimate map",
+    "pve_gm": "Gray matter partial volume estimate map",
+    "pve_wm": "White matter partial volume estimate map",
 }
+
 methods_sections = {
     "dwi_data_file": "data",
     "bval_file": "data",
     "bvec_file": "data",
+    "t1_file": "data",
     "output_dir": "data",
     "best_scalar": "tractography",
     "base_fname": "data",
+    "pve_csf": "tractography",
+    "pve_gm": "tractography",
+    "pve_wm": "tractography",
 }
+
+# These kwargs are used to constrcut the plan, not in the plan
+# so we don't want to warn if they are unused in the plan
+used_kwargs_exceptions = [
+    "pve",
+    "reg_subject_spec",
+    "import_tract",
+    "brain_mask_definition"]
+
 kwargs_descriptors = {}
 for task_module in task_modules:
     kwargs_descriptors[task_module] = {}
@@ -53,7 +65,7 @@ for task_module in task_modules:
                     raise NotImplementedError((
                         "If calc method has mutliple outputs, "
                         "their descriptions must be divided by commas."
-                        f" {calc_obj.name} has {len(eff_descs)} comma-divided"
+                        f" {calc_obj} has {len(eff_descs)} comma-divided"
                         f"sections but {len(calc_obj.calc.outputs)} outputs"))
                 for ii in range(len(calc_obj.calc.outputs)):
                     if eff_descs[ii][0] in [' ', '\n']:
@@ -141,17 +153,15 @@ def export_all_helper(api_afq_object, xforms, indiv, viz):
     api_afq_object.export("sl_counts")
     api_afq_object.export("median_bundle_lengths")
     api_afq_object.export("profiles")
-    api_afq_object.export("seed_thresh")
-    api_afq_object.export("stop_thresh")
 
     if viz:
         try:
+            import pingouin
+            import seaborn
+            import IPython
+        except (ImportError, ModuleNotFoundError):
+            api_afq_object.logger.warning(viz_import_msg_error("plot"))
+        else:
             api_afq_object.export("tract_profile_plots")
-        except ImportError as e:
-            plot_err_message = viz_import_msg_error("plot")
-            if str(e) != plot_err_message:
-                raise
-            else:
-                api_afq_object.logger.warning(plot_err_message)
         api_afq_object.export("all_bundles_figure")
         api_afq_object.export("indiv_bundles_figures")

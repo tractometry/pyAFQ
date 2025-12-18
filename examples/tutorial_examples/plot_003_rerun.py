@@ -16,28 +16,38 @@ re-run your pipeline.
 """
 from AFQ.api.group import GroupAFQ
 import AFQ.data.fetch as afd
+import AFQ.definitions.image as afm
 import os.path as op
 import os
 
 
 ##########################################################################
 # We start with some example data. The data we will use here is
-# generated from the
-# `Stanford HARDI dataset <https://purl.stanford.edu/ng782rw8378>`_.
+# generated from HBN
 # We then setup our myafq object which we will use to demonstrate
 # the clobber method.
 
-afd.organize_stanford_data()
+afd.fetch_hbn_preproc(["NDARAA948VFH"])
 
 tracking_params = dict(n_seeds=100,
                        random_seeds=True,
                        rng_seed=2022,
-                       trx=True,
-                       num_chunks=True)
+                       trx=True)
+
+pve = afm.PVEImages(
+    afm.ImageFile(
+        suffix="probseg", filters={"scope": "qsiprep", "label": "CSF"}),
+    afm.ImageFile(
+        suffix="probseg", filters={"scope": "qsiprep", "label": "GM"}),
+    afm.ImageFile(
+        suffix="probseg", filters={"scope": "qsiprep", "label": "WM"}))
 
 myafq = GroupAFQ(
-    bids_path=op.join(afd.afq_home, 'stanford_hardi'),
-    preproc_pipeline='vistasoft',
+    bids_path=op.join(afd.afq_home, 'HBN'),
+    dwi_preproc_pipeline='qsiprep',
+    t1_preproc_pipeline='qsiprep',
+    participant_labels=['NDARAA948VFH'],
+    pve=pve,
     tracking_params=tracking_params)
 
 ###################
@@ -61,10 +71,13 @@ myafq = GroupAFQ(
 myafq.cmd_outputs()
 
 myafq = GroupAFQ(
-    bids_path=op.join(afd.afq_home, 'stanford_hardi'),
-    preproc_pipeline='vistasoft',
+    bids_path=op.join(afd.afq_home, 'HBN'),
+    dwi_preproc_pipeline='qsiprep',
+    t1_preproc_pipeline='qsiprep',
+    participant_labels=['NDARAA948VFH'],
     b0_threshold=100,
-    tracking_params=tracking_params)
+    tracking_params=tracking_params,
+    pve=pve)
 
 myafq.export("b0")
 
@@ -99,14 +112,16 @@ tracking_params = dict(n_seeds=100,
                        random_seeds=True,
                        max_angle=60,
                        rng_seed=12,
-                       trx=True,
-                       num_chunks=True)
+                       trx=True)
 
 myafq = GroupAFQ(
-    bids_path=op.join(afd.afq_home, 'stanford_hardi'),
-    preproc_pipeline='vistasoft',
+    bids_path=op.join(afd.afq_home, 'HBN'),
+    dwi_preproc_pipeline='qsiprep',
+    t1_preproc_pipeline='qsiprep',
+    participant_labels=['NDARAA948VFH'],
     b0_threshold=100,
-    tracking_params=tracking_params)
+    tracking_params=tracking_params,
+    pve=pve)
 
 myafq.export("streamlines")
 
@@ -126,7 +141,7 @@ myafq.export("streamlines")
 #       for "cp" and "rm" operations.
 
 # Create backup directory
-backup_dir = op.join(afd.afq_home, "stanford_hardi_backup")
+backup_dir = op.join(afd.afq_home, "HBN_backup")
 os.makedirs(backup_dir, exist_ok=True)
 
 # Move the outupts of AFQ to this directory

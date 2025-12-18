@@ -62,19 +62,10 @@ def afq_process_subject(subject):
         "local_bids_dir",
         include_derivs=["pipeline_name"])
 
-    # you can optionally provide your own segmentation file
-    # in this case, we look for a file with suffix 'seg'
-    # in the 'pipeline_name' pipeline,
-    # and we consider all non-zero labels to be a part of the brain
-    brain_mask_definition = afm.LabelledImageFile(
-        suffix='seg', filters={'scope': 'pipeline_name'},
-        exclusive_labels=[0])
-
     # define the api AFQ object
     myafq = GroupAFQ(
         "local_bids_dir",
-        preproc_pipeline="pipeline_name",
-        brain_mask_definition=brain_mask_definition,
+        dwi_preproc_pipeline="pipeline_name",
         viz_backend_spec='plotly',  # this will generate both interactive html and GIFs # noqa
         scalars=["dki_fa", "dki_md"])
 

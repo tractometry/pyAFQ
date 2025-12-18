@@ -45,26 +45,20 @@ study_dir = afd.fetch_hbn_preproc(["NDARAA948VFH"])[1]
 # --------------------
 # In addition to preprocessd dMRI data, HBN-POD2 contains brain mask and mapping
 # information for each subject. We can use this information in our pipeline, by
-# inserting this information as `mapping_definition` and `brain_mask_definition`
-# inputs to the `GroupAFQ` class initializer. When initializing this object, we
-# will also ask for the fwDTI scalars to be computed. For expedience, we will
-# limit our investigation to the bilateral arcuate fasciculus and track only
-# around that bundle. If you would like to do this for all bundles, you would
-# remove the `bundle_dict` and `tracking_params` inputs to the initializer that
+# inserting this information as `mapping_definition` inputs to the `GroupAFQ` class
+# initializer. When initializing this object, we will also ask for the fwDTI scalars
+# to be computed. For expedience, we will limit our investigation to the bilateral
+# arcuate fasciculus and track only around that bundle. If you would like to do this
+# for all bundles, you would remove the `bundle_dict` and `tracking_params` inputs
+# to the initializer that
 # are provided below.
-
-brain_mask_definition = ImageFile(
-    suffix="mask",
-    filters={'desc': 'brain',
-             'space': 'T1w',
-             'scope': 'qsiprep'})
 
 bundle_names = ["Left Arcuate", "Right Arcuate"]
 bundle_dict = abd.default18_bd()[bundle_names]
 
 myafq = GroupAFQ(
     bids_path=study_dir,
-    preproc_pipeline='qsiprep',
+    dwi_preproc_pipeline='qsiprep',
     output_dir=op.join(study_dir, "derivatives", "afq_fwdti"),
     bundle_info=bundle_dict,
     tracking_params={
@@ -72,7 +66,6 @@ myafq = GroupAFQ(
         "random_seeds": True,
         "seed_mask": RoiImage(use_waypoints=True, use_endpoints=True),
     },
-    brain_mask_definition=brain_mask_definition,
     scalars=["fwdti_fa", "fwdti_md", "fwdti_fwf", "dti_fa", "dti_md"])
 
 #############################################################################

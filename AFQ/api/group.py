@@ -15,6 +15,7 @@ from AFQ.api.utils import (
 import AFQ.utils.streamlines as aus
 from AFQ.viz.utils import get_eye
 from AFQ.data.utils import aws_import_msg_error
+from AFQ.definitions.utils import find_file
 
 from dipy.utils.parallel import paramap
 from dipy.io.stateful_tractogram import StatefulTractogram, Space
@@ -60,11 +61,13 @@ def clean_pandas_df(df):
 
 class _ParticipantAFQInputs:
     def __init__(
-            self, dwi_data_file, bval_file, bvec_file, results_dir,
+            self, dwi_data_file, bval_file, bvec_file,
+            t1_file, results_dir,
             kwargs):
         self.dwi_data_file = dwi_data_file
         self.bval_file = bval_file
         self.bvec_file = bvec_file
+        self.t1_file = t1_file
         self.results_dir = results_dir
         self.kwargs = kwargs
 
@@ -75,7 +78,8 @@ class GroupAFQ(object):
     def __init__(self,
                  bids_path,
                  bids_filters={"suffix": "dwi"},
-                 preproc_pipeline="all",
+                 dwi_preproc_pipeline="all",
+                 t1_preproc_pipeline=None,
                  participant_labels=None,
                  output_dir=None,
                  parallel_params={"engine": "serial"},
@@ -93,9 +97,13 @@ class GroupAFQ(object):
         bids_filters : dict
             Filter to pass to bids_layout.get when finding DWI files.
             Default: {"suffix": "dwi"}
-        preproc_pipeline : str, optional.
+        dwi_preproc_pipeline : str, optional.
             The name of the pipeline used to preprocess the DWI data.
             Default: "all".
+        t1_preproc_pipeline : str or None, optional
+            The name of the pipeline used to preprocess the T1w data.
+            If None, defaults to the same as dwi_preproc_pipeline.
+            Default: None
         participant_labels : list or None, optional
             List of participant labels (subject IDs) to perform
             processing on. If None, all subjects are used.
@@ -141,7 +149,9 @@ class GroupAFQ(object):
                              + " in bids_path")
         if not isinstance(bids_filters, dict):
             raise TypeError("bids_filters must be a dict")
-        # preproc_pipeline typechecking handled by pyBIDS
+        # dwi_preproc_pipeline typechecking handled by pyBIDS
+        if t1_preproc_pipeline is None:
+            t1_preproc_pipeline = dwi_preproc_pipeline
         if participant_labels is not None\
                 and not isinstance(participant_labels, list):
             raise TypeError(
@@ -189,13 +199,13 @@ class GroupAFQ(object):
                 - len(bids_layout.get(extension="json")) < 1:
             raise ValueError(
                 f"No non-json files recognized by pyBIDS in {bids_path}")
-        if len(bids_layout.get(scope=preproc_pipeline))\
+        if len(bids_layout.get(scope=dwi_preproc_pipeline))\
                 - len(bids_layout.get(
-                    scope=preproc_pipeline,
+                    scope=dwi_preproc_pipeline,
                     extension="json")) < 1:
             raise ValueError((
                 f"No non-json files recognized by "
-                f"pyBIDS in the pipeline: {preproc_pipeline}"))
+                f"pyBIDS in the pipeline: {dwi_preproc_pipeline}"))
 
         # Add required metadata file at top level (inheriting as needed):
         pipeline_description = {
@@ -250,15 +260,13 @@ class GroupAFQ(object):
         if len(self.sessions) * len(self.subjects) < 2:
             self.parallel_params["engine"] = "serial"
 
-        # do not parallelize segmentation if parallelizing across
+        # do not parallelize within subject if parallelizing across
         # subject-sessions
         if self.parallel_params["engine"] != "serial":
-            if "segmentation_params" not in kwargs:
-                kwargs["segmentation_params"] = {}
-            if "parallel_segmentation" not in kwargs["segmentation_params"]:
-                kwargs["segmentation_params"]["parallel_segmentation"] = {}
-            kwargs["segmentation_params"]["parallel_segmentation"]["engine"] =\
-                "serial"
+            if "ray_n_cpus" not in kwargs:
+                kwargs["ray_n_cpus"] = 1
+            if "numba_n_threads" not in kwargs:
+                kwargs["numba_n_threads"] = 1
 
         self.valid_sub_list = []
         self.valid_ses_list = []
@@ -279,7 +287,7 @@ class GroupAFQ(object):
                     "subject": subject,
                     "session": session,
                     "return_type": "filename",
-                    "scope": preproc_pipeline,
+                    "scope": dwi_preproc_pipeline,
                     "extension": "nii.gz",
                     "suffix": "dwi",
                 }
@@ -300,15 +308,28 @@ class GroupAFQ(object):
                 # files. Maintain input ``bids_filters`` in case user wants to
                 # specify acquisition labels, but pop suffix since it is
                 # already specified inside ``get_bvec()`` and ``get_bval()``
-                suffix = bids_filters.pop("suffix", None)
+                nearby_filters = {**bids_filters, "scope": dwi_preproc_pipeline}
+                nearby_filters.pop("suffix", None)
                 bvec_file = bids_layout.get_bvec(
                     dwi_data_file,
-                    **bids_filters)
+                    **nearby_filters)
                 bval_file = bids_layout.get_bval(
                     dwi_data_file,
-                    **bids_filters)
-                if suffix is not None:
-                    bids_filters["suffix"] = suffix
+                    **nearby_filters)
+                nearby_filters.pop("scope", None)
+                nearby_filters["scope"] = t1_preproc_pipeline
+                t1_file = find_file(
+                    bids_layout, dwi_data_file,
+                    nearby_filters,
+                    "T1w", session, subject)
+
+                self.logger.info(
+                    f"Using the following files for subject {subject} "
+                    f"and session {session}:")
+                self.logger.info(f"  DWI: {dwi_data_file}")
+                self.logger.info(f"  BVAL: {bval_file}")
+                self.logger.info(f"  BVEC: {bvec_file}")
+                self.logger.info(f"  T1: {t1_file}")
 
                 # Call find path for all definitions
                 for key, value in this_kwargs.items():
@@ -358,17 +379,19 @@ class GroupAFQ(object):
                     elif isinstance(value, dict):
                         for _, subvalue in value.items():
                             if isinstance(subvalue, Definition):
-                                subvalue.find_path(
-                                    bids_layout,
-                                    dwi_data_file,
-                                    subject,
-                                    session)
+                                for file_ in [dwi_data_file, t1_file]:
+                                    subvalue.find_path(
+                                        bids_layout,
+                                        file_,
+                                        subject,
+                                        session)
                     elif isinstance(value, Definition):
-                        value.find_path(
-                            bids_layout,
-                            dwi_data_file,
-                            subject,
-                            session)
+                        for file_ in [dwi_data_file, t1_file]:
+                            value.find_path(
+                                bids_layout,
+                                file_,
+                                subject,
+                                session)
 
                 # call find path for all ROIs
                 if "bundle_info" in this_kwargs and isinstance(
@@ -386,17 +409,20 @@ class GroupAFQ(object):
                 this_pAFQ_inputs = _ParticipantAFQInputs(
                     dwi_data_file,
                     bval_file, bvec_file,
+                    t1_file,
                     results_dir,
                     this_kwargs)
                 this_pAFQ = ParticipantAFQ(
                     this_pAFQ_inputs.dwi_data_file,
                     this_pAFQ_inputs.bval_file,
                     this_pAFQ_inputs.bvec_file,
+                    this_pAFQ_inputs.t1_file,
                     this_pAFQ_inputs.results_dir,
                     **this_pAFQ_inputs.kwargs)
                 self.plans_dict[subject][str(session)] = this_pAFQ.plans_dict
                 self.pAFQ_list.append(this_pAFQ)
                 self.pAFQ_inputs_list.append(this_pAFQ_inputs)
+        self.kwargs = self.pAFQ_list[-1].kwargs
 
     def combine_profiles(self):
         tract_profiles_dict = self.export("profiles")
@@ -610,8 +636,8 @@ class GroupAFQ(object):
         self.logger.info(
             f"Time taken for export all: {str(time() - start_time)}")
 
-    def cmd_outputs(self, cmd="rm", dependent_on=None, exceptions=[],
-                    suffix=""):
+    def cmd_outputs(self, cmd="rm", dependent_on=None, up_to=None,
+                    exceptions=[], suffix=""):
         """
         Perform some command some or all outputs of pyafq.
         This is useful if you change a parameter and need
@@ -631,6 +657,15 @@ class GroupAFQ(object):
             If "recog", perform on all derivatives that depend on the
             bundle recognition.
             Default: None
+        up_to : str or None
+            If None, will perform on all derivatives.
+            If "track", will perform on all derivatives up to 
+            (but not including) tractography.
+            If "recog", will perform on all derivatives up to
+            (but not including) bundle recognition.
+            If "prof", will perform on all derivatives up to
+            (but not including) bundle profiling.
+            Default: None
         exceptions : list of str
             Name outputs that the command should not be applied to.
             Default: []
@@ -648,7 +683,12 @@ class GroupAFQ(object):
             suffix="~/my_other_folder/")
         """
         for pAFQ in self.pAFQ_list:
-            pAFQ.cmd_outputs(cmd, dependent_on, exceptions, suffix=suffix)
+            pAFQ.cmd_outputs(
+                cmd=cmd,
+                dependent_on=dependent_on,
+                up_to=up_to,
+                exceptions=exceptions,
+                suffix=suffix)
 
     clobber = cmd_outputs  # alias for default of cmd_outputs
 
@@ -699,6 +739,7 @@ class GroupAFQ(object):
         best_scalar = self.export("best_scalar", collapse=False)[
             self.valid_sub_list[0]][self.valid_ses_list[0]]
 
+        t1_dict = self.export("t1_masked", collapse=False)
         viz_backend_dict = self.export("viz_backend", collapse=False)
         b0_backend_dict = self.export("b0", collapse=False)
         dwi_affine_dict = self.export("dwi_affine", collapse=False)
@@ -712,6 +753,7 @@ class GroupAFQ(object):
             this_ses = self.valid_ses_list[ii]
             viz_backend = viz_backend_dict[this_sub][this_ses]
             b0 = b0_backend_dict[this_sub][this_ses]
+            t1 = nib.load(t1_dict[this_sub][this_ses])
             dwi_affine = dwi_affine_dict[this_sub][this_ses]
             bundles = bundles_dict[this_sub][this_ses]
             best_scalar = best_scalar_dict[this_sub][this_ses]
@@ -736,7 +778,7 @@ class GroupAFQ(object):
                     slice_kwargs["z_pos"] = slice_pos
 
                 figure = viz_backend.visualize_volume(
-                    best_scalar,
+                    t1,
                     opacity=1.0,
                     flip_axes=flip_axes,
                     interact=False,
@@ -747,6 +789,7 @@ class GroupAFQ(object):
 
             figure = viz_backend.visualize_bundles(
                 bundles,
+                affine=t1.affine,
                 shade_by_volume=best_scalar,
                 flip_axes=flip_axes,
                 bundle=bundle_name,
@@ -1065,7 +1108,7 @@ class ParallelGroupAFQ():
             if "'NoneType' object has no attribute 'replace'" not in str(e):
                 raise
 
-    def export(self, attr_name="help", collapse=True):
+    def export(self, attr_name="help"):
         f"""
         Export a specific output. To print a list of available outputs,
         call export without arguments.
@@ -1075,9 +1118,6 @@ class ParallelGroupAFQ():
         ----------
         attr_name : str
             Name of the output to export. Default: "help"
-        collapse : bool
-            Whether to collapse session dimension if there is only 1 session.
-            Default: True
 
         Returns
         -------
@@ -1095,6 +1135,7 @@ class ParallelGroupAFQ():
                 pAFQ_kwargs.dwi_data_file,
                 pAFQ_kwargs.bval_file,
                 pAFQ_kwargs.bvec_file,
+                pAFQ_kwargs.t1_file,
                 pAFQ_kwargs.results_dir,
                 **pAFQ_kwargs.kwargs)
             pAFQ.export(attr_name)
@@ -1144,6 +1185,7 @@ class ParallelGroupAFQ():
                 pAFQ_kwargs.dwi_data_file,
                 pAFQ_kwargs.bval_file,
                 pAFQ_kwargs.bvec_file,
+                pAFQ_kwargs.t1_file,
                 pAFQ_kwargs.results_dir,
                 **pAFQ_kwargs.kwargs)
             pAFQ.export_all(viz, xforms, indiv)

@@ -1,10 +1,13 @@
 import nibabel as nib
 import numpy as np
 import logging
+import multiprocessing
 
 from dipy.io.gradients import read_bvals_bvecs
 import dipy.core.gradients as dpg
-from dipy.data import default_sphere
+from dipy.data import default_sphere, get_sphere
+
+from numba import get_num_threads
 
 import immlib
 
@@ -16,16 +19,16 @@ from dipy.reconst.gqi import GeneralizedQSamplingModel
 from dipy.reconst.rumba import RumbaSDModel, RumbaFit
 from dipy.reconst import shm
 from dipy.reconst.dki_micro import axonal_water_fraction
+from dipy.align import resample
 
 from AFQ.tasks.decorators import as_file, as_img, as_fit_deriv
-from AFQ.tasks.utils import get_fname, with_name, str_to_desc
+from AFQ.tasks.utils import get_fname, with_name
 import AFQ.api.bundle_dict as abd
 import AFQ.data.fetch as afd
 from AFQ.utils.path import drop_extension, write_json
 from AFQ._fixes import gwi_odf
 
 from AFQ.definitions.utils import Definition
-from AFQ.definitions.image import B0Image
 
 from AFQ.models.dti import noise_from_b0
 from AFQ.models.csd import _fit as csd_fit_model
@@ -35,7 +38,9 @@ from AFQ.models.dti import _fit as dti_fit_model
 from AFQ.models.fwdti import _fit as fwdti_fit_model
 from AFQ.models.QBallTP import (
     extract_odf, anisotropic_index, anisotropic_power)
-
+from AFQ.models.asym_filtering import (
+    unified_filtering, compute_asymmetry_index,
+    compute_odd_power_map)
 
 logger = logging.getLogger('AFQ')
 
@@ -87,20 +92,57 @@ def get_data_gtab(dwi_data_file, bval_file, bvec_file, min_bval=-np.inf,
     return data, gtab, img, img.affine
 
 
+@immlib.calc("n_cpus", "n_threads", "low_mem")
+def configure_ncpus_nthreads(ray_n_cpus=None, numba_n_threads=None,
+                             low_memory=False):
+    """
+    Configure the number of CPUs to use for parallel processing with Ray,
+    the number of threads to use for Numba,
+    and whether to use low-memory versions of algorithms
+    where available
+
+    Parameters
+    ----------
+    ray_n_cpus : int, optional
+        The number of CPUs to use for parallel processing with Ray.
+        If None, uses the number of available CPUs minus one.
+        Tractography, Recognition, and MSMT use Ray.
+        Default: None
+    numba_n_threads : int, optional
+        The number of threads to use for Numba.
+        If None, uses the number of available CPUs minus one,
+        but with a maximum of 16.
+        ASYM fit uses Numba.
+        Default: None
+    low_memory : bool, optional
+        Whether to use low-memory versions of algorithms
+        where available.
+        Default: False
+    """
+    if ray_n_cpus is None:
+        ray_n_cpus = max(multiprocessing.cpu_count() - 1, 1)
+    if numba_n_threads is None:
+        numba_n_threads = min(
+            max(get_num_threads() - 1, 1), 16)
+
+    return ray_n_cpus, numba_n_threads, low_memory
+
+
 @immlib.calc("b0")
 @as_file('_b0ref.nii.gz')
+@as_img
 def b0(dwi, gtab):
     """
     full path to a nifti file containing the mean b0
     """
     mean_b0 = np.mean(dwi.get_fdata()[..., gtab.b0s_mask], -1)
-    mean_b0_img = nib.Nifti1Image(mean_b0, dwi.affine)
     meta = dict(b0_threshold=gtab.b0_threshold)
-    return mean_b0_img, meta
+    return mean_b0, meta
 
 
 @immlib.calc("masked_b0")
 @as_file('_desc-masked_b0ref.nii.gz')
+@as_img
 def b0_mask(b0, brain_mask):
     """
     full path to a nifti file containing the
@@ -112,11 +154,10 @@ def b0_mask(b0, brain_mask):
     masked_data = img.get_fdata()
     masked_data[~brain_mask] = 0
 
-    masked_b0_img = nib.Nifti1Image(masked_data, img.affine)
     meta = dict(
         source=b0,
         masked=True)
-    return masked_b0_img, meta
+    return masked_data, meta
 
 
 @immlib.calc("dti_tf")
@@ -371,6 +412,86 @@ def csd_params(dwi, brain_mask, gtab, data,
     meta["SphericalHarmonicBasis"] = "DESCOTEAUX"
     meta["ModelURL"] = f"{DIPY_GH}reconst/csdeconv.py"
     return csdf.shm_coeff, meta
+
+
+@immlib.calc("csd_aodf_params")
+@as_file(suffix='_model-csd_param-aodf_dwimap.nii.gz',
+         subfolder="models")
+@as_img
+def csd_aodf(csd_params, n_threads, low_mem):
+    """
+    full path to a nifti file containing
+    SSST CSD ODFs filtered by unified filtering [1]
+
+    References
+    ----------
+    [1] Poirier and Descoteaux, 2024, "A Unified Filtering Method for
+        Estimating Asymmetric Orientation Distribution Functions",
+        Neuroimage, https://doi.org/10.1016/j.neuroimage.2024.120516
+    """
+    sh_coeff = nib.load(csd_params).get_fdata()
+
+    logger.info("Applying unified filtering to generate "
+                "asymmetric CSD ODFs...")
+    aodf = unified_filtering(
+        sh_coeff,
+        get_sphere(name="repulsion724"),
+        n_threads=n_threads,
+        low_mem=low_mem)
+
+    return aodf, dict(
+        CSDParamsFile=csd_params,
+        Sphere="repulsion724")
+
+
+@immlib.calc("csd_aodf_asi")
+@as_file(suffix='_model-csd_param-asi_dwimap.nii.gz',
+         subfolder="models")
+@as_img
+def csd_aodf_asi(csd_aodf_params, brain_mask):
+    """
+    full path to a nifti file containing
+    the CSD Asymmetric Index (ASI) [1]
+
+    References
+    ----------
+    [1] S. Cetin Karayumak, E. Özarslan, and G. Unal,
+        "Asymmetric Orientation Distribution Functions (AODFs)
+        revealing intravoxel geometry in diffusion MRI"
+        Magnetic Resonance Imaging, vol. 49, pp. 145-158, Jun. 2018,
+        doi: https://doi.org/10.1016/j.mri.2018.03.006.
+    """
+
+    aodf = nib.load(csd_aodf_params).get_fdata()
+    brain_mask = nib.load(brain_mask).get_fdata().astype(bool)
+    asi = compute_asymmetry_index(aodf, brain_mask)
+
+    return asi, dict(CSDParamsFile=csd_aodf_params)
+
+
+@immlib.calc("csd_aodf_opm")
+@as_file(suffix='_model-csd_param-opm_dwimap.nii.gz',
+         subfolder="models")
+@as_img
+def csd_aodf_opm(csd_aodf_params, brain_mask):
+    """
+    full path to a nifti file containing
+    the CSD odd-power map [1]
+
+    References
+    ----------
+    [1] C. Poirier, E. St-Onge, and M. Descoteaux,
+        "Investigating the Occurence of Asymmetric Patterns in
+        White Matter Fiber Orientation Distribution Functions"
+        [Abstract], In: Proc. Intl. Soc. Mag. Reson. Med. 29 (2021),
+        2021 May 15-20, Vancouver, BC, Abstract number 0865.
+    """
+
+    aodf = nib.load(csd_aodf_params).get_fdata()
+    brain_mask = nib.load(brain_mask).get_fdata().astype(bool)
+    opm = compute_odd_power_map(aodf, brain_mask)
+
+    return opm, dict(CSDParamsFile=csd_aodf_params)
 
 
 @immlib.calc("csd_pmap")
@@ -1011,6 +1132,42 @@ def dki_kfa(dki_tf):
     return dki_tf.kfa
 
 
+@immlib.calc("dki_cl")
+@as_file('_model-dki_param-cl_dwimap.nii.gz',
+         subfolder="models")
+@as_fit_deriv('DKI')
+def dki_cl(dki_tf):
+    """
+    full path to a nifti file containing
+    the DKI linearity file
+    """
+    return dki_tf.linearity
+
+
+@immlib.calc("dki_cp")
+@as_file('_model-dki_param-cp_dwimap.nii.gz',
+         subfolder="models")
+@as_fit_deriv('DKI')
+def dki_cp(dki_tf):
+    """
+    full path to a nifti file containing
+    the DKI planarity file
+    """
+    return dki_tf.planarity
+
+
+@immlib.calc("dki_cs")
+@as_file('_model-dki_param-cs_dwimap.nii.gz',
+         subfolder="models")
+@as_fit_deriv('DKI')
+def dki_cs(dki_tf):
+    """
+    full path to a nifti file containing
+    the DKI sphericity file
+    """
+    return dki_tf.sphericity
+
+
 @immlib.calc("dki_ga")
 @as_file(suffix='_model-dki_param-ga_dwimap.nii.gz',
          subfolder="models")
@@ -1056,7 +1213,7 @@ def dki_rk(dki_tf):
     full path to a nifti file containing
     the DKI radial kurtosis
     """
-    return dki_tf.rk
+    return dki_tf.rk()
 
 
 @immlib.calc("dki_ak")
@@ -1068,34 +1225,21 @@ def dki_ak(dki_tf):
     full path to a nifti file containing
     the DKI axial kurtosis file
     """
-    return dki_tf.ak
+    return dki_tf.ak()
 
 
 @immlib.calc("brain_mask")
 @as_file('_desc-brain_mask.nii.gz')
-def brain_mask(b0, brain_mask_definition=None):
+def brain_mask(structural_imap, b0):
     """
-    full path to a nifti file containing
-    the brain mask
-
-    Parameters
-    ----------
-    brain_mask_definition : instance from `AFQ.definitions.image`, optional
-        This will be used to create
-        the brain mask, which gets applied before registration to a
-        template.
-        If you want no brain mask to be applied, use FullImage.
-        If None, use B0Image()
-        Default: None
+    full path to a nifti file containing the brain mask
     """
-    # Note that any case where brain_mask_definition is not None
-    # is handled in get_data_plan
-    # This is just the default
-    return B0Image().get_image_getter("data")(b0)
+    return resample(structural_imap["t1w_brain_mask"], b0), dict(
+        BrainMaskinT1w=structural_imap["t1w_brain_mask"])
 
 
 @immlib.calc("bundle_dict", "reg_template", "tmpl_name")
-def get_bundle_dict(brain_mask, b0,
+def get_bundle_dict(b0,
                     bundle_info=None, reg_template_spec="mni_T1",
                     reg_template_space_name="mni"):
     """
@@ -1139,24 +1283,20 @@ def get_bundle_dict(brain_mask, b0,
     if bundle_info is None:
         bundle_info = abd.default18_bd() + abd.callosal_bd()
 
-    use_brain_mask = True
-    brain_mask = nib.load(brain_mask).get_fdata()
-    if np.all(brain_mask == 1.0):
-        use_brain_mask = False
     if isinstance(reg_template_spec, nib.Nifti1Image):
         reg_template = reg_template_spec
     else:
         img_l = reg_template_spec.lower()
         if img_l == "mni_t2":
             reg_template = afd.read_mni_template(
-                mask=use_brain_mask, weight="T2w")
+                mask=True, weight="T2w")
         elif img_l == "mni_t1":
             reg_template = afd.read_mni_template(
-                mask=use_brain_mask, weight="T1w")
+                mask=True, weight="T1w")
         elif img_l == "dti_fa_template":
-            reg_template = afd.read_ukbb_fa_template(mask=use_brain_mask)
+            reg_template = afd.read_ukbb_fa_template(mask=True)
         elif img_l == "hcp_atlas":
-            reg_template = afd.read_mni_template(mask=use_brain_mask)
+            reg_template = afd.read_mni_template(mask=True)
         elif img_l == "pediatric":
             reg_template = afd.read_pediatric_templates()[
                 "UNCNeo-withCerebellum-for-babyAFQ"]
@@ -1170,7 +1310,7 @@ def get_bundle_dict(brain_mask, b0,
             bundle_info,
             resample_to=reg_template)
 
-    if bundle_dict.resample_subject_to is None:
+    if bundle_dict.resample_subject_to == True:
         bundle_dict.resample_subject_to = b0
 
     return bundle_dict, reg_template, reg_template_space_name
@@ -1186,8 +1326,10 @@ def get_data_plan(kwargs):
 
     data_tasks = with_name([
         get_data_gtab, b0, b0_mask, brain_mask,
+        configure_ncpus_nthreads,
         dti_fit, dki_fit, fwdti_fit, anisotropic_power_map,
-        csd_anisotropic_index,
+        csd_anisotropic_index, csd_aodf,
+        csd_aodf_asi, csd_aodf_opm,
         dti_fa, dti_lt, dti_cfa, dti_pdd, dti_md, dki_kt, dki_lt, dki_fa,
         gq, gq_pmap, gq_ai, opdt_params, opdt_pmap, opdt_ai,
         csa_params, csa_pmap, csa_ai,
@@ -1196,6 +1338,7 @@ def get_data_plan(kwargs):
         dki_md, dki_awf, dki_mk, dki_kfa, dki_ga, dki_rd,
         dti_ga, dti_rd, dti_ad,
         dki_ad, dki_rk, dki_ak, dti_params, dki_params, fwdti_params,
+        dki_cl, dki_cp, dki_cs,
         rumba_fit, rumba_params, rumba_model,
         rumba_f_csf, rumba_f_gm, rumba_f_wm,
         csd_params, get_bundle_dict])
@@ -1205,10 +1348,10 @@ def get_data_plan(kwargs):
         if len(dpg.unique_bvals_magnitude(bvals)) > 2:
             kwargs["scalars"] = [
                 "dki_fa", "dki_md",
-                "dki_kfa", "dki_mk"]
+                "dki_kfa", "dki_mk", "t1w"]
         else:
             kwargs["scalars"] = [
-                "dti_fa", "dti_md"]
+                "dti_fa", "dti_md", "t1w"]
     else:
         scalars = []
         for scalar in kwargs["scalars"]:
@@ -1217,19 +1360,5 @@ def get_data_plan(kwargs):
             else:
                 scalars.append(scalar)
         kwargs["scalars"] = scalars
-
-    bm_def = kwargs.get(
-        "brain_mask_definition", None)
-    if bm_def is not None:
-        if not isinstance(bm_def, Definition):
-            raise TypeError(
-                "brain_mask_definition must be a Definition")
-        del kwargs["brain_mask_definition"]
-        data_tasks["brain_mask_res"] = immlib.calc("brain_mask")(
-            as_file(
-                suffix=(
-                    f'_desc-{str_to_desc(bm_def.get_name())}'
-                    '_mask.nii.gz'),
-                subfolder="models")(bm_def.get_image_getter("data")))
 
     return immlib.plan(**data_tasks)

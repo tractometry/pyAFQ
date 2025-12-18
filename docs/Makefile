@@ -42,7 +42,9 @@ distclean: clean
 
 # delete more files than distclean. this would also remove the data files.
 realclean: distclean
-	@echo Removing data files from $(HOME)
+	@echo "WARNING: This will delete all data in your AFQ_data folder and .dipy directory."
+	@echo -n "Proceed? [y/N] " && read ans && [ $${ans:-N} = y ]
+
 	rm -rf $(HOME)/.dipy/
 	rm -rf $(HOME)/AFQ_data/
 

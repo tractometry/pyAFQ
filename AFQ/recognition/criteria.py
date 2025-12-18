@@ -3,11 +3,11 @@ from time import time
 
 import numpy as np
 import nibabel as nib
+import ray
 
 from scipy.ndimage import distance_transform_edt
 
 import dipy.tracking.streamline as dts
-from dipy.utils.parallel import paramap
 from dipy.segment.clustering import QuickBundles
 from dipy.segment.metricspeed import AveragePointwiseEuclideanMetric
 from dipy.segment.featurespeed import ResampleFeature
@@ -21,11 +21,18 @@ import AFQ.recognition.cleaning as abc
 import AFQ.recognition.curvature as abv
 import AFQ.recognition.roi as abr
 import AFQ.recognition.other_bundles as abo
+from AFQ.utils.stats import chunk_indices
 
-bundle_criterion_order = [
+
+criteria_order_pre_other_bundles = [
     "prob_map", "cross_midline", "start", "end",
     "length", "primary_axis", "include", "exclude",
-    "curvature", "recobundles", "qb_thresh"]
+    "curvature", "recobundles"]
+
+
+criteria_order_post_other_bundles = [
+    "orient_mahal", "isolation_forest", "qb_thresh"]
+
 
 valid_noncriterion = [
     "space", "mahal", "primary_axis_percentage",
@@ -123,7 +130,7 @@ def primary_axis(b_sls, bundle_def, img, **kwargs):
 
 
 def include(b_sls, bundle_def, preproc_imap, max_includes,
-            parallel_segmentation, **kwargs):
+            n_cpus, **kwargs):
     accept_idx = b_sls.initiate_selection("include")
     flip_using_include = len(bundle_def["include"]) > 1\
         and not b_sls.oriented_yet
@@ -139,13 +146,26 @@ def include(b_sls, bundle_def, preproc_imap, max_includes,
 
     # with parallel segmentation, the first for loop will
     # only collect streamlines and does not need tqdm
-    if parallel_segmentation["engine"] != "serial":
-        inc_results = paramap(
-            abr.check_sl_with_inclusion, b_sls.get_selected_sls(),
-            func_args=[
-                bundle_def["include"], include_roi_tols],
-            **parallel_segmentation)
+    if n_cpus > 1:
+        inc_results = np.zeros(len(b_sls), dtype=tuple)
 
+        inc_rois_id = ray.put(bundle_def["include"])
+        inc_roi_tols_id = ray.put(include_roi_tols)
+
+        _check_inc_parallel = ray.remote(
+            num_cpus=n_cpus)(abr.check_sls_with_inclusion)
+
+        sls_chunks = list(chunk_indices(np.arange(len(b_sls)), n_cpus))
+        futures = [
+            _check_inc_parallel.remote(
+                b_sls.get_selected_sls()[sls_chunk],
+                inc_rois_id,
+                inc_roi_tols_id)
+            for sls_chunk in sls_chunks
+        ]
+
+        for ii, future in enumerate(futures):
+            inc_results[sls_chunks[ii]] = ray.get(future)
     else:
         inc_results = abr.check_sls_with_inclusion(
             b_sls.get_selected_sls(),
@@ -177,14 +197,7 @@ def include(b_sls, bundle_def, preproc_imap, max_includes,
                     accept_idx[sl_idx] = 1
             else:
                 accept_idx[sl_idx] = 1
-    # see https://github.com/joblib/joblib/issues/945
-    if (
-        (parallel_segmentation.get(
-            "engine", "joblib") != "serial")
-        and (parallel_segmentation.get(
-            "backend", "loky") == "loky")):
-        from joblib.externals.loky import get_reusable_executor
-        get_reusable_executor().shutdown(wait=True)
+
     b_sls.roi_closest = roi_closest.T
     if flip_using_include:
         b_sls.reorient(to_flip)
@@ -248,15 +261,16 @@ def recobundles(b_sls, mapping, bundle_def, reg_template, img, refine_reco,
         StatefulTractogram(b_sls.get_selected_sls(), img, Space.VOX),
         "template", mapping, reg_template,
         save_intermediates=save_intermediates).streamlines
+    moved_sl_resampled = abu.resample_tg(moved_sl, 100)
     rb = RecoBundles(moved_sl, verbose=True, rng=rng)
     _, rec_labels = rb.recognize(
         bundle_def['recobundles']['sl'],
         **rb_recognize_params)
     if refine_reco:
         _, rec_labels = rb.refine(
-            bundle_def['recobundles']['sl'], moved_sl[rec_labels],
+            bundle_def['recobundles']['sl'], moved_sl_resampled[rec_labels],
             **rb_recognize_params)
-    if not b_sls.oriented_yet:
+    if not b_sls.oriented_yet and np.sum(rec_labels) > 0:
         standard_sl = next(iter(bundle_def['recobundles']['centroid']))
         oriented_idx = abu.orient_by_streamline(
             moved_sl[rec_labels],
@@ -287,12 +301,20 @@ def clean_by_other_bundle(b_sls, bundle_def,
     cleaned_idx = b_sls.initiate_selection(other_bundle_name)
     cleaned_idx = 1
 
+    if 'overlap' in bundle_def[other_bundle_name]:
+        cleaned_idx_overlap = abo.clean_by_overlap(
+            b_sls.get_selected_sls(),
+            other_bundle_sls,
+            bundle_def[other_bundle_name]["overlap"],
+            img, False)
+        cleaned_idx = np.logical_and(cleaned_idx, cleaned_idx_overlap)
+
     if 'node_thresh' in bundle_def[other_bundle_name]:
-        cleaned_idx_node_thresh = abo.clean_by_other_density_map(
+        cleaned_idx_node_thresh = abo.clean_by_overlap(
             b_sls.get_selected_sls(),
             other_bundle_sls,
             bundle_def[other_bundle_name]["node_thresh"],
-            img)
+            img, True)
         cleaned_idx = np.logical_and(cleaned_idx, cleaned_idx_node_thresh)
 
     if 'core' in bundle_def[other_bundle_name]:
@@ -300,10 +322,38 @@ def clean_by_other_bundle(b_sls, bundle_def,
             bundle_def[other_bundle_name]['core'].lower(),
             preproc_imap["fgarray"][b_sls.selected_fiber_idxs],
             np.array(abu.resample_tg(other_bundle_sls, 20)),
-            img.affine)
+            img.affine, False)
+        cleaned_idx = np.logical_and(cleaned_idx, cleaned_idx_core)
+
+    if 'entire_core' in bundle_def[other_bundle_name]:
+        cleaned_idx_core = abo.clean_relative_to_other_core(
+            bundle_def[other_bundle_name]['entire_core'].lower(),
+            preproc_imap["fgarray"][b_sls.selected_fiber_idxs],
+            np.array(abu.resample_tg(other_bundle_sls, 20)),
+            img.affine, True)
         cleaned_idx = np.logical_and(cleaned_idx, cleaned_idx_core)
 
     b_sls.select(cleaned_idx, other_bundle_name)
+
+
+def orient_mahal(b_sls, bundle_def, **kwargs):
+    b_sls.initiate_selection("orient_mahal")
+    accept_idx = abc.clean_by_orientation_mahalanobis(
+        b_sls.get_selected_sls(),
+        **bundle_def.get("orient_mahal", {}))
+    b_sls.select(accept_idx, "orient_mahal")
+
+
+def isolation_forest(b_sls, bundle_def, n_cpus, rng, **kwargs):
+    b_sls.initiate_selection("isolation_forest")
+    accept_idx = abc.clean_by_isolation_forest(
+        b_sls.get_selected_sls(),
+        distance_threshold=bundle_def["isolation_forest"].get(
+            "distance_threshold", 3),
+        n_rounds=bundle_def["isolation_forest"].get(
+            "n_rounds", 5),
+        n_jobs=n_cpus, random_state=rng)
+    b_sls.select(accept_idx, "isolation_forest")
 
 
 def mahalanobis(b_sls, bundle_def, clip_edges, cleaning_params, **kwargs):
@@ -378,18 +428,20 @@ def run_bundle_rec_plan(
         inputs[key] = value
 
     for potential_criterion in bundle_def.keys():
-        if (potential_criterion not in bundle_criterion_order) and\
-            (potential_criterion not in bundle_dict.bundle_names) and\
+        if (potential_criterion not in criteria_order_post_other_bundles) and\
+            (potential_criterion not in criteria_order_pre_other_bundles) and\
+                (potential_criterion not in bundle_dict.bundle_names) and\
                 (potential_criterion not in valid_noncriterion):
             raise ValueError((
                 "Invalid criterion in bundle definition:\n"
                 f"{potential_criterion} in bundle {bundle_name}.\n"
                 "Valid criteria are:\n"
-                f"{bundle_criterion_order}\n"
+                f"{criteria_order_pre_other_bundles}\n"
+                f"{criteria_order_post_other_bundles}\n"
                 f"{bundle_dict.bundle_names}\n"
                 f"{valid_noncriterion}\n"))
 
-    for criterion in bundle_criterion_order:
+    for criterion in criteria_order_pre_other_bundles:
         if b_sls and criterion in bundle_def:
             inputs[criterion] = globals()[criterion](**inputs)
     if b_sls:
@@ -400,8 +452,14 @@ def run_bundle_rec_plan(
                     **inputs,
                     other_bundle_name=bundle_name,
                     other_bundle_sls=tg.streamlines[idx])
+    for criterion in criteria_order_post_other_bundles:
+        if b_sls and criterion in bundle_def:
+            inputs[criterion] = globals()[criterion](**inputs)
     if b_sls:
-        mahalanobis(**inputs)
+        if "mahal" in bundle_def or (
+            "isolation_forest" not in bundle_def
+                and "orient_mahal" not in bundle_def):
+            mahalanobis(**inputs)
 
     if b_sls and not b_sls.oriented_yet:
         raise ValueError(

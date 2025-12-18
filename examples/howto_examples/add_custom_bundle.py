@@ -15,14 +15,12 @@ fixing the random seed for reproducibility
 """
 
 import os.path as op
-import plotly
 import numpy as np
-import shutil
 
 from AFQ.api.group import GroupAFQ
 import AFQ.api.bundle_dict as abd
 import AFQ.data.fetch as afd
-from AFQ.definitions.image import ImageFile, RoiImage
+from AFQ.definitions.image import RoiImage
 import wget
 import os
 np.random.seed(1234)
@@ -162,29 +160,21 @@ bundles = abd.BundleDict({
 # HBN POD2 have been processed with qsiprep [4]_. This means that a brain mask
 # has already been computed for them.
 #
-# For tractography, we use CSD-based probabilistic tractography seeding
-# extensively (`n_seeds=4` means 81 seeds per voxel!), but only within the ROIs
+# For tractography, we use CSD-based probabilistic tractography,
+# seeding 200,000 seeds but only within the ROIs
 # and not throughout the white matter. This is controlled by passing
 # `"seed_mask": RoiImage()` in the `tracking_params` dict. The custom bundles
 # are passed as `bundle_info=bundles`. The call to `my_afq.export_all()`
 # initiates the pipeline.
 
-brain_mask_definition = ImageFile(
-    suffix="mask",
-    filters={'desc': 'brain',
-             'space': 'T1w',
-             'scope': 'qsiprep'})
-
 my_afq = GroupAFQ(
     bids_path=study_dir,
-    preproc_pipeline="qsiprep",
+    dwi_preproc_pipeline="qsiprep",
     output_dir=op.join(study_dir, "derivatives", "afq_slf"),
-    brain_mask_definition=brain_mask_definition,
-    tracking_params={"n_seeds": 4,
-                     "directions": "prob",
+    tracking_params={"n_seeds": 200000,
+                     "directions": "pft",
                      "odf_model": "CSD",
                      "seed_mask": RoiImage()},
-    segmentation_params={"parallel_segmentation": {"engine": "serial"}},
     bundle_info=bundles)
 
 # If you want to redo different stages you can use the `clobber` method.

@@ -9,7 +9,7 @@ import logging
 import immlib
 
 from AFQ.tasks.decorators import as_file
-from AFQ.tasks.utils import get_fname, with_name, str_to_desc
+from AFQ.tasks.utils import get_fname, with_name, str_to_desc, get_tp
 from AFQ.recognition.recognize import recognize
 from AFQ.utils.path import drop_extension, write_json
 import AFQ.utils.streamlines as aus
@@ -58,7 +58,9 @@ def segment(data_imap, mapping_imap,
     bundle_dict = data_imap["bundle_dict"]
     reg_template = data_imap["reg_template"]
     streamlines = tractography_imap["streamlines"]
-    if streamlines.endswith(".trk") or streamlines.endswith(".tck"):
+    if streamlines.endswith(".trk") or\
+        streamlines.endswith(".tck") or\
+            streamlines.endswith(".vtk"):
         tg = load_tractogram(
             streamlines, data_imap["dwi"], Space.VOX,
             bbox_valid_check=False)
@@ -97,7 +99,7 @@ def segment(data_imap, mapping_imap,
         raise ValueError(f"There are no streamlines in {streamlines}."
                          " This is likely due to errors in defining the "
                          " tractography parameters or the"
-                         " seed/stop masks.")
+                         " seed/PVE masks.")
 
     if not is_trx:
         indices_to_remove, _ = tg.remove_invalid_streamlines()
@@ -113,6 +115,7 @@ def segment(data_imap, mapping_imap,
         mapping_imap["mapping"],
         bundle_dict,
         reg_template,
+        data_imap["n_cpus"],
         **segmentation_params)
 
     seg_sft = aus.SegmentedSFT(bundles, Space.VOX)
@@ -276,7 +279,7 @@ def export_density_maps(bundles, data_imap):
 @immlib.calc("profiles")
 @as_file('_desc-profiles_tractography.csv')
 def tract_profiles(bundles,
-                   scalar_dict, data_imap,
+                   scalar_dict, dwi_affine,
                    profile_weights="gauss",
                    n_points_profile=100):
     """
@@ -347,7 +350,7 @@ def tract_profiles(bundles,
                             values_from_volume(
                                 scalar_data,
                                 fgarray,
-                                data_imap["dwi_affine"]))
+                                dwi_affine))
                         weights = np.zeros(values.shape)
                         for ii, jj in enumerate(
                             np.argsort(values, axis=0)[
@@ -369,7 +372,7 @@ def tract_profiles(bundles,
             this_profile[ii] = afq_profile(
                 scalar_data,
                 this_sl,
-                data_imap["dwi_affine"],
+                dwi_affine,
                 weights=this_prof_weights,
                 n_points=n_points_profile)
             profiles[ii].extend(list(this_profile[ii]))
@@ -393,7 +396,10 @@ def tract_profiles(bundles,
 
 
 @immlib.calc("scalar_dict")
-def get_scalar_dict(data_imap, mapping_imap, scalars=["dti_fa", "dti_md"]):
+def get_scalar_dict(structural_imap, data_imap, tissue_imap,
+                    mapping_imap,
+                    t1_file,
+                    scalars=["dti_fa", "dti_md", "t1w"]):
     """
     dicionary mapping scalar names
     to their respective file paths
@@ -403,17 +409,26 @@ def get_scalar_dict(data_imap, mapping_imap, scalars=["dti_fa", "dti_md"]):
     scalars : list of strings and/or scalar definitions, optional
         List of scalars to use.
         Can be any of: "dti_fa", "dti_md", "dki_fa", "dki_md", "dki_awf",
-        "dki_mk". Can also be a scalar from AFQ.definitions.image.
-        Defaults for single shell data to ["dti_fa", "dti_md"],
-        and for multi-shell data to ["dki_fa", "dki_md"].
-        Default: ['dti_fa', 'dti_md']
+        "dki_mk", or other scalars found in AFQ.tasks.data.
+        Can also be a scalar from AFQ.definitions.image.
+        Finally, can also be "t1w".
+        Defaults for single shell data to ["dti_fa", "dti_md", "t1w"],
+        and for multi-shell data to ["dki_fa", "dki_md", "dki_kfa",
+        "dki_mk", "t1w"].
+        Default: ['dti_fa', 'dti_md', 't1w']
     """
-    # Note: some scalars preprocessing done in plans, before this step
+    # Note: some scalars preprocessing done in mapping plan, before this step
     scalar_dict = {}
     for scalar in scalars:
         if isinstance(scalar, str):
             sc = scalar.lower()
-            scalar_dict[sc] = data_imap[f"{sc}"]
+            if sc == "t1w":
+                scalar_dict[sc] = t1_file
+            else:
+                scalar_dict[sc] = get_tp(f"{sc}", 
+                                         structural_imap,
+                                         data_imap,
+                                         tissue_imap)
         elif f"{scalar.get_name()}" in mapping_imap:
             scalar_dict[scalar.get_name()] = mapping_imap[
                 f"{scalar.get_name()}"]

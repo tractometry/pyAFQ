@@ -35,6 +35,18 @@ base_fname:
     Base file name for outputs
 
 
+pve_wm:
+    White matter partial volume estimate map
+
+
+pve_gm:
+    Gray matter partial volume estimate map
+
+
+pve_csf:
+    Cerebrospinal fluid partial volume estimate map
+
+
 data:
     DWI data as an ndarray for selected b values
 
@@ -51,12 +63,28 @@ dwi_affine:
     the affine transformation of the DWI data
 
 
+n_cpus:
+    Configure the number of CPUs to use for parallel processing with Ray
+
+
+n_threads:
+    the number of threads to use for Numba
+
+
 b0:
     full path to a nifti file containing the mean b0
 
 
 masked_b0:
     full path to a nifti file containing the mean b0 after applying the brain mask
+
+
+t1w_pve:
+    WM, GM, CSF segmentations from subcortex segmentation from brainchop on T1w image
+
+
+wm_gm_interface:
+
 
 
 dti_tf:
@@ -99,8 +127,36 @@ msdki_msk:
     full path to a nifti file containing the MSDKI mean signal kurtosis
 
 
+msmtcsd_params:
+    full path to a nifti file containing parameters for the MSMT CSD fit
+
+
+msmt_apm:
+    full path to a nifti file containing the anisotropic power map
+
+
+msmt_aodf_params:
+    full path to a nifti file containing MSMT CSD ODFs filtered by unified filtering [1]
+
+
+msmt_aodf_asi:
+    full path to a nifti file containing the MSMT CSD Asymmetric Index (ASI) [1]
+
+
+msmt_aodf_opm:
+    full path to a nifti file containing the MSMT CSD odd-power map [1]
+
+
+msmt_aodf_nufid:
+    full path to a nifti file containing the MSMT CSD Number of fiber directions (nufid) map [1]
+
+
 csd_params:
     full path to a nifti file containing parameters for the CSD fit
+
+
+csd_aodf_params:
+    full path to a nifti file containing SSST CSD ODFs filtered by unified filtering [1]
 
 
 csd_pmap:
@@ -355,6 +411,18 @@ dki_kfa:
     full path to a nifti file containing the DKI kurtosis FA file
 
 
+dki_cl:
+    full path to a nifti file containing the DKI linearity file
+
+
+dki_cp:
+    full path to a nifti file containing the DKI planarity file
+
+
+dki_cs:
+    full path to a nifti file containing the DKI sphericity file
+
+
 dki_ga:
     full path to a nifti file containing the DKI geodesic anisotropy
 
@@ -373,6 +441,18 @@ dki_rk:
 
 dki_ak:
     full path to a nifti file containing the DKI axial kurtosis file
+
+
+t1w_brain_mask:
+    full path to a nifti file containing brain mask from T1w image,
+
+
+t1_masked:
+    full path to a nifti file containing the T1w masked
+
+
+t1_subcortex:
+    full path to a nifti file containing segmentation of subcortical structures from T1w image using Brainchop
 
 
 brain_mask:
@@ -429,6 +509,10 @@ median_bundle_lengths:
 
 density_maps:
     full path to 4d nifti file containing streamline counts per voxel per bundle, where the 4th dimension encodes the bundle
+
+
+endpoint_maps:
+    full path to a NIfTI file containing endpoint maps for each bundle
 
 
 profiles:

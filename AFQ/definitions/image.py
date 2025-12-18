@@ -3,39 +3,42 @@ import logging
 
 import nibabel as nib
 
-from dipy.segment.mask import median_otsu
 from dipy.align import resample
 
 from AFQ.definitions.utils import Definition, find_file, name_from_path
+from AFQ.tasks.utils import get_tp
 
-from skimage.morphology import convex_hull_image, binary_opening
 
 __all__ = [
-    "ImageFile", "FullImage", "RoiImage", "B0Image", "LabelledImageFile",
+    "ImageFile", "FullImage", "RoiImage", "LabelledImageFile",
     "ThresholdedImageFile", "ScalarImage", "ThresholdedScalarImage",
-    "TemplateImage", "GQImage"]
+    "TemplateImage", "PVEImage", "PVEImages"]
 
 
 logger = logging.getLogger('AFQ')
 
 
-def _resample_image(image_data, dwi_data, image_affine, dwi_affine):
+def _resample_image(image_data, ref_data, image_affine, ref_affine):
     '''
     Helper function
     Resamples image to dwi if necessary
     '''
-    def _resample_slice(slice_data):
-        return resample(
-            slice_data.astype(float),
-            dwi_data[..., 0],
-            moving_affine=image_affine,
-            static_affine=dwi_affine).get_fdata().astype(image_type)
+    if ((ref_data is not None)
+        and (ref_affine is not None)
+            and ((ref_data.shape[:3] != image_data.shape[:3]) or (
+                not np.allclose(ref_affine, image_affine)))):
+        if len(ref_data.shape) > 3:  # DWI data
+            ref_data = ref_data[..., 0]
 
-    image_type = image_data.dtype
-    if ((dwi_data is not None)
-        and (dwi_affine is not None)
-            and ((dwi_data.shape[:3] != image_data.shape[:3]) or (
-                not np.allclose(dwi_affine, image_affine)))):
+        def _resample_slice(slice_data):
+            return resample(
+                slice_data.astype(float),
+                ref_data,
+                moving_affine=image_affine,
+                static_affine=ref_affine).get_fdata().astype(image_type)
+
+        image_type = image_data.dtype
+
         if len(image_data.shape) < 4:
             return _resample_slice(image_data), True
         else:
@@ -57,6 +60,10 @@ class ImageDefinition(Definition):
     def get_image_getter(self, task_name):
         raise NotImplementedError(
             "Please implement a get_image_getter method")
+
+    # This function is set up to be overriden by other images
+    def apply_conditions(self, image_data_orig, image_file):
+        return image_data_orig, dict(source=image_file)
 
 
 class CombineImageMixin(object):
@@ -90,12 +97,46 @@ class CombineImageMixin(object):
             f" you set combine to {self.combine}"))
 
 
+class ThresholdMixin(CombineImageMixin):
+    def __init__(self, combine, lower_bound, upper_bound, as_percentage):
+        CombineImageMixin.__init__(self, combine)
+        self.lower_bound = lower_bound
+        self.upper_bound = upper_bound
+        self.as_percentage = as_percentage
+
+    def apply_conditions(self, image_data_orig, image_file):
+        # Apply thresholds
+        self.reset_image_draft(image_data_orig.shape)
+        if self.upper_bound is not None:
+            if self.as_percentage:
+                upper_bound = np.nanpercentile(
+                    image_data_orig,
+                    self.upper_bound)
+            else:
+                upper_bound = self.upper_bound
+            self.image_draft = self * (image_data_orig < upper_bound)
+        if self.lower_bound is not None:
+            if self.as_percentage:
+                lower_bound = np.nanpercentile(
+                    image_data_orig,
+                    100 - self.lower_bound)
+            else:
+                lower_bound = self.lower_bound
+            self.image_draft = self * (image_data_orig > lower_bound)
+
+        meta = dict(source=image_file,
+                    upper_bound=self.upper_bound,
+                    lower_bound=self.lower_bound,
+                    combined_with=self.combine)
+        return self.image_draft, meta
+
+
 class ImageFile(ImageDefinition):
     """
     Define an image based on a file.
     Does not apply any labels or thresholds;
     Generates image with floating point data.
-    Useful for seed and stop images, where threshold can be applied
+    Useful for seed images, where threshold can be applied
     after interpolation (see example).
 
     Parameters
@@ -161,38 +202,44 @@ class ImageFile(ImageDefinition):
         image_img = nib.load(image_file)
         return image_file, image_img.get_fdata(), image_img.affine
 
-    # This function is set up to be overriden by other images
-    def apply_conditions(self, image_data_orig, image_file):
-        return image_data_orig, dict(source=image_file)
-
     def get_name(self):
         return name_from_path(self.fname) if self._from_path else self.suffix
 
     def get_image_getter(self, task_name):
-        def _image_getter_helper(dwi, dwi_data_file):
+        def _image_getter_helper(resample_to, ref_file):
             # Load data
             image_file, image_data_orig, image_affine = \
-                self.get_path_data_affine(dwi_data_file)
+                self.get_path_data_affine(ref_file)
 
             # Apply any conditions on the data
             image_data, meta = self.apply_conditions(
                 image_data_orig, image_file)
 
             if self.resample:
-                # Resample to DWI data:
-                image_data, did_resample = _resample_image(
+                if isinstance(resample_to, str):
+                    resample_to_img = nib.load(resample_to)
+                    meta["resampled"] = resample_to
+                else:
+                    resample_to_img = resample_to
+                    meta["resampled"] = True
+                image_data, _ = _resample_image(
                     image_data,
-                    dwi.get_fdata(),
+                    resample_to_img.get_fdata(),
                     image_affine,
-                    dwi.affine)
-                meta["resampled"] = did_resample
+                    resample_to_img.affine)
+                image_affine = resample_to_img.affine
             else:
                 meta["resampled"] = False
 
             return nib.Nifti1Image(
                 image_data.astype(np.float32),
-                dwi.affine), meta
-        if task_name == "data":
+                image_affine), meta
+        
+        # In these tasks, use T1 as ref
+        if task_name == "structural" or task_name == "tissue":
+            def image_getter(t1_file):
+                return _image_getter_helper(t1_file, t1_file)
+        elif task_name == "data": # Otherwise, use DWI
             def image_getter(dwi, dwi_data_file):
                 return _image_getter_helper(dwi, dwi_data_file)
         else:
@@ -268,12 +315,14 @@ class RoiImage(ImageDefinition):
                  use_waypoints=True,
                  use_presegment=False,
                  use_endpoints=False,
+                 only_wmgmi=False,
                  tissue_property=None,
                  tissue_property_n_voxel=None,
                  tissue_property_threshold=None):
         self.use_waypoints = use_waypoints
         self.use_presegment = use_presegment
         self.use_endpoints = use_endpoints
+        self.only_wmgmi = only_wmgmi
         self.tissue_property = tissue_property
         self.tissue_property_n_voxel = tissue_property_n_voxel
         self.tissue_property_threshold = tissue_property_threshold
@@ -287,8 +336,11 @@ class RoiImage(ImageDefinition):
         return "roi"
 
     def get_image_getter(self, task_name):
-        def _image_getter_helper(mapping,
-                                 data_imap, segmentation_params):
+        def _image_getter_helper(mapping_imap,
+                                 data_imap,
+                                 structural_imap,
+                                 tissue_imap,
+                                 segmentation_params):
             image_data = None
             bundle_dict = data_imap["bundle_dict"]
             if self.use_presegment:
@@ -300,7 +352,7 @@ class RoiImage(ImageDefinition):
             for bundle_name in bundle_dict:
                 bundle_entry = bundle_dict.transform_rois(
                     bundle_name,
-                    mapping,
+                    mapping_imap["mapping"],
                     data_imap["dwi_affine"])
                 rois = []
                 if self.use_endpoints:
@@ -317,7 +369,11 @@ class RoiImage(ImageDefinition):
                         image_data,
                         warped_roi.astype(bool))
             if self.tissue_property is not None:
-                tp = nib.load(data_imap[self.tissue_property]).get_fdata()
+                tp = nib.load(get_tp(
+                    self.tissue_property,
+                    structural_imap,
+                    data_imap,
+                    tissue_imap)).get_fdata()
                 image_data = image_data.astype(np.float32) * tp
                 if self.tissue_property_threshold is not None:
                     zero_mask = image_data == 0
@@ -335,113 +391,41 @@ class RoiImage(ImageDefinition):
                 raise ValueError((
                     "BundleDict does not have enough ROIs to generate "
                     f"an ROI Image: {bundle_dict._dict}"))
+
+            if self.only_wmgmi:
+                wmgmi = nib.load(
+                    tissue_imap["wm_gm_interface"]).get_fdata()
+                if not np.allclose(wmgmi.shape, image_data.shape):
+                    logger.error("WM/GM Interface shape: %s", wmgmi.shape)
+                    logger.error("ROI image shape: %s", image_data.shape)
+                    raise ValueError((
+                        "wm_gm_interface and ROI image do not have the "
+                        "same shape, cannot apply wm_gm_interface."
+                        "If ROI image shape is different from DWI shape, "
+                        "consider if you need to map your ROIs to DWI space. "
+                        "If only resampling is required, "
+                        "set resample_subject_to "
+                        "to True in your BundleDict instantiation."))
+
+                image_data = np.logical_and(
+                    image_data, wmgmi)
+                if np.sum(image_data) == 0:
+                    raise ValueError((
+                        "BundleDict does not have enough ROIs to generate "
+                        "an ROI Image with WM/GM interface applied."))
+
             return nib.Nifti1Image(
                 image_data.astype(np.float32),
                 data_imap["dwi_affine"]), dict(source="ROIs")
 
-        if task_name == "data":
+        if task_name == "data"\
+            or task_name == "structural" or\
+                task_name == "tissue" or\
+                    task_name == "mapping":
             raise ValueError((
                 "RoiImage cannot be used in this context, as they"
                 "require later derivatives to be calculated"))
-        elif task_name == "mapping":
-            def image_getter(
-                    mapping,
-                    data_imap, segmentation_params):
-                return _image_getter_helper(
-                    mapping,
-                    data_imap, segmentation_params)
-        else:
-            def image_getter(
-                    mapping_imap,
-                    data_imap, segmentation_params):
-                return _image_getter_helper(
-                    mapping_imap["mapping"],
-                    data_imap, segmentation_params)
-        return image_getter
-
-
-class GQImage(ImageDefinition):
-    """
-    Threshold the anisotropic diffusion component of the
-    Generalized Q-Sampling Model to generate a brain mask
-    which will include the eyes, optic nerve, and cerebrum
-    but will exclude most or all of the skull.
-
-    Examples
-    --------
-    api.GroupAFQ(brain_mask_definition=GQImage())
-    """
-
-    def __init__(self):
-        pass
-
-    def get_name(self):
-        return "GQ"
-
-    def get_image_getter(self, task_name):
-        def image_getter_helper(gq_aso):
-            gq_aso_img = nib.load(gq_aso)
-            gq_aso_data = gq_aso_img.get_fdata()
-            ASO_mask = convex_hull_image(
-                binary_opening(
-                    gq_aso_data > 0.1))
-
-            return nib.Nifti1Image(
-                ASO_mask.astype(np.float32),
-                gq_aso_img.affine), dict(
-                    source=gq_aso,
-                    technique="GQ ASO thresholded maps")
-
-        if task_name == "data":
-            return image_getter_helper
-        else:
-            return lambda data_imap: image_getter_helper(
-                data_imap["gq_aso"])
-
-
-class B0Image(ImageDefinition):
-    """
-    Define an image using b0 and dipy's median_otsu.
-
-    Parameters
-    ----------
-    median_otsu_kwargs: dict, optional
-        Optional arguments to pass into dipy's median_otsu.
-        Default: {}
-
-    Examples
-    --------
-    brain_image_definition = B0Image()
-    api.GroupAFQ(brain_image_definition=brain_image_definition)
-    """
-
-    def __init__(self, median_otsu_kwargs={}):
-        self.median_otsu_kwargs = median_otsu_kwargs
-
-    def get_name(self):
-        return "b0"
-
-    def get_image_getter(self, task_name):
-        def image_getter_helper(b0):
-            mean_b0_img = nib.load(b0)
-            mean_b0 = mean_b0_img.get_fdata()
-            logger.warning((
-                "It is recommended that you provide a brain mask. "
-                "It is provided with the brain_mask_definition argument. "
-                "Otherwise, the default brain mask is calculated "
-                "by using OTSU on the median-filtered B0 image. "
-                "This can be unreliable. "))
-            _, image_data = median_otsu(mean_b0, **self.median_otsu_kwargs)
-            return nib.Nifti1Image(
-                image_data.astype(np.float32),
-                mean_b0_img.affine), dict(
-                    source=b0,
-                    technique="median_otsu applied to b0",
-                    median_otsu_kwargs=self.median_otsu_kwargs)
-        if task_name == "data":
-            return image_getter_helper
-        else:
-            return lambda data_imap: image_getter_helper(data_imap["b0"])
+        return _image_getter_helper
 
 
 class LabelledImageFile(ImageFile, CombineImageMixin):
@@ -493,7 +477,6 @@ class LabelledImageFile(ImageFile, CombineImageMixin):
         self.inclusive_labels = inclusive_labels
         self.exclusive_labels = exclusive_labels
 
-    # overrides ImageFile
     def apply_conditions(self, image_data_orig, image_file):
         # For different sets of labels, extract all the voxels that
         # have any / all of these values:
@@ -512,11 +495,11 @@ class LabelledImageFile(ImageFile, CombineImageMixin):
         return self.image_draft, meta
 
 
-class ThresholdedImageFile(ImageFile, CombineImageMixin):
+class ThresholdedImageFile(ThresholdMixin, ImageFile):
     """
     Define an image based on thresholding a file.
-    Note that this should not be used to directly make a seed image
-    or a stop image. In those cases, consider thresholding after
+    Note that this should not be used to directly make a seed image.
+    In those cases, consider thresholding after
     interpolation, as in the example for ImageFile.
 
     Parameters
@@ -562,37 +545,8 @@ class ThresholdedImageFile(ImageFile, CombineImageMixin):
     def __init__(self, path=None, suffix=None, filters={}, lower_bound=None,
                  upper_bound=None, as_percentage=False, combine="and"):
         ImageFile.__init__(self, path, suffix, filters)
-        CombineImageMixin.__init__(self, combine)
-        self.lower_bound = lower_bound
-        self.upper_bound = upper_bound
-        self.as_percentage = as_percentage
-
-    # overrides ImageFile
-    def apply_conditions(self, image_data_orig, image_file):
-        # Apply thresholds
-        self.reset_image_draft(image_data_orig.shape)
-        if self.upper_bound is not None:
-            if self.as_percentage:
-                upper_bound = np.nanpercentile(
-                    image_data_orig,
-                    self.upper_bound)
-            else:
-                upper_bound = self.upper_bound
-            self.image_draft = self * (image_data_orig < upper_bound)
-        if self.lower_bound is not None:
-            if self.as_percentage:
-                lower_bound = np.nanpercentile(
-                    image_data_orig,
-                    100 - self.lower_bound)
-            else:
-                lower_bound = self.lower_bound
-            self.image_draft = self * (image_data_orig > lower_bound)
-
-        meta = dict(source=image_file,
-                    upper_bound=self.upper_bound,
-                    lower_bound=self.lower_bound,
-                    combined_with=self.combine)
-        return self.image_draft, meta
+        ThresholdMixin.__init__(self, combine, lower_bound,
+                                upper_bound, as_percentage)
 
 
 class ScalarImage(ImageDefinition):
@@ -600,7 +554,7 @@ class ScalarImage(ImageDefinition):
     Define an image based on a scalar.
     Does not apply any labels or thresholds;
     Generates image with floating point data.
-    Useful for seed and stop images, where threshold can be applied
+    Useful for seed images, where threshold can be applied
     after interpolation (see example).
 
     Parameters
@@ -625,22 +579,46 @@ class ScalarImage(ImageDefinition):
         return self.scalar
 
     def get_image_getter(self, task_name):
-        if task_name == "data":
+        if task_name in ["structural", "data"]:
             raise ValueError((
-                "ScalarImage cannot be used in this context, as they"
-                "require later derivatives to be calculated"))
+                "ThresholdedScalarImage cannot be used in this context, as it"
+                " requires later derivatives to be calculated"))
 
-        def image_getter(data_imap):
-            return nib.load(data_imap[self.scalar]), dict(
-                FromScalar=self.scalar)
+        def _helper(structural_imap, data_imap, tissue_imap):
+            scalar_path = get_tp(
+                self.scalar,
+                structural_imap,
+                data_imap,
+                tissue_imap,
+            )
+
+            img = nib.load(scalar_path)
+            img_data = img.get_fdata()
+
+            thresh_data, meta = self.apply_conditions(
+                img_data, scalar_path
+            )
+
+            return nib.Nifti1Image(
+                thresh_data.astype(np.float32),
+                img.affine
+            ), meta
+
+        if task_name == "tissue":
+            def image_getter(structural_imap, data_imap):
+                return _helper(structural_imap, data_imap, None)
+        else:
+            def image_getter(data_imap, structural_imap, tissue_imap):
+                return _helper(structural_imap, data_imap, tissue_imap)
+
         return image_getter
 
 
-class ThresholdedScalarImage(ThresholdedImageFile, ScalarImage):
+class ThresholdedScalarImage(ThresholdMixin, ScalarImage):
     """
     Define an image based on thresholding a scalar image.
-    Note that this should not be used to directly make a seed image
-    or a stop image. In those cases, consider thresholding after
+    Note that this should not be used to directly make a seed image.
+    In those cases, consider thresholding after
     interpolation, as in the example for ScalarImage.
 
     Parameters
@@ -656,6 +634,11 @@ class ThresholdedScalarImage(ThresholdedImageFile, ScalarImage):
         Upper bound to generate boolean image from data in the file.
         If None, no upper bound is applied.
         Default: None.
+    as_percentage : bool, optional
+        Interpret lower_bound and upper_bound as percentages of the
+        total non-nan voxels in the image to include (between 0 and 100),
+        instead of as a threshold on the values themselves.
+        Default: False
     combine : str, optional
         How to combine the boolean images generated by lower_bound
         and upper_bound. If "and", they will be and'd together.
@@ -671,60 +654,144 @@ class ThresholdedScalarImage(ThresholdedImageFile, ScalarImage):
     """
 
     def __init__(self, scalar, lower_bound=None, upper_bound=None,
-                 combine="and"):
-        self.scalar = scalar
+                 as_percentage=False, combine="and"):
         CombineImageMixin.__init__(self, combine)
-        self.lower_bound = lower_bound
-        self.upper_bound = upper_bound
+        ThresholdMixin.__init__(self, combine, lower_bound,
+                                upper_bound, as_percentage)
+        self.scalar = scalar
 
 
-class PFTImage(ImageDefinition):
+class PVEImage(ImageDefinition):
     """
-    Define an image for use in PFT tractography. Only use
-    if tracker set to 'pft' in tractography.
+    Define an CSF/GM/WM PVE image from a single file.
 
     Parameters
     ----------
-    WM_probseg : ImageFile
-        White matter segmentation file.
-    GM_probseg : ImageFile
-        Gray matter segmentation file.
+    pve_order : str
+        Order of PVEs in file. Should be a list of three strings,
+        each of "csf", "gm", or "wm", indicating which volume
+        in the file corresponds to which tissue type.
+    path : str, optional
+        path to file to get image from. Use this or suffix.
+        Default: None
+    suffix : str, optional
+        suffix to pass to bids_layout.get() to identify the file.
+        Default: None
+    filters : str, optional
+        Additional filters to pass to bids_layout.get() to identify
+        the file.
+        Default: {}
+    resample : bool, optional
+        Whether to resample the image to the DWI data.
+        Default: True
+    Examples
+    --------
+    pve = PVEImage(
+        pve_order=["csf", "gm", "wm"],
+        suffix="pve")
+    api.GroupAFQ(..., pve=pve)
+    """
+
+    def __init__(self,
+                 pve_order=["csf", "gm", "wm"],
+                 path=None,
+                 suffix=None,
+                 filters={},
+                 resample=True):
+        self.pve_order = pve_order
+        super().__init__(
+            path=path,
+            suffix=suffix,
+            filters=filters,
+            resample=resample
+        )
+    
+    def get_image_getter(self, task_name):
+        def image_getter(t1_file):
+            # Load data
+            image_file, image_data_orig, image_affine = \
+                self.get_path_data_affine(t1_file)
+
+            # Apply any conditions on the data
+            image_data, meta = self.apply_conditions(
+                image_data_orig, image_file)
+
+            if self.resample:
+                resample_to_img = nib.load(t1_file)
+                meta["resampled"] = t1_file
+                image_data, _ = _resample_image(
+                    image_data,
+                    resample_to_img.get_fdata(),
+                    image_affine,
+                    resample_to_img.affine)
+                image_affine = resample_to_img.affine
+            else:
+                meta["resampled"] = False
+
+            pve_data = []
+            for tissue_type in ["csf", "gm", "wm"]:
+                pve_index = self.pve_order.index(tissue_type)
+                pve_data.append(image_data[..., pve_index])
+            return nib.Nifti1Image(
+                np.asarray(pve_data).astype(np.float32),
+                image_affine), meta
+
+        return image_getter
+
+
+class PVEImages(ImageDefinition):
+    """
+    Define a CSF/GM/WM PVE image from three separate files.
+
+    Parameters
+    ----------
     CSF_probseg : ImageFile
         Corticospinal fluid segmentation file.
+    GM_probseg : ImageFile
+        Gray matter segmentation file.
+    WM_probseg : ImageFile
+        White matter segmentation file.
 
     Examples
     --------
-    stop_image = PFTImage(
-        afm.ImageFile(suffix="WMprobseg"),
+    pve = PVEImages(
+        afm.ImageFile(suffix="CSFprobseg"),
         afm.ImageFile(suffix="GMprobseg"),
-        afm.ImageFile(suffix="CSFprobseg"))
-    api.GroupAFQ(tracking_params={
-        "stop_image": stop_image,
-        "stop_threshold": "CMC",
-        "tracker": "pft"})
+        afm.ImageFile(suffix="WMprobseg"))
+    api.GroupAFQ(..., pve=pve)
     """
 
-    def __init__(self, WM_probseg, GM_probseg, CSF_probseg):
-        self.probsegs = (WM_probseg, GM_probseg, CSF_probseg)
+    def __init__(self, CSF_probseg, GM_probseg, WM_probseg):
+        self.probsegs = (CSF_probseg, GM_probseg, WM_probseg)
 
     def find_path(self, bids_layout, from_path,
                   subject, session, required=True):
         if required == False:
             raise ValueError(
-                "PFTImage cannot be used in this context")
+                "PVEImage cannot be used in this context")
         for probseg in self.probsegs:
-            probseg.find_path(
-                bids_layout, from_path, subject, session,
-                required=required)
+            if hasattr(probseg, 'find_path'):
+                probseg.find_path(
+                    bids_layout, from_path, subject, session,
+                    required=required)
 
     def get_name(self):
-        return "pft"
+        return "pves"
 
     def get_image_getter(self, task_name):
-        if task_name == "data":
-            raise ValueError("PFTImage cannot be used in this context")
-        return [probseg.get_image_getter(task_name)
-                for probseg in self.probsegs]
+        self.probseg_funcs = [
+            probseg.get_image_getter(task_name) for probseg in self.probsegs]
+        def _image_getter_helper(pve_csf, pve_gm, pve_wm):
+            pve_data = np.stack(
+                [nib.load(p).get_fdata() for p in (pve_csf, pve_gm, pve_wm)],
+                axis=-1)
+            return nib.Nifti1Image(
+                np.asarray(pve_data).astype(np.float32),
+                nib.load(pve_csf).affine), {
+                    "CSF PVE": pve_csf,
+                    "GM PVE": pve_gm,
+                    "WM PVE": pve_wm}
+        return _image_getter_helper
 
 
 class TemplateImage(ImageDefinition):

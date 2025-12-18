@@ -110,8 +110,7 @@ def default18_bd():
             'exclude': [],
             'space': 'template',
             'prob_map': templates['CST_L_prob_map'],
-            'end': templates['CST_L_start'],
-            'start': templates['CST_L_end']},
+            'end': templates['CST_L_start']},
         'Right Corticospinal': {
             'cross_midline': False,
             'include': [templates['CST_roi2_R'],
@@ -119,8 +118,7 @@ def default18_bd():
             'exclude': [],
             'space': 'template',
             'prob_map': templates['CST_R_prob_map'],
-            'end': templates['CST_R_start'],
-            'start': templates['CST_R_end']},
+            'end': templates['CST_R_start']},
         'Left Inferior Fronto-occipital': {
             'cross_midline': False,
             'include': [templates['IFO_roi2_L'],
@@ -230,6 +228,8 @@ def default18_bd():
                                    'exclude': [templates['SLF_roi1_L']],
                                    'space': 'template',
                                    'start': templates['pARC_L_start'],
+                                   'Left Arcuate': {
+                                       'overlap': 30},
                                    'primary_axis': 'I/S',
                                    'primary_axis_percentage': 40},
         'Right Posterior Arcuate': {'cross_midline': False,
@@ -237,34 +237,42 @@ def default18_bd():
                                     'exclude': [templates['SLF_roi1_R']],
                                     'space': 'template',
                                     'start': templates['pARC_R_start'],
+                                    'Right Arcuate': {
+                                        'overlap': 30},
                                     'primary_axis': 'I/S',
                                     'primary_axis_percentage': 40},
         'Left Vertical Occipital': {'cross_midline': False,
                                     'space': 'template',
-                                    'start': templates['VOF_L_start'],
                                     'end': templates['VOF_L_end'],
-                                    'inc_addtol': [4, 0],
                                     'Left Arcuate': {
                                         'node_thresh': 20},
                                     'Left Posterior Arcuate': {
-                                        'node_thresh': 1,
-                                        'core': 'Anterior'},
-                                    'Left Inferior Longitudinal': {
+                                        'node_thresh': 20,
+                                        'entire_core': 'Anterior'},
+                                    'Left Inferior Fronto-occipital': {
                                         'core': 'Right'},
+                                    'orient_mahal': {
+                                        'distance_threshold': 3,
+                                        'clean_rounds': 5},
+                                    'length': {'min_len': 25},
+                                    'isolation_forest': {},
                                     'primary_axis': 'I/S',
                                     'primary_axis_percentage': 40},
         'Right Vertical Occipital': {'cross_midline': False,
                                      'space': 'template',
-                                     'start': templates['VOF_R_start'],
                                      'end': templates['VOF_R_end'],
-                                     'inc_addtol': [4, 0],
                                      'Right Arcuate': {
                                          'node_thresh': 20},
                                      'Right Posterior Arcuate': {
-                                         'node_thresh': 1,
-                                         'core': 'Anterior'},
-                                     'Right Inferior Longitudinal': {
+                                         'node_thresh': 20,
+                                         'entire_core': 'Anterior'},
+                                     'Right Inferior Fronto-occipital': {
                                          'core': 'Left'},
+                                     'orient_mahal': {
+                                         'distance_threshold': 3,
+                                         'clean_rounds': 5},
+                                     'length': {'min_len': 25},
+                                     'isolation_forest': {},
                                      'primary_axis': 'I/S',
                                      'primary_axis_percentage': 40}})
 
@@ -514,6 +522,7 @@ def baby_bd():
 
 
 def callosal_bd():
+    templates = afd.read_templates(as_img=False)
     callosal_templates =\
         afd.read_callosum_templates(as_img=False)
     return BundleDict({
@@ -522,56 +531,64 @@ def callosal_bd():
             'include': [callosal_templates['R_AntFrontal'],
                         callosal_templates['Callosum_midsag'],
                         callosal_templates['L_AntFrontal']],
-            'exclude': [],
+            'isolation_forest': {},
+            'exclude': [templates['CST_roi1_L'], templates['CST_roi1_R']],
             'space': 'template'},
         'Callosum Motor': {
             'cross_midline': True,
             'include': [callosal_templates['R_Motor'],
                         callosal_templates['Callosum_midsag'],
                         callosal_templates['L_Motor']],
-            'exclude': [],
+            'isolation_forest': {},
+            'exclude': [templates['CST_roi1_L'], templates['CST_roi1_R']],
             'space': 'template'},
         'Callosum Occipital': {
             'cross_midline': True,
             'include': [callosal_templates['R_Occipital'],
                         callosal_templates['Callosum_midsag'],
                         callosal_templates['L_Occipital']],
-            'exclude': [],
+            'isolation_forest': {},
+            'exclude': [templates['CST_roi1_L'], templates['CST_roi1_R']],
             'space': 'template'},
         'Callosum Orbital': {
             'cross_midline': True,
             'include': [callosal_templates['R_Orbital'],
                         callosal_templates['Callosum_midsag'],
                         callosal_templates['L_Orbital']],
-            'exclude': [],
+            'isolation_forest': {},
+            'exclude': [templates['CST_roi1_L'], templates['CST_roi1_R']],
             'space': 'template'},
         'Callosum Posterior Parietal': {
             'cross_midline': True,
             'include': [callosal_templates['R_PostParietal'],
                         callosal_templates['Callosum_midsag'],
                         callosal_templates['L_PostParietal']],
-            'exclude': [],
+            'isolation_forest': {},
+            'exclude': [templates['CST_roi1_L'], templates['CST_roi1_R']],
             'space': 'template'},
         'Callosum Superior Frontal': {
             'cross_midline': True,
             'include': [callosal_templates['R_SupFrontal'],
                         callosal_templates['Callosum_midsag'],
                         callosal_templates['L_SupFrontal']],
-            'exclude': [],
+            'isolation_forest': {},
+            'exclude': [templates['CST_roi1_L'], templates['CST_roi1_R']],
             'space': 'template'},
         'Callosum Superior Parietal': {
             'cross_midline': True,
             'include': [callosal_templates['R_SupParietal'],
                         callosal_templates['Callosum_midsag'],
                         callosal_templates['L_SupParietal']],
-            'exclude': [],
+            'isolation_forest': {},
+            'exclude': [templates['CST_roi1_L'], templates['CST_roi1_R']],
             'space': 'template'},
         'Callosum Temporal': {
             'cross_midline': True,
             'include': [callosal_templates['R_Temporal'],
                         callosal_templates['Callosum_midsag'],
                         callosal_templates['L_Temporal']],
-            'exclude': [],
+            'isolation_forest': {},
+            'exclude': [templates['CST_roi1_L'], templates['CST_roi1_R']],
             'space': 'template'}})
 
 
@@ -722,7 +739,7 @@ class BundleDict(MutableMapping):
         If there are bundles in bundle_info with the 'space' attribute
         set to 'subject', their images (all ROIs and probability maps)
         will be resampled to the affine and shape of this image.
-        If None, resamples to DWI. Be careful if you use this,
+        If True, resamples to DWI. Be careful if you use this,
         that this is the correct choice.
         If False, no resampling will be done.
         Default: False

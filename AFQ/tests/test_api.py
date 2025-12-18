@@ -23,9 +23,9 @@ import tempfile
 
 import dipy.tracking.utils as dtu
 import dipy.tracking.streamline as dts
-from dipy.data import get_fnames
 from dipy.testing.decorators import xvfb_it
 from dipy.io.streamline import load_tractogram
+from dipy.segment.metric import mdf
 
 import AFQ.api.bundle_dict as abd
 from AFQ.api.group import GroupAFQ, ParallelGroupAFQ
@@ -34,8 +34,9 @@ import AFQ.data.fetch as afd
 import AFQ.utils.streamlines as aus
 import AFQ.utils.bin as afb
 from AFQ.definitions.mapping import SynMap, AffMap, SlrMap, IdentityMap
-from AFQ.definitions.image import (RoiImage, PFTImage, ImageFile, ScalarImage,
-                                   TemplateImage)
+from AFQ.definitions.image import (
+    ImageFile, ScalarImage, TemplateImage,
+    LabelledImageFile, PVEImages)
 
 
 def touch(fname, times=None):
@@ -219,7 +220,7 @@ def test_AFQ_missing_files():
             ValueError,
             match="No non-json files recognized by pyBIDS"
             + " in the pipeline: missingPipe"):
-        GroupAFQ(bids_path, preproc_pipeline="missingPipe")
+        GroupAFQ(bids_path, dwi_preproc_pipeline="missingPipe")
 
     os.mkdir(op.join(bids_path, "missingPipe"))
     afd.to_bids_description(
@@ -231,7 +232,7 @@ def test_AFQ_missing_files():
             ValueError,
             match="No non-json files recognized by pyBIDS"
             + " in the pipeline: missingPipe"):
-        GroupAFQ(bids_path, preproc_pipeline="missingPipe")
+        GroupAFQ(bids_path, dwi_preproc_pipeline="missingPipe")
 
 
 @pytest.mark.nightly_custom
@@ -266,21 +267,13 @@ def test_AFQ_custom_tract():
     )
     myafq = GroupAFQ(
         bids_path,
-        preproc_pipeline='vistasoft',
+        dwi_preproc_pipeline='vistasoft',
+        t1_preproc_pipeline='freesurfer',
         bundle_info=bundle_info,
         import_tract={
             "suffix": "tractography",
             "scope": "vistasoft"
         })
-
-    # equivalent ParticipantAFQ version of call may be useful as reference
-    # myafq = ParticipantAFQ(
-    #     sub_path + "/sub-01_ses-01_dwi.nii.gz",
-    #     sub_path + "/sub-01_ses-01_dwi.bval",
-    #     sub_path + "/sub-01_ses-01_dwi.bvec",
-    #     output_dir=sub_path,
-    #     bundle_info=bundle_names,
-    #     import_tract=sub_path + '/subsampled_tractography.trk')
 
     myafq.export("streamlines")
 
@@ -298,7 +291,7 @@ def test_AFQ_no_derivs():
             match=f"No non-json files recognized by pyBIDS in {bids_path}"):
         GroupAFQ(
             bids_path,
-            preproc_pipeline="synthetic")
+            dwi_preproc_pipeline="synthetic")
 
 
 @pytest.mark.nightly_custom
@@ -310,12 +303,14 @@ def test_AFQ_fury():
 
     myafq = GroupAFQ(
         bids_path=bids_path,
-        preproc_pipeline='vistasoft',
+        dwi_preproc_pipeline='vistasoft',
+        t1_preproc_pipeline='freesurfer',
+        tracking_params={"n_seeds": 250000},
         viz_backend_spec="fury")
     myafq.export("all_bundles_figure")
 
 
-@pytest.mark.nightly_pft
+@pytest.mark.nightly_custom
 def test_AFQ_trx():
     tmpdir = tempfile.TemporaryDirectory()
     bids_path = op.join(tmpdir.name, "stanford_hardi")
@@ -323,10 +318,11 @@ def test_AFQ_trx():
 
     myafq = GroupAFQ(
         bids_path=bids_path,
-        preproc_pipeline='vistasoft',
+        dwi_preproc_pipeline='vistasoft',
+        t1_preproc_pipeline='freesurfer',
         # should throw warning but not error
         scalars=["dti_fa", "dti_md", ImageFile(suffix="DNE")],
-        tracking_params={"trx": True})
+        tracking_params={"trx": True, "n_seeds": 250000})
     myafq.export("all_bundles_figure")
 
 
@@ -358,12 +354,12 @@ def test_AFQ_init():
                         + " See above warnings."):
                     myafq = GroupAFQ(
                         bids_path,
-                        preproc_pipeline="synthetic",
+                        dwi_preproc_pipeline="synthetic",
                         participant_labels=participant_labels)
             else:
                 myafq = GroupAFQ(
                     bids_path,
-                    preproc_pipeline="synthetic",
+                    dwi_preproc_pipeline="synthetic",
                     participant_labels=participant_labels)
                 myafq.export("dwi")
 
@@ -378,7 +374,8 @@ def test_AFQ_data():
     for mapping in [SynMap(use_prealign=False), AffMap()]:
         myafq = GroupAFQ(
             bids_path=bids_path,
-            preproc_pipeline='vistasoft',
+            dwi_preproc_pipeline='vistasoft',
+            t1_preproc_pipeline='freesurfer',
             mapping_definition=mapping)
         npt.assert_equal(nib.load(myafq.export("b0")["01"]).shape,
                          myafq.export("dwi")["01"].shape[:3])
@@ -399,7 +396,8 @@ def test_AFQ_anisotropic():
     _, bids_path, _ = get_temp_hardi()
     myafq = GroupAFQ(
         bids_path=bids_path,
-        preproc_pipeline='vistasoft',
+        dwi_preproc_pipeline='vistasoft',
+        t1_preproc_pipeline='freesurfer',
         min_bval=1990,
         max_bval=2010,
         b0_threshold=50,
@@ -427,6 +425,7 @@ def test_AFQ_anisotropic():
         'models/sub-01_ses-01_model-csd_param-apm_dwimap.nii.gz'))
 
 
+@pytest.mark.nightly_basic
 def test_API_type_checking():
     _, bids_path, _ = get_temp_hardi()
     seed = 2022
@@ -451,7 +450,8 @@ def test_API_type_checking():
         try:
             myafq = GroupAFQ(
                 bids_path,
-                preproc_pipeline='vistasoft',
+                dwi_preproc_pipeline='vistasoft',
+                t1_preproc_pipeline='freesurfer',
                 import_tract=["dwi"])
             myafq.export("streamlines")
         except LazyError as e:
@@ -461,23 +461,17 @@ def test_API_type_checking():
     del myafq
 
     with pytest.raises(
-            TypeError,
-            match="brain_mask_definition must be a Definition"):
-        myafq = GroupAFQ(
-            bids_path,
-            preproc_pipeline='vistasoft',
-            brain_mask_definition="not a brain mask")
-
-    with pytest.raises(
             ValueError,
             match=r"No file found with these parameters:\n*"):
         myafq = GroupAFQ(
             bids_path,
-            preproc_pipeline='vistasoft',
-            brain_mask_definition=ImageFile(
-                suffix='dne_dne',
-                filters={'scope': 'dne_dne'}))
-        myafq.export("brain_mask")
+            dwi_preproc_pipeline='vistasoft',
+            t1_preproc_pipeline='freesurfer',
+            tracking_params=dict(
+                seed_mask=ImageFile(
+                    suffix='dne_dne',
+                    filters={'scope': 'dne_dne'})))
+        myafq.export("seed_mask")
 
     with pytest.raises(
             TypeError,
@@ -486,7 +480,8 @@ def test_API_type_checking():
                 " a dict, or a BundleDict")):
         myafq = GroupAFQ(
             bids_path,
-            preproc_pipeline='vistasoft',
+            dwi_preproc_pipeline='vistasoft',
+            t1_preproc_pipeline='freesurfer',
             bundle_info=[2, 3])
         try:
             myafq.export("bundle_dict")
@@ -502,7 +497,8 @@ def test_API_type_checking():
                 "Fatal: No bundles recognized.")):
         myafq = GroupAFQ(
             bids_path,
-            preproc_pipeline='vistasoft',
+            dwi_preproc_pipeline='vistasoft',
+            t1_preproc_pipeline='freesurfer',
             mapping_definition=IdentityMap(),
             reg_subject_spec="dti_fa_subject",
             tracking_params={
@@ -526,7 +522,8 @@ def test_API_type_checking():
             match="viz_backend_spec must contain either 'fury' or 'plotly'"):
         myafq = GroupAFQ(
             bids_path,
-            preproc_pipeline='vistasoft',
+            dwi_preproc_pipeline='vistasoft',
+            t1_preproc_pipeline='freesurfer',
             viz_backend_spec="matplotlib")
         try:
             myafq.export("viz_backend")
@@ -537,6 +534,7 @@ def test_API_type_checking():
     del myafq
 
 
+@pytest.mark.nightly_anisotropic
 def test_AFQ_slr():
     """
     Test if API can run using slr map
@@ -553,7 +551,8 @@ def test_AFQ_slr():
 
     myafq = GroupAFQ(
         bids_path=bids_path,
-        preproc_pipeline='vistasoft',
+        dwi_preproc_pipeline='vistasoft',
+        t1_preproc_pipeline='freesurfer',
         reg_subject_spec='subject_sls',
         reg_template_spec='hcp_atlas',
         import_tract=op.join(
@@ -562,8 +561,8 @@ def test_AFQ_slr():
             'stanford_hardi_tractography',
             'full_segmented_cleaned_tractography.trk'),
         segmentation_params={
-            "dist_to_waypoint": 10,
-            "parallel_segmentation": {"engine": "serial"}},
+            "dist_to_waypoint": 10},
+        n_cpus=1,
         bundle_info=bd,
         mapping_definition=SlrMap(slr_kwargs={
             "rng": np.random.RandomState(seed)}))
@@ -582,10 +581,12 @@ def test_AFQ_reco():
     _, bids_path, _ = get_temp_hardi()
     myafq = GroupAFQ(
         bids_path=bids_path,
-        preproc_pipeline='vistasoft',
+        dwi_preproc_pipeline='vistasoft',
+        t1_preproc_pipeline='freesurfer',
         viz_backend_spec="plotly",
         profile_weights="median",
         bundle_info=abd.reco_bd(16),
+        tracking_params={"n_seeds": 1e6},
         segmentation_params={
             'rng': 42})
 
@@ -610,7 +611,8 @@ def test_AFQ_reco80():
 
     myafq = GroupAFQ(
         bids_path=bids_path,
-        preproc_pipeline='vistasoft',
+        dwi_preproc_pipeline='vistasoft',
+        t1_preproc_pipeline='freesurfer',
         tracking_params=tracking_params,
         bundle_info=abd.reco_bd(16),
         segmentation_params={
@@ -621,72 +623,27 @@ def test_AFQ_reco80():
     npt.assert_(len(seg_sft.get_bundle('CCMid').streamlines) > 0)
 
 
+@pytest.mark.nightly_reco80
 def test_AFQ_pydra():
-    _, bids_path = afd.fetch_hbn_preproc(["NDARAA948VFH", "NDARAV554TP2"])
-    pga = ParallelGroupAFQ(bids_path, preproc_pipeline="qsiprep")
+    participants = ["NDARAA948VFH", "NDARAV554TP2"]
+    _, bids_path = afd.fetch_hbn_preproc(participants)
+    pga = ParallelGroupAFQ(
+        bids_path,
+        output_dir=op.join(bids_path, 'derivatives', 'pydra_afq'),
+        participant_labels=participants,
+        dwi_preproc_pipeline="qsiprep")
     pga.export("dti_fa")
+    pga.export("wm_gm_interface")
 
 
 def test_AFQ_filterb():
     _, bids_path, _ = get_temp_hardi()
     myafq = GroupAFQ(
         bids_path=bids_path,
-        preproc_pipeline='vistasoft',
+        dwi_preproc_pipeline='vistasoft',
+        t1_preproc_pipeline='freesurfer',
         max_bval=1000)
     myafq.export("b0")
-
-
-@pytest.mark.nightly_pft
-def test_AFQ_pft():
-    """
-    Test pft interface for AFQ
-    """
-    _, bids_path, sub_path = get_temp_hardi()
-
-    bundle_names = abd.default18_bd()[
-        "Left Superior Longitudinal",
-        "Right Superior Longitudinal",
-        "Left Arcuate",
-        "Right Arcuate",
-        "Left Corticospinal",
-        "Right Corticospinal",
-        "Forceps Minor"]
-
-    f_pve_csf, f_pve_gm, f_pve_wm = get_fnames('stanford_pve_maps')
-    os.rename(f_pve_wm, op.join(sub_path,
-                                "sub-01_ses-01_label-WM_probseg.nii.gz"))
-    os.rename(f_pve_gm, op.join(sub_path,
-                                "sub-01_ses-01_label-GM_probseg.nii.gz"))
-    os.rename(f_pve_csf, op.join(sub_path,
-                                 "sub-01_ses-01_label-CSF_probseg.nii.gz"))
-
-    stop_mask = PFTImage(
-        ImageFile(suffix="probseg", filters={"label": "WM"}),
-        ImageFile(suffix="probseg", filters={"label": "GM"}),
-        ImageFile(suffix="probseg", filters={"label": "CSF"}))
-    t_output_dir = tempfile.TemporaryDirectory()
-
-    myafq = GroupAFQ(
-        bids_path,
-        preproc_pipeline='vistasoft',
-        bundle_info=bundle_names,
-        output_dir=t_output_dir.name,
-        tracking_params={
-            "stop_mask": stop_mask,
-            "stop_threshold": "CMC",
-            "tracker": "pft",
-            "maxlen": 150,
-        })
-    sl_file = myafq.export("streamlines")["01"]
-    dwi_file = myafq.export("dwi")["01"]
-    sls = load_tractogram(
-        sl_file,
-        dwi_file,
-        bbox_valid_check=False,
-        trk_header_check=False).streamlines
-    for sl in sls:
-        # double the maxlen, due to step size of 0.5
-        assert len(sl) <= 300
 
 
 @pytest.mark.nightly_custom
@@ -708,7 +665,8 @@ def test_AFQ_custom_subject_reg():
 
     b0_file = GroupAFQ(
         bids_path,
-        preproc_pipeline='vistasoft',
+        dwi_preproc_pipeline='vistasoft',
+        t1_preproc_pipeline='freesurfer',
         bundle_info=bundle_info).export("b0")["01"]
 
     # make a different temporary directly to test this custom file in
@@ -718,7 +676,8 @@ def test_AFQ_custom_subject_reg():
 
     myafq = GroupAFQ(
         bids_path,
-        preproc_pipeline='vistasoft',
+        dwi_preproc_pipeline='vistasoft',
+        t1_preproc_pipeline='freesurfer',
         bundle_info=bundle_info,
         reg_template_spec="mni_T2",
         reg_subject_spec=ImageFile(
@@ -736,7 +695,8 @@ def test_AFQ_FA():
     _, bids_path, _ = get_temp_hardi()
     myafq = GroupAFQ(
         bids_path=bids_path,
-        preproc_pipeline='vistasoft',
+        dwi_preproc_pipeline='vistasoft',
+        t1_preproc_pipeline='freesurfer',
         reg_template_spec='dti_fa_template',
         reg_subject_spec='dti_fa_subject')
     myafq.export("rois")
@@ -750,45 +710,11 @@ def test_multib_profile():
     tmpdir = tempfile.TemporaryDirectory()
     afd.organize_cfin_data(path=tmpdir.name)
     myafq = GroupAFQ(bids_path=op.join(tmpdir.name, 'cfin_multib'),
-                    preproc_pipeline='dipy')
+                    dwi_preproc_pipeline='dipy')
     myafq.export("dki_fa")
     myafq.export("dki_md")
     myafq.export("fwdti_fa")
     myafq.export("fwdti_md")
-
-
-def test_auto_cli():
-    tmpdir = tempfile.TemporaryDirectory()
-    config_file = op.join(tmpdir.name, 'test.toml')
-
-    arg_dict = afb.func_dict_to_arg_dict()
-    arg_dict['BIDS_PARAMS']['bids_path']['default'] = tmpdir.name
-    afb.generate_config(config_file, arg_dict, False)
-    with pytest.raises(
-            ValueError,
-            match="There must be a dataset_description.json in bids_path"):
-        afb.parse_config_run_afq(config_file, arg_dict, False)
-
-
-@pytest.mark.skip(reason="causes segmentation fault")
-def test_run_using_auto_cli():
-    tmpdir, bids_path, _ = get_temp_hardi()
-    config_file = op.join(tmpdir.name, 'test.toml')
-
-    arg_dict = afb.func_dict_to_arg_dict()
-
-    # set our custom defaults for the toml file
-    # It is easier to edit them here, than to parse the file and edit them
-    # after the file is written
-    arg_dict['BIDS_PARAMS']['bids_path']['default'] = bids_path
-    arg_dict['BIDS_PARAMS']['dmriprep']['default'] = 'vistasoft'
-    arg_dict['DATA']['bundle_info']['default'] = abd.default18_bd()[(
-        "Left Corticospinal")]
-    arg_dict['TRACTOGRAPHY_PARAMS']['n_seeds']['default'] = 500
-    arg_dict['TRACTOGRAPHY_PARAMS']['random_seeds']['default'] = True
-
-    afb.generate_config(config_file, arg_dict, False)
-    afb.parse_config_run_afq(config_file, arg_dict, False)
 
 
 def test_AFQ_data_waypoint():
@@ -806,6 +732,29 @@ def test_AFQ_data_waypoint():
     vista_folder = op.join(
         bids_path,
         "derivatives/vistasoft/sub-01/ses-01/dwi")
+    freesurfer_folder = op.join(
+        bids_path,
+        "derivatives/freesurfer/sub-01/ses-01/anat")
+
+    # Prepare PVE
+    seg_file = op.join(
+        freesurfer_folder,
+        "sub-01_ses-01_seg.nii.gz")
+
+    bm_def = LabelledImageFile(
+        path=seg_file,
+        exclusive_labels=[0])
+
+    pve = PVEImages(
+        LabelledImageFile(
+            path=seg_file,
+            inclusive_labels=[0]),
+        LabelledImageFile(
+            path=seg_file,
+            exclusive_labels=[0, 1, 2], combine="and"),
+        LabelledImageFile(
+            path=seg_file,
+            inclusive_labels=[1, 2]))
 
     # Prepare LV1 ROI
     lv1_files, lv1_folder = afd.fetch_stanford_hardi_lv1()
@@ -817,8 +766,6 @@ def test_AFQ_data_waypoint():
         "Right Superior Longitudinal",
         "Left Arcuate",
         "Right Arcuate",
-        "Left Corticospinal",
-        "Right Corticospinal",
         "Forceps Minor"]
     bundle_info = abd.default18_bd()[bundle_names]
 
@@ -839,8 +786,8 @@ def test_AFQ_data_waypoint():
     }
 
     tracking_params = dict(odf_model="csd",
-                           seed_mask=RoiImage(),
-                           n_seeds=200,
+                           n_seeds=2000,
+                           directions="prob",  # for efficiency
                            random_seeds=True,
                            rng_seed=42)
     segmentation_params = dict(return_idx=True)
@@ -851,6 +798,7 @@ def test_AFQ_data_waypoint():
         op.join(vista_folder, "sub-01_ses-01_dwi.nii.gz"),
         op.join(vista_folder, "sub-01_ses-01_dwi.bval"),
         op.join(vista_folder, "sub-01_ses-01_dwi.bvec"),
+        op.join(freesurfer_folder, "sub-01_ses-01_T1w.nii.gz"),
         afq_folder,
         bundle_info=bundle_info,
         scalars=[
@@ -860,7 +808,10 @@ def test_AFQ_data_waypoint():
             "dti_lt2",
             ImageFile(path=t1_path_other),
             TemplateImage(t1_path)],
+        pve=pve,
+        brain_mask_definition=bm_def,
         n_points_profile=50,
+        ray_n_cpus=1,
         tracking_params=tracking_params,
         segmentation_params=segmentation_params)
 
@@ -888,19 +839,19 @@ def test_AFQ_data_waypoint():
     assert op.exists(op.join(
         myafq.export("output_dir"),
         'ROIs',
-        'sub-01_ses-01_space-subject_desc-RightCorticospinalInclude1_mask.json'))  # noqa
+        'sub-01_ses-01_space-subject_desc-RightArcuateInclude1_mask.json'))  # noqa
 
     seg_sft = aus.SegmentedSFT.fromfile(
         myafq.export("bundles"))
     npt.assert_(len(seg_sft.get_bundle(
-        'Left Corticospinal').streamlines) > 0)
+        'Left Superior Longitudinal').streamlines) > 0)
 
     # Test bundles exporting:
     myafq.export("indiv_bundles")
     assert op.exists(op.join(
         myafq.export("output_dir"),
         'bundles',
-        'sub-01_ses-01_desc-LeftCorticospinal_tractography.trk'))  # noqa
+        'sub-01_ses-01_desc-RightSuperiorLongitudinal_tractography.trk'))  # noqa
 
     # Test that the returned indices are correct:
     with open(op.join(
@@ -909,24 +860,29 @@ def test_AFQ_data_waypoint():
         meta_dict = json.load(meta_file)
 
     # These are the indices into the full tractogram:
-    cst_indices = meta_dict["tracking_idx"]["Left Corticospinal"]
+    cst_indices = meta_dict["tracking_idx"]["Left Arcuate"]
 
     all_sl = load_tractogram(op.join(
         myafq.export("output_dir"), "tractography",
         "sub-01_ses-01_tractography.trk"), reference="same").streamlines
 
     # Select the first streamline for testing. Here by index:
-    cst_by_index = all_sl[cst_indices[0]]
+    cst_by_index = all_sl[cst_indices]
 
     # And here from the segmentation:
     cst_streamlines = load_tractogram(op.join(
         myafq.export("output_dir"),
         'bundles',
-        'sub-01_ses-01_desc-LeftCorticospinal_tractography.trk'),
-        reference="same").streamlines[0]
+        'sub-01_ses-01_desc-LeftArcuate_tractography.trk'),
+        reference="same").streamlines
 
     # Should be identical in all positions if the index is correct:
-    np.testing.assert_equal(cst_by_index, cst_streamlines)
+    total_error = 0
+    for ii in range(len(cst_by_index)):
+        sl_by_index = np.asarray(cst_by_index[ii])
+        sl_segmented = np.asarray(cst_streamlines[ii])
+        total_error += mdf(sl_by_index, sl_segmented)
+    npt.assert_almost_equal(total_error, 0)
 
     tract_profile_fname = myafq.export("profiles")
     tract_profiles = pd.read_csv(tract_profile_fname)
@@ -960,29 +916,42 @@ def test_AFQ_data_waypoint():
 
     # Set up config to use the same parameters as above:
     # ROI mask needs to be put in quotes in config
-    tracking_params = dict(odf_model="CSD",
-                           seed_mask="RoiImage()",
-                           n_seeds=200,
-                           random_seeds=True,
-                           rng_seed=42)
+    tracking_params = dict(
+        odf_model="CSD",
+        n_seeds=2000,
+        directions="prob",  # for efficiency
+        random_seeds=True,
+        rng_seed=42)
     bundle_dict_as_str = (
         'default18_bd()['
         '"Left Superior Longitudinal",'
         '"Right Superior Longitudinal",'
         '"Left Arcuate",'
         '"Right Arcuate",'
-        '"Left Corticospinal",'
-        '"Right Corticospinal",'
         '"Forceps Minor"]'
         '+ BundleDict({"LV1": {"start": '
         f'"{lv1_fname}", '
         '"space": "subject"}})')
+    pve_as_str = (
+        'PVEImages('
+        'LabelledImageFile('
+        'suffix="seg", filters={"scope": "freesurfer"},'
+        'inclusive_labels=[0]),'
+        'LabelledImageFile('
+        'suffix="seg", filters={"scope": "freesurfer"},'
+        'exclusive_labels=[0, 1, 2], combine="and"),'
+        'LabelledImageFile('
+        'suffix="seg", filters={"scope": "freesurfer"},'
+        'inclusive_labels=[1, 2]))')
     config = dict(
         BIDS_PARAMS=dict(
             bids_path=bids_path,
-            preproc_pipeline='vistasoft'),
+            dwi_preproc_pipeline='vistasoft',
+            t1_preproc_pipeline='freesurfer',),
         DATA=dict(
-            bundle_info=bundle_dict_as_str),
+            bundle_info=bundle_dict_as_str,
+            ray_n_cpus=1),
+        TISSUE=dict(pve=pve_as_str),
         SEGMENTATION=dict(
             n_points_profile=50,
             scalars=[

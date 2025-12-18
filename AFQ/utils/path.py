@@ -56,19 +56,35 @@ def space_from_fname(dwi_fname):
 
 def apply_cmd_to_afq_derivs(
         derivs_dir, base_fname, cmd="rm", exception_file_names=[], suffix="",
-        dependent_on=None):
-    if dependent_on is None:
-        dependent_on_list = ["dwi", "trk", "rec", "prof"]
-    elif dependent_on.lower() == "track":
-        dependent_on_list = ["trk", "rec", "prof"]
-    elif dependent_on.lower() == "recog":
-        dependent_on_list = ["rec", "prof"]
-    elif dependent_on.lower() == "prof":
-        dependent_on_list = ["prof"]
-    else:
+        dependent_on=None, up_to=None):
+    dependent_options = {
+        None: ["dwi", "trk", "rec", "prof"],
+        "track": ["trk", "rec", "prof"],
+        "recog": ["rec", "prof"],
+        "prof": ["prof"]
+    }
+    if dependent_on is not None:
+        dependent_on = dependent_on.lower()
+    dependent_on_list = dependent_options.get(dependent_on)
+    if dependent_on_list is None:
         raise ValueError((
-            "dependent_on must be one of "
-            "None, 'track', 'recog', 'prof'."))
+            "dependent_on must be one of None, "
+            "'track', 'recog', 'prof'."))
+
+    removal_patterns = {
+        "track": ["trk", "rec", "prof"],
+        "recog": ["rec", "prof"],
+        "prof": ["prof"]
+    }
+    if up_to is not None:
+        up_to = up_to.lower()
+        if up_to in removal_patterns:
+            dependent_on_list = [item for item in dependent_on_list
+                                 if item not in removal_patterns[up_to]]
+        else:
+            raise ValueError((
+                "up_to must be one of None, "
+                "'track', 'recog', 'prof'."))
 
     if cmd == "rm" or cmd == "cp":
         cmd = cmd + " -r"

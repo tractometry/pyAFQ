@@ -10,6 +10,7 @@
    fibertracts
    tissue_properties
    methods
+   kwargs
    viz_backend
    mapping
    config
