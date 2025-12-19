@@ -19,7 +19,7 @@ def write_json(fname, data):
     -------
     None
     """
-    with open(fname, 'w') as ff:
+    with open(fname, "w") as ff:
         json.dump(data, ff, default=lambda obj: "Not Serializable")
 
 
@@ -36,13 +36,13 @@ def read_json(fname):
     -------
     dict
     """
-    with open(fname, 'r') as ff:
+    with open(fname, "r") as ff:
         out = json.load(ff)
     return out
 
 
 def drop_extension(path):
-    base_fname = op.basename(path).split('.')[0]
+    base_fname = op.basename(path).split(".")[0]
     return path.split(base_fname)[0] + base_fname
 
 
@@ -55,36 +55,45 @@ def space_from_fname(dwi_fname):
 
 
 def apply_cmd_to_afq_derivs(
-        derivs_dir, base_fname, cmd="rm", exception_file_names=[], suffix="",
-        dependent_on=None, up_to=None):
+    derivs_dir,
+    base_fname,
+    cmd="rm",
+    exception_file_names=None,
+    suffix="",
+    dependent_on=None,
+    up_to=None,
+):
     dependent_options = {
         None: ["dwi", "trk", "rec", "prof"],
         "track": ["trk", "rec", "prof"],
         "recog": ["rec", "prof"],
-        "prof": ["prof"]
+        "prof": ["prof"],
     }
+    if exception_file_names is None:
+        exception_file_names = []
     if dependent_on is not None:
         dependent_on = dependent_on.lower()
     dependent_on_list = dependent_options.get(dependent_on)
     if dependent_on_list is None:
-        raise ValueError((
-            "dependent_on must be one of None, "
-            "'track', 'recog', 'prof'."))
+        raise ValueError(
+            ("dependent_on must be one of None, 'track', 'recog', 'prof'.")
+        )
 
     removal_patterns = {
         "track": ["trk", "rec", "prof"],
         "recog": ["rec", "prof"],
-        "prof": ["prof"]
+        "prof": ["prof"],
     }
     if up_to is not None:
         up_to = up_to.lower()
         if up_to in removal_patterns:
-            dependent_on_list = [item for item in dependent_on_list
-                                 if item not in removal_patterns[up_to]]
+            dependent_on_list = [
+                item
+                for item in dependent_on_list
+                if item not in removal_patterns[up_to]
+            ]
         else:
-            raise ValueError((
-                "up_to must be one of None, "
-                "'track', 'recog', 'prof'."))
+            raise ValueError(("up_to must be one of None, 'track', 'recog', 'prof'."))
 
     if cmd == "rm" or cmd == "cp":
         cmd = cmd + " -r"
@@ -95,16 +104,19 @@ def apply_cmd_to_afq_derivs(
     for filename in os.listdir(derivs_dir):
         full_path = os.path.join(derivs_dir, filename)
         if os.path.isfile(full_path) or os.path.islink(full_path):
-            if (full_path in exception_file_names)\
-                    or (not full_path.startswith(base_fname))\
-                    or filename.endswith("json"):
+            if (
+                (full_path in exception_file_names)
+                or (not full_path.startswith(base_fname))
+                or filename.endswith("json")
+            ):
                 continue
-            sidecar_file = f'{drop_extension(full_path)}.json'
+            sidecar_file = f"{drop_extension(full_path)}.json"
             if op.exists(sidecar_file):
                 sidecar_info = read_json(sidecar_file)
-                if "dependent" in sidecar_info\
-                    and sidecar_info["dependent"]\
-                        in dependent_on_list:
+                if (
+                    "dependent" in sidecar_info
+                    and sidecar_info["dependent"] in dependent_on_list
+                ):
                     os.system(f"{cmd} {full_path} {suffix}")
                     os.system(f"{cmd} {sidecar_file} {suffix}")
             else:
@@ -125,9 +137,7 @@ def apply_cmd_to_afq_derivs(
                     os.system(f"{cmd} {full_path} {suffix}")
                 if filename == "viz_bundles" and "rec" in dependent_on_list:
                     os.system(f"{cmd} {full_path} {suffix}")
-                if filename == "viz_core_bundles" and \
-                        "prof" in dependent_on_list:
+                if filename == "viz_core_bundles" and "prof" in dependent_on_list:
                     os.system(f"{cmd} {full_path} {suffix}")
-                if filename == "tract_profile_plots" and \
-                        "prof" in dependent_on_list:
+                if filename == "tract_profile_plots" and "prof" in dependent_on_list:
                     os.system(f"{cmd} {full_path} {suffix}")
