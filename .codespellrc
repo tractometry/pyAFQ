@@ -1,2 +1,3 @@
 [codespell]
 skip = setup.cfg
+ignore-words-list = Reson
