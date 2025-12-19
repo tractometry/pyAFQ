@@ -16,6 +16,7 @@ try:
     from fsl.data.image import Image
     from fsl.transform.fnirt import readFnirt
     from fsl.transform.nonlinear import applyDeformation
+
     has_fslpy = True
 except ModuleNotFoundError:
     has_fslpy = False
@@ -23,10 +24,10 @@ except ModuleNotFoundError:
 __all__ = ["FnirtMap", "SynMap", "SlrMap", "AffMap", "IdentityMap"]
 
 
-logger = logging.getLogger('AFQ')
+logger = logging.getLogger("AFQ")
 
 
-# For map defintions, get_for_subses should return only the mapping
+# For map definitions, get_for_subses should return only the mapping
 # Where the mapping has transform and transform_inverse functions
 # which each accept data, **kwargs
 
@@ -76,24 +77,42 @@ class FnirtMap(Definition):
     api.GroupAFQ(mapping=fnirt_map)
     """
 
-    def __init__(self, warp_path=None, space_path=None,
-                 warp_suffix=None, space_suffix=None,
-                 warp_filters={}, space_filters={}):
+    def __init__(
+        self,
+        warp_path=None,
+        space_path=None,
+        warp_suffix=None,
+        space_suffix=None,
+        warp_filters=None,
+        space_filters=None,
+    ):
         if not has_fslpy:
-            raise ImportError(
-                "Please install fslpy if you want to use FnirtMap")
+            raise ImportError("Please install fslpy if you want to use FnirtMap")
+        if warp_filters is None:
+            warp_filters = {}
+        if space_filters is None:
+            space_filters = {}
         if warp_path is None and warp_suffix is None:
-            raise ValueError((
-                "One of `warp_path` or `warp_suffix` should be set "
-                "to a value other than None."))
-        if space_path is None and space_suffix is None:
             raise ValueError(
-                "One of space_path or space_suffix must not be None.")
-        if warp_path is not None and space_path is None\
-                or space_path is not None and warp_path is None:
-            raise ValueError((
-                "If passing a value for `warp_path`, "
-                "you must also pass a value for `space_path`"))
+                (
+                    "One of `warp_path` or `warp_suffix` should be set "
+                    "to a value other than None."
+                )
+            )
+        if space_path is None and space_suffix is None:
+            raise ValueError("One of space_path or space_suffix must not be None.")
+        if (
+            warp_path is not None
+            and space_path is None
+            or space_path is not None
+            and warp_path is None
+        ):
+            raise ValueError(
+                (
+                    "If passing a value for `warp_path`, "
+                    "you must also pass a value for `space_path`"
+                )
+            )
         if warp_path is not None:
             self._from_path = True
             self.fnames = (warp_path, space_path)
@@ -105,25 +124,37 @@ class FnirtMap(Definition):
             self.space_filters = space_filters
             self.fnames = {}
 
-    def find_path(self, bids_layout, from_path,
-                  subject, session, required=True):
+    def find_path(self, bids_layout, from_path, subject, session, required=True):
         if self._from_path:
             return
         if session not in self.fnames:
             self.fnames[session] = {}
 
         nearest_warp = find_file(
-            bids_layout, from_path, self.warp_filters, self.warp_suffix,
-            session, subject, required=required)
+            bids_layout,
+            from_path,
+            self.warp_filters,
+            self.warp_suffix,
+            session,
+            subject,
+            required=required,
+        )
 
         nearest_space = find_file(
-            bids_layout, from_path, self.space_filters, self.space_suffix,
-            session, subject, required=required)
+            bids_layout,
+            from_path,
+            self.space_filters,
+            self.space_suffix,
+            session,
+            subject,
+            required=required,
+        )
 
         self.fnames[from_path] = (nearest_warp, nearest_space)
 
-    def get_for_subses(self, base_fname, dwi, dwi_data_file, reg_subject,
-                       reg_template, tmpl_name):
+    def get_for_subses(
+        self, base_fname, dwi, dwi_data_file, reg_subject, reg_template, tmpl_name
+    ):
         if self._from_path:
             nearest_warp, nearest_space = self.fnames
         else:
@@ -137,9 +168,9 @@ class FnirtMap(Definition):
         return ConformedFnirtMapping(warp, our_templ.affine)
 
 
-class ConformedFnirtMapping():
+class ConformedFnirtMapping:
     """
-        ConformedFnirtMapping which matches the generic mapping API.
+    ConformedFnirtMapping which matches the generic mapping API.
     """
 
     def __init__(self, warp, ref_affine):
@@ -147,24 +178,22 @@ class ConformedFnirtMapping():
         self.warp = warp
 
     def transform_inverse(self, data, **kwargs):
-        data_img = Image(nib.Nifti1Image(
-            data.astype(np.float32), self.ref_affine))
+        data_img = Image(nib.Nifti1Image(data.astype(np.float32), self.ref_affine))
         return np.asarray(applyDeformation(data_img, self.warp).data)
 
     def transform_inverse_pts(self, pts):
         # This should only be used for curvature analysis,
         # Because I think the results still need to be shifted
-        pts = nib.affines.apply_affine(
-            self.warp.src.getAffine('voxel', 'world'), pts)
-        pts = nib.affines.apply_affine(
-            np.linalg.inv(self.ref_affine), pts)
-        pts = self.warp.transform(pts, 'fsl', "world")
+        pts = nib.affines.apply_affine(self.warp.src.getAffine("voxel", "world"), pts)
+        pts = nib.affines.apply_affine(np.linalg.inv(self.ref_affine), pts)
+        pts = self.warp.transform(pts, "fsl", "world")
         return pts
 
     def transform(self, data, **kwargs):
         raise NotImplementedError(
             "Fnirt based mappings can currently"
-            + " only transform from template to subject space")
+            + " only transform from template to subject space"
+        )
 
 
 class IdentityMap(Definition):
@@ -181,16 +210,16 @@ class IdentityMap(Definition):
     def __init__(self):
         pass
 
-    def get_for_subses(self, base_fname, dwi, dwi_data_file, reg_subject,
-                       reg_template, tmpl_name):
+    def get_for_subses(
+        self, base_fname, dwi, dwi_data_file, reg_subject, reg_template, tmpl_name
+    ):
         return ConformedAffineMapping(
             np.identity(4),
-            domain_grid_shape=reg.reduce_shape(
-                reg_subject.shape),
+            domain_grid_shape=reg.reduce_shape(reg_subject.shape),
             domain_grid2world=reg_subject.affine,
-            codomain_grid_shape=reg.reduce_shape(
-                reg_template.shape),
-            codomain_grid2world=reg_template.affine)
+            codomain_grid_shape=reg.reduce_shape(reg_template.shape),
+            codomain_grid2world=reg_template.affine,
+        )
 
 
 class GeneratedMapMixin(object):
@@ -201,66 +230,72 @@ class GeneratedMapMixin(object):
 
     def get_fnames(self, extension, base_fname, sub_name, tmpl_name):
         mapping_file = get_fname(
-            base_fname,
-            f'_desc-mapping_from-{sub_name}_to-{tmpl_name}_xform')
-        meta_fname = f'{mapping_file}.json'
+            base_fname, f"_desc-mapping_from-{sub_name}_to-{tmpl_name}_xform"
+        )
+        meta_fname = f"{mapping_file}.json"
         mapping_file = mapping_file + extension
         return mapping_file, meta_fname
 
-    def prealign(self, base_fname, sub_name, tmpl_name,
-                 reg_subject, reg_template, save=True):
-        prealign_file_desc = (
-            f"_desc-prealign_from-{sub_name}"
-            f"_to-{tmpl_name}_xform")
-        prealign_file = get_fname(
-            base_fname, f'{prealign_file_desc}.npy')
+    def prealign(
+        self, base_fname, sub_name, tmpl_name, reg_subject, reg_template, save=True
+    ):
+        prealign_file_desc = f"_desc-prealign_from-{sub_name}_to-{tmpl_name}_xform"
+        prealign_file = get_fname(base_fname, f"{prealign_file_desc}.npy")
         if not op.exists(prealign_file):
             start_time = time()
             _, aff = affine_registration(
-                reg_subject,
-                reg_template,
-                **self.affine_kwargs)
-            meta = dict(
-                type="rigid",
-                dependent="dwi",
-                timing=time() - start_time)
+                reg_subject, reg_template, **self.affine_kwargs
+            )
+            meta = {"type": "rigid", "dependent": "dwi", "timing": time() - start_time}
             if not save:
                 return aff
             logger.info(f"Saving {prealign_file}")
             np.save(prealign_file, aff)
-            meta_fname = get_fname(
-                base_fname, f'{prealign_file_desc}.json')
+            meta_fname = get_fname(base_fname, f"{prealign_file_desc}.json")
             write_json(meta_fname, meta)
         return prealign_file if save else np.load(prealign_file)
 
-    def get_for_subses(self, base_fname, dwi, dwi_data_file, reg_subject,
-                       reg_template, tmpl_name,
-                       subject_sls=None, template_sls=None):
+    def get_for_subses(
+        self,
+        base_fname,
+        dwi,
+        dwi_data_file,
+        reg_subject,
+        reg_template,
+        tmpl_name,
+        subject_sls=None,
+        template_sls=None,
+    ):
         sub_space = space_from_fname(dwi_data_file)
         mapping_file, meta_fname = self.get_fnames(
-            self.extension, base_fname,
-            sub_space, tmpl_name)
+            self.extension, base_fname, sub_space, tmpl_name
+        )
 
         if self.use_prealign:
-            reg_prealign = np.load(self.prealign(
-                base_fname, sub_space, tmpl_name,
-                reg_subject, reg_template))
+            reg_prealign = np.load(
+                self.prealign(
+                    base_fname, sub_space, tmpl_name, reg_subject, reg_template
+                )
+            )
         else:
             reg_prealign = None
         if not op.exists(mapping_file):
             start_time = time()
             mapping = self.gen_mapping(
-                base_fname, sub_space, tmpl_name,
-                reg_subject, reg_template,
-                subject_sls, template_sls,
-                reg_prealign)
+                base_fname,
+                sub_space,
+                tmpl_name,
+                reg_subject,
+                reg_template,
+                subject_sls,
+                template_sls,
+                reg_prealign,
+            )
             total_time = time() - start_time
 
             logger.info(f"Saving {mapping_file}")
             reg.write_mapping(mapping, mapping_file)
-            meta = dict(
-                type="displacementfield",
-                timing=total_time)
+            meta = {"type": "displacementfield", "timing": total_time}
             if subject_sls is None:
                 meta["dependent"] = "dwi"
             else:
@@ -270,13 +305,10 @@ class GeneratedMapMixin(object):
             if isinstance(reg_template, str):
                 meta["reg_template"] = reg_template
             write_json(meta_fname, meta)
-        reg_prealign_inv = np.linalg.inv(reg_prealign) if self.use_prealign\
-            else None
+        reg_prealign_inv = np.linalg.inv(reg_prealign) if self.use_prealign else None
         mapping = reg.read_mapping(
-            mapping_file,
-            dwi,
-            reg_template,
-            prealign=reg_prealign_inv)
+            mapping_file, dwi, reg_template, prealign=reg_prealign_inv
+        )
         return mapping
 
 
@@ -313,23 +345,31 @@ class SynMap(GeneratedMapMixin, Definition):
     api.GroupAFQ(mapping=SynMap())
     """
 
-    def __init__(self, use_prealign=True, affine_kwargs={}, syn_kwargs={}):
+    def __init__(self, use_prealign=True, affine_kwargs=None, syn_kwargs=None):
         self.use_prealign = use_prealign
-        self.affine_kwargs = affine_kwargs
-        self.syn_kwargs = syn_kwargs
+        self.affine_kwargs = affine_kwargs if affine_kwargs is not None else {}
+        self.syn_kwargs = syn_kwargs if syn_kwargs is not None else {}
         self.extension = ".nii.gz"
 
-    def gen_mapping(self, base_fname, sub_space, tmpl_name,
-                    reg_subject, reg_template,
-                    subject_sls, template_sls,
-                    reg_prealign):
+    def gen_mapping(
+        self,
+        base_fname,
+        sub_space,
+        tmpl_name,
+        reg_subject,
+        reg_template,
+        subject_sls,
+        template_sls,
+        reg_prealign,
+    ):
         _, mapping = syn_registration(
             reg_subject.get_fdata(),
             reg_template.get_fdata(),
             moving_affine=reg_subject.affine,
             static_affine=reg_template.affine,
             prealign=reg_prealign,
-            **self.syn_kwargs)
+            **self.syn_kwargs,
+        )
         if self.use_prealign:
             mapping.codomain_world2grid = np.linalg.inv(reg_prealign)
         return mapping
@@ -350,7 +390,7 @@ class SlrMap(GeneratedMapMixin, Definition):
     Notes
     -----
     Use this class to tell pyAFQ to use
-    Streamline-based Linear Registration (SLR) 
+    Streamline-based Linear Registration (SLR)
     for registration. Note that the reg_template and reg_subject
     parameters passed to :class:`AFQ.api.group.GroupAFQ` should
     be streamlines when using this registration.
@@ -360,21 +400,31 @@ class SlrMap(GeneratedMapMixin, Definition):
     api.GroupAFQ(mapping=SlrMap())
     """
 
-    def __init__(self, slr_kwargs={}):
-        self.slr_kwargs = {}
+    def __init__(self, slr_kwargs=None):
+        self.slr_kwargs = slr_kwargs if slr_kwargs is not None else {}
         self.use_prealign = False
         self.extension = ".npy"
 
-    def gen_mapping(self, base_fname, sub_space, tmpl_name,
-                    reg_template, reg_subject,
-                    subject_sls, template_sls, reg_prealign):
+    def gen_mapping(
+        self,
+        base_fname,
+        sub_space,
+        tmpl_name,
+        reg_template,
+        reg_subject,
+        subject_sls,
+        template_sls,
+        reg_prealign,
+    ):
         return reg.slr_registration(
-            subject_sls, template_sls,
+            subject_sls,
+            template_sls,
             moving_affine=reg_subject.affine,
             moving_shape=reg_subject.shape,
             static_affine=reg_template.affine,
             static_shape=reg_template.shape,
-            **self.slr_kwargs)
+            **self.slr_kwargs,
+        )
 
 
 class AffMap(GeneratedMapMixin, Definition):
@@ -398,26 +448,38 @@ class AffMap(GeneratedMapMixin, Definition):
     api.GroupAFQ(mapping=AffMap())
     """
 
-    def __init__(self, affine_kwargs={}):
+    def __init__(self, affine_kwargs=None):
         self.use_prealign = False
-        self.affine_kwargs = affine_kwargs
+        self.affine_kwargs = affine_kwargs if affine_kwargs is not None else {}
         self.extension = ".npy"
 
-    def gen_mapping(self, base_fname,
-                    sub_space, tmpl_name,
-                    reg_subject, reg_template,
-                    subject_sls, template_sls,
-                    reg_prealign):
+    def gen_mapping(
+        self,
+        base_fname,
+        sub_space,
+        tmpl_name,
+        reg_subject,
+        reg_template,
+        subject_sls,
+        template_sls,
+        reg_prealign,
+    ):
         return ConformedAffineMapping(
-            np.linalg.inv(self.prealign(
-                base_fname, sub_space, tmpl_name,
-                reg_subject, reg_template, save=False)),
-            domain_grid_shape=reg.reduce_shape(
-                reg_subject.shape),
+            np.linalg.inv(
+                self.prealign(
+                    base_fname,
+                    sub_space,
+                    tmpl_name,
+                    reg_subject,
+                    reg_template,
+                    save=False,
+                )
+            ),
+            domain_grid_shape=reg.reduce_shape(reg_subject.shape),
             domain_grid2world=reg_subject.affine,
-            codomain_grid_shape=reg.reduce_shape(
-                reg_template.shape),
-            codomain_grid2world=reg_template.affine)
+            codomain_grid_shape=reg.reduce_shape(reg_template.shape),
+            codomain_grid2world=reg_template.affine,
+        )
 
 
 class ConformedAffineMapping(AffineMap):
