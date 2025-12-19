@@ -162,13 +162,13 @@ class GroupAFQ(object):
             raise TypeError("participant_labels must be either a list or None")
         if output_dir is not None and not isinstance(output_dir, str):
             raise TypeError("output_dir must be either a str or None")
+        if parallel_params is None:
+            parallel_params = {"engine": "serial"}
         if not isinstance(parallel_params, dict):
             raise TypeError("parallel_params must be a dict")
         if not isinstance(bids_layout_kwargs, dict):
             raise TypeError("bids_layout_kwargs must be a dict")
 
-        if parallel_params is None:
-            parallel_params = {"engine": "serial"}
         if bids_layout_kwargs is None:
             bids_layout_kwargs = {}
 
