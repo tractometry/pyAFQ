@@ -21,7 +21,7 @@ ignore = [
   "F821"
 ]
 
-[tool.pytest.ini_options]
+[tool.pytest]
 markers = [
     "nightly",
     "nightly_basic",
