@@ -166,11 +166,10 @@ class GroupAFQ(object):
             parallel_params = {"engine": "serial"}
         if not isinstance(parallel_params, dict):
             raise TypeError("parallel_params must be a dict")
-        if not isinstance(bids_layout_kwargs, dict):
-            raise TypeError("bids_layout_kwargs must be a dict")
-
         if bids_layout_kwargs is None:
             bids_layout_kwargs = {}
+        if not isinstance(bids_layout_kwargs, dict):
+            raise TypeError("bids_layout_kwargs must be a dict")
 
         parallel_params["engine"] = parallel_params.get("engine", "serial")
         self.logger = logger
