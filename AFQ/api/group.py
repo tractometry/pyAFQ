@@ -1,18 +1,11 @@
 # -*- coding: utf-8 -*-
-import tempfile
-import warnings
-
-import AFQ.api.bundle_dict as abd
-from AFQ.definitions.mapping import SynMap
-from AFQ.definitions.utils import Definition
-
-warnings.simplefilter(action='ignore', category=FutureWarning)  # noqa
-
 import glob
 import json
 import logging
 import os
 import os.path as op
+import tempfile
+import warnings  # noqa
 from time import time
 
 import dipy.tracking.streamline as dts
@@ -28,6 +21,7 @@ from dipy.utils.parallel import paramap
 from PIL import Image
 from tqdm import tqdm
 
+import AFQ.api.bundle_dict as abd
 import AFQ.utils.streamlines as aus
 from AFQ.api.participant import ParticipantAFQ
 from AFQ.api.utils import (
@@ -37,36 +31,40 @@ from AFQ.api.utils import (
     valid_exports_string,
 )
 from AFQ.data.utils import aws_import_msg_error
-from AFQ.definitions.utils import find_file
+from AFQ.definitions.mapping import SynMap
+from AFQ.definitions.utils import Definition, find_file
 from AFQ.version import version as pyafq_version
 from AFQ.viz.utils import get_eye, trim
 
 try:
     import afqbrowser as afqb
+
     using_afqb = True
 except ImportError:
     using_afqb = False
 
 
+warnings.simplefilter(action="ignore", category=FutureWarning)  # noqa
+
+
 __all__ = ["GroupAFQ"]
 
 
-logger = logging.getLogger('AFQ')
+logger = logging.getLogger("AFQ")
 logger.setLevel(logging.INFO)
 
 
 # get rid of unnecessary columns in df
 def clean_pandas_df(df):
     df = df.reset_index(drop=True)
-    df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
+    df = df.loc[:, ~df.columns.str.contains("^Unnamed")]
     return df
 
 
 class _ParticipantAFQInputs:
     def __init__(
-            self, dwi_data_file, bval_file, bvec_file,
-            t1_file, results_dir,
-            kwargs):
+        self, dwi_data_file, bval_file, bvec_file, t1_file, results_dir, kwargs
+    ):
         self.dwi_data_file = dwi_data_file
         self.bval_file = bval_file
         self.bvec_file = bvec_file
@@ -76,19 +74,21 @@ class _ParticipantAFQInputs:
 
 
 class GroupAFQ(object):
-    f"""{AFQclass_doc}"""
+    f"""{AFQclass_doc}"""  # noqa
 
-    def __init__(self,
-                 bids_path,
-                 bids_filters={"suffix": "dwi"},
-                 dwi_preproc_pipeline="all",
-                 t1_preproc_pipeline=None,
-                 participant_labels=None,
-                 output_dir=None,
-                 parallel_params={"engine": "serial"},
-                 bids_layout_kwargs={},
-                 **kwargs):
-        '''
+    def __init__(
+        self,
+        bids_path,
+        bids_filters=None,
+        dwi_preproc_pipeline="all",
+        t1_preproc_pipeline=None,
+        participant_labels=None,
+        output_dir=None,
+        parallel_params=None,
+        bids_layout_kwargs=None,
+        **kwargs,
+    ):
+        """
         Initialize a GroupAFQ object from a BIDS dataset.
 
         Parameters
@@ -142,31 +142,35 @@ class GroupAFQ(object):
         api.GroupAFQ(
             my_path,
             reg_template_spec="mni_t2", reg_subject_spec="b0")
-        '''
+        """
         if not isinstance(bids_path, str):
             raise TypeError("bids_path must be a string")
         if not op.exists(bids_path):
             raise ValueError("bids_path not found")
         if not op.exists(op.join(bids_path, "dataset_description.json")):
-            raise ValueError("There must be a dataset_description.json"
-                             + " in bids_path")
+            raise ValueError(
+                "There must be a dataset_description.json" + " in bids_path"
+            )
         if not isinstance(bids_filters, dict):
             raise TypeError("bids_filters must be a dict")
         # dwi_preproc_pipeline typechecking handled by pyBIDS
         if t1_preproc_pipeline is None:
             t1_preproc_pipeline = dwi_preproc_pipeline
-        if participant_labels is not None\
-                and not isinstance(participant_labels, list):
-            raise TypeError(
-                "participant_labels must be either a list or None")
-        if output_dir is not None\
-                and not isinstance(output_dir, str):
-            raise TypeError(
-                "output_dir must be either a str or None")
+        if participant_labels is not None and not isinstance(participant_labels, list):
+            raise TypeError("participant_labels must be either a list or None")
+        if output_dir is not None and not isinstance(output_dir, str):
+            raise TypeError("output_dir must be either a str or None")
         if not isinstance(parallel_params, dict):
             raise TypeError("parallel_params must be a dict")
         if not isinstance(bids_layout_kwargs, dict):
             raise TypeError("bids_layout_kwargs must be a dict")
+
+        if bids_filters is None:
+            bids_filters = {"suffix": "dwi"}
+        if parallel_params is None:
+            parallel_params = {"engine": "serial"}
+        if bids_layout_kwargs is None:
+            bids_layout_kwargs = {}
 
         parallel_params["engine"] = parallel_params.get("engine", "serial")
         self.logger = logger
@@ -176,61 +180,64 @@ class GroupAFQ(object):
 
         # validate input and fail early
         if not op.exists(bids_path):
-            raise ValueError(f'Unable to locate BIDS dataset in: {bids_path}')
+            raise ValueError(f"Unable to locate BIDS dataset in: {bids_path}")
 
         # This is where all the outputs will go:
         if output_dir is None:
-            self.afq_path = op.join(bids_path, 'derivatives', 'afq')
-            self.afqb_path = op.join(bids_path, 'derivatives', 'afq_browser')
+            self.afq_path = op.join(bids_path, "derivatives", "afq")
+            self.afqb_path = op.join(bids_path, "derivatives", "afq_browser")
         else:
             self.afq_path = output_dir
-            self.afqb_path = op.join(output_dir, 'afq_browser')
+            self.afqb_path = op.join(output_dir, "afq_browser")
 
         # Create it as needed:
         os.makedirs(self.afq_path, exist_ok=True)
 
         bids_indexer = BIDSLayoutIndexer(**bids_layout_kwargs)
-        bids_layout = BIDSLayout(
-            bids_path, derivatives=True, indexer=bids_indexer)
+        bids_layout = BIDSLayout(bids_path, derivatives=True, indexer=bids_indexer)
         bids_description = bids_layout.description
 
         # check that any files exist in the derivatives folder,
         # not including the dataset_description.json files
         # the second check may be particularly useful in checking
         # that the derivatives folder is well-defined
-        if len(bids_layout.get())\
-                - len(bids_layout.get(extension="json")) < 1:
+        if len(bids_layout.get()) - len(bids_layout.get(extension="json")) < 1:
+            raise ValueError(f"No non-json files recognized by pyBIDS in {bids_path}")
+        if (
+            len(bids_layout.get(scope=dwi_preproc_pipeline))
+            - len(bids_layout.get(scope=dwi_preproc_pipeline, extension="json"))
+            < 1
+        ):
             raise ValueError(
-                f"No non-json files recognized by pyBIDS in {bids_path}")
-        if len(bids_layout.get(scope=dwi_preproc_pipeline))\
-                - len(bids_layout.get(
-                    scope=dwi_preproc_pipeline,
-                    extension="json")) < 1:
-            raise ValueError((
-                f"No non-json files recognized by "
-                f"pyBIDS in the pipeline: {dwi_preproc_pipeline}"))
+                (
+                    f"No non-json files recognized by "
+                    f"pyBIDS in the pipeline: {dwi_preproc_pipeline}"
+                )
+            )
 
         # Add required metadata file at top level (inheriting as needed):
         pipeline_description = {
             "Name": bids_description["Name"],
             "BIDSVersion": bids_description["BIDSVersion"],
-            "PipelineDescription": {"Name": "pyAFQ",
-                                    "Version": pyafq_version},
-            "GeneratedBy": [{"Name": op.basename(self.afq_path),
-                             "Version": pyafq_version}]}
+            "PipelineDescription": {"Name": "pyAFQ", "Version": pyafq_version},
+            "GeneratedBy": [
+                {"Name": op.basename(self.afq_path), "Version": pyafq_version}
+            ],
+        }
 
-        pl_desc_file = op.join(self.afq_path, 'dataset_description.json')
+        pl_desc_file = op.join(self.afq_path, "dataset_description.json")
 
         if not op.exists(pl_desc_file):
-            with open(pl_desc_file, 'w') as outfile:
+            with open(pl_desc_file, "w") as outfile:
                 json.dump(pipeline_description, outfile)
 
-        self.subjects = bids_layout.get(return_type='id', target='subject')
+        self.subjects = bids_layout.get(return_type="id", target="subject")
         if not len(self.subjects):
             raise ValueError(
                 "`bids_path` contains no subjects in derivatives folders."
                 + " This could be caused by derivatives folders not following"
-                + " the BIDS format.")
+                + " the BIDS format."
+            )
 
         if participant_labels is not None:
             filtered_subjects = []
@@ -238,15 +245,21 @@ class GroupAFQ(object):
             for subjectID in participant_labels:
                 subjectID = str(subjectID)
                 if subjectID not in self.subjects:
-                    self.logger.warning((
-                        f"Subject {subjectID} specified in "
-                        f"`participant_labels` but not found "
-                        f"in BIDS derivatives folders"))
+                    self.logger.warning(
+                        (
+                            f"Subject {subjectID} specified in "
+                            f"`participant_labels` but not found "
+                            f"in BIDS derivatives folders"
+                        )
+                    )
                     if not subjects_found_printed:
                         subjects_found_printed = True
-                        self.logger.warning((
-                            f"Only these subjects found in BIDS "
-                            f"derivatives folders: {self.subjects}"))
+                        self.logger.warning(
+                            (
+                                f"Only these subjects found in BIDS "
+                                f"derivatives folders: {self.subjects}"
+                            )
+                        )
                 else:
                     filtered_subjects.append(subjectID)
             self.subjects = filtered_subjects
@@ -254,9 +267,10 @@ class GroupAFQ(object):
                 raise ValueError(
                     "No subjects specified in `participant_labels` "
                     + " found in BIDS derivatives folders."
-                    + " See above warnings.")
+                    + " See above warnings."
+                )
 
-        sessions = bids_layout.get(return_type='id', target='session')
+        sessions = bids_layout.get(return_type="id", target="session")
         self.sessions = sessions if len(sessions) else [None]
 
         # do not bother to parallelize if less than 2 subject-sessions
@@ -279,10 +293,10 @@ class GroupAFQ(object):
             self.plans_dict[subject] = {}
             for session in self.sessions:
                 this_kwargs = kwargs.copy()
-                results_dir = op.join(self.afq_path, 'sub-' + subject)
+                results_dir = op.join(self.afq_path, "sub-" + subject)
 
                 if session is not None:
-                    results_dir = op.join(results_dir, 'ses-' + session)
+                    results_dir = op.join(results_dir, "ses-" + session)
 
                 results_dir = op.join(results_dir, "dwi")
 
@@ -297,10 +311,11 @@ class GroupAFQ(object):
                 dwi_bids_filters.update(bids_filters)
                 dwi_files = bids_layout.get(**dwi_bids_filters)
 
-                if (not len(dwi_files)):
+                if not len(dwi_files):
                     self.logger.warning(
                         f"No dwi found for subject {subject} and session "
-                        f"{session}. Skipping.")
+                        f"{session}. Skipping."
+                    )
                     continue
 
                 os.makedirs(results_dir, exist_ok=True)
@@ -313,22 +328,18 @@ class GroupAFQ(object):
                 # already specified inside ``get_bvec()`` and ``get_bval()``
                 nearby_filters = {**bids_filters, "scope": dwi_preproc_pipeline}
                 nearby_filters.pop("suffix", None)
-                bvec_file = bids_layout.get_bvec(
-                    dwi_data_file,
-                    **nearby_filters)
-                bval_file = bids_layout.get_bval(
-                    dwi_data_file,
-                    **nearby_filters)
+                bvec_file = bids_layout.get_bvec(dwi_data_file, **nearby_filters)
+                bval_file = bids_layout.get_bval(dwi_data_file, **nearby_filters)
                 nearby_filters.pop("scope", None)
                 nearby_filters["scope"] = t1_preproc_pipeline
                 t1_file = find_file(
-                    bids_layout, dwi_data_file,
-                    nearby_filters,
-                    "T1w", session, subject)
+                    bids_layout, dwi_data_file, nearby_filters, "T1w", session, subject
+                )
 
                 self.logger.info(
                     f"Using the following files for subject {subject} "
-                    f"and session {session}:")
+                    f"and session {session}:"
+                )
                 self.logger.info(f"  DWI: {dwi_data_file}")
                 self.logger.info(f"  BVAL: {bval_file}")
                 self.logger.info(f"  BVEC: {bvec_file}")
@@ -344,39 +355,44 @@ class GroupAFQ(object):
                                     dwi_data_file,
                                     subject,
                                     session,
-                                    required=False)
+                                    required=False,
+                                )
                                 if scalar_found is False:
                                     this_kwargs["scalars"].remove(scalar)
                     elif key == "import_tract":
                         if isinstance(this_kwargs["import_tract"], dict):
                             extension = this_kwargs["import_tract"].pop(
                                 "extension",
-                                ['.trk',
-                                 '.tck',
-                                 '.trx',
-                                 '.vtk',
-                                 '.fib',
-                                 '.dpy'])
-                            it_res = \
-                                bids_layout.get(
-                                    subject=subject,
-                                    session=session,
-                                    extension=extension,
-                                    return_type='filename',
-                                    **this_kwargs["import_tract"])
+                                [".trk", ".tck", ".trx", ".vtk", ".fib", ".dpy"],
+                            )
+                            it_res = bids_layout.get(
+                                subject=subject,
+                                session=session,
+                                extension=extension,
+                                return_type="filename",
+                                **this_kwargs["import_tract"],
+                            )
                             if len(it_res) < 1:
-                                raise ValueError((
-                                    "No custom tractography found for"
-                                    f" subject {subject}"
-                                    " and session "
-                                    f"{session}."))
+                                raise ValueError(
+                                    (
+                                        "No custom tractography found for"
+                                        f" subject {subject}"
+                                        " and session "
+                                        f"{session}."
+                                    )
+                                )
                             elif len(it_res) > 1:
                                 this_kwargs["import_tract"] = it_res[0]
-                                logger.warning((
-                                    f"Multiple viable custom tractographies found for"
-                                    f" subject "
-                                    f"{subject} and session "
-                                    f"{session}. Will use: {it_res[0]}"))
+                                logger.warning(
+                                    (
+                                        f"Multiple viable custom"
+                                        "tractographies"
+                                        "found for"
+                                        f" subject "
+                                        f"{subject} and session "
+                                        f"{session}. Will use: {it_res[0]}"
+                                    )
+                                )
                             else:
                                 this_kwargs["import_tract"] = it_res[0]
                     elif isinstance(value, dict):
@@ -384,44 +400,46 @@ class GroupAFQ(object):
                             if isinstance(subvalue, Definition):
                                 for file_ in [dwi_data_file, t1_file]:
                                     subvalue.find_path(
-                                        bids_layout,
-                                        file_,
-                                        subject,
-                                        session)
+                                        bids_layout, file_, subject, session
+                                    )
                     elif isinstance(value, Definition):
                         for file_ in [dwi_data_file, t1_file]:
-                            value.find_path(
-                                bids_layout,
-                                file_,
-                                subject,
-                                session)
+                            value.find_path(bids_layout, file_, subject, session)
 
                 # call find path for all ROIs
                 if "bundle_info" in this_kwargs and isinstance(
-                        this_kwargs["bundle_info"], abd.BundleDict):
+                    this_kwargs["bundle_info"], abd.BundleDict
+                ):
                     for b_name in this_kwargs["bundle_info"].bundle_names:
                         this_kwargs["bundle_info"].apply_to_rois(
                             b_name,
                             this_kwargs["bundle_info"]._use_bids_info,
-                            bids_layout, dwi_data_file, subject, session,
-                            dry_run=False)
+                            bids_layout,
+                            dwi_data_file,
+                            subject,
+                            session,
+                            dry_run=False,
+                        )
 
                 self.valid_sub_list.append(subject)
                 self.valid_ses_list.append(str(session))
 
                 this_pAFQ_inputs = _ParticipantAFQInputs(
                     dwi_data_file,
-                    bval_file, bvec_file,
+                    bval_file,
+                    bvec_file,
                     t1_file,
                     results_dir,
-                    this_kwargs)
+                    this_kwargs,
+                )
                 this_pAFQ = ParticipantAFQ(
                     this_pAFQ_inputs.dwi_data_file,
                     this_pAFQ_inputs.bval_file,
                     this_pAFQ_inputs.bvec_file,
                     this_pAFQ_inputs.t1_file,
                     this_pAFQ_inputs.results_dir,
-                    **this_pAFQ_inputs.kwargs)
+                    **this_pAFQ_inputs.kwargs,
+                )
                 self.plans_dict[subject][str(session)] = this_pAFQ.plans_dict
                 self.pAFQ_list.append(this_pAFQ)
                 self.pAFQ_inputs_list.append(this_pAFQ_inputs)
@@ -436,21 +454,22 @@ class GroupAFQ(object):
         else:
             tract_profiles_list = list(tract_profiles_dict.values())
         _df = combine_list_of_profiles(tract_profiles_list)
-        out_file = op.abspath(op.join(
-            self.afq_path, "tract_profiles.csv"))
+        out_file = op.abspath(op.join(self.afq_path, "tract_profiles.csv"))
         os.makedirs(op.dirname(out_file), exist_ok=True)
         _df = clean_pandas_df(_df)
         try:
             _df.to_csv(out_file, index=False)
-        except:
-            logger.warning((
-                "Unable to update combined tract profile. "
-                "This is likely due to file permissions."))
+        except PermissionError:
+            logger.warning(
+                (
+                    "Unable to update combined tract profile. "
+                    "This is likely due to file permissions."
+                )
+            )
         return _df
 
     def get_streamlines_json(self):
-        sls_json_fname = op.abspath(op.join(
-            self.afq_path, "afqb_streamlines.json"))
+        sls_json_fname = op.abspath(op.join(self.afq_path, "afqb_streamlines.json"))
         if not op.exists(sls_json_fname):
             subses_info = []
 
@@ -458,19 +477,16 @@ class GroupAFQ(object):
                 subses_idx = len(subses_info)
                 sub = self.valid_sub_list[subses_idx]
                 ses = self.valid_ses_list[subses_idx]
-                this_bundles_file = self.export(
-                    "bundles", collapse=False)[sub][ses]
+                this_bundles_file = self.export("bundles", collapse=False)[sub][ses]
                 this_mapping = self.export("mapping", collapse=False)[sub][ses]
-                this_img = self.export(
-                    "dwi", collapse=False)[sub][ses]
-                seg_sft = aus.SegmentedSFT.fromfile(
-                    this_bundles_file,
-                    this_img)
+                this_img = self.export("dwi", collapse=False)[sub][ses]
+                seg_sft = aus.SegmentedSFT.fromfile(this_bundles_file, this_img)
                 seg_sft.sft.to_rasmm()
                 subses_info.append((seg_sft, this_mapping))
 
             bundle_dict = self.export("bundle_dict", collapse=False)[
-                self.valid_sub_list[0]][self.valid_ses_list[0]]
+                self.valid_sub_list[0]
+            ][self.valid_ses_list[0]]
 
             sls_dict = {}
             load_next_subject()  # load first subject
@@ -489,19 +505,16 @@ class GroupAFQ(object):
                             load_next_subject()
                         continue
                     if len(idx) > 100:
-                        idx = np.random.choice(
-                            idx, size=100, replace=False)
+                        idx = np.random.choice(idx, size=100, replace=False)
                     these_sls = seg_sft.sft.streamlines[idx]
                     these_sls = dps.set_number_of_points(these_sls, 100)
-                    tg = StatefulTractogram(
-                        these_sls,
-                        seg_sft.sft,
-                        Space.RASMM)
+                    tg = StatefulTractogram(these_sls, seg_sft.sft, Space.RASMM)
                     delta = dts.values_from_volume(
-                        mapping.forward,
-                        tg.streamlines, np.eye(4))
+                        mapping.forward, tg.streamlines, np.eye(4)
+                    )
                     moved_sl = dts.Streamlines(
-                        [d + s for d, s in zip(delta, tg.streamlines)])
+                        [d + s for d, s in zip(delta, tg.streamlines)]
+                    )
                     moved_sl = np.asarray(moved_sl)
                     median_sl = np.median(moved_sl, axis=0)
                     sls_dict[b] = {"coreFiber": median_sl.tolist()}
@@ -509,7 +522,7 @@ class GroupAFQ(object):
                         sls_dict[b][str(sl_idx)] = moved_sl[ii].tolist()
                     break
 
-            with open(sls_json_fname, 'w') as fp:
+            with open(sls_json_fname, "w") as fp:
                 json.dump(sls_dict, fp)
         return sls_json_fname
 
@@ -537,7 +550,7 @@ class GroupAFQ(object):
             None if called without arguments.
         """
         section = check_attribute(attr_name)
-        if section == False:
+        if not section:
             return None
 
         # iterate over subjects / sessions,
@@ -552,9 +565,11 @@ class GroupAFQ(object):
             plans_dict = self.plans_dict[subject][str(session)]
             if section is not None:
                 plans_dict = plans_dict[section]
-            if ((self.parallel_params.get("engine", False) != "serial")
-                    and (hasattr(plans_dict, "outputs"))
-                    and (attr_name not in plans_dict.outputs)):
+            if (
+                (self.parallel_params.get("engine", False) != "serial")
+                and (hasattr(plans_dict, "outputs"))
+                and (attr_name not in plans_dict.outputs)
+            ):
                 in_list.append((plans_dict))
                 to_calc_list.append((subject, session))
             else:
@@ -563,9 +578,11 @@ class GroupAFQ(object):
         # if some need to be calculated, do those in parallel
         if to_calc_list:
             par_results = paramap(
-                lambda wf, attr: wf[attr], in_list,
+                lambda wf, attr: wf[attr],
+                in_list,
                 func_args=[attr_name],
-                **self.parallel_params)
+                **self.parallel_params,
+            )
 
             for i, subses in enumerate(to_calc_list):
                 subject, session = subses
@@ -591,11 +608,10 @@ class GroupAFQ(object):
             Name of the output to export up to. Default: "help"
         """
         section = check_attribute(attr_name)
-        if section == False or section is None:
+        if not section or section is None:
             return None
 
-        plans_dict = self.plans_dict[
-            self.valid_sub_list[0]][self.valid_ses_list[0]]
+        plans_dict = self.plans_dict[self.valid_sub_list[0]][self.valid_ses_list[0]]
         calcdata = plans_dict[section].plan.calcdata
         idx = calcdata.sources[attr_name]
         if isinstance(idx, tuple):
@@ -603,9 +619,8 @@ class GroupAFQ(object):
         for inputs in calcdata.calcs[idx].inputs:
             self.export(inputs)
 
-    def export_all(self, viz=True, afqbrowser=True, xforms=True,
-                   indiv=True):
-        """ Exports all the possible outputs
+    def export_all(self, viz=True, afqbrowser=True, xforms=True, indiv=True):
+        """Exports all the possible outputs
 
         Parameters
         ----------
@@ -636,17 +651,17 @@ class GroupAFQ(object):
         self.combine_profiles()
         if afqbrowser:
             self.assemble_AFQ_browser()
-        self.logger.info(
-            f"Time taken for export all: {str(time() - start_time)}")
+        self.logger.info(f"Time taken for export all: {str(time() - start_time)}")
 
-    def cmd_outputs(self, cmd="rm", dependent_on=None, up_to=None,
-                    exceptions=[], suffix=""):
+    def cmd_outputs(
+        self, cmd="rm", dependent_on=None, up_to=None, exceptions=None, suffix=""
+    ):
         """
         Perform some command some or all outputs of pyafq.
         This is useful if you change a parameter and need
         to recalculate derivatives that depend on it.
         Some examples: cp, mv, rm .
-        -r will be automtically added when necessary.
+        -r will be automatically added when necessary.
 
         Parameters
         ----------
@@ -662,7 +677,7 @@ class GroupAFQ(object):
             Default: None
         up_to : str or None
             If None, will perform on all derivatives.
-            If "track", will perform on all derivatives up to 
+            If "track", will perform on all derivatives up to
             (but not including) tractography.
             If "recog", will perform on all derivatives up to
             (but not including) bundle recognition.
@@ -691,7 +706,8 @@ class GroupAFQ(object):
                 dependent_on=dependent_on,
                 up_to=up_to,
                 exceptions=exceptions,
-                suffix=suffix)
+                suffix=suffix,
+            )
 
     clobber = cmd_outputs  # alias for default of cmd_outputs
 
@@ -740,7 +756,8 @@ class GroupAFQ(object):
         tdir = tempfile.gettempdir()
 
         best_scalar = self.export("best_scalar", collapse=False)[
-            self.valid_sub_list[0]][self.valid_ses_list[0]]
+            self.valid_sub_list[0]
+        ][self.valid_ses_list[0]]
 
         t1_dict = self.export("t1_masked", collapse=False)
         viz_backend_dict = self.export("viz_backend", collapse=False)
@@ -763,7 +780,7 @@ class GroupAFQ(object):
 
             flip_axes = [False, False, False]
             for i in range(3):
-                flip_axes[i] = (dwi_affine[i, i] < 0)
+                flip_axes[i] = dwi_affine[i, i] < 0
 
             if slice_pos is not None:
                 slice_kwargs = {}
@@ -786,7 +803,8 @@ class GroupAFQ(object):
                     flip_axes=flip_axes,
                     interact=False,
                     inline=False,
-                    **slice_kwargs)
+                    **slice_kwargs,
+                )
             else:
                 figure = None
 
@@ -798,42 +816,54 @@ class GroupAFQ(object):
                 bundle=bundle_name,
                 interact=False,
                 inline=False,
-                figure=figure)
+                figure=figure,
+            )
 
             eye = get_eye(view, direc)
 
             this_fname = tdir + f"/t{ii}.png"
             if "plotly" in viz_backend.backend:
+                figure.update_layout(
+                    scene_camera={
+                        "projection": {"type": "orthographic"},
+                        "up": {"x": 0, "y": 0, "z": 1},
+                        "eye": eye,
+                        "center": {"x": 0, "y": 0, "z": 0},
+                    }
+                )
 
-                figure.update_layout(scene_camera=dict(
-                    projection=dict(type="orthographic"),
-                    up={"x": 0, "y": 0, "z": 1},
-                    eye=eye,
-                    center=dict(x=0, y=0, z=0)))
                 figure.write_image(this_fname)
 
                 # temporary fix for memory leak
                 import plotly.io as pio
+
                 pio.kaleido.scope._shutdown_kaleido()
             else:
                 from dipy.viz import window
+
                 direc = np.fromiter(eye.values(), dtype=int)
                 data_shape = np.asarray(nib.load(b0).get_fdata().shape)
                 figure.set_camera(
                     position=direc * data_shape,
                     focal_point=data_shape // 2,
-                    view_up=(0, 0, 1))
+                    view_up=(0, 0, 1),
+                )
                 figure.zoom(0.5)
                 window.snapshot(figure, fname=this_fname, size=(600, 600))
 
         def _save_file(curr_img, curr_file_num):
-            save_path = op.abspath(op.join(
-                self.afq_path,
-                (f"bundle-{bundle_name}_view-{view}"
-                    f"_idx-{curr_file_num}_montage.png")))
+            save_path = op.abspath(
+                op.join(
+                    self.afq_path,
+                    (
+                        f"bundle-{bundle_name}_view-{view}"
+                        f"_idx-{curr_file_num}_montage.png"
+                    ),
+                )
+            )
             try:
                 curr_img.save(save_path)
-            except:
+            except PermissionError:
                 if op.exists(save_path):
                     logger.info("Montage file already exists, skipping.")
                 else:
@@ -856,9 +886,8 @@ class GroupAFQ(object):
                 max_height = this_img_trimmed[ii].size[1]
 
         curr_img = Image.new(
-            'RGB',
-            (max_width * size[0], max_height * size[1]),
-            color="white")
+            "RGB", (max_width * size[0], max_height * size[1]), color="white"
+        )
         curr_file_num = 0
         for ii in range(len(self.valid_ses_list)):
             x_pos = ii % size[0]
@@ -870,13 +899,12 @@ class GroupAFQ(object):
             if file_num != curr_file_num:
                 _save_file(curr_img, curr_file_num)
                 curr_img = Image.new(
-                    'RGB',
-                    (max_width * size[0], max_height * size[1]),
-                    color="white")
+                    "RGB", (max_width * size[0], max_height * size[1]), color="white"
+                )
                 curr_file_num = file_num
             curr_img.paste(
-                this_img_trimmed[ii],
-                (x_pos * max_width, y_pos * max_height))
+                this_img_trimmed[ii], (x_pos * max_width, y_pos * max_height)
+            )
 
         _save_file(curr_img, curr_file_num)
         return all_fnames
@@ -894,18 +922,24 @@ class GroupAFQ(object):
         Name of the bundle to transform, should be one of the bundles in
         bundle_dict.
         """
-        reference_plans_dict = self.plans_dict[
-            self.valid_sub_list[0]][self.valid_ses_list[0]]
+        reference_plans_dict = self.plans_dict[self.valid_sub_list[0]][
+            self.valid_ses_list[0]
+        ]
         if "mapping_definition" in reference_plans_dict:
             mapping_definition = reference_plans_dict["mapping_definition"]
             if mapping_definition is not None and not isinstance(
-                    mapping_definition, SynMap):
-                raise NotImplementedError((
-                    "combine_bundle not implemented for mapping_definition "
-                    "other than SynMap"))
+                mapping_definition, SynMap
+            ):
+                raise NotImplementedError(
+                    (
+                        "combine_bundle not implemented for mapping_definition "
+                        "other than SynMap"
+                    )
+                )
 
         reg_template = self.export("reg_template", collapse=False)[
-            self.valid_sub_list[0]][self.valid_ses_list[0]]
+            self.valid_sub_list[0]
+        ][self.valid_ses_list[0]]
         bundles_dict = self.export("bundles", collapse=False)
         mapping_dict = self.export("mapping", collapse=False)
 
@@ -914,42 +948,30 @@ class GroupAFQ(object):
         for ii in tqdm(range(len(self.valid_ses_list))):
             this_sub = self.valid_sub_list[ii]
             this_ses = self.valid_ses_list[ii]
-            seg_sft = aus.SegmentedSFT.fromfile(bundles_dict[
-                this_sub][this_ses])
+            seg_sft = aus.SegmentedSFT.fromfile(bundles_dict[this_sub][this_ses])
             seg_sft.sft.to_vox()
             sls = seg_sft.get_bundle(bundle_name).streamlines
             mapping = mapping_dict[this_sub][this_ses]
 
             if len(sls) > 0:
-                delta = dts.values_from_volume(
-                    mapping.forward,
-                    sls, np.eye(4))
+                delta = dts.values_from_volume(mapping.forward, sls, np.eye(4))
                 sls_mni.extend([d + s for d, s in zip(delta, sls)])
 
-        moved_sft = StatefulTractogram(
-            sls_mni,
-            reg_template,
-            Space.VOX)
+        moved_sft = StatefulTractogram(sls_mni, reg_template, Space.VOX)
 
-        save_path = op.abspath(op.join(
-            self.afq_path,
-            f"bundle-{bundle_name}_subjects-all_MNI.trk"))
+        save_path = op.abspath(
+            op.join(self.afq_path, f"bundle-{bundle_name}_subjects-all_MNI.trk")
+        )
         try:
-            save_tractogram(
-                moved_sft,
-                save_path,
-                bbox_valid_check=False)
-        except:
+            save_tractogram(moved_sft, save_path, bbox_valid_check=False)
+        except PermissionError:
             if op.exists(save_path):
-                logger.info(("Combined bundles file "
-                             "already exists, skipping."))
+                logger.info(("Combined bundles file already exists, skipping."))
             else:
-                logger.warning((
-                    "Unable to save combined "
-                    "bundles file, skipping."))
+                logger.warning(("Unable to save combined bundles file, skipping."))
 
     def upload_to_s3(self, s3fs, remote_path):
-        """ Upload entire AFQ derivatives folder to S3"""
+        """Upload entire AFQ derivatives folder to S3"""
         try:
             import s3fs
         except (ImportError, ModuleNotFoundError):
@@ -973,12 +995,12 @@ class GroupAFQ(object):
         Path to density nifti file.
         """
         densities = self.export("density_maps", collapse=False)
-        ex_density_init = nib.load(densities[
-            self.valid_sub_list[0]][
-                self.valid_ses_list[0]])  # for shape and header
-        tmpl_name = self.export("tmpl_name", collapse=False)[
-            self.valid_sub_list[0]][
-                self.valid_ses_list[0]]
+        ex_density_init = nib.load(
+            densities[self.valid_sub_list[0]][self.valid_ses_list[0]]
+        )  # for shape and header
+        tmpl_name = self.export("tmpl_name", collapse=False)[self.valid_sub_list[0]][
+            self.valid_ses_list[0]
+        ]
 
         group_density = np.zeros_like(ex_density_init.get_fdata())
         self.logger.info("Generating Group Density...")
@@ -992,20 +1014,27 @@ class GroupAFQ(object):
             group_density = group_density + this_density
         group_density = group_density / len(self.valid_sub_list)
         group_density = nib.Nifti1Image(
-            group_density,
-            ex_density_init.affine,
-            header=ex_density_init.header
+            group_density, ex_density_init.affine, header=ex_density_init.header
         )
 
-        out_fname = op.abspath(op.join(
-            self.afq_path,
-            f"desc-density_subjects-all_space-{tmpl_name}_dwimap.nii.gz"))
+        out_fname = op.abspath(
+            op.join(
+                self.afq_path,
+                f"desc-density_subjects-all_space-{tmpl_name}_dwimap.nii.gz",
+            )
+        )
         nib.save(group_density, out_fname)
         return out_fname
 
-    def assemble_AFQ_browser(self, output_path=None, metadata=None,
-                             page_title="AFQ Browser", page_subtitle="",
-                             page_title_link="", page_subtitle_link=""):
+    def assemble_AFQ_browser(
+        self,
+        output_path=None,
+        metadata=None,
+        page_title="AFQ Browser",
+        page_subtitle="",
+        page_title_link="",
+        page_subtitle_link="",
+    ):
         """
         Assembles an instance of the AFQ-Browser from this AFQ instance.
         First, we generate the combined tract profile if it is not already
@@ -1045,19 +1074,25 @@ class GroupAFQ(object):
             Default: ""
         """
         if not using_afqb:
-            self.logger.warning((
-                "AFQ Browser is not installed, so AFQ Browser instance "
-                "cannot be assembled. AFQ Browser can be installed with: "
-                "`pip install pyAFQ[afqbrowser]` or "
-                "`pip install AFQ-Browser>=0.3`"))
+            self.logger.warning(
+                (
+                    "AFQ Browser is not installed, so AFQ Browser instance "
+                    "cannot be assembled. AFQ Browser can be installed with: "
+                    "`pip install pyAFQ[afqbrowser]` or "
+                    "`pip install AFQ-Browser>=0.3`"
+                )
+            )
             return
         n_points_profile = self.export("n_points_profile", collapse=False)[
-            self.valid_sub_list[0]][
-                self.valid_ses_list[0]]
+            self.valid_sub_list[0]
+        ][self.valid_ses_list[0]]
         if n_points_profile != 100:
-            self.logger.warning((
-                "AFQ Browser requires 100 points per tract profile, "
-                "so AFQ Browser instance cannot be assembled."))
+            self.logger.warning(
+                (
+                    "AFQ Browser requires 100 points per tract profile, "
+                    "so AFQ Browser instance cannot be assembled."
+                )
+            )
             return
 
         if output_path is None:
@@ -1078,27 +1113,29 @@ class GroupAFQ(object):
             title=page_title,
             subtitle=page_subtitle,
             link=page_title_link,
-            sublink=page_subtitle_link)
+            sublink=page_subtitle_link,
+        )
 
 
-class ParallelGroupAFQ():
+class ParallelGroupAFQ:
     def __init__(self, *args, **kwargs):
         orig = GroupAFQ(*args, **kwargs)
 
-        orig.parallel_params["submitter_params"] = \
-            orig.parallel_params.get("submitter_params", {"plugin": "cf"})
+        orig.parallel_params["submitter_params"] = orig.parallel_params.get(
+            "submitter_params", {"plugin": "cf"}
+        )
 
-        orig.parallel_params["cache_dir"] = \
-            orig.parallel_params.get("cache_dir", None)
+        orig.parallel_params["cache_dir"] = orig.parallel_params.get("cache_dir", None)
 
         self.parallel_params = orig.parallel_params
         self.pAFQ_kwargs = orig.pAFQ_inputs_list
 
-        self.finishing_params = dict()
+        self.finishing_params = {}
         self.finishing_params["args"] = args
         self.finishing_params["kwargs"] = kwargs
-        self.finishing_params["output_dirs"] = [pAFQ.kwargs["output_dir"]
-                                                for pAFQ in orig.pAFQ_list]
+        self.finishing_params["output_dirs"] = [
+            pAFQ.kwargs["output_dir"] for pAFQ in orig.pAFQ_list
+        ]
 
     def _submit_pydra(self, runnable):
         try:
@@ -1140,18 +1177,18 @@ class ParallelGroupAFQ():
                 pAFQ_kwargs.bvec_file,
                 pAFQ_kwargs.t1_file,
                 pAFQ_kwargs.results_dir,
-                **pAFQ_kwargs.kwargs)
+                **pAFQ_kwargs.kwargs,
+            )
             pAFQ.export(attr_name)
 
         # Submit to pydra
         export_sub_task = export_sub(
-            attr_name=attr_name,
-            cache_dir=self.parallel_params["cache_dir"]
+            attr_name=attr_name, cache_dir=self.parallel_params["cache_dir"]
         ).split("pAFQ_kwargs", pAFQ_kwargs=self.pAFQ_kwargs)
         self._submit_pydra(export_sub_task)
 
     def export_all(self, viz=True, afqbrowser=True, xforms=True, indiv=True):
-        """ Exports all the possible outputs
+        """Exports all the possible outputs
 
         Parameters
         ----------
@@ -1175,30 +1212,24 @@ class ParallelGroupAFQ():
             output.
             Default: True
         """
+
         @pydra.mark.task
-        def export_sub(
-            pAFQ_kwargs,
-            finishing_params,
-            viz,
-            afqbrowser,
-            xforms,
-            indiv
-        ):
+        def export_sub(pAFQ_kwargs, finishing_params, viz, afqbrowser, xforms, indiv):
             pAFQ = ParticipantAFQ(
                 pAFQ_kwargs.dwi_data_file,
                 pAFQ_kwargs.bval_file,
                 pAFQ_kwargs.bvec_file,
                 pAFQ_kwargs.t1_file,
                 pAFQ_kwargs.results_dir,
-                **pAFQ_kwargs.kwargs)
+                **pAFQ_kwargs.kwargs,
+            )
             pAFQ.export_all(viz, xforms, indiv)
 
             for dir in finishing_params["output_dirs"]:
                 if not glob.glob(op.join(dir, "*_desc-profiles_dwi.csv")):
                     return
 
-            gAFQ = GroupAFQ(*finishing_params["args"],
-                            **finishing_params["kwargs"])
+            gAFQ = GroupAFQ(*finishing_params["args"], **finishing_params["kwargs"])
             gAFQ.export_all(viz, afqbrowser, xforms, indiv)
 
         # Submit to pydra
@@ -1208,16 +1239,20 @@ class ParallelGroupAFQ():
             afqbrowser=afqbrowser,
             xforms=xforms,
             indiv=indiv,
-            cache_dir=self.parallel_params["cache_dir"]
+            cache_dir=self.parallel_params["cache_dir"],
         ).split("pAFQ_kwargs", pAFQ_kwargs=self.pAFQ_kwargs)
         self._submit_pydra(export_sub_task)
 
 
-def download_and_combine_afq_profiles(bucket,
-                                      study_s3_prefix="", deriv_name=None,
-                                      out_file=None,
-                                      upload=False, session=None,
-                                      **kwargs):
+def download_and_combine_afq_profiles(
+    bucket,
+    study_s3_prefix="",
+    deriv_name=None,
+    out_file=None,
+    upload=False,
+    session=None,
+    **kwargs,
+):
     """
     Download and combine tract profiles from different subjects / sessions
     on an s3 bucket into one CSV.
@@ -1236,7 +1271,7 @@ def download_and_combine_afq_profiles(bucket,
         If True, upload the combined CSV to Amazon S3 at
         bucket/study_s3_prefix/derivatives/afq. If a string,
         assume string is an Amazon S3 URI and upload there.
-        Defaut: False
+        Default: False
     session : str, optional
         Session to get CSVs from. If None, all sessions are used.
         Default: None
@@ -1244,7 +1279,7 @@ def download_and_combine_afq_profiles(bucket,
         Optional arguments to pass to S3BIDSStudy.
     Returns
     -------
-    Ouput CSV's pandas dataframe.
+    Output CSV's pandas dataframe.
     """
     try:
         import s3fs
@@ -1260,29 +1295,26 @@ def download_and_combine_afq_profiles(bucket,
         deriv_name = True
 
     with nib.tmpdirs.InTemporaryDirectory() as t_dir:
-        remote_study = S3BIDSStudy(
-            "get_profiles",
-            bucket,
-            study_s3_prefix,
-            **kwargs)
+        remote_study = S3BIDSStudy("get_profiles", bucket, study_s3_prefix, **kwargs)
         remote_study.download(
             t_dir,
             include_modality_agnostic=False,
             include_derivs=deriv_name,
             include_derivs_dataset_description=True,
-            suffix="profiles.csv")
+            suffix="profiles.csv",
+        )
         temp_study = BIDSLayout(t_dir, validate=False, derivatives=True)
         if session is None:
             profiles = temp_study.get(
-                extension='csv',
-                suffix='profiles',
-                return_type='filename')
+                extension="csv", suffix="profiles", return_type="filename"
+            )
         else:
             profiles = temp_study.get(
                 session=session,
-                extension='csv',
-                suffix='profiles',
-                return_type='filename')
+                extension="csv",
+                suffix="profiles",
+                return_type="filename",
+            )
 
         df = combine_list_of_profiles(profiles)
         df.to_csv("tmp.csv", index=False)
@@ -1291,12 +1323,10 @@ def download_and_combine_afq_profiles(bucket,
             fs = s3fs.S3FileSystem()
             fs.put(
                 "tmp.csv",
-                "/".join([
-                    bids_prefix,
-                    "derivatives",
-                    "afq",
-                    "combined_tract_profiles.csv"
-                ]))
+                "/".join(
+                    [bids_prefix, "derivatives", "afq", "combined_tract_profiles.csv"]
+                ),
+            )
         elif isinstance(upload, str):
             fs = s3fs.S3FileSystem()
             fs.put("tmp.csv", upload.replace("s3://", ""))
@@ -1322,17 +1352,17 @@ def combine_list_of_profiles(profile_fnames):
 
     Returns
     -------
-    Ouput CSV's pandas dataframe.
+    Output CSV's pandas dataframe.
     """
     dfs = []
     for fname in profile_fnames:
         profiles = pd.read_csv(fname)
-        profiles['subjectID'] = fname.split('sub-')[1].split('/')[0]
-        if 'ses-' in fname:
-            session_name = fname.split('ses-')[1].split('/')[0]
+        profiles["subjectID"] = fname.split("sub-")[1].split("/")[0]
+        if "ses-" in fname:
+            session_name = fname.split("ses-")[1].split("/")[0]
         else:
-            session_name = 'unknown'
-        profiles['sessionID'] = session_name
+            session_name = "unknown"
+        profiles["sessionID"] = session_name
         dfs.append(profiles)
 
     return clean_pandas_df(pd.concat(dfs))
