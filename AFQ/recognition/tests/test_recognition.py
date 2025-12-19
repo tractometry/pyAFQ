@@ -1,21 +1,18 @@
 import os.path as op
 
-import pytest
-
-import numpy as np
-import numpy.testing as npt
-
-import nibabel as nib
 import dipy.data as dpd
 import dipy.data.fetcher as fetcher
+import nibabel as nib
+import numpy as np
+import numpy.testing as npt
+import pytest
+from dipy.io.stateful_tractogram import Space, StatefulTractogram
 from dipy.stats.analysis import afq_profile
-from dipy.io.stateful_tractogram import StatefulTractogram, Space
 
 import AFQ.data.fetch as afd
-import AFQ.registration as reg
 import AFQ.recognition.cleaning as abc
+import AFQ.registration as reg
 from AFQ.recognition.recognize import recognize
-
 
 dpd.fetch_stanford_hardi()
 hardi_dir = op.join(fetcher.dipy_home, "stanford_hardi")
@@ -199,7 +196,7 @@ def test_exclusion_ROI():
         mapping,
         slf_bundle,
         reg_template, 1)
-     
+
     npt.assert_equal(len(fiber_groups["Left Superior Longitudinal"]), 2)
 
     slf_bundle['Left Superior Longitudinal']['exclude'] =\

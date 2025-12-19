@@ -1,7 +1,8 @@
-from AFQ.viz.utils import COLOR_DICT
+import altair as alt
 import numpy as np
 import scipy.stats as stats
-import altair as alt
+
+from AFQ.viz.utils import COLOR_DICT
 
 
 def altair_color_dict(names_to_include=None):

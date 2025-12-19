@@ -1,8 +1,7 @@
-from scipy.linalg import blas
 import numpy as np
-
 from dipy.data import default_sphere
 from dipy.reconst.shm import anisotropic_power, sh_to_sf_matrix
+from scipy.linalg import blas
 
 __all__ = ["extract_odf", "anisotropic_index", "anisotropic_power"]
 

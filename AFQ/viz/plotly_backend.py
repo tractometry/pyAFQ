@@ -1,21 +1,20 @@
-import tempfile
 import enum
 import logging
+import tempfile
 
 import numpy as np
 import pandas as pd
+from dipy.tracking.streamline import set_number_of_points
 
 import AFQ.viz.utils as vut
 
-from dipy.tracking.streamline import set_number_of_points
-
 try:
     import plotly
+    import plotly.express as px
     import plotly.graph_objs as go
     import plotly.io as pio
-    from plotly.subplots import make_subplots
-    import plotly.express as px
     from plotly.colors import hex_to_rgb
+    from plotly.subplots import make_subplots
 except (ImportError, ModuleNotFoundError):
     raise ImportError(vut.viz_import_msg_error("plotly"))
 

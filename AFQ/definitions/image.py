@@ -1,13 +1,11 @@
-import numpy as np
 import logging
 
 import nibabel as nib
-
+import numpy as np
 from dipy.align import resample
 
 from AFQ.definitions.utils import Definition, find_file, name_from_path
 from AFQ.tasks.utils import get_tp
-
 
 __all__ = [
     "ImageFile", "FullImage", "RoiImage", "LabelledImageFile",
@@ -234,7 +232,7 @@ class ImageFile(ImageDefinition):
             return nib.Nifti1Image(
                 image_data.astype(np.float32),
                 image_affine), meta
-        
+
         # In these tasks, use T1 as ref
         if task_name == "structural" or task_name == "tissue":
             def image_getter(t1_file):
@@ -705,7 +703,7 @@ class PVEImage(ImageDefinition):
             filters=filters,
             resample=resample
         )
-    
+
     def get_image_getter(self, task_name):
         def image_getter(t1_file):
             # Load data

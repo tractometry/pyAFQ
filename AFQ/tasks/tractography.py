@@ -1,22 +1,19 @@
-import nibabel as nib
-import numpy as np
-from time import time
 import logging
+from time import time
 
 import dipy.data as dpd
-
 import immlib
-
-from AFQ.tasks.decorators import as_file
-from AFQ.tasks.utils import with_name
-from AFQ.definitions.utils import Definition
-import AFQ.tractography.tractography as aft
-from AFQ.tasks.utils import get_default_args
-from AFQ.definitions.image import ScalarImage
-from AFQ.tractography.utils import gen_seeds
-
+import nibabel as nib
+import numpy as np
 from trx.trx_file_memmap import TrxFile
 from trx.trx_file_memmap import concatenate as trx_concatenate
+
+import AFQ.tractography.tractography as aft
+from AFQ.definitions.image import ScalarImage
+from AFQ.definitions.utils import Definition
+from AFQ.tasks.decorators import as_file
+from AFQ.tasks.utils import get_default_args, with_name
+from AFQ.tractography.utils import gen_seeds
 
 try:
     import ray

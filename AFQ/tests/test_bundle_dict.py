@@ -1,8 +1,9 @@
-import AFQ.api.bundle_dict as abd
-from AFQ.tests.test_api import create_dummy_bids_path
-from AFQ.api.group import GroupAFQ
-import AFQ.data.fetch as afd
 import pytest
+
+import AFQ.api.bundle_dict as abd
+import AFQ.data.fetch as afd
+from AFQ.api.group import GroupAFQ
+from AFQ.tests.test_api import create_dummy_bids_path
 
 
 def test_AFQ_custom_bundle_dict():

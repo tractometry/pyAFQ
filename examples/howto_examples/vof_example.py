@@ -11,13 +11,13 @@ also part of the set of bundles that are segmented per default.
 
 """
 
+import os.path as op
+
 import AFQ.api.bundle_dict as abd
 import AFQ.data.fetch as afd
+import AFQ.utils.streamlines as aus
 from AFQ.api.group import GroupAFQ
 from AFQ.definitions.image import RoiImage
-import AFQ.utils.streamlines as aus
-
-import os.path as op
 
 afd.organize_stanford_data(clear_previous_afq="track")
 

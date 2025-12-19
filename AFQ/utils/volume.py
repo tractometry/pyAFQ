@@ -1,15 +1,13 @@
 import logging
-import numpy as np
 
-import scipy.ndimage as ndim
-from skimage.morphology import binary_dilation
-from scipy.spatial.distance import dice
-
-import nibabel as nib
-
-from dipy.io.utils import (create_nifti_header, get_reference_info)
-from dipy.tracking.streamline import select_random_set_of_streamlines
 import dipy.tracking.utils as dtu
+import nibabel as nib
+import numpy as np
+import scipy.ndimage as ndim
+from dipy.io.utils import create_nifti_header, get_reference_info
+from dipy.tracking.streamline import select_random_set_of_streamlines
+from scipy.spatial.distance import dice
+from skimage.morphology import binary_dilation
 
 logger = logging.getLogger('AFQ')
 

@@ -1,16 +1,14 @@
-import immlib
-import nibabel as nib
 import logging
 
-from AFQ.tasks.utils import with_name, check_onnxruntime
-from AFQ.tasks.decorators import as_file
+import immlib
+import nibabel as nib
 
 from AFQ.definitions.utils import Definition
-
 from AFQ.nn.brainchop import run_brainchop
 from AFQ.nn.multiaxial import run_multiaxial
 from AFQ.nn.synthseg import run_synthseg
-
+from AFQ.tasks.decorators import as_file
+from AFQ.tasks.utils import check_onnxruntime, with_name
 
 logger = logging.getLogger('AFQ')
 
@@ -164,7 +162,7 @@ def get_structural_plan(kwargs):
         structural_tasks["t1w_brain_mask_res"] = immlib.calc(
             "t1w_brain_mask")(
                 as_file(suffix=(
-                    f'_desc-T1w_mask.nii.gz'))(
+                    '_desc-T1w_mask.nii.gz'))(
                         bm_def.get_image_getter("structural")))
 
     return immlib.plan(**structural_tasks)

@@ -1,23 +1,21 @@
-from collections import OrderedDict
-import os.path as op
 import logging
+import os.path as op
+from collections import OrderedDict
 
-import numpy as np
+import dipy.tracking.streamlinespeed as dps
 import imageio as io
+import matplotlib.patches as mpatches
+import matplotlib.pyplot as plt
+import nibabel as nib
+import numpy as np
+from dipy.align import resample
+from dipy.io.stateful_tractogram import StatefulTractogram
+from dipy.tracking.streamline import transform_streamlines
 from PIL import Image, ImageChops
 
-import matplotlib.pyplot as plt
-import matplotlib.patches as mpatches
-
-import nibabel as nib
-import dipy.tracking.streamlinespeed as dps
-from dipy.tracking.streamline import transform_streamlines
-from dipy.io.stateful_tractogram import StatefulTractogram, Space
-from dipy.align import resample
-
-import AFQ.utils.volume as auv
 import AFQ.registration as reg
 import AFQ.utils.streamlines as aus
+import AFQ.utils.volume as auv
 
 __all__ = ["Viz"]
 

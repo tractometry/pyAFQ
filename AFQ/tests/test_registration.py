@@ -1,22 +1,20 @@
 import os.path as op
 
-import numpy as np
-import numpy.testing as npt
-
+import dipy.data as dpd
 import nibabel as nib
 import nibabel.tmpdirs as nbtmp
-
-import dipy.data as dpd
-
-from AFQ.registration import (write_mapping,
-                              read_mapping, syn_register_dwi,
-                              slr_registration)
+import numpy as np
+import numpy.testing as npt
+from dipy.align.imwarp import DiffeomorphicMap
+from dipy.io.streamline import load_tractogram
 
 import AFQ.data.fetch as afd
-
-from dipy.io.streamline import load_tractogram
-from dipy.align.imwarp import DiffeomorphicMap
-
+from AFQ.registration import (
+    read_mapping,
+    slr_registration,
+    syn_register_dwi,
+    write_mapping,
+)
 
 MNI_T2 = afd.read_mni_template()
 hardi_img, gtab = dpd.read_stanford_hardi()

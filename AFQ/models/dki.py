@@ -1,15 +1,12 @@
 import os
 import os.path as op
 
-import numpy as np
 import nibabel as nib
-
-from dipy.reconst import dki
-from dipy.reconst import dki_micro
+import numpy as np
 from dipy.core.ndindex import ndindex
+from dipy.reconst import dki, dki_micro
 
 import AFQ.utils.models as ut
-
 
 __all__ = ["fit_dki", "predict"]
 

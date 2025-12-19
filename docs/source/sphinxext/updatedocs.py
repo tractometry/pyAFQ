@@ -1,7 +1,7 @@
 # This updates usage/config.rst to the latest cli
 # Developers can run this after modifying any arguments the user can see
 
-from AFQ.utils.bin import func_dict_to_arg_dict, dict_to_toml
+from AFQ.utils.bin import dict_to_toml, func_dict_to_arg_dict
 
 prologue = """
 The pyAFQ configuration file

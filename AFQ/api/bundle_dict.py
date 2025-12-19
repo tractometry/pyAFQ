@@ -1,16 +1,14 @@
 import logging
-from collections.abc import MutableMapping, Mapping
+from collections.abc import Mapping, MutableMapping
+
+import nibabel as nib
+import numpy as np
+from dipy.io.streamline import load_tractogram
 
 import AFQ.data.fetch as afd
 import AFQ.utils.volume as auv
-from AFQ.tasks.utils import get_fname, str_to_desc
 from AFQ.definitions.utils import find_file
-from AFQ.utils.path import space_from_fname
-
-import numpy as np
-import nibabel as nib
-
-from dipy.io.streamline import load_tractogram
+from AFQ.tasks.utils import get_fname, str_to_desc
 
 logging.basicConfig(level=logging.INFO)
 

@@ -1,16 +1,15 @@
-import numpy as np
-import os.path as op
-import os
 import logging
+import os
+import os.path as op
 
 import dipy.tracking.streamlinespeed as dps
-from dipy.io.stateful_tractogram import StatefulTractogram, Space
+import numpy as np
+from dipy.io.stateful_tractogram import Space, StatefulTractogram
 
 import AFQ.recognition.utils as abu
 from AFQ.api.bundle_dict import BundleDict
 from AFQ.recognition.criteria import run_bundle_rec_plan
 from AFQ.recognition.preprocess import get_preproc_plan
-
 
 logger = logging.getLogger('AFQ')
 

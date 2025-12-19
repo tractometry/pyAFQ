@@ -11,13 +11,13 @@ in subject space from pipelines other than freesurfer.
 import os.path as op
 
 import nibabel as nib
-import plotly
 import numpy as np
+import plotly
 
-from AFQ.api.group import GroupAFQ
-import AFQ.data.fetch as afd
-from AFQ.definitions.image import RoiImage
 import AFQ.api.bundle_dict as abd
+import AFQ.data.fetch as afd
+from AFQ.api.group import GroupAFQ
+from AFQ.definitions.image import RoiImage
 
 ##########################################################################
 # Get some example data

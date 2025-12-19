@@ -6,15 +6,15 @@ An example using the AFQ API to find callosal bundles using the templates from:
 http://hdl.handle.net/1773/34926
 """
 import os.path as op
+
 import matplotlib.pyplot as plt
 import nibabel as nib
-
 import plotly
 
-from AFQ.api.group import GroupAFQ
 import AFQ.api.bundle_dict as abd
-from AFQ.definitions.image import RoiImage
 import AFQ.data.fetch as afd
+from AFQ.api.group import GroupAFQ
+from AFQ.definitions.image import RoiImage
 
 ##########################################################################
 # Get some example data

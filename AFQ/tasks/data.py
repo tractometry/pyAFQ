@@ -1,46 +1,42 @@
-import nibabel as nib
-import numpy as np
 import logging
 import multiprocessing
 
-from dipy.io.gradients import read_bvals_bvecs
 import dipy.core.gradients as dpg
-from dipy.data import default_sphere, get_sphere
-
-from numba import get_num_threads
-
-import immlib
-
 import dipy.reconst.dki as dpy_dki
 import dipy.reconst.dti as dpy_dti
 import dipy.reconst.fwdti as dpy_fwdti
 import dipy.reconst.msdki as dpy_msdki
-from dipy.reconst.gqi import GeneralizedQSamplingModel
-from dipy.reconst.rumba import RumbaSDModel, RumbaFit
+import immlib
+import nibabel as nib
+import numpy as np
+from dipy.align import resample
+from dipy.data import default_sphere, get_sphere
+from dipy.io.gradients import read_bvals_bvecs
 from dipy.reconst import shm
 from dipy.reconst.dki_micro import axonal_water_fraction
-from dipy.align import resample
+from dipy.reconst.gqi import GeneralizedQSamplingModel
+from dipy.reconst.rumba import RumbaFit, RumbaSDModel
+from numba import get_num_threads
 
-from AFQ.tasks.decorators import as_file, as_img, as_fit_deriv
-from AFQ.tasks.utils import get_fname, with_name
 import AFQ.api.bundle_dict as abd
 import AFQ.data.fetch as afd
-from AFQ.utils.path import drop_extension, write_json
 from AFQ._fixes import gwi_odf
-
 from AFQ.definitions.utils import Definition
-
-from AFQ.models.dti import noise_from_b0
-from AFQ.models.csd import _fit as csd_fit_model
+from AFQ.models.asym_filtering import (
+    compute_asymmetry_index,
+    compute_odd_power_map,
+    unified_filtering,
+)
 from AFQ.models.csd import CsdNanResponseError
+from AFQ.models.csd import _fit as csd_fit_model
 from AFQ.models.dki import _fit as dki_fit_model
 from AFQ.models.dti import _fit as dti_fit_model
+from AFQ.models.dti import noise_from_b0
 from AFQ.models.fwdti import _fit as fwdti_fit_model
-from AFQ.models.QBallTP import (
-    extract_odf, anisotropic_index, anisotropic_power)
-from AFQ.models.asym_filtering import (
-    unified_filtering, compute_asymmetry_index,
-    compute_odd_power_map)
+from AFQ.models.QBallTP import anisotropic_index, anisotropic_power, extract_odf
+from AFQ.tasks.decorators import as_file, as_fit_deriv, as_img
+from AFQ.tasks.utils import get_fname, with_name
+from AFQ.utils.path import drop_extension, write_json
 
 logger = logging.getLogger('AFQ')
 

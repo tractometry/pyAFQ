@@ -19,8 +19,9 @@ pyAFQ with different tractography seeding strategies.
 # to analyze it there.
 import configparser
 import itertools
-import cloudknot as ck
 import os.path as op
+
+import cloudknot as ck
 
 ck.set_region('us-east-1')
 
@@ -35,12 +36,15 @@ def afq_process_subject(subject, seed_mask, n_seeds,
     # define a function that each job will run
     # In this case, each process does a single subject
     import logging
+
     import s3fs
+
+    import AFQ.definitions.image as afm
+    from AFQ.api.group import GroupAFQ
+
     # all imports must be at the top of the function
     # cloudknot installs the appropriate packages from pip
     from AFQ.data.fetch import fetch_hcp
-    from AFQ.api.group import GroupAFQ
-    import AFQ.definitions.image as afm
 
     # set logging level to your choice
     logging.basicConfig(level=logging.INFO)

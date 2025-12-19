@@ -1,11 +1,11 @@
-import numpy as np
-import nibabel as nib
 import logging
 
-import dipy.tracking.utils as dtu
 import dipy.tracking.streamline as dts
-
+import dipy.tracking.utils as dtu
+import nibabel as nib
+import numpy as np
 from scipy.spatial.distance import cdist
+
 logger = logging.getLogger('AFQ')
 
 

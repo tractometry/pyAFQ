@@ -1,6 +1,6 @@
-import os.path as op
-import os
 import json
+import os
+import os.path as op
 
 
 def write_json(fname, data):

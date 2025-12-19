@@ -14,15 +14,17 @@ We start by importing some of the components that we need for this example and
 fixing the random seed for reproducibility
 """
 
+import os
 import os.path as op
-import numpy as np
 
-from AFQ.api.group import GroupAFQ
+import numpy as np
+import wget
+
 import AFQ.api.bundle_dict as abd
 import AFQ.data.fetch as afd
+from AFQ.api.group import GroupAFQ
 from AFQ.definitions.image import RoiImage
-import wget
-import os
+
 np.random.seed(1234)
 
 

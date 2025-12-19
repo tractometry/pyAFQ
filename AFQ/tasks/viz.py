@@ -1,20 +1,18 @@
-import nibabel as nib
 import logging
-import numpy as np
 import os.path as op
 from time import time
-import pandas as pd
 
 import immlib
-
+import nibabel as nib
+import numpy as np
+import pandas as pd
 from dipy.align import resample
-
-from AFQ.tasks.utils import get_fname, with_name, str_to_desc, get_tp
-from AFQ.viz.utils import Viz
-import AFQ.utils.streamlines as aus
-from AFQ.utils.path import write_json, drop_extension
-
 from plotly.subplots import make_subplots
+
+import AFQ.utils.streamlines as aus
+from AFQ.tasks.utils import get_fname, get_tp, str_to_desc, with_name
+from AFQ.utils.path import drop_extension, write_json
+from AFQ.viz.utils import Viz
 
 logger = logging.getLogger('AFQ')
 

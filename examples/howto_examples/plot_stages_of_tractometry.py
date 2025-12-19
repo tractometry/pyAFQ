@@ -21,27 +21,23 @@ known as pillow).
 #
 
 
-import os
 import os.path as op
-import nibabel as nib
-import numpy as np
 import tempfile
 
-from dipy.io.streamline import load_trk
-from dipy.tracking.streamline import (transform_streamlines,
-                                      set_number_of_points)
-from dipy.core.gradients import gradient_table
+import nibabel as nib
+import numpy as np
 from dipy.align import resample
-
+from dipy.core.gradients import gradient_table
+from dipy.io.streamline import load_trk
+from dipy.tracking.streamline import set_number_of_points, transform_streamlines
 from fury import actor, window
 from fury.actor import colormap_lookup_table
 from fury.colormap import create_colormap
 from matplotlib.cm import tab20
+from PIL import Image
 
 import AFQ.data.fetch as afd
 from AFQ.viz.utils import gen_color_dict
-
-from PIL import Image
 
 ##############################################################################
 # Define a function that makes videos
@@ -469,6 +465,7 @@ make_video([f"{tmp}/arc4{ii:06d}.png" for ii in range(n_frames)], "arc4.gif")
 core_arc = np.median(np.asarray(set_number_of_points(arc_t1w, 20)), axis=0)
 
 from dipy.stats.analysis import afq_profile
+
 sft_arc.to_vox()
 arc_profile = afq_profile(fa, sft_arc.streamlines, affine=np.eye(4),
                           n_points=20)
@@ -571,6 +568,7 @@ make_video([f"{tmp}/all_tract_profiles{ii:06d}.png" for ii in range(n_frames)],
 # this plot.
 
 import matplotlib.pyplot as plt
+
 fig, ax = plt.subplots()
 for ii, bundle in enumerate(bundles):
     ax.plot(np.arange(ii * 20, (ii + 1) * 20),

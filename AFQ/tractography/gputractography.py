@@ -1,23 +1,19 @@
-import cuslines
-
-import numpy as np
-import nibabel as nib
-from math import radians
-from tqdm import tqdm
 import logging
+from math import radians
 
-from dipy.reconst.shm import OpdtModel, CsaOdfModel
-from dipy.reconst import shm
-from dipy.io.stateful_tractogram import StatefulTractogram, Space
+import cuslines
+import nibabel as nib
+import numpy as np
 from dipy.align import resample
-
+from dipy.io.stateful_tractogram import Space, StatefulTractogram
+from dipy.reconst import shm
+from dipy.reconst.shm import CsaOdfModel, OpdtModel
 from nibabel.streamlines.array_sequence import concatenate
 from nibabel.streamlines.tractogram import Tractogram
-
+from tqdm import tqdm
 from trx.trx_file_memmap import TrxFile
 
 from AFQ.tractography.utils import gen_seeds
-
 
 logger = logging.getLogger('AFQ')
 

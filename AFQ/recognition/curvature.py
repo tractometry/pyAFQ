@@ -1,6 +1,5 @@
-import numpy as np
-
 import dipy.tracking.streamlinespeed as dps
+import numpy as np
 
 
 def sl_curve(sl, n_points):

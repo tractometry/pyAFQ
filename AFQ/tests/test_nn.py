@@ -1,12 +1,14 @@
-import nibabel as nib
 import os.path as op
 import tempfile
+
+import nibabel as nib
 import numpy.testing as npt
 import onnxruntime as ort
 
+import AFQ.data.fetch as afd
 from AFQ.nn.brainchop import run_brainchop
 from AFQ.nn.multiaxial import run_multiaxial
-import AFQ.data.fetch as afd
+
 
 def test_run_brainchop():
     tmpdir = tempfile.mkdtemp()

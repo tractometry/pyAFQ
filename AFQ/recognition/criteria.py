@@ -1,28 +1,25 @@
 import logging
 from time import time
 
-import numpy as np
-import nibabel as nib
-import ray
-
-from scipy.ndimage import distance_transform_edt
-
 import dipy.tracking.streamline as dts
-from dipy.segment.clustering import QuickBundles
-from dipy.segment.metricspeed import AveragePointwiseEuclideanMetric
-from dipy.segment.featurespeed import ResampleFeature
+import nibabel as nib
+import numpy as np
+import ray
+from dipy.io.stateful_tractogram import Space, StatefulTractogram
 from dipy.io.streamline import load_tractogram
 from dipy.segment.bundles import RecoBundles
-from dipy.io.stateful_tractogram import StatefulTractogram, Space
+from dipy.segment.clustering import QuickBundles
+from dipy.segment.featurespeed import ResampleFeature
+from dipy.segment.metricspeed import AveragePointwiseEuclideanMetric
+from scipy.ndimage import distance_transform_edt
 
-from AFQ.api.bundle_dict import apply_to_roi_dict
-import AFQ.recognition.utils as abu
 import AFQ.recognition.cleaning as abc
 import AFQ.recognition.curvature as abv
-import AFQ.recognition.roi as abr
 import AFQ.recognition.other_bundles as abo
+import AFQ.recognition.roi as abr
+import AFQ.recognition.utils as abu
+from AFQ.api.bundle_dict import apply_to_roi_dict
 from AFQ.utils.stats import chunk_indices
-
 
 criteria_order_pre_other_bundles = [
     "prob_map", "cross_midline", "start", "end",
@@ -135,7 +132,7 @@ def include(b_sls, bundle_def, preproc_imap, max_includes,
     flip_using_include = len(bundle_def["include"]) > 1\
         and not b_sls.oriented_yet
 
-    if f'inc_addtol' in bundle_def:
+    if 'inc_addtol' in bundle_def:
         include_roi_tols = []
         for inc_tol in bundle_def["inc_addtol"]:
             include_roi_tols.append((
@@ -239,7 +236,7 @@ def curvature(b_sls, bundle_def, mapping, img, save_intermediates, **kwargs):
 
 def exclude(b_sls, bundle_def, preproc_imap, **kwargs):
     accept_idx = b_sls.initiate_selection("exclude")
-    if f'exc_addtol' in bundle_def:
+    if 'exc_addtol' in bundle_def:
         exclude_roi_tols = []
         for exc_tol in bundle_def["exc_addtol"]:
             exclude_roi_tols.append((

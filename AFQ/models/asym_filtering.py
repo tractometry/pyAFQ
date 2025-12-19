@@ -6,16 +6,14 @@
 # OpenCL and cosine filtering removed
 # Replaced with numba
 
-import numpy as np
-from tqdm import tqdm
 import logging
 
-from numba import njit, prange, set_num_threads, config
-
-from dipy.reconst.shm import sh_to_sf_matrix, sph_harm_ind_list, sh_to_sf
-from dipy.direction import peak_directions
+import numpy as np
 from dipy.data import get_sphere
-
+from dipy.direction import peak_directions
+from dipy.reconst.shm import sh_to_sf, sh_to_sf_matrix, sph_harm_ind_list
+from numba import config, njit, prange, set_num_threads
+from tqdm import tqdm
 
 logger = logging.getLogger("AFQ")
 

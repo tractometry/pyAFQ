@@ -1,6 +1,6 @@
-import numpy as np
-import nibabel as nib
 import dipy.core.gradients as dpg
+import nibabel as nib
+import numpy as np
 
 
 def prepare_data(data_files, bval_files, bvec_files, mask=None,

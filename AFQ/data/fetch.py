@@ -1,29 +1,31 @@
-from dipy.align import resample
-from dipy.segment.clustering import QuickBundles
-from dipy.segment.metric import AveragePointwiseEuclideanMetric
-from dipy.segment.featurespeed import ResampleFeature
-from dipy.io.streamline import (
-    load_tractogram, save_tractogram, StatefulTractogram, Space)
-from dipy.data.fetcher import _make_fetcher
-import dipy.data as dpd
-from AFQ.utils.path import drop_extension, apply_cmd_to_afq_derivs
-from AFQ.data.utils import aws_import_msg_error
-
+import json
+import logging
 import os
 import os.path as op
-import json
-from glob import glob
 import shutil
+import time
+import warnings
+from glob import glob
 
+import dipy.data as dpd
+import nibabel as nib
 import numpy as np
 import pandas as pd
-import logging
-import time
+from dipy.align import resample
+from dipy.data.fetcher import _make_fetcher
+from dipy.io.streamline import (
+    Space,
+    StatefulTractogram,
+    load_tractogram,
+    save_tractogram,
+)
+from dipy.segment.clustering import QuickBundles
+from dipy.segment.featurespeed import ResampleFeature
+from dipy.segment.metric import AveragePointwiseEuclideanMetric
 from tqdm import tqdm
 
-import warnings
-import nibabel as nib
-
+from AFQ.data.utils import aws_import_msg_error
+from AFQ.utils.path import apply_cmd_to_afq_derivs, drop_extension
 
 # capture templateflow resource warning and log
 default_warning_format = warnings.formatwarning

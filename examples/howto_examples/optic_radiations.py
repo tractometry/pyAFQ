@@ -20,15 +20,16 @@ fixing the random seed for reproducibility
 """
 
 import os.path as op
-import plotly
-import numpy as np
 import shutil
 
-from AFQ.api.group import GroupAFQ
+import numpy as np
+import plotly
+
 import AFQ.api.bundle_dict as abd
 import AFQ.data.fetch as afd
-from AFQ.definitions.image import ImageFile, RoiImage
-import AFQ.utils.streamlines as aus
+from AFQ.api.group import GroupAFQ
+from AFQ.definitions.image import RoiImage
+
 np.random.seed(1234)
 
 

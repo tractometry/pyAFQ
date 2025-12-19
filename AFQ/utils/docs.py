@@ -1,6 +1,7 @@
-from glob import glob
-import shutil
 import os
+import shutil
+from glob import glob
+
 from sphinx_gallery.scrapers import figure_rst
 
 

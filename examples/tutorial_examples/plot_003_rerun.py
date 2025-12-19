@@ -14,12 +14,12 @@ To solve this, use the myafq.clobber() or myafq.cmd_outputs() methods. They
 are the same methods. They will delete previous derivatives so you can
 re-run your pipeline.
 """
-from AFQ.api.group import GroupAFQ
+import os
+import os.path as op
+
 import AFQ.data.fetch as afd
 import AFQ.definitions.image as afm
-import os.path as op
-import os
-
+from AFQ.api.group import GroupAFQ
 
 ##########################################################################
 # We start with some example data. The data we will use here is

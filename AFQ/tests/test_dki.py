@@ -1,13 +1,11 @@
 import os.path as op
 
-import numpy.testing as npt
-import pytest
-
+import dipy.core.gradients as dpg
+import dipy.data as dpd
 import nibabel as nib
 import nibabel.tmpdirs as nbtmp
-
-import dipy.data as dpd
-import dipy.core.gradients as dpg
+import numpy.testing as npt
+import pytest
 
 from AFQ.models import dki
 from AFQ.utils.testing import make_dki_data

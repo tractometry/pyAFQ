@@ -1,14 +1,13 @@
-import numpy as np
-import nibabel as nib
-import nibabel.processing as nbp
-from scipy.ndimage import gaussian_filter, binary_dilation
-from skimage.segmentation import find_boundaries
-
-from AFQ.data.fetch import fetch_brainchop_models, afq_home
-
 import logging
 import os.path as op
 
+import nibabel as nib
+import nibabel.processing as nbp
+import numpy as np
+from scipy.ndimage import binary_dilation, gaussian_filter
+from skimage.segmentation import find_boundaries
+
+from AFQ.data.fetch import afq_home, fetch_brainchop_models
 
 logger = logging.getLogger('AFQ')
 
@@ -55,7 +54,7 @@ def run_brainchop(ort, t1_img, model_name):
     p98 = np.nanpercentile(t1_data, 98)
     t1_data = np.clip(t1_data, p02, p98)
     t1_data = (t1_data - p02) / (p98 - p02)
-    
+
     image = t1_data.astype(np.float32)[None, None, ...]
 
     logger.info(f"Running {model_name}...")

@@ -1,13 +1,12 @@
-import numpy as np
-import nibabel as nib
-import immlib
-from time import time
 import logging
+from time import time
 
 import dipy.tracking.streamline as dts
+import immlib
+import nibabel as nib
+import numpy as np
 
 import AFQ.recognition.utils as abu
-
 
 logger = logging.getLogger('AFQ')
 

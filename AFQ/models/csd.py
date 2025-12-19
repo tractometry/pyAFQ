@@ -1,19 +1,18 @@
 import os
 import os.path as op
 
-import numpy as np
 import nibabel as nib
-
-from dipy.reconst import csdeconv as csd
-from dipy.reconst import mcsd
-from dipy.reconst import shm
+import numpy as np
 from dipy.core.gradients import gradient_table, unique_bvals_magnitude
-import AFQ.utils.models as ut
+from dipy.reconst import csdeconv as csd
+from dipy.reconst import shm
 
+import AFQ.utils.models as ut
 
 # Monkey patch fixed spherical harmonics for conda from
 # DIPY dev:
 from AFQ._fixes import spherical_harmonics
+
 shm.spherical_harmonics = spherical_harmonics
 
 __all__ = ["fit_csd"]

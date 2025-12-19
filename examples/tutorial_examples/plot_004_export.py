@@ -11,11 +11,12 @@ and bundle segmentations.
 """
 import os
 import os.path as op
+
 import plotly
 
-from AFQ.api.participant import ParticipantAFQ
 import AFQ.data.fetch as afd
 import AFQ.definitions.image as afm
+from AFQ.api.participant import ParticipantAFQ
 
 ##########################################################################
 # Preparing the ParticipantAFQ object
@@ -50,13 +51,13 @@ os.makedirs(output_dir, exist_ok=True)
 
 pve = afm.PVEImages(
     afm.ImageFile(
-        path=op.join(sub_dir, "anat", 
+        path=op.join(sub_dir, "anat",
                      "sub-NDARAA948VFH_label-CSF_probseg.nii.gz")),
     afm.ImageFile(
-        path=op.join(sub_dir, "anat", 
+        path=op.join(sub_dir, "anat",
                      "sub-NDARAA948VFH_label-GM_probseg.nii.gz")),
     afm.ImageFile(
-        path=op.join(sub_dir, "anat", 
+        path=op.join(sub_dir, "anat",
                      "sub-NDARAA948VFH_label-WM_probseg.nii.gz")))
 
 # Initialize the ParticipantAFQ object

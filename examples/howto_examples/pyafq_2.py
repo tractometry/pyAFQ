@@ -5,12 +5,12 @@
 Running pyAFQ 2.x defauls in pyAFQ 3.x
 ======================================
 """
-from AFQ.api.group import GroupAFQ
+import os.path as op
+
+import AFQ.api.bundle_dict as abd
 import AFQ.data.fetch as afd
 import AFQ.definitions.image as afm
-import AFQ.api.bundle_dict as abd
-
-import os.path as op
+from AFQ.api.group import GroupAFQ
 
 afd.organize_stanford_data()
 
@@ -70,7 +70,7 @@ bm_def = afm.LabelledImageFile(
 # 3. it must be lateral to the inferior fronto-occipital fasciculus
 #    instead of the inferior longitudinal fasciculus;
 # 4. cleaning has been changed: there is now mahalanobis cleaning on
-#    orientation, and isolation forest cleaning instead of mahalanobis for 
+#    orientation, and isolation forest cleaning instead of mahalanobis for
 #    distance.
 # Additionally, in the new version, the inferior endpoints of the
 # corticospinal tracts (CST) were removed.

@@ -17,13 +17,13 @@ to the work of Grotheer et al. [Grotheer2021]_, as implemented in
 
 """
 import os.path as op
-import plotly
-import wget
 import zipfile
 
-from AFQ.api.group import GroupAFQ
+import wget
+
 import AFQ.api.bundle_dict as abd
 import AFQ.data.fetch as afd
+from AFQ.api.group import GroupAFQ
 
 ##########################################################################
 # Baby dMRI data

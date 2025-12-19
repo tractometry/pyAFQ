@@ -1,26 +1,25 @@
-import os.path as op
-import os
 import logging
+import os
+import os.path as op
 import tempfile
 
 import numpy as np
-from scipy.stats import sem
 import pandas as pd
+from scipy.stats import sem
 from tqdm.auto import tqdm
 
 import AFQ.viz.utils as vut
-from AFQ.viz.utils import display_string
+from AFQ.data.utils import BUNDLE_MAT_2_PYTHON, BUNDLE_RECO_2_AFQ, aws_import_msg_error
 from AFQ.utils.stats import contrast_index as calc_contrast_index
-from AFQ.data.utils import BUNDLE_RECO_2_AFQ, BUNDLE_MAT_2_PYTHON
-from AFQ.data.utils import aws_import_msg_error
+from AFQ.viz.utils import display_string
 
 try:
-    from pingouin import intraclass_corr, corr
-    import seaborn as sns
+    import IPython.display as display
     import matplotlib.pyplot as plt
+    import seaborn as sns
     from matplotlib.lines import Line2D
     from matplotlib.patches import Patch
-    import IPython.display as display
+    from pingouin import corr, intraclass_corr
 except (ImportError, ModuleNotFoundError):
     raise ImportError(vut.viz_import_msg_error("plot"))
 

@@ -1,42 +1,39 @@
-import tempfile
+import gc
+import json
 import os
 import os.path as op
+import random
 import shutil
 import subprocess
-import gc
-import random
-import json
-
-import toml
-
-import numpy as np
-import numpy.testing as npt
-import pytest
-
-import pandas as pd
-from pandas.testing import assert_series_equal
-
-from pcollections._lazy import LazyError
-
-import nibabel as nib
 import tempfile
 
-import dipy.tracking.utils as dtu
 import dipy.tracking.streamline as dts
-from dipy.testing.decorators import xvfb_it
+import dipy.tracking.utils as dtu
+import nibabel as nib
+import numpy as np
+import numpy.testing as npt
+import pandas as pd
+import pytest
+import toml
 from dipy.io.streamline import load_tractogram
 from dipy.segment.metric import mdf
+from dipy.testing.decorators import xvfb_it
+from pandas.testing import assert_series_equal
+from pcollections._lazy import LazyError
 
 import AFQ.api.bundle_dict as abd
-from AFQ.api.group import GroupAFQ, ParallelGroupAFQ
-from AFQ.api.participant import ParticipantAFQ
 import AFQ.data.fetch as afd
 import AFQ.utils.streamlines as aus
-import AFQ.utils.bin as afb
-from AFQ.definitions.mapping import SynMap, AffMap, SlrMap, IdentityMap
+from AFQ.api.group import GroupAFQ, ParallelGroupAFQ
+from AFQ.api.participant import ParticipantAFQ
 from AFQ.definitions.image import (
-    ImageFile, ScalarImage, TemplateImage,
-    LabelledImageFile, PVEImages)
+    ImageFile,
+    LabelledImageFile,
+    PVEImages,
+    ScalarImage,
+    TemplateImage,
+)
+from AFQ.definitions.mapping import AffMap, IdentityMap, SlrMap, SynMap
 
 
 def touch(fname, times=None):

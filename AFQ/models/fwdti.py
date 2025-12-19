@@ -1,13 +1,10 @@
 import os
 import os.path as op
 
-import numpy as np
 import nibabel as nib
-
 from dipy.reconst import fwdti
 
 import AFQ.utils.models as ut
-
 
 __all__ = ["fit_fwdti"]
 

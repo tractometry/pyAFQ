@@ -1,12 +1,10 @@
 import os.path as op
 
-import numpy as np
-import numpy.testing as npt
-
+import dipy.data as dpd
 import nibabel as nib
 import nibabel.tmpdirs as nbtmp
-
-import dipy.data as dpd
+import numpy as np
+import numpy.testing as npt
 from dipy.reconst.shm import calculate_max_order
 
 from AFQ.models import csd

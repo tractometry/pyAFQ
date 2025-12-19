@@ -1,21 +1,19 @@
-import nibabel as nib
-import os
+import logging
 import os.path as op
 from time import time
-import numpy as np
-import pandas as pd
-import logging
 
 import immlib
+import nibabel as nib
+import numpy as np
+import pandas as pd
 
-from AFQ.tasks.decorators import as_file
-from AFQ.tasks.utils import get_fname, with_name, str_to_desc, get_tp
-from AFQ.recognition.recognize import recognize
-from AFQ.utils.path import drop_extension, write_json
 import AFQ.utils.streamlines as aus
-from AFQ.tasks.utils import get_default_args
 import AFQ.utils.volume as auv
 from AFQ._fixes import gaussian_weights
+from AFQ.recognition.recognize import recognize
+from AFQ.tasks.decorators import as_file
+from AFQ.tasks.utils import get_default_args, get_fname, get_tp, str_to_desc, with_name
+from AFQ.utils.path import drop_extension, write_json
 
 try:
     from trx.io import load as load_trx
@@ -25,18 +23,16 @@ try:
 except ModuleNotFoundError:
     has_trx = False
 
+import gzip
+import shutil
+from tempfile import mkdtemp
+
+from dipy.io.stateful_tractogram import Space, StatefulTractogram
 from dipy.io.streamline import load_tractogram, save_tractogram
-from dipy.io.stateful_tractogram import Space
 from dipy.stats.analysis import afq_profile
 from dipy.tracking.streamline import set_number_of_points, values_from_volume
 from nibabel.affines import voxel_sizes
 from nibabel.orientations import aff2axcodes
-from dipy.io.stateful_tractogram import StatefulTractogram
-
-import gzip
-import shutil
-import os.path as op
-from tempfile import mkdtemp
 
 logger = logging.getLogger('AFQ')
 
@@ -425,7 +421,7 @@ def get_scalar_dict(structural_imap, data_imap, tissue_imap,
             if sc == "t1w":
                 scalar_dict[sc] = t1_file
             else:
-                scalar_dict[sc] = get_tp(f"{sc}", 
+                scalar_dict[sc] = get_tp(f"{sc}",
                                          structural_imap,
                                          data_imap,
                                          tissue_imap)

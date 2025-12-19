@@ -1,12 +1,10 @@
-import numpy as np
-import AFQ.recognition.roi as abr
 import nibabel as nib
-import numpy.testing as npt
 import numpy as np
+import numpy.testing as npt
 from scipy.ndimage import distance_transform_edt
-from AFQ.recognition.roi import (
-    check_sls_with_inclusion,
-    check_sl_with_exclusion)
+
+import AFQ.recognition.roi as abr
+from AFQ.recognition.roi import check_sl_with_exclusion, check_sls_with_inclusion
 
 shape = (15, 15, 15)
 affine = np.eye(4)

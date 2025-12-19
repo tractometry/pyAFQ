@@ -1,19 +1,17 @@
 import os.path as op
 
-import numpy as np
-import numpy.testing as npt
-
-import nibabel as nib
-import nibabel.tmpdirs as nbtmp
-
-from dipy.core.geometry import vector_norm
 import dipy.core.gradients as dpg
 import dipy.data as dpd
+import nibabel as nib
+import nibabel.tmpdirs as nbtmp
+import numpy as np
+import numpy.testing as npt
+from dipy.core.geometry import vector_norm
 from dipy.io.gradients import read_bvals_bvecs
 
 import AFQ.utils.models as ut
-from AFQ.models import dti
 from AFQ._fixes import in_place_norm
+from AFQ.models import dti
 from AFQ.utils.testing import make_dti_data
 
 

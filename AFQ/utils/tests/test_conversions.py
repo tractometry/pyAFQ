@@ -1,9 +1,9 @@
+import os.path as op
+
 import numpy.testing as npt
 
 import AFQ.data.fetch as afd
-from AFQ.utils.conversion import matlab_tractography, matlab_mori_groups
-
-import os.path as op
+from AFQ.utils.conversion import matlab_mori_groups, matlab_tractography
 
 DATA_PATH = op.join(op.abspath(op.dirname(__file__)), "../../tests/data")
 

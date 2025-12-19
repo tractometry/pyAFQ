@@ -13,13 +13,13 @@ import os.path as op
 
 import matplotlib.pyplot as plt
 import nibabel as nib
-import plotly
 import pandas as pd
+import plotly
 
-from AFQ.api.group import GroupAFQ
 import AFQ.data.fetch as afd
-import AFQ.viz.altair as ava
 import AFQ.definitions.image as afm
+import AFQ.viz.altair as ava
+from AFQ.api.group import GroupAFQ
 
 ##########################################################################
 # Example data
@@ -112,7 +112,7 @@ brain_mask_definition = afm.ImageFile(
 # in the AFQ data directory: ``AFQ_data/HBN/derivatives/afq/``
 #
 # To initialize this object we will pass in the path location to our BIDS
-# compliant data, the name of the preprocessing pipeline we want to use, 
+# compliant data, the name of the preprocessing pipeline we want to use,
 # the name of the t1 preprocessing pipeline we want to use (in this case,
 # its the same, qsiprep [3]), the participant labels we want to process
 # (in this case, just a single subject), the PVE images we defined above, and

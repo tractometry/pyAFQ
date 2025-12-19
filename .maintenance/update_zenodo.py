@@ -7,12 +7,13 @@ For the full LICENSE and terms of use, see
 https://github.com/nipreps/dmriprep/blob/master/LICENSE
 
 """
-import sys
-import shutil
-from pathlib import Path
 import json
-from rapidfuzz import fuzz, process
+import shutil
 import subprocess as sp
+import sys
+from pathlib import Path
+
+from rapidfuzz import fuzz, process
 
 # These ORCIDs should go last
 CREATORS_LAST = ['Yeatman, Jason', 'Rokem, Ariel']

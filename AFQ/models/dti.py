@@ -1,9 +1,8 @@
 import os
 import os.path as op
 
-import numpy as np
 import nibabel as nib
-
+import numpy as np
 from dipy.reconst import dti
 from scipy.special import gamma
 

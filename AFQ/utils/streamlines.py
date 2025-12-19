@@ -1,9 +1,8 @@
-import gc
-from dipy.io.streamline import load_tractogram
-import numpy as np
-from dipy.io.stateful_tractogram import StatefulTractogram, Space
 import os.path as op
 
+import numpy as np
+from dipy.io.stateful_tractogram import Space, StatefulTractogram
+from dipy.io.streamline import load_tractogram
 
 try:
     from trx.io import load as load_trx

@@ -48,5 +48,5 @@ def aws_import_msg_error(module):
     msg = f"To use {module} in pyAFQ, you will "
     msg += f"need to have {module} installed. "
     msg += "You can do that by installing pyAFQ with "
-    msg += f"`pip install pyAFQ[aws]`"
+    msg += "`pip install pyAFQ[aws]`"
     return msg

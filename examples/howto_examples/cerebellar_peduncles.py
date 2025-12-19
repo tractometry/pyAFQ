@@ -12,11 +12,10 @@ on [1]_, [2].
 
 """
 
-import AFQ.data.fetch as afd
 import AFQ.api.bundle_dict as abd
+import AFQ.data.fetch as afd
 from AFQ.api.group import GroupAFQ
-from AFQ.definitions.image import RoiImage, ImageFile
-
+from AFQ.definitions.image import RoiImage
 
 """
 We will use a subject from the HBN dataset. When considering the data

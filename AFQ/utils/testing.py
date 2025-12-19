@@ -1,10 +1,9 @@
+import dipy.core.gradients as dpg
+import dipy.data as dpd
+import dipy.io as dio
+import nibabel as nib
 import numpy as np
 import numpy.testing as npt
-
-import nibabel as nib
-import dipy.io as dio
-import dipy.data as dpd
-import dipy.core.gradients as dpg
 from dipy.sims.voxel import multi_tensor_dki, single_tensor
 
 

@@ -1,17 +1,16 @@
-import tempfile
-import os.path as op
 import logging
+import os.path as op
+import tempfile
 
 import numpy as np
+from dipy.tracking.streamline import set_number_of_points
 
 import AFQ.viz.utils as vut
 
-from dipy.tracking.streamline import set_number_of_points
-
 try:
-    from dipy.viz import window, actor, ui
-    from fury.colormap import line_colors
     import IPython.display as display
+    from dipy.viz import actor, ui, window
+    from fury.colormap import line_colors
 except (ImportError, ModuleNotFoundError):
     raise ImportError(vut.viz_import_msg_error("fury"))
 

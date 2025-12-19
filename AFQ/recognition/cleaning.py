@@ -1,15 +1,14 @@
-import numpy as np
-import nibabel as nib
 import logging
 
-from scipy.stats import zscore
-
 import dipy.tracking.streamline as dts
-from dipy.io.stateful_tractogram import StatefulTractogram, Space
+import nibabel as nib
+import numpy as np
+from dipy.io.stateful_tractogram import StatefulTractogram
+from scipy.stats import zscore
+from sklearn.ensemble import IsolationForest
 
 import AFQ.recognition.utils as abu
 from AFQ._fixes import gaussian_weights
-from sklearn.ensemble import IsolationForest
 
 logger = logging.getLogger('AFQ')
 
@@ -313,7 +312,7 @@ def clean_by_isolation_forest(tg, n_points=100, distance_threshold=3,
             "Isolation Forest cleaning not performed"
             " due to low streamline count"))
         return np.ones(len(streamlines), dtype=bool)
-    
+
     # Resample once up-front:
     fgarray = np.asarray(abu.resample_tg(streamlines, n_points))
     fgarray_dists = np.zeros_like(fgarray)
@@ -352,7 +351,7 @@ def clean_by_isolation_forest(tg, n_points=100, distance_threshold=3,
 
         idx_dist = sl_outliers > mean_outlier - \
             distance_threshold * sd_outlier
-        
+
         idx_belong = np.logical_and(idx_dist, idx_len)
 
         if len(idx_belong) == len(idx):

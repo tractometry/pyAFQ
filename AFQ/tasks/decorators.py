@@ -5,12 +5,12 @@ import os.path as op
 from time import time
 
 import nibabel as nib
-from dipy.io.streamline import save_tractogram
 from dipy.io.stateful_tractogram import StatefulTractogram
+from dipy.io.streamline import save_tractogram
 
 try:
-    from trx.trx_file_memmap import TrxFile
     from trx.io import save as save_trx
+    from trx.trx_file_memmap import TrxFile
     has_trx = True
 except ModuleNotFoundError:
     has_trx = False
@@ -19,7 +19,6 @@ import numpy as np
 
 from AFQ.tasks.utils import get_fname
 from AFQ.utils.path import drop_extension, write_json
-
 
 # These should only be used with immlib.calc
 __all__ = ["as_file", "as_fit_deriv", "as_img"]

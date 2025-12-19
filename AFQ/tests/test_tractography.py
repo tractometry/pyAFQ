@@ -1,17 +1,14 @@
 import os.path as op
 import random
+import tempfile
+
 import numpy as np
 import numpy.testing as npt
-import pytest
-
-import nibabel as nib
-import tempfile
 
 from AFQ.models.csd import fit_csd
 from AFQ.models.dti import fit_dti
 from AFQ.tractography.tractography import track
 from AFQ.utils.testing import make_tracking_data
-
 
 seeds = np.array([[-80., -120., -60.],
                   [-81, -121, -61],

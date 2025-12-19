@@ -12,12 +12,13 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 
-from plotly.io._sg_scraper import plotly_sg_scraper
-from AFQ.utils.docs import PNGScraper, GIFScraper
-
-import sys
 import os
+import sys
+
+from plotly.io._sg_scraper import plotly_sg_scraper
+
 import AFQ
+from AFQ.utils.docs import GIFScraper, PNGScraper
 
 sys.path.insert(0, os.path.abspath('.'))
 sys.path.append(os.path.abspath('sphinxext'))

@@ -1,43 +1,46 @@
 # -*- coding: utf-8 -*-# -*- coding: utf-8 -*-
-import warnings
 import tempfile
+import warnings
 
+import AFQ.api.bundle_dict as abd
 from AFQ.definitions.mapping import SynMap
 from AFQ.definitions.utils import Definition
-import AFQ.api.bundle_dict as abd
+
 warnings.simplefilter(action='ignore', category=FutureWarning)  # noqa
 
+import glob
+import json
 import logging
-from AFQ.api.participant import ParticipantAFQ
-from AFQ.api.utils import (
-    check_attribute, AFQclass_doc,
-    export_all_helper, valid_exports_string)
-import AFQ.utils.streamlines as aus
-from AFQ.viz.utils import get_eye
-from AFQ.data.utils import aws_import_msg_error
-from AFQ.definitions.utils import find_file
-
-from dipy.utils.parallel import paramap
-from dipy.io.stateful_tractogram import StatefulTractogram, Space
-import dipy.tracking.streamlinespeed as dps
-import dipy.tracking.streamline as dts
-from dipy.io.streamline import save_tractogram
-
-from AFQ.version import version as pyafq_version
-from AFQ.viz.utils import trim
-import pandas as pd
-import pydra
-import numpy as np
 import os
 import os.path as op
-from tqdm import tqdm
-import json
 from time import time
-import nibabel as nib
-from PIL import Image
-import glob
 
+import dipy.tracking.streamline as dts
+import dipy.tracking.streamlinespeed as dps
+import nibabel as nib
+import numpy as np
+import pandas as pd
+import pydra
 from bids.layout import BIDSLayout, BIDSLayoutIndexer
+from dipy.io.stateful_tractogram import Space, StatefulTractogram
+from dipy.io.streamline import save_tractogram
+from dipy.utils.parallel import paramap
+from PIL import Image
+from tqdm import tqdm
+
+import AFQ.utils.streamlines as aus
+from AFQ.api.participant import ParticipantAFQ
+from AFQ.api.utils import (
+    AFQclass_doc,
+    check_attribute,
+    export_all_helper,
+    valid_exports_string,
+)
+from AFQ.data.utils import aws_import_msg_error
+from AFQ.definitions.utils import find_file
+from AFQ.version import version as pyafq_version
+from AFQ.viz.utils import get_eye, trim
+
 try:
     import afqbrowser as afqb
     using_afqb = True
@@ -1244,8 +1247,8 @@ def download_and_combine_afq_profiles(bucket,
     Ouput CSV's pandas dataframe.
     """
     try:
-        from s3bids.utils import S3BIDSStudy
         import s3fs
+        from s3bids.utils import S3BIDSStudy
     except (ImportError, ModuleNotFoundError):
         aws_import_msg_error("s3bids and s3fs")
 

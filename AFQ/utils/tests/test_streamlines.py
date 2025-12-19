@@ -1,9 +1,10 @@
+import dipy.tracking.streamline as dts
+import nibabel as nib
 import numpy as np
 import numpy.testing as npt
-import nibabel as nib
+from dipy.io.stateful_tractogram import Space, StatefulTractogram
+
 from AFQ.utils import streamlines as aus
-import dipy.tracking.streamline as dts
-from dipy.io.stateful_tractogram import StatefulTractogram, Space
 
 
 def test_SegmentedSFT():

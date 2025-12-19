@@ -1,23 +1,22 @@
-import numpy as np
-import nibabel as nib
 import logging
-from tqdm import tqdm
-
-from skimage.segmentation import find_boundaries
 
 import dipy.data as dpd
-from dipy.reconst.dti import decompose_tensor, from_lower_triangular
+import nibabel as nib
+import numpy as np
 from dipy.align import resample
-from dipy.direction import (DeterministicMaximumDirectionGetter,
-                            ProbabilisticDirectionGetter)
-from dipy.io.stateful_tractogram import StatefulTractogram, Space
-from dipy.tracking.stopping_criterion import ActStoppingCriterion, CmcStoppingCriterion
+from dipy.direction import (
+    DeterministicMaximumDirectionGetter,
+    ProbabilisticDirectionGetter,
+)
+from dipy.io.stateful_tractogram import Space, StatefulTractogram
 from dipy.reconst import shm
-
+from dipy.reconst.dti import decompose_tensor, from_lower_triangular
+from dipy.tracking.local_tracking import LocalTracking, ParticleFilteringTracking
+from dipy.tracking.stopping_criterion import ActStoppingCriterion
 from nibabel.streamlines.tractogram import LazyTractogram
+from skimage.segmentation import find_boundaries
+from tqdm import tqdm
 
-from dipy.tracking.local_tracking import (LocalTracking,
-                                          ParticleFilteringTracking)
 from AFQ._fixes import tensor_odf
 from AFQ.tractography.utils import gen_seeds
 

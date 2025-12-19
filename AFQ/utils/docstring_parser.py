@@ -1,5 +1,5 @@
-import re
 import inspect
+import re
 
 __all__ = ["parse_numpy_docstring"]
 

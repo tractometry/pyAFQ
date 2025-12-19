@@ -1,8 +1,6 @@
-import numpy as np
 import nibabel as nib
-
+import numpy as np
 from dipy.align import resample
-
 from scipy.ndimage import gaussian_filter
 from skimage.segmentation import find_boundaries
 

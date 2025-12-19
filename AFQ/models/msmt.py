@@ -1,17 +1,13 @@
 import multiprocessing
+
 import numpy as np
-from tqdm import tqdm
-import ray
-
-from scipy.sparse import csr_matrix
-
 import osqp
-
-from dipy.reconst.mcsd import MSDeconvFit
-from dipy.reconst.mcsd import MultiShellDeconvModel
+import ray
+from dipy.reconst.mcsd import MSDeconvFit, MultiShellDeconvModel
+from scipy.sparse import csr_matrix
+from tqdm import tqdm
 
 from AFQ.utils.stats import chunk_indices
-
 
 __all__ = ["MultiShellDeconvModel"]
 
@@ -61,9 +57,9 @@ def _fit(self, data, mask=None, n_cpus=None):
             num_cpus=n_cpus)
         def process_batch_remote(batch_indices, data, mask,
                                  Q, A, b, R):
-            from scipy.sparse import csr_matrix
-            import osqp
             import numpy as np
+            import osqp
+            from scipy.sparse import csr_matrix
 
             m = osqp.OSQP()
             m.setup(

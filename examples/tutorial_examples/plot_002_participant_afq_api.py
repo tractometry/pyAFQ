@@ -11,9 +11,9 @@ import matplotlib.pyplot as plt
 import nibabel as nib
 import plotly
 
-from AFQ.api.participant import ParticipantAFQ
 import AFQ.data.fetch as afd
 import AFQ.definitions.image as afm
+from AFQ.api.participant import ParticipantAFQ
 
 ##########################################################################
 # Example data
@@ -38,7 +38,7 @@ afd.fetch_hbn_preproc(["NDARAA948VFH"])
 # this case, we will define the data files for the subject we downloaded above.
 # The data files are located in the ``~/AFQ_data/HBN/derivatives/qsiprep``
 # directory, and are organized into a BIDS compliant directory structure. The
-# data files are located in the ``dwi`` directories. 
+# data files are located in the ``dwi`` directories.
 
 sub_dir = op.join(afd.afq_home, "HBN", "derivatives", "qsiprep",
                    "sub-NDARAA948VFH")
@@ -95,13 +95,13 @@ tracking_params = dict(n_seeds=50000,
 
 pve = afm.PVEImages(
     afm.ImageFile(
-        path=op.join(sub_dir, "anat", 
+        path=op.join(sub_dir, "anat",
                      "sub-NDARAA948VFH_label-CSF_probseg.nii.gz")),
     afm.ImageFile(
-        path=op.join(sub_dir, "anat", 
+        path=op.join(sub_dir, "anat",
                      "sub-NDARAA948VFH_label-GM_probseg.nii.gz")),
     afm.ImageFile(
-        path=op.join(sub_dir, "anat", 
+        path=op.join(sub_dir, "anat",
                      "sub-NDARAA948VFH_label-WM_probseg.nii.gz")))
 
 ##########################################################################

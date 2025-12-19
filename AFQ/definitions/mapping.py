@@ -1,16 +1,16 @@
+import logging
+import os.path as op
+from time import time
+
 import nibabel as nib
 import numpy as np
-import logging
-from time import time
-import os.path as op
-
-from AFQ.definitions.utils import Definition, find_file
-from dipy.align import syn_registration, affine_registration
-import AFQ.registration as reg
-from AFQ.utils.path import write_json, space_from_fname
-from AFQ.tasks.utils import get_fname
-
+from dipy.align import affine_registration, syn_registration
 from dipy.align.imaffine import AffineMap
+
+import AFQ.registration as reg
+from AFQ.definitions.utils import Definition, find_file
+from AFQ.tasks.utils import get_fname
+from AFQ.utils.path import space_from_fname, write_json
 
 try:
     from fsl.data.image import Image

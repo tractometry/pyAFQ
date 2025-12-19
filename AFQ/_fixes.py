@@ -1,18 +1,13 @@
-import numpy as np
 import logging
-
-from scipy.special import lpmv, gammaln
-from scipy.linalg import pinvh
-
-from tqdm import tqdm
-
 import math
 
-from dipy.reconst.gqi import squared_radial_component
+import numpy as np
 from dipy.data import default_sphere
+from dipy.reconst.gqi import squared_radial_component
 from dipy.tracking.streamline import set_number_of_points
-from scipy.linalg import blas
-
+from scipy.linalg import blas, pinvh
+from scipy.special import gammaln, lpmv
+from tqdm import tqdm
 
 logger = logging.getLogger('AFQ')
 

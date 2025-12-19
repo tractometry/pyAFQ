@@ -15,15 +15,14 @@ their defining ROIs.
 ####################################################
 # Import libraries, load the default tract templates
 
+import matplotlib
 import numpy as np
 
-import matplotlib
 matplotlib.use('Agg')  # Use Agg backend for headless plotting
 import matplotlib.pyplot as plt
 
-import AFQ.data.fetch as afd
 import AFQ.api.bundle_dict as abd
-
+import AFQ.data.fetch as afd
 
 templates = abd.default18_bd() + abd.callosal_bd()
 

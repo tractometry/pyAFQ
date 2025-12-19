@@ -1,20 +1,17 @@
-import nibabel.tmpdirs as nbtmp
-import nibabel as nib
-
-import numpy as np
-
 import os.path as op
-import numpy.testing as npt
 
 import dipy.core.gradients as dpg
+import nibabel as nib
+import nibabel.tmpdirs as nbtmp
+import numpy as np
+import numpy.testing as npt
 from dipy.data import default_sphere
 from dipy.reconst.gqi import GeneralizedQSamplingModel
 
-from AFQ._fixes import gaussian_weights as gaussian_weights_fast
 import AFQ.data.fetch as afd
-
+from AFQ._fixes import gaussian_weights, gwi_odf
+from AFQ._fixes import gaussian_weights as gaussian_weights_fast
 from AFQ.utils.testing import make_dki_data
-from AFQ._fixes import gwi_odf, gaussian_weights
 
 
 def test_GQI_fix():

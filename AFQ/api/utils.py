@@ -1,12 +1,12 @@
-from importlib import import_module
-from AFQ.viz.utils import viz_import_msg_error
-from AFQ.utils.docstring_parser import parse_numpy_docstring
-import immlib
-import logging
 import inspect
+import logging
+from importlib import import_module
 
+import immlib
 from dipy.io.stateful_tractogram import set_sft_logger_level
 
+from AFQ.utils.docstring_parser import parse_numpy_docstring
+from AFQ.viz.utils import viz_import_msg_error
 
 __all__ = [
     "methods_descriptors", "kwargs_descriptors", "AFQclass_doc"]
@@ -156,9 +156,9 @@ def export_all_helper(api_afq_object, xforms, indiv, viz):
 
     if viz:
         try:
+            import IPython
             import pingouin
             import seaborn
-            import IPython
         except (ImportError, ModuleNotFoundError):
             api_afq_object.logger.warning(viz_import_msg_error("plot"))
         else:

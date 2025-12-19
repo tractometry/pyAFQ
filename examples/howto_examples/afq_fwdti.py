@@ -16,14 +16,12 @@ import os.path as op
 
 import matplotlib.pyplot as plt
 import nibabel as nib
-
-from AFQ.api.group import GroupAFQ
-import AFQ.data.fetch as afd
-
-from AFQ.definitions.image import ImageFile, RoiImage
-import AFQ.api.bundle_dict as abd
-
 import pandas as pd
+
+import AFQ.api.bundle_dict as abd
+import AFQ.data.fetch as afd
+from AFQ.api.group import GroupAFQ
+from AFQ.definitions.image import RoiImage
 
 #############################################################################
 # Get some data

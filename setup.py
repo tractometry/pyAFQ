@@ -1,7 +1,8 @@
-from setuptools import setup
-import string
-import os.path as op
 import glob
+import os.path as op
+import string
+
+from setuptools import setup
 from setuptools_scm import get_version
 
 

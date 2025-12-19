@@ -1,18 +1,16 @@
-import toml
 import datetime
-import platform
 import os.path as op
-
+import platform
 from argparse import ArgumentParser
 
+import toml
+
+from AFQ.api.bundle_dict import *  # interprets bundle_dicts loaded from toml
+from AFQ.api.utils import kwargs_descriptors
 from AFQ.definitions.image import *  # interprets masks loaded from toml
 from AFQ.definitions.mapping import *  # interprets mappings loaded from toml
-from AFQ.api.bundle_dict import *  # interprets bundle_dicts loaded from toml
 from AFQ.definitions.utils import Definition
-from AFQ.api.utils import kwargs_descriptors
 from AFQ.utils.docstring_parser import parse_numpy_docstring
-
-import nibabel as nib  # allows users to input nibabel objects
 
 
 def model_input_parser(usage):
@@ -165,10 +163,10 @@ def dict_to_json(dictionary):
 
 def func_dict_to_arg_dict(func_dict=None, logger=None):
     if func_dict is None:
-        from AFQ.recognition.recognize import recognize
-        from AFQ.recognition.cleaning import clean_bundle
         import AFQ.tractography.tractography as aft
         from AFQ.api.group import GroupAFQ
+        from AFQ.recognition.cleaning import clean_bundle
+        from AFQ.recognition.recognize import recognize
 
         func_dict = {
             "BIDS": GroupAFQ.__init__,
@@ -236,8 +234,8 @@ def parse_config_run_afq(toml_file, default_arg_dict, to_call="export_all",
                          special_args={
                              "SEGMENTATION_PARAMS": "segmentation_params",
                              "TRACTOGRAPHY_PARAMS": "tracking_params"}):
-    from AFQ.api.group import GroupAFQ
     from AFQ import __version__
+    from AFQ.api.group import GroupAFQ
     # load configuration file
     if not op.exists(toml_file):
         raise FileExistsError(
@@ -411,9 +409,9 @@ def generate_json(json_folder, overwrite=False,
         }
     ]
 }"""
-    from AFQ.recognition.recognize import recognize
-    from AFQ.recognition.cleaning import clean_bundle
     import AFQ.tractography.tractography as aft
+    from AFQ.recognition.cleaning import clean_bundle
+    from AFQ.recognition.recognize import recognize
 
     func_dict = {
         "Tractography": aft.track,

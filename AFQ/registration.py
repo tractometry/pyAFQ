@@ -1,15 +1,11 @@
 """
 Registration tools
 """
-import numpy as np
 import nibabel as nib
-from dipy.align.imwarp import DiffeomorphicMap
-
+import numpy as np
 from dipy.align import syn_registration
-
-import dipy.core.gradients as dpg
+from dipy.align.imwarp import DiffeomorphicMap
 from dipy.align.streamlinear import whole_brain_slr
-
 
 __all__ = ["syn_register_dwi", "write_mapping", "read_mapping",
            "slr_registration"]

@@ -1,14 +1,12 @@
+import nibabel as nib
 import numpy as np
 import numpy.testing as npt
 import pytest
-
-import nibabel as nib
-
 from dipy.io.stateful_tractogram import Space
 from dipy.io.streamline import StatefulTractogram
 
-import AFQ.utils.volume as afv
 import AFQ.data.fetch as afd
+import AFQ.utils.volume as afv
 
 
 def test_patch_up_roi():

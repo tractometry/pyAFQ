@@ -1,13 +1,10 @@
-import numpy as np
-
-from tqdm import tqdm
-import scipy.io
-
-from dipy.io.stateful_tractogram import StatefulTractogram, Space
 import nibabel as nib
+import numpy as np
+import scipy.io
+from dipy.io.stateful_tractogram import Space, StatefulTractogram
+from tqdm import tqdm
 
 from AFQ.data.utils import BUNDLE_MAT_2_PYTHON
-
 
 # This dictionary is used to convert the names of the bundles
 # from old pyAFQ bundle names to the new pyAFQ bundle names.

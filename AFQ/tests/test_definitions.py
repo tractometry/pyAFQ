@@ -1,15 +1,15 @@
 import os.path as op
+
 import numpy as np
 import numpy.testing as npt
 import pytest
-
 from bids.layout import BIDSLayout
 
 import AFQ.definitions.image as afm
 from AFQ.definitions.image import *  # interprets images from eval
 from AFQ.definitions.mapping import *  # interprets mappings from eval
-from AFQ.tests.test_api import create_dummy_bids_path
 from AFQ.definitions.utils import name_from_path
+from AFQ.tests.test_api import create_dummy_bids_path
 
 
 def test_str_instantiates_mixin():

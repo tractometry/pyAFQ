@@ -1,18 +1,15 @@
-import numpy as np
+import logging
 import os.path as op
 from time import time
 
-import logging
-
-from dipy.io.stateful_tractogram import StatefulTractogram, Space
-from dipy.io.streamline import save_tractogram
-import dipy.tracking.streamlinespeed as dps
 import dipy.tracking.streamline as dts
+import dipy.tracking.streamlinespeed as dps
+import numpy as np
+from dipy.io.stateful_tractogram import Space, StatefulTractogram
+from dipy.io.streamline import save_tractogram
 from dipy.tracking.distances import bundles_distances_mdf
 
-
 from AFQ.definitions.mapping import ConformedFnirtMapping
-
 
 logger = logging.getLogger('AFQ')
 

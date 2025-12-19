@@ -1,8 +1,8 @@
-from AFQ.utils.path import drop_extension
-
-import os.path as op
-import os
 import inspect
+import os
+import os.path as op
+
+from AFQ.utils.path import drop_extension
 
 __all__ = ["get_tp", "get_fname", "with_name", "get_base_fname"]
 

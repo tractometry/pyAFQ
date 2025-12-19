@@ -1,8 +1,7 @@
-import os.path as op
 import logging
+import os.path as op
 
 from AFQ.utils.path import drop_extension
-
 
 logger = logging.getLogger('AFQ')
 

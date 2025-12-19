@@ -1,12 +1,12 @@
-from tqdm import tqdm
-import numpy as np
-import nibabel as nib
-import nibabel.processing as nbp
-
-from AFQ.data.fetch import fetch_multiaxial_models, afq_home
-
 import logging
 import os.path as op
+
+import nibabel as nib
+import nibabel.processing as nbp
+import numpy as np
+from tqdm import tqdm
+
+from AFQ.data.fetch import afq_home, fetch_multiaxial_models
 
 logger = logging.getLogger('AFQ')
 
@@ -145,7 +145,7 @@ def run_multiaxial(ort, t1_img):
     p98 = np.nanpercentile(t1_data, 98)
     t1_data = np.clip(t1_data, p02, p98)
     t1_data = (t1_data - p02) / (p98 - p02)
-    
+
     logger.info("Running multiaxial T1w segmentation...")
     output = multiaxial(
         ort,

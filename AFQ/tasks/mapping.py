@@ -1,22 +1,20 @@
-import nibabel as nib
-import numpy as np
-import os.path as op
 import logging
+import os.path as op
 
 import immlib
-from AFQ.tasks.decorators import as_file
-from AFQ.tasks.utils import with_name, str_to_desc, get_fname, get_tp
+import nibabel as nib
+import numpy as np
+from dipy.align import resample
+from dipy.io.stateful_tractogram import Space
+from dipy.io.streamline import load_tractogram
+
 import AFQ.data.fetch as afd
-from AFQ.utils.path import drop_extension, write_json
+from AFQ.definitions.image import ImageDefinition
 from AFQ.definitions.mapping import SynMap
 from AFQ.definitions.utils import Definition
-from AFQ.definitions.image import ImageDefinition
-from AFQ.utils.path import space_from_fname
-
-from dipy.io.streamline import load_tractogram
-from dipy.io.stateful_tractogram import Space
-from dipy.align import resample
-
+from AFQ.tasks.decorators import as_file
+from AFQ.tasks.utils import get_fname, get_tp, str_to_desc, with_name
+from AFQ.utils.path import drop_extension, space_from_fname, write_json
 
 logger = logging.getLogger('AFQ')
 

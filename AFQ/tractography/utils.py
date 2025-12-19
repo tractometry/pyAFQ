@@ -1,7 +1,7 @@
 import logging
+
 import dipy.tracking.utils as dtu
 import numpy as np
-
 
 logger = logging.getLogger('AFQ')
 

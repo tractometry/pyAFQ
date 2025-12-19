@@ -25,18 +25,16 @@ of the software.
 import os
 import os.path as op
 
-import AFQ.api.bundle_dict as abd
-from AFQ.api.group import GroupAFQ
-import AFQ.data.fetch as afd
-import AFQ.definitions.image as afm
-
-
 ##########################################################################
 # To interact with and query BIDS datasets, we use
 #  `pyBIDS <https://bids-standard.github.io/pybids/>`_, which we import here:
-
 import bids
 from bids.layout import BIDSLayout
+
+import AFQ.api.bundle_dict as abd
+import AFQ.data.fetch as afd
+import AFQ.definitions.image as afm
+from AFQ.api.group import GroupAFQ
 
 ##########################################################################
 # We start with some example data. The data we will use here is

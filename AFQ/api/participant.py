@@ -1,33 +1,34 @@
-import nibabel as nib
-import os.path as op
-from time import time
 import logging
-from tqdm import tqdm
-import numpy as np
-import tempfile
 import math
+import os.path as op
+import tempfile
+from time import time
 
+import nibabel as nib
+import numpy as np
 from PIL import Image, ImageDraw, ImageFont
+from tqdm import tqdm
 
-from AFQ.definitions.mapping import SlrMap
 from AFQ.api.utils import (
-    check_attribute, AFQclass_doc,
-    export_all_helper, valid_exports_string)
-
-from AFQ.tasks.structural import get_structural_plan
+    AFQclass_doc,
+    check_attribute,
+    export_all_helper,
+    kwargs_descriptors,
+    used_kwargs_exceptions,
+    valid_exports_string,
+)
+from AFQ.definitions.mapping import SlrMap
 from AFQ.tasks.data import get_data_plan
-from AFQ.tasks.tissue import get_tissue_plan
 from AFQ.tasks.mapping import get_mapping_plan
-from AFQ.tasks.tractography import get_tractography_plan
 from AFQ.tasks.segmentation import get_segmentation_plan
-from AFQ.tasks.viz import get_viz_plan
-
+from AFQ.tasks.structural import get_structural_plan
+from AFQ.tasks.tissue import get_tissue_plan
+from AFQ.tasks.tractography import get_tractography_plan
 from AFQ.tasks.utils import get_base_fname
-from AFQ.utils.path import apply_cmd_to_afq_derivs
-from AFQ.viz.utils import BEST_BUNDLE_ORIENTATIONS, trim, get_eye
-from AFQ.api.utils import kwargs_descriptors, used_kwargs_exceptions
+from AFQ.tasks.viz import get_viz_plan
 from AFQ.utils.bin import pyafq_str_to_val
-
+from AFQ.utils.path import apply_cmd_to_afq_derivs
+from AFQ.viz.utils import BEST_BUNDLE_ORIENTATIONS, get_eye, trim
 
 __all__ = ["ParticipantAFQ"]
 
@@ -149,7 +150,7 @@ class ParticipantAFQ(object):
                 self.kwargs[key] = pyafq_str_to_val(self.kwargs[key])
 
         # chain together a complete plan from individual plans
-        used_kwargs = {key: 0 for key in self.og_kwargs}
+        used_kwargs = dict.fromkeys(self.og_kwargs, 0)
         previous_plans = {}
         for name, plan in plans.items():
             plan_kwargs = {}
@@ -165,7 +166,7 @@ class ParticipantAFQ(object):
                     plan_kwargs[key] = previous_plans[key]
                 elif name not in ["data", "structural"]\
                         and key == "dwi_affine":
-                    # simplifies syntax to access comonly used dwi_affine 
+                    # simplifies syntax to access comonly used dwi_affine
                     plan_kwargs[key] = previous_plans["data_imap"][key]
                 else:
                     raise NotImplementedError(

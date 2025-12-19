@@ -1,32 +1,32 @@
+import logging
+
 import immlib
 import nibabel as nib
-import logging
 import numpy as np
-
 from dipy.align import resample
+from dipy.core.gradients import unique_bvals_tolerance
 from dipy.data import get_sphere
 from dipy.reconst.mcsd import (
     mask_for_response_msmt,
     multi_shell_fiber_response,
-    response_from_mask_msmt)
-from dipy.core.gradients import unique_bvals_tolerance
-
-from AFQ.tasks.utils import with_name
-from AFQ.tasks.decorators import as_file, as_img
-
-from AFQ.models.wmgm_interface import fit_wm_gm_interface
-from AFQ.models.msmt import MultiShellDeconvModel
-from AFQ.models.asym_filtering import (
-    unified_filtering, compute_asymmetry_index,
-    compute_odd_power_map, compute_nufid_asym)
-from AFQ.models.QBallTP import anisotropic_power
-
-from AFQ.nn.multiaxial import extract_pve
-from AFQ.nn.brainchop import pve_from_subcortex
-from AFQ.nn.synthseg import pve_from_synthseg
+    response_from_mask_msmt,
+)
 
 from AFQ.definitions.image import PVEImage, PVEImages
-
+from AFQ.models.asym_filtering import (
+    compute_asymmetry_index,
+    compute_nufid_asym,
+    compute_odd_power_map,
+    unified_filtering,
+)
+from AFQ.models.msmt import MultiShellDeconvModel
+from AFQ.models.QBallTP import anisotropic_power
+from AFQ.models.wmgm_interface import fit_wm_gm_interface
+from AFQ.nn.brainchop import pve_from_subcortex
+from AFQ.nn.multiaxial import extract_pve
+from AFQ.nn.synthseg import pve_from_synthseg
+from AFQ.tasks.decorators import as_file, as_img
+from AFQ.tasks.utils import with_name
 
 logger = logging.getLogger('AFQ')
 
@@ -359,7 +359,7 @@ def get_tissue_plan(kwargs):
         msmt_aodf_asi, msmt_aodf_opm, msmt_aodf_nufid,
         csd_aodf_nufid])
 
-    pve = kwargs.get("pve", None)        
+    pve = kwargs.get("pve", None)
     if isinstance(pve, PVEImages):
         probseg_func = pve.get_image_getter("tissue")
         tissue_tasks["csf_res"] = immlib.calc("pve_csf")(as_file(

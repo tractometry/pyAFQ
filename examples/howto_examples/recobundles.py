@@ -14,9 +14,10 @@ The code closely resembles the code used in :ref:`sphx_glr_tutorial_examples_plo
 """
 
 import os.path as op
+
+import AFQ.api.bundle_dict as abd
 import AFQ.data.fetch as afd
 from AFQ.api.group import GroupAFQ
-import AFQ.api.bundle_dict as abd
 
 afd.organize_stanford_data(clear_previous_afq="track")
 

@@ -23,6 +23,7 @@ developed called `Cloudknot <https://nrdg.github.io/cloudknot/>`_.
 # particular region, it is best to run the computation in that region as well.
 # That is because AWS charges for inter-region transfer of data.
 import cloudknot as ck
+
 ck.set_region('us-east-1')
 
 ##########################################################################
@@ -42,11 +43,12 @@ def afq_process_subject(subject):
     # define a function that each job will run
     # In this case, each process does a single subject
     import s3fs
+
     # all imports must be at the top of the function
     # cloudknot installs the appropriate packages from pip
     from s3bids.utils import S3BIDSStudy
+
     from AFQ.api.group import GroupAFQ
-    import AFQ.definitions.image as afm
 
     # Download the given subject to your local machine from s3
     # Can find subjects more easily if they are specified in a

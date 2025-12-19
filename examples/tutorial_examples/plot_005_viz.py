@@ -19,15 +19,13 @@ library [1]_ to visualize outputs of pyAFQ as publication-ready figures.
 
 import os
 import os.path as op
+
 import nibabel as nib
 import numpy as np
-
 from dipy.io.streamline import load_trk
 from dipy.tracking.streamline import transform_streamlines
-
 from fury import actor, window
 from fury.colormap import create_colormap
-
 
 import AFQ.data.fetch as afd
 from AFQ.viz.utils import PanelFigure
@@ -112,7 +110,6 @@ cst_t1w = transform_streamlines(sft_cst.streamlines,
 
 if os.environ.get("XVFB", False):
     print("Initializing XVFB")
-    import xvfbwrapper
     from xvfbwrapper import Xvfb
 
     vdisplay = Xvfb()
@@ -274,6 +271,7 @@ window.record(
 # then call `record` to create this new figure.
 
 from matplotlib.cm import tab20
+
 color_arc = tab20.colors[18]
 color_cst = tab20.colors[2]
 
@@ -323,11 +321,13 @@ window.record(
 #
 
 from dipy.tracking.streamline import set_number_of_points
+
 core_arc = np.median(np.asarray(set_number_of_points(arc_t1w, 100)), axis=0)
 core_cst = np.median(np.asarray(set_number_of_points(cst_t1w, 100)), axis=0)
 
 
 from dipy.stats.analysis import afq_profile
+
 sft_arc.to_vox()
 sft_cst.to_vox()
 arc_profile = afq_profile(fa, sft_arc.streamlines, affine=np.eye(4))
@@ -494,7 +494,7 @@ pf.add_img(op.join(out_folder, 'arc_cst1.png'), 0, 0)
 pf.add_img(op.join(out_folder, 'arc_cst2.png'), 1, 0)
 pf.add_img(op.join(out_folder, 'arc_cst3.png'), 0, 1)
 pf.add_img(op.join(out_folder, 'arc_cst5.png'), 1, 1)
-pf.format_and_save_figure(f"arc_cst_fig.png")
+pf.format_and_save_figure("arc_cst_fig.png")
 
 #############################################################################
 #

@@ -12,10 +12,12 @@ That's step 1 complete! The rest of this example is the same as the GroupAFQ
 example except with the ``tractography_ngpus`` parameter set.
 """
 
-from AFQ.api.group import GroupAFQ
-import AFQ.data.fetch as afd
 import os.path as op
+
 import plotly
+
+import AFQ.data.fetch as afd
+from AFQ.api.group import GroupAFQ
 
 ##########################################################################
 # We start with some example data. The data we will use here is

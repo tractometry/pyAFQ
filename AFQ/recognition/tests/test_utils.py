@@ -1,18 +1,16 @@
-import numpy.testing as npt
-import numpy as np
-import nibabel as nib
 import os.path as op
 
-import AFQ.data.fetch as afd
-import AFQ.recognition.curvature as abv
-import AFQ.recognition.utils as abu
-import AFQ.recognition.cleaning as abc
-import AFQ.recognition.other_bundles as abo
-
-
-from dipy.io.stateful_tractogram import StatefulTractogram, Space
 import dipy.data.fetcher as fetcher
+import nibabel as nib
+import numpy as np
+import numpy.testing as npt
+from dipy.io.stateful_tractogram import Space, StatefulTractogram
 
+import AFQ.data.fetch as afd
+import AFQ.recognition.cleaning as abc
+import AFQ.recognition.curvature as abv
+import AFQ.recognition.other_bundles as abo
+import AFQ.recognition.utils as abu
 
 hardi_dir = op.join(fetcher.dipy_home, "stanford_hardi")
 hardi_fdata = op.join(hardi_dir, "HARDI150.nii.gz")

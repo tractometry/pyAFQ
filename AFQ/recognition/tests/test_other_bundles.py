@@ -1,4 +1,5 @@
 import numpy as np
+
 import AFQ.recognition.other_bundles as abo
 
 # Example data for testing
