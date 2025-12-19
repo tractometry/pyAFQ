@@ -11,8 +11,8 @@ try:
     import IPython.display as display
     from dipy.viz import actor, ui, window
     from fury.colormap import line_colors
-except (ImportError, ModuleNotFoundError):
-    raise ImportError(vut.viz_import_msg_error("fury"))
+except (ImportError, ModuleNotFoundError) as e:
+    raise ImportError(vut.viz_import_msg_error("fury")) from e
 
 viz_logger = logging.getLogger("AFQ")
 
@@ -35,16 +35,22 @@ def _inline_interact(scene, inline, interact):
     return scene
 
 
-def visualize_bundles(seg_sft,
-                      img=None,
-                      n_points=None,
-                      bundle=None, colors=None,
-                      color_by_direction=False,
-                      opacity=1.0,
-                      line_width=2.0,
-                      flip_axes=[False, False, False],
-                      figure=None, background=(1, 1, 1), interact=False,
-                      inline=False, **kwargs):
+def visualize_bundles(
+    seg_sft,
+    img=None,
+    n_points=None,
+    bundle=None,
+    colors=None,
+    color_by_direction=False,
+    opacity=1.0,
+    line_width=2.0,
+    flip_axes=None,
+    figure=None,
+    background=(1, 1, 1),
+    interact=False,
+    inline=False,
+    **kwargs,
+):
     """
     Visualize bundles in 3D using VTK.
     Parameters not described below are extras to conform fury and plotly APIs.
@@ -101,13 +107,17 @@ def visualize_bundles(seg_sft,
     Fury Scene object
     """
 
+    if flip_axes is None:
+        flip_axes = [False, False, False]
+
     if figure is None:
         figure = window.Scene()
 
     figure.SetBackground(background[0], background[1], background[2])
 
-    for (sls, color, name, dimensions) in vut.tract_generator(
-            seg_sft, bundle, colors, n_points, img):
+    for sls, color, name, dimensions in vut.tract_generator(
+        seg_sft, bundle, colors, n_points, img
+    ):
         sls = list(sls)
         if name == "all_bundles":
             color = line_colors(sls)
@@ -137,13 +147,15 @@ def scene_rotate_forward(scene):
     return scene
 
 
-def create_gif(figure,
-               file_name,
-               n_frames=60,
-               zoom=1,
-               z_offset=0.5,
-               size=(600, 600),
-               rotate_forward=True):
+def create_gif(
+    figure,
+    file_name,
+    n_frames=60,
+    zoom=1,
+    z_offset=0.5,
+    size=(600, 600),
+    rotate_forward=True,
+):
     """
     Convert a Fury Scene object into a gif
 
@@ -177,20 +189,34 @@ def create_gif(figure,
         figure = scene_rotate_forward(figure)
 
     tdir = tempfile.gettempdir()
-    window.record(figure, az_ang=360.0 / n_frames, n_frames=n_frames,
-                  path_numbering=True, out_path=tdir + '/tgif',
-                  magnification=zoom,
-                  size=size)
+    window.record(
+        figure,
+        az_ang=360.0 / n_frames,
+        n_frames=n_frames,
+        path_numbering=True,
+        out_path=tdir + "/tgif",
+        magnification=zoom,
+        size=size,
+    )
 
-    vut.gif_from_pngs(tdir, file_name, n_frames,
-                      png_fname="tgif", add_zeros=True)
+    vut.gif_from_pngs(tdir, file_name, n_frames, png_fname="tgif", add_zeros=True)
 
 
-def visualize_roi(roi, affine_or_mapping=None, static_img=None,
-                  roi_affine=None, static_affine=None, reg_template=None,
-                  name='ROI', figure=None, color=np.array([1, 0, 0]),
-                  flip_axes=None,
-                  opacity=1.0, inline=False, interact=False):
+def visualize_roi(
+    roi,
+    affine_or_mapping=None,
+    static_img=None,
+    roi_affine=None,
+    static_affine=None,
+    reg_template=None,
+    name="ROI",
+    figure=None,
+    color=None,
+    flip_axes=None,
+    opacity=1.0,
+    inline=False,
+    interact=False,
+):
     """
     Render a region of interest into a VTK viz as a volume
 
@@ -248,8 +274,11 @@ def visualize_roi(roi, affine_or_mapping=None, static_img=None,
     -------
     Fury Scene object
     """
-    roi = vut.prepare_roi(roi, affine_or_mapping, static_img,
-                          roi_affine, static_affine, reg_template)
+    if color is None:
+        color = np.array([1, 0, 0])
+    roi = vut.prepare_roi(
+        roi, affine_or_mapping, static_img, roi_affine, static_affine, reg_template
+    )
     for i, flip in enumerate(flip_axes):
         if flip:
             roi = np.flip(roi, axis=i)
@@ -262,9 +291,17 @@ def visualize_roi(roi, affine_or_mapping=None, static_img=None,
     return _inline_interact(figure, inline, interact)
 
 
-def visualize_volume(volume, x=None, y=None, z=None, figure=None,
-                     flip_axes=None,
-                     opacity=0.6, inline=True, interact=False):
+def visualize_volume(
+    volume,
+    x=None,
+    y=None,
+    z=None,
+    figure=None,
+    flip_axes=None,
+    opacity=0.6,
+    inline=True,
+    interact=False,
+):
     """
     Visualize a volume
 
@@ -309,23 +346,13 @@ def visualize_volume(volume, x=None, y=None, z=None, figure=None,
     image_actor_x = image_actor_z.copy()
     if x is None:
         x = int(np.round(shape[0] / 2))
-    image_actor_x.display_extent(x,
-                                 x,
-                                 0,
-                                 shape[1] - 1,
-                                 0,
-                                 shape[2] - 1)
+    image_actor_x.display_extent(x, x, 0, shape[1] - 1, 0, shape[2] - 1)
 
     image_actor_y = image_actor_z.copy()
 
     if y is None:
         y = int(np.round(shape[1] / 2))
-    image_actor_y.display_extent(0,
-                                 shape[0] - 1,
-                                 y,
-                                 y,
-                                 0,
-                                 shape[2] - 1)
+    image_actor_y.display_extent(0, shape[0] - 1, y, y, 0, shape[2] - 1)
 
     figure.add(image_actor_z)
     figure.add(image_actor_x)
@@ -335,43 +362,45 @@ def visualize_volume(volume, x=None, y=None, z=None, figure=None,
     show_m.initialize()
 
     if interact:
-        line_slider_z = ui.LineSlider2D(min_value=0,
-                                        max_value=shape[2] - 1,
-                                        initial_value=shape[2] / 2,
-                                        text_template="{value:.0f}",
-                                        length=140)
+        line_slider_z = ui.LineSlider2D(
+            min_value=0,
+            max_value=shape[2] - 1,
+            initial_value=shape[2] / 2,
+            text_template="{value:.0f}",
+            length=140,
+        )
 
-        line_slider_x = ui.LineSlider2D(min_value=0,
-                                        max_value=shape[0] - 1,
-                                        initial_value=shape[0] / 2,
-                                        text_template="{value:.0f}",
-                                        length=140)
+        line_slider_x = ui.LineSlider2D(
+            min_value=0,
+            max_value=shape[0] - 1,
+            initial_value=shape[0] / 2,
+            text_template="{value:.0f}",
+            length=140,
+        )
 
-        line_slider_y = ui.LineSlider2D(min_value=0,
-                                        max_value=shape[1] - 1,
-                                        initial_value=shape[1] / 2,
-                                        text_template="{value:.0f}",
-                                        length=140)
+        line_slider_y = ui.LineSlider2D(
+            min_value=0,
+            max_value=shape[1] - 1,
+            initial_value=shape[1] / 2,
+            text_template="{value:.0f}",
+            length=140,
+        )
 
-        opacity_slider = ui.LineSlider2D(min_value=0.0,
-                                         max_value=1.0,
-                                         initial_value=slicer_opacity,
-                                         length=140)
+        opacity_slider = ui.LineSlider2D(
+            min_value=0.0, max_value=1.0, initial_value=slicer_opacity, length=140
+        )
 
         def change_slice_z(slider):
             z = int(np.round(slider.value))
-            image_actor_z.display_extent(
-                0, shape[0] - 1, 0, shape[1] - 1, z, z)
+            image_actor_z.display_extent(0, shape[0] - 1, 0, shape[1] - 1, z, z)
 
         def change_slice_x(slider):
             x = int(np.round(slider.value))
-            image_actor_x.display_extent(
-                x, x, 0, shape[1] - 1, 0, shape[2] - 1)
+            image_actor_x.display_extent(x, x, 0, shape[1] - 1, 0, shape[2] - 1)
 
         def change_slice_y(slider):
             y = int(np.round(slider.value))
-            image_actor_y.display_extent(
-                0, shape[0] - 1, y, y, 0, shape[2] - 1)
+            image_actor_y.display_extent(0, shape[0] - 1, y, y, 0, shape[2] - 1)
 
         def change_opacity(slider):
             slicer_opacity = slider.value
@@ -388,8 +417,8 @@ def visualize_volume(volume, x=None, y=None, z=None, figure=None,
             label = ui.TextBlock2D()
             label.message = text
             label.font_size = 18
-            label.font_family = 'Arial'
-            label.justification = 'left'
+            label.font_family = "Arial"
+            label.justification = "left"
             label.bold = False
             label.italic = False
             label.shadow = False
@@ -403,10 +432,7 @@ def visualize_volume(volume, x=None, y=None, z=None, figure=None,
         line_slider_label_y = build_label(text="Y Slice")
         opacity_slider_label = build_label(text="Opacity")
 
-        panel = ui.Panel2D(size=(300, 200),
-                           color=(1, 1, 1),
-                           opacity=0.1,
-                           align="right")
+        panel = ui.Panel2D(size=(300, 200), color=(1, 1, 1), opacity=0.1, align="right")
         panel.center = (1030, 120)
 
         panel.add_element(line_slider_label_x, (0.1, 0.75))
@@ -444,26 +470,34 @@ def visualize_volume(volume, x=None, y=None, z=None, figure=None,
     return _inline_interact(figure, inline, interact)
 
 
-def _draw_core(sls, n_points, figure, bundle_name, indiv_profile,
-               labelled_points, dimensions, flip_axes):
+def _draw_core(
+    sls,
+    n_points,
+    figure,
+    bundle_name,
+    indiv_profile,
+    labelled_points,
+    dimensions,
+    flip_axes,
+):
     fgarray = np.asarray(set_number_of_points(sls, n_points))
     fgarray = np.median(fgarray, axis=0)
 
-    colormap = np.asarray([
-        [0.265625, 0.00390625, 0.328125],
-        [0.28125, 0.15625, 0.46875],
-        [0.2421875, 0.28515625, 0.53515625],
-        [0.19140625, 0.40625, 0.5546875],
-        [0.1484375, 0.5078125, 0.5546875],
-        [0.12109375, 0.6171875, 0.53515625],
-        [0.20703125, 0.71484375, 0.47265625],
-        [0.4296875, 0.8046875, 0.34375],
-        [0.70703125, 0.8671875, 0.16796875],
-        [0.98828125, 0.90234375, 0.14453125]])
-    xp = np.linspace(
-        np.min(indiv_profile),
-        np.max(indiv_profile),
-        num=len(colormap))
+    colormap = np.asarray(
+        [
+            [0.265625, 0.00390625, 0.328125],
+            [0.28125, 0.15625, 0.46875],
+            [0.2421875, 0.28515625, 0.53515625],
+            [0.19140625, 0.40625, 0.5546875],
+            [0.1484375, 0.5078125, 0.5546875],
+            [0.12109375, 0.6171875, 0.53515625],
+            [0.20703125, 0.71484375, 0.47265625],
+            [0.4296875, 0.8046875, 0.34375],
+            [0.70703125, 0.8671875, 0.16796875],
+            [0.98828125, 0.90234375, 0.14453125],
+        ]
+    )
+    xp = np.linspace(np.min(indiv_profile), np.max(indiv_profile), num=len(colormap))
     line_color = np.ones((n_points, 3))
     for i in range(3):
         line_color[:, i] = np.interp(indiv_profile, xp, colormap[:, i])
@@ -498,13 +532,17 @@ def _draw_core(sls, n_points, figure, bundle_name, indiv_profile,
     return line_color_untouched
 
 
-def single_bundle_viz(indiv_profile, seg_sft,
-                      bundle, scalar_name,
-                      img=None,
-                      flip_axes=[False, False, False],
-                      labelled_nodes=[0, -1],
-                      figure=None,
-                      include_profile=False):
+def single_bundle_viz(
+    indiv_profile,
+    seg_sft,
+    bundle,
+    scalar_name,
+    img=None,
+    flip_axes=None,
+    labelled_nodes=None,
+    figure=None,
+    include_profile=False,
+):
     """
     Visualize a single bundle in 3D with core bundle and associated profile
 
@@ -549,16 +587,28 @@ def single_bundle_viz(indiv_profile, seg_sft,
     -------
     Fury Figure object
     """
+    if labelled_nodes is None:
+        labelled_nodes = [0, -1]
+    if flip_axes is None:
+        flip_axes = [False, False, False]
     if figure is None:
         figure = window.Scene()
         figure.SetBackground(1, 1, 1)
 
     n_points = len(indiv_profile)
-    sls, _, bundle_name, dimensions = next(vut.tract_generator(
-        seg_sft, bundle, None, n_points, img))
+    sls, _, bundle_name, dimensions = next(
+        vut.tract_generator(seg_sft, bundle, None, n_points, img)
+    )
 
     _draw_core(
-        sls, n_points, figure, bundle_name, indiv_profile,
-        labelled_nodes, dimensions, flip_axes)
+        sls,
+        n_points,
+        figure,
+        bundle_name,
+        indiv_profile,
+        labelled_nodes,
+        dimensions,
+        flip_axes,
+    )
 
     return figure
