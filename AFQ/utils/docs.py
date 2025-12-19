@@ -10,16 +10,16 @@ class PNGScraper(object):
         self.seen = set()
 
     def __repr__(self):
-        return 'PNGScraper'
+        return "PNGScraper"
 
     def __call__(self, block, block_vars, gallery_conf):
         # Find all PNG files in the directory of this example.
-        path_current_example = os.path.dirname(block_vars['src_file'])
-        pngs = sorted(glob(os.path.join(path_current_example, '*.png')))
+        path_current_example = os.path.dirname(block_vars["src_file"])
+        pngs = sorted(glob(os.path.join(path_current_example, "*.png")))
 
         # Iterate through PNGs, copy them to the sphinx-gallery output directory
-        image_names = list()
-        image_path_iterator = block_vars['image_path_iterator']
+        image_names = []
+        image_path_iterator = block_vars["image_path_iterator"]
         for png in pngs:
             if png not in self.seen:
                 self.seen |= set(png)
@@ -27,7 +27,7 @@ class PNGScraper(object):
                 image_names.append(this_image_path)
                 shutil.move(png, this_image_path)
         # Use the `figure_rst` helper function to generate rST for image files
-        return figure_rst(image_names, gallery_conf['src_dir'])
+        return figure_rst(image_names, gallery_conf["src_dir"])
 
 
 class GIFScraper(object):
@@ -35,16 +35,16 @@ class GIFScraper(object):
         self.seen = set()
 
     def __repr__(self):
-        return 'GIFScraper'
+        return "GIFScraper"
 
     def __call__(self, block, block_vars, gallery_conf):
         # Find all GIF files in the directory of this example.
-        path_current_example = os.path.dirname(block_vars['src_file'])
-        gifs = sorted(glob(os.path.join(path_current_example, '*.gif')))
+        path_current_example = os.path.dirname(block_vars["src_file"])
+        gifs = sorted(glob(os.path.join(path_current_example, "*.gif")))
 
         # Iterate through GIFs, copy them to the sphinx-gallery output directory
-        image_names = list()
-        image_path_iterator = block_vars['image_path_iterator']
+        image_names = []
+        image_path_iterator = block_vars["image_path_iterator"]
         for gif in gifs:
             if gif not in self.seen:
                 self.seen |= set(gif)
@@ -52,4 +52,4 @@ class GIFScraper(object):
                 image_names.append(this_image_path)
                 shutil.move(gif, this_image_path)
         # Use the `figure_rst` helper function to generate rST for image files
-        return figure_rst(image_names, gallery_conf['src_dir'])
+        return figure_rst(image_names, gallery_conf["src_dir"])
