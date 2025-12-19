@@ -14,7 +14,7 @@ from AFQ.tasks.utils import get_fname, get_tp, str_to_desc, with_name
 from AFQ.utils.path import drop_extension, write_json
 from AFQ.viz.utils import Viz
 
-logger = logging.getLogger('AFQ')
+logger = logging.getLogger("AFQ")
 
 
 def _viz_prepare_vol(vol, xform, mapping, scalar_dict, ref):
@@ -34,19 +34,21 @@ def _viz_prepare_vol(vol, xform, mapping, scalar_dict, ref):
 
 
 @immlib.calc("all_bundles_figure")
-def viz_bundles(base_fname,
-                viz_backend,
-                structural_imap,
-                data_imap,
-                tissue_imap,
-                mapping_imap,
-                segmentation_imap,
-                best_scalar,
-                sbv_lims_bundles=[None, None],
-                volume_opacity_bundles=0.5,
-                n_points_bundles=40):
+def viz_bundles(
+    base_fname,
+    viz_backend,
+    structural_imap,
+    data_imap,
+    tissue_imap,
+    mapping_imap,
+    segmentation_imap,
+    best_scalar,
+    sbv_lims_bundles=None,
+    volume_opacity_bundles=0.5,
+    n_points_bundles=40,
+):
     """
-    figure for the visualizaion of the recognized
+    figure for the visualization of the recognized
     bundles in the subject's brain.
 
     Parameters
@@ -73,28 +75,25 @@ def viz_bundles(base_fname,
     path to the file.
     Otherwise, returns the figure.
     """
+    sbv_lims_bundles = [None, None] if sbv_lims_bundles is None else sbv_lims_bundles
     mapping = mapping_imap["mapping"]
     scalar_dict = segmentation_imap["scalar_dict"]
     profiles_file = segmentation_imap["profiles"]
     t1_img = nib.load(structural_imap["t1_masked"])
-    t1_affine = nib.load(structural_imap["t1_masked"]).affine
-    shade_by_volume = get_tp(
-        best_scalar,
-        structural_imap,
-        data_imap,
-        tissue_imap)
+    shade_by_volume = get_tp(best_scalar, structural_imap, data_imap, tissue_imap)
     shade_by_volume = _viz_prepare_vol(
-        shade_by_volume, False, mapping, scalar_dict, t1_img)
+        shade_by_volume, False, mapping, scalar_dict, t1_img
+    )
     volume = _viz_prepare_vol(t1_img, False, mapping, scalar_dict, t1_img)
 
     flip_axes = [False, False, False]
     for i in range(3):
-        flip_axes[i] = (t1_img.affine[i, i] < 0)
+        flip_axes[i] = t1_img.affine[i, i] < 0
 
     if "plotly" in viz_backend.backend:
         figure = make_subplots(
-            rows=1, cols=2,
-            specs=[[{"type": "scene"}, {"type": "scene"}]])
+            rows=1, cols=2, specs=[[{"type": "scene"}, {"type": "scene"}]]
+        )
     else:
         figure = None
 
@@ -104,7 +103,8 @@ def viz_bundles(base_fname,
         flip_axes=flip_axes,
         interact=False,
         inline=False,
-        figure=figure)
+        figure=figure,
+    )
 
     figure = viz_backend.visualize_bundles(
         segmentation_imap["bundles"],
@@ -116,20 +116,19 @@ def viz_bundles(base_fname,
         flip_axes=flip_axes,
         interact=False,
         inline=False,
-        figure=figure)
+        figure=figure,
+    )
 
     fname = None
     if "no_gif" not in viz_backend.backend:
-        fname = get_fname(
-            base_fname, '.gif', "..")
+        fname = get_fname(base_fname, ".gif", "..")
 
         try:
             viz_backend.create_gif(figure, fname)
-        except:
-            logger.warning(f"Failed to write GIF file: {fname}")
+        except Exception as e:
+            logger.warning(f"Failed to write GIF file: {fname}\n{e}")
     if "plotly" in viz_backend.backend:
-        fname = get_fname(
-            base_fname, '.html', "..")
+        fname = get_fname(base_fname, ".html", "..")
 
         try:
             figure.write_html(fname)
@@ -142,21 +141,23 @@ def viz_bundles(base_fname,
 
 
 @immlib.calc("indiv_bundles_figures")
-def viz_indivBundle(base_fname,
-                    output_dir,
-                    viz_backend,
-                    structural_imap,
-                    data_imap,
-                    tissue_imap,
-                    mapping_imap,
-                    segmentation_imap,
-                    best_scalar,
-                    sbv_lims_indiv=[None, None],
-                    volume_opacity_indiv=0.5,
-                    n_points_indiv=40):
+def viz_indivBundle(
+    base_fname,
+    output_dir,
+    viz_backend,
+    structural_imap,
+    data_imap,
+    tissue_imap,
+    mapping_imap,
+    segmentation_imap,
+    best_scalar,
+    sbv_lims_indiv=None,
+    volume_opacity_indiv=0.5,
+    n_points_indiv=40,
+):
     """
     list of full paths to html or gif files
-    containing visualizaions of individual bundles
+    containing visualizations of individual bundles
 
     Parameters
     ----------
@@ -175,30 +176,25 @@ def viz_indivBundle(base_fname,
         resampling is done.
         Default: 40
     """
+    sbv_lims_indiv = [None, None] if sbv_lims_indiv is None else sbv_lims_indiv
     mapping = mapping_imap["mapping"]
     bundle_dict = data_imap["bundle_dict"]
     scalar_dict = segmentation_imap["scalar_dict"]
     volume_img = nib.load(structural_imap["t1_masked"])
-    t1_affine = nib.load(structural_imap["t1_masked"]).affine
-    shade_by_volume = get_tp(
-        best_scalar,
-        structural_imap,
-        data_imap,
-        tissue_imap)
+    shade_by_volume = get_tp(best_scalar, structural_imap, data_imap, tissue_imap)
     profiles = pd.read_csv(segmentation_imap["profiles"])
 
     start_time = time()
-    volume = _viz_prepare_vol(
-        volume_img, False, mapping, scalar_dict, volume_img)
+    volume = _viz_prepare_vol(volume_img, False, mapping, scalar_dict, volume_img)
     shade_by_volume = _viz_prepare_vol(
-        shade_by_volume, False, mapping, scalar_dict, volume_img)
+        shade_by_volume, False, mapping, scalar_dict, volume_img
+    )
 
     flip_axes = [False, False, False]
     for i in range(3):
-        flip_axes[i] = (volume_img.affine[i, i] < 0)
+        flip_axes[i] = volume_img.affine[i, i] < 0
 
-    bundles = aus.SegmentedSFT.fromfile(
-        segmentation_imap["bundles"])
+    bundles = aus.SegmentedSFT.fromfile(segmentation_imap["bundles"])
 
     # This dictionary contains a mapping to which ROIs
     # should be used from the bundle dict, based on the
@@ -223,7 +219,8 @@ def viz_indivBundle(base_fname,
             opacity=volume_opacity_indiv,
             flip_axes=flip_axes,
             interact=False,
-            inline=False)
+            inline=False,
+        )
         if len(bundles.get_bundle(bundle_name)) > 0:
             figure = viz_backend.visualize_bundles(
                 bundles,
@@ -235,11 +232,10 @@ def viz_indivBundle(base_fname,
                 flip_axes=flip_axes,
                 interact=False,
                 inline=False,
-                figure=figure)
+                figure=figure,
+            )
         else:
-            logger.info(
-                "No streamlines found to visualize for "
-                + bundle_name)
+            logger.info("No streamlines found to visualize for " + bundle_name)
 
         for roi_fname in mapping_imap["rois"][roi_bname]:
             name = roi_fname.split("desc-")[1].split("_")[0]
@@ -253,60 +249,63 @@ def viz_indivBundle(base_fname,
                 flip_axes=flip_axes,
                 inline=False,
                 interact=False,
-                figure=figure)
+                figure=figure,
+            )
 
         base_fname = op.join(output_dir, op.split(base_fname)[1])
         figures[bundle_name] = figure
         if "no_gif" not in viz_backend.backend:
             fname = get_fname(
                 base_fname,
-                f'_desc-{str_to_desc(bundle_name)}'
-                f'_tractography.gif',
-                "viz_bundles")
+                f"_desc-{str_to_desc(bundle_name)}_tractography.gif",
+                "viz_bundles",
+            )
 
             try:
                 viz_backend.create_gif(figure, fname)
-            except:
+            except Exception as e:
                 if not failed_write:
-                    logger.warning((
-                        "Failed to write individual "
-                        "visualization files"))
+                    logger.warning(
+                        f"Failed to write individual visualization files: {e}"
+                    )
                     failed_write = True
         if "plotly" in viz_backend.backend:
             fname = get_fname(
                 base_fname,
-                f'_desc-{str_to_desc(bundle_name)}'
-                f'_tractography.html',
-                "viz_bundles")
+                f"_desc-{str_to_desc(bundle_name)}_tractography.html",
+                "viz_bundles",
+            )
 
             try:
                 figure.write_html(fname)
-            except:
+            except Exception as e:
                 if not failed_write:
-                    logger.warning((
-                        "Failed to write individual "
-                        "visualization files"))
+                    logger.warning(
+                        f"Failed to write individual visualization files: {e}"
+                    )
                     failed_write = True
 
             # also do the core visualizations when using the plotly backend
-            indiv_profile = profiles[
-                profiles.tractID == bundle_name][best_scalar].to_numpy()
+            indiv_profile = profiles[profiles.tractID == bundle_name][
+                best_scalar
+            ].to_numpy()
             if len(indiv_profile) > 1:
                 fname = get_fname(
                     base_fname,
-                    f'_desc-{str_to_desc(bundle_name)}Core'
-                    f'_tractography.html',
-                    "viz_core_bundles")
+                    f"_desc-{str_to_desc(bundle_name)}Core_tractography.html",
+                    "viz_core_bundles",
+                )
                 core_fig = make_subplots(
-                    rows=1, cols=2,
-                    specs=[[{"type": "scene"}, {"type": "scene"}]])
+                    rows=1, cols=2, specs=[[{"type": "scene"}, {"type": "scene"}]]
+                )
                 core_fig = viz_backend.visualize_volume(
                     volume,
                     opacity=volume_opacity_indiv,
                     flip_axes=flip_axes,
                     figure=core_fig,
                     interact=False,
-                    inline=False)
+                    inline=False,
+                )
                 core_fig = viz_backend.visualize_bundles(
                     segmentation_imap["bundles"],
                     img=volume_img,
@@ -318,7 +317,8 @@ def viz_indivBundle(base_fname,
                     flip_axes=flip_axes,
                     interact=False,
                     inline=False,
-                    figure=core_fig)
+                    figure=core_fig,
+                )
                 core_fig = viz_backend.single_bundle_viz(
                     indiv_profile,
                     segmentation_imap["bundles"],
@@ -327,18 +327,19 @@ def viz_indivBundle(base_fname,
                     img=volume_img,
                     flip_axes=flip_axes,
                     figure=core_fig,
-                    include_profile=True)
+                    include_profile=True,
+                )
                 try:
                     core_fig.write_html(fname)
-                except:
+                except Exception as e:
                     if not failed_write:
-                        logger.warning((
-                            "Failed to write individual "
-                            "visualization files"))
+                        logger.warning(
+                            f"Failed to write individual visualization files: {e}"
+                        )
                         failed_write = True
     if not failed_write:
-        meta_fname = drop_extension(fname) + '.json'
-        meta = dict(Timing=time() - start_time)
+        meta_fname = drop_extension(fname) + ".json"
+        meta = {"Timing": time() - start_time}
         write_json(meta_fname, meta)
     return {"indiv_bundles_figures": figures}
 
@@ -350,6 +351,7 @@ def plot_tract_profiles(base_fname, output_dir, scalars, segmentation_imap):
     where files contain plots of the tract profiles
     """
     from AFQ.viz.plot import visualize_tract_profiles
+
     start_time = time()
     fnames = []
     base_fname = op.join(output_dir, op.split(base_fname)[1])
@@ -357,33 +359,34 @@ def plot_tract_profiles(base_fname, output_dir, scalars, segmentation_imap):
         this_scalar = scalar if isinstance(scalar, str) else scalar.get_name()
         fname = get_fname(
             base_fname,
-            f'_param-{str_to_desc(this_scalar)}_desc-alltracts_tractography',
-            'tract_profile_plots')
+            f"_param-{str_to_desc(this_scalar)}_desc-alltracts_tractography",
+            "tract_profile_plots",
+        )
 
         if not op.exists(fname):
             visualize_tract_profiles(
                 segmentation_imap["profiles"],
                 scalar=this_scalar,
                 file_name=fname,
-                n_boot=100)
+                n_boot=100,
+            )
             fnames.append(fname)
 
-            meta_fname = drop_extension(fname) + '.json'
-            meta = dict(Timing=time() - start_time)
+            meta_fname = drop_extension(fname) + ".json"
+            meta = {"Timing": time() - start_time}
             write_json(meta_fname, meta)
     return fnames
 
 
 @immlib.calc("viz_backend")
-def init_viz_backend(viz_backend_spec="plotly_no_gif",
-                     virtual_frame_buffer=False):
+def init_viz_backend(viz_backend_spec="plotly_no_gif", virtual_frame_buffer=False):
     """
     An instance of the `AFQ.viz.utils.viz_backend` class.
 
     Parameters
     ----------
     virtual_frame_buffer : bool, optional
-        Whether to use a virtual frame buffer. This is neccessary if
+        Whether to use a virtual frame buffer. This is necessary if
         generating GIFs in a headless environment.
         Default: False
     viz_backend_spec : str, optional
@@ -395,13 +398,12 @@ def init_viz_backend(viz_backend_spec="plotly_no_gif",
     """
     if not isinstance(virtual_frame_buffer, bool):
         raise TypeError("virtual_frame_buffer must be a bool")
-    if "fury" not in viz_backend_spec\
-            and "plotly" not in viz_backend_spec:
-        raise TypeError(
-            "viz_backend_spec must contain either 'fury' or 'plotly'")
+    if "fury" not in viz_backend_spec and "plotly" not in viz_backend_spec:
+        raise TypeError("viz_backend_spec must contain either 'fury' or 'plotly'")
 
     if virtual_frame_buffer:
         from xvfbwrapper import Xvfb
+
         vdisplay = Xvfb(width=1280, height=1280)
         vdisplay.start()
 
@@ -409,6 +411,7 @@ def init_viz_backend(viz_backend_spec="plotly_no_gif",
 
 
 def get_viz_plan(kwargs):
-    viz_tasks = with_name([
-        plot_tract_profiles, viz_bundles, viz_indivBundle, init_viz_backend])
+    viz_tasks = with_name(
+        [plot_tract_profiles, viz_bundles, viz_indivBundle, init_viz_backend]
+    )
     return immlib.plan(**viz_tasks)
