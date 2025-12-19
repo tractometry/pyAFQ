@@ -151,6 +151,8 @@ class GroupAFQ(object):
             raise ValueError(
                 "There must be a dataset_description.json" + " in bids_path"
             )
+        if bids_filters is None:
+            bids_filters = {"suffix": "dwi"}
         if not isinstance(bids_filters, dict):
             raise TypeError("bids_filters must be a dict")
         # dwi_preproc_pipeline typechecking handled by pyBIDS
@@ -165,8 +167,6 @@ class GroupAFQ(object):
         if not isinstance(bids_layout_kwargs, dict):
             raise TypeError("bids_layout_kwargs must be a dict")
 
-        if bids_filters is None:
-            bids_filters = {"suffix": "dwi"}
         if parallel_params is None:
             parallel_params = {"engine": "serial"}
         if bids_layout_kwargs is None:
