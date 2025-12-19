@@ -17,11 +17,11 @@ def extract_odf(odf, sphere=default_sphere, sh_order_max=8):
     ISO = odf_norm.min(axis=-1)
 
     _, invB = sh_to_sf_matrix(
-        sphere, sh_order_max=sh_order_max, basis_type=None, return_inv=True)
-    shm = blas.dgemm(
-        alpha=1.,
-        a=odf.reshape(-1, invB.shape[0]), b=invB).reshape(
-        (*odf.shape[:-1], invB.shape[1]))
+        sphere, sh_order_max=sh_order_max, basis_type=None, return_inv=True
+    )
+    shm = blas.dgemm(alpha=1.0, a=odf.reshape(-1, invB.shape[0]), b=invB).reshape(
+        (*odf.shape[:-1], invB.shape[1])
+    )
 
     return shm, ASO, ISO
 
@@ -60,9 +60,9 @@ def anisotropic_index(shm):
     .. [1] Jespersen, Sune N., et al. "Modeling dendrite density from
         magnetic resonance diffusion measurements." Neuroimage 34.4 (2007):
         1473-1486.
-    """
+    """  # noqa: E501
     sh_0 = shm[..., 0] ** 2
-    sh_sum_squared = np.sum(shm ** 2, axis=-1)
+    sh_sum_squared = np.sum(shm**2, axis=-1)
     AI = np.zeros_like(sh_0)
     AI = np.sqrt(1 - sh_0 / sh_sum_squared)
     return AI
