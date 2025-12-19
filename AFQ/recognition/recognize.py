@@ -11,32 +11,30 @@ from AFQ.api.bundle_dict import BundleDict
 from AFQ.recognition.criteria import run_bundle_rec_plan
 from AFQ.recognition.preprocess import get_preproc_plan
 
-logger = logging.getLogger('AFQ')
+logger = logging.getLogger("AFQ")
 
 
 def recognize(
-        tg,
-        img,
-        mapping,
-        bundle_dict,
-        reg_template,
-        n_cpus,
-        nb_points=False,
-        nb_streamlines=False,
-        clip_edges=False,
-        rb_recognize_params=dict(
-            model_clust_thr=1.25,
-            reduction_thr=50,
-            pruning_thr=12),
-        refine_reco=False,
-        prob_threshold=0,
-        dist_to_waypoint=None,
-        rng=None,
-        return_idx=False,
-        filter_by_endpoints=True,
-        dist_to_atlas=4,
-        save_intermediates=None,
-        cleaning_params={}):
+    tg,
+    img,
+    mapping,
+    bundle_dict,
+    reg_template,
+    n_cpus,
+    nb_points=False,
+    nb_streamlines=False,
+    clip_edges=False,
+    rb_recognize_params=None,
+    refine_reco=False,
+    prob_threshold=0,
+    dist_to_waypoint=None,
+    rng=None,
+    return_idx=False,
+    filter_by_endpoints=True,
+    dist_to_atlas=4,
+    save_intermediates=None,
+    cleaning_params=None,
+):
     """
     Segment streamlines into bundles.
 
@@ -65,7 +63,10 @@ def recognize(
         Default: False
     rb_recognize_params : dict
         RecoBundles parameters for the recognize function.
-        Default: dict(model_clust_thr=1.25, reduction_thr=25, pruning_thr=12)
+        Default::
+            {"model_clust_thr":1.25,
+            "reduction_thr": 50,
+            "pruning_thr": 12}
     refine_reco : bool
         Whether to refine the RecoBundles segmentation.
         Default: False
@@ -110,7 +111,7 @@ def recognize(
     cleaning_params : dict, optional
         Cleaning params to pass to seg.clean_bundle. This will
         override the default parameters of that method. However, this
-        can be overriden by setting the cleaning parameters in the
+        can be overridden by setting the cleaning parameters in the
         bundle_dict. Default: {}.
 
     References
@@ -129,13 +130,20 @@ def recognize(
         bundles using local and global streamline-based registration and
         clustering, Neuroimage, 2017.
     """
+    if rb_recognize_params is None:
+        rb_recognize_params = {
+            "model_clust_thr": 1.25,
+            "reduction_thr": 50,
+            "pruning_thr": 12,
+        }
+    if cleaning_params is None:
+        cleaning_params = {}
     if rng is None:
         rng = np.random.RandomState()
     elif isinstance(rng, int):
         rng = np.random.RandomState(rng)
 
-    if (save_intermediates is not None) and \
-            (not op.exists(save_intermediates)):
+    if (save_intermediates is not None) and (not op.exists(save_intermediates)):
         os.makedirs(save_intermediates, exist_ok=True)
 
     logger.info("Preprocessing Streamlines")
@@ -144,26 +152,19 @@ def recognize(
     # If resampling over-write the sft:
     if nb_points:
         tg = StatefulTractogram(
-            dps.set_number_of_points(tg.streamlines, nb_points),
-            tg, tg.space)
+            dps.set_number_of_points(tg.streamlines, nb_points), tg, tg.space
+        )
 
     if not isinstance(bundle_dict, BundleDict):
         bundle_dict = BundleDict(bundle_dict)
 
     tg.to_vox()
     n_streamlines = len(tg)
-    bundle_decisions = np.zeros(
-        (n_streamlines, len(bundle_dict)),
-        dtype=np.bool_)
-    bundle_to_flip = np.zeros(
-        (n_streamlines, len(bundle_dict)),
-        dtype=np.bool_)
+    bundle_decisions = np.zeros((n_streamlines, len(bundle_dict)), dtype=np.bool_)
+    bundle_to_flip = np.zeros((n_streamlines, len(bundle_dict)), dtype=np.bool_)
     bundle_roi_closest = -np.ones(
-        (
-            n_streamlines,
-            len(bundle_dict),
-            bundle_dict.max_includes),
-        dtype=np.uint32)
+        (n_streamlines, len(bundle_dict), bundle_dict.max_includes), dtype=np.uint32
+    )
 
     fiber_groups = {}
     meta = {}
@@ -171,12 +172,19 @@ def recognize(
     preproc_imap = get_preproc_plan(img, tg, dist_to_waypoint, dist_to_atlas)
 
     logger.info("Assigning Streamlines to Bundles")
-    for bundle_idx, bundle_name in enumerate(
-            bundle_dict.bundle_names):
+    for bundle_idx, bundle_name in enumerate(bundle_dict.bundle_names):
         logger.info(f"Finding Streamlines for {bundle_name}")
         run_bundle_rec_plan(
-            bundle_dict, tg, mapping, img, reg_template, preproc_imap,
-            bundle_name, bundle_idx, bundle_to_flip, bundle_roi_closest,
+            bundle_dict,
+            tg,
+            mapping,
+            img,
+            reg_template,
+            preproc_imap,
+            bundle_name,
+            bundle_idx,
+            bundle_to_flip,
+            bundle_roi_closest,
             bundle_decisions,
             clip_edges=clip_edges,
             n_cpus=n_cpus,
@@ -187,24 +195,28 @@ def recognize(
             return_idx=return_idx,
             filter_by_endpoints=filter_by_endpoints,
             save_intermediates=save_intermediates,
-            cleaning_params=cleaning_params)
+            cleaning_params=cleaning_params,
+        )
 
     if save_intermediates is not None:
         os.makedirs(save_intermediates, exist_ok=True)
-        bc_path = op.join(save_intermediates,
-                          "sls_bundle_decisions.npy")
+        bc_path = op.join(save_intermediates, "sls_bundle_decisions.npy")
         np.save(bc_path, bundle_decisions)
 
     conflicts = np.sum(np.sum(bundle_decisions, axis=1) > 1)
     if conflicts > 0:
-        logger.warning((
-            "Conflicts in bundle assignment detected. "
-            f"{conflicts} conflicts detected in total out of "
-            f"{n_streamlines} total streamlines. "
-            "Defaulting to whichever bundle appears first "
-            "in the bundle_dict."))
-    bundle_decisions = np.concatenate((
-        bundle_decisions, np.ones((n_streamlines, 1))), axis=1)
+        logger.warning(
+            (
+                "Conflicts in bundle assignment detected. "
+                f"{conflicts} conflicts detected in total out of "
+                f"{n_streamlines} total streamlines. "
+                "Defaulting to whichever bundle appears first "
+                "in the bundle_dict."
+            )
+        )
+    bundle_decisions = np.concatenate(
+        (bundle_decisions, np.ones((n_streamlines, 1))), axis=1
+    )
     bundle_decisions = np.argmax(bundle_decisions, -1)
 
     # We do another round through, so that we can:
@@ -219,8 +231,7 @@ def recognize(
         if len(select_idx) == 0:
             # There's nothing here, set and move to the next bundle:
             if "bundlesection" in bundle_dict.get_b_info(bundle):
-                for sb_name in bundle_dict.get_b_info(bundle)[
-                        "bundlesection"]:
+                for sb_name in bundle_dict.get_b_info(bundle)["bundlesection"]:
                     _return_empty(sb_name, return_idx, fiber_groups, img)
             else:
                 _return_empty(bundle, return_idx, fiber_groups, img)
@@ -230,30 +241,36 @@ def recognize(
         # assignment:
         select_sl = list(tg.streamlines[select_idx])
         roi_closest = bundle_roi_closest[select_idx, bundle_idx, :]
-        n_includes = len(bundle_dict.get_b_info(
-            bundle).get("include", []))
+        n_includes = len(bundle_dict.get_b_info(bundle).get("include", []))
         if clip_edges and n_includes > 1:
             logger.info("Clipping Streamlines by ROI")
             select_sl = abu.cut_sls_by_closest(
-                select_sl, roi_closest,
-                (0, n_includes - 1), in_place=True)
+                select_sl, roi_closest, (0, n_includes - 1), in_place=True
+            )
 
         to_flip = bundle_to_flip[select_idx, bundle_idx]
         b_def = dict(bundle_dict.get_b_info(bundle_name))
         if "bundlesection" in b_def:
-            for sb_name, sb_include_cuts in bundle_dict.get_b_info(
-                    bundle)["bundlesection"].items():
+            for sb_name, sb_include_cuts in bundle_dict.get_b_info(bundle)[
+                "bundlesection"
+            ].items():
                 bundlesection_select_sl = abu.cut_sls_by_closest(
-                    select_sl, roi_closest,
-                    sb_include_cuts, in_place=False)
+                    select_sl, roi_closest, sb_include_cuts, in_place=False
+                )
                 _add_bundle_to_fiber_group(
-                    sb_name, bundlesection_select_sl, select_idx,
-                    to_flip, return_idx, fiber_groups, img)
+                    sb_name,
+                    bundlesection_select_sl,
+                    select_idx,
+                    to_flip,
+                    return_idx,
+                    fiber_groups,
+                    img,
+                )
                 _add_bundle_to_meta(sb_name, b_def, meta)
         else:
             _add_bundle_to_fiber_group(
-                bundle, select_sl, select_idx, to_flip,
-                return_idx, fiber_groups, img)
+                bundle, select_sl, select_idx, to_flip, return_idx, fiber_groups, img
+            )
             _add_bundle_to_meta(bundle, b_def, meta)
     return fiber_groups, meta
 
@@ -266,40 +283,30 @@ def _return_empty(bundle_name, return_idx, fiber_groups, img):
     """
     if return_idx:
         fiber_groups[bundle_name] = {}
-        fiber_groups[bundle_name]['sl'] = StatefulTractogram(
-            [], img, Space.VOX)
-        fiber_groups[bundle_name]['idx'] = np.array([])
+        fiber_groups[bundle_name]["sl"] = StatefulTractogram([], img, Space.VOX)
+        fiber_groups[bundle_name]["idx"] = np.array([])
     else:
-        fiber_groups[bundle_name] = StatefulTractogram(
-            [], img, Space.VOX)
+        fiber_groups[bundle_name] = StatefulTractogram([], img, Space.VOX)
 
 
-def _add_bundle_to_fiber_group(b_name, sl, idx, to_flip,
-                               return_idx, fiber_groups, img):
+def _add_bundle_to_fiber_group(b_name, sl, idx, to_flip, return_idx, fiber_groups, img):
     """
     Helper function to add a bundle to a fiber group.
     """
-    sl = abu.flip_sls(
-        sl, to_flip,
-        in_place=False)
+    sl = abu.flip_sls(sl, to_flip, in_place=False)
 
-    sl = StatefulTractogram(
-        sl,
-        img,
-        Space.VOX)
+    sl = StatefulTractogram(sl, img, Space.VOX)
 
     if return_idx:
         fiber_groups[b_name] = {}
-        fiber_groups[b_name]['sl'] = sl
-        fiber_groups[b_name]['idx'] = idx
+        fiber_groups[b_name]["sl"] = sl
+        fiber_groups[b_name]["idx"] = idx
     else:
         fiber_groups[b_name] = sl
 
 
 def _add_bundle_to_meta(bundle_name, b_def, meta):
     # remove keys that can never be serialized
-    for key in [
-            'include', 'exclude', 'prob_map',
-            'start', 'end', 'curvature']:
+    for key in ["include", "exclude", "prob_map", "start", "end", "curvature"]:
         b_def.pop(key, None)
     meta[bundle_name] = b_def
