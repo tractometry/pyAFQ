@@ -9,15 +9,14 @@ from skimage.segmentation import find_boundaries
 
 from AFQ.data.fetch import afq_home, fetch_synthseg_models
 
-logger = logging.getLogger('AFQ')
+logger = logging.getLogger("AFQ")
 
 
 __all__ = ["run_synthseg"]
 
 
 def _get_model(model_name):
-    model_dir = op.join(afq_home,
-            'synthseg_onnx')
+    model_dir = op.join(afq_home, "synthseg_onnx")
     model_dictionary = {
         "synthseg2": "synthseg2.onnx",
     }
@@ -46,10 +45,8 @@ def run_synthseg(ort, t1_img, model_name):
     model = _get_model(model_name)
 
     t1_img_conformed = nbp.conform(
-        t1_img,
-        out_shape=(256, 256, 256),
-        voxel_size=(1.0, 1.0, 1.0),
-        orientation="RAS")
+        t1_img, out_shape=(256, 256, 256), voxel_size=(1.0, 1.0, 1.0), orientation="RAS"
+    )
 
     t1_data = t1_img_conformed.get_fdata()
     p02 = np.nanpercentile(t1_data, 2)
@@ -68,12 +65,11 @@ def run_synthseg(ort, t1_img, model_name):
     output = output_channels.argmax(axis=4)[0].astype(np.uint8)
 
     output_img = nbp.resample_from_to(
-        nib.Nifti1Image(
-            output.astype(np.uint8),
-            t1_img_conformed.affine),
-        t1_img)
+        nib.Nifti1Image(output.astype(np.uint8), t1_img_conformed.affine), t1_img
+    )
 
     return output_img
+
 
 def pve_from_synthseg(synthseg_data):
     """
@@ -89,7 +85,7 @@ def pve_from_synthseg(synthseg_data):
     pve : ndarray
         PVE data with CSF, GM, and WM segmentations.
     """
-    synthseg_labels = {
+    synthseg_labels = {  # noqa: F841
         0: "background",
         1: "left cerebral white matter",
         2: "left cerebral cortex",
@@ -122,12 +118,11 @@ def pve_from_synthseg(synthseg_data):
         29: "right hippocampus",
         30: "right amygdala",
         31: "right accumbens area",
-        32: "right ventral DC"}
+        32: "right ventral DC",
+    }
 
     CSF_labels = [0, 3, 4, 11, 12, 21, 22, 17]
-    GM_labels = [
-        2, 7, 8, 9, 10, 14, 15, 16,
-        20, 25, 26, 27, 28, 29, 30, 31]
+    GM_labels = [2, 7, 8, 9, 10, 14, 15, 16, 20, 25, 26, 27, 28, 29, 30, 31]
     WM_labels = [1, 5, 19, 23]
     mixed_labels = [13, 18, 32]
 
@@ -143,13 +138,10 @@ def pve_from_synthseg(synthseg_data):
     wm_fuzzed = gaussian_filter(PVE[..., 2], 1)
     nwm_fuzzed = gaussian_filter(PVE[..., 0] + PVE[..., 1], 1)
     bs_exterior = np.logical_and(
-        find_boundaries(
-            np.isin(synthseg_data, mixed_labels),
-            mode='inner'),
-        nwm_fuzzed >= wm_fuzzed)
-    bs_interior = np.logical_and(
-        np.isin(synthseg_data, mixed_labels),
-        ~bs_exterior)
+        find_boundaries(np.isin(synthseg_data, mixed_labels), mode="inner"),
+        nwm_fuzzed >= wm_fuzzed,
+    )
+    bs_interior = np.logical_and(np.isin(synthseg_data, mixed_labels), ~bs_exterior)
     PVE[bs_exterior, 1] = 1.0
     PVE[bs_interior, 2] = 1.0
 
