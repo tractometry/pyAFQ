@@ -5,6 +5,7 @@ Callosal bundles using AFQ API
 An example using the AFQ API to find callosal bundles using the templates from:
 http://hdl.handle.net/1773/34926
 """
+
 import os.path as op
 
 import matplotlib.pyplot as plt
@@ -34,10 +35,12 @@ afd.organize_stanford_data(clear_previous_afq="track")
 #
 # We only do this to make this example faster and consume less space.
 
-tracking_params = dict(seed_mask=RoiImage(),
-                       n_seeds=25000,
-                       random_seeds=True,
-                       rng_seed=42)
+tracking_params = {
+    "seed_mask": RoiImage(),
+    "n_seeds": 25000,
+    "random_seeds": True,
+    "rng_seed": 42,
+}
 
 ##########################################################################
 # Set segmentation parameters (optional)
@@ -65,13 +68,14 @@ segmentation_params = {"clip_edges": True}
 # the standard and callosal templates.
 
 myafq = GroupAFQ(
-    bids_path=op.join(afd.afq_home, 'stanford_hardi'),
-    dwi_preproc_pipeline='vistasoft',
-    t1_preproc_pipeline='freesurfer',
+    bids_path=op.join(afd.afq_home, "stanford_hardi"),
+    dwi_preproc_pipeline="vistasoft",
+    t1_preproc_pipeline="freesurfer",
     bundle_info=abd.callosal_bd(),
     tracking_params=tracking_params,
     segmentation_params=segmentation_params,
-    viz_backend_spec='plotly_no_gif')
+    viz_backend_spec="plotly_no_gif",
+)
 
 # Calling export all produces all of the outputs of processing, including
 # tractography, scalar maps, tract profiles and visualizations:
@@ -88,9 +92,7 @@ myafq.export_all()
 group_density = myafq.export_group_density()
 group_density = nib.load(group_density).get_fdata()
 fig, ax = plt.subplots(1)
-ax.matshow(
-    group_density[:, :, group_density.shape[-1] // 2, 0],
-    cmap='viridis')
+ax.matshow(group_density[:, :, group_density.shape[-1] // 2, 0], cmap="viridis")
 ax.axis("off")
 
 
