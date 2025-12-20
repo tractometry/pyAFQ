@@ -15,24 +15,24 @@ pyAFQ with different tractography seeding strategies.
 """
 
 ##########################################################################
-# Import cloudknot and set the correct region. The HCP data is stored in `us-east-1`, so it's best
-# to analyze it there.
+# Import cloudknot and set the correct region. The HCP data is stored in
+# `us-east-1`, so it's best to analyze it there.
 import configparser
 import itertools
 import os.path as op
 
 import cloudknot as ck
 
-ck.set_region('us-east-1')
+ck.set_region("us-east-1")
 
 ##########################################################################
-# Define a function to run. This function allows us to pass in the subject ID for the subjects we would
-# like to analyze , as well as strategies for seeding tractography (different masks and/or different
+# Define a function to run. This function allows us to pass in the subject
+# ID for the subjects we would like to analyze , as well as strategies for
+# seeding tractography (different masks and/or different
 # numbers of seeds per voxel).
 
 
-def afq_process_subject(subject, seed_mask, n_seeds,
-                        aws_access_key, aws_secret_key):
+def afq_process_subject(subject, seed_mask, n_seeds, aws_access_key, aws_secret_key):
     # define a function that each job will run
     # In this case, each process does a single subject
     import logging
@@ -48,7 +48,7 @@ def afq_process_subject(subject, seed_mask, n_seeds,
 
     # set logging level to your choice
     logging.basicConfig(level=logging.INFO)
-    log = logging.getLogger(__name__)
+    log = logging.getLogger(__name__)  # noqa F841
 
     # Download the given subject to the AWS Batch machine from s3
     _, hcp_bids = fetch_hcp(
@@ -56,7 +56,8 @@ def afq_process_subject(subject, seed_mask, n_seeds,
         profile_name=False,
         study="HCP_1200",
         aws_access_key_id=aws_access_key,
-        aws_secret_access_key=aws_secret_key)
+        aws_secret_access_key=aws_secret_key,
+    )
 
     # We make a new seed mask for each process based off of the
     # seed_mask argument, which is a string.
@@ -78,12 +79,11 @@ def afq_process_subject(subject, seed_mask, n_seeds,
     tracking_params = {
         "seed_mask": seed_mask_obj,
         "n_seeds": n_seeds,
-        "random_seeds": random_seeds}
+        "random_seeds": random_seeds,
+    }
 
     # define the api GroupAFQ object
-    myafq = GroupAFQ(
-        hcp_bids,
-        tracking_params=tracking_params)
+    myafq = GroupAFQ(hcp_bids, tracking_params=tracking_params)
 
     # export_all runs the entire pipeline and creates many useful derivates
     myafq.export_all()
@@ -91,8 +91,8 @@ def afq_process_subject(subject, seed_mask, n_seeds,
     # upload the results to some location on s3
     myafq.upload_to_s3(
         s3fs.S3FileSystem(),
-        (f"my_study_bucket/my_study_prefix_{seed_mask}_{n_seeds}"
-         f"/derivatives/afq"))
+        (f"my_study_bucket/my_study_prefix_{seed_mask}_{n_seeds}/derivatives/afq"),
+    )
 
 
 ##########################################################################
@@ -106,24 +106,25 @@ seed_mask = ["fa", "roi"]
 n_seeds = [1, 2, 1000000, 2000000]
 
 ##########################################################################
-# The following function creates all the combinations of the above lists, such that every subject is
-# run with every mask and every number of seeds.
+# The following function creates all the combinations of the above lists,
+# such that every subject is run with every mask and every number of seeds.
 args = list(itertools.product(subjects, seed_mask, n_seeds))
 
 ##########################################################################
-# We assume that the credentials for HCP usage are stored in the home directory in a
-# `~/.aws/credentials` file. This is where these credentials are stored if the AWS CLI is used to
-# configure the profile. We use the standard lib ``configparser`` library
-# to get the relevant hcp keys from there.
+# We assume that the credentials for HCP usage are stored in the home
+# directory in a `~/.aws/credentials` file. This is where these credentials
+# are stored if the AWS CLI is used to configure the profile. We use the
+# standard lib ``configparser`` library to get the relevant hcp keys from
+# there.
 CP = configparser.ConfigParser()
-CP.read_file(open(op.join(op.expanduser('~'), '.aws', 'credentials')))
+CP.read_file(open(op.join(op.expanduser("~"), ".aws", "credentials")))
 CP.sections()
-aws_access_key = CP.get('hcp', 'AWS_ACCESS_KEY_ID')
-aws_secret_key = CP.get('hcp', 'AWS_SECRET_ACCESS_KEY')
+aws_access_key = CP.get("hcp", "AWS_ACCESS_KEY_ID")
+aws_secret_key = CP.get("hcp", "AWS_SECRET_ACCESS_KEY")
 
 ##########################################################################
-# The following function will attach your AWS keys to each list in a list of lists
-# We use this with each list being a list of arguments,
+# The following function will attach your AWS keys to each list in a list of
+# lists. We use this with each list being a list of arguments,
 # and we append the AWS keys to each list of arguments, so that we can pass
 # them into the function to be used on AWS Batch to download the data into the
 # AWS Batch machines.
@@ -144,15 +145,16 @@ args = attach_keys(args)
 
 ##########################################################################
 # Define the :meth:`Knot` object to run your jobs on. See
-# `this example <http://tractometry.org/pyAFQ/auto_examples/cloudknot_example.html>`_ for more
-# details about the arguments to the object.
+# `this example <http://tractometry.org/pyAFQ/auto_examples/cloudknot_example.html>`_
+# for more details about the arguments to the object.
 knot = ck.Knot(
-    name='afq-hcp-tractography-201110-0',
+    name="afq-hcp-tractography-201110-0",
     func=afq_process_subject,
-    base_image='python:3.11',
+    base_image="python:3.11",
     image_github_installs="https://github.com/tractometry/pyAFQ.git",
-    pars_policies=('AmazonS3FullAccess',),
-    bid_percentage=100)
+    pars_policies=("AmazonS3FullAccess",),
+    bid_percentage=100,
+)
 
 ##########################################################################
 # This launches a process for each combination.
@@ -171,32 +173,36 @@ result_futures = knot.map(args, starmap=True)
 #     knot.jobs[0].status
 
 ##########################################################################
-# When all jobs are finished, remember to clobber the knot to destroy all the resources that were
-# created in AWS.
+# When all jobs are finished, remember to clobber the knot to destroy all the
+# resources that were created in AWS.
 result_futures.result()  # waits for futures to resolve, not needed in notebook
 knot.clobber(clobber_pars=True, clobber_repo=True, clobber_image=True)
 
 ##########################################################################
-# We continue processing to create another knot which takes the resulting profiles of each
-# combination and combines them all into one csv file
+# We continue processing to create another knot which takes the resulting
+# profiles of each combination and combines them all into one csv file
 
 
 def afq_combine_profiles(seed_mask, n_seeds):
     from AFQ.api import download_and_combine_afq_profiles
+
     download_and_combine_afq_profiles(
-        "my_study_bucket", f"my_study_prefix_{seed_mask}_{n_seeds}")
+        "my_study_bucket", f"my_study_prefix_{seed_mask}_{n_seeds}"
+    )
 
 
 knot2 = ck.Knot(
-    name='afq_combine_subjects-201110-0',
+    name="afq_combine_subjects-201110-0",
     func=afq_combine_profiles,
-    base_image='python:3.11',
+    base_image="python:3.11",
     image_github_installs="https://github.com/tractometry/pyAFQ.git",
-    pars_policies=('AmazonS3FullAccess',),
-    bid_percentage=100)
+    pars_policies=("AmazonS3FullAccess",),
+    bid_percentage=100,
+)
 
 ##########################################################################
-# the arguments to this call to :meth:`map` are all the different configurations of pyAFQ that we ran
+# the arguments to this call to :meth:`map` are all the different
+# configurations of pyAFQ that we ran
 seed_mask = ["fa", "roi"]
 n_seeds = [1, 2, 1000000, 2000000]
 args = list(itertools.product(seed_mask, n_seeds))
