@@ -20,15 +20,16 @@ known as pillow).
 # -------
 #
 
-
 import os.path as op
 import tempfile
 
+import matplotlib.pyplot as plt
 import nibabel as nib
 import numpy as np
 from dipy.align import resample
 from dipy.core.gradients import gradient_table
 from dipy.io.streamline import load_trk
+from dipy.stats.analysis import afq_profile
 from dipy.tracking.streamline import set_number_of_points, transform_streamlines
 from fury import actor, window
 from fury.actor import colormap_lookup_table
@@ -50,7 +51,8 @@ from AFQ.viz.utils import gen_color_dict
 #  convenience. It is not necessary to understand this function in order to
 #  understand the rest of the example. If you are interested in learning more
 #  about this function, you can read the PIL documentation. The function is
-#  based on the `PIL.Image.save <https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.save>`_
+#  based on the
+# `PIL.Image.save <https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.save>`_
 #  function.
 
 
@@ -73,12 +75,7 @@ def make_video(frames, out):
         video.append(frame)
 
     # Save the frames as an animated GIF
-    video[0].save(
-        out,
-        save_all=True,
-        append_images=video[1:],
-        duration=300,
-        loop=1)
+    video[0].save(out, save_all=True, append_images=video[1:], duration=300, loop=1)
 
 
 tmp = tempfile.mkdtemp()
@@ -97,7 +94,7 @@ study_path = afd.fetch_hbn_afq(["NDARAA948VFH"])[1]
 # ---------------------------------
 # The HBN POD2 dataset was processed using the ``qsiprep`` pipeline. The
 # results from this processing are stored within a sub-folder of the
-# derivatives folder wthin the study folder.
+# derivatives folder within the study folder.
 # Here, we will start by visualizing the diffusion data. We read in the
 # diffusion data, as well as the gradient table, using the `nibabel` library.
 # We then extract the b0, b1000, and b2000 volumes from the diffusion data.
@@ -111,25 +108,30 @@ study_path = afd.fetch_hbn_afq(["NDARAA948VFH"])[1]
 # record the scene into png files and subsequently gif animations. We do this
 # for each of the three volumes.
 
-deriv_path = op.join(
-    study_path, "derivatives")
+deriv_path = op.join(study_path, "derivatives")
 
-qsiprep_path = op.join(
-    deriv_path,
-    'qsiprep',
-    'sub-NDARAA948VFH',
-    'ses-HBNsiteRU')
+qsiprep_path = op.join(deriv_path, "qsiprep", "sub-NDARAA948VFH", "ses-HBNsiteRU")
 
-dmri_img = nib.load(op.join(
-    qsiprep_path,
-    'dwi',
-    'sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi.nii.gz'))
+dmri_img = nib.load(
+    op.join(
+        qsiprep_path,
+        "dwi",
+        "sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi.nii.gz",
+    )
+)
 
 gtab = gradient_table(
-    bvecs=op.join(qsiprep_path, "dwi",
-                  "sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi.bvec"),
-    bvals=op.join(qsiprep_path, "dwi",
-                  "sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi.bval"))
+    bvecs=op.join(
+        qsiprep_path,
+        "dwi",
+        "sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi.bvec",
+    ),
+    bvals=op.join(
+        qsiprep_path,
+        "dwi",
+        "sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi.bval",
+    ),
+)
 
 dmri_data = dmri_img.get_fdata()
 
@@ -142,62 +144,56 @@ def slice_volume(data, x=None, y=None, z=None):
     slicer_actors = []
     slicer_actor_z = actor.slicer(data)
     if z is not None:
-        slicer_actor_z.display_extent(
-            0, data.shape[0] - 1,
-            0, data.shape[1] - 1,
-            z, z)
+        slicer_actor_z.display_extent(0, data.shape[0] - 1, 0, data.shape[1] - 1, z, z)
         slicer_actors.append(slicer_actor_z)
     if y is not None:
         slicer_actor_y = slicer_actor_z.copy()
-        slicer_actor_y.display_extent(
-            0, data.shape[0] - 1,
-            y, y,
-            0, data.shape[2] - 1)
+        slicer_actor_y.display_extent(0, data.shape[0] - 1, y, y, 0, data.shape[2] - 1)
         slicer_actors.append(slicer_actor_y)
     if x is not None:
         slicer_actor_x = slicer_actor_z.copy()
-        slicer_actor_x.display_extent(
-            x, x,
-            0, data.shape[1] - 1,
-            0, data.shape[2] - 1)
+        slicer_actor_x.display_extent(x, x, 0, data.shape[1] - 1, 0, data.shape[2] - 1)
         slicer_actors.append(slicer_actor_x)
 
     return slicer_actors
 
 
 slicers_b0 = slice_volume(
-    dmri_b0,
-    x=dmri_b0.shape[0] // 2,
-    y=dmri_b0.shape[1] // 2,
-    z=dmri_b0.shape[-1] // 3)
+    dmri_b0, x=dmri_b0.shape[0] // 2, y=dmri_b0.shape[1] // 2, z=dmri_b0.shape[-1] // 3
+)
 slicers_b1000 = slice_volume(
     dmri_b1000,
     x=dmri_b0.shape[0] // 2,
     y=dmri_b0.shape[1] // 2,
-    z=dmri_b0.shape[-1] // 3)
+    z=dmri_b0.shape[-1] // 3,
+)
 slicers_b2000 = slice_volume(
     dmri_b2000,
     x=dmri_b0.shape[0] // 2,
     y=dmri_b0.shape[1] // 2,
-    z=dmri_b0.shape[-1] // 3)
+    z=dmri_b0.shape[-1] // 3,
+)
 
-for bval, slicers in zip([0, 1000, 2000],
-                         [slicers_b0, slicers_b1000, slicers_b2000]):
+for bval, slicers in zip([0, 1000, 2000], [slicers_b0, slicers_b1000, slicers_b2000]):
     scene = window.Scene()
     for slicer in slicers:
         scene.add(slicer)
-    scene.set_camera(position=(721.34, 393.48, 97.03),
-                     focal_point=(96.00, 114.00, 96.00),
-                     view_up=(-0.01, 0.02, 1.00))
+    scene.set_camera(
+        position=(721.34, 393.48, 97.03),
+        focal_point=(96.00, 114.00, 96.00),
+        view_up=(-0.01, 0.02, 1.00),
+    )
 
     scene.background((1, 1, 1))
-    window.record(scene, out_path=f'{tmp}/b{bval}',
-                  size=(2400, 2400),
-                  n_frames=n_frames, path_numbering=True)
+    window.record(
+        scene,
+        out_path=f"{tmp}/b{bval}",
+        size=(2400, 2400),
+        n_frames=n_frames,
+        path_numbering=True,
+    )
 
-    make_video(
-        [f'{tmp}/b{bval}{ii:06d}.png' for ii in range(n_frames)],
-        f'b{bval}.gif')
+    make_video([f"{tmp}/b{bval}{ii:06d}.png" for ii in range(n_frames)], f"b{bval}.gif")
 
 #############################################################################
 # Visualizing whole-brain tractography
@@ -214,30 +210,39 @@ for bval, slicers in zip([0, 1000, 2000],
 #
 # For an example of fitting FA, see:
 # https://docs.dipy.org/1.11.0/examples_built/reconstruction/reconst_dti.html
-# For an exmaple of running tractography, see:
+# For an example of running tractography, see:
 # https://docs.dipy.org/1.11.0/examples_built/fiber_tracking/tracking_probabilistic.html
 
-afq_path = op.join(
-    deriv_path,
-    'afq',
-    'sub-NDARAA948VFH',
-    'ses-HBNsiteRU')
+afq_path = op.join(deriv_path, "afq", "sub-NDARAA948VFH", "ses-HBNsiteRU")
 
-fa_img = nib.load(op.join(afq_path,
-                          'sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi_model-DKI_FA.nii.gz'))
-
-
-sft_whole_brain = load_trk(op.join(afq_path,
-                                   'sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi_space-RASMM_model-CSD_desc-prob-afq_tractography.trk'), fa_img)
+fa_img = nib.load(
+    op.join(
+        afq_path,
+        "sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi_model-DKI_FA.nii.gz",
+    )
+)
 
 
-t1w_img = nib.load(op.join(deriv_path,
-                           'qsiprep/sub-NDARAA948VFH/anat/sub-NDARAA948VFH_desc-preproc_T1w.nii.gz'))
+sft_whole_brain = load_trk(
+    op.join(
+        afq_path,
+        "sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi_space-RASMM_model-CSD_desc-prob-afq_tractography.trk",
+    ),
+    fa_img,
+)
+
+
+t1w_img = nib.load(
+    op.join(
+        deriv_path,
+        "qsiprep/sub-NDARAA948VFH/anat/sub-NDARAA948VFH_desc-preproc_T1w.nii.gz",
+    )
+)
 t1w = t1w_img.get_fdata()
 sft_whole_brain.to_rasmm()
 whole_brain_t1w = transform_streamlines(
-    sft_whole_brain.streamlines,
-    np.linalg.inv(t1w_img.affine))
+    sft_whole_brain.streamlines, np.linalg.inv(t1w_img.affine)
+)
 
 #############################################################################
 # Visualize the streamlines
@@ -262,16 +267,24 @@ scene.add(whole_brain_actor)
 for slicer in slicers:
     scene.add(slicer)
 
-scene.set_camera(position=(721.34, 393.48, 97.03),
-                 focal_point=(96.00, 114.00, 96.00),
-                 view_up=(-0.01, 0.02, 1.00))
+scene.set_camera(
+    position=(721.34, 393.48, 97.03),
+    focal_point=(96.00, 114.00, 96.00),
+    view_up=(-0.01, 0.02, 1.00),
+)
 
 scene.background((1, 1, 1))
-window.record(scene, out_path=f'{tmp}/whole_brain', size=(2400, 2400),
-              n_frames=n_frames, path_numbering=True)
+window.record(
+    scene,
+    out_path=f"{tmp}/whole_brain",
+    size=(2400, 2400),
+    n_frames=n_frames,
+    path_numbering=True,
+)
 
-make_video([f"{tmp}/whole_brain{ii:06d}.png" for ii in range(n_frames)],
-           "whole_brain.gif")
+make_video(
+    [f"{tmp}/whole_brain{ii:06d}.png" for ii in range(n_frames)], "whole_brain.gif"
+)
 
 #############################################################################
 # Whole brain with waypoints
@@ -296,12 +309,18 @@ scene.background((1, 1, 1))
 waypoint1 = nib.load(
     op.join(
         afq_path,
-        "ROIs", "sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi_desc-ROI-ARC_L-1-include.nii.gz"))
+        "ROIs",
+        "sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi_desc-ROI-ARC_L-1-include.nii.gz",
+    )
+)
 
 waypoint2 = nib.load(
     op.join(
         afq_path,
-        "ROIs", "sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi_desc-ROI-ARC_L-2-include.nii.gz"))
+        "ROIs",
+        "sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi_desc-ROI-ARC_L-2-include.nii.gz",
+    )
+)
 
 waypoint1_xform = resample(waypoint1, t1w_img)
 waypoint2_xform = resample(waypoint2, t1w_img)
@@ -310,25 +329,31 @@ waypoint2_data = waypoint2_xform.get_fdata() > 0
 
 surface_color = tab20.colors[0]
 
-waypoint1_actor = actor.contour_from_roi(waypoint1_data,
-                                         color=surface_color,
-                                         opacity=0.5)
+waypoint1_actor = actor.contour_from_roi(
+    waypoint1_data, color=surface_color, opacity=0.5
+)
 
-waypoint2_actor = actor.contour_from_roi(waypoint2_data,
-                                         color=surface_color,
-                                         opacity=0.5)
+waypoint2_actor = actor.contour_from_roi(
+    waypoint2_data, color=surface_color, opacity=0.5
+)
 
 scene.add(waypoint1_actor)
 scene.add(waypoint2_actor)
 
-window.record(scene, out_path=f'{tmp}/whole_brain_with_waypoints', size=(2400, 2400),
-              n_frames=n_frames, path_numbering=True)
+window.record(
+    scene,
+    out_path=f"{tmp}/whole_brain_with_waypoints",
+    size=(2400, 2400),
+    n_frames=n_frames,
+    path_numbering=True,
+)
 
-make_video([f"{tmp}/whole_brain_with_waypoints{ii:06d}.png" for ii in range(n_frames)],
-           "whole_brain_with_waypoints.gif")
+make_video(
+    [f"{tmp}/whole_brain_with_waypoints{ii:06d}.png" for ii in range(n_frames)],
+    "whole_brain_with_waypoints.gif",
+)
 
-bundle_path = op.join(afq_path,
-                      'bundles')
+bundle_path = op.join(afq_path, "bundles")
 
 #############################################################################
 # Visualize the arcuate bundle
@@ -336,15 +361,23 @@ bundle_path = op.join(afq_path,
 # Now visualize only the arcuate bundle that is selected with these waypoints.
 #
 
-fa_img = nib.load(op.join(afq_path,
-                          'sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi_model-DKI_FA.nii.gz'))
+fa_img = nib.load(
+    op.join(
+        afq_path,
+        "sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi_model-DKI_FA.nii.gz",
+    )
+)
 fa = fa_img.get_fdata()
-sft_arc = load_trk(op.join(bundle_path,
-                           'sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi_space-RASMM_model-CSD_desc-prob-afq-ARC_L_tractography.trk'), fa_img)
+sft_arc = load_trk(
+    op.join(
+        bundle_path,
+        "sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi_space-RASMM_model-CSD_desc-prob-afq-ARC_L_tractography.trk",
+    ),
+    fa_img,
+)
 
 sft_arc.to_rasmm()
-arc_t1w = transform_streamlines(sft_arc.streamlines,
-                                np.linalg.inv(t1w_img.affine))
+arc_t1w = transform_streamlines(sft_arc.streamlines, np.linalg.inv(t1w_img.affine))
 
 
 bundles = [
@@ -356,8 +389,14 @@ bundles = [
     "SLF_R",
     "UNC_R",
     "CGC_R",
-    "Orbital", "AntFrontal", "SupFrontal", "Motor",
-    "SupParietal", "PostParietal", "Temporal", "Occipital",
+    "Orbital",
+    "AntFrontal",
+    "SupFrontal",
+    "Motor",
+    "SupParietal",
+    "PostParietal",
+    "Temporal",
+    "Occipital",
     "CGC_L",
     "UNC_L",
     "SLF_L",
@@ -370,7 +409,7 @@ bundles = [
 
 color_dict = gen_color_dict(bundles)
 
-arc_actor = lines_as_tubes(arc_t1w, 8, colors=color_dict['ARC_L'])
+arc_actor = lines_as_tubes(arc_t1w, 8, colors=color_dict["ARC_L"])
 scene.clear()
 
 scene.add(arc_actor)
@@ -380,8 +419,13 @@ for slicer in slicers:
 scene.add(waypoint1_actor)
 scene.add(waypoint2_actor)
 
-window.record(scene, out_path=f'{tmp}/arc1', size=(2400, 2400),
-              n_frames=n_frames, path_numbering=True)
+window.record(
+    scene,
+    out_path=f"{tmp}/arc1",
+    size=(2400, 2400),
+    n_frames=n_frames,
+    path_numbering=True,
+)
 
 make_video([f"{tmp}/arc1{ii:06d}.png" for ii in range(n_frames)], "arc1.gif")
 
@@ -397,20 +441,28 @@ scene.add(arc_actor)
 for slicer in slicers:
     scene.add(slicer)
 
-window.record(scene, out_path=f'{tmp}/arc2', size=(2400, 2400),
-              n_frames=n_frames, path_numbering=True)
+window.record(
+    scene,
+    out_path=f"{tmp}/arc2",
+    size=(2400, 2400),
+    n_frames=n_frames,
+    path_numbering=True,
+)
 
 make_video([f"{tmp}/arc2{ii:06d}.png" for ii in range(n_frames)], "arc2.gif")
 
-clean_bundles_path = op.join(afq_path,
-                             'clean_bundles')
+clean_bundles_path = op.join(afq_path, "clean_bundles")
 
-sft_arc = load_trk(op.join(clean_bundles_path,
-                           'sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi_space-RASMM_model-CSD_desc-prob-afq-ARC_L_tractography.trk'), fa_img)
+sft_arc = load_trk(
+    op.join(
+        clean_bundles_path,
+        "sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi_space-RASMM_model-CSD_desc-prob-afq-ARC_L_tractography.trk",
+    ),
+    fa_img,
+)
 
 sft_arc.to_rasmm()
-arc_t1w = transform_streamlines(sft_arc.streamlines,
-                                np.linalg.inv(t1w_img.affine))
+arc_t1w = transform_streamlines(sft_arc.streamlines, np.linalg.inv(t1w_img.affine))
 
 
 arc_actor = lines_as_tubes(arc_t1w, 8, colors=tab20.colors[18])
@@ -420,8 +472,13 @@ scene.add(arc_actor)
 for slicer in slicers:
     scene.add(slicer)
 
-window.record(scene, out_path=f'{tmp}/arc3', size=(2400, 2400),
-              n_frames=n_frames, path_numbering=True)
+window.record(
+    scene,
+    out_path=f"{tmp}/arc3",
+    size=(2400, 2400),
+    n_frames=n_frames,
+    path_numbering=True,
+)
 
 make_video([f"{tmp}/arc3{ii:06d}.png" for ii in range(n_frames)], "arc3.gif")
 
@@ -436,22 +493,32 @@ make_video([f"{tmp}/arc3{ii:06d}.png" for ii in range(n_frames)], "arc3.gif")
 # There is a DIPY example with more details here:
 # https://docs.dipy.org/1.11.0/examples_built/streamline_analysis/afq_tract_profiles.html
 
-lut_args = dict(scale_range=(0, 1),
-                hue_range=(1, 0),
-                saturation_range=(0, 1),
-                value_range=(0, 1))
+lut_args = {
+    "scale_range": (0, 1),
+    "hue_range": (1, 0),
+    "saturation_range": (0, 1),
+    "value_range": (0, 1),
+}
 
-arc_actor = lines_as_tubes(arc_t1w, 8,
-                           colors=resample(fa_img, t1w_img).get_fdata(),
-                           lookup_colormap=colormap_lookup_table(**lut_args))
+arc_actor = lines_as_tubes(
+    arc_t1w,
+    8,
+    colors=resample(fa_img, t1w_img).get_fdata(),
+    lookup_colormap=colormap_lookup_table(**lut_args),
+)
 scene.clear()
 
 scene.add(arc_actor)
 for slicer in slicers:
     scene.add(slicer)
 
-window.record(scene, out_path=f'{tmp}/arc4', size=(2400, 2400),
-              n_frames=n_frames, path_numbering=True)
+window.record(
+    scene,
+    out_path=f"{tmp}/arc4",
+    size=(2400, 2400),
+    n_frames=n_frames,
+    path_numbering=True,
+)
 
 make_video([f"{tmp}/arc4{ii:06d}.png" for ii in range(n_frames)], "arc4.gif")
 
@@ -464,21 +531,19 @@ make_video([f"{tmp}/arc4{ii:06d}.png" for ii in range(n_frames)], "arc4.gif")
 
 core_arc = np.median(np.asarray(set_number_of_points(arc_t1w, 20)), axis=0)
 
-from dipy.stats.analysis import afq_profile
-
 sft_arc.to_vox()
-arc_profile = afq_profile(fa, sft_arc.streamlines, affine=np.eye(4),
-                          n_points=20)
+arc_profile = afq_profile(fa, sft_arc.streamlines, affine=np.eye(4), n_points=20)
 
 core_arc_actor = lines_as_tubes(
-    [core_arc],
-    40,
-    colors=create_colormap(arc_profile, 'viridis')
+    [core_arc], 40, colors=create_colormap(arc_profile, "viridis")
 )
 
-arc_actor = lines_as_tubes(arc_t1w, 1,
-                           colors=resample(fa_img, t1w_img).get_fdata(),
-                           lookup_colormap=colormap_lookup_table(**lut_args))
+arc_actor = lines_as_tubes(
+    arc_t1w,
+    1,
+    colors=resample(fa_img, t1w_img).get_fdata(),
+    lookup_colormap=colormap_lookup_table(**lut_args),
+)
 
 scene.clear()
 
@@ -487,8 +552,13 @@ for slicer in slicers:
 scene.add(arc_actor)
 scene.add(core_arc_actor)
 
-window.record(scene, out_path=f'{tmp}/arc5', size=(2400, 2400),
-              n_frames=n_frames, path_numbering=True)
+window.record(
+    scene,
+    out_path=f"{tmp}/arc5",
+    size=(2400, 2400),
+    n_frames=n_frames,
+    path_numbering=True,
+)
 
 make_video([f"{tmp}/arc5{ii:06d}.png" for ii in range(n_frames)], "arc5.gif")
 
@@ -503,22 +573,31 @@ for slicer in slicers:
     scene.add(slicer)
 
 for bundle in bundles:
-    sft = load_trk(op.join(clean_bundles_path,
-                           f'sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi_space-RASMM_model-CSD_desc-prob-afq-{bundle}_tractography.trk'), fa_img)
+    sft = load_trk(
+        op.join(
+            clean_bundles_path,
+            f"sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi_space-RASMM_model-CSD_desc-prob-afq-{bundle}_tractography.trk",
+        ),
+        fa_img,
+    )
 
     sft.to_rasmm()
-    bundle_t1w = transform_streamlines(sft.streamlines,
-                                       np.linalg.inv(t1w_img.affine))
+    bundle_t1w = transform_streamlines(sft.streamlines, np.linalg.inv(t1w_img.affine))
 
     bundle_actor = lines_as_tubes(bundle_t1w, 8, colors=color_dict[bundle])
     scene.add(bundle_actor)
 
-window.record(scene, out_path=f'{tmp}/all_bundles', size=(2400, 2400),
-              n_frames=n_frames, path_numbering=True)
+window.record(
+    scene,
+    out_path=f"{tmp}/all_bundles",
+    size=(2400, 2400),
+    n_frames=n_frames,
+    path_numbering=True,
+)
 
 make_video(
-    [f"{tmp}/all_bundles{ii:06d}.png" for ii in range(n_frames)],
-    "all_bundles.gif")
+    [f"{tmp}/all_bundles{ii:06d}.png" for ii in range(n_frames)], "all_bundles.gif"
+)
 
 
 scene.clear()
@@ -528,35 +607,40 @@ for slicer in slicers:
 
 tract_profiles = []
 for bundle in bundles:
-    sft = load_trk(op.join(clean_bundles_path,
-                           f'sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi_space-RASMM_model-CSD_desc-prob-afq-{bundle}_tractography.trk'), fa_img)
+    sft = load_trk(
+        op.join(
+            clean_bundles_path,
+            f"sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi_space-RASMM_model-CSD_desc-prob-afq-{bundle}_tractography.trk",
+        ),
+        fa_img,
+    )
     sft.to_rasmm()
-    bundle_t1w = transform_streamlines(sft.streamlines,
-                                       np.linalg.inv(t1w_img.affine))
+    bundle_t1w = transform_streamlines(sft.streamlines, np.linalg.inv(t1w_img.affine))
 
-    core_bundle = np.median(np.asarray(
-        set_number_of_points(bundle_t1w, 20)), axis=0)
+    core_bundle = np.median(np.asarray(set_number_of_points(bundle_t1w, 20)), axis=0)
     sft.to_vox()
     tract_profiles.append(
-        afq_profile(fa, sft.streamlines, affine=np.eye(4),
-                    n_points=20))
+        afq_profile(fa, sft.streamlines, affine=np.eye(4), n_points=20)
+    )
 
     core_actor = lines_as_tubes(
-        [core_bundle],
-        40,
-        colors=create_colormap(tract_profiles[-1], 'viridis')
+        [core_bundle], 40, colors=create_colormap(tract_profiles[-1], "viridis")
     )
 
     scene.add(core_actor)
 
-window.record(scene,
-              out_path=f'{tmp}/all_tract_profiles',
-              size=(2400, 2400),
-              n_frames=n_frames,
-              path_numbering=True)
+window.record(
+    scene,
+    out_path=f"{tmp}/all_tract_profiles",
+    size=(2400, 2400),
+    n_frames=n_frames,
+    path_numbering=True,
+)
 
-make_video([f"{tmp}/all_tract_profiles{ii:06d}.png" for ii in range(n_frames)],
-           "all_tract_profiles.gif")
+make_video(
+    [f"{tmp}/all_tract_profiles{ii:06d}.png" for ii in range(n_frames)],
+    "all_tract_profiles.gif",
+)
 
 #############################################################################
 # Tract profiles as a table
@@ -567,16 +651,17 @@ make_video([f"{tmp}/all_tract_profiles{ii:06d}.png" for ii in range(n_frames)],
 # value of the tissue property. We will use the `matplotlib` library to create
 # this plot.
 
-import matplotlib.pyplot as plt
 
 fig, ax = plt.subplots()
 for ii, bundle in enumerate(bundles):
-    ax.plot(np.arange(ii * 20, (ii + 1) * 20),
-            tract_profiles[ii],
-            color=color_dict[bundle],
-            linewidth=3)
+    ax.plot(
+        np.arange(ii * 20, (ii + 1) * 20),
+        tract_profiles[ii],
+        color=color_dict[bundle],
+        linewidth=3,
+    )
 ax.set_xticks(np.arange(0, 20 * len(bundles), 20))
-ax.set_xticklabels(bundles, rotation=45, ha='right')
+ax.set_xticklabels(bundles, rotation=45, ha="right")
 fig.set_size_inches(10, 5)
 plt.subplots_adjust(bottom=0.2)
 fig.savefig("tract_profiles_table.png")
