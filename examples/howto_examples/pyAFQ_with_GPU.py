@@ -28,10 +28,12 @@ from AFQ.api.group import GroupAFQ
 
 afd.organize_stanford_data()
 
-tracking_params = dict(n_seeds=1000000,
-                       random_seeds=True,
-                       rng_seed=2025,
-                       trx=True)
+tracking_params = {
+    "n_seeds": 1000000,
+    "random_seeds": True,
+    "rng_seed": 2025,
+    "trx": True,
+}
 
 ######################
 # Running with the GPU
@@ -40,11 +42,12 @@ tracking_params = dict(n_seeds=1000000,
 # passing in `tractography_ngpus`
 # That's it!
 myafq = GroupAFQ(
-    bids_path=op.join(afd.afq_home, 'stanford_hardi'),
-    dwi_preproc_pipeline='vistasoft',
-    t1_preproc_pipeline='freesurfer',
+    bids_path=op.join(afd.afq_home, "stanford_hardi"),
+    dwi_preproc_pipeline="vistasoft",
+    t1_preproc_pipeline="freesurfer",
     tracking_params=tracking_params,
-    tractography_ngpus=1)
+    tractography_ngpus=1,
+)
 
 # From here, pyAFQ should run normally
 bundle_html = myafq.export("all_bundles_figure")
