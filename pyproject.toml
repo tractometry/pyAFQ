@@ -4,7 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [tool.ruff]
 target-version = "py311"
-exclude=["docs/source/conf.py"]
+exclude=["docs/source/conf.py",
+         "examples/"]
 
 [tool.ruff.lint]
 select = [
