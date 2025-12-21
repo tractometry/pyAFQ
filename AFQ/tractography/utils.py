@@ -14,16 +14,16 @@ def get_percentile_threshold(mask, threshold):
     return new_threshold
 
 
-def is_int(val):
+def _is_int(val):
     if isinstance(val, np.ndarray):
         return False
     if isinstance(val, int):
         return True
-    else:
+    elif isinstance(val, float):
         if val.is_integer():
             return True
         else:
-            return False
+            raise ValueError(f"n_seeds is set to {val}, which is not an integer")
 
 
 def gen_seeds(
@@ -40,7 +40,10 @@ def gen_seeds(
     :func:`AFQ.tractography.tractography.track`.
     """
     logger.info("Generating Seeds...")
-    if is_int(n_seeds):
+    if _is_int(n_seeds):
+        # If it's float type, cast to integer:
+        if isinstance(n_seeds, float):
+            n_seeds = int(n_seeds)
         if len(np.unique(seed_mask)) > 2:
             if thresholds_as_percentages:
                 seed_threshold = get_percentile_threshold(seed_mask, seed_threshold)
