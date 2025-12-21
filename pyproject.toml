@@ -26,7 +26,7 @@ ignore = [
   "C408"
 ]
 
-[tool.pytest]
+[tool.pytest.ini_options]
 markers = [
     "nightly",
     "nightly_basic",
