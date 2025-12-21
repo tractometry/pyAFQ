@@ -14,6 +14,16 @@ def get_percentile_threshold(mask, threshold):
     return new_threshold
 
 
+def is_int(val):
+    if isinstance(val, int):
+        return True
+    else:
+        if val.is_integer():
+            return True
+        else:
+            return False
+
+
 def gen_seeds(
     seed_mask,
     seed_threshold,
@@ -28,7 +38,7 @@ def gen_seeds(
     :func:`AFQ.tractography.tractography.track`.
     """
     logger.info("Generating Seeds...")
-    if isinstance(n_seeds, np.integer):
+    if is_int(n_seeds):
         if len(np.unique(seed_mask)) > 2:
             if thresholds_as_percentages:
                 seed_threshold = get_percentile_threshold(seed_mask, seed_threshold)
