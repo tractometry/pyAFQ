@@ -1,10 +1,9 @@
-import numpy as np
-import nibabel as nib
 import dipy.core.gradients as dpg
+import nibabel as nib
+import numpy as np
 
 
-def prepare_data(data_files, bval_files, bvec_files, mask=None,
-                 b0_threshold=50):
+def prepare_data(data_files, bval_files, bvec_files, mask=None, b0_threshold=50):
     """
     Parameters
     ----------
@@ -50,8 +49,6 @@ def prepare_data(data_files, bval_files, bvec_files, mask=None,
     bvecs_array = [np.loadtxt(bvec_file) for bvec_file in bvec_files]
     bvecs = np.concatenate(bvecs_array, -1)
 
-    gtab = dpg.gradient_table(
-        bvals=bvals, bvecs=bvecs,
-        b0_threshold=b0_threshold)
+    gtab = dpg.gradient_table(bvals=bvals, bvecs=bvecs, b0_threshold=b0_threshold)
 
     return img_array[-1], data, gtab, mask

@@ -1,8 +1,9 @@
 # This updates usage/methods.rst to the latest API methods
 # Developers can run this after modifying any arguments the user can see
 
-from AFQ.api.utils import methods_descriptors
 from textwrap import dedent
+
+from AFQ.api.utils import methods_descriptors
 
 prologue = """
 .. _methods_docs:
@@ -28,5 +29,5 @@ def setup(app):
             {desc}
         """)
 
-    with open('./source/reference/methods.rst', 'w') as ff:
+    with open("./source/reference/methods.rst", "w") as ff:
         ff.write(prologue + method_descriptions)

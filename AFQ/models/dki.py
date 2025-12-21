@@ -1,15 +1,12 @@
 import os
 import os.path as op
 
-import numpy as np
 import nibabel as nib
-
-from dipy.reconst import dki
-from dipy.reconst import dki_micro
+import numpy as np
 from dipy.core.ndindex import ndindex
+from dipy.reconst import dki, dki_micro
 
 import AFQ.utils.models as ut
-
 
 __all__ = ["fit_dki", "predict"]
 
@@ -19,8 +16,16 @@ def _fit(gtab, data, mask=None):
     return dkimodel.fit(data, mask=mask)
 
 
-def fit_dki(data_files, bval_files, bvec_files, mask=None,
-            min_kurtosis=-1, max_kurtosis=3, out_dir=None, b0_threshold=50):
+def fit_dki(
+    data_files,
+    bval_files,
+    bvec_files,
+    mask=None,
+    min_kurtosis=-1,
+    max_kurtosis=3,
+    out_dir=None,
+    b0_threshold=50,
+):
     """
     Fit the DKI model, save files with derived maps
 
@@ -57,9 +62,9 @@ def fit_dki(data_files, bval_files, bvec_files, mask=None,
     Maps that are calculated: FA, MD, AD, RD, MK, AK, RK
 
     """
-    img, data, gtab, mask = ut.prepare_data(data_files, bval_files,
-                                            bvec_files, mask=mask,
-                                            b0_threshold=b0_threshold)
+    img, data, gtab, mask = ut.prepare_data(
+        data_files, bval_files, bvec_files, mask=mask, b0_threshold=b0_threshold
+    )
 
     dkimodel = dki.DiffusionKurtosisModel(gtab)
     dkifit = dkimodel.fit(data, mask=mask)
@@ -74,13 +79,13 @@ def fit_dki(data_files, bval_files, bvec_files, mask=None,
     params = dkifit.model_params
 
     maps = [FA, MD, AD, RD, MK, AK, RK, params]
-    names = ['FA', 'MD', 'AD', 'RD', 'MK', 'AK', 'RK', 'params']
+    names = ["FA", "MD", "AD", "RD", "MK", "AK", "RK", "params"]
 
     if out_dir is None:
         if isinstance(data_files, list):
-            out_dir = op.join(op.split(data_files[0])[0], 'dki')
+            out_dir = op.join(op.split(data_files[0])[0], "dki")
         else:
-            out_dir = op.join(op.split(data_files)[0], 'dki')
+            out_dir = op.join(op.split(data_files)[0], "dki")
 
     if not op.exists(out_dir):
         os.makedirs(out_dir)
@@ -88,14 +93,14 @@ def fit_dki(data_files, bval_files, bvec_files, mask=None,
     aff = img.affine
     file_paths = {}
     for m, n in zip(maps, names):
-        file_paths[n] = op.join(out_dir, 'dki_%s.nii.gz' % n)
+        file_paths[n] = op.join(out_dir, "dki_%s.nii.gz" % n)
         nib.save(nib.Nifti1Image(m, aff), file_paths[n])
 
     return file_paths
 
 
 def avs_dki_df(gtab, data, mask=None, min_signal=1.0e-6):
-    r""" Computes mean diffusion kurtosis
+    r"""Computes mean diffusion kurtosis
 
     Parameters
     ----------
@@ -136,7 +141,7 @@ def avs_dki_df(gtab, data, mask=None, min_signal=1.0e-6):
 
     B = np.zeros((nb, 3))
     B[:, 0] = -uniqueb
-    B[:, 1] = 1.0 / 6.0 * uniqueb ** 2
+    B[:, 1] = 1.0 / 6.0 * uniqueb**2
     B[:, 2] = np.ones(nb)
 
     ng = np.zeros(nb)
@@ -166,14 +171,15 @@ def avs_dki_df(gtab, data, mask=None, min_signal=1.0e-6):
             inv_BT_W_B = np.linalg.pinv(np.dot(BTW, B))
             invBTWB_BTW = np.dot(inv_BT_W_B, BTW)
             p = np.dot(invBTWB_BTW, np.log(sig))
-            p[1] = p[1] / (p[0]**2)
+            p[1] = p[1] / (p[0] ** 2)
             p[2] = np.exp(p[2])
             params[v] = p
     return params
 
 
-def fit_mdki(data_files, bval_files, bvec_files, mask=None, out_dir=None,
-             b0_threshold=50):
+def fit_mdki(
+    data_files, bval_files, bvec_files, mask=None, out_dir=None, b0_threshold=50
+):
     """
     Fit the DKI model, save files with derived maps
 
@@ -210,9 +216,9 @@ def fit_mdki(data_files, bval_files, bvec_files, mask=None, out_dir=None,
     Maps that are calculated: FA, MD, AD, RD, MK, AK, RK
 
     """
-    img, data, gtab, mask = ut.prepare_data(data_files, bval_files,
-                                            bvec_files, mask=mask,
-                                            b0_threshold=b0_threshold)
+    img, data, gtab, mask = ut.prepare_data(
+        data_files, bval_files, bvec_files, mask=mask, b0_threshold=b0_threshold
+    )
 
     params = avs_dki_df(gtab, data, mask=mask)
 
@@ -221,13 +227,13 @@ def fit_mdki(data_files, bval_files, bvec_files, mask=None, out_dir=None,
     S0 = params[..., 2]
 
     maps = [MD, MK, S0]
-    names = ['MD', 'MK', 'S0']
+    names = ["MD", "MK", "S0"]
 
     if out_dir is None:
         if isinstance(data_files, list):
-            out_dir = op.join(op.split(data_files[0])[0], 'dki')
+            out_dir = op.join(op.split(data_files[0])[0], "dki")
         else:
-            out_dir = op.join(op.split(data_files)[0], 'dki')
+            out_dir = op.join(op.split(data_files)[0], "dki")
 
     if not op.exists(out_dir):
         os.makedirs(out_dir)
@@ -235,15 +241,22 @@ def fit_mdki(data_files, bval_files, bvec_files, mask=None, out_dir=None,
     aff = img.affine
     file_paths = {}
     for m, n in zip(maps, names):
-        file_paths[n] = op.join(out_dir, 'mdki_%s.nii.gz' % n)
+        file_paths[n] = op.join(out_dir, "mdki_%s.nii.gz" % n)
         nib.save(nib.Nifti1Image(m, aff), file_paths[n])
 
     return file_paths
 
 
-def fit_dkimicro(data_files, bval_files, bvec_files, mask=None,
-                 min_kurtosis=-1, max_kurtosis=3, out_dir=None,
-                 b0_threshold=50):
+def fit_dkimicro(
+    data_files,
+    bval_files,
+    bvec_files,
+    mask=None,
+    min_kurtosis=-1,
+    max_kurtosis=3,
+    out_dir=None,
+    b0_threshold=50,
+):
     """
     Fit the DKI model, save files with derived maps
 
@@ -280,9 +293,9 @@ def fit_dkimicro(data_files, bval_files, bvec_files, mask=None,
     Maps that are calculated: FA, MD, AD, RD, MK, AK, RK
 
     """
-    img, data, gtab, mask = ut.prepare_data(data_files, bval_files,
-                                            bvec_files, mask=mask,
-                                            b0_threshold=b0_threshold)
+    img, data, gtab, mask = ut.prepare_data(
+        data_files, bval_files, bvec_files, mask=mask, b0_threshold=b0_threshold
+    )
 
     dkimodel = dki_micro.KurtosisMicrostructureModel(gtab)
     dkifit = dkimodel.fit(data, mask=mask)
@@ -297,13 +310,13 @@ def fit_dkimicro(data_files, bval_files, bvec_files, mask=None,
     params = dkifit.model_params
 
     maps = [AWF, T, hAD, hRD, hMD, Da, params]
-    names = ['AWF', 'T', 'hAD', 'hRD', 'hMD', 'Da', 'params']
+    names = ["AWF", "T", "hAD", "hRD", "hMD", "Da", "params"]
 
     if out_dir is None:
         if isinstance(data_files, list):
-            out_dir = op.join(op.split(data_files[0])[0], 'dki')
+            out_dir = op.join(op.split(data_files[0])[0], "dki")
         else:
-            out_dir = op.join(op.split(data_files)[0], 'dki')
+            out_dir = op.join(op.split(data_files)[0], "dki")
 
     if not op.exists(out_dir):
         os.makedirs(out_dir)
@@ -311,7 +324,7 @@ def fit_dkimicro(data_files, bval_files, bvec_files, mask=None,
     aff = img.affine
     file_paths = {}
     for m, n in zip(maps, names):
-        file_paths[n] = op.join(out_dir, 'dkimicro_%s.nii.gz' % n)
+        file_paths[n] = op.join(out_dir, "dkimicro_%s.nii.gz" % n)
         nib.save(nib.Nifti1Image(m, aff), file_paths[n])
 
     return file_paths
@@ -350,7 +363,7 @@ def predict(params_file, gtab, S0_file=None, out_dir=None):
     img = nib.load(params_file)
     params = img.get_fdata()
     pred = dki.dki_prediction(params, gtab, S0=S0)
-    fname = op.join(out_dir, 'dki_prediction.nii.gz')
+    fname = op.join(out_dir, "dki_prediction.nii.gz")
     nib.save(nib.Nifti1Image(pred, img.affine), fname)
 
     return fname

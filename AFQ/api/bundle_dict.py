@@ -1,25 +1,26 @@
 import logging
-from collections.abc import MutableMapping, Mapping
+from collections.abc import Mapping, MutableMapping
+
+import nibabel as nib
+import numpy as np
+from dipy.io.streamline import load_tractogram
 
 import AFQ.data.fetch as afd
 import AFQ.utils.volume as auv
-from AFQ.tasks.utils import get_fname, str_to_desc
 from AFQ.definitions.utils import find_file
-from AFQ.utils.path import space_from_fname
-
-import numpy as np
-import nibabel as nib
-
-from dipy.io.streamline import load_tractogram
+from AFQ.tasks.utils import get_fname, str_to_desc
 
 logging.basicConfig(level=logging.INFO)
 
 
 __all__ = [
     "BundleDict",
-    "default18_bd", "reco_bd",
-    "callosal_bd", "cerebellar_bd",
-    "baby_bd"]
+    "default18_bd",
+    "reco_bd",
+    "callosal_bd",
+    "cerebellar_bd",
+    "baby_bd",
+]
 
 
 def do_preprocessing():
@@ -38,20 +39,78 @@ def append_l_r(bundle_list, no_lr_list):
 
 
 RECO_UNIQUE = [
-    'CCMid', 'CC_ForcepsMajor', 'CC_ForcepsMinor', 'MCP', 'AC', 'PC', 'SCP',
-    'V', 'CC', 'F_L_R']
+    "CCMid",
+    "CC_ForcepsMajor",
+    "CC_ForcepsMinor",
+    "MCP",
+    "AC",
+    "PC",
+    "SCP",
+    "V",
+    "CC",
+    "F_L_R",
+]
 
 RECO_BUNDLES_16 = [
-    'CST', 'C', 'F', 'UF', 'MCP', 'AF', 'CCMid',
-    'CC_ForcepsMajor', 'CC_ForcepsMinor', 'IFOF']
+    "CST",
+    "C",
+    "F",
+    "UF",
+    "MCP",
+    "AF",
+    "CCMid",
+    "CC_ForcepsMajor",
+    "CC_ForcepsMinor",
+    "IFOF",
+]
 RECO_BUNDLES_16 = append_l_r(RECO_BUNDLES_16, RECO_UNIQUE)
 
-RECO_BUNDLES_80 = ["AC", "AF", "AR", "AST", "C", "CB", "CC_ForcepsMajor",
-                   "CC_ForcepsMinor", "CC", "CCMid", "CNII", "CNIII",
-                   "CNIV", "CNV", "CNVII", "CNVIII", "CS", "CST", "CT",
-                   "CTT", "DLF", "EMC", "F_L_R", "FPT", "ICP", "IFOF", "ILF",
-                   "LL", "MCP", "MdLF", "ML", "MLF", "OPT", "OR", "PC", "PPT",
-                   "RST", "SCP", "SLF", "STT", "TPT", "UF", "V", "VOF"]
+RECO_BUNDLES_80 = [
+    "AC",
+    "AF",
+    "AR",
+    "AST",
+    "C",
+    "CB",
+    "CC_ForcepsMajor",
+    "CC_ForcepsMinor",
+    "CC",
+    "CCMid",
+    "CNII",
+    "CNIII",
+    "CNIV",
+    "CNV",
+    "CNVII",
+    "CNVIII",
+    "CS",
+    "CST",
+    "CT",
+    "CTT",
+    "DLF",
+    "EMC",
+    "F_L_R",
+    "FPT",
+    "ICP",
+    "IFOF",
+    "ILF",
+    "LL",
+    "MCP",
+    "MdLF",
+    "ML",
+    "MLF",
+    "OPT",
+    "OR",
+    "PC",
+    "PPT",
+    "RST",
+    "SCP",
+    "SLF",
+    "STT",
+    "TPT",
+    "UF",
+    "V",
+    "VOF",
+]
 RECO_BUNDLES_80 = append_l_r(RECO_BUNDLES_80, RECO_UNIQUE)
 # See: https://www.cmu.edu/dietrich/psychology/cognitiveaxon/documents/yeh_etal_2018.pdf  # noqa
 
@@ -61,220 +120,233 @@ DIPY_GH = "https://github.com/dipy/dipy/blob/master/dipy/"
 
 def default18_bd():
     templates = afd.read_templates(as_img=False)
-    templates['ARC_roi1_L'] = templates['SLF_roi1_L']
-    templates['ARC_roi1_R'] = templates['SLF_roi1_R']
-    templates['ARC_roi2_L'] = templates['SLFt_roi2_L']
-    templates['ARC_roi2_R'] = templates['SLFt_roi2_R']
-    callosal_templates =\
-        afd.read_callosum_templates(as_img=False)
-    return BundleDict({
-        'Left Anterior Thalamic': {
-            'cross_midline': False,
-            'include': [
-                templates['ATR_roi1_L'],
-                templates['ATR_roi2_L']],
-            'exclude': [],
-            'space': 'template',
-            'prob_map': templates['ATR_L_prob_map'],
-            'start': templates['ATR_L_start'],
-            'end': templates['ATR_L_end']},
-        'Right Anterior Thalamic': {
-            'cross_midline': False,
-            'include': [templates['ATR_roi1_R'],
-                        templates['ATR_roi2_R']],
-            'exclude': [],
-            'space': 'template',
-            'prob_map': templates['ATR_R_prob_map'],
-            'start': templates['ATR_R_start'],
-            'end': templates['ATR_R_end']},
-        'Left Cingulum Cingulate': {
-            'cross_midline': False,
-            'include': [templates['CGC_roi2_L'],
-                        templates['CGC_roi1_L']],
-            'exclude': [],
-            'space': 'template',
-            'prob_map': templates['CGC_L_prob_map'],
-            'end': templates['CGC_L_start']},
-        'Right Cingulum Cingulate': {
-            'cross_midline': False,
-            'include': [templates['CGC_roi2_R'],
-                        templates['CGC_roi1_R']],
-            'exclude': [],
-            'space': 'template',
-            'prob_map': templates['CGC_R_prob_map'],
-            'end': templates['CGC_R_start']},
-        'Left Corticospinal': {
-            'cross_midline': False,
-            'include': [templates['CST_roi2_L'],
-                        templates['CST_roi1_L']],
-            'exclude': [],
-            'space': 'template',
-            'prob_map': templates['CST_L_prob_map'],
-            'end': templates['CST_L_start']},
-        'Right Corticospinal': {
-            'cross_midline': False,
-            'include': [templates['CST_roi2_R'],
-                        templates['CST_roi1_R']],
-            'exclude': [],
-            'space': 'template',
-            'prob_map': templates['CST_R_prob_map'],
-            'end': templates['CST_R_start']},
-        'Left Inferior Fronto-occipital': {
-            'cross_midline': False,
-            'include': [templates['IFO_roi2_L'],
-                        templates['IFO_roi1_L']],
-            'exclude': [templates['ARC_roi1_L']],
-            'space': 'template',
-            'prob_map': templates['IFO_L_prob_map'],
-            'end': templates['IFO_L_start'],
-            'start': templates['IFO_L_end']},
-        'Right Inferior Fronto-occipital': {
-            'cross_midline': False,
-            'include': [templates['IFO_roi2_R'],
-                        templates['IFO_roi1_R']],
-            'exclude': [templates['ARC_roi1_R']],
-            'space': 'template',
-            'prob_map': templates['IFO_R_prob_map'],
-            'end': templates['IFO_R_start'],
-            'start': templates['IFO_R_end']},
-        'Left Inferior Longitudinal': {
-            'cross_midline': False,
-            'include': [templates['ILF_roi2_L'],
-                        templates['ILF_roi1_L']],
-            'exclude': [],
-            'space': 'template',
-            'prob_map': templates['ILF_L_prob_map'],
-            'start': templates['ILF_L_end'],
-            'end': templates['ILF_L_start']},
-        'Right Inferior Longitudinal': {
-            'cross_midline': False,
-            'include': [templates['ILF_roi2_R'],
-                        templates['ILF_roi1_R']],
-            'exclude': [],
-            'space': 'template',
-            'prob_map': templates['ILF_R_prob_map'],
-            'start': templates['ILF_R_end'],
-            'end': templates['ILF_R_start']},
-        'Left Superior Longitudinal': {
-            'cross_midline': False,
-            'include': [templates['SLF_roi1_L'],
-                        templates['SLF_roi2_L']],
-            'exclude': [templates['SLFt_roi2_L']],
-            'space': 'template',
-            'prob_map': templates['SLF_L_prob_map'],
-            'start': templates['SLF_L_start'],
-            'end': templates['SLF_L_end']},
-        'Right Superior Longitudinal': {
-            'cross_midline': False,
-            'include': [templates['SLF_roi1_R'],
-                        templates['SLF_roi2_R']],
-            'exclude': [templates['SLFt_roi2_R']],
-            'space': 'template',
-            'prob_map': templates['SLF_R_prob_map'],
-            'start': templates['SLF_R_start'],
-            'end': templates['SLF_R_end']},
-        'Left Arcuate': {'cross_midline': False,
-                         'include': [templates['SLF_roi1_L'],
-                                     templates['SLFt_roi2_L']],
-                         'exclude': [],
-                         'space': 'template',
-                         'prob_map': templates['ARC_L_prob_map'],
-                         'start': templates['ARC_L_start'],
-                         'end': templates['ARC_L_end']},
-        'Right Arcuate': {'cross_midline': False,
-                          'include': [templates['SLF_roi1_R'],
-                                      templates['SLFt_roi2_R']],
-                          'exclude': [],
-                          'space': 'template',
-                          'prob_map': templates['ARC_R_prob_map'],
-                          'start': templates['ARC_R_start'],
-                          'end': templates['ARC_R_end']},
-        'Left Uncinate': {'cross_midline': False,
-                          'include': [templates['UNC_roi2_L'],
-                                      templates['UNC_roi1_L']],
-                          'exclude': [],
-                          'space': 'template',
-                          'prob_map': templates['UNC_L_prob_map'],
-                          'start': templates['UNC_L_end'],
-                          'end': templates['UNC_L_start']},
-        'Right Uncinate': {'cross_midline': False,
-                           'include': [templates['UNC_roi2_R'],
-                                       templates['UNC_roi1_R']],
-                           'exclude': [],
-                           'space': 'template',
-                           'prob_map': templates['UNC_R_prob_map'],
-                           'start': templates['UNC_R_end'],
-                           'end': templates['UNC_R_start']},
-        'Forceps Minor': {'cross_midline': True,
-                          'include': [templates['FA_L'],
-                                      callosal_templates['Callosum_midsag'],
-                                      templates['FA_R']],
-                          'exclude': [],
-                          'space': 'template',
-                          'prob_map': templates['FA_prob_map'],
-                          'start': templates['FA_start'],
-                          'end': templates['FA_end']},
-        'Forceps Major': {'cross_midline': True,
-                          'include': [templates['FP_L'],
-                                      callosal_templates['Callosum_midsag'],
-                                      templates['FP_R']],
-                          'exclude': [],
-                          'space': 'template',
-                          'prob_map': templates['FP_prob_map'],
-                          'start': templates['FP_start'],
-                          'end': templates['FP_end']},
-        'Left Posterior Arcuate': {'cross_midline': False,
-                                   'include': [templates['SLFt_roi2_L']],
-                                   'exclude': [templates['SLF_roi1_L']],
-                                   'space': 'template',
-                                   'start': templates['pARC_L_start'],
-                                   'Left Arcuate': {
-                                       'overlap': 30},
-                                   'primary_axis': 'I/S',
-                                   'primary_axis_percentage': 40},
-        'Right Posterior Arcuate': {'cross_midline': False,
-                                    'include': [templates['SLFt_roi2_R']],
-                                    'exclude': [templates['SLF_roi1_R']],
-                                    'space': 'template',
-                                    'start': templates['pARC_R_start'],
-                                    'Right Arcuate': {
-                                        'overlap': 30},
-                                    'primary_axis': 'I/S',
-                                    'primary_axis_percentage': 40},
-        'Left Vertical Occipital': {'cross_midline': False,
-                                    'space': 'template',
-                                    'end': templates['VOF_L_end'],
-                                    'Left Arcuate': {
-                                        'node_thresh': 20},
-                                    'Left Posterior Arcuate': {
-                                        'node_thresh': 20,
-                                        'entire_core': 'Anterior'},
-                                    'Left Inferior Fronto-occipital': {
-                                        'core': 'Right'},
-                                    'orient_mahal': {
-                                        'distance_threshold': 3,
-                                        'clean_rounds': 5},
-                                    'length': {'min_len': 25},
-                                    'isolation_forest': {},
-                                    'primary_axis': 'I/S',
-                                    'primary_axis_percentage': 40},
-        'Right Vertical Occipital': {'cross_midline': False,
-                                     'space': 'template',
-                                     'end': templates['VOF_R_end'],
-                                     'Right Arcuate': {
-                                         'node_thresh': 20},
-                                     'Right Posterior Arcuate': {
-                                         'node_thresh': 20,
-                                         'entire_core': 'Anterior'},
-                                     'Right Inferior Fronto-occipital': {
-                                         'core': 'Left'},
-                                     'orient_mahal': {
-                                         'distance_threshold': 3,
-                                         'clean_rounds': 5},
-                                     'length': {'min_len': 25},
-                                     'isolation_forest': {},
-                                     'primary_axis': 'I/S',
-                                     'primary_axis_percentage': 40}})
+    templates["ARC_roi1_L"] = templates["SLF_roi1_L"]
+    templates["ARC_roi1_R"] = templates["SLF_roi1_R"]
+    templates["ARC_roi2_L"] = templates["SLFt_roi2_L"]
+    templates["ARC_roi2_R"] = templates["SLFt_roi2_R"]
+    callosal_templates = afd.read_callosum_templates(as_img=False)
+    return BundleDict(
+        {
+            "Left Anterior Thalamic": {
+                "cross_midline": False,
+                "include": [templates["ATR_roi1_L"], templates["ATR_roi2_L"]],
+                "exclude": [],
+                "space": "template",
+                "prob_map": templates["ATR_L_prob_map"],
+                "start": templates["ATR_L_start"],
+                "end": templates["ATR_L_end"],
+            },
+            "Right Anterior Thalamic": {
+                "cross_midline": False,
+                "include": [templates["ATR_roi1_R"], templates["ATR_roi2_R"]],
+                "exclude": [],
+                "space": "template",
+                "prob_map": templates["ATR_R_prob_map"],
+                "start": templates["ATR_R_start"],
+                "end": templates["ATR_R_end"],
+            },
+            "Left Cingulum Cingulate": {
+                "cross_midline": False,
+                "include": [templates["CGC_roi2_L"], templates["CGC_roi1_L"]],
+                "exclude": [],
+                "space": "template",
+                "prob_map": templates["CGC_L_prob_map"],
+                "end": templates["CGC_L_start"],
+            },
+            "Right Cingulum Cingulate": {
+                "cross_midline": False,
+                "include": [templates["CGC_roi2_R"], templates["CGC_roi1_R"]],
+                "exclude": [],
+                "space": "template",
+                "prob_map": templates["CGC_R_prob_map"],
+                "end": templates["CGC_R_start"],
+            },
+            "Left Corticospinal": {
+                "cross_midline": False,
+                "include": [templates["CST_roi2_L"], templates["CST_roi1_L"]],
+                "exclude": [],
+                "space": "template",
+                "prob_map": templates["CST_L_prob_map"],
+                "end": templates["CST_L_start"],
+            },
+            "Right Corticospinal": {
+                "cross_midline": False,
+                "include": [templates["CST_roi2_R"], templates["CST_roi1_R"]],
+                "exclude": [],
+                "space": "template",
+                "prob_map": templates["CST_R_prob_map"],
+                "end": templates["CST_R_start"],
+            },
+            "Left Inferior Fronto-occipital": {
+                "cross_midline": False,
+                "include": [templates["IFO_roi2_L"], templates["IFO_roi1_L"]],
+                "exclude": [templates["ARC_roi1_L"]],
+                "space": "template",
+                "prob_map": templates["IFO_L_prob_map"],
+                "end": templates["IFO_L_start"],
+                "start": templates["IFO_L_end"],
+            },
+            "Right Inferior Fronto-occipital": {
+                "cross_midline": False,
+                "include": [templates["IFO_roi2_R"], templates["IFO_roi1_R"]],
+                "exclude": [templates["ARC_roi1_R"]],
+                "space": "template",
+                "prob_map": templates["IFO_R_prob_map"],
+                "end": templates["IFO_R_start"],
+                "start": templates["IFO_R_end"],
+            },
+            "Left Inferior Longitudinal": {
+                "cross_midline": False,
+                "include": [templates["ILF_roi2_L"], templates["ILF_roi1_L"]],
+                "exclude": [],
+                "space": "template",
+                "prob_map": templates["ILF_L_prob_map"],
+                "start": templates["ILF_L_end"],
+                "end": templates["ILF_L_start"],
+            },
+            "Right Inferior Longitudinal": {
+                "cross_midline": False,
+                "include": [templates["ILF_roi2_R"], templates["ILF_roi1_R"]],
+                "exclude": [],
+                "space": "template",
+                "prob_map": templates["ILF_R_prob_map"],
+                "start": templates["ILF_R_end"],
+                "end": templates["ILF_R_start"],
+            },
+            "Left Superior Longitudinal": {
+                "cross_midline": False,
+                "include": [templates["SLF_roi1_L"], templates["SLF_roi2_L"]],
+                "exclude": [templates["SLFt_roi2_L"]],
+                "space": "template",
+                "prob_map": templates["SLF_L_prob_map"],
+                "start": templates["SLF_L_start"],
+                "end": templates["SLF_L_end"],
+            },
+            "Right Superior Longitudinal": {
+                "cross_midline": False,
+                "include": [templates["SLF_roi1_R"], templates["SLF_roi2_R"]],
+                "exclude": [templates["SLFt_roi2_R"]],
+                "space": "template",
+                "prob_map": templates["SLF_R_prob_map"],
+                "start": templates["SLF_R_start"],
+                "end": templates["SLF_R_end"],
+            },
+            "Left Arcuate": {
+                "cross_midline": False,
+                "include": [templates["SLF_roi1_L"], templates["SLFt_roi2_L"]],
+                "exclude": [],
+                "space": "template",
+                "prob_map": templates["ARC_L_prob_map"],
+                "start": templates["ARC_L_start"],
+                "end": templates["ARC_L_end"],
+            },
+            "Right Arcuate": {
+                "cross_midline": False,
+                "include": [templates["SLF_roi1_R"], templates["SLFt_roi2_R"]],
+                "exclude": [],
+                "space": "template",
+                "prob_map": templates["ARC_R_prob_map"],
+                "start": templates["ARC_R_start"],
+                "end": templates["ARC_R_end"],
+            },
+            "Left Uncinate": {
+                "cross_midline": False,
+                "include": [templates["UNC_roi2_L"], templates["UNC_roi1_L"]],
+                "exclude": [],
+                "space": "template",
+                "prob_map": templates["UNC_L_prob_map"],
+                "start": templates["UNC_L_end"],
+                "end": templates["UNC_L_start"],
+            },
+            "Right Uncinate": {
+                "cross_midline": False,
+                "include": [templates["UNC_roi2_R"], templates["UNC_roi1_R"]],
+                "exclude": [],
+                "space": "template",
+                "prob_map": templates["UNC_R_prob_map"],
+                "start": templates["UNC_R_end"],
+                "end": templates["UNC_R_start"],
+            },
+            "Forceps Minor": {
+                "cross_midline": True,
+                "include": [
+                    templates["FA_L"],
+                    callosal_templates["Callosum_midsag"],
+                    templates["FA_R"],
+                ],
+                "exclude": [],
+                "space": "template",
+                "prob_map": templates["FA_prob_map"],
+                "start": templates["FA_start"],
+                "end": templates["FA_end"],
+            },
+            "Forceps Major": {
+                "cross_midline": True,
+                "include": [
+                    templates["FP_L"],
+                    callosal_templates["Callosum_midsag"],
+                    templates["FP_R"],
+                ],
+                "exclude": [],
+                "space": "template",
+                "prob_map": templates["FP_prob_map"],
+                "start": templates["FP_start"],
+                "end": templates["FP_end"],
+            },
+            "Left Posterior Arcuate": {
+                "cross_midline": False,
+                "include": [templates["SLFt_roi2_L"]],
+                "exclude": [templates["SLF_roi1_L"]],
+                "space": "template",
+                "start": templates["pARC_L_start"],
+                "Left Arcuate": {"overlap": 30},
+                "primary_axis": "I/S",
+                "primary_axis_percentage": 40,
+            },
+            "Right Posterior Arcuate": {
+                "cross_midline": False,
+                "include": [templates["SLFt_roi2_R"]],
+                "exclude": [templates["SLF_roi1_R"]],
+                "space": "template",
+                "start": templates["pARC_R_start"],
+                "Right Arcuate": {"overlap": 30},
+                "primary_axis": "I/S",
+                "primary_axis_percentage": 40,
+            },
+            "Left Vertical Occipital": {
+                "cross_midline": False,
+                "space": "template",
+                "end": templates["VOF_L_end"],
+                "Left Arcuate": {"node_thresh": 20},
+                "Left Posterior Arcuate": {
+                    "node_thresh": 20,
+                    "entire_core": "Anterior",
+                },
+                "Left Inferior Fronto-occipital": {"core": "Right"},
+                "orient_mahal": {"distance_threshold": 3, "clean_rounds": 5},
+                "length": {"min_len": 25},
+                "isolation_forest": {},
+                "primary_axis": "I/S",
+                "primary_axis_percentage": 40,
+            },
+            "Right Vertical Occipital": {
+                "cross_midline": False,
+                "space": "template",
+                "end": templates["VOF_R_end"],
+                "Right Arcuate": {"node_thresh": 20},
+                "Right Posterior Arcuate": {
+                    "node_thresh": 20,
+                    "entire_core": "Anterior",
+                },
+                "Right Inferior Fronto-occipital": {"core": "Left"},
+                "orient_mahal": {"distance_threshold": 3, "clean_rounds": 5},
+                "length": {"min_len": 25},
+                "isolation_forest": {},
+                "primary_axis": "I/S",
+                "primary_axis_percentage": 40,
+            },
+        }
+    )
 
 
 def baby_bd():
@@ -289,307 +361,399 @@ def baby_bd():
 
     # pediatric probability maps
     prob_map_order = [
-        "ATR_L", "ATR_R", "CST_L", "CST_R", "CGC_L", "CGC_R",
-        "MdLF_L", "MdLF_R", "FP", "FA", "IFO_L", "IFO_R", "ILF_L",
-        "ILF_R", "SLF_L", "SLF_R", "UNC_L", "UNC_R",
-        "ARC_L", "ARC_R"]
+        "ATR_L",
+        "ATR_R",
+        "CST_L",
+        "CST_R",
+        "CGC_L",
+        "CGC_R",
+        "MdLF_L",
+        "MdLF_R",
+        "FP",
+        "FA",
+        "IFO_L",
+        "IFO_R",
+        "ILF_L",
+        "ILF_R",
+        "SLF_L",
+        "SLF_R",
+        "UNC_L",
+        "UNC_R",
+        "ARC_L",
+        "ARC_R",
+    ]
 
-    prob_maps = templates[
-        'UNCNeo_JHU_tracts_prob-for-babyAFQ']
+    prob_maps = templates["UNCNeo_JHU_tracts_prob-for-babyAFQ"]
     prob_map_data = prob_maps.get_fdata()
 
     for bundle_name in prob_map_order:
         templates[bundle_name + "_prob_map"] = nib.Nifti1Image(
-            prob_map_data[
-                ...,
-                prob_map_order.index(bundle_name)], prob_maps.affine)
+            prob_map_data[..., prob_map_order.index(bundle_name)], prob_maps.affine
+        )
 
     # reuse probability map from ILF
     templates["MdLF_L_prob_map"] = templates["ILF_L_prob_map"]
     templates["MdLF_R_prob_map"] = templates["ILF_R_prob_map"]
-    return BundleDict({
-        'Left Anterior Thalamic': {
-            'cross_midline': False,
-            'include': [
-                templates['ATR_roi3_L'],
-                templates['ATR_roi2_L'],
-                templates['ATR_roi1_L']],
-            'exclude': [],
-            'space': 'template',
-            'prob_map': templates['ATR_L_prob_map'],
-            'mahal': {'distance_threshold': 4}},
-        'Right Anterior Thalamic': {'cross_midline': False,
-                                    'include': [
-                                        templates['ATR_roi3_R'],
-                                        templates['ATR_roi2_R'],
-                                        templates['ATR_roi1_R']],
-                                    'exclude': [],
-                                    'space': 'template',
-                                    'prob_map': templates['ATR_R_prob_map'],
-                                    'mahal': {'distance_threshold': 4}},
-        'Left Cingulum Cingulate': {
-            'cross_midline': False,
-            'include': [templates['CGC_roi3_L'],
-                        templates['CGC_roi2_L'],
-                        templates['CGC_roi1_L']],
-            'exclude': [],
-            'space': 'template',
-            'prob_map': templates['CGC_L_prob_map'],
-            'mahal': {'distance_threshold': 4}},
-        'Right Cingulum Cingulate': {
-            'cross_midline': False,
-            'include': [templates['CGC_roi3_R'],
-                        templates['CGC_roi2_R'],
-                        templates['CGC_roi1_R']],
-            'exclude': [],
-            'space': 'template',
-            'prob_map': templates['CGC_R_prob_map'],
-            'mahal': {'distance_threshold': 4}},
-        'Left Corticospinal': {'cross_midline': False,
-                               'include': [templates['CST_roi2_L'],
-                                           templates['CST_roi1_L']],
-                               'exclude': [],
-                               'space': 'template',
-                               'prob_map': templates['CST_L_prob_map'],
-                               'mahal': {'distance_threshold': 4}},
-        'Right Corticospinal': {'cross_midline': False,
-                                'include': [templates['CST_roi2_R'],
-                                            templates['CST_roi1_R']],
-                                'exclude': [],
-                                'space': 'template',
-                                'prob_map': templates['CST_R_prob_map'],
-                                'mahal': {'distance_threshold': 4}},
-        'Left Inferior Fronto-occipital': {
-            'cross_midline': False,
-            'include': [templates['IFO_roi3_L'],
-                        templates['IFO_roi2_L'],
-                        templates['IFO_roi1_L']],
-            'exclude': [],
-            'space': 'template',
-            'prob_map': templates['IFO_L_prob_map'],
-            'mahal': {'distance_threshold': 4}},
-        'Right Inferior Fronto-occipital': {
-            'cross_midline': False,
-            'include': [templates['IFO_roi3_R'],
-                        templates['IFO_roi2_R'],
-                        templates['IFO_roi1_R']],
-            'exclude': [],
-            'space': 'template',
-            'prob_map': templates['IFO_R_prob_map'],
-            'mahal': {'distance_threshold': 4}},
-        'Left Inferior Longitudinal': {
-            'cross_midline': False,
-            'include': [templates['ILF_roi2_L'],
-                        templates['ILF_roi1_L']],
-            'exclude': [],
-            'space': 'template',
-            'prob_map': templates['ILF_L_prob_map'],
-            'mahal': {'distance_threshold': 4}},
-        'Right Inferior Longitudinal': {
-            'cross_midline': False,
-            'include': [templates['ILF_roi2_R'],
-                        templates['ILF_roi1_R']],
-            'exclude': [],
-            'space': 'template',
-            'prob_map': templates['ILF_R_prob_map'],
-            'mahal': {'distance_threshold': 4}},
-        'Left Middle Longitudinal': {
-            'cross_midline': False,
-            'include': [templates['MdLF_roi2_L'],
-                        templates['MdLF_roi1_L']],
-            'exclude': [],
-            'space': 'template',
-            'prob_map': templates['MdLF_L_prob_map'],
-            'mahal': {'distance_threshold': 4}},
-        'Right Middle Longitudinal': {
-            'cross_midline': False,
-            'include': [templates['MdLF_roi2_R'],
-                        templates['MdLF_roi1_R']],
-            'exclude': [],
-            'space': 'template',
-            'prob_map': templates['MdLF_R_prob_map'],
-            'mahal': {'distance_threshold': 4}},
-        'Left Superior Longitudinal': {
-            'cross_midline': False,
-            'include': [templates['SLF_roi1_L'],
-                        templates['SLF_roi2_L']],
-            'exclude': [templates['SLFt_roi2_L']],
-            'space': 'template',
-            'prob_map': templates['SLF_L_prob_map'],
-            'mahal': {'distance_threshold': 4}},
-        'Right Superior Longitudinal': {
-            'cross_midline': False,
-            'include': [templates['SLF_roi1_R'],
-                        templates['SLF_roi2_R']],
-            'exclude': [templates['SLFt_roi2_R']],
-            'space': 'template',
-            'prob_map': templates['SLF_R_prob_map'],
-            'mahal': {'distance_threshold': 4}},
-        'Left Arcuate': {'cross_midline': False,
-                         'include': [templates['ARC_roi1_L'],
-                                     templates['ARC_roi2_L'],
-                                     templates['ARC_roi3_L']],
-                         'exclude': [],
-                         'space': 'template',
-                         'prob_map': templates['ARC_L_prob_map'],
-                         'mahal': {'distance_threshold': 4}},
-        'Right Arcuate': {'cross_midline': False,
-                          'include': [templates['ARC_roi1_R'],
-                                      templates['ARC_roi2_R'],
-                                      templates['ARC_roi3_R']],
-                          'exclude': [],
-                          'space': 'template',
-                          'prob_map': templates['ARC_R_prob_map'],
-                          'mahal': {'distance_threshold': 4}},
-        'Left Uncinate': {'cross_midline': False,
-                          'include': [templates['UNC_roi3_L'],
-                                      templates['UNC_roi2_L'],
-                                      templates['UNC_roi1_L']],
-                          'exclude': [],
-                          'space': 'template',
-                          'prob_map': templates['UNC_L_prob_map'],
-                          'mahal': {'distance_threshold': 4}},
-        'Right Uncinate': {'cross_midline': False,
-                           'include': [templates['UNC_roi3_R'],
-                                       templates['UNC_roi2_R'],
-                                       templates['UNC_roi1_R']],
-                           'exclude': [],
-                           'space': 'template',
-                           'prob_map': templates['UNC_R_prob_map'],
-                           'mahal': {'distance_threshold': 4}},
-        'Forceps Minor': {'cross_midline': True,
-                          'include': [templates['FA_R'],
-                                      templates['mid-sagittal'],
-                                      templates['FA_L']],
-                          'exclude': [],
-                          'space': 'template',
-                          'prob_map': templates['FA_prob_map'],
-                          'mahal': {'distance_threshold': 4}},
-        'Forceps Major': {'cross_midline': True,
-                          'include': [templates['FP_R'],
-                                      templates['mid-sagittal'],
-                                      templates['FP_L']],
-                          'exclude': [],
-                          'space': 'template',
-                          'prob_map': templates['FP_prob_map'],
-                          'mahal': {'distance_threshold': 4}},
-        'Left Optic Radiation': {
-            "include": [templates["OR_left_roi3"]],
-            "start": templates["OR_leftThal"],
-            "end": templates["OR_leftV1"],
-            "cross_midline": False,
-            "mahal": {"distance_threshold": 4}},
-        'Right Optic Radiation': {
-            "include": [templates["OR_right_roi3"]],
-            "start": templates["OR_rightThal"],
-            "end": templates["OR_rightV1"],
-            "cross_midline": False,
-            "mahal": {"distance_threshold": 4}},
-        'Left Posterior Arcuate': {
-            "include": [templates["SLFt_roi2_L"]],
-            "exclude": [templates["SLF_roi1_L"]],
-            "start": templates["pARC_L_start"],
-            "end": templates["VOF_box_small_L"],
-            "primary_axis": 'I/S',
-            "primary_axis_percentage": 40,
-            "cross_midline": False,
-            "mahal": {"distance_threshold": 4}},
-        'Right Posterior Arcuate': {
-            "include": [templates["SLFt_roi2_R"]],
-            "exclude": [templates["SLF_roi1_R"]],
-            "start": templates["pARC_R_start"],
-            "end": templates["VOF_box_small_R"],
-            "primary_axis": 'I/S',
-            "primary_axis_percentage": 40,
-            "cross_midline": False,
-            "mahal": {"distance_threshold": 4}},
-        'Left Vertical Occipital': {
-            "start": templates["VOF_L_start"],
-            "end": templates["VOF_box_small_L"],
-            "primary_axis": 'I/S',
-            "primary_axis_percentage": 40,
-            "cross_midline": False,
-            "mahal": {"distance_threshold": 4}},
-        'Right Vertical Occipital': {
-            "start": templates["VOF_R_start"],
-            "end": templates["VOF_box_small_R"],
-            "primary_axis": 'I/S',
-            "primary_axis_percentage": 40,
-            "cross_midline": False,
-            "mahal": {"distance_threshold": 4}}},
-        resample_to=afd.read_pediatric_templates()[
-            'UNCNeo-withCerebellum-for-babyAFQ'])
+    return BundleDict(
+        {
+            "Left Anterior Thalamic": {
+                "cross_midline": False,
+                "include": [
+                    templates["ATR_roi3_L"],
+                    templates["ATR_roi2_L"],
+                    templates["ATR_roi1_L"],
+                ],
+                "exclude": [],
+                "space": "template",
+                "prob_map": templates["ATR_L_prob_map"],
+                "mahal": {"distance_threshold": 4},
+            },
+            "Right Anterior Thalamic": {
+                "cross_midline": False,
+                "include": [
+                    templates["ATR_roi3_R"],
+                    templates["ATR_roi2_R"],
+                    templates["ATR_roi1_R"],
+                ],
+                "exclude": [],
+                "space": "template",
+                "prob_map": templates["ATR_R_prob_map"],
+                "mahal": {"distance_threshold": 4},
+            },
+            "Left Cingulum Cingulate": {
+                "cross_midline": False,
+                "include": [
+                    templates["CGC_roi3_L"],
+                    templates["CGC_roi2_L"],
+                    templates["CGC_roi1_L"],
+                ],
+                "exclude": [],
+                "space": "template",
+                "prob_map": templates["CGC_L_prob_map"],
+                "mahal": {"distance_threshold": 4},
+            },
+            "Right Cingulum Cingulate": {
+                "cross_midline": False,
+                "include": [
+                    templates["CGC_roi3_R"],
+                    templates["CGC_roi2_R"],
+                    templates["CGC_roi1_R"],
+                ],
+                "exclude": [],
+                "space": "template",
+                "prob_map": templates["CGC_R_prob_map"],
+                "mahal": {"distance_threshold": 4},
+            },
+            "Left Corticospinal": {
+                "cross_midline": False,
+                "include": [templates["CST_roi2_L"], templates["CST_roi1_L"]],
+                "exclude": [],
+                "space": "template",
+                "prob_map": templates["CST_L_prob_map"],
+                "mahal": {"distance_threshold": 4},
+            },
+            "Right Corticospinal": {
+                "cross_midline": False,
+                "include": [templates["CST_roi2_R"], templates["CST_roi1_R"]],
+                "exclude": [],
+                "space": "template",
+                "prob_map": templates["CST_R_prob_map"],
+                "mahal": {"distance_threshold": 4},
+            },
+            "Left Inferior Fronto-occipital": {
+                "cross_midline": False,
+                "include": [
+                    templates["IFO_roi3_L"],
+                    templates["IFO_roi2_L"],
+                    templates["IFO_roi1_L"],
+                ],
+                "exclude": [],
+                "space": "template",
+                "prob_map": templates["IFO_L_prob_map"],
+                "mahal": {"distance_threshold": 4},
+            },
+            "Right Inferior Fronto-occipital": {
+                "cross_midline": False,
+                "include": [
+                    templates["IFO_roi3_R"],
+                    templates["IFO_roi2_R"],
+                    templates["IFO_roi1_R"],
+                ],
+                "exclude": [],
+                "space": "template",
+                "prob_map": templates["IFO_R_prob_map"],
+                "mahal": {"distance_threshold": 4},
+            },
+            "Left Inferior Longitudinal": {
+                "cross_midline": False,
+                "include": [templates["ILF_roi2_L"], templates["ILF_roi1_L"]],
+                "exclude": [],
+                "space": "template",
+                "prob_map": templates["ILF_L_prob_map"],
+                "mahal": {"distance_threshold": 4},
+            },
+            "Right Inferior Longitudinal": {
+                "cross_midline": False,
+                "include": [templates["ILF_roi2_R"], templates["ILF_roi1_R"]],
+                "exclude": [],
+                "space": "template",
+                "prob_map": templates["ILF_R_prob_map"],
+                "mahal": {"distance_threshold": 4},
+            },
+            "Left Middle Longitudinal": {
+                "cross_midline": False,
+                "include": [templates["MdLF_roi2_L"], templates["MdLF_roi1_L"]],
+                "exclude": [],
+                "space": "template",
+                "prob_map": templates["MdLF_L_prob_map"],
+                "mahal": {"distance_threshold": 4},
+            },
+            "Right Middle Longitudinal": {
+                "cross_midline": False,
+                "include": [templates["MdLF_roi2_R"], templates["MdLF_roi1_R"]],
+                "exclude": [],
+                "space": "template",
+                "prob_map": templates["MdLF_R_prob_map"],
+                "mahal": {"distance_threshold": 4},
+            },
+            "Left Superior Longitudinal": {
+                "cross_midline": False,
+                "include": [templates["SLF_roi1_L"], templates["SLF_roi2_L"]],
+                "exclude": [templates["SLFt_roi2_L"]],
+                "space": "template",
+                "prob_map": templates["SLF_L_prob_map"],
+                "mahal": {"distance_threshold": 4},
+            },
+            "Right Superior Longitudinal": {
+                "cross_midline": False,
+                "include": [templates["SLF_roi1_R"], templates["SLF_roi2_R"]],
+                "exclude": [templates["SLFt_roi2_R"]],
+                "space": "template",
+                "prob_map": templates["SLF_R_prob_map"],
+                "mahal": {"distance_threshold": 4},
+            },
+            "Left Arcuate": {
+                "cross_midline": False,
+                "include": [
+                    templates["ARC_roi1_L"],
+                    templates["ARC_roi2_L"],
+                    templates["ARC_roi3_L"],
+                ],
+                "exclude": [],
+                "space": "template",
+                "prob_map": templates["ARC_L_prob_map"],
+                "mahal": {"distance_threshold": 4},
+            },
+            "Right Arcuate": {
+                "cross_midline": False,
+                "include": [
+                    templates["ARC_roi1_R"],
+                    templates["ARC_roi2_R"],
+                    templates["ARC_roi3_R"],
+                ],
+                "exclude": [],
+                "space": "template",
+                "prob_map": templates["ARC_R_prob_map"],
+                "mahal": {"distance_threshold": 4},
+            },
+            "Left Uncinate": {
+                "cross_midline": False,
+                "include": [
+                    templates["UNC_roi3_L"],
+                    templates["UNC_roi2_L"],
+                    templates["UNC_roi1_L"],
+                ],
+                "exclude": [],
+                "space": "template",
+                "prob_map": templates["UNC_L_prob_map"],
+                "mahal": {"distance_threshold": 4},
+            },
+            "Right Uncinate": {
+                "cross_midline": False,
+                "include": [
+                    templates["UNC_roi3_R"],
+                    templates["UNC_roi2_R"],
+                    templates["UNC_roi1_R"],
+                ],
+                "exclude": [],
+                "space": "template",
+                "prob_map": templates["UNC_R_prob_map"],
+                "mahal": {"distance_threshold": 4},
+            },
+            "Forceps Minor": {
+                "cross_midline": True,
+                "include": [
+                    templates["FA_R"],
+                    templates["mid-sagittal"],
+                    templates["FA_L"],
+                ],
+                "exclude": [],
+                "space": "template",
+                "prob_map": templates["FA_prob_map"],
+                "mahal": {"distance_threshold": 4},
+            },
+            "Forceps Major": {
+                "cross_midline": True,
+                "include": [
+                    templates["FP_R"],
+                    templates["mid-sagittal"],
+                    templates["FP_L"],
+                ],
+                "exclude": [],
+                "space": "template",
+                "prob_map": templates["FP_prob_map"],
+                "mahal": {"distance_threshold": 4},
+            },
+            "Left Optic Radiation": {
+                "include": [templates["OR_left_roi3"]],
+                "start": templates["OR_leftThal"],
+                "end": templates["OR_leftV1"],
+                "cross_midline": False,
+                "mahal": {"distance_threshold": 4},
+            },
+            "Right Optic Radiation": {
+                "include": [templates["OR_right_roi3"]],
+                "start": templates["OR_rightThal"],
+                "end": templates["OR_rightV1"],
+                "cross_midline": False,
+                "mahal": {"distance_threshold": 4},
+            },
+            "Left Posterior Arcuate": {
+                "include": [templates["SLFt_roi2_L"]],
+                "exclude": [templates["SLF_roi1_L"]],
+                "start": templates["pARC_L_start"],
+                "end": templates["VOF_box_small_L"],
+                "primary_axis": "I/S",
+                "primary_axis_percentage": 40,
+                "cross_midline": False,
+                "mahal": {"distance_threshold": 4},
+            },
+            "Right Posterior Arcuate": {
+                "include": [templates["SLFt_roi2_R"]],
+                "exclude": [templates["SLF_roi1_R"]],
+                "start": templates["pARC_R_start"],
+                "end": templates["VOF_box_small_R"],
+                "primary_axis": "I/S",
+                "primary_axis_percentage": 40,
+                "cross_midline": False,
+                "mahal": {"distance_threshold": 4},
+            },
+            "Left Vertical Occipital": {
+                "start": templates["VOF_L_start"],
+                "end": templates["VOF_box_small_L"],
+                "primary_axis": "I/S",
+                "primary_axis_percentage": 40,
+                "cross_midline": False,
+                "mahal": {"distance_threshold": 4},
+            },
+            "Right Vertical Occipital": {
+                "start": templates["VOF_R_start"],
+                "end": templates["VOF_box_small_R"],
+                "primary_axis": "I/S",
+                "primary_axis_percentage": 40,
+                "cross_midline": False,
+                "mahal": {"distance_threshold": 4},
+            },
+        },
+        resample_to=afd.read_pediatric_templates()["UNCNeo-withCerebellum-for-babyAFQ"],
+    )
 
 
 def callosal_bd():
     templates = afd.read_templates(as_img=False)
-    callosal_templates =\
-        afd.read_callosum_templates(as_img=False)
-    return BundleDict({
-        'Callosum Anterior Frontal': {
-            'cross_midline': True,
-            'include': [callosal_templates['R_AntFrontal'],
-                        callosal_templates['Callosum_midsag'],
-                        callosal_templates['L_AntFrontal']],
-            'isolation_forest': {},
-            'exclude': [templates['CST_roi1_L'], templates['CST_roi1_R']],
-            'space': 'template'},
-        'Callosum Motor': {
-            'cross_midline': True,
-            'include': [callosal_templates['R_Motor'],
-                        callosal_templates['Callosum_midsag'],
-                        callosal_templates['L_Motor']],
-            'isolation_forest': {},
-            'exclude': [templates['CST_roi1_L'], templates['CST_roi1_R']],
-            'space': 'template'},
-        'Callosum Occipital': {
-            'cross_midline': True,
-            'include': [callosal_templates['R_Occipital'],
-                        callosal_templates['Callosum_midsag'],
-                        callosal_templates['L_Occipital']],
-            'isolation_forest': {},
-            'exclude': [templates['CST_roi1_L'], templates['CST_roi1_R']],
-            'space': 'template'},
-        'Callosum Orbital': {
-            'cross_midline': True,
-            'include': [callosal_templates['R_Orbital'],
-                        callosal_templates['Callosum_midsag'],
-                        callosal_templates['L_Orbital']],
-            'isolation_forest': {},
-            'exclude': [templates['CST_roi1_L'], templates['CST_roi1_R']],
-            'space': 'template'},
-        'Callosum Posterior Parietal': {
-            'cross_midline': True,
-            'include': [callosal_templates['R_PostParietal'],
-                        callosal_templates['Callosum_midsag'],
-                        callosal_templates['L_PostParietal']],
-            'isolation_forest': {},
-            'exclude': [templates['CST_roi1_L'], templates['CST_roi1_R']],
-            'space': 'template'},
-        'Callosum Superior Frontal': {
-            'cross_midline': True,
-            'include': [callosal_templates['R_SupFrontal'],
-                        callosal_templates['Callosum_midsag'],
-                        callosal_templates['L_SupFrontal']],
-            'isolation_forest': {},
-            'exclude': [templates['CST_roi1_L'], templates['CST_roi1_R']],
-            'space': 'template'},
-        'Callosum Superior Parietal': {
-            'cross_midline': True,
-            'include': [callosal_templates['R_SupParietal'],
-                        callosal_templates['Callosum_midsag'],
-                        callosal_templates['L_SupParietal']],
-            'isolation_forest': {},
-            'exclude': [templates['CST_roi1_L'], templates['CST_roi1_R']],
-            'space': 'template'},
-        'Callosum Temporal': {
-            'cross_midline': True,
-            'include': [callosal_templates['R_Temporal'],
-                        callosal_templates['Callosum_midsag'],
-                        callosal_templates['L_Temporal']],
-            'isolation_forest': {},
-            'exclude': [templates['CST_roi1_L'], templates['CST_roi1_R']],
-            'space': 'template'}})
+    callosal_templates = afd.read_callosum_templates(as_img=False)
+    return BundleDict(
+        {
+            "Callosum Anterior Frontal": {
+                "cross_midline": True,
+                "include": [
+                    callosal_templates["R_AntFrontal"],
+                    callosal_templates["Callosum_midsag"],
+                    callosal_templates["L_AntFrontal"],
+                ],
+                "isolation_forest": {},
+                "exclude": [templates["CST_roi1_L"], templates["CST_roi1_R"]],
+                "space": "template",
+            },
+            "Callosum Motor": {
+                "cross_midline": True,
+                "include": [
+                    callosal_templates["R_Motor"],
+                    callosal_templates["Callosum_midsag"],
+                    callosal_templates["L_Motor"],
+                ],
+                "isolation_forest": {},
+                "exclude": [templates["CST_roi1_L"], templates["CST_roi1_R"]],
+                "space": "template",
+            },
+            "Callosum Occipital": {
+                "cross_midline": True,
+                "include": [
+                    callosal_templates["R_Occipital"],
+                    callosal_templates["Callosum_midsag"],
+                    callosal_templates["L_Occipital"],
+                ],
+                "isolation_forest": {},
+                "exclude": [templates["CST_roi1_L"], templates["CST_roi1_R"]],
+                "space": "template",
+            },
+            "Callosum Orbital": {
+                "cross_midline": True,
+                "include": [
+                    callosal_templates["R_Orbital"],
+                    callosal_templates["Callosum_midsag"],
+                    callosal_templates["L_Orbital"],
+                ],
+                "isolation_forest": {},
+                "exclude": [templates["CST_roi1_L"], templates["CST_roi1_R"]],
+                "space": "template",
+            },
+            "Callosum Posterior Parietal": {
+                "cross_midline": True,
+                "include": [
+                    callosal_templates["R_PostParietal"],
+                    callosal_templates["Callosum_midsag"],
+                    callosal_templates["L_PostParietal"],
+                ],
+                "isolation_forest": {},
+                "exclude": [templates["CST_roi1_L"], templates["CST_roi1_R"]],
+                "space": "template",
+            },
+            "Callosum Superior Frontal": {
+                "cross_midline": True,
+                "include": [
+                    callosal_templates["R_SupFrontal"],
+                    callosal_templates["Callosum_midsag"],
+                    callosal_templates["L_SupFrontal"],
+                ],
+                "isolation_forest": {},
+                "exclude": [templates["CST_roi1_L"], templates["CST_roi1_R"]],
+                "space": "template",
+            },
+            "Callosum Superior Parietal": {
+                "cross_midline": True,
+                "include": [
+                    callosal_templates["R_SupParietal"],
+                    callosal_templates["Callosum_midsag"],
+                    callosal_templates["L_SupParietal"],
+                ],
+                "isolation_forest": {},
+                "exclude": [templates["CST_roi1_L"], templates["CST_roi1_R"]],
+                "space": "template",
+            },
+            "Callosum Temporal": {
+                "cross_midline": True,
+                "include": [
+                    callosal_templates["R_Temporal"],
+                    callosal_templates["Callosum_midsag"],
+                    callosal_templates["L_Temporal"],
+                ],
+                "isolation_forest": {},
+                "exclude": [templates["CST_roi1_L"], templates["CST_roi1_R"]],
+                "space": "template",
+            },
+        }
+    )
 
 
 def reco_bd(n_bundles):
@@ -659,38 +823,41 @@ def cerebellar_bd():
                 "exclude": [
                     cp_rois["SCP_R_superior_prob"],
                 ],
-                "cross_midline": True}})
+                "cross_midline": True,
+            },
+        }
+    )
 
 
 def OR_bd():
     or_rois = afd.read_or_templates()
 
-    return BundleDict({
-        "Left Optic Radiation": {
-            "include": [
-                or_rois["left_OR_1"],
-                or_rois["left_OR_2"]],
-            "exclude": [
-                or_rois["left_OP_MNI"],
-                or_rois["left_TP_MNI"],
-                or_rois["left_pos_thal_MNI"]],
-            "start": or_rois['left_thal_MNI'],
-            "end": or_rois['left_V1_MNI'],
-            "cross_midline": False,
-        },
-        "Right Optic Radiation": {
-            "include": [
-                or_rois["right_OR_1"],
-                or_rois["right_OR_2"]],
-            "exclude": [
-                or_rois["right_OP_MNI"],
-                or_rois["right_TP_MNI"],
-                or_rois["right_pos_thal_MNI"]],
-            "start": or_rois['right_thal_MNI'],
-            "end": or_rois['right_V1_MNI'],
-            "cross_midline": False
+    return BundleDict(
+        {
+            "Left Optic Radiation": {
+                "include": [or_rois["left_OR_1"], or_rois["left_OR_2"]],
+                "exclude": [
+                    or_rois["left_OP_MNI"],
+                    or_rois["left_TP_MNI"],
+                    or_rois["left_pos_thal_MNI"],
+                ],
+                "start": or_rois["left_thal_MNI"],
+                "end": or_rois["left_V1_MNI"],
+                "cross_midline": False,
+            },
+            "Right Optic Radiation": {
+                "include": [or_rois["right_OR_1"], or_rois["right_OR_2"]],
+                "exclude": [
+                    or_rois["right_OP_MNI"],
+                    or_rois["right_TP_MNI"],
+                    or_rois["right_pos_thal_MNI"],
+                ],
+                "start": or_rois["right_thal_MNI"],
+                "end": or_rois["right_V1_MNI"],
+                "cross_midline": False,
+            },
         }
-    })
+    )
 
 
 class _BundleEntry(Mapping):
@@ -709,10 +876,13 @@ class _BundleEntry(Mapping):
         return iter(self._data)
 
     def __setitem__(self, key, value):
-        raise RuntimeError((
-            "You cannot modify the properties of a bundle's definition. "
-            "To modify a bundle's definition, replace that bundle's entry "
-            "in the BundleDict."))
+        raise RuntimeError(
+            (
+                "You cannot modify the properties of a bundle's definition. "
+                "To modify a bundle's definition, replace that bundle's entry "
+                "in the BundleDict."
+            )
+        )
 
 
 class BundleDict(MutableMapping):
@@ -794,15 +964,17 @@ class BundleDict(MutableMapping):
     between the first and last ROIs.
     """
 
-    def __init__(self,
-                 bundle_info,
-                 resample_to=None,
-                 resample_subject_to=False,
-                 keep_in_memory=False):
+    def __init__(
+        self,
+        bundle_info,
+        resample_to=None,
+        resample_subject_to=False,
+        keep_in_memory=False,
+    ):
         if not (isinstance(bundle_info, dict)):
-            raise TypeError((
-                f"bundle_info must be a dict,"
-                f" currently a {type(bundle_info)}"))
+            raise TypeError(
+                (f"bundle_info must be a dict, currently a {type(bundle_info)}")
+            )
         if resample_to is None:
             resample_to = afd.read_mni_template()
         self.resample_to = resample_to
@@ -815,30 +987,45 @@ class BundleDict(MutableMapping):
         for key, item in bundle_info.items():
             self.__setitem__(key, item)
 
-        self.logger = logging.getLogger('AFQ')
-        if "Forceps Major" in self.bundle_names\
-                and "Callosum Occipital" in self.bundle_names:
-            self.logger.info((
-                "Forceps Major and Callosum Occipital bundles"
-                " are co-located, and AFQ"
-                " assigns each streamline to only one bundle."
-                " Only Callosum Occipital will be used."))
+        self.logger = logging.getLogger("AFQ")
+        if (
+            "Forceps Major" in self.bundle_names
+            and "Callosum Occipital" in self.bundle_names
+        ):
+            self.logger.info(
+                (
+                    "Forceps Major and Callosum Occipital bundles"
+                    " are co-located, and AFQ"
+                    " assigns each streamline to only one bundle."
+                    " Only Callosum Occipital will be used."
+                )
+            )
             del self["Forceps Major"]
-        if "Forceps Minor" in self.bundle_names\
-                and "Callosum Orbital" in self.bundle_names:
-            self.logger.info((
-                "Forceps Minor and Callosum Orbital bundles"
-                " are co-located, and AFQ"
-                " assigns each streamline to only one bundle."
-                " Only Callosum Orbital will be used."))
+        if (
+            "Forceps Minor" in self.bundle_names
+            and "Callosum Orbital" in self.bundle_names
+        ):
+            self.logger.info(
+                (
+                    "Forceps Minor and Callosum Orbital bundles"
+                    " are co-located, and AFQ"
+                    " assigns each streamline to only one bundle."
+                    " Only Callosum Orbital will be used."
+                )
+            )
             del self["Forceps Minor"]
-        if "Forceps Minor" in self.bundle_names\
-                and "Callosum Anterior Frontal" in self.bundle_names:
-            self.logger.info((
-                "Forceps Minor and Callosum Anterior Frontal bundles"
-                " are co-located, and AFQ"
-                " assigns each streamline to only one bundle."
-                " Only Callosum Anterior Frontal will be used."))
+        if (
+            "Forceps Minor" in self.bundle_names
+            and "Callosum Anterior Frontal" in self.bundle_names
+        ):
+            self.logger.info(
+                (
+                    "Forceps Minor and Callosum Anterior Frontal bundles"
+                    " are co-located, and AFQ"
+                    " assigns each streamline to only one bundle."
+                    " Only Callosum Anterior Frontal will be used."
+                )
+            )
             del self["Forceps Minor"]
 
     def __print__(self):
@@ -848,15 +1035,12 @@ class BundleDict(MutableMapping):
         if new_max > self.max_includes:
             self.max_includes = new_max
 
-    def _use_bids_info(self, roi_or_sl, bids_layout, bids_path,
-                       subject, session):
+    def _use_bids_info(self, roi_or_sl, bids_layout, bids_path, subject, session):
         if isinstance(roi_or_sl, dict):
             suffix = roi_or_sl.get("suffix", "dwi")
             roi_or_sl = find_file(
-                bids_layout, bids_path,
-                roi_or_sl,
-                suffix,
-                session, subject)
+                bids_layout, bids_path, roi_or_sl, suffix, session, subject
+            )
             return roi_or_sl
         else:
             return roi_or_sl
@@ -867,18 +1051,13 @@ class BundleDict(MutableMapping):
         """
         if isinstance(roi_or_sl, str):
             if ".nii" in roi_or_sl:
-                return afd.read_resample_roi(
-                    roi_or_sl,
-                    resample_to=resample_to)
+                return afd.read_resample_roi(roi_or_sl, resample_to=resample_to)
             else:
                 return load_tractogram(
-                    roi_or_sl,
-                    'same',
-                    bbox_valid_check=False).streamlines
+                    roi_or_sl, "same", bbox_valid_check=False
+                ).streamlines
         elif isinstance(roi_or_sl, nib.Nifti1Image):
-            return afd.read_resample_roi(
-                roi_or_sl,
-                resample_to=resample_to)
+            return afd.read_resample_roi(roi_or_sl, resample_to=resample_to)
         else:
             return roi_or_sl
 
@@ -900,7 +1079,8 @@ class BundleDict(MutableMapping):
                 new_bd,
                 resample_to=self.resample_to,
                 resample_subject_to=self.resample_subject_to,
-                keep_in_memory=self.keep_in_memory)
+                keep_in_memory=self.keep_in_memory,
+            )
         else:
             if not self.keep_in_memory:
                 _item = self._dict[key].copy()
@@ -909,12 +1089,13 @@ class BundleDict(MutableMapping):
                     _item.update(_res)
                 _item = _BundleEntry(_item)
             else:
-                if "loaded" not in self._dict[key] or\
-                        not self._dict[key]["loaded"]:
+                if "loaded" not in self._dict[key] or not self._dict[key]["loaded"]:
                     self._cond_load_bundle(key)
                     self._dict[key]["loaded"] = True
-                if "resampled" not in self._dict[key] or not self._dict[
-                        key]["resampled"]:
+                if (
+                    "resampled" not in self._dict[key]
+                    or not self._dict[key]["resampled"]
+                ):
                     self._resample_roi(key)
                 _item = _BundleEntry(self._dict[key].copy())
             return _item
@@ -935,15 +1116,15 @@ class BundleDict(MutableMapping):
         if key in self._dict:
             del self._dict[key]
         else:
-            raise RuntimeError((
-                f"{key} not found in internal dictionary, "
-                f"but found in bundle_names"))
+            raise RuntimeError(
+                (f"{key} not found in internal dictionary, but found in bundle_names")
+            )
         if key in self.bundle_names:
             self.bundle_names.remove(key)
         else:
-            raise RuntimeError((
-                f"{key} not found in bundle_names, "
-                f"but found in internal dictionary"))
+            raise RuntimeError(
+                (f"{key} not found in bundle_names, but found in internal dictionary")
+            )
 
     def __iter__(self):
         return iter(self._dict)
@@ -964,7 +1145,8 @@ class BundleDict(MutableMapping):
             self._dict.copy(),
             resample_to=self.resample_to,
             resample_subject_to=self.resample_subject_to,
-            keep_in_memory=self.keep_in_memory)
+            keep_in_memory=self.keep_in_memory,
+        )
 
     def apply_to_rois(self, b_name, *args, **kwargs):
         """
@@ -997,14 +1179,16 @@ class BundleDict(MutableMapping):
             self._cond_load,
             resample_to,
             dry_run=dry_run,
-            apply_to_recobundles=True)
+            apply_to_recobundles=True,
+        )
 
     def is_bundle_in_template(self, bundle_name):
-        return "space" not in self._dict[bundle_name]\
+        return (
+            "space" not in self._dict[bundle_name]
             or self._dict[bundle_name]["space"] == "template"
+        )
 
-    def _roi_transform_helper(self, roi_or_sl, mapping,
-                              new_affine, bundle_name):
+    def _roi_transform_helper(self, roi_or_sl, mapping, new_affine, bundle_name):
         roi_or_sl = self._cond_load(roi_or_sl, self.resample_to)
         if isinstance(roi_or_sl, nib.Nifti1Image):
             fdata = roi_or_sl.get_fdata()
@@ -1014,22 +1198,25 @@ class BundleDict(MutableMapping):
                 boolean_ = False
 
             warped_img = auv.transform_inverse_roi(
-                fdata,
-                mapping,
-                bundle_name=bundle_name)
+                fdata, mapping, bundle_name=bundle_name
+            )
 
             if boolean_:
                 warped_img = warped_img.astype(np.uint8)
-            warped_img = nib.Nifti1Image(
-                warped_img,
-                new_affine)
+            warped_img = nib.Nifti1Image(warped_img, new_affine)
             return warped_img
         else:
             return roi_or_sl
 
-    def transform_rois(self, bundle_name, mapping, new_affine,
-                       base_fname=None, to_space="subject",
-                       apply_to_recobundles=False):
+    def transform_rois(
+        self,
+        bundle_name,
+        mapping,
+        new_affine,
+        base_fname=None,
+        to_space="subject",
+        apply_to_recobundles=False,
+    ):
         """
         Get the bundle definition with transformed ROIs
         for a given bundle into a
@@ -1074,14 +1261,16 @@ class BundleDict(MutableMapping):
                 new_affine,
                 bundle_name,
                 dry_run=True,
-                apply_to_recobundles=apply_to_recobundles)
+                apply_to_recobundles=apply_to_recobundles,
+            )
         else:
             transformed_rois = self.apply_to_rois(
                 bundle_name,
                 self._cond_load,
                 self.resample_subject_to,
                 dry_run=True,
-                apply_to_recobundles=apply_to_recobundles)
+                apply_to_recobundles=apply_to_recobundles,
+            )
 
         if base_fname is not None:
             fnames = []
@@ -1092,12 +1281,13 @@ class BundleDict(MutableMapping):
                     roi_type_name = ""
                 else:
                     suffix = "mask"
-                    roi_type_name = roi_type.lower().replace(
-                        " ", "").replace(
-                            "_", "").replace(
-                                "-", "")
-                    roi_type_name = roi_type_name[0].upper() \
-                        + roi_type_name[1:]
+                    roi_type_name = (
+                        roi_type.lower()
+                        .replace(" ", "")
+                        .replace("_", "")
+                        .replace("-", "")
+                    )
+                    roi_type_name = roi_type_name[0].upper() + roi_type_name[1:]
                 if not isinstance(rois, list):
                     rois = [rois]
                 for ii, roi in enumerate(rois):
@@ -1106,10 +1296,9 @@ class BundleDict(MutableMapping):
                         desc = f"{desc}{ii}"
                     fname = get_fname(
                         base_fname,
-                        f"_space-{to_space}_desc-"
-                        f"{desc}"
-                        f"_{suffix}.nii.gz",
-                        "ROIs")
+                        f"_space-{to_space}_desc-{desc}_{suffix}.nii.gz",
+                        "ROIs",
+                    )
                     fnames.append(fname)
                     list_of_rois_to_save.append(roi)
             return list_of_rois_to_save, fnames
@@ -1118,43 +1307,61 @@ class BundleDict(MutableMapping):
 
     def __add__(self, other):
         for resample in ["resample_to", "resample_subject_to"]:
-            if not getattr(self, resample)\
-                    or not getattr(other, resample)\
-                    or getattr(self, resample) is None\
-                    or getattr(other, resample) is None:
+            if (
+                not getattr(self, resample)
+                or not getattr(other, resample)
+                or getattr(self, resample) is None
+                or getattr(other, resample) is None
+            ):
                 if getattr(self, resample) != getattr(other, resample):
-                    raise ValueError((
-                        f"Adding BundleDicts where {resample} do not match."
-                        f"{resample}'s are {getattr(self, resample)} and "
-                        f"{getattr(other, resample)}"))
+                    raise ValueError(
+                        (
+                            f"Adding BundleDicts where {resample} do not match."
+                            f"{resample}'s are {getattr(self, resample)} and "
+                            f"{getattr(other, resample)}"
+                        )
+                    )
             else:
                 if not np.allclose(
-                        getattr(self, resample).affine,
-                        getattr(other, resample).affine):
-                    raise ValueError((
-                        f"Adding BundleDicts where {resample} affines"
-                        f" do not match. {resample} affines are"
-                        f"{getattr(self, resample).affine} and "
-                        f"{getattr(other, resample).affine}"))
+                    getattr(self, resample).affine, getattr(other, resample).affine
+                ):
+                    raise ValueError(
+                        (
+                            f"Adding BundleDicts where {resample} affines"
+                            f" do not match. {resample} affines are"
+                            f"{getattr(self, resample).affine} and "
+                            f"{getattr(other, resample).affine}"
+                        )
+                    )
                 if not np.allclose(
-                        getattr(self, resample).header['dim'],
-                        getattr(other, resample).header['dim']):
-                    raise ValueError((
-                        f"Adding BundleDicts where {resample} dimensions"
-                        f" do not match. {resample} dimensions are"
-                        f"{getattr(self, resample).header['dim']} and "
-                        f"{getattr(other, resample).header['dim']}"))
+                    getattr(self, resample).header["dim"],
+                    getattr(other, resample).header["dim"],
+                ):
+                    raise ValueError(
+                        (
+                            f"Adding BundleDicts where {resample} dimensions"
+                            f" do not match. {resample} dimensions are"
+                            f"{getattr(self, resample).header['dim']} and "
+                            f"{getattr(other, resample).header['dim']}"
+                        )
+                    )
         return self.__class__(
             {**self._dict, **other._dict},
             self.resample_to,
             self.resample_subject_to,
-            self.keep_in_memory)
+            self.keep_in_memory,
+        )
 
 
-def apply_to_roi_dict(dict_, func, *args,
-                      dry_run=False, apply_to_recobundles=False,
-                      apply_to_prob_map=True,
-                      **kwargs):
+def apply_to_roi_dict(
+    dict_,
+    func,
+    *args,
+    dry_run=False,
+    apply_to_recobundles=False,
+    apply_to_prob_map=True,
+    **kwargs,
+):
     """
     Applies some transformation to all ROIs (include, exclude, end, start)
     and the prob_map in a given bundle.
@@ -1195,20 +1402,18 @@ def apply_to_roi_dict(dict_, func, *args,
     for roi_type in roi_types:
         if roi_type in dict_:
             if roi_type in ["start", "end", "prob_map"]:
-                return_vals[roi_type] = func(
-                    dict_[roi_type], *args, **kwargs)
+                return_vals[roi_type] = func(dict_[roi_type], *args, **kwargs)
             else:
                 changed_rois = []
                 for _roi in dict_[roi_type]:
-                    changed_rois.append(func(
-                        _roi, *args, **kwargs))
+                    changed_rois.append(func(_roi, *args, **kwargs))
                 return_vals[roi_type] = changed_rois
     if apply_to_recobundles and "recobundles" in dict_:
         return_vals["recobundles"] = {}
         for sl_type in ["sl", "centroid"]:
             return_vals["recobundles"][sl_type] = func(
-                dict_["recobundles"][sl_type],
-                *args, **kwargs)
+                dict_["recobundles"][sl_type], *args, **kwargs
+            )
     if not dry_run:
         for roi_type, roi in return_vals.items():
             dict_[roi_type] = roi

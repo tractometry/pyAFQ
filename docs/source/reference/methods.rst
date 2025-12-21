@@ -520,7 +520,7 @@ profiles:
 
 
 scalar_dict:
-    dicionary mapping scalar names to their respective file paths
+    dictionary mapping scalar names to their respective file paths
 
 
 seed:
@@ -548,11 +548,11 @@ fodf:
 
 
 all_bundles_figure:
-    figure for the visualizaion of the recognized bundles in the subject's brain.
+    figure for the visualization of the recognized bundles in the subject's brain.
 
 
 indiv_bundles_figures:
-    list of full paths to html or gif files containing visualizaions of individual bundles
+    list of full paths to html or gif files containing visualizations of individual bundles
 
 
 tract_profile_plots:

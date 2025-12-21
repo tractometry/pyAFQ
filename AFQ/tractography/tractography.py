@@ -1,33 +1,47 @@
-import numpy as np
-import nibabel as nib
 import logging
-from tqdm import tqdm
-
-from skimage.segmentation import find_boundaries
 
 import dipy.data as dpd
-from dipy.reconst.dti import decompose_tensor, from_lower_triangular
+import nibabel as nib
+import numpy as np
 from dipy.align import resample
-from dipy.direction import (DeterministicMaximumDirectionGetter,
-                            ProbabilisticDirectionGetter)
-from dipy.io.stateful_tractogram import StatefulTractogram, Space
-from dipy.tracking.stopping_criterion import ActStoppingCriterion, CmcStoppingCriterion
+from dipy.direction import (
+    DeterministicMaximumDirectionGetter,
+    ProbabilisticDirectionGetter,
+)
+from dipy.io.stateful_tractogram import Space, StatefulTractogram
 from dipy.reconst import shm
-
+from dipy.reconst.dti import decompose_tensor, from_lower_triangular
+from dipy.tracking.local_tracking import LocalTracking, ParticleFilteringTracking
+from dipy.tracking.stopping_criterion import ActStoppingCriterion
 from nibabel.streamlines.tractogram import LazyTractogram
+from skimage.segmentation import find_boundaries
+from tqdm import tqdm
 
-from dipy.tracking.local_tracking import (LocalTracking,
-                                          ParticleFilteringTracking)
 from AFQ._fixes import tensor_odf
 from AFQ.tractography.utils import gen_seeds
 
 
-def track(params_file, pve, directions="prob", max_angle=30., sphere=None,
-          seed_mask=None, seed_threshold=0.5, thresholds_as_percentages=False,
-          n_seeds=2000000, random_seeds=True, rng_seed=None,
-          step_size=0.5, minlen=20, maxlen=250,
-          odf_model="CSD_AODF", basis_type="descoteaux07", legacy=True,
-          tracker="pft", trx=False):
+def track(
+    params_file,
+    pve,
+    directions="prob",
+    max_angle=30.0,
+    sphere=None,
+    seed_mask=None,
+    seed_threshold=0.5,
+    thresholds_as_percentages=False,
+    n_seeds=2000000,
+    random_seeds=True,
+    rng_seed=None,
+    step_size=0.5,
+    minlen=20,
+    maxlen=250,
+    odf_model="CSD_AODF",
+    basis_type="descoteaux07",
+    legacy=True,
+    tracker="pft",
+    trx=False,
+):
     """
     Tractography
 
@@ -77,9 +91,9 @@ def track(params_file, pve, directions="prob", max_angle=30., sphere=None,
     step_size : float, optional.
         The size of a step (in mm) of tractography. Default: 0.5
     minlen: int, optional
-        The miminal length (mm) in a streamline. Default: 20
+        The minimal length (mm) in a streamline. Default: 20
     maxlen: int, optional
-        The miminal length (mm) in a streamline. Default: 250
+        The minimal length (mm) in a streamline. Default: 250
     odf_model : str or Definition, optional
         Can be either a string or Definition. If a string, it must be one of
         {"DTI", "CSD", "DKI", "GQ", "RUMBA", "MSMT_AODF", "CSD_AODF", "MSMTCSD"}.
@@ -88,7 +102,7 @@ def track(params_file, pve, directions="prob", max_angle=30., sphere=None,
         Defaults to use "CSD_AODF"
     basis_type : str, optional
         The spherical harmonic basis type used to represent the coefficients.
-        One of {"descoteaux07", "tournier07"}. Deafult: "descoteaux07"
+        One of {"descoteaux07", "tournier07"}. Default: "descoteaux07"
     legacy : bool, optional
         Whether to use the legacy implementation of the direction getter.
         See Dipy documentation for more details. Default: True
@@ -116,7 +130,7 @@ def track(params_file, pve, directions="prob", max_angle=30., sphere=None,
         information. Neuroimage. 2012 Sep;62(3):1924-38.
         doi: 10.1016/j.neuroimage.2012.06.005. Epub 2012 Jun 13.
     """
-    logger = logging.getLogger('AFQ')
+    logger = logging.getLogger("AFQ")
 
     logger.info("Loading Image...")
     if isinstance(params_file, str):
@@ -141,9 +155,14 @@ def track(params_file, pve, directions="prob", max_angle=30., sphere=None,
         seed_mask = np.ones(params_img.shape[:3])
 
     seeds = gen_seeds(
-        seed_mask, seed_threshold,
-        n_seeds, thresholds_as_percentages,
-        random_seeds, rng_seed, params_img.affine)
+        seed_mask,
+        seed_threshold,
+        n_seeds,
+        thresholds_as_percentages,
+        random_seeds,
+        rng_seed,
+        params_img.affine,
+    )
 
     if sphere is None:
         sphere = dpd.default_sphere
@@ -160,100 +179,127 @@ def track(params_file, pve, directions="prob", max_angle=30., sphere=None,
     logger.debug(f"Using legacy DG: {legacy}")
 
     if odf_model == "DTI" or odf_model == "DKI":
-        evals, evecs = decompose_tensor(
-            from_lower_triangular(model_params))
+        evals, evecs = decompose_tensor(from_lower_triangular(model_params))
         odf = tensor_odf(evals, evecs, sphere)
         dg = dg.from_pmf(odf, max_angle=max_angle, sphere=sphere)
     elif "AODF" in odf_model:
-        sh_order = shm.order_from_ncoef(
-            model_params.shape[3], full_basis=True)
-        pmf = shm.sh_to_sf(
-            model_params, sphere,
-            sh_order_max=sh_order, full_basis=True)
+        sh_order = shm.order_from_ncoef(model_params.shape[3], full_basis=True)
+        pmf = shm.sh_to_sf(model_params, sphere, sh_order_max=sh_order, full_basis=True)
         pmf[pmf < 0] = 0
         dg = dg.from_pmf(
-            np.asarray(pmf, dtype=float),
-            max_angle=max_angle, sphere=sphere)
+            np.asarray(pmf, dtype=float), max_angle=max_angle, sphere=sphere
+        )
     else:
-        dg = dg.from_shcoeff(model_params, max_angle=max_angle, sphere=sphere,
-                             basis_type=basis_type, legacy=legacy)
+        dg = dg.from_shcoeff(
+            model_params,
+            max_angle=max_angle,
+            sphere=sphere,
+            basis_type=basis_type,
+            legacy=legacy,
+        )
 
     if not len(pve_data.shape) == 4 or pve_data.shape[3] != 3:
         raise RuntimeError(
             "For pve, expected pve_data with shape [x, y, z, 3]. "
-            f"Instead, got {pve_data.shape}.")
+            f"Instead, got {pve_data.shape}."
+        )
 
     pve_csf_data = pve_data[..., 0]
     pve_gm_data = pve_data[..., 1]
     pve_wm_data = pve_data[..., 2]
 
     pve_csf_data = resample(
-        pve_csf_data, model_params[..., 0],
+        pve_csf_data,
+        model_params[..., 0],
         moving_affine=pve_img.affine,
-        static_affine=params_img.affine).get_fdata()
+        static_affine=params_img.affine,
+    ).get_fdata()
     pve_gm_data = resample(
-        pve_gm_data, model_params[..., 0],
+        pve_gm_data,
+        model_params[..., 0],
         moving_affine=pve_img.affine,
-        static_affine=params_img.affine).get_fdata()
+        static_affine=params_img.affine,
+    ).get_fdata()
     pve_wm_data = resample(
-        pve_wm_data, model_params[..., 0],
+        pve_wm_data,
+        model_params[..., 0],
         moving_affine=pve_img.affine,
-        static_affine=params_img.affine).get_fdata()
+        static_affine=params_img.affine,
+    ).get_fdata()
 
     # here we treat edges as gm
     # this is so that streamlines that hit the end of the
     # (presumably masked) fodf are treated as valid
     brain_mask = np.any(model_params != 0, axis=-1).astype(np.uint8)
-    edge = find_boundaries(brain_mask, mode='inner')
+    edge = find_boundaries(brain_mask, mode="inner")
     pve_gm_data[edge] = 1.0
     pve_wm_data[edge] = 0.0
     pve_csf_data[edge] = 0.0
 
     stopping_criterion = ActStoppingCriterion.from_pve(
-        pve_wm_data,
-        pve_gm_data,
-        pve_csf_data)
+        pve_wm_data, pve_gm_data, pve_csf_data
+    )
 
     if tracker == "local":
         my_tracker = LocalTracking
     elif tracker == "pft":
         my_tracker = ParticleFilteringTracking
     else:
-        raise ValueError(f"Unrecognized tracker '{tracker}'. Must be one of "
-                         "{'local', 'pft'}.")
+        raise ValueError(
+            f"Unrecognized tracker '{tracker}'. Must be one of {{'local', 'pft'}}."
+        )
 
     logger.info(
-        f"Tracking with {len(seeds)} seeds, "
-        "average of 1-3 directions per seed...")
+        f"Tracking with {len(seeds)} seeds, average of 1-3 directions per seed..."
+    )
 
-    return _tracking(my_tracker, seeds, dg, stopping_criterion, params_img,
-                     step_size=step_size, minlen=minlen,
-                     maxlen=maxlen, random_seed=rng_seed,
-                     trx=trx)
+    return _tracking(
+        my_tracker,
+        seeds,
+        dg,
+        stopping_criterion,
+        params_img,
+        step_size=step_size,
+        minlen=minlen,
+        maxlen=maxlen,
+        random_seed=rng_seed,
+        trx=trx,
+    )
 
 
-def _tracking(tracker, seeds, dg, stopping_criterion, params_img,
-              step_size=0.5, minlen=40, maxlen=200,
-              random_seed=None, trx=False):
+def _tracking(
+    tracker,
+    seeds,
+    dg,
+    stopping_criterion,
+    params_img,
+    step_size=0.5,
+    minlen=40,
+    maxlen=200,
+    random_seed=None,
+    trx=False,
+):
     """
     Helper function
     """
     if len(seeds.shape) == 1:
         seeds = seeds[None, ...]
 
-    tracker = tqdm(tracker(
-        dg,
-        stopping_criterion,
-        seeds,
-        params_img.affine,
-        step_size=step_size,
-        minlen=minlen,
-        maxlen=maxlen,
-        return_all=False,
-        random_seed=random_seed))
+    tracker = tqdm(
+        tracker(
+            dg,
+            stopping_criterion,
+            seeds,
+            params_img.affine,
+            step_size=step_size,
+            minlen=minlen,
+            maxlen=maxlen,
+            return_all=False,
+            random_seed=random_seed,
+        )
+    )
 
     if trx:
-        return LazyTractogram(lambda: tracker,
-                              affine_to_rasmm=params_img.affine)
+        return LazyTractogram(lambda: tracker, affine_to_rasmm=params_img.affine)
     else:
         return StatefulTractogram(tracker, params_img, Space.RASMM)

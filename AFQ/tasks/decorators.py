@@ -5,12 +5,13 @@ import os.path as op
 from time import time
 
 import nibabel as nib
-from dipy.io.streamline import save_tractogram
 from dipy.io.stateful_tractogram import StatefulTractogram
+from dipy.io.streamline import save_tractogram
 
 try:
-    from trx.trx_file_memmap import TrxFile
     from trx.io import save as save_trx
+    from trx.trx_file_memmap import TrxFile
+
     has_trx = True
 except ModuleNotFoundError:
     has_trx = False
@@ -20,12 +21,11 @@ import numpy as np
 from AFQ.tasks.utils import get_fname
 from AFQ.utils.path import drop_extension, write_json
 
-
 # These should only be used with immlib.calc
 __all__ = ["as_file", "as_fit_deriv", "as_img"]
 
 
-logger = logging.getLogger('AFQ')
+logger = logging.getLogger("AFQ")
 logger.setLevel(logging.INFO)
 
 
@@ -38,7 +38,8 @@ def get_new_signature(og_func, needed_args):
 
     new_params = [
         inspect.Parameter(name, inspect.Parameter.POSITIONAL_OR_KEYWORD)
-        for name in new_param_names]
+        for name in new_param_names
+    ]
 
     parameters = new_params + list(param_dict.values())
     new_sig = sig.replace(parameters=parameters)
@@ -58,9 +59,11 @@ def as_file(suffix, subfolder=None):
     return img and meta as saved file path, with json,
     and only run if not already found
     """
+
     def _as_file(func):
         new_signature, new_params = get_new_signature(
-            func, ["base_fname", "output_dir", "tracking_params"])
+            func, ["base_fname", "output_dir", "tracking_params"]
+        )
 
         @functools.wraps(func)
         def wrapper_as_file(*args, **kwargs):
@@ -81,8 +84,7 @@ def as_file(suffix, subfolder=None):
                 logger.info(f"Calculating {suffix}")
 
                 try:
-                    gen, meta = func(
-                        *args, **kwargs)
+                    gen, meta = func(*args, **kwargs)
                 except Exception:
                     print(f"Error in task: {func.__qualname__}")
                     raise
@@ -91,8 +93,7 @@ def as_file(suffix, subfolder=None):
                 if isinstance(gen, nib.Nifti1Image):
                     nib.save(gen, this_file)
                 elif isinstance(gen, StatefulTractogram):
-                    save_tractogram(
-                        gen, this_file, bbox_valid_check=False)
+                    save_tractogram(gen, this_file, bbox_valid_check=False)
                 elif isinstance(gen, np.ndarray):
                     np.save(this_file, gen)
                 elif has_trx and isinstance(gen, TrxFile):
@@ -102,11 +103,11 @@ def as_file(suffix, subfolder=None):
 
                 # these are used to determine dependencies
                 # when clobbering derivatives
-                if "_desc-profiles" in suffix or\
-                        "viz" in inspect.getfile(func):
+                if "_desc-profiles" in suffix or "viz" in inspect.getfile(func):
                     meta["dependent"] = "prof"
-                elif "segmentation" in inspect.getfile(func) or\
-                        "mapping" in inspect.getfile(func):
+                elif "segmentation" in inspect.getfile(
+                    func
+                ) or "mapping" in inspect.getfile(func):
                     meta["dependent"] = "rec"
                 elif "tractography" in inspect.getfile(func):
                     meta["dependent"] = "trk"
@@ -118,14 +119,15 @@ def as_file(suffix, subfolder=None):
                     meta["source"] = op.relpath(meta["source"], output_dir)
 
                 meta_fname = get_fname(
-                    base_fname, f"{drop_extension(suffix)}.json",
-                    subfolder=subfolder)
+                    base_fname, f"{drop_extension(suffix)}.json", subfolder=subfolder
+                )
                 write_json(meta_fname, meta)
             return this_file
 
         wrapper_as_file.__signature__ = new_signature
 
         return wrapper_as_file
+
     return _as_file
 
 
@@ -133,23 +135,24 @@ def as_fit_deriv(tf_name):
     """
     return data as nibabel image, meta with params information
     """
+
     def _as_fit_deriv(func):
         new_signature, new_params = get_new_signature(
-            func, ["dwi_affine", f"{tf_name.lower()}_params"])
+            func, ["dwi_affine", f"{tf_name.lower()}_params"]
+        )
 
         @functools.wraps(func)
         def wrapper_as_fit_deriv(*args, **kwargs):
             dwi_affine = get_param(kwargs, new_params, "dwi_affine")
-            params = get_param(kwargs, new_params,
-                               f"{tf_name.lower()}_params")
+            params = get_param(kwargs, new_params, f"{tf_name.lower()}_params")
 
-            img = nib.Nifti1Image(
-                func(*args, **kwargs), dwi_affine)
+            img = nib.Nifti1Image(func(*args, **kwargs), dwi_affine)
             return img, {f"{tf_name}ParamsFile": params}
 
         wrapper_as_fit_deriv.__signature__ = new_signature
 
         return wrapper_as_fit_deriv
+
     return _as_fit_deriv
 
 
@@ -157,15 +160,14 @@ def as_img(func):
     """
     return data, meta as nibabel image, meta with timing
     """
-    new_signature, new_params = get_new_signature(
-        func, ["dwi_affine"])
+    new_signature, new_params = get_new_signature(func, ["dwi_affine"])
 
     @functools.wraps(func)
     def wrapper_as_img(*args, **kwargs):
         dwi_affine = get_param(kwargs, new_params, "dwi_affine")
         start_time = time()
         data, meta = func(*args, **kwargs)
-        meta['timing'] = time() - start_time
+        meta["timing"] = time() - start_time
         img = nib.Nifti1Image(data.astype(np.float32), dwi_affine)
         return img, meta
 

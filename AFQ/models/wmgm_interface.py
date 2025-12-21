@@ -1,8 +1,6 @@
-import numpy as np
 import nibabel as nib
-
+import numpy as np
 from dipy.align import resample
-
 from scipy.ndimage import gaussian_filter
 from skimage.segmentation import find_boundaries
 
@@ -29,19 +27,22 @@ def fit_wm_gm_interface(PVE_img, dwiref_img):
         wm,
         dwiref_img.get_fdata(),
         moving_affine=PVE_img.affine,
-        static_affine=dwiref_img.affine).get_fdata()
+        static_affine=dwiref_img.affine,
+    ).get_fdata()
     gm = resample(
         gm,
         dwiref_img.get_fdata(),
         moving_affine=PVE_img.affine,
-        static_affine=dwiref_img.affine).get_fdata()
+        static_affine=dwiref_img.affine,
+    ).get_fdata()
     csf = resample(
         csf,
         dwiref_img.get_fdata(),
         moving_affine=PVE_img.affine,
-        static_affine=dwiref_img.affine).get_fdata()
+        static_affine=dwiref_img.affine,
+    ).get_fdata()
 
-    wm_boundary = find_boundaries(wm > 0.5, mode='inner')
+    wm_boundary = find_boundaries(wm > 0.5, mode="inner")
     gm_smoothed = gaussian_filter(gm, 1)
     csf_smoothed = gaussian_filter(csf, 1)
 
@@ -49,5 +50,4 @@ def fit_wm_gm_interface(PVE_img, dwiref_img):
     wm_boundary[csf_smoothed > gm_smoothed] = 0
     wm_boundary[wm < 0.5] = 0
 
-    return nib.Nifti1Image(
-        wm_boundary.astype(np.float32), dwiref_img.affine)
+    return nib.Nifti1Image(wm_boundary.astype(np.float32), dwiref_img.affine)

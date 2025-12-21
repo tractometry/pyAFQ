@@ -1,8 +1,8 @@
-from AFQ.utils.path import drop_extension
-
-import os.path as op
-import os
 import inspect
+import os
+import os.path as op
+
+from AFQ.utils.path import drop_extension
 
 __all__ = ["get_tp", "get_fname", "with_name", "get_base_fname"]
 
@@ -22,9 +22,7 @@ def get_base_fname(output_dir, dwi_data_file):
     # setup up path and base file name for outputs
     # remove suffix and desc from dwi data file name
     used_key_list = ["desc", "space", "to", "from"]
-    dwi_dfile_no_ext = op.join(
-        output_dir,
-        drop_extension(op.basename(dwi_data_file)))
+    dwi_dfile_no_ext = op.join(output_dir, drop_extension(op.basename(dwi_data_file)))
     fname = op.dirname(dwi_dfile_no_ext) + "/"
     for key_val_pair in op.basename(dwi_dfile_no_ext).split("_"):
         if "-" in key_val_pair:
@@ -60,7 +58,8 @@ def check_onnxruntime(model_name, alternative_text):
             f"by doing `pip install onnxruntime` or `pip install pyAFQ[nn]`. "
             f"{alternative_text}\n"
             "If there are still issues, post an issue on "
-            "https://github.com/tractometry/pyAFQ/issues")
+            "https://github.com/tractometry/pyAFQ/issues"
+        ) from e
     return ort
 
 
@@ -72,8 +71,7 @@ def get_fname(base_fname, suffix, subfolder=None):
         base_fname = op.basename(base_fname)
         folders = _split_path(base_dir)
         if folders[-1] == "dwi":
-            if len(folders) > 1 and "sub-" in folders[-2] or \
-                    "ses-" in folders[-2]:
+            if len(folders) > 1 and "sub-" in folders[-2] or "ses-" in folders[-2]:
                 return op.join(*folders[:-2], folders[-2] + suffix)
             else:
                 return op.join(*folders[:-1], base_fname + suffix)

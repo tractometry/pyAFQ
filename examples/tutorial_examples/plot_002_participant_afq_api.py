@@ -18,7 +18,7 @@ import AFQ.definitions.image as afm
 ##########################################################################
 # Example data
 # ------------
-# The following call dowloads a a single subject's data from the Healthy Brain
+# The following call downloads a a single subject's data from the Healthy Brain
 # Network Processed Open Diffusion Derivatives dataset (HBN-POD2) [1]_, [2]_
 # and organizes it in BIDS in the user's home directory under::
 #
@@ -71,7 +71,7 @@ os.makedirs(output_dir, exist_ok=True)
 # ---------------------------------------
 # We make create a `tracking_params` variable, which we will pass to the
 # ParticipantAFQ object which specifies that we want 50,000 seeds randomly
-# distributed in the white matter, propogated using DIPY's probabilistic
+# distributed in the white matter, propagated using DIPY's probabilistic
 # algorithm. We only do this to make this example faster
 # and consume less space; normally, we use more seeds
 
@@ -239,7 +239,7 @@ plotly.io.show(bundle_html[0])
 
 ##########################################################################
 # We can also visualize the tract profiles in all of the bundles. These
-# plots show both FA (left) and MD (right) layed out anatomically.
+# plots show both FA (left) and MD (right) laid out anatomically.
 # To make this plot, it is required that you install with
 # ``pip install pyAFQ[plot]`` so that you have the necessary dependencies.
 #

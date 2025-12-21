@@ -1,23 +1,28 @@
-from importlib import import_module
-from AFQ.viz.utils import viz_import_msg_error
-from AFQ.utils.docstring_parser import parse_numpy_docstring
-import immlib
-import logging
 import inspect
+import logging
+from importlib import import_module
 
+import immlib
 from dipy.io.stateful_tractogram import set_sft_logger_level
 
+from AFQ.utils.docstring_parser import parse_numpy_docstring
+from AFQ.viz.utils import viz_import_msg_error
 
-__all__ = [
-    "methods_descriptors", "kwargs_descriptors", "AFQclass_doc"]
+__all__ = ["methods_descriptors", "kwargs_descriptors", "AFQclass_doc"]
 
 
 set_sft_logger_level(logging.CRITICAL)
 
 
 task_modules = [
-    "structural", "data", "tissue", "mapping",
-    "segmentation", "tractography", "viz"]
+    "structural",
+    "data",
+    "tissue",
+    "mapping",
+    "segmentation",
+    "tractography",
+    "viz",
+]
 
 methods_descriptors = {
     "dwi_data_file": "Path to DWI data file",
@@ -44,55 +49,53 @@ methods_sections = {
     "pve_wm": "tractography",
 }
 
-# These kwargs are used to constrcut the plan, not in the plan
+# These kwargs are used to construct the plan, not in the plan
 # so we don't want to warn if they are unused in the plan
 used_kwargs_exceptions = [
     "pve",
     "reg_subject_spec",
     "import_tract",
-    "brain_mask_definition"]
+    "brain_mask_definition",
+]
 
 kwargs_descriptors = {}
 for task_module in task_modules:
     kwargs_descriptors[task_module] = {}
-    for calc_obj in import_module(
-            f"AFQ.tasks.{task_module}").__dict__.values():
+    for calc_obj in import_module(f"AFQ.tasks.{task_module}").__dict__.values():
         if immlib.is_calcfn(calc_obj):
             docstr_parsed = parse_numpy_docstring(calc_obj)
             if len(calc_obj.calc.outputs) > 1:
                 eff_descs = docstr_parsed["description"].split(",")
                 if len(eff_descs) != len(calc_obj.calc.outputs):
-                    raise NotImplementedError((
-                        "If calc method has mutliple outputs, "
-                        "their descriptions must be divided by commas."
-                        f" {calc_obj} has {len(eff_descs)} comma-divided"
-                        f"sections but {len(calc_obj.calc.outputs)} outputs"))
+                    raise NotImplementedError(
+                        (
+                            "If calc method has multiple outputs, "
+                            "their descriptions must be divided by commas."
+                            f" {calc_obj} has {len(eff_descs)} comma-divided"
+                            f"sections but {len(calc_obj.calc.outputs)} outputs"
+                        )
+                    )
                 for ii in range(len(calc_obj.calc.outputs)):
-                    if eff_descs[ii][0] in [' ', '\n']:
+                    if eff_descs[ii][0] in [" ", "\n"]:
                         eff_descs[ii] = eff_descs[ii][1:]
                     if eff_descs[ii][:3] == "and":
                         eff_descs[ii] = eff_descs[ii][3:]
-                    if eff_descs[ii][0] in [' ', '\n']:
+                    if eff_descs[ii][0] in [" ", "\n"]:
                         eff_descs[ii] = eff_descs[ii][1:]
-                    methods_descriptors[
-                        calc_obj.calc.outputs[ii]] =\
-                        eff_descs[ii]
-                    methods_sections[calc_obj.calc.outputs[ii]] =\
-                        task_module
+                    methods_descriptors[calc_obj.calc.outputs[ii]] = eff_descs[ii]
+                    methods_sections[calc_obj.calc.outputs[ii]] = task_module
             else:
-                methods_descriptors[
-                    calc_obj.calc.outputs[0]] =\
-                    docstr_parsed["description"]
-                methods_sections[calc_obj.calc.outputs[0]] =\
-                    task_module
+                methods_descriptors[calc_obj.calc.outputs[0]] = docstr_parsed[
+                    "description"
+                ]
+                methods_sections[calc_obj.calc.outputs[0]] = task_module
             sig = inspect.signature(calc_obj)
             for arg, info in docstr_parsed["arguments"].items():
                 param = sig.parameters.get(arg)
                 if "help" in info:
                     kwargs_descriptors[task_module][arg] = dict(
-                        desc=info["help"],
-                        kind=info["metavar"],
-                        default=param.default)
+                        desc=info["help"], kind=info["metavar"], default=param.default
+                    )
                 if arg not in methods_sections:
                     methods_sections[arg] = task_module
 
@@ -100,25 +103,27 @@ for task_module in task_modules:
 AFQclass_doc = (
     "Here are the arguments you can pass to kwargs,"
     " to customize the tractometry pipeline. They are organized"
-    " into 5 sections.\n")
+    " into 5 sections.\n"
+)
 for task_module in task_modules:
     AFQclass_doc = AFQclass_doc + "\n"
-    AFQclass_doc = AFQclass_doc +\
-        "==========================================================\n"
+    AFQclass_doc = (
+        AFQclass_doc + "==========================================================\n"
+    )
     AFQclass_doc = AFQclass_doc + task_module.upper() + "\n"
-    AFQclass_doc = AFQclass_doc +\
-        "==========================================================\n"
+    AFQclass_doc = (
+        AFQclass_doc + "==========================================================\n"
+    )
     for arg, info in kwargs_descriptors[task_module].items():
         AFQclass_doc = AFQclass_doc + arg + ": " + info["kind"]
         AFQclass_doc = AFQclass_doc + "\n\t"
-        AFQclass_doc = AFQclass_doc + info["desc"].replace(
-            "\n", "\n\t")
+        AFQclass_doc = AFQclass_doc + info["desc"].replace("\n", "\n\t")
         AFQclass_doc = AFQclass_doc + "\n\n"
 
 
 valid_exports_string = (
-    "Here is a list of valid attributes "
-    f"to export: {methods_sections.keys()}")
+    f"Here is a list of valid attributes to export: {methods_sections.keys()}"
+)
 
 
 def check_attribute(attr_name):
@@ -132,8 +137,7 @@ def check_attribute(attr_name):
     if attr_name in methods_sections:
         return f"{methods_sections[attr_name]}_imap"
 
-    raise ValueError(
-        f"{attr_name} not found for export. {valid_exports_string}")
+    raise ValueError(f"{attr_name} not found for export. {valid_exports_string}")
 
 
 def export_all_helper(api_afq_object, xforms, indiv, viz):
@@ -141,10 +145,13 @@ def export_all_helper(api_afq_object, xforms, indiv, viz):
         try:
             api_afq_object.export("b0_warped")
         except Exception as e:
-            api_afq_object.logger.warning((
-                "Failed to export warped b0. This could be because your "
-                "mapping type is only compatible with transformation "
-                f"from template to subject space. The error is: {e}"))
+            api_afq_object.logger.warning(
+                (
+                    "Failed to export warped b0. This could be because your "
+                    "mapping type is only compatible with transformation "
+                    f"from template to subject space. The error is: {e}"
+                )
+            )
         api_afq_object.export("template_xform")
 
     if indiv:
@@ -156,9 +163,9 @@ def export_all_helper(api_afq_object, xforms, indiv, viz):
 
     if viz:
         try:
-            import pingouin
-            import seaborn
-            import IPython
+            import IPython  # noqa F401
+            import pingouin  # noqa F401
+            import seaborn  # noqa F401
         except (ImportError, ModuleNotFoundError):
             api_afq_object.logger.warning(viz_import_msg_error("plot"))
         else:

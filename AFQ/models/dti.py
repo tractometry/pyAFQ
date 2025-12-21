@@ -1,9 +1,8 @@
 import os
 import os.path as op
 
-import numpy as np
 import nibabel as nib
-
+import numpy as np
 from dipy.reconst import dti
 from scipy.special import gamma
 
@@ -38,7 +37,7 @@ def noise_from_b0(data, gtab, bvals, mask=None, b0_threshold=50):
     num_vols = data.shape[3]
 
     # Get brainmask indices
-    brain_inds = (mask > 0)
+    brain_inds = mask > 0
 
     # preallocate a 2d array
     # The first dimension is the number of volumes
@@ -51,21 +50,22 @@ def noise_from_b0(data, gtab, bvals, mask=None, b0_threshold=50):
         masked_data[i, :] = tmp[brain_inds]
 
     # Find which volumes are b=0
-    b0_inds = (bvals > b0_threshold)
+    b0_inds = bvals > b0_threshold
     n = len(b0_inds)
     # Pull out the b=0 volumes
     b0_data = masked_data[b0_inds, :]
     # Calculate the median of the standard deviation. We do not think that
     # this needs to be rescaled. Henkelman et al. (1985) suggest that this
-    # aproaches the true noise as the signal increases.
+    # approaches the true noise as the signal increases.
     sigma = np.median(np.std(b0_data, axis=1, ddof=1))
 
     # std of a sample underestimates sigma
     # (see http://nbviewer.ipython.org/4287207/)
     # This can be very big for small n (e.g., 20# for n=2)
     # We can compute the underestimation bias:
-    bias = sigma * (1. - np.sqrt(2. / (n - 1))
-                    * (gamma(n / 2.) / gamma((n - 1) / 2.)))
+    bias = sigma * (
+        1.0 - np.sqrt(2.0 / (n - 1)) * (gamma(n / 2.0) / gamma((n - 1) / 2.0))
+    )
 
     # and correct for it:
     return sigma + bias
@@ -75,15 +75,19 @@ def _fit(gtab, data, mask=None, sigma=None):
     if sigma is None:
         dtimodel = dti.TensorModel(gtab)
     else:
-        dtimodel = dti.TensorModel(
-            gtab,
-            fit_method="RT",
-            sigma=sigma)
+        dtimodel = dti.TensorModel(gtab, fit_method="RT", sigma=sigma)
     return dtimodel.fit(data, mask=mask)
 
 
-def fit_dti(data_files, bval_files, bvec_files, mask=None,
-            out_dir=None, file_prefix=None, b0_threshold=50):
+def fit_dti(
+    data_files,
+    bval_files,
+    bvec_files,
+    mask=None,
+    out_dir=None,
+    file_prefix=None,
+    b0_threshold=50,
+):
     """
     Fit the DTI model using default settings, save files with derived maps.
 
@@ -115,24 +119,24 @@ def fit_dti(data_files, bval_files, bvec_files, mask=None,
     -----
     Maps that are calculated: FA, MD, AD, RD
     """
-    img, data, gtab, mask = ut.prepare_data(data_files, bval_files,
-                                            bvec_files, mask=mask,
-                                            b0_threshold=b0_threshold)
+    img, data, gtab, mask = ut.prepare_data(
+        data_files, bval_files, bvec_files, mask=mask, b0_threshold=b0_threshold
+    )
 
     # In this case, we dump the fit object
     dtf = _fit(gtab, data, mask=mask)
     FA, MD, AD, RD, params = dtf.fa, dtf.md, dtf.ad, dtf.rd, dtf.model_params
 
     maps = [FA, MD, AD, RD, params]
-    names = ['FA', 'MD', 'AD', 'RD', 'params']
+    names = ["FA", "MD", "AD", "RD", "params"]
 
     if out_dir is None:
         if isinstance(data_files, list):
-            out_dir = op.join(op.split(data_files[0])[0], 'dti')
+            out_dir = op.join(op.split(data_files[0])[0], "dti")
         else:
-            out_dir = op.join(op.split(data_files)[0], 'dti')
+            out_dir = op.join(op.split(data_files)[0], "dti")
     if file_prefix is None:
-        file_prefix = ''
+        file_prefix = ""
 
     if not op.exists(out_dir):
         os.makedirs(out_dir)
@@ -140,7 +144,7 @@ def fit_dti(data_files, bval_files, bvec_files, mask=None,
     aff = img.affine
     file_paths = {}
     for m, n in zip(maps, names):
-        file_paths[n] = op.join(out_dir, file_prefix + 'dti_%s.nii.gz' % n)
+        file_paths[n] = op.join(out_dir, file_prefix + "dti_%s.nii.gz" % n)
         nib.save(nib.Nifti1Image(m, aff), file_paths[n])
 
     return file_paths
@@ -185,7 +189,7 @@ def predict(params_file, gtab, S0_file=None, out_dir=None):
     img = nib.load(params_file)
     params = img.get_fdata()
     pred = dti.tensor_prediction(params, gtab, S0=S0)
-    fname = op.join(out_dir, 'dti_prediction.nii.gz')
+    fname = op.join(out_dir, "dti_prediction.nii.gz")
     nib.save(nib.Nifti1Image(pred, img.affine), fname)
 
     return fname
