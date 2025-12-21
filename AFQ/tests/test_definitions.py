@@ -5,7 +5,7 @@ import numpy.testing as npt
 import pytest
 from bids.layout import BIDSLayout
 
-import AFQ.definitions.mapping as afm
+import AFQ.definitions.image as afm
 from AFQ.definitions.image import *  # interprets images from eval # noqa F403
 from AFQ.definitions.image import ImageFile, ThresholdedScalarImage
 from AFQ.definitions.mapping import *  # interprets mappings from eval # noqa F403
