@@ -28,7 +28,7 @@ def gen_seeds(
     :func:`AFQ.tractography.tractography.track`.
     """
     logger.info("Generating Seeds...")
-    if isinstance(n_seeds, int):
+    if isinstance(n_seeds, np.integer):
         if len(np.unique(seed_mask)) > 2:
             if thresholds_as_percentages:
                 seed_threshold = get_percentile_threshold(seed_mask, seed_threshold)
