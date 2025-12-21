@@ -15,6 +15,8 @@ def get_percentile_threshold(mask, threshold):
 
 
 def is_int(val):
+    if isinstance(val, np.ndarray):
+        return False
     if isinstance(val, int):
         return True
     else:

@@ -8,6 +8,7 @@ import numpy.testing as npt
 from AFQ.models.csd import fit_csd
 from AFQ.models.dti import fit_dti
 from AFQ.tractography.tractography import track
+from AFQ.tractography.utils import is_int
 from AFQ.utils.testing import make_tracking_data
 
 seeds = np.array([[-80.0, -120.0, -60.0], [-81, -121, -61], [-81, -120, -60]])
@@ -22,6 +23,13 @@ make_tracking_data(fbval, fbvec, fdata, fpve)
 
 minlen = 20
 step_size = 0.5
+
+
+def test_is_int():
+    npt.assert_(is_int(5))
+    npt.assert_(is_int(5.0))
+    npt.assert_(not is_int(5.5))
+    npt.assert_(not is_int(np.float64(5.5)))
 
 
 def test_csd_local_tracking():
