@@ -1,19 +1,18 @@
 import os
 import os.path as op
 
-import numpy as np
 import nibabel as nib
-
-from dipy.reconst import csdeconv as csd
-from dipy.reconst import mcsd
-from dipy.reconst import shm
+import numpy as np
 from dipy.core.gradients import gradient_table, unique_bvals_magnitude
-import AFQ.utils.models as ut
+from dipy.reconst import csdeconv as csd
+from dipy.reconst import shm
 
+import AFQ.utils.models as ut
 
 # Monkey patch fixed spherical harmonics for conda from
 # DIPY dev:
 from AFQ._fixes import spherical_harmonics
+
 shm.spherical_harmonics = spherical_harmonics
 
 __all__ = ["fit_csd"]
@@ -42,15 +41,15 @@ def _model(gtab, data, response=None, sh_order_max=None, csd_fa_thr=0.7):
         unique_bvals = unique_bvals_magnitude(gtab.bvals)
         if len(unique_bvals[unique_bvals > 0]) > 1:
             low_shell_idx = gtab.bvals <= unique_bvals[unique_bvals > 0][0]
-            response_gtab = gradient_table(bvals=gtab.bvals[low_shell_idx],
-                                           bvecs=gtab.bvecs[low_shell_idx])
+            response_gtab = gradient_table(
+                bvals=gtab.bvals[low_shell_idx], bvecs=gtab.bvecs[low_shell_idx]
+            )
             data = data[..., low_shell_idx]
         else:
             response_gtab = gtab
-        response, _ = csd.auto_response_ssst(response_gtab,
-                                             data,
-                                             roi_radii=10,
-                                             fa_thr=csd_fa_thr)
+        response, _ = csd.auto_response_ssst(
+            response_gtab, data, roi_radii=10, fa_thr=csd_fa_thr
+        )
     # Catch conditions where an auto-response could not be calculated:
     if np.all(np.isnan(response[0])):
         raise CsdNanResponseError
@@ -59,17 +58,34 @@ def _model(gtab, data, response=None, sh_order_max=None, csd_fa_thr=0.7):
     return csdmodel
 
 
-def _fit(gtab, data, mask, response=None, sh_order_max=None,
-         lambda_=1, tau=0.1, csd_fa_thr=0.7):
+def _fit(
+    gtab,
+    data,
+    mask,
+    response=None,
+    sh_order_max=None,
+    lambda_=1,
+    tau=0.1,
+    csd_fa_thr=0.7,
+):
     """
     Helper function that does the core of fitting a model to data.
     """
-    return _model(gtab, data, response, sh_order_max, csd_fa_thr).fit(
-        data, mask=mask)
+    return _model(gtab, data, response, sh_order_max, csd_fa_thr).fit(data, mask=mask)
 
 
-def fit_csd(data_files, bval_files, bvec_files, mask=None, response=None,
-            b0_threshold=50, sh_order_max=None, lambda_=1, tau=0.1, out_dir=None):
+def fit_csd(
+    data_files,
+    bval_files,
+    bvec_files,
+    mask=None,
+    response=None,
+    b0_threshold=50,
+    sh_order_max=None,
+    lambda_=1,
+    tau=0.1,
+    out_dir=None,
+):
     """
     Fit the CSD model and save file with SH coefficients.
 
@@ -122,20 +138,27 @@ def fit_csd(data_files, bval_files, bvec_files, mask=None, response=None,
             Non-negativity constrained super-resolved spherical
             deconvolution
     """
-    img, data, gtab, mask = ut.prepare_data(data_files, bval_files, bvec_files,
-                                            b0_threshold=b0_threshold,
-                                            mask=mask)
+    img, data, gtab, mask = ut.prepare_data(
+        data_files, bval_files, bvec_files, b0_threshold=b0_threshold, mask=mask
+    )
 
-    csdfit = _fit(gtab, data, mask, response=response, sh_order_max=sh_order_max,
-                  lambda_=lambda_, tau=tau)
+    csdfit = _fit(
+        gtab,
+        data,
+        mask,
+        response=response,
+        sh_order_max=sh_order_max,
+        lambda_=lambda_,
+        tau=tau,
+    )
 
     if out_dir is None:
-        out_dir = op.join(op.split(data_files)[0], 'dki')
+        out_dir = op.join(op.split(data_files)[0], "dki")
 
     if not op.exists(out_dir):
         os.makedirs(out_dir)
 
     aff = img.affine
-    fname = op.join(out_dir, 'csd_sh_coeff.nii.gz')
+    fname = op.join(out_dir, "csd_sh_coeff.nii.gz")
     nib.save(nib.Nifti1Image(csdfit.shm_coeff, aff), fname)
     return fname

@@ -1,17 +1,13 @@
 import multiprocessing
+
 import numpy as np
-from tqdm import tqdm
-import ray
-
-from scipy.sparse import csr_matrix
-
 import osqp
-
-from dipy.reconst.mcsd import MSDeconvFit
-from dipy.reconst.mcsd import MultiShellDeconvModel
+import ray
+from dipy.reconst.mcsd import MSDeconvFit, MultiShellDeconvModel
+from scipy.sparse import csr_matrix
+from tqdm import tqdm
 
 from AFQ.utils.stats import chunk_indices
-
 
 __all__ = ["MultiShellDeconvModel"]
 
@@ -57,22 +53,20 @@ def _fit(self, data, mask=None, n_cpus=None):
         b_id = ray.put(b)
         R_id = ray.put(R)
 
-        @ray.remote(
-            num_cpus=n_cpus)
-        def process_batch_remote(batch_indices, data, mask,
-                                 Q, A, b, R):
-            from scipy.sparse import csr_matrix
-            import osqp
+        @ray.remote(num_cpus=n_cpus)
+        def process_batch_remote(batch_indices, data, mask, Q, A, b, R):
             import numpy as np
+            import osqp
+            from scipy.sparse import csr_matrix
 
             m = osqp.OSQP()
             m.setup(
-                P=csr_matrix(Q), A=csr_matrix(A), l=b,
-                u=None, q=None,
-                verbose=False)
+                P=csr_matrix(Q), A=csr_matrix(A), l=b, u=None, q=None, verbose=False
+            )
             return_values = np.zeros(
                 (len(batch_indices),) + data.shape[1:3] + (A.shape[1],),
-                dtype=np.float64)
+                dtype=np.float64,
+            )
             for i, ii in enumerate(batch_indices):
                 for jj in range(data.shape[1]):
                     for kk in range(data.shape[2]):
@@ -87,24 +81,26 @@ def _fit(self, data, mask=None, n_cpus=None):
         all_indices = list(range(data.shape[0]))
         indices_chunked = list(chunk_indices(all_indices, n_cpus * 2))
         futures = [
-            process_batch_remote.remote(batch, data_id, mask_id,
-                                        Q_id, A_id,
-                                        b_id, R_id)
+            process_batch_remote.remote(batch, data_id, mask_id, Q_id, A_id, b_id, R_id)
             for batch in indices_chunked
         ]
 
         # Collect and assign results
-        for batch, future in zip(
-                indices_chunked, tqdm(futures)):
+        for batch, future in zip(indices_chunked, tqdm(futures)):
             results = ray.get(future)
             for i, ii in enumerate(batch):
                 coeff[ii] = results[i]
     else:
         m = osqp.OSQP()
         m.setup(
-            P=csr_matrix(Q), A=csr_matrix(A), l=b,
-            u=None, q=None,
-            verbose=False, adaptive_rho=True)
+            P=csr_matrix(Q),
+            A=csr_matrix(A),
+            l=b,
+            u=None,
+            q=None,
+            verbose=False,
+            adaptive_rho=True,
+        )
         for ii in tqdm(range(data.shape[0])):
             for jj in range(data.shape[1]):
                 for kk in range(data.shape[2]):

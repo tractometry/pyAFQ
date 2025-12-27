@@ -1,6 +1,30 @@
 [build-system]
-requires = ["setuptools>=42", "wheel", "setuptools_scm>=3.4"]
+requires = ["setuptools>=64", "setuptools_scm>=8"]
 build-backend = "setuptools.build_meta"
+
+[tool.ruff]
+target-version = "py310"
+exclude = ["docs/source/conf.py",
+         "examples/",
+         "setup.py"]
+
+[tool.ruff.lint]
+select = [
+  "F",
+  "E",
+  "C",
+  "W",
+  "B",
+  "I",
+]
+ignore = [
+  "B905",
+  "C901",
+  "E203",
+  "F821",
+  "B021",
+  "C408"
+]
 
 [tool.pytest.ini_options]
 markers = [

@@ -1,23 +1,23 @@
+import os.path as op
+
 import numpy.testing as npt
 
 import AFQ.data.fetch as afd
-from AFQ.utils.conversion import matlab_tractography, matlab_mori_groups
-
-import os.path as op
+from AFQ.utils.conversion import matlab_mori_groups, matlab_tractography
 
 DATA_PATH = op.join(op.abspath(op.dirname(__file__)), "../../tests/data")
 
 
 def test_matlab_tractography():
     sft = matlab_tractography(
-        op.join(DATA_PATH, "WholeBrainFG_test.mat"),
-        afd.read_mni_template())
+        op.join(DATA_PATH, "WholeBrainFG_test.mat"), afd.read_mni_template()
+    )
     npt.assert_equal(len(sft.streamlines), 2)
 
 
 def test_matlab_mori_groups():
     fiber_groups = matlab_mori_groups(
-        op.join(DATA_PATH, "MoriGroups_Test.mat"),
-        afd.read_mni_template())
+        op.join(DATA_PATH, "MoriGroups_Test.mat"), afd.read_mni_template()
+    )
     npt.assert_equal(len(fiber_groups.keys()), 18)
-    npt.assert_equal(len(fiber_groups['Right Corticospinal'].streamlines), 2)
+    npt.assert_equal(len(fiber_groups["Right Corticospinal"].streamlines), 2)

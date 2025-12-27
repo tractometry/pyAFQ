@@ -1,20 +1,17 @@
-import numpy as np
+import logging
 import os.path as op
 from time import time
 
-import logging
-
-from dipy.io.stateful_tractogram import StatefulTractogram, Space
-from dipy.io.streamline import save_tractogram
-import dipy.tracking.streamlinespeed as dps
 import dipy.tracking.streamline as dts
+import dipy.tracking.streamlinespeed as dps
+import numpy as np
+from dipy.io.stateful_tractogram import Space, StatefulTractogram
+from dipy.io.streamline import save_tractogram
 from dipy.tracking.distances import bundles_distances_mdf
-
 
 from AFQ.definitions.mapping import ConformedFnirtMapping
 
-
-logger = logging.getLogger('AFQ')
+logger = logging.getLogger("AFQ")
 
 
 def flip_sls(select_sl, idx_to_flip, in_place=False):
@@ -33,8 +30,7 @@ def flip_sls(select_sl, idx_to_flip, in_place=False):
     return flipped_sl
 
 
-def cut_sls_by_closest(select_sl, roi_closest, roi_idxs,
-                       in_place=False):
+def cut_sls_by_closest(select_sl, roi_closest, roi_idxs, in_place=False):
     """
     Helper function to cut streamlines according to which points
     are closest to certain rois.
@@ -85,18 +81,13 @@ def cut_sls_by_closest(select_sl, roi_closest, roi_idxs,
 def read_tg(tg, nb_streamlines=None):
     if nb_streamlines and len(tg) > nb_streamlines:
         tg = StatefulTractogram.from_sft(
-            dts.select_random_set_of_streamlines(
-                tg.streamlines,
-                nb_streamlines
-            ),
-            tg)
+            dts.select_random_set_of_streamlines(tg.streamlines, nb_streamlines), tg
+        )
     return tg
 
 
 def orient_by_streamline(sls, template_sl):
-    DM = bundles_distances_mdf(
-        sls,
-        [template_sl, template_sl[::-1]])
+    DM = bundles_distances_mdf(sls, [template_sl, template_sl[::-1]])
     return DM[:, 0] > DM[:, 1]
 
 
@@ -116,7 +107,8 @@ def move_streamlines(tg, to, mapping, img, save_intermediates=None):
             raise ValueError(
                 "Attempted to transform streamlines to template using "
                 "unsupported mapping. "
-                "Use something other than Fnirt.")
+                "Use something other than Fnirt."
+            )
         tg.to_vox()
         moved_sl = []
         for sl in tg.streamlines:
@@ -127,21 +119,15 @@ def move_streamlines(tg, to, mapping, img, save_intermediates=None):
             volume = mapping.forward
         else:
             volume = mapping.backward
-        delta = dts.values_from_volume(
-            volume,
-            tg.streamlines, np.eye(4))
-        moved_sl = dts.Streamlines(
-            [d + s for d, s in zip(delta, tg.streamlines)])
-    moved_sft = StatefulTractogram(
-        moved_sl,
-        img,
-        Space.RASMM)
+        delta = dts.values_from_volume(volume, tg.streamlines, np.eye(4))
+        moved_sl = dts.Streamlines([d + s for d, s in zip(delta, tg.streamlines)])
+    moved_sft = StatefulTractogram(moved_sl, img, Space.RASMM)
     if save_intermediates is not None:
         save_tractogram(
             moved_sft,
-            op.join(save_intermediates,
-                    f'sls_in_{to}.trk'),
-            bbox_valid_check=False)
+            op.join(save_intermediates, f"sls_in_{to}.trk"),
+            bbox_valid_check=False,
+        )
     tg.to_space(tg_og_space)
     return moved_sft
 
@@ -161,8 +147,7 @@ def resample_tg(tg, n_points):
 
 
 class SlsBeingRecognized:
-    def __init__(self, sls, logger, save_intermediates, b_name, ref,
-                 n_roi):
+    def __init__(self, sls, logger, save_intermediates, b_name, ref, n_roi):
         self.oriented_yet = False
         self.selected_fiber_idxs = np.arange(len(sls), dtype=np.uint32)
         self.sls_flipped = np.zeros(len(sls), dtype=np.bool_)
@@ -187,36 +172,38 @@ class SlsBeingRecognized:
         time_taken = time() - self.start_time
         self.logger.info(
             f"After filtering by {clean_name} (time: {time_taken}s), "
-            f"{len(self)} streamlines remain.")
+            f"{len(self)} streamlines remain."
+        )
         if self.save_intermediates is not None:
             save_tractogram(
-                StatefulTractogram(
-                    self.get_selected_sls(cut=cut),
-                    self.ref, Space.VOX),
-                op.join(self.save_intermediates,
-                        f'sls_after_{clean_name}_for_{self.b_name}.trk'),
-                bbox_valid_check=False)
+                StatefulTractogram(self.get_selected_sls(cut=cut), self.ref, Space.VOX),
+                op.join(
+                    self.save_intermediates,
+                    f"sls_after_{clean_name}_for_{self.b_name}.trk",
+                ),
+                bbox_valid_check=False,
+            )
 
     def get_selected_sls(self, cut=False, flip=False):
         selected_sls = self.ref_sls[self.selected_fiber_idxs]
         if cut and hasattr(self, "roi_closest") and self.n_roi > 1:
             selected_sls = cut_sls_by_closest(
-                selected_sls, self.roi_closest,
-                (0, self.n_roi - 1),
-                in_place=False)
+                selected_sls, self.roi_closest, (0, self.n_roi - 1), in_place=False
+            )
         if flip:
-            selected_sls = flip_sls(
-                selected_sls, self.sls_flipped,
-                in_place=False)
+            selected_sls = flip_sls(selected_sls, self.sls_flipped, in_place=False)
         return selected_sls
 
     def reorient(self, idx):
         if self.oriented_yet:
-            raise RuntimeError((
-                "Attempted to oriented streamlines "
-                "that were already oriented. "
-                "This is a bug in the implementation of a "
-                "bundle recognition procedure. "))
+            raise RuntimeError(
+                (
+                    "Attempted to oriented streamlines "
+                    "that were already oriented. "
+                    "This is a bug in the implementation of a "
+                    "bundle recognition procedure. "
+                )
+            )
         self.oriented_yet = True
         self.sls_flipped[idx] = True
 

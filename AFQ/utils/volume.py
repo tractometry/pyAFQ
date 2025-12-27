@@ -1,17 +1,15 @@
 import logging
-import numpy as np
 
-import scipy.ndimage as ndim
-from skimage.morphology import binary_dilation
-from scipy.spatial.distance import dice
-
-import nibabel as nib
-
-from dipy.io.utils import (create_nifti_header, get_reference_info)
-from dipy.tracking.streamline import select_random_set_of_streamlines
 import dipy.tracking.utils as dtu
+import nibabel as nib
+import numpy as np
+import scipy.ndimage as ndim
+from dipy.io.utils import create_nifti_header, get_reference_info
+from dipy.tracking.streamline import select_random_set_of_streamlines
+from scipy.spatial.distance import dice
+from skimage.morphology import binary_dilation
 
-logger = logging.getLogger('AFQ')
+logger = logging.getLogger("AFQ")
 
 
 def transform_inverse_roi(roi, mapping, bundle_name="ROI"):
@@ -42,13 +40,12 @@ def transform_inverse_roi(roi, mapping, bundle_name="ROI"):
     if isinstance(roi, nib.Nifti1Image):
         roi = roi.get_fdata()
 
-    _roi = mapping.transform_inverse(roi, interpolation='linear')
+    _roi = mapping.transform_inverse(roi, interpolation="linear")
 
     if np.sum(_roi) == 0:
-        logger.warning(
-            f'Lost ROI {bundle_name}, performing automatic binary dilation')
+        logger.warning(f"Lost ROI {bundle_name}, performing automatic binary dilation")
         _roi = binary_dilation(roi)
-        _roi = mapping.transform_inverse(_roi, interpolation='linear')
+        _roi = mapping.transform_inverse(_roi, interpolation="linear")
 
     _roi = patch_up_roi(_roi > 0, bundle_name=bundle_name).astype(np.int32)
 
@@ -76,9 +73,9 @@ def patch_up_roi(roi, bundle_name="ROI"):
     """
     hole_filled = ndim.binary_fill_holes(roi > 0)
     if not np.any(hole_filled):
-        raise ValueError((
-            f"{bundle_name} found to be empty after "
-            "applying the mapping."))
+        raise ValueError(
+            (f"{bundle_name} found to be empty after applying the mapping.")
+        )
     return hole_filled
 
 
@@ -168,12 +165,9 @@ def dice_coeff(arr1, arr2, weighted=True):
     arr2 = arr2.flatten()
 
     if weighted:
-        return (
-            np.sum(arr1 * arr2.astype(bool))
-            + np.sum(arr2 * arr1.astype(bool)))\
-            / (np.sum(arr1) + np.sum(arr2))
+        return (np.sum(arr1 * arr2.astype(bool)) + np.sum(arr2 * arr1.astype(bool))) / (
+            np.sum(arr1) + np.sum(arr2)
+        )
     else:
         # scipy's dice function returns the dice *dissimilarity*
-        return 1 - dice(
-            arr1.astype(bool),
-            arr2.astype(bool))
+        return 1 - dice(arr1.astype(bool), arr2.astype(bool))

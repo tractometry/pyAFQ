@@ -1,24 +1,22 @@
-import numpy as np
+import logging
+import os.path as op
+
 import nibabel as nib
 import nibabel.processing as nbp
+import numpy as np
 from scipy.ndimage import gaussian_filter
 from skimage.segmentation import find_boundaries
 
 from AFQ.data.fetch import afq_home, fetch_synthseg_models
 
-import logging
-import os.path as op
-
-
-logger = logging.getLogger('AFQ')
+logger = logging.getLogger("AFQ")
 
 
 __all__ = ["run_synthseg"]
 
 
 def _get_model(model_name):
-    model_dir = op.join(afq_home,
-            'synthseg_onnx')
+    model_dir = op.join(afq_home, "synthseg_onnx")
     model_dictionary = {
         "synthseg2": "synthseg2.onnx",
     }
@@ -47,17 +45,15 @@ def run_synthseg(ort, t1_img, model_name):
     model = _get_model(model_name)
 
     t1_img_conformed = nbp.conform(
-        t1_img,
-        out_shape=(256, 256, 256),
-        voxel_size=(1.0, 1.0, 1.0),
-        orientation="RAS")
+        t1_img, out_shape=(256, 256, 256), voxel_size=(1.0, 1.0, 1.0), orientation="RAS"
+    )
 
     t1_data = t1_img_conformed.get_fdata()
     p02 = np.nanpercentile(t1_data, 2)
     p98 = np.nanpercentile(t1_data, 98)
     t1_data = np.clip(t1_data, p02, p98)
     t1_data = (t1_data - p02) / (p98 - p02)
-    
+
     image = t1_data.astype(np.float32)[None, ..., None]
 
     logger.info(f"Running {model_name}...")
@@ -69,12 +65,11 @@ def run_synthseg(ort, t1_img, model_name):
     output = output_channels.argmax(axis=4)[0].astype(np.uint8)
 
     output_img = nbp.resample_from_to(
-        nib.Nifti1Image(
-            output.astype(np.uint8),
-            t1_img_conformed.affine),
-        t1_img)
+        nib.Nifti1Image(output.astype(np.uint8), t1_img_conformed.affine), t1_img
+    )
 
     return output_img
+
 
 def pve_from_synthseg(synthseg_data):
     """
@@ -90,45 +85,9 @@ def pve_from_synthseg(synthseg_data):
     pve : ndarray
         PVE data with CSF, GM, and WM segmentations.
     """
-    synthseg_labels = {
-        0: "background",
-        1: "left cerebral white matter",
-        2: "left cerebral cortex",
-        3: "left lateral ventricle",
-        4: "left inferior lateral ventricle",
-        5: "left cerebellum white matter",
-        6: "left cerebellum cortex",
-        7: "left thalamus",
-        8: "left caudate",
-        9: "left putamen",
-        10: "left pallidum",
-        11: "3rd ventricle",
-        12: "4th ventricle",
-        13: "brain-stem",
-        14: "left hippocampus",
-        15: "left amygdala",
-        16: "left accumbens area",
-        17: "CSF",
-        18: "left ventral DC",
-        19: "right cerebral white matter",
-        20: "right cerebral cortex",
-        21: "right lateral ventricle",
-        22: "right inferior lateral ventricle",
-        23: "right cerebellum white matter",
-        24: "right cerebellum cortex",
-        25: "right thalamus",
-        26: "right caudate",
-        27: "right putamen",
-        28: "right pallidum",
-        29: "right hippocampus",
-        30: "right amygdala",
-        31: "right accumbens area",
-        32: "right ventral DC"}
 
     CSF_labels = [0, 3, 4, 11, 12, 21, 22, 17]
-    GM_labels = [
-        2, 7, 8, 9, 10, 14, 15, 16,
-        20, 25, 26, 27, 28, 29, 30, 31]
+    GM_labels = [2, 7, 8, 9, 10, 14, 15, 16, 20, 25, 26, 27, 28, 29, 30, 31]
     WM_labels = [1, 5, 19, 23]
     mixed_labels = [13, 18, 32]
 
@@ -144,13 +103,10 @@ def pve_from_synthseg(synthseg_data):
     wm_fuzzed = gaussian_filter(PVE[..., 2], 1)
     nwm_fuzzed = gaussian_filter(PVE[..., 0] + PVE[..., 1], 1)
     bs_exterior = np.logical_and(
-        find_boundaries(
-            np.isin(synthseg_data, mixed_labels),
-            mode='inner'),
-        nwm_fuzzed >= wm_fuzzed)
-    bs_interior = np.logical_and(
-        np.isin(synthseg_data, mixed_labels),
-        ~bs_exterior)
+        find_boundaries(np.isin(synthseg_data, mixed_labels), mode="inner"),
+        nwm_fuzzed >= wm_fuzzed,
+    )
+    bs_interior = np.logical_and(np.isin(synthseg_data, mixed_labels), ~bs_exterior)
     PVE[bs_exterior, 1] = 1.0
     PVE[bs_interior, 2] = 1.0
 

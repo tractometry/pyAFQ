@@ -1,34 +1,29 @@
-import nibabel.tmpdirs as nbtmp
-import nibabel as nib
-
-import numpy as np
-
 import os.path as op
-import numpy.testing as npt
 
 import dipy.core.gradients as dpg
+import nibabel as nib
+import nibabel.tmpdirs as nbtmp
+import numpy as np
+import numpy.testing as npt
 from dipy.data import default_sphere
 from dipy.reconst.gqi import GeneralizedQSamplingModel
 
-from AFQ._fixes import gaussian_weights as gaussian_weights_fast
 import AFQ.data.fetch as afd
-
+from AFQ._fixes import gaussian_weights, gwi_odf
+from AFQ._fixes import gaussian_weights as gaussian_weights_fast
 from AFQ.utils.testing import make_dki_data
-from AFQ._fixes import gwi_odf, gaussian_weights
 
 
 def test_GQI_fix():
     with nbtmp.InTemporaryDirectory() as tmpdir:
-        fbval = op.join(tmpdir, 'dki.bval')
-        fbvec = op.join(tmpdir, 'dki.bvec')
-        fdata = op.join(tmpdir, 'dki.nii.gz')
+        fbval = op.join(tmpdir, "dki.bval")
+        fbvec = op.join(tmpdir, "dki.bvec")
+        fdata = op.join(tmpdir, "dki.nii.gz")
         make_dki_data(fbval, fbvec, fdata)
         gtab = dpg.gradient_table(bvals=fbval, bvecs=fbvec)
         data = nib.load(fdata).get_fdata()
 
-        gqmodel = GeneralizedQSamplingModel(
-            gtab,
-            sampling_length=1.2)
+        gqmodel = GeneralizedQSamplingModel(gtab, sampling_length=1.2)
 
         odf_ours = gwi_odf(gqmodel, data)
 
@@ -39,7 +34,7 @@ def test_GQI_fix():
 
 def test_gaussian_weights():
     file_dict = afd.read_stanford_hardi_tractography()
-    streamlines = file_dict['tractography_subsampled.trk']
+    streamlines = file_dict["tractography_subsampled.trk"]
     assert not np.any(np.isnan(gaussian_weights(streamlines[76:92])))
 
 
@@ -64,15 +59,19 @@ def test_mahal_fix():
         [[8, 53, 39], [8, 50, 39], [8, 45, 39], [27, 57, 77], [16, 36, 26]],
         [[8, 53, 39], [8, 50, 39], [8, 45, 39], [26, 56, 76], [14, 24, 34]],
         [[8, 53, 39], [8, 50, 39], [8, 45, 39], [25, 55, 75], [13, 23, 33]],
-        [[8, 53, 39], [8, 50, 39], [8, 45, 39], [24, 54, 74], [11, 21, 31]]
+        [[8, 53, 39], [8, 50, 39], [8, 45, 39], [24, 54, 74], [11, 21, 31]],
     ]
-    sls_array =  np.asarray(sls).astype(float)
-    results = np.asarray([
-        [0., 0., 0., 1.718654, 1.550252],
-        [0., 0., 0., 2.202227, 0.7881],
-        [0., 0., 0., 3.415999, 2.689814]])
+    sls_array = np.asarray(sls).astype(float)
+    results = np.asarray(
+        [
+            [0.0, 0.0, 0.0, 1.718654, 1.550252],
+            [0.0, 0.0, 0.0, 2.202227, 0.7881],
+            [0.0, 0.0, 0.0, 3.415999, 2.689814],
+        ]
+    )
     npt.assert_array_almost_equal(
         gaussian_weights_fast(
-            sls_array, n_points=None,
-            return_mahalnobis=True,
-            stat=np.mean)[:3], results)
+            sls_array, n_points=None, return_mahalnobis=True, stat=np.mean
+        )[:3],
+        results,
+    )

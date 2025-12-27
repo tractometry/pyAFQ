@@ -31,7 +31,7 @@ import AFQ.definitions.image as afm
 # data and organize it in a BIDS compliant way (for more details on how
 # BIDS is used in pyAFQ, refer to :doc:`plot_006_bids_layout`).
 #
-# The following call dowloads a a single subject's data from the Healthy Brain
+# The following call downloads a a single subject's data from the Healthy Brain
 # Network Processed Open Diffusion Derivatives dataset (HBN-POD2) [1]_, [2]_
 # and organizes it in BIDS in the user's home directory under::
 #
@@ -224,7 +224,7 @@ plotly.io.show(bundle_html["NDARAA948VFH"]["HBNsiteRU"][0])
 
 ##########################################################################
 # We can also visualize the tract profiles in all of the bundles. These
-# plots show both FA (left) and MD (right) layed out anatomically.
+# plots show both FA (left) and MD (right) laid out anatomically.
 # To make this plot, it is required that you install with
 # `pip install pyAFQ[plot]` so that you have the necessary dependencies.
 #

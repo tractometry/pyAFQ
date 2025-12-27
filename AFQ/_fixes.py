@@ -1,31 +1,25 @@
-import numpy as np
 import logging
-
-from scipy.special import lpmv, gammaln
-from scipy.linalg import pinvh
-
-from tqdm import tqdm
-
 import math
 
-from dipy.reconst.gqi import squared_radial_component
+import numpy as np
 from dipy.data import default_sphere
+from dipy.reconst.gqi import squared_radial_component
 from dipy.tracking.streamline import set_number_of_points
-from scipy.linalg import blas
+from scipy.linalg import blas, pinvh
+from scipy.special import gammaln, lpmv
+from tqdm import tqdm
 
-
-logger = logging.getLogger('AFQ')
+logger = logging.getLogger("AFQ")
 
 
 def gwi_odf(gqmodel, data):
     gqi_vector = np.real(
-        squared_radial_component(np.dot(
-            gqmodel.b_vector, default_sphere.vertices.T)
-            * gqmodel.Lambda))
+        squared_radial_component(
+            np.dot(gqmodel.b_vector, default_sphere.vertices.T) * gqmodel.Lambda
+        )
+    )
     odf = blas.dgemm(
-        alpha=1.,
-        a=data.reshape(-1, gqi_vector.shape[0]),
-        b=gqi_vector
+        alpha=1.0, a=data.reshape(-1, gqi_vector.shape[0]), b=gqi_vector
     ).reshape((*data.shape[:-1], gqi_vector.shape[1]))
     return odf
 
@@ -44,7 +38,7 @@ def spherical_harmonics(m, n, theta, phi):
 
 
 def in_place_norm(vec, axis=-1, keepdims=False, delvec=True):
-    """ Return Vectors with Euclidean (L2) norm
+    """Return Vectors with Euclidean (L2) norm
 
     See :term:`unit vector` and :term:`Euclidean norm`
 
@@ -131,9 +125,7 @@ def tensor_odf(evals, evecs, sphere, num_batches=100):
     batch_size = math.ceil(num_vertices / num_batches)
     batches = range(num_batches)
 
-    mask = np.where((evals[..., 0] > 0)
-                    & (evals[..., 1] > 0)
-                    & (evals[..., 2] > 0))
+    mask = np.where((evals[..., 0] > 0) & (evals[..., 1] > 0) & (evals[..., 2] > 0))
     evecs = evecs[mask]
 
     proj_norm = np.zeros((num_vertices, evecs.shape[0]))
@@ -157,8 +149,7 @@ def tensor_odf(evals, evecs, sphere, num_batches=100):
     return odf
 
 
-def gaussian_weights(bundle, n_points=100, return_mahalnobis=False,
-                     stat=np.mean):
+def gaussian_weights(bundle, n_points=100, return_mahalnobis=False, stat=np.mean):
     """
     Calculate weights for each streamline/node in a bundle, based on a
     Mahalanobis distance from the core the bundle, at that node (mean, per
@@ -203,9 +194,12 @@ def gaussian_weights(bundle, n_points=100, return_mahalnobis=False,
 
     if n_sls < 15:  # Cov^-1 unstable under this amount
         weights = np.ones((n_sls, n_nodes))
-        logger.warning((
-            "Not enough streamlines for weight calculation, "
-            "weighting everything evenly"))
+        logger.warning(
+            (
+                "Not enough streamlines for weight calculation, "
+                "weighting everything evenly"
+            )
+        )
         if return_mahalnobis:
             return np.full((n_sls, n_nodes), np.nan)
         else:
@@ -225,11 +219,9 @@ def gaussian_weights(bundle, n_points=100, return_mahalnobis=False,
 
         # calculate Mahalanobis for node in every fiber
         if np.any(cov > 0):
-            weights[:, i] = np.sqrt(np.einsum(
-                'ij,jk,ik->i',
-                diff[:, i, :],
-                pinvh(cov),
-                diff[:, i, :]))
+            weights[:, i] = np.sqrt(
+                np.einsum("ij,jk,ik->i", diff[:, i, :], pinvh(cov), diff[:, i, :])
+            )
 
         # In the special case where all the streamlines have the exact same
         # coordinate in this node, the covariance matrix is all zeros, so
