@@ -15,7 +15,7 @@ logging.basicConfig(level=logging.INFO)
 
 __all__ = [
     "BundleDict",
-    "default18_bd",
+    "default20_bd",
     "reco_bd",
     "callosal_bd",
     "cerebellar_bd",
@@ -118,13 +118,12 @@ RECO_BUNDLES_80 = append_l_r(RECO_BUNDLES_80, RECO_UNIQUE)
 DIPY_GH = "https://github.com/dipy/dipy/blob/master/dipy/"
 
 
-def default18_bd():
+def default20_bd():
     templates = afd.read_templates(as_img=False)
     templates["ARC_roi1_L"] = templates["SLF_roi1_L"]
     templates["ARC_roi1_R"] = templates["SLF_roi1_R"]
     templates["ARC_roi2_L"] = templates["SLFt_roi2_L"]
     templates["ARC_roi2_R"] = templates["SLFt_roi2_R"]
-    callosal_templates = afd.read_callosum_templates(as_img=False)
     return BundleDict(
         {
             "Left Anterior Thalamic": {
@@ -267,32 +266,6 @@ def default18_bd():
                 "start": templates["UNC_R_end"],
                 "end": templates["UNC_R_start"],
             },
-            "Forceps Minor": {
-                "cross_midline": True,
-                "include": [
-                    templates["FA_L"],
-                    callosal_templates["Callosum_midsag"],
-                    templates["FA_R"],
-                ],
-                "exclude": [],
-                "space": "template",
-                "prob_map": templates["FA_prob_map"],
-                "start": templates["FA_start"],
-                "end": templates["FA_end"],
-            },
-            "Forceps Major": {
-                "cross_midline": True,
-                "include": [
-                    templates["FP_L"],
-                    callosal_templates["Callosum_midsag"],
-                    templates["FP_R"],
-                ],
-                "exclude": [],
-                "space": "template",
-                "prob_map": templates["FP_prob_map"],
-                "start": templates["FP_start"],
-                "end": templates["FP_end"],
-            },
             "Left Posterior Arcuate": {
                 "cross_midline": False,
                 "include": [templates["SLFt_roi2_L"]],
@@ -344,6 +317,41 @@ def default18_bd():
                 "isolation_forest": {},
                 "primary_axis": "I/S",
                 "primary_axis_percentage": 40,
+            },
+        }
+    )
+
+
+def forceps_bd():
+    templates = afd.read_templates(as_img=False)
+    callosal_templates = afd.read_callosum_templates(as_img=False)
+    return BundleDict(
+        {
+            "Forceps Minor": {
+                "cross_midline": True,
+                "include": [
+                    templates["FA_L"],
+                    callosal_templates["Callosum_midsag"],
+                    templates["FA_R"],
+                ],
+                "exclude": [],
+                "space": "template",
+                "prob_map": templates["FA_prob_map"],
+                "start": templates["FA_start"],
+                "end": templates["FA_end"],
+            },
+            "Forceps Major": {
+                "cross_midline": True,
+                "include": [
+                    templates["FP_L"],
+                    callosal_templates["Callosum_midsag"],
+                    templates["FP_R"],
+                ],
+                "exclude": [],
+                "space": "template",
+                "prob_map": templates["FP_prob_map"],
+                "start": templates["FP_start"],
+                "end": templates["FP_end"],
             },
         }
     )

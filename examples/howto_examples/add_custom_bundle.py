@@ -54,7 +54,7 @@ _, study_dir = afd.fetch_hbn_preproc([
 #############################################################################
 # Get ROIs and save to disk
 # --------------------------------
-# The goal of this tutorial is to demostrate how to segment new pathways based
+# The goal of this tutorial is to demonstrate how to segment new pathways based
 # on ROIs that are saved to disk. In principle, ROIs can be a) files created by
 # the user and saved to the local disk, b) files stored somewhere on the internet
 # (as is the case here) or c) Files that are accessed with a fetcher. In this
@@ -150,7 +150,7 @@ bundles = abd.BundleDict({
 # can be combined through addition. To get both the SLF and the standard
 # bundles, we would execute the following code::
 #
-#     bundles = bundles + abd.default18_bd()
+#     bundles = bundles + abd.default20_bd()
 #
 # In this case, we will skip this and generate just the SLF.
 

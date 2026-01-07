@@ -228,7 +228,7 @@ def test_AFQ_custom_tract():
     _, bids_path, sub_path = get_temp_hardi()
     afd.fetch_stanford_hardi_tractography()
 
-    bundle_info = abd.default18_bd()[
+    bundle_info = abd.default20_bd()[
         "Left Superior Longitudinal",
         "Right Superior Longitudinal",
         "Left Arcuate",
@@ -488,7 +488,7 @@ def test_API_type_checking():
                 "directions": "det",
                 "odf_model": "DTI",
             },
-            bundle_info=abd.default18_bd()["Left Arcuate", "Right Arcuate"],
+            bundle_info=abd.default20_bd()["Left Arcuate", "Right Arcuate"],
         )
         try:
             myafq.export("bundles")
@@ -527,7 +527,7 @@ def test_AFQ_slr():
     afd.read_stanford_hardi_tractography()
 
     _, bids_path, _ = get_temp_hardi()
-    bd = abd.default18_bd()[("Left Corticospinal", "Right Corticospinal")]
+    bd = abd.default20_bd()[("Left Corticospinal", "Right Corticospinal")]
 
     myafq = GroupAFQ(
         bids_path=bids_path,
@@ -630,7 +630,7 @@ def test_AFQ_custom_subject_reg():
     # make first temporary directory to generate b0
     _, bids_path, sub_path = get_temp_hardi()
 
-    bundle_info = abd.default18_bd()[
+    bundle_info = abd.default20_bd()[
         "Left Superior Longitudinal",
         "Right Superior Longitudinal",
         "Left Arcuate",
@@ -730,7 +730,7 @@ def test_AFQ_data_waypoint():
         "Right Arcuate",
         "Forceps Minor",
     ]
-    bundle_info = abd.default18_bd()[bundle_names]
+    bundle_info = abd.default20_bd()[bundle_names]
 
     bundle_info.resample_subject_to = nib.load(
         op.join(vista_folder, "sub-01_ses-01_dwi.nii.gz")
@@ -905,7 +905,7 @@ def test_AFQ_data_waypoint():
         rng_seed=42,
     )
     bundle_dict_as_str = (
-        "default18_bd()["
+        "default20_bd()["
         '"Left Superior Longitudinal",'
         '"Right Superior Longitudinal",'
         '"Left Arcuate",'

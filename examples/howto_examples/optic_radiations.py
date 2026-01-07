@@ -64,7 +64,7 @@ bundles = abd.OR_bd()
 # combined through addition. To get both the OR and the standard bundles, we
 # would execute the following code::
 #
-#     bundles = bundles + abd.default18_bd()
+#     bundles = bundles + abd.default20_bd()
 #
 # In this case, we will skip this and generate just the OR.
 
@@ -132,9 +132,9 @@ plotly.io.show(bundle_html["NDARAA948VFH"]["Left Optic Radiation"])
 #############################################################################
 # References
 # ----------
-# .. [1] Caffarra S, Joo SJ, Bloom D, Kruper J, Rokem A, Yeatman JD. Development
+# .. [1] Caffarra S, You SJ, Bloom D, Kruper J, Rokem A, Yeatman JD. Development
 #     of the visual white matter pathways mediates development of
-#     electrophysiological responses in visual cortex. Hum Brain Mapp.
+#     electrophysiological responses in visual cortex. Hum Brain Map.
 #     2021;42(17):5785-5797.
 #
 # .. [2] Caffarra S, Kanopka K, Kruper J, Richie-Halford A, Roy E, Rokem A,

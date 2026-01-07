@@ -25,7 +25,7 @@ bundle_names = [
     "Left Arcuate", "Right Arcuate",
     "Left Posterior Arcuate", "Right Posterior Arcuate",
     "Left Vertical Occipital", "Right Vertical Occipital"]
-bundle_dict = abd.default18_bd()[bundle_names]
+bundle_dict = abd.default20_bd()[bundle_names]
 
 
 myafq = GroupAFQ(
