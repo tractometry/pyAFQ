@@ -8,7 +8,7 @@ from AFQ.tests.test_api import create_dummy_bids_path
 
 def test_AFQ_custom_bundle_dict():
     bids_path = create_dummy_bids_path(3, 1)
-    bundle_dict = abd.default20_bd()
+    bundle_dict = abd.default_bd()
     GroupAFQ(bids_path, dwi_preproc_pipeline="synthetic", bundle_info=bundle_dict)
 
 
@@ -18,12 +18,12 @@ def test_BundleDict():
     """
 
     # test defaults
-    afq_bundles = abd.default20_bd()
+    afq_bundles = abd.default_bd()
 
     assert len(afq_bundles) == 22
 
     # Arcuate Fasciculus
-    afq_bundles = abd.default20_bd()["Left Arcuate", "Right Arcuate"]
+    afq_bundles = abd.default_bd()["Left Arcuate", "Right Arcuate"]
 
     assert len(afq_bundles) == 2
 
@@ -31,7 +31,7 @@ def test_BundleDict():
     assert len(afq_bundles) == 1
 
     # Forceps Minor and Major
-    afq_bundles = abd.default20_bd()["Forceps Major", "Forceps Minor"]
+    afq_bundles = abd.default_bd()["Forceps Major", "Forceps Minor"]
 
     assert len(afq_bundles) == 2
 
@@ -51,7 +51,7 @@ def test_BundleDict():
 
     # misspelled bundle that does not exist in afq templates
     with pytest.raises(ValueError, match=" is not in this BundleDict"):
-        afq_bundles = abd.default20_bd()[
+        afq_bundles = abd.default_bd()[
             "Left Vertical Occipital Quinticulus",
             "Right Vertical Occipital Quinticulus",
         ]

@@ -230,7 +230,7 @@ print(validator.is_bids(tractography_relative_path))
 # For an example that includes custom definition of bundle info, see the
 # `plot_callosal_tract_profile example <http://tractometry.org/pyAFQ/auto_examples/plot_callosal_tract_profile.html>`_.
 
-bundle_info = abd.default20_bd()[
+bundle_info = abd.default_bd()[
     "Left Superior Longitudinal",
     "Right Superior Longitudinal",
     "Left Arcuate",

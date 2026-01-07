@@ -64,7 +64,7 @@ bundles = abd.OR_bd()
 # combined through addition. To get both the OR and the standard bundles, we
 # would execute the following code::
 #
-#     bundles = bundles + abd.default20_bd()
+#     bundles = bundles + abd.default_bd()
 #
 # In this case, we will skip this and generate just the OR.
 

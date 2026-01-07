@@ -54,7 +54,7 @@ study_dir = afd.fetch_hbn_preproc(["NDARAA948VFH"])[1]
 # are provided below.
 
 bundle_names = ["Left Arcuate", "Right Arcuate"]
-bundle_dict = abd.default20_bd()[bundle_names]
+bundle_dict = abd.default_bd()[bundle_names]
 
 myafq = GroupAFQ(
     bids_path=study_dir,

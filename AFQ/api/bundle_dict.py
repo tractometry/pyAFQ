@@ -15,7 +15,7 @@ logging.basicConfig(level=logging.INFO)
 
 __all__ = [
     "BundleDict",
-    "default20_bd",
+    "default_bd",
     "reco_bd",
     "callosal_bd",
     "cerebellar_bd",
@@ -118,7 +118,7 @@ RECO_BUNDLES_80 = append_l_r(RECO_BUNDLES_80, RECO_UNIQUE)
 DIPY_GH = "https://github.com/dipy/dipy/blob/master/dipy/"
 
 
-def default20_bd():
+def default_bd():
     templates = afd.read_templates(as_img=False)
     templates["ARC_roi1_L"] = templates["SLF_roi1_L"]
     templates["ARC_roi1_R"] = templates["SLF_roi1_R"]

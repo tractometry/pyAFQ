@@ -205,7 +205,7 @@ callosal_bd = abd.BundleDict({
         'space': 'template'}})
 
 
-bundle_info = abd.default20_bd() + \
+bundle_info = abd.default_bd() + \
     old_vof_paf_cst_definitions + \
     callosal_bd
 

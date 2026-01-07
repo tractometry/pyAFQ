@@ -154,4 +154,4 @@ BundleDict like this. The order of addition matters here:
 
 .. code-block:: python
   
-  BundleDictCustomVOF = abd.default20_bd() + newVOF
+  BundleDictCustomVOF = abd.default_bd() + newVOF
