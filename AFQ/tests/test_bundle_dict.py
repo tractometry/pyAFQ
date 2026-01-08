@@ -20,7 +20,7 @@ def test_BundleDict():
     # test defaults
     afq_bundles = abd.default_bd()
 
-    assert len(afq_bundles) == 22
+    assert len(afq_bundles) == 20
 
     # Arcuate Fasciculus
     afq_bundles = abd.default_bd()["Left Arcuate", "Right Arcuate"]
@@ -31,7 +31,7 @@ def test_BundleDict():
     assert len(afq_bundles) == 1
 
     # Forceps Minor and Major
-    afq_bundles = abd.default_bd()["Forceps Major", "Forceps Minor"]
+    afq_bundles = abd.default_bd()["Callosum Occipital", "Callosum Anterior Frontal"]
 
     assert len(afq_bundles) == 2
 
@@ -51,7 +51,7 @@ def test_BundleDict():
 
     # misspelled bundle that does not exist in afq templates
     with pytest.raises(ValueError, match=" is not in this BundleDict"):
-        afq_bundles = abd.default_bd()[
+        abd.default_bd()[
             "Left Vertical Occipital Quinticulus",
             "Right Vertical Occipital Quinticulus",
         ]

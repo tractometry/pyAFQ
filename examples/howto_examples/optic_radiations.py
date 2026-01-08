@@ -134,7 +134,7 @@ plotly.io.show(bundle_html["NDARAA948VFH"]["Left Optic Radiation"])
 # ----------
 # .. [1] Caffarra S, Joo SJ, Bloom D, Kruper J, Rokem A, Yeatman JD. Development
 #     of the visual white matter pathways mediates development of
-#     electrophysiological responses in visual cortex. Hum Brain Map.
+#     electrophysiological responses in visual cortex. Hum Brain Mapp.
 #     2021;42(17):5785-5797.
 #
 # .. [2] Caffarra S, Kanopka K, Kruper J, Richie-Halford A, Roy E, Rokem A,
