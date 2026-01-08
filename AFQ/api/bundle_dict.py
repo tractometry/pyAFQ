@@ -308,7 +308,7 @@ def slf_bd():
     templates = afd.read_slf_templates(as_img=False)
     return BundleDict(
         {
-            "L_SLF1": {
+            "Left Superior Longitudinal I": {
                 "include": [templates["SFgL.nii.gz"], templates["PaL.nii.gz"]],
                 "exclude": [templates["SLFt_roi2_L.nii.gz"]],
                 "cross_midline": False,
@@ -318,7 +318,7 @@ def slf_bd():
                     "distance_threshold": 2,
                 },
             },
-            "L_SLF2": {
+            "Left Superior Longitudinal II": {
                 "include": [templates["MFgL.nii.gz"], templates["PaL.nii.gz"]],
                 "exclude": [templates["SLFt_roi2_L.nii.gz"]],
                 "cross_midline": False,
@@ -328,9 +328,39 @@ def slf_bd():
                     "distance_threshold": 2,
                 },
             },
-            "L_SLF3": {
+            "Left Superior Longitudinal III": {
                 "include": [templates["PrgL.nii.gz"], templates["PaL.nii.gz"]],
                 "exclude": [templates["SLFt_roi2_L.nii.gz"]],
+                "cross_midline": False,
+                "mahal": {
+                    "clean_rounds": 20,
+                    "length_threshold": 4,
+                    "distance_threshold": 2,
+                },
+            },
+            "Right Superior Longitudinal I": {
+                "include": [templates["SFgR.nii.gz"], templates["PaR.nii.gz"]],
+                "exclude": [templates["SLFt_roi2_R.nii.gz"]],
+                "cross_midline": False,
+                "mahal": {
+                    "clean_rounds": 20,
+                    "length_threshold": 4,
+                    "distance_threshold": 2,
+                },
+            },
+            "Right Superior Longitudinal II": {
+                "include": [templates["MFgR.nii.gz"], templates["PaR.nii.gz"]],
+                "exclude": [templates["SLFt_roi2_R.nii.gz"]],
+                "cross_midline": False,
+                "mahal": {
+                    "clean_rounds": 20,
+                    "length_threshold": 4,
+                    "distance_threshold": 2,
+                },
+            },
+            "Right Superior Longitudinal III": {
+                "include": [templates["PrgR.nii.gz"], templates["PaR.nii.gz"]],
+                "exclude": [templates["SLFt_roi2_R.nii.gz"]],
                 "cross_midline": False,
                 "mahal": {
                     "clean_rounds": 20,
