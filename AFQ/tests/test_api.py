@@ -229,8 +229,8 @@ def test_AFQ_custom_tract():
     afd.fetch_stanford_hardi_tractography()
 
     bundle_info = abd.default_bd()[
-        "Left Superior Longitudinal",
-        "Right Superior Longitudinal",
+        "Left Inferior Longitudinal",
+        "Right Inferior Longitudinal",
         "Left Arcuate",
         "Right Arcuate",
         "Left Corticospinal",
@@ -628,8 +628,8 @@ def test_AFQ_custom_subject_reg():
     _, bids_path, sub_path = get_temp_hardi()
 
     bundle_info = abd.default_bd()[
-        "Left Superior Longitudinal",
-        "Right Superior Longitudinal",
+        "Left Inferior Longitudinal",
+        "Right Inferior Longitudinal",
         "Left Arcuate",
         "Right Arcuate",
         "Left Corticospinal",
@@ -720,8 +720,8 @@ def test_AFQ_data_waypoint():
     lv1_files, lv1_folder = afd.fetch_stanford_hardi_lv1()
     lv1_fname = op.join(lv1_folder, list(lv1_files.keys())[0])
     bundle_names = [
-        "Left Superior Longitudinal",
-        "Right Superior Longitudinal",
+        "Left Inferior Longitudinal",
+        "Right Inferior Longitudinal",
         "Left Arcuate",
         "Right Arcuate",
     ]
@@ -733,7 +733,7 @@ def test_AFQ_data_waypoint():
 
     # Test when we have endpoint ROIs only
     afq_templates = afd.read_templates(as_img=False)
-    bundle_info["Left Superior Longitudinal"] = {
+    bundle_info["Left Inferior Longitudinal"] = {
         "start": afq_templates["SLF_L_start"],
         "end": afq_templates["SLF_L_end"],
         "prob_map": afq_templates["SLF_L_prob_map"],
@@ -808,7 +808,7 @@ def test_AFQ_data_waypoint():
     )  # noqa
 
     seg_sft = aus.SegmentedSFT.fromfile(myafq.export("bundles"))
-    npt.assert_(len(seg_sft.get_bundle("Left Superior Longitudinal").streamlines) > 0)
+    npt.assert_(len(seg_sft.get_bundle("Left Inferior Longitudinal").streamlines) > 0)
 
     # Test bundles exporting:
     myafq.export("indiv_bundles")
@@ -901,8 +901,8 @@ def test_AFQ_data_waypoint():
     )
     bundle_dict_as_str = (
         "default_bd()["
-        '"Left Superior Longitudinal",'
-        '"Right Superior Longitudinal",'
+        '"Left Inferior Longitudinal",'
+        '"Right Inferior Longitudinal",'
         '"Left Arcuate",'
         '"Right Arcuate"]'
         '+ BundleDict({"LV1": {"start": '

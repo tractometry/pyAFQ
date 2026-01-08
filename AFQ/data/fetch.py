@@ -1100,6 +1100,89 @@ def read_cp_templates(as_img=True, resample_to=False):
     return template_dict
 
 
+slf_fnames = [
+    "MFgL.nii.gz",
+    "MFgR.nii.gz",
+    "PaL.nii.gz",
+    "PaR.nii.gz",
+    "PrgL.nii.gz",
+    "PrgR.nii.gz",
+    "SFgL.nii.gz",
+    "SFgR.nii.gz",
+    "SLFt_roi2_L.nii.gz",
+    "SLFt_roi2_R.nii.gz",
+]
+
+slf_remote_fnames = [
+    "60885217",
+    "60885220",
+    "60885223",
+    "60885226",
+    "60885229",
+    "60885232",
+    "60885235",
+    "60885238",
+    "60885241",
+    "60885244",
+]
+
+slf_md5_hashes = [
+    "b9515633cb4fce35a1407bc0b73f553b",
+    "7dfdaffb567c8cb11cda6823f199af1a",
+    "35c5c82ec06f34fe4b7db8c5e9910f82",
+    "a68cdde0ee5665b3a671cc884c0e8bcf",
+    "28c5604465256ea79292e750be19922f",
+    "4b6ac10cd8e2d90525a1ab4e6773df5d",
+    "c57a8c17243f19c5d0beb199f0171391",
+    "a4a8b246d8901957fabbb045093b54b9",
+    "1fa2114049707a4e05b53f9d95730375",
+    "b6663067d5ea53c70cb8803948f8adf7",
+]
+
+fetch_slf_templates = _make_reusable_fetcher(
+    "fetch_slf_templates",
+    op.join(afq_home, "slf_templates"),
+    baseurl,
+    slf_remote_fnames,
+    slf_fnames,
+    md5_list=slf_md5_hashes,
+    doc="Download AFQ SLF templates",
+)
+
+
+def read_slf_templates(as_img=True, resample_to=False):
+    """Load AFQ SLF templates from file
+
+    Parameters
+    ----------
+    as_img : bool, optional
+        If True, values are `Nifti1Image`. Otherwise, values are
+        paths to Nifti files. Default: True
+    resample_to : str or nibabel image class instance, optional
+        A template image to resample to. Typically, this should be the
+        template to which individual-level data are registered. Defaults to
+        the MNI template. Default: False
+
+    Returns
+    -------
+    dict with: keys: names of template ROIs and values: nibabel Nifti1Image
+    objects from each of the ROI nifti files.
+    """
+    logger = logging.getLogger("AFQ")
+
+    logger.debug("loading slf templates")
+    tic = time.perf_counter()
+
+    template_dict = _fetcher_to_template(
+        fetch_slf_templates, as_img=as_img, resample_to=resample_to
+    )
+
+    toc = time.perf_counter()
+    logger.debug(f"SLF templates loaded in {toc - tic:0.4f} seconds")
+
+    return template_dict
+
+
 or_fnames = [
     "left_thal_MNI.nii.gz",
     "left_V1_MNI.nii.gz",
