@@ -235,7 +235,6 @@ def test_AFQ_custom_tract():
         "Right Arcuate",
         "Left Corticospinal",
         "Right Corticospinal",
-        "Callosum Anterior Frontal",
     ]
 
     # move subsampled tractography into bids folder
@@ -637,7 +636,6 @@ def test_AFQ_custom_subject_reg():
         "Right Arcuate",
         "Left Corticospinal",
         "Right Corticospinal",
-        "Callosum Anterior Frontal",
     ]
 
     b0_file = GroupAFQ(
@@ -728,7 +726,6 @@ def test_AFQ_data_waypoint():
         "Right Superior Longitudinal",
         "Left Arcuate",
         "Right Arcuate",
-        "Callosum Anterior Frontal",
     ]
     bundle_info = abd.default_bd()[bundle_names]
 
@@ -909,8 +906,7 @@ def test_AFQ_data_waypoint():
         '"Left Superior Longitudinal",'
         '"Right Superior Longitudinal",'
         '"Left Arcuate",'
-        '"Right Arcuate",'
-        '"Callosum Anterior Frontal"]'
+        '"Right Arcuate"]'
         '+ BundleDict({"LV1": {"start": '
         f'"{lv1_fname}", '
         '"space": "subject"}})'

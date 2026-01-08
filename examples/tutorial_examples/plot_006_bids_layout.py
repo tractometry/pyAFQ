@@ -236,8 +236,7 @@ bundle_info = abd.default_bd()[
     "Left Arcuate",
     "Right Arcuate",
     "Left Corticospinal",
-    "Right Corticospinal",
-    "Callosum Anterior Frontal"]
+    "Right Corticospinal"]
 
 ##########################################################################
 # Now, we can define our GroupAFQ object, pointing to the derivatives of the

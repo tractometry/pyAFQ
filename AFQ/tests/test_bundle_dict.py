@@ -31,7 +31,7 @@ def test_BundleDict():
     assert len(afq_bundles) == 1
 
     # Forceps Minor and Major
-    afq_bundles = abd.default_bd()["Callosum Occipital", "Callosum Anterior Frontal"]
+    afq_bundles = abd.callosal_bd()["Callosum Occipital", "Callosum Anterior Frontal"]
 
     assert len(afq_bundles) == 2
 
