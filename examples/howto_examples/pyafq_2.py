@@ -2,7 +2,7 @@
 .. _pyafq-2-settings:
 
 ======================================
-Running pyAFQ 2.x defauls in pyAFQ 3.x
+Running pyAFQ 2.x defaults in pyAFQ 3.x
 ======================================
 """
 from AFQ.api.group import GroupAFQ
@@ -39,7 +39,7 @@ tracking_params = dict(
 # seed and stopping masks. Here, we recreate
 # the PVE images using the FA maps.
 # Note there the CSF map is not used in this case.
-# Additionally, in pyAFQ 2.x, the brain mask was calulated
+# Additionally, in pyAFQ 2.x, the brain mask was calculated
 # using median OTSU. Here, we import it from the Freesurfer segmentation instead.
 
 pve = afm.PVEImages(
@@ -205,7 +205,7 @@ callosal_bd = abd.BundleDict({
         'space': 'template'}})
 
 
-bundle_info = abd.default18_bd() + \
+bundle_info = abd.default_bd() + \
     old_vof_paf_cst_definitions + \
     callosal_bd
 
