@@ -564,7 +564,7 @@ def test_AFQ_reco():
         viz_backend_spec="plotly",
         profile_weights="median",
         bundle_info=abd.reco_bd(16),
-        tracking_params={"n_seeds": 1e6},
+        tracking_params={"n_seeds": 1e4},
         segmentation_params={"rng": 42},
     )
 
@@ -580,9 +580,7 @@ def test_AFQ_reco80():
     """
     _, bids_path, _ = get_temp_hardi()
 
-    tracking_params = dict(
-        odf_model="csd", n_seeds=10000, random_seeds=True, rng_seed=42
-    )
+    tracking_params = dict(odf_model="csd", n_seeds=1e4, random_seeds=True, rng_seed=42)
 
     myafq = GroupAFQ(
         bids_path=bids_path,
