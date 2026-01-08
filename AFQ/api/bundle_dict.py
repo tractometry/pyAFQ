@@ -309,8 +309,8 @@ def slf_bd():
     return BundleDict(
         {
             "Left Superior Longitudinal I": {
-                "include": [templates["SFgL.nii.gz"], templates["PaL.nii.gz"]],
-                "exclude": [templates["SLFt_roi2_L.nii.gz"]],
+                "include": [templates["SFgL"], templates["PaL"]],
+                "exclude": [templates["SLFt_roi2_L"]],
                 "cross_midline": False,
                 "mahal": {
                     "clean_rounds": 20,
@@ -319,8 +319,8 @@ def slf_bd():
                 },
             },
             "Left Superior Longitudinal II": {
-                "include": [templates["MFgL.nii.gz"], templates["PaL.nii.gz"]],
-                "exclude": [templates["SLFt_roi2_L.nii.gz"]],
+                "include": [templates["MFgL"], templates["PaL"]],
+                "exclude": [templates["SLFt_roi2_L"]],
                 "cross_midline": False,
                 "mahal": {
                     "clean_rounds": 20,
@@ -329,8 +329,8 @@ def slf_bd():
                 },
             },
             "Left Superior Longitudinal III": {
-                "include": [templates["PrgL.nii.gz"], templates["PaL.nii.gz"]],
-                "exclude": [templates["SLFt_roi2_L.nii.gz"]],
+                "include": [templates["PrgL"], templates["PaL"]],
+                "exclude": [templates["SLFt_roi2_L"]],
                 "cross_midline": False,
                 "mahal": {
                     "clean_rounds": 20,
@@ -339,8 +339,8 @@ def slf_bd():
                 },
             },
             "Right Superior Longitudinal I": {
-                "include": [templates["SFgR.nii.gz"], templates["PaR.nii.gz"]],
-                "exclude": [templates["SLFt_roi2_R.nii.gz"]],
+                "include": [templates["SFgR"], templates["PaR"]],
+                "exclude": [templates["SLFt_roi2_R"]],
                 "cross_midline": False,
                 "mahal": {
                     "clean_rounds": 20,
@@ -349,8 +349,8 @@ def slf_bd():
                 },
             },
             "Right Superior Longitudinal II": {
-                "include": [templates["MFgR.nii.gz"], templates["PaR.nii.gz"]],
-                "exclude": [templates["SLFt_roi2_R.nii.gz"]],
+                "include": [templates["MFgR"], templates["PaR"]],
+                "exclude": [templates["SLFt_roi2_R"]],
                 "cross_midline": False,
                 "mahal": {
                     "clean_rounds": 20,
@@ -359,8 +359,8 @@ def slf_bd():
                 },
             },
             "Right Superior Longitudinal III": {
-                "include": [templates["PrgR.nii.gz"], templates["PaR.nii.gz"]],
-                "exclude": [templates["SLFt_roi2_R.nii.gz"]],
+                "include": [templates["PrgR"], templates["PaR"]],
+                "exclude": [templates["SLFt_roi2_R"]],
                 "cross_midline": False,
                 "mahal": {
                     "clean_rounds": 20,
@@ -369,7 +369,7 @@ def slf_bd():
                 },
             },
         }
-    )
+    )  ## TODO: test this
 
 
 def forceps_bd():
