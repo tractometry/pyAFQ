@@ -231,8 +231,8 @@ print(validator.is_bids(tractography_relative_path))
 # `plot_callosal_tract_profile example <http://tractometry.org/pyAFQ/auto_examples/plot_callosal_tract_profile.html>`_.
 
 bundle_info = abd.default_bd()[
-    "Left Superior Longitudinal",
-    "Right Superior Longitudinal",
+    "Left Inferior Longitudinal",
+    "Right Inferior Longitudinal",
     "Left Arcuate",
     "Right Arcuate",
     "Left Corticospinal",

@@ -212,24 +212,6 @@ def default_bd():
                 "start": templates["ILF_R_end"],
                 "end": templates["ILF_R_start"],
             },
-            "Left Superior Longitudinal": {
-                "cross_midline": False,
-                "include": [templates["SLF_roi1_L"], templates["SLF_roi2_L"]],
-                "exclude": [templates["SLFt_roi2_L"]],
-                "space": "template",
-                "prob_map": templates["SLF_L_prob_map"],
-                "start": templates["SLF_L_start"],
-                "end": templates["SLF_L_end"],
-            },
-            "Right Superior Longitudinal": {
-                "cross_midline": False,
-                "include": [templates["SLF_roi1_R"], templates["SLF_roi2_R"]],
-                "exclude": [templates["SLFt_roi2_R"]],
-                "space": "template",
-                "prob_map": templates["SLF_R_prob_map"],
-                "start": templates["SLF_R_start"],
-                "end": templates["SLF_R_end"],
-            },
             "Left Arcuate": {
                 "cross_midline": False,
                 "include": [templates["SLF_roi1_L"], templates["SLFt_roi2_L"]],
@@ -317,6 +299,44 @@ def default_bd():
                 "isolation_forest": {},
                 "primary_axis": "I/S",
                 "primary_axis_percentage": 40,
+            },
+        }
+    )
+
+
+def slf_bd():
+    templates = afd.read_slf_templates(as_img=False)
+    return BundleDict(
+        {
+            "L_SLF1": {
+                "include": [templates["SFgL.nii.gz"], templates["PaL.nii.gz"]],
+                "exclude": [templates["SLFt_roi2_L.nii.gz"]],
+                "cross_midline": False,
+                "mahal": {
+                    "clean_rounds": 20,
+                    "length_threshold": 4,
+                    "distance_threshold": 2,
+                },
+            },
+            "L_SLF2": {
+                "include": [templates["MFgL.nii.gz"], templates["PaL.nii.gz"]],
+                "exclude": [templates["SLFt_roi2_L.nii.gz"]],
+                "cross_midline": False,
+                "mahal": {
+                    "clean_rounds": 20,
+                    "length_threshold": 4,
+                    "distance_threshold": 2,
+                },
+            },
+            "L_SLF3": {
+                "include": [templates["PrgL.nii.gz"], templates["PaL.nii.gz"]],
+                "exclude": [templates["SLFt_roi2_L.nii.gz"]],
+                "cross_midline": False,
+                "mahal": {
+                    "clean_rounds": 20,
+                    "length_threshold": 4,
+                    "distance_threshold": 2,
+                },
             },
         }
     )

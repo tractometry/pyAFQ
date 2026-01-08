@@ -1213,7 +1213,7 @@ def get_bundle_dict(
         raise TypeError(("bundle_info must be a dict, or a BundleDict"))
 
     if bundle_info is None:
-        bundle_info = abd.default_bd() + abd.callosal_bd()
+        bundle_info = abd.default_bd() + abd.slf_bd() + abd.callosal_bd()
 
     if isinstance(reg_template_spec, nib.Nifti1Image):
         reg_template = reg_template_spec
