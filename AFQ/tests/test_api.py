@@ -734,9 +734,9 @@ def test_AFQ_data_waypoint():
     # Test when we have endpoint ROIs only
     afq_templates = afd.read_templates(as_img=False)
     bundle_info["Left Inferior Longitudinal"] = {
-        "start": afq_templates["SLF_L_start"],
-        "end": afq_templates["SLF_L_end"],
-        "prob_map": afq_templates["SLF_L_prob_map"],
+        "start": afq_templates["ILF_L_start"],
+        "end": afq_templates["ILF_L_end"],
+        "prob_map": afq_templates["ILF_L_prob_map"],
     }
 
     bundle_info["LV1"] = {"start": lv1_fname, "space": "subject"}
@@ -816,7 +816,7 @@ def test_AFQ_data_waypoint():
         op.join(
             myafq.export("output_dir"),
             "bundles",
-            "sub-01_ses-01_desc-RightSuperiorLongitudinal_tractography.trk",
+            "sub-01_ses-01_desc-RightInferiorLongitudinal_tractography.trk",
         )
     )  # noqa
 
@@ -871,7 +871,7 @@ def test_AFQ_data_waypoint():
         op.join(
             myafq.export("output_dir"),
             "viz_bundles",
-            "sub-01_ses-01_desc-LeftSuperiorLongitudinal_tractography.html",
+            "sub-01_ses-01_desc-LeftInferiorLongitudinal_tractography.html",
         )
     )  # noqa
 
@@ -966,7 +966,7 @@ def test_AFQ_data_waypoint():
         op.join(
             output_dir,
             "ROIs",
-            "sub-01_ses-01_space-subject_desc-RightSuperiorLongitudinalInclude1_mask.json",
+            "sub-01_ses-01_space-subject_desc-RightInferiorLongitudinalInclude1_mask.json",
         )
     )  # noqa
 
@@ -974,6 +974,6 @@ def test_AFQ_data_waypoint():
         op.join(
             output_dir,
             "bundles",
-            "sub-01_ses-01_desc-RightSuperiorLongitudinal_tractography.trk",
+            "sub-01_ses-01_desc-RightInferiorLongitudinal_tractography.trk",
         )
     )  # noqa
