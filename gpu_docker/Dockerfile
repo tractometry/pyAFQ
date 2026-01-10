@@ -24,8 +24,7 @@ ENV LD_LIBRARY_PATH /usr/lib/x86_64-linux-gnu:${LD_LIBRARY_PATH}
 RUN conda install -c conda-forge git
 RUN pip install numpy>=2.0.0
 RUN pip install scipy>=1.13.0 cython nibabel dipy tqdm fslpy
-ENV CXXFLAGS="-ftemplate-depth=2048"
-RUN pip install git+https://github.com/dipy/GPUStreamlines.git
+RUN pip install git+https://github.com/36000/GPUStreamlines.git
 
 # clone pyAFQ GPUStreamlines
 RUN git clone https://github.com/tractometry/pyAFQ.git /opt/pyAFQ
