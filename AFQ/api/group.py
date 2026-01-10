@@ -22,6 +22,7 @@ from PIL import Image
 from tqdm import tqdm
 
 import AFQ.api.bundle_dict as abd
+import AFQ.definitions.images as afm
 import AFQ.utils.streamlines as aus
 from AFQ.api.participant import ParticipantAFQ
 from AFQ.api.utils import (
@@ -442,6 +443,72 @@ class GroupAFQ(object):
                 self.pAFQ_list.append(this_pAFQ)
                 self.pAFQ_inputs_list.append(this_pAFQ_inputs)
         self.kwargs = self.pAFQ_list[-1].kwargs
+
+    @classmethod
+    def from_qsiprep(
+        cls,
+        qsi_dir,
+        participant_labels=None,
+        output_dir=None,
+        parallel_params=None,
+        **kwargs,
+    ):
+        """
+        Initialize a GroupAFQ object from a QSIPrep BIDS derivative dataset,
+        given just the path to the BIDS dataset that contains the QSIPrep
+        outputs in its derivatives folder.
+
+        Parameters
+        ----------
+        participant_labels : list or None, optional
+            List of participant labels (subject IDs) to perform
+            processing on. If None, all subjects are used.
+            Default: None
+        output_dir : str or None, optional
+            Path to output directory. If None, outputs are put
+            in a AFQ pipeline folder in the derivatives folder of
+            the BIDS directory. pyAFQ will use existing derivatives
+            from the output directory if they exist, instead of recalculating
+            them (this means you need to clear the output folder if you want
+            to recalculate a derivative).
+            Default: None
+        parallel_params : dict, optional
+            Parameters to pass to paramap in AFQ.utils.parallel,
+            to parallelize computations across subjects and sessions.
+            Set "n_jobs" to -1 to automatically parallelize as
+            the number of cpus. Here is an example for how to do
+            multiprocessing with 4 cpus:
+            {"n_jobs": 4, "engine": "ray"}
+            Default: {"engine": "serial"}
+        """
+        if "pve" not in kwargs:
+            kwargs["pve"] = afm.PVEImages(
+                afm.ImageFile(
+                    suffix="probseg", filters={"scope": "qsiprep", "label": "CSF"}
+                ),
+                afm.ImageFile(
+                    suffix="probseg", filters={"scope": "qsiprep", "label": "GM"}
+                ),
+                afm.ImageFile(
+                    suffix="probseg", filters={"scope": "qsiprep", "label": "WM"}
+                ),
+            )
+
+        if "brain_mask_definition" not in kwargs:
+            kwargs["brain_mask_definition"] = afm.ImageFile(
+                suffix="mask", filters={"desc": "brain", "scope": "qsiprep"}
+            )
+
+        return cls(
+            qsi_dir,
+            bids_filters={"desc": "preproc", "suffix": "dwi"},
+            dwi_preproc_pipeline="qsiprep",
+            t1_preproc_pipeline="qsiprep",
+            participant_labels=participant_labels,
+            output_dir=output_dir,
+            parallel_params=parallel_params,
+            **kwargs,
+        )
 
     def combine_profiles(self):
         tract_profiles_dict = self.export("profiles")
