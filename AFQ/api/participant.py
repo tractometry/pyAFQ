@@ -15,6 +15,7 @@ from AFQ.api.utils import (
     export_all_helper,
     kwargs_descriptors,
     used_kwargs_exceptions,
+    val_from_plan,
     valid_exports_string,
 )
 from AFQ.definitions.mapping import SlrMap
@@ -191,12 +192,15 @@ class ParticipantAFQ(object):
             The specific output, or None if called without arguments.
         """
         section = check_attribute(attr_name)
-        if not section:
+        if section == "help":
             return None
 
-        if section is None:
-            return self.plans_dict[attr_name]
-        return self.plans_dict[section][attr_name]
+        if section is not None:
+            plan = self.plans_dict[section]
+        else:
+            plan = self.plans_dict
+
+        return val_from_plan(plan, attr_name)
 
     def export_up_to(self, attr_name="help"):
         f"""
@@ -211,7 +215,7 @@ class ParticipantAFQ(object):
             Name of the output to export up to. Default: "help"
         """
         section = check_attribute(attr_name)
-        if not section or section is None:
+        if section == "help" or section is None:
             return None
 
         calcdata = self.plans_dict[section].plan.calcdata

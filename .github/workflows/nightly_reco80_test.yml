@@ -19,7 +19,7 @@ jobs:
     - name: Increase swap space
       uses: actionhippie/swap-space@v1
       with:
-        size: 16G
+        size: 32G
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v1
       with:
