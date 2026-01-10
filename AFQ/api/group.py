@@ -28,6 +28,7 @@ from AFQ.api.utils import (
     AFQclass_doc,
     check_attribute,
     export_all_helper,
+    val_from_plan,
     valid_exports_string,
 )
 from AFQ.data.utils import aws_import_msg_error
@@ -571,12 +572,12 @@ class GroupAFQ(object):
                 in_list.append((plans_dict))
                 to_calc_list.append((subject, session))
             else:
-                results[subject][session] = plans_dict[attr_name]
+                results[subject][session] = val_from_plan(plans_dict, attr_name)
 
         # if some need to be calculated, do those in parallel
         if to_calc_list:
             par_results = paramap(
-                lambda wf, attr: wf[attr],
+                val_from_plan,
                 in_list,
                 func_args=[attr_name],
                 **self.parallel_params,

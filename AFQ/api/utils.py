@@ -4,6 +4,7 @@ from importlib import import_module
 
 import immlib
 from dipy.io.stateful_tractogram import set_sft_logger_level
+from pcollections._lazy import LazyError
 
 from AFQ.utils.docstring_parser import parse_numpy_docstring
 from AFQ.viz.utils import viz_import_msg_error
@@ -138,6 +139,19 @@ def check_attribute(attr_name):
         return f"{methods_sections[attr_name]}_imap"
 
     raise ValueError(f"{attr_name} not found for export. {valid_exports_string}")
+
+
+def val_from_plan(plan, attr_name):
+    try:
+        return plan[attr_name]
+    except Exception as err:
+        current_err = err
+        while current_err.__context__ is not None:
+            if not isinstance(current_err, LazyError):
+                break
+            current_err = current_err.__context__
+
+        raise current_err from err
 
 
 def export_all_helper(api_afq_object, xforms, indiv, viz):
