@@ -549,7 +549,7 @@ class GroupAFQ(object):
             None if called without arguments.
         """
         section = check_attribute(attr_name)
-        if not section:
+        if section == "help":
             return None
 
         # iterate over subjects / sessions,
@@ -607,7 +607,7 @@ class GroupAFQ(object):
             Name of the output to export up to. Default: "help"
         """
         section = check_attribute(attr_name)
-        if not section or section is None:
+        if section == "help" or section is None:
             return None
 
         plans_dict = self.plans_dict[self.valid_sub_list[0]][self.valid_ses_list[0]]

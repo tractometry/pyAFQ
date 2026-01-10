@@ -192,7 +192,7 @@ class ParticipantAFQ(object):
             The specific output, or None if called without arguments.
         """
         section = check_attribute(attr_name)
-        if not section:
+        if section == "help":
             return None
 
         if section is not None:
@@ -215,7 +215,7 @@ class ParticipantAFQ(object):
             Name of the output to export up to. Default: "help"
         """
         section = check_attribute(attr_name)
-        if not section or section is None:
+        if section == "help" or section is None:
             return None
 
         calcdata = self.plans_dict[section].plan.calcdata
