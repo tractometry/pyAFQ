@@ -460,6 +460,9 @@ class GroupAFQ(object):
 
         Parameters
         ----------
+        qsi_dir : str
+            The path to the BIDS dataset that contains the QSIPrep
+            outputs in its derivatives folder.
         participant_labels : list or None, optional
             List of participant labels (subject IDs) to perform
             processing on. If None, all subjects are used.
@@ -480,6 +483,10 @@ class GroupAFQ(object):
             multiprocessing with 4 cpus:
             {"n_jobs": 4, "engine": "ray"}
             Default: {"engine": "serial"}
+        kwargs : additional optional parameters
+            You can set additional parameters for any step
+            of the process. See :ref:`usage/kwargs` for more details.
+
         """
         if "pve" not in kwargs:
             kwargs["pve"] = afm.PVEImages(
