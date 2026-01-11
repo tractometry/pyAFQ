@@ -73,10 +73,11 @@ bm_def = afm.LabelledImageFile(
 #    orientation, and isolation forest cleaning instead of mahalanobis for 
 #    distance.
 # Additionally, in the new version, the inferior endpoints of the
-# corticospinal tracts (CST) were removed.
+# corticospinal tracts (CST) were removed, and the superior longitudinal
+# fasciculus (SLF) was broken into three sub-bundles.
 
 templates = afd.read_templates(as_img=False)
-old_vof_paf_cst_definitions = abd.BundleDict({
+old_vof_paf_cst_slf_definitions = abd.BundleDict({
         'Left Corticospinal': {
             'cross_midline': False,
             'include': [templates['CST_roi2_L'],
@@ -95,6 +96,22 @@ old_vof_paf_cst_definitions = abd.BundleDict({
             'prob_map': templates['CST_R_prob_map'],
             'end': templates['CST_R_start'],
             'start': templates['CST_R_end']},
+        "Left Superior Longitudinal": {
+            "cross_midline": False,
+            "include": [templates["SLF_roi1_L"], templates["SLF_roi2_L"]],
+            "exclude": [templates["SLFt_roi2_L"]],
+            "space": "template",
+            "prob_map": templates["SLF_L_prob_map"],
+            "start": templates["SLF_L_start"],
+            "end": templates["SLF_L_end"]},
+        "Right Superior Longitudinal": {
+            "cross_midline": False,
+            "include": [templates["SLF_roi1_R"], templates["SLF_roi2_R"]],
+            "exclude": [templates["SLFt_roi2_R"]],
+            "space": "template",
+            "prob_map": templates["SLF_R_prob_map"],
+            "start": templates["SLF_R_start"],
+            "end": templates["SLF_R_end"]},
         'Left Posterior Arcuate': {'cross_midline': False,
                                    'include': [templates['SLFt_roi2_L']],
                                    'exclude': [templates['SLF_roi1_L']],
@@ -206,7 +223,7 @@ callosal_bd = abd.BundleDict({
 
 
 bundle_info = abd.default_bd() + \
-    old_vof_paf_cst_definitions + \
+    old_vof_paf_cst_slf_definitions + \
     callosal_bd
 
 ################################################################
