@@ -22,7 +22,7 @@ from PIL import Image
 from tqdm import tqdm
 
 import AFQ.api.bundle_dict as abd
-import AFQ.definitions.images as afm
+import AFQ.definitions.image as afm
 import AFQ.utils.streamlines as aus
 from AFQ.api.participant import ParticipantAFQ
 from AFQ.api.utils import (
