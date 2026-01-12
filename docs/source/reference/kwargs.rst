@@ -15,6 +15,13 @@ into 5 sections:
 Here are the arguments you can pass to kwargs, to customize the tractometry pipeline. They are organized into 5 sections.
 
 ==========================================================
+STRUCTURAL
+==========================================================
+brain_mask_definition: instance from `AFQ.definitions.image`
+	This will be used to create the brain mask, which gets applied before registration to a template. If you want no brain mask to be applied, use FullImage. If None, use Brainchop Mindgrab model. Default: None
+
+
+==========================================================
 DATA
 ==========================================================
 min_bval: float
@@ -27,19 +34,16 @@ b0_threshold: int
 	The value of b under which it is considered to be b0. Default: 50.
 
 ray_n_cpus: int
-	The number of CPUs to use for parallel processing with Ray. If None, uses the number of available CPUs minus one. Tractography and Recognition use Ray. Default: None
+	The number of CPUs to use for parallel processing with Ray. If None, uses the number of available CPUs minus one. Tractography, Recognition, and MSMT use Ray. Default: None
 
 numba_n_threads: int
-	The number of threads to use for Numba. If None, uses the number of available CPUs minus one. MSMT and ASYM fits use Numba. Default: None
+	The number of threads to use for Numba. If None, uses the number of available CPUs minus one, but with a maximum of 16. ASYM fit uses Numba. Default: None
+
+low_memory: bool
+	Whether to use low-memory versions of algorithms where available. Default: False
 
 robust_tensor_fitting: bool
 	Whether to use robust_tensor_fitting when doing dti. Only applies to dti. Default: False
-
-msmt_sh_order: int
-	Spherical harmonic order to use for the MSMT CSD fit. Default: 8
-
-msmt_fa_thr: float
-	The threshold on the FA used to calculate the multi shell auto response. Can be useful to reduce for baby subjects. Default: 0.7
 
 csd_response: tuple or None
 	The response function to be used by CSD, as a tuple with two elements. The first is the eigen-values as an (3,) ndarray and the second is the signal value for the response function without diffusion-weighting (i.e. S0). If not provided, auto_response will be used to calculate these values. Default: None
@@ -94,13 +98,26 @@ reg_template_space_name: str
 
 
 ==========================================================
+TISSUE
+==========================================================
+pve: str or PVEImage
+	Method to use for PVE estimation. Can be a string defining a built-in method from neural networks, or a Definition object to import the PVE. Importing a PVE from software like Freesurfer or FSL FAST is recommended if they are available. The built-in methods are "synthseg" or "multiaxial+brainchop". "synthseg" uses SynthSeg2 [1] to get the PVE. "multiaxial+brainchop" uses MultiAxial [2] and BrainChop [3] segmentations to get the PVE. Note this requires downloading the pre-trained multi-axial model which is licensed with Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. Default: "synthseg"
+
+msmt_sh_order: int
+	Spherical harmonic order to use for the MSMT CSD fit. Default: 8
+
+msmt_fa_thr: float
+	The threshold on the FA used to calculate the multi shell auto response. Can be useful to reduce for baby subjects. Default: 0.7
+
+
+==========================================================
 MAPPING
 ==========================================================
 mapping_definition: instance of `AFQ.definitions.mapping`
 	This defines how to either create a mapping from each subject space to template space or load a mapping from another software. If creating a map, will register reg_subject and reg_template. If None, use SynMap() Default: None
 
 reg_subject_spec: str
-	The source image data to be registered. Can either be a Nifti1Image, an ImageFile, or str. if "b0", "dti_fa_subject", "subject_sls", or "power_map," image data will be loaded automatically. If "subject_sls" is used, slr registration will be used and reg_template should be "hcp_atlas". Default: "power_map"
+	The source image data to be registered. Can either be a Nifti1Image, an ImageFile, or str. if "b0", "dti_fa_subject", "subject_sls", "t1w", or "power_map," image data will be loaded automatically. If "subject_sls" is used, slr registration will be used and reg_template should be "hcp_atlas". Default: "t1w"
 
 
 ==========================================================
@@ -109,9 +126,6 @@ SEGMENTATION
 segmentation_params: dict
 	The parameters for segmentation. Defaults to using the default behavior of the seg.Segmentation object.
 
-endpoint_threshold: float
-	The threshold for the endpoint maps. If None, no endpoint maps are exported as distance to endpoints maps, which the user can then threshold as needed. Default: 3
-
 profile_weights: str
 	How to weight each streamline (1D) or each node (2D) when calculating the tract-profiles. If callable, this is a function that calculates weights. If None, no weighting will be applied. If "gauss", gaussian weights will be used. If "median", the median of values at each node will be used instead of a mean or weighted mean. Default: "gauss"
 
@@ -119,14 +133,14 @@ n_points_profile: int
 	Number of points to resample each streamline to before calculating the tract-profiles. Default: 100
 
 scalars: list of strings and/or scalar definitions
-	List of scalars to use. Can be any of: "dti_fa", "dti_md", "dki_fa", "dki_md", "dki_awf", "dki_mk". Can also be a scalar from AFQ.definitions.image. Defaults for single shell data to ["dti_fa", "dti_md"], and for multi-shell data to ["dki_fa", "dki_md"]. Default: ['dti_fa', 'dti_md']
+	List of scalars to use. Can be any of: "dti_fa", "dti_md", "dki_fa", "dki_md", "dki_awf", "dki_mk", or other scalars found in AFQ.tasks.data. Can also be a scalar from AFQ.definitions.image. Finally, can also be "t1w". Defaults for single shell data to ["dti_fa", "dti_md", "t1w"], and for multi-shell data to ["dki_fa", "dki_md", "dki_kfa", "dki_mk", "t1w"]. Default: ['dti_fa', 'dti_md', 't1w']
 
 
 ==========================================================
 TRACTOGRAPHY
 ==========================================================
 tracking_params: dict
-	The parameters for tracking. Defaults to using the default behavior of the aft.track function. Seed mask and seed threshold, if not specified, are replaced with scalar masks from scalar[0] thresholded to 0.2. The ``seed_mask`` and ``stop_mask`` items of this dict may be ``AFQ.definitions.image.ImageFile`` instances. If ``tracker`` is set to "pft" then ``stop_mask`` should be an instance of ``AFQ.definitions.image.PFTImage``.
+	The parameters for tracking. Defaults to using the default behavior of the aft.track function. Seed mask and seed threshold, if not specified, are replaced with scalar masks from scalar[0] thresholded to 0.2. The ``seed_mask`` items of this dict may be ``AFQ.definitions.image.ImageFile`` instances.
 
 import_tract: dict or str or None
 	BIDS filters for inputing a user made tractography file, or a path to the tractography file. If None, DIPY is used to generate the tractography. Default: None
@@ -160,7 +174,7 @@ n_points_indiv: int or None
 	n_points to resample streamlines to before plotting. If None, no resampling is done. Default: 40
 
 virtual_frame_buffer: bool
-	Whether to use a virtual frame buffer. This is  if generating GIFs in a headless environment. Default: False
+	Whether to use a virtual frame buffer. This is if generating GIFs in a headless environment. Default: False
 
 viz_backend_spec: str
 	Which visualization backend to use. See Visualization Backends page in documentation for details https://tractometry.org/pyAFQ/reference/viz_backend.html One of {"fury", "plotly", "plotly_no_gif"}. Default: "plotly_no_gif"
