@@ -271,6 +271,24 @@ for ind in bundle_counts.index:
             "Small number of streamlines found "
             f"for bundle(s):\n{bundle_counts}"))
 
+##########################################################################
+# Alternative way to initialize GroupAFQ when using QSIPrep data
+# --------------------------------------------------------------
+# As a final note, if you are using QSIPrep preprocessed data,
+# you can also initialize the GroupAFQ object using the
+# `from_qsiprep` class method. This method will automatically set
+# the appropriate BIDS filters to find the preprocessed DWI data.
+# Additionally, it will find and use the brain masks and PVE images
+# that QSIPrep generates. Outside of BIDS filters, the arguments
+# are the same as those used when initializing the GroupAFQ object
+# directly.
+
+myafq = GroupAFQ.from_qsiprep(
+    qsi_dir=op.join(afd.afq_home, 'HBN'),
+    participant_labels=['NDARAA948VFH'],
+    tracking_params=tracking_params,
+    ray_n_cpus=1,
+    low_memory=True)
 
 #############################################################################
 # References
