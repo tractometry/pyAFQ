@@ -34,6 +34,10 @@ logger = logging.getLogger("AFQ")
 @immlib.calc("wm_gm_interface")
 @as_file(suffix="_desc-wmgmi_mask.nii.gz")
 def wm_gm_interface(pve_internal, data_imap):
+    """
+    full path to a nifti file containing the white
+    matter/gray matter interface
+    """
     PVE_img = nib.load(pve_internal)
     b0_img = nib.load(data_imap["b0"])
 

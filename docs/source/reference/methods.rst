@@ -460,7 +460,7 @@ tmpl_name:
 
 
 wm_gm_interface:
-
+    full path to a nifti file containing the white matter/gray matter interface
 
 
 pve_internal:
