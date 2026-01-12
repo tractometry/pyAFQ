@@ -35,16 +35,36 @@ base_fname:
     Base file name for outputs
 
 
-pve_wm:
-    White matter partial volume estimate map
+pve_csf:
+    Cerebrospinal fluid partial volume estimate map
 
 
 pve_gm:
     Gray matter partial volume estimate map
 
 
-pve_csf:
-    Cerebrospinal fluid partial volume estimate map
+pve_wm:
+    White matter partial volume estimate map
+
+
+synthseg_model:
+    full path to the synthseg2 model segmentations
+
+
+mx_model:
+    full path to the multi-axial model for brain extraction outputs
+
+
+t1w_brain_mask:
+    full path to a nifti file containing brain mask from T1w image
+
+
+t1_masked:
+    full path to a nifti file containing the T1w masked
+
+
+t1_subcortex:
+    full path to a nifti file containing segmentation of subcortical structures from T1w image using Brainchop
 
 
 data:
@@ -71,20 +91,16 @@ n_threads:
     the number of threads to use for Numba
 
 
+low_mem:
+    whether to use low-memory versions of algorithms where available
+
+
 b0:
     full path to a nifti file containing the mean b0
 
 
 masked_b0:
     full path to a nifti file containing the mean b0 after applying the brain mask
-
-
-t1w_pve:
-    WM, GM, CSF segmentations from subcortex segmentation from brainchop on T1w image
-
-
-wm_gm_interface:
-
 
 
 dti_tf:
@@ -127,36 +143,20 @@ msdki_msk:
     full path to a nifti file containing the MSDKI mean signal kurtosis
 
 
-msmtcsd_params:
-    full path to a nifti file containing parameters for the MSMT CSD fit
-
-
-msmt_apm:
-    full path to a nifti file containing the anisotropic power map
-
-
-msmt_aodf_params:
-    full path to a nifti file containing MSMT CSD ODFs filtered by unified filtering [1]
-
-
-msmt_aodf_asi:
-    full path to a nifti file containing the MSMT CSD Asymmetric Index (ASI) [1]
-
-
-msmt_aodf_opm:
-    full path to a nifti file containing the MSMT CSD odd-power map [1]
-
-
-msmt_aodf_nufid:
-    full path to a nifti file containing the MSMT CSD Number of fiber directions (nufid) map [1]
-
-
 csd_params:
     full path to a nifti file containing parameters for the CSD fit
 
 
 csd_aodf_params:
     full path to a nifti file containing SSST CSD ODFs filtered by unified filtering [1]
+
+
+csd_aodf_asi:
+    full path to a nifti file containing the CSD Asymmetric Index (ASI) [1]
+
+
+csd_aodf_opm:
+    full path to a nifti file containing the CSD odd-power map [1]
 
 
 csd_pmap:
@@ -443,18 +443,6 @@ dki_ak:
     full path to a nifti file containing the DKI axial kurtosis file
 
 
-t1w_brain_mask:
-    full path to a nifti file containing brain mask from T1w image,
-
-
-t1_masked:
-    full path to a nifti file containing the T1w masked
-
-
-t1_subcortex:
-    full path to a nifti file containing segmentation of subcortical structures from T1w image using Brainchop
-
-
 brain_mask:
     full path to a nifti file containing the brain mask
 
@@ -469,6 +457,42 @@ reg_template:
 
 tmpl_name:
     the name of the template space for file outputs
+
+
+wm_gm_interface:
+    full path to a nifti file containing the white matter/gray matter interface
+
+
+pve_internal:
+    WM+GM+CSF segmentation
+
+
+msmtcsd_params:
+    full path to a nifti file containing parameters for the MSMT CSD fit
+
+
+msmt_apm:
+    full path to a nifti file containing the anisotropic power map
+
+
+msmt_aodf_params:
+    full path to a nifti file containing MSMT CSD ODFs filtered by unified filtering [1]
+
+
+msmt_aodf_asi:
+    full path to a nifti file containing the MSMT CSD Asymmetric Index (ASI) [1]
+
+
+msmt_aodf_opm:
+    full path to a nifti file containing the MSMT CSD odd-power map [1]
+
+
+msmt_aodf_nufid:
+    full path to a nifti file containing the MSMT CSD Number of fiber directions (nufid) map [1]
+
+
+csd_aodf_nufid:
+    full path to a nifti file containing the CSD Number of fiber directions (nufid) map [1]
 
 
 b0_warped:
@@ -511,32 +535,12 @@ density_maps:
     full path to 4d nifti file containing streamline counts per voxel per bundle, where the 4th dimension encodes the bundle
 
 
-endpoint_maps:
-    full path to a NIfTI file containing endpoint maps for each bundle
-
-
 profiles:
     full path to a CSV file containing tract profiles
 
 
 scalar_dict:
     dictionary mapping scalar names to their respective file paths
-
-
-seed:
-    full path to a nifti file containing the tractography seed mask
-
-
-seed_thresh:
-    full path to a nifti file containing the tractography seed mask thresholded
-
-
-stop:
-    full path to a nifti file containing the tractography stop mask
-
-
-stop_thresh:
-    full path to a nifti file containing the tractography stop mask thresholded
 
 
 streamlines:
