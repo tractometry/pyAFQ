@@ -113,7 +113,7 @@ segmentation_params = {
 # Finally, we define the PVE images that will be used to guide tracking.
 # For these bundles in particular, this is the trickiest part. Portions of
 # the optic nerve often have low FA, fall outside of the brain mask, or are
-# simplify misclassified as gray matter or CSF. In this case, we threshold
+# simply misclassified as gray matter or CSF. In this case, we threshold
 # on the T1-weighted image using manually set thresholds. We only divide it into
 # gray and white matter and accept all streamlines (we do not attempt to filter
 # out streamlines terminating in the CSF; these are normally handled in the bundle

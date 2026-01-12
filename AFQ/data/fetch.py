@@ -1049,12 +1049,12 @@ fetch_oton_templates = _make_reusable_fetcher(
     oton_remote_fnames,
     oton_fnames,
     md5_list=oton_md5_hashes,
-    doc="Download AFQ optic tract and posterior optic radiation templates",
+    doc="Download AFQ optic tract and posterior optic nerve templates",
 )
 
 
 def read_oton_templates(as_img=True, resample_to=False):
-    """Load AFQ Optic Tract and Posterior Optic Radiation templates from file
+    """Load AFQ Optic Tract and Posterior Optic Nerve templates from file
 
     Parameters
     ----------
@@ -1082,7 +1082,7 @@ def read_oton_templates(as_img=True, resample_to=False):
 
     toc = time.perf_counter()
     logger.debug(
-        f"Optic Tract and Posterior Optic Radiation templates "
+        f"Optic Tract and Posterior Optic Nerve templates "
         f"loaded in {toc - tic:0.4f} seconds"
     )
 
