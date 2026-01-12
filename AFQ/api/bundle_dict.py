@@ -212,24 +212,6 @@ def default_bd():
                 "start": templates["ILF_R_end"],
                 "end": templates["ILF_R_start"],
             },
-            "Left Superior Longitudinal": {
-                "cross_midline": False,
-                "include": [templates["SLF_roi1_L"], templates["SLF_roi2_L"]],
-                "exclude": [templates["SLFt_roi2_L"]],
-                "space": "template",
-                "prob_map": templates["SLF_L_prob_map"],
-                "start": templates["SLF_L_start"],
-                "end": templates["SLF_L_end"],
-            },
-            "Right Superior Longitudinal": {
-                "cross_midline": False,
-                "include": [templates["SLF_roi1_R"], templates["SLF_roi2_R"]],
-                "exclude": [templates["SLFt_roi2_R"]],
-                "space": "template",
-                "prob_map": templates["SLF_R_prob_map"],
-                "start": templates["SLF_R_start"],
-                "end": templates["SLF_R_end"],
-            },
             "Left Arcuate": {
                 "cross_midline": False,
                 "include": [templates["SLF_roi1_L"], templates["SLFt_roi2_L"]],
@@ -317,6 +299,74 @@ def default_bd():
                 "isolation_forest": {},
                 "primary_axis": "I/S",
                 "primary_axis_percentage": 40,
+            },
+        }
+    )
+
+
+def slf_bd():
+    templates = afd.read_slf_templates(as_img=False)
+    return BundleDict(
+        {
+            "Left Superior Longitudinal I": {
+                "include": [templates["SFgL"], templates["PaL"]],
+                "exclude": [templates["SLFt_roi2_L"]],
+                "cross_midline": False,
+                "mahal": {
+                    "clean_rounds": 20,
+                    "length_threshold": 4,
+                    "distance_threshold": 2,
+                },
+            },
+            "Left Superior Longitudinal II": {
+                "include": [templates["MFgL"], templates["PaL"]],
+                "exclude": [templates["SLFt_roi2_L"]],
+                "cross_midline": False,
+                "mahal": {
+                    "clean_rounds": 20,
+                    "length_threshold": 4,
+                    "distance_threshold": 2,
+                },
+            },
+            "Left Superior Longitudinal III": {
+                "include": [templates["PrgL"], templates["PaL"]],
+                "exclude": [templates["SLFt_roi2_L"]],
+                "cross_midline": False,
+                "mahal": {
+                    "clean_rounds": 20,
+                    "length_threshold": 4,
+                    "distance_threshold": 2,
+                },
+            },
+            "Right Superior Longitudinal I": {
+                "include": [templates["SFgR"], templates["PaR"]],
+                "exclude": [templates["SLFt_roi2_R"]],
+                "cross_midline": False,
+                "mahal": {
+                    "clean_rounds": 20,
+                    "length_threshold": 4,
+                    "distance_threshold": 2,
+                },
+            },
+            "Right Superior Longitudinal II": {
+                "include": [templates["MFgR"], templates["PaR"]],
+                "exclude": [templates["SLFt_roi2_R"]],
+                "cross_midline": False,
+                "mahal": {
+                    "clean_rounds": 20,
+                    "length_threshold": 4,
+                    "distance_threshold": 2,
+                },
+            },
+            "Right Superior Longitudinal III": {
+                "include": [templates["PrgR"], templates["PaR"]],
+                "exclude": [templates["SLFt_roi2_R"]],
+                "cross_midline": False,
+                "mahal": {
+                    "clean_rounds": 20,
+                    "length_threshold": 4,
+                    "distance_threshold": 2,
+                },
             },
         }
     )

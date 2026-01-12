@@ -229,8 +229,8 @@ def test_AFQ_custom_tract():
     afd.fetch_stanford_hardi_tractography()
 
     bundle_info = abd.default_bd()[
-        "Left Superior Longitudinal",
-        "Right Superior Longitudinal",
+        "Left Inferior Longitudinal",
+        "Right Inferior Longitudinal",
         "Left Arcuate",
         "Right Arcuate",
         "Left Corticospinal",
@@ -628,8 +628,8 @@ def test_AFQ_custom_subject_reg():
     _, bids_path, sub_path = get_temp_hardi()
 
     bundle_info = abd.default_bd()[
-        "Left Superior Longitudinal",
-        "Right Superior Longitudinal",
+        "Left Inferior Longitudinal",
+        "Right Inferior Longitudinal",
         "Left Arcuate",
         "Right Arcuate",
         "Left Corticospinal",
@@ -720,8 +720,8 @@ def test_AFQ_data_waypoint():
     lv1_files, lv1_folder = afd.fetch_stanford_hardi_lv1()
     lv1_fname = op.join(lv1_folder, list(lv1_files.keys())[0])
     bundle_names = [
-        "Left Superior Longitudinal",
-        "Right Superior Longitudinal",
+        "Left Inferior Longitudinal",
+        "Right Inferior Longitudinal",
         "Left Arcuate",
         "Right Arcuate",
     ]
@@ -733,10 +733,10 @@ def test_AFQ_data_waypoint():
 
     # Test when we have endpoint ROIs only
     afq_templates = afd.read_templates(as_img=False)
-    bundle_info["Left Superior Longitudinal"] = {
-        "start": afq_templates["SLF_L_start"],
-        "end": afq_templates["SLF_L_end"],
-        "prob_map": afq_templates["SLF_L_prob_map"],
+    bundle_info["Left Inferior Longitudinal"] = {
+        "start": afq_templates["ILF_L_start"],
+        "end": afq_templates["ILF_L_end"],
+        "prob_map": afq_templates["ILF_L_prob_map"],
     }
 
     bundle_info["LV1"] = {"start": lv1_fname, "space": "subject"}
@@ -808,7 +808,7 @@ def test_AFQ_data_waypoint():
     )  # noqa
 
     seg_sft = aus.SegmentedSFT.fromfile(myafq.export("bundles"))
-    npt.assert_(len(seg_sft.get_bundle("Left Superior Longitudinal").streamlines) > 0)
+    npt.assert_(len(seg_sft.get_bundle("Left Inferior Longitudinal").streamlines) > 0)
 
     # Test bundles exporting:
     myafq.export("indiv_bundles")
@@ -816,7 +816,7 @@ def test_AFQ_data_waypoint():
         op.join(
             myafq.export("output_dir"),
             "bundles",
-            "sub-01_ses-01_desc-RightSuperiorLongitudinal_tractography.trk",
+            "sub-01_ses-01_desc-RightInferiorLongitudinal_tractography.trk",
         )
     )  # noqa
 
@@ -871,7 +871,7 @@ def test_AFQ_data_waypoint():
         op.join(
             myafq.export("output_dir"),
             "viz_bundles",
-            "sub-01_ses-01_desc-LeftSuperiorLongitudinal_tractography.html",
+            "sub-01_ses-01_desc-LeftInferiorLongitudinal_tractography.html",
         )
     )  # noqa
 
@@ -901,8 +901,8 @@ def test_AFQ_data_waypoint():
     )
     bundle_dict_as_str = (
         "default_bd()["
-        '"Left Superior Longitudinal",'
-        '"Right Superior Longitudinal",'
+        '"Left Inferior Longitudinal",'
+        '"Right Inferior Longitudinal",'
         '"Left Arcuate",'
         '"Right Arcuate"]'
         '+ BundleDict({"LV1": {"start": '
@@ -966,7 +966,7 @@ def test_AFQ_data_waypoint():
         op.join(
             output_dir,
             "ROIs",
-            "sub-01_ses-01_space-subject_desc-RightSuperiorLongitudinalInclude1_mask.json",
+            "sub-01_ses-01_space-subject_desc-RightInferiorLongitudinalInclude1_mask.json",
         )
     )  # noqa
 
@@ -974,6 +974,6 @@ def test_AFQ_data_waypoint():
         op.join(
             output_dir,
             "bundles",
-            "sub-01_ses-01_desc-RightSuperiorLongitudinal_tractography.trk",
+            "sub-01_ses-01_desc-RightInferiorLongitudinal_tractography.trk",
         )
     )  # noqa

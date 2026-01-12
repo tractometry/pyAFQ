@@ -20,7 +20,7 @@ def test_BundleDict():
     # test defaults
     afq_bundles = abd.default_bd()
 
-    assert len(afq_bundles) == 20
+    assert len(afq_bundles) == 18
 
     # Arcuate Fasciculus
     afq_bundles = abd.default_bd()["Left Arcuate", "Right Arcuate"]
