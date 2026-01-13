@@ -175,6 +175,7 @@ def dti_params(
     gtab,
     bval_file,
     bvec_file,
+    citations,
     b0_threshold=50,
     robust_tensor_fitting=False,
 ):
@@ -193,6 +194,18 @@ def dti_params(
         it is considered to be b0.
         Default: 50.
     """
+    citations.add("""
+@article{basser1994mr,
+  title={MR diffusion tensor spectroscopy and imaging},
+  author={Basser, Peter J and Mattiello, James and LeBihan, Denis},
+  journal={Biophysical journal},
+  volume={66},
+  number={1},
+  pages={259--267},
+  year={1994},
+  publisher={Elsevier}
+}""")
+
     mask = nib.load(brain_mask).get_fdata()
     if robust_tensor_fitting:
         bvals, _ = read_bvals_bvecs(bval_file, bvec_file)
@@ -225,11 +238,21 @@ def fwdti_fit(fwdti_params, gtab):
 @immlib.calc("fwdti_params")
 @as_file(suffix="_model-fwdti_param-diffusivity_dwimap.nii.gz", subfolder="models")
 @as_img
-def fwdti_params(brain_mask, data, gtab):
+def fwdti_params(brain_mask, data, gtab, citations):
     """
     Full path to a nifti file containing parameters
     for the free-water DTI fit.
     """
+    citations.add("""
+@article{henriques2017re,
+  title={[Re] Optimization of a free water elimination two-compartment model for diffusion tensor imaging},
+  author={Henriques, Rafael Neto and Rokem, Ariel and Garyfallidis, Eleftherios and St-Jean, Samuel and Peterson, Eric Thomas and Correia, Marta Morgado},
+  journal={BioRxiv},
+  pages={108795},
+  year={2017},
+  publisher={Cold Spring Harbor Laboratory}
+}""")  # noqa: E501
+
     mask = nib.load(brain_mask).get_fdata()
     dtf = fwdti_fit_model(data, gtab, mask=mask)
     meta = dict(Parameters=dict(FitMethod="NLS"), ModelURL=f"{DIPY_GH}reconst/fwdti.py")
@@ -247,11 +270,21 @@ def dki_fit(dki_params, gtab):
 @immlib.calc("dki_params")
 @as_file(suffix="_model-dki_param-diffusivity_dwimap.nii.gz", subfolder="models")
 @as_img
-def dki_params(brain_mask, gtab, data):
+def dki_params(brain_mask, gtab, data, citations):
     """
     full path to a nifti file containing
     parameters for the DKI fit
     """
+    citations.add("""
+@article{henriques2021diffusional,
+  title={Diffusional kurtosis imaging in the diffusion imaging in python project},
+  author={Henriques, Rafael Neto and Correia, Marta M and Marrale, Maurizio and Huber, Elizabeth and Kruper, John and Koudoro, Serge and Yeatman, Jason D and Garyfallidis, Eleftherios and Rokem, Ariel},
+  journal={Frontiers in Human Neuroscience},
+  volume={15},
+  pages={675433},
+  year={2021},
+  publisher={Frontiers Media SA}
+}""")  # noqa: E501
     if len(dpg.unique_bvals_magnitude(gtab.bvals)) < 3:
         raise ValueError(
             (
@@ -281,11 +314,17 @@ def msdki_fit(msdki_params, gtab):
 @immlib.calc("msdki_params")
 @as_file(suffix="_model-msdki_param-diffusivity_dwimap.nii.gz", subfolder="models")
 @as_img
-def msdki_params(brain_mask, gtab, data):
+def msdki_params(brain_mask, gtab, data, citations):
     """
     full path to a nifti file containing
     parameters for the Mean Signal DKI fit
     """
+    citations.add("""
+@phdthesis{neto2018advanced,
+  title={Advanced methods for diffusion MRI data analysis and their application to the healthy ageing brain},
+  author={Neto Henriques, Rafael},
+  year={2018}
+}""")  # noqa: E501
     mask = nib.load(brain_mask).get_fdata()
     msdki_model = dpy_msdki.MeanDiffusionKurtosisModel(gtab)
     msdki_fit = msdki_model.fit(data, mask=mask)
@@ -323,6 +362,7 @@ def csd_params(
     brain_mask,
     gtab,
     data,
+    citations,
     csd_response=None,
     csd_sh_order_max=None,
     csd_lambda_=1,
@@ -370,6 +410,17 @@ def csd_params(
             Non-negativity constrained super-resolved spherical
             deconvolution
     """
+    citations.add("""
+@article{tournier2007robust,
+  title={Robust determination of the fibre orientation distribution in diffusion MRI: non-negativity constrained super-resolved spherical deconvolution},
+  author={Tournier, J-Donald and Calamante, Fernando and Connelly, Alan},
+  journal={Neuroimage},
+  volume={35},
+  number={4},
+  pages={1459--1472},
+  year={2007},
+  publisher={Elsevier}
+}""")  # noqa: E501
     mask = nib.load(brain_mask).get_fdata()
     try:
         csdf = csd_fit_model(
@@ -402,7 +453,7 @@ def csd_params(
 @immlib.calc("csd_aodf_params")
 @as_file(suffix="_model-csd_param-aodf_dwimap.nii.gz", subfolder="models")
 @as_img
-def csd_aodf(csd_params, n_threads, low_mem):
+def csd_aodf(csd_params, n_threads, low_mem, citations):
     """
     full path to a nifti file containing
     SSST CSD ODFs filtered by unified filtering [1]
@@ -413,6 +464,16 @@ def csd_aodf(csd_params, n_threads, low_mem):
         Estimating Asymmetric Orientation Distribution Functions",
         Neuroimage, https://doi.org/10.1016/j.neuroimage.2024.120516
     """
+    citations.add("""
+@article{poirier2024unified,
+  title={A unified filtering method for estimating asymmetric orientation distribution functions},
+  author={Poirier, Charles and Descoteaux, Maxime},
+  journal={NeuroImage},
+  volume={287},
+  pages={120516},
+  year={2024},
+  publisher={Elsevier}
+}""")  # noqa: E501
     sh_coeff = nib.load(csd_params).get_fdata()
 
     logger.info("Applying unified filtering to generate asymmetric CSD ODFs...")
@@ -498,7 +559,7 @@ def csd_anisotropic_index(csd_params):
 
 
 @immlib.calc("gq_params", "gq_iso", "gq_aso")
-def gq(base_fname, gtab, dwi_affine, data, gq_sampling_length=1.2):
+def gq(base_fname, gtab, dwi_affine, data, citations, gq_sampling_length=1.2):
     """
     full path to a nifti file containing
     parameters for the Generalized Q-Sampling
@@ -512,6 +573,17 @@ def gq(base_fname, gtab, dwi_affine, data, gq_sampling_length=1.2):
         Diffusion sampling length.
         Default: 1.2
     """
+    citations.add("""
+@article{yeh2010generalized,
+  title={Generalized q-sampling imaging},
+  author={Yeh, Fang-Cheng and Wedeen, Van Jay and Tseng, Wen-Yih Isaac},
+  journal={IEEE transactions on medical imaging},
+  volume={29},
+  number={9},
+  pages={1626--1635},
+  year={2010},
+  publisher={IEEE}
+}""")
     gqmodel = GeneralizedQSamplingModel(gtab, sampling_length=gq_sampling_length)
 
     odf = gwi_odf(gqmodel, data)
@@ -574,6 +646,7 @@ def gq_ai(gq_params):
 @immlib.calc("rumba_model")
 def rumba_model(
     gtab,
+    citations,
     rumba_wm_response=None,
     rumba_gm_response=0.0008,
     rumba_csf_response=0.003,
@@ -600,6 +673,17 @@ def rumba_model(
         Must be a positive int.
         Default: 600
     """
+    citations.add("""
+@article{canales2015spherical,
+  title={Spherical deconvolution of multichannel diffusion MRI data with non-Gaussian noise models and spatial regularization},
+  author={Canales-Rodríguez, Erick J and Daducci, Alessandro and Sotiropoulos, Stamatios N and Caruyer, Emmanuel and Aja-Fernández, Santiago and Radua, Joaquim and Yurramendi Mendizabal, Jesús M and Iturria-Medina, Yasser and Melie-Garcia, Lester and Alemán-Gómez, Yasser and others},
+  journal={PloS one},
+  volume={10},
+  number={10},
+  pages={e0138910},
+  year={2015},
+  publisher={Public Library of Science San Francisco, CA USA}
+}""")  # noqa: E501
     if rumba_wm_response is None:
         rumba_wm_response = [0.0017, 0.0002, 0.0002]
     return RumbaSDModel(
@@ -673,7 +757,9 @@ def rumba_f_wm(rumba_fit):
 
 
 @immlib.calc("opdt_params", "opdt_gfa")
-def opdt_params(base_fname, data, gtab, dwi_affine, brain_mask, opdt_sh_order_max=8):
+def opdt_params(
+    base_fname, data, gtab, dwi_affine, brain_mask, citations, opdt_sh_order_max=8
+):
     """
     full path to a nifti file containing
     parameters for the Orientation Probability Density Transform
@@ -686,6 +772,17 @@ def opdt_params(base_fname, data, gtab, dwi_affine, brain_mask, opdt_sh_order_ma
         Spherical harmonics order for OPDT model. Must be even.
         Default: 8
     """
+    citations.add("""
+@article{tristan2009estimation,
+  title={Estimation of fiber orientation probability density functions in high angular resolution diffusion imaging},
+  author={Tristán-Vega, Antonio and Westin, Carl-Fredrik and Aja-Fernández, Santiago},
+  journal={NeuroImage},
+  volume={47},
+  number={2},
+  pages={638--650},
+  year={2009},
+  publisher={Elsevier}
+}""")  # noqa: E501
     opdt_model = shm.OpdtModel(gtab, opdt_sh_order_max)
     opdt_fit = opdt_model.fit(data, mask=brain_mask)
 
@@ -735,7 +832,9 @@ def opdt_ai(opdt_params):
 
 
 @immlib.calc("csa_params", "csa_gfa")
-def csa_params(base_fname, data, gtab, dwi_affine, brain_mask, csa_sh_order_max=8):
+def csa_params(
+    base_fname, data, gtab, dwi_affine, brain_mask, citations, csa_sh_order_max=8
+):
     """
     full path to a nifti file containing
     parameters for the Constant Solid Angle
@@ -748,6 +847,17 @@ def csa_params(base_fname, data, gtab, dwi_affine, brain_mask, csa_sh_order_max=
         Spherical harmonics order for CSA model. Must be even.
         Default: 8
     """
+    citations.add("""
+@article{aganj2010reconstruction,
+  title={Reconstruction of the orientation distribution function in single-and multiple-shell q-ball imaging within constant solid angle},
+  author={Aganj, Iman and Lenglet, Christophe and Sapiro, Guillermo and Yacoub, Essa and Ugurbil, Kamil and Harel, Noam},
+  journal={Magnetic resonance in medicine},
+  volume={64},
+  number={2},
+  pages={554--566},
+  year={2010},
+  publisher={Wiley Online Library}
+}""")  # noqa: E501
     csa_model = shm.CsaOdfModel(gtab, csa_sh_order_max)
     csa_fit = csa_model.fit(data, mask=brain_mask)
 
@@ -1174,7 +1284,11 @@ def brain_mask(structural_imap, b0):
 
 @immlib.calc("bundle_dict", "reg_template", "tmpl_name")
 def get_bundle_dict(
-    b0, bundle_info=None, reg_template_spec="mni_T1", reg_template_space_name="mni"
+    b0,
+    citations,
+    bundle_info=None,
+    reg_template_spec="mni_T1",
+    reg_template_space_name="mni",
 ):
     """
     Dictionary defining the different bundles to be segmented,
@@ -1241,6 +1355,8 @@ def get_bundle_dict(
 
     if bundle_dict.resample_subject_to:
         bundle_dict.resample_subject_to = b0
+
+    citations.update(bundle_dict.citations)
 
     return bundle_dict, reg_template, reg_template_space_name
 

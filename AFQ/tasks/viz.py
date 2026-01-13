@@ -1,5 +1,6 @@
 import logging
 import os.path as op
+import re
 from time import time
 
 import immlib
@@ -412,8 +413,32 @@ def init_viz_backend(viz_backend_spec="plotly_no_gif", virtual_frame_buffer=Fals
     return Viz(backend=viz_backend_spec.lower())
 
 
+@immlib.calc("citations")
+def citations(base_fname, citations):
+    """
+    Export Bibtex citation file for methods used by pyAFQ.
+    """
+    bib_fname = get_fname(base_fname, "_citations.bib")
+
+    if op.exists(bib_fname):
+        with open(bib_fname, "r") as f:
+            content = f.read()
+            existing_keys = set(re.findall(r"@\w+\{([^,]+),", content))
+    else:
+        existing_keys = set()
+
+    with open(bib_fname, "a") as f:
+        for entry in citations:
+            match = re.search(r"@\w+\{([^,]+),", entry)
+            if match:
+                key = match.group(1)
+                if key not in existing_keys:
+                    f.write("\n" + entry + "\n")
+                    existing_keys.add(key)
+
+
 def get_viz_plan(kwargs):
     viz_tasks = with_name(
-        [plot_tract_profiles, viz_bundles, viz_indivBundle, init_viz_backend]
+        [plot_tract_profiles, viz_bundles, viz_indivBundle, init_viz_backend, citations]
     )
     return immlib.plan(**viz_tasks)

@@ -120,7 +120,7 @@ def pve_internal(structural_imap, pve="synthseg"):
 @immlib.calc("msmtcsd_params")
 @as_file(suffix="_model-msmtcsd_param-fod_dwimap.nii.gz", subfolder="models")
 @as_img
-def msmt_params(data_imap, pve_internal, msmt_sh_order=8, msmt_fa_thr=0.7):
+def msmt_params(data_imap, pve_internal, citations, msmt_sh_order=8, msmt_fa_thr=0.7):
     """
     full path to a nifti file containing
     parameters for the MSMT CSD fit
@@ -142,6 +142,17 @@ def msmt_params(data_imap, pve_internal, msmt_sh_order=8, msmt_fa_thr=0.7):
             deconvolution for improved analysis of multi-shell diffusion
             MRI data. NeuroImage, 103 (2014), pp. 411–426
     """
+    citations.add("""
+@article{jeurissen2014multi,
+  title={Multi-tissue constrained spherical deconvolution for improved analysis of multi-shell diffusion MRI data},
+  author={Jeurissen, Ben and Tournier, Jacques-Donald and Dhollander, Thijs and Connelly, Alan and Sijbers, Jan},
+  journal={NeuroImage},
+  volume={103},
+  pages={411--426},
+  year={2014},
+  publisher={Elsevier}
+}""")  # noqa: E501
+
     mask = nib.load(data_imap["brain_mask"]).get_fdata()
 
     pve_img = nib.load(pve_internal)
@@ -212,7 +223,7 @@ def msmt_apm(msmtcsd_params):
 @immlib.calc("msmt_aodf_params")
 @as_file(suffix="_model-msmtcsd_param-aodf_dwimap.nii.gz", subfolder="models")
 @as_img
-def msmt_aodf(msmtcsd_params, data_imap):
+def msmt_aodf(msmtcsd_params, data_imap, citations):
     """
     full path to a nifti file containing
     MSMT CSD ODFs filtered by unified filtering [1]
@@ -223,6 +234,17 @@ def msmt_aodf(msmtcsd_params, data_imap):
         Estimating Asymmetric Orientation Distribution Functions",
         Neuroimage, https://doi.org/10.1016/j.neuroimage.2024.120516
     """
+    citations.add("""
+@article{poirier2024unified,
+  title={A unified filtering method for estimating asymmetric orientation distribution functions},
+  author={Poirier, Charles and Descoteaux, Maxime},
+  journal={NeuroImage},
+  volume={287},
+  pages={120516},
+  year={2024},
+  publisher={Elsevier}
+}""")  # noqa: E501
+
     sh_coeff = nib.load(msmtcsd_params).get_fdata()
 
     logger.info("Applying unified filtering to generate asymmetric MSMT CSD ODFs...")
