@@ -50,7 +50,7 @@ def gpu_track(
         Float or binary mask describing the ROI within which we seed for
         tracking.
     pve_path : str
-        Esimations of partial volumes of WM, GM, and CSF.
+        Estimations of partial volumes of WM, GM, and CSF.
     odf_model : str, optional
         One of {"OPDT", "CSA"}
     seed_threshold : float
@@ -109,7 +109,7 @@ def gpu_track(
         elif odf_model.lower() == "csa":
             dg = BootDirectionGetter.from_dipy_csa(gtab, sphere)
         else:
-            raise ValueError((f"odf_model must be 'opdt' or 'csa', not {odf_model}"))
+            raise ValueError(f"odf_model must be 'opdt' or 'csa', not {odf_model}")
     else:
         # Convert SH coefficients to ODFs
         sym_order = (-3.0 + np.sqrt(1.0 + 8.0 * data.shape[3])) / 2.0
@@ -140,7 +140,7 @@ def gpu_track(
             dg = ProbDirectionGetter()
         else:
             raise ValueError(
-                (f"directions must be 'boot', 'ptt', or 'prob', not {directions}")
+                f"directions must be 'boot', 'ptt', or 'prob', not {directions}"
             )
 
     seeds = gen_seeds(
