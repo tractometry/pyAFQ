@@ -436,6 +436,8 @@ def citations(base_fname, citations):
                     f.write("\n" + entry + "\n")
                     existing_keys.add(key)
 
+    return bib_fname
+
 
 def get_viz_plan(kwargs):
     viz_tasks = with_name(
