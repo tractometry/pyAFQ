@@ -1,3 +1,4 @@
+Bootstrap: docker
 From: nvidia/cuda:13.1.0-devel-ubuntu24.04
 
 %environment
