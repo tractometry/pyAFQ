@@ -1,0 +1,24 @@
+From: nvidia/cuda:13.1.0-devel-ubuntu24.04
+
+%environment
+    export DEBIAN_FRONTEND=noninteractive
+    export PATH=/opt/anaconda/bin:${PATH}
+    export LD_LIBRARY_PATH=/opt/anaconda/lib:${LD_LIBRARY_PATH}
+
+%post
+    # System update and basic tools installation
+    apt-get update && apt-get install --assume-yes apt-transport-https \
+        ca-certificates gnupg software-properties-common \
+        gcc git wget curl numactl
+
+    # Miniconda3
+    curl -L "https://repo.anaconda.com/miniconda/Miniconda3-py312_25.11.1-1-Linux-x86_64.sh" \
+        -o "/tmp/Miniconda3.sh"
+    bash /tmp/Miniconda3.sh -b -p /opt/anaconda
+    rm -rf /tmp/Miniconda3.sh
+    cd /opt && eval "$(/opt/anaconda/bin/conda shell.bash hook)"
+
+    # Install pyAFQ
+    pip install "pyAFQ[gpu] @ git+https://github.com/tractometry/pyAFQ.git@main"
+
+    pyAFQ download
