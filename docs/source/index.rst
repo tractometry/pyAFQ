@@ -140,5 +140,7 @@ and by a grant from the
     :maxdepth: 2
 
     guides_index
+    tutorials/tutorial_examples/index
+    howto/howto_examples/index
     developing/index
     bib
