@@ -73,31 +73,8 @@ def streamlines(data_imap, seed, tissue_imap, fodf, citations, tracking_params):
         thresholded to 0.2. The ``seed_mask`` items of
         this dict may be ``AFQ.definitions.image.ImageFile`` instances.
     """
-    citations.update(
-        {
-            """
-@article{girard2014towards,
-  title={Towards quantitative connectivity analysis: reducing tractography biases},
-  author={Girard, Gabriel and Whittingstall, Kevin and Deriche, Rachid and Descoteaux, Maxime},
-  journal={Neuroimage},
-  volume={98},
-  pages={266--278},
-  year={2014},
-  publisher={Elsevier}
-}""",  # noqa: E501
-            """
-@article{smith2012anatomically,
-  title={Anatomically-constrained tractography: improved diffusion MRI streamlines tractography through effective use of anatomical information},
-  author={Smith, Robert E and Tournier, Jacques-Donald and Calamante, Fernando and Connelly, Alan},
-  journal={Neuroimage},
-  volume={62},
-  number={3},
-  pages={1924--1938},
-  year={2012},
-  publisher={Elsevier}
-}""",  # noqa: E501
-        }
-    )
+    citations.add("girard2014towards")
+    citations.add("smith2012anatomically")
 
     this_tracking_params = tracking_params.copy()
 

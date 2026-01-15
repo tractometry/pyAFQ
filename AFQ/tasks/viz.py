@@ -1,15 +1,18 @@
 import logging
 import os.path as op
-import re
 from time import time
 
+import bibtexparser
 import immlib
 import nibabel as nib
 import numpy as np
 import pandas as pd
+from bibtexparser.bibdatabase import BibDatabase
+from bibtexparser.bwriter import BibTexWriter
 from dipy.align import resample
 from plotly.subplots import make_subplots
 
+import AFQ
 import AFQ.utils.streamlines as aus
 from AFQ.tasks.utils import get_fname, get_tp, str_to_desc, with_name
 from AFQ.utils.path import drop_extension, write_json
@@ -418,23 +421,29 @@ def citations(base_fname, citations):
     """
     Export Bibtex citation file for methods used by pyAFQ.
     """
+    refbib_path = op.join(op.dirname(AFQ.__file__), "_references.bib")
     bib_fname = get_fname(base_fname, "_citations.bib")
 
+    with open(refbib_path, "r") as f:
+        master_db = bibtexparser.load(f)
+
+    master_map = {e["ID"]: e for e in master_db.entries}
     if op.exists(bib_fname):
         with open(bib_fname, "r") as f:
-            content = f.read()
-            existing_keys = set(re.findall(r"@\w+\{([^,]+),", content))
+            current_db = bibtexparser.load(f)
     else:
-        existing_keys = set()
+        current_db = BibDatabase()
 
-    with open(bib_fname, "a") as f:
-        for entry in citations:
-            match = re.search(r"@\w+\{([^,]+),", entry)
-            if match:
-                key = match.group(1)
-                if key not in existing_keys:
-                    f.write("\n" + entry + "\n")
-                    existing_keys.add(key)
+    existing_ids = {e["ID"] for e in current_db.entries}
+
+    for cid in citations:
+        if cid not in existing_ids:
+            current_db.entries.append(master_map[cid])
+
+    writer = BibTexWriter()
+    current_db.entries.sort(key=lambda x: x["ID"])
+    with open(bib_fname, "w") as f:
+        f.write(writer.write(current_db))
 
     return bib_fname
 

@@ -301,30 +301,7 @@ def default_bd():
                 "primary_axis_percentage": 40,
             },
         },
-        citations={
-            """
-@article{yeatman2012tract,
-  title={Tract profiles of white matter properties: automating fiber-tract quantification},
-  author={Yeatman, Jason D and Dougherty, Robert F and Myall, Nathaniel J and Wandell, Brian A and Feldman, Heidi M},
-  journal={PloS one},
-  volume={7},
-  number={11},
-  pages={e49790},
-  year={2012},
-  publisher={Public Library of Science San Francisco, USA}
-}""",  # noqa: E501
-            """
-@article{takemura2017occipital,
-  title={Occipital white matter tracts in human and macaque},
-  author={Takemura, Hiromasa and Pestilli, Franco and Weiner, Kevin S and Keliris, Georgios A and Landi, Sofia M and Sliwa, Julia and Ye, Frank Q and Barnett, Michael A and Leopold, David A and Freiwald, Winrich A and others},
-  journal={Cerebral Cortex},
-  volume={27},
-  number={6},
-  pages={3346--3359},
-  year={2017},
-  publisher={Oxford University Press}
-}""",  # noqa: E501
-        },
+        citations={"Yeatman2012", "takemura2017occipital"},
     )
 
 
@@ -393,19 +370,7 @@ def slf_bd():
                 },
             },
         },
-        citations={
-            """
-@article{sagi2024white,
-  title={White matter associations with spelling performance},
-  author={Sagi, Romi and Taylor, JSH and Neophytou, Kyriaki and Cohen, Tamar and Rapp, Brenda and Rastle, Kathleen and Ben-Shachar, Michal},
-  journal={Brain Structure and Function},
-  volume={229},
-  number={9},
-  pages={2115--2135},
-  year={2024},
-  publisher={Springer}
-}"""  # noqa: E501
-        },
+        citations={"Sagi2024"},
     )
 
 
@@ -751,30 +716,7 @@ def baby_bd():
             },
         },
         resample_to=afd.read_pediatric_templates()["UNCNeo-withCerebellum-for-babyAFQ"],
-        citations={
-            """
-@article{grotheer2022white,
-  title={White matter myelination during early infancy is linked to spatial gradients and myelin content at birth},
-  author={Grotheer, Mareike and Rosenke, Mona and Wu, Hua and Kular, Holly and Querdasi, Francesca R and Natu, Vaidehi S and Yeatman, Jason D and Grill-Spector, Kalanit},
-  journal={Nature communications},
-  volume={13},
-  number={1},
-  pages={997},
-  year={2022},
-  publisher={Nature Publishing Group UK London}
-}""",  # noqa: E501
-            """
-@article{grotheer2023human,
-  title={Human white matter myelinates faster in utero than ex utero},
-  author={Grotheer, Mareike and Bloom, David and Kruper, John and Richie-Halford, Adam and Zika, Stephanie and Aguilera González, Vicente A and Yeatman, Jason D and Grill-Spector, Kalanit and Rokem, Ariel},
-  journal={Proceedings of the National Academy of Sciences},
-  volume={120},
-  number={33},
-  pages={e2303491120},
-  year={2023},
-  publisher={National Academy of Sciences}
-}""",  # noqa: E501
-        },
+        citations={"Grotheer2022", "grotheer2023human"},
     )
 
 
@@ -883,28 +825,7 @@ def reco_bd(n_bundles):
     templates = afd.read_hcp_atlas(n_bundles, as_file=True)
     return BundleDict(
         templates,
-        citations={
-            """
-@article{yeh2018population,
-  title={Population-averaged atlas of the macroscale human structural connectome and its network topology},
-  author={Yeh, Fang-Cheng and Panesar, Sandip and Fernandes, David and Meola, Antonio and Yoshino, Masanori and Fernandez-Miranda, Juan C and Vettel, Jean M and Verstynen, Timothy},
-  journal={Neuroimage},
-  volume={178},
-  pages={57--68},
-  year={2018},
-  publisher={Elsevier}
-}""",  # noqa: E501
-            """
-@article{garyfallidis2018recognition,
-  title={Recognition of white matter bundles using local and global streamline-based registration and clustering},
-  author={Garyfallidis, Eleftherios and Côté, Marc-Alexandre and Rheault, Francois and Sidhu, Jasmeen and Hau, Janice and Petit, Laurent and Fortin, David and Cunanne, Stephen and Descoteaux, Maxime},
-  journal={NeuroImage},
-  volume={170},
-  pages={283--295},
-  year={2018},
-  publisher={Elsevier}
-}""",  # noqa: E501
-        },
+        citations={"yeh2018population", "Garyfallidis2018"},
     )
 
 
@@ -969,18 +890,7 @@ def cerebellar_bd():
                 "cross_midline": True,
             },
         },
-        citations={
-            """
-@article{jossinger2022white,
-  title={White matter correlates of sensorimotor synchronization in persistent developmental stuttering},
-  author={Jossinger, Sivan and Sares, Anastasia and Zislis, Avital and Sury, Dana and Gracco, Vincent and Ben-Shachar, Michal},
-  journal={Journal of communication disorders},
-  volume={95},
-  pages={106169},
-  year={2022},
-  publisher={Elsevier}
-}"""  # noqa: E501
-        },
+        citations={"Jossinger2022"},
     )
 
 
@@ -1012,19 +922,7 @@ def OR_bd():
                 "cross_midline": False,
             },
         },
-        citations={
-            """
-@article{caffarra2021development,
-  title={Development of the visual white matter pathways mediates development of electrophysiological responses in visual cortex},
-  author={Caffarra, Sendy and Joo, Sung Jun and Bloom, David and Kruper, John and Rokem, Ariel and Yeatman, Jason D},
-  journal={Human Brain Mapping},
-  volume={42},
-  number={17},
-  pages={5785--5797},
-  year={2021},
-  publisher={Wiley Online Library}
-}"""  # noqa: E501
-        },
+        citations={"Caffarra2021"},
     )
 
 

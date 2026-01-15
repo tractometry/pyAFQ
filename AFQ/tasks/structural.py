@@ -29,31 +29,8 @@ def synthseg_model(t1_masked, citations):
         of any contrast and resolution without retraining." Medical image
         analysis 86 (2023): 102789.
     """
-    citations.update(
-        {
-            """
-@article{billot2023robust,
-  title={Robust machine learning segmentation for large-scale analysis of heterogeneous clinical brain MRI datasets},
-  author={Billot, Benjamin and Magdamo, Colin and Cheng, You and Arnold, Steven E and Das, Sudeshna and Iglesias, Juan Eugenio},
-  journal={Proceedings of the National Academy of Sciences},
-  volume={120},
-  number={9},
-  pages={e2216399120},
-  year={2023},
-  publisher={National Academy of Sciences}
-}""",  # noqa: E501
-            """
-@article{billot2023synthseg,
-  title={SynthSeg: Segmentation of brain MRI scans of any contrast and resolution without retraining},
-  author={Billot, Benjamin and Greve, Douglas N and Puonti, Oula and Thielscher, Axel and Van Leemput, Koen and Fischl, Bruce and Dalca, Adrian V and Iglesias, Juan Eugenio and others},
-  journal={Medical image analysis},
-  volume={86},
-  pages={102789},
-  year={2023},
-  publisher={Elsevier}
-}""",  # noqa: E501
-        }
-    )
+    citations.add("billot_synthseg_2023")
+    citations.add("billot_robust_2023")
     ort = check_onnxruntime(
         "SynthSeg 2.0",
         "Or, provide your own segmentations using PVEImage or PVEImages.",
@@ -76,17 +53,7 @@ def mx_model(t1_file, t1w_brain_mask, citations):
         with abnormal brain anatomy: model and data release." Journal of
         Medical Imaging 12.5 (2025): 054001-054001.
     """
-    citations.add("""
-@article{birnbaum2025full,
-  title={Full-head segmentation of MRI with abnormal brain anatomy: model and data release},
-  author={Birnbaum, Andrew M and Buchwald, Adam and Turkeltaub, Peter and Jacks, Adam and Carr, George and Kannan, Shreya and Huang, Yu and Datta, Abhisheck and Parra, Lucas C and Hirsch, Lukas A},
-  journal={Journal of Medical Imaging},
-  volume={12},
-  number={5},
-  pages={054001--054001},
-  year={2025},
-  publisher={Society of Photo-Optical Instrumentation Engineers}
-}""")  # noqa: E501
+    citations.add("birnbaum2025full")
     ort = check_onnxruntime(
         "Multi-axial", "Or, provide your own segmentations using PVEImage or PVEImages."
     )
@@ -126,13 +93,7 @@ def t1w_brain_mask(t1_file, citations, brain_mask_definition=None):
     # is handled in get_data_plan
     # This is just the default
 
-    citations.add("""
-@article{fani2025mindgrab,
-  title={MindGrab for BrainChop: Fast and Accurate Skull Stripping for Command Line and Browser},
-  author={Fani, Armina and Doan, Mike and Le, Isabelle and Fedorov, Alex and Hoffmann, Malte and Rorden, Chris and Plis, Sergey},
-  journal={arXiv preprint arXiv:2506.11860},
-  year={2025}
-}""")  # noqa: E501
+    citations.add("fani2025mindgrab")
 
     ort = check_onnxruntime(
         "Mindgrab", "Or, provide your own brain mask using brain_mask_definition."
@@ -175,16 +136,7 @@ def t1_subcortex(t1_masked, citations):
         "Or, provide your own segmentations using PVEImage or PVEImages.",
     )
 
-    citations.add("""
-@article{masoud2023brainchop,
-  title={Brainchop: In-browser MRI volumetric segmentation and rendering},
-  author={Masoud, Mohamed and Hu, Farfalla and Plis, Sergey},
-  journal={Journal of Open Source Software},
-  volume={8},
-  number={83},
-  pages={5098},
-  year={2023}
-}""")
+    citations.add("masoud2023brainchop")
 
     t1_img_masked = nib.load(t1_masked)
 

@@ -142,16 +142,7 @@ def msmt_params(data_imap, pve_internal, citations, msmt_sh_order=8, msmt_fa_thr
             deconvolution for improved analysis of multi-shell diffusion
             MRI data. NeuroImage, 103 (2014), pp. 411–426
     """
-    citations.add("""
-@article{jeurissen2014multi,
-  title={Multi-tissue constrained spherical deconvolution for improved analysis of multi-shell diffusion MRI data},
-  author={Jeurissen, Ben and Tournier, Jacques-Donald and Dhollander, Thijs and Connelly, Alan and Sijbers, Jan},
-  journal={NeuroImage},
-  volume={103},
-  pages={411--426},
-  year={2014},
-  publisher={Elsevier}
-}""")  # noqa: E501
+    citations.add("jeurissen2014multi")
 
     mask = nib.load(data_imap["brain_mask"]).get_fdata()
 
@@ -234,16 +225,8 @@ def msmt_aodf(msmtcsd_params, data_imap, citations):
         Estimating Asymmetric Orientation Distribution Functions",
         Neuroimage, https://doi.org/10.1016/j.neuroimage.2024.120516
     """
-    citations.add("""
-@article{poirier2024unified,
-  title={A unified filtering method for estimating asymmetric orientation distribution functions},
-  author={Poirier, Charles and Descoteaux, Maxime},
-  journal={NeuroImage},
-  volume={287},
-  pages={120516},
-  year={2024},
-  publisher={Elsevier}
-}""")  # noqa: E501
+    citations.add("poirier2024unified")
+    citations.add("renauld2026tractography")
 
     sh_coeff = nib.load(msmtcsd_params).get_fdata()
 

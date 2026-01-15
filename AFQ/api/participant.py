@@ -106,47 +106,7 @@ class ParticipantAFQ(object):
             t1_file=t1_file,
             output_dir=output_dir,
             base_fname=get_base_fname(output_dir, dwi_data_file),
-            citations={
-                """
-@article{kruper2025software,
-  title={A software ecosystem for brain tractometry processing, analysis, and insight},
-  author={Kruper, John and Richie-Halford, Adam and Qiao, Joanna and Gilmore, Asa and Chang, Kelly and Grotheer, Mareike and Roy, Ethan and Caffarra, Sendy and Gomez, Teresa and Chou, Sam and others},
-  journal={PLoS computational biology},
-  volume={21},
-  number={8},
-  pages={e1013323},
-  year={2025},
-  publisher={Public Library of Science San Francisco, CA USA},
-  doi={10.1371/journal.pcbi.1013323}
-}""",  # noqa: E501
-                """
-@article {Kruper2021-xb,
-  title     = "Evaluating the reliability of human brain white matter
-               tractometry",
-  author    = "Kruper, John and Yeatman, Jason D and Richie-Halford, Adam and
-               Bloom, David and Grotheer, Mareike and Caffarra, Sendy and Kiar,
-               Gregory and Karipidis, Iliana I and Roy, Ethan and Chandio,
-               Bramsh Q and Garyfallidis, Eleftherios and Rokem, Ariel",
-  journal   = "Apert Neuro",
-  publisher = "Organization for Human Brain Mapping",
-  volume    =  1,
-  number    =  1,
-  month     =  nov,
-  year      =  2021,
-  doi       =  {10.52294/e6198273-b8e3-4b63-babb-6e6b0da10669},
-}
-""",  # noqa: E501
-                """
-@article{garyfallidis2014dipy,
-  title={Dipy, a library for the analysis of diffusion MRI data},
-  author={Garyfallidis, Eleftherios and Brett, Matthew and Amirbekian, Bagrat and Rokem, Ariel and Van Der Walt, Stefan and Descoteaux, Maxime and Nimmo-Smith, Ian and Dipy Contributors},
-  journal={Frontiers in neuroinformatics},
-  volume={8},
-  pages={8},
-  year={2014},
-  publisher={Frontiers Media SA}
-}""",  # noqa: E501
-            },
+            citations={"kruper2025software", "Kruper2021-xb", "garyfallidis2014dipy"},
             **kwargs,
         )
         self.make_workflow()
