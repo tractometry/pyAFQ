@@ -117,18 +117,22 @@ def _fetcher_to_template(fetcher, as_img=False, resample_to=False):
     template_dict = {}
     for f in files:
         img = op.join(folder, f)
-        if as_img:
-            img = nib.load(img)
-        if resample_to:
-            img = nib.Nifti1Image(
-                resample(
-                    img.get_fdata(),
-                    resample_to,
-                    moving_affine=img.affine,
-                    static_affine=resample_to.affine,
-                ).get_fdata(),
-                resample_to.affine,
-            )
+        if ".trk" in f:
+            if as_img:
+                img = load_tractogram(img, "same", bbox_valid_check=False)
+        else:
+            if as_img:
+                img = nib.load(img)
+            if resample_to:
+                img = nib.Nifti1Image(
+                    resample(
+                        img.get_fdata(),
+                        resample_to,
+                        moving_affine=img.affine,
+                        static_affine=resample_to.affine,
+                    ).get_fdata(),
+                    resample_to.affine,
+                )
         template_dict[drop_extension(f)] = img
     return template_dict
 
@@ -1001,6 +1005,86 @@ def read_templates(as_img=True, resample_to=False):
 
     toc = time.perf_counter()
     logger.debug(f"AFQ templates loaded in {toc - tic:0.4f} seconds")
+
+    return template_dict
+
+
+oton_fnames = [
+    "left_OT_1.nii.gz",
+    "left_ON_0.nii.gz",
+    "right_ON_0.nii.gz",
+    "left_OT_0.nii.gz",
+    "right_OT_0.nii.gz",
+    "right_OT_1.nii.gz",
+    "left_OTOC_curve.trk",
+    "right_OTOC_curve.trk",
+]
+
+oton_remote_fnames = [
+    "41408604",
+    "41408607",
+    "41408610",
+    "41408613",
+    "41408616",
+    "41408619",
+    "41408622",
+    "41408625",
+]
+
+oton_md5_hashes = [
+    "89bbfbe9b894c31e8d23632865bf1cd9",
+    "ad0e9842c91044aa66fd03ac8c32ac23",
+    "b33f9d82097665a68a9b7ef62810b0c9",
+    "f360dab3bff5f15f906cefb677bb3a7c",
+    "4a4770fe59d5cb6cf28a91909ead15a4",
+    "16f2b2d2134172632f0a2c11761e048c",
+    "d73801c96a797bc344b907ebf074280b",
+    "14fd5e8910a74908d7ef7ccc7e674bfb",
+]
+
+fetch_oton_templates = _make_reusable_fetcher(
+    "fetch_oton_templates",
+    op.join(afq_home, "oton_templates"),
+    baseurl,
+    oton_remote_fnames,
+    oton_fnames,
+    md5_list=oton_md5_hashes,
+    doc="Download AFQ optic tract and posterior optic nerve templates",
+)
+
+
+def read_oton_templates(as_img=True, resample_to=False):
+    """Load AFQ Optic Tract and Posterior Optic Nerve templates from file
+
+    Parameters
+    ----------
+    as_img : bool, optional
+        If True, values are `Nifti1Image`. Otherwise, values are
+        paths to Nifti files. Default: True
+    resample_to : str or nibabel image class instance, optional
+        A template image to resample to. Typically, this should be the
+        template to which individual-level data are registered. Defaults to
+        the MNI template. Default: False
+
+    Returns
+    -------
+    dict with: keys: names of template ROIs and values: nibabel Nifti1Image
+    objects from each of the ROI nifti files.
+    """
+    logger = logging.getLogger("AFQ")
+
+    logger.debug("loading oton templates")
+    tic = time.perf_counter()
+
+    template_dict = _fetcher_to_template(
+        fetch_oton_templates, as_img=as_img, resample_to=resample_to
+    )
+
+    toc = time.perf_counter()
+    logger.debug(
+        f"Optic Tract and Posterior Optic Nerve templates "
+        f"loaded in {toc - tic:0.4f} seconds"
+    )
 
     return template_dict
 

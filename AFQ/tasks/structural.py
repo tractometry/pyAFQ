@@ -40,7 +40,7 @@ def synthseg_model(t1_masked):
 
 @immlib.calc("mx_model")
 @as_file(suffix="_model-multiaxial_probseg.nii.gz", subfolder="nn")
-def mx_model(t1_masked):
+def mx_model(t1_file, t1w_brain_mask):
     """
     full path to the multi-axial model for brain extraction
     outputs
@@ -54,9 +54,13 @@ def mx_model(t1_masked):
     ort = check_onnxruntime(
         "Multi-axial", "Or, provide your own segmentations using PVEImage or PVEImages."
     )
-    t1_img = nib.load(t1_masked)
+    t1_img = nib.load(t1_file)
+    t1_mask = nib.load(t1w_brain_mask)
     predictions = run_multiaxial(ort, t1_img)
-    return predictions, dict(T1w=t1_masked)
+    predictions = nib.Nifti1Image(
+        predictions.get_fdata() * t1_mask.get_fdata(), t1_img.affine
+    )
+    return predictions, dict(T1w=t1_file, mask=t1w_brain_mask)
 
 
 @immlib.calc("t1w_brain_mask")
