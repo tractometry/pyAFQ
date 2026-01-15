@@ -41,7 +41,7 @@ study_dir = afd.fetch_hbn_preproc(["NDARAA948VFH"])[1]
 # optic tract and optic nerve bundles. In this case, there is also a curvature
 # criterion applied to the optic tract bundles to help separate them from
 # other nearby bundles. Additionally, qb_thresh is set to 6 to use a clustering
-# approach to cleaning as opposed to our standard mahalanobis distance approach.
+# approach to cleaning as opposed to our standard Mahalanobis distance approach.
 
 oton_rois = afd.read_oton_templates(as_img=False)
 
