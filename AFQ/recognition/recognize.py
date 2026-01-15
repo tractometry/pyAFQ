@@ -200,7 +200,7 @@ def recognize(
 
     conflicts = np.sum(np.sum(bundle_decisions, axis=1) > 1)
     if conflicts > 0:
-        logger.warning(
+        logger.info(
             (
                 "Conflicts in bundle assignment detected. "
                 f"{conflicts} conflicts detected in total out of "
