@@ -71,11 +71,13 @@ def noise_from_b0(data, gtab, bvals, mask=None, b0_threshold=50):
     return sigma + bias
 
 
-def _fit(gtab, data, mask=None, sigma=None):
+def _fit(gtab, data, mask=None, sigma=None, return_S0_hat=False):
     if sigma is None:
         dtimodel = dti.TensorModel(gtab)
     else:
-        dtimodel = dti.TensorModel(gtab, fit_method="RT", sigma=sigma)
+        dtimodel = dti.TensorModel(
+            gtab, fit_method="RT", sigma=sigma, return_S0_hat=return_S0_hat
+        )
     return dtimodel.fit(data, mask=mask)
 
 
