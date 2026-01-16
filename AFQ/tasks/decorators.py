@@ -19,7 +19,7 @@ except ModuleNotFoundError:
 import numpy as np
 
 from AFQ.tasks.utils import get_fname
-from AFQ.utils.path import drop_extension, write_json
+from AFQ.utils.path import drop_extension, read_json, write_json
 
 # These should only be used with immlib.calc
 __all__ = ["as_file", "as_fit_deriv", "as_img"]
@@ -56,9 +56,19 @@ def get_param(kwargs, new_params, arg_name):
 
 def as_file(suffix, subfolder=None):
     """
-    return img and meta as saved file path, with json,
-    and only run if not already found
+    Decorator to save function outputs (img and meta) as files.
+    'suffix' can be:
+        - A string (suffix)
+        - A list of strings (suffixes)
+        - A list of tuples [(suffix, subfolder), ...]
     """
+    if isinstance(suffix, str):
+        output_specs = [(suffix, subfolder)]
+    else:
+        output_specs = [
+            (spec if isinstance(spec, (list, tuple)) else (spec, subfolder))
+            for spec in suffix
+        ]
 
     def _as_file(func):
         new_signature, new_params = get_new_signature(
@@ -71,39 +81,52 @@ def as_file(suffix, subfolder=None):
             output_dir = get_param(kwargs, new_params, "output_dir")
             tracking_params = get_param(kwargs, new_params, "tracking_params")
 
-            this_file = get_fname(base_fname, suffix, subfolder=subfolder)
+            resolved_files = []
+            calculation_name = ""
+            for suffix, sub in output_specs:
+                fpath = get_fname(base_fname, suffix, subfolder=sub)
+                calculation_name += f"{suffix}, "
 
-            # if file has no extension, we need to determine it
-            if not op.splitext(this_file)[1]:
-                if tracking_params.get("trx", False):
-                    this_file = this_file + ".trx"
+                # Determine extension for tractography files if missing
+                if not op.splitext(fpath)[1]:
+                    ext = ".trx" if tracking_params.get("trx", False) else ".trk"
+                    fpath += ext
+                resolved_files.append(fpath)
+            calculation_name = calculation_name.rstrip(", ")
+
+            if all(op.exists(f) for f in resolved_files):
+                return resolved_files if len(resolved_files) > 1 else resolved_files[0]
+
+            logger.info(f"Calculating {calculation_name}...")
+
+            try:
+                results = func(*args, **kwargs)
+
+                if len(output_specs) == 1:
+                    results = [results]
+            except Exception:
+                logger.error(f"Error in task: {func.__qualname__}")
+                raise
+
+            for i, (data, meta) in enumerate(results):
+                this_file = resolved_files[i]
+                this_suffix, this_sub = output_specs[i]
+
+                logger.info(f"{this_suffix} completed. Saving to {this_file}")
+                if isinstance(data, nib.Nifti1Image):
+                    nib.save(data, this_file)
+                elif isinstance(data, StatefulTractogram):
+                    save_tractogram(data, this_file, bbox_valid_check=False)
+                elif isinstance(data, np.ndarray):
+                    np.save(this_file, data)
+                elif has_trx and isinstance(data, TrxFile):
+                    save_trx(data, this_file)
                 else:
-                    this_file = this_file + ".trk"
-
-            if not op.exists(this_file):
-                logger.info(f"Calculating {suffix}")
-
-                try:
-                    gen, meta = func(*args, **kwargs)
-                except Exception:
-                    print(f"Error in task: {func.__qualname__}")
-                    raise
-
-                logger.info(f"{suffix} completed. Saving to {this_file}")
-                if isinstance(gen, nib.Nifti1Image):
-                    nib.save(gen, this_file)
-                elif isinstance(gen, StatefulTractogram):
-                    save_tractogram(gen, this_file, bbox_valid_check=False)
-                elif isinstance(gen, np.ndarray):
-                    np.save(this_file, gen)
-                elif has_trx and isinstance(gen, TrxFile):
-                    save_trx(gen, this_file)
-                else:
-                    gen.to_csv(this_file)
+                    data.to_csv(this_file)
 
                 # these are used to determine dependencies
                 # when clobbering derivatives
-                if "_desc-profiles" in suffix or "viz" in inspect.getfile(func):
+                if "_desc-profiles" in this_suffix or "viz" in inspect.getfile(func):
                     meta["dependent"] = "prof"
                 elif "segmentation" in inspect.getfile(
                     func
@@ -119,10 +142,12 @@ def as_file(suffix, subfolder=None):
                     meta["source"] = op.relpath(meta["source"], output_dir)
 
                 meta_fname = get_fname(
-                    base_fname, f"{drop_extension(suffix)}.json", subfolder=subfolder
+                    base_fname,
+                    f"{drop_extension(this_suffix)}.json",
+                    subfolder=this_sub,
                 )
                 write_json(meta_fname, meta)
-            return this_file
+            return resolved_files if len(resolved_files) > 1 else resolved_files[0]
 
         wrapper_as_file.__signature__ = new_signature
 
@@ -145,9 +170,23 @@ def as_fit_deriv(tf_name):
         def wrapper_as_fit_deriv(*args, **kwargs):
             dwi_affine = get_param(kwargs, new_params, "dwi_affine")
             params = get_param(kwargs, new_params, f"{tf_name.lower()}_params")
+            params_meta = read_json(drop_extension(params) + ".json")
+            img_meta = {}
+            if "Model" in params_meta:
+                img_meta["Model"] = params_meta["Model"]
+            img_meta["Source"] = params
 
-            img = nib.Nifti1Image(func(*args, **kwargs), dwi_affine)
-            return img, {f"{tf_name}ParamsFile": params}
+            results = func(*args, **kwargs)
+
+            if len(results) == 1:
+                data = results[0]
+            else:
+                data, meta = results
+
+            img_meta.update(meta)
+
+            img = nib.Nifti1Image(data, dwi_affine)
+            return img, img_meta
 
         wrapper_as_fit_deriv.__signature__ = new_signature
 
@@ -158,19 +197,34 @@ def as_fit_deriv(tf_name):
 
 def as_img(func):
     """
-    return data, meta as nibabel image, meta with timing
+    Decorator to convert function output (ndarray, meta) into (Nifti1Image, meta).
+    Supports functions returning a single tuple or a list of tuples.
     """
     new_signature, new_params = get_new_signature(func, ["dwi_affine"])
 
     @functools.wraps(func)
     def wrapper_as_img(*args, **kwargs):
         dwi_affine = get_param(kwargs, new_params, "dwi_affine")
+
         start_time = time()
-        data, meta = func(*args, **kwargs)
-        meta["timing"] = time() - start_time
-        img = nib.Nifti1Image(data.astype(np.float32), dwi_affine)
-        return img, meta
+        results = func(*args, **kwargs)
+        elapsed = time() - start_time
+
+        is_single_output = isinstance(results[0], np.ndarray)
+
+        if is_single_output:
+            outputs = [results]
+        else:
+            outputs = results
+
+        processed_outputs = []
+        for data, meta in outputs:
+            meta["timing"] = elapsed
+
+            img = nib.Nifti1Image(data.astype(np.float32), dwi_affine)
+            processed_outputs.append((img, meta))
+
+        return processed_outputs[0] if is_single_output else processed_outputs
 
     wrapper_as_img.__signature__ = new_signature
-
     return wrapper_as_img
