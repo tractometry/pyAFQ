@@ -153,6 +153,9 @@ def gpu_track(
         np.eye(4),
     )
 
+    if rng_seed is None:
+        rng_seed = np.random.randint(0, 2**31 - 1)
+
     with GPUTracker(
         dg,
         data,
