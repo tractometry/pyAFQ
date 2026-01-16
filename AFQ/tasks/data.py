@@ -35,8 +35,7 @@ from AFQ.models.dti import noise_from_b0
 from AFQ.models.fwdti import _fit as fwdti_fit_model
 from AFQ.models.QBallTP import anisotropic_index, anisotropic_power, extract_odf
 from AFQ.tasks.decorators import as_file, as_fit_deriv, as_img
-from AFQ.tasks.utils import get_fname, with_name
-from AFQ.utils.path import drop_extension, write_json
+from AFQ.tasks.utils import with_name
 
 logger = logging.getLogger("AFQ")
 
@@ -166,8 +165,14 @@ def dti_fit(dti_params, gtab):
     return dpy_dti.TensorFit(tm, np.concatenate([evals, evecs], -1))
 
 
-@immlib.calc("dti_params")
-@as_file(suffix="_model-dti_param-diffusivity_dwimap.nii.gz", subfolder="models")
+@immlib.calc("dti_params", "dti_s0")
+@as_file(
+    suffix=[
+        "_model-tensor_param-diffusivity_dwimap.nii.gz",
+        "_model-tensor_param-s0_dwimap.nii.gz",
+    ],
+    subfolder="models",
+)
 @as_img
 def dti_params(
     brain_mask,
@@ -181,7 +186,7 @@ def dti_params(
 ):
     """
     full path to a nifti file containing parameters
-    for the DTI fit
+    for the DTI fit, s0 values of DTI fit
 
     Parameters
     ----------
@@ -200,21 +205,36 @@ def dti_params(
     if robust_tensor_fitting:
         bvals, _ = read_bvals_bvecs(bval_file, bvec_file)
         sigma = noise_from_b0(data, gtab, bvals, mask=mask, b0_threshold=b0_threshold)
+        fit_method = "RT"
     else:
         sigma = None
-    dtf = dti_fit_model(gtab, data, mask=mask, sigma=sigma)
+        fit_method = "WLS"
+    dtf = dti_fit_model(gtab, data, mask=mask, sigma=sigma, return_S0_hat=True)
     meta = dict(
         Description="Diffusion Coefficient, encoded as a tensor representation",
         Units="mm^2/s",
         Model=dict(
-            Parameters=dict(FitMethod="wls", OutlierRejection=robust_tensor_fitting),
+            Parameters=dict(
+                FitMethod=fit_method, OutlierRejection=robust_tensor_fitting
+            ),
             ModelURL=f"{DIPY_GH}reconst/dti.py",
         ),
         OrientationEncoding=dict(
             EncodingAxis=3, Reference="ijk", TensorRank=2, Type="tensor"
         ),
     )
-    return dtf.lower_triangular(), meta
+    meta_s0 = dict(
+        Description="Estimated signal intensity with no diffusion weighting, ie. S0",
+        Model=dict(
+            Description="Diffusion Tensor",
+            Parameters=dict(
+                FitMethod="wls",
+                OutlierRejectionmethod=robust_tensor_fitting,
+            ),
+        ),
+    )
+
+    return [(dtf.lower_triangular(), meta), (dtf.model_S0, meta_s0)]
 
 
 @immlib.calc("fwdti_tf")
@@ -226,7 +246,7 @@ def fwdti_fit(fwdti_params, gtab):
 
 
 @immlib.calc("fwdti_params")
-@as_file(suffix="_model-fwdti_param-diffusivity_dwimap.nii.gz", subfolder="models")
+@as_file(suffix="_model-fwtensor_param-diffusivity_dwimap.nii.gz", subfolder="models")
 @as_img
 def fwdti_params(brain_mask, data, gtab, citations):
     """
@@ -250,12 +270,18 @@ def dki_fit(dki_params, gtab):
 
 
 @immlib.calc("dki_params")
-@as_file(suffix="_model-dki_param-diffusivity_dwimap.nii.gz", subfolder="models")
+@as_file(
+    suffix=[
+        "_model-kurtosis_param-diffusivity_dwimap.nii.gz",
+        "_model-kurtosis_param-s0_dwimap.nii.gz",
+    ],
+    subfolder="models",
+)
 @as_img
 def dki_params(brain_mask, gtab, data, citations):
     """
     full path to a nifti file containing
-    parameters for the DKI fit
+    parameters for the DKI fit, s0 values of DKI fit
     """
     citations.add("henriques2021diffusional")
     if len(dpg.unique_bvals_magnitude(gtab.bvals)) < 3:
@@ -267,13 +293,33 @@ def dki_params(brain_mask, gtab, data, citations):
             )
         )
     mask = nib.load(brain_mask).get_fdata()
-    dkf = dki_fit_model(gtab, data, mask=mask)
+    dkf = dki_fit_model(gtab, data, mask=mask, return_S0_hat=True)
     meta = dict(
-        Parameters=dict(FitMethod="WLS"),
-        OutlierRejection=False,
-        ModelURL=f"{DIPY_GH}reconst/dki.py",
+        Description=(
+            "Diffusion Coefficient, encoded as a kurtosis tensor representation"
+        ),
+        Units="mm^2/s",
+        Model=dict(
+            Parameters=dict(FitMethod="wls", OutlierRejection=False),
+            ModelURL=f"{DIPY_GH}reconst/dki.py",
+        ),
+        OrientationEncoding=dict(
+            EncodingAxis=3, Reference="ijk", TensorRank=4, Type="tensor"
+        ),
     )
-    return dkf.model_params, meta
+
+    meta_s0 = dict(
+        Description="Estimated signal intensity with no diffusion weighting, ie. S0",
+        Model=dict(
+            Description="Diffusion Kurtosis Tensor",
+            Parameters=dict(
+                FitMethod="wls",
+                OutlierRejectionmethod=False,
+            ),
+        ),
+    )
+
+    return [(dkf.model_params, meta), (dkf.model_S0, meta_s0)]
 
 
 @immlib.calc("msdki_tf")
@@ -285,7 +331,13 @@ def msdki_fit(msdki_params, gtab):
 
 
 @immlib.calc("msdki_params")
-@as_file(suffix="_model-msdki_param-diffusivity_dwimap.nii.gz", subfolder="models")
+@as_file(
+    suffix=[
+        "_model-mskurtosis_param-diffusivity_dwimap.nii.gz",
+        "_model-mskurtosis_param-s0_dwimap.nii.gz",
+    ],
+    subfolder="models",
+)
 @as_img
 def msdki_params(brain_mask, gtab, data, citations):
     """
@@ -294,32 +346,57 @@ def msdki_params(brain_mask, gtab, data, citations):
     """
     citations.add("neto2018advanced")
     mask = nib.load(brain_mask).get_fdata()
-    msdki_model = dpy_msdki.MeanDiffusionKurtosisModel(gtab)
+    msdki_model = dpy_msdki.MeanDiffusionKurtosisModel(gtab, return_S0_hat=True)
     msdki_fit = msdki_model.fit(data, mask=mask)
-    meta = dict(ModelURL=f"{DIPY_GH}reconst/msdki.py")
-    return msdki_fit.model_params, meta
+    meta = dict(
+        Description=(
+            "Diffusion Coefficient, encoded as a kurtosis tensor representation"
+        ),
+        Units="mm^2/s",
+        Model=dict(
+            Description="Mean Signal Diffusion Kurtosis Tensor",
+            Parameters=dict(FitMethod="wls", OutlierRejection=False),
+            ModelURL=f"{DIPY_GH}reconst/msdki.py",
+        ),
+        OrientationEncoding=dict(
+            EncodingAxis=3, Reference="ijk", TensorRank=4, Type="tensor"
+        ),
+    )
+
+    meta_s0 = dict(
+        Description="Estimated signal intensity with no diffusion weighting, ie. S0",
+        Model=dict(
+            Description="Mean Signal Diffusion Kurtosis Tensor",
+            Parameters=dict(
+                FitMethod="wls",
+                OutlierRejectionmethod=False,
+            ),
+        ),
+    )
+
+    return [(msdki_fit.model_params, meta), (msdki_fit.model_S0, meta_s0)]
 
 
 @immlib.calc("msdki_msd")
-@as_file("_model-msdki_param-msd_dwimap.nii.gz", subfolder="models")
+@as_file("_model-mskurtosis_param-msd_dwimap.nii.gz", subfolder="models")
 @as_fit_deriv("MSDKI")
 def msdki_msd(msdki_tf):
     """
     full path to a nifti file containing
     the MSDKI mean signal diffusivity
     """
-    return msdki_tf.msd
+    return msdki_tf.msd, {"Description": "Mean Signal Diffusivity"}
 
 
 @immlib.calc("msdki_msk")
-@as_file("_model-msdki_param-msk_dwimap.nii.gz", subfolder="models")
+@as_file("_model-mskurtosis_param-msk_dwimap.nii.gz", subfolder="models")
 @as_fit_deriv("MSDKI")
 def msdki_msk(msdki_tf):
     """
     full path to a nifti file containing
     the MSDKI mean signal kurtosis
     """
-    return msdki_tf.msk
+    return msdki_tf.msk, {"Description": "Mean Signal Kurtosis"}
 
 
 @immlib.calc("csd_params")
@@ -509,7 +586,16 @@ def csd_anisotropic_index(csd_params):
 
 
 @immlib.calc("gq_params", "gq_iso", "gq_aso")
-def gq(base_fname, gtab, dwi_affine, data, citations, gq_sampling_length=1.2):
+@as_file(
+    suffix=[
+        "_model-gq_param-fod_dwimap.nii.gz",
+        "_model-gq_param-iso_dwimap.nii.gz",
+        "_model-gq_param-aso_dwimap.nii.gz",
+    ],
+    subfolder="models",
+)
+@as_img
+def gq(gtab, data, citations, gq_sampling_length=1.2):
     """
     full path to a nifti file containing
     parameters for the Generalized Q-Sampling
@@ -529,32 +615,9 @@ def gq(base_fname, gtab, dwi_affine, data, citations, gq_sampling_length=1.2):
     odf = gwi_odf(gqmodel, data)
 
     GQ_shm, ASO, ISO = extract_odf(odf)
+    GQ_meta = dict(GQSamplingLength=gq_sampling_length)
 
-    params_suffix = "_model-GQ_param-fod_dwimap.nii.gz"
-    params_fname = get_fname(base_fname, params_suffix, "models")
-    nib.save(nib.Nifti1Image(GQ_shm, dwi_affine), params_fname)
-    write_json(
-        get_fname(base_fname, f"{drop_extension(params_suffix)}.json", "models"),
-        dict(GQSamplingLength=gq_sampling_length),
-    )
-
-    ASO_suffix = "_model-GQ_param-ASO_dwimap.nii.gz"
-    ASO_fname = get_fname(base_fname, ASO_suffix, "models")
-    nib.save(nib.Nifti1Image(ASO, dwi_affine), ASO_fname)
-    write_json(
-        get_fname(base_fname, f"{drop_extension(ASO_suffix)}.json", "models"),
-        dict(GQSamplingLength=gq_sampling_length),
-    )
-
-    ISO_suffix = "_model-GQ_param-ISO_dwimap.nii.gz"
-    ISO_fname = get_fname(base_fname, ISO_suffix, "models")
-    nib.save(nib.Nifti1Image(ISO, dwi_affine), ISO_fname)
-    write_json(
-        get_fname(base_fname, f"{drop_extension(ISO_suffix)}.json", "models"),
-        dict(GQSamplingLength=gq_sampling_length),
-    )
-
-    return params_fname, ISO_fname, ASO_fname
+    return [(GQ_shm, GQ_meta), (ISO, GQ_meta), (ASO, GQ_meta)]
 
 
 @immlib.calc("gq_pmap")
@@ -687,9 +750,15 @@ def rumba_f_wm(rumba_fit):
 
 
 @immlib.calc("opdt_params", "opdt_gfa")
-def opdt_params(
-    base_fname, data, gtab, dwi_affine, brain_mask, citations, opdt_sh_order_max=8
-):
+@as_file(
+    suffix=[
+        "_model-OPDT_param-fod_dwimap.nii.gz",
+        "_model-OPDT_param-GFA_dwimap.nii.gz",
+    ],
+    subfolder="models",
+)
+@as_img
+def opdt_params(data, gtab, brain_mask, citations, opdt_sh_order_max=8):
     """
     full path to a nifti file containing
     parameters for the Orientation Probability Density Transform
@@ -706,23 +775,9 @@ def opdt_params(
     opdt_model = shm.OpdtModel(gtab, opdt_sh_order_max)
     opdt_fit = opdt_model.fit(data, mask=brain_mask)
 
-    params_suffix = "_model-OPDT_param-fod_dwimap.nii.gz"
-    params_fname = get_fname(base_fname, params_suffix, "models")
-    nib.save(nib.Nifti1Image(opdt_fit._shm_coef, dwi_affine), params_fname)
-    write_json(
-        get_fname(base_fname, f"{drop_extension(params_suffix)}.json", "models"),
-        dict(sh_order_max=opdt_sh_order_max),
-    )
+    meta = dict(sh_order_max=opdt_sh_order_max)
 
-    GFA_suffix = "_model-OPDT_param-GFA_dwimap.nii.gz"
-    GFA_fname = get_fname(base_fname, GFA_suffix, "models")
-    nib.save(nib.Nifti1Image(opdt_fit.gfa, dwi_affine), GFA_fname)
-    write_json(
-        get_fname(base_fname, f"{drop_extension(GFA_suffix)}.json", "models"),
-        dict(sh_order_max=opdt_sh_order_max),
-    )
-
-    return params_fname, GFA_fname
+    return [(opdt_fit._shm_coef, meta), (opdt_fit.gfa, meta)]
 
 
 @immlib.calc("opdt_pmap")
@@ -752,9 +807,12 @@ def opdt_ai(opdt_params):
 
 
 @immlib.calc("csa_params", "csa_gfa")
-def csa_params(
-    base_fname, data, gtab, dwi_affine, brain_mask, citations, csa_sh_order_max=8
-):
+@as_file(
+    suffix=["_model-csa_param-fod_dwimap.nii.gz", "_model-csa_param-gfa_dwimap.nii.gz"],
+    subfolder="models",
+)
+@as_img
+def csa_params(data, gtab, brain_mask, citations, csa_sh_order_max=8):
     """
     full path to a nifti file containing
     parameters for the Constant Solid Angle
@@ -771,23 +829,9 @@ def csa_params(
     csa_model = shm.CsaOdfModel(gtab, csa_sh_order_max)
     csa_fit = csa_model.fit(data, mask=brain_mask)
 
-    params_suffix = "_model-csa_param-fod_dwimap.nii.gz"
-    params_fname = get_fname(base_fname, params_suffix, "models")
-    nib.save(nib.Nifti1Image(csa_fit._shm_coef, dwi_affine), params_fname)
-    write_json(
-        get_fname(base_fname, f"{drop_extension(params_suffix)}.json", "models"),
-        dict(sh_order_max=csa_sh_order_max),
-    )
+    meta = dict(sh_order_max=csa_sh_order_max)
 
-    GFA_suffix = "_model-csa_param-gfa_dwimap.nii.gz"
-    GFA_fname = get_fname(base_fname, GFA_suffix, "models")
-    nib.save(nib.Nifti1Image(csa_fit.gfa, dwi_affine), GFA_fname)
-    write_json(
-        get_fname(base_fname, f"{drop_extension(GFA_suffix)}.json", "models"),
-        dict(sh_order_max=csa_sh_order_max),
-    )
-
-    return params_fname, GFA_fname
+    return [(csa_fit._shm_coef, meta), (csa_fit.gfa, meta)]
 
 
 @immlib.calc("csa_pmap")
@@ -817,45 +861,45 @@ def csa_ai(csa_params):
 
 
 @immlib.calc("fwdti_fa")
-@as_file(suffix="_model-fwdti_param-fa_dwimap.nii.gz", subfolder="models")
+@as_file(suffix="_model-fwtensor_param-fa_dwimap.nii.gz", subfolder="models")
 @as_fit_deriv("FWDTI")
 def fwdti_fa(fwdti_tf):
     """
     full path to a nifti file containing the Free-water DTI fractional
     anisotropy
     """
-    return fwdti_tf.fa
+    return fwdti_tf.fa, {"Description": "Free Water Fractional Anisotropy"}
 
 
 @immlib.calc("fwdti_md")
-@as_file(suffix="_model-fwdti_param-md_dwimap.nii.gz", subfolder="models")
+@as_file(suffix="_model-fwtensor_param-md_dwimap.nii.gz", subfolder="models")
 @as_fit_deriv("FWDTI")
 def fwdti_md(fwdti_tf):
     """
     full path to a nifti file containing the Free-water DTI mean diffusivity
     """
-    return fwdti_tf.md
+    return fwdti_tf.md, {"Description": "Free Water Mean Diffusivity"}
 
 
 @immlib.calc("fwdti_fwf")
-@as_file(suffix="_model-fwdti_param-fwf_dwimap.nii.gz", subfolder="models")
+@as_file(suffix="_model-fwtensor_param-fwf_dwimap.nii.gz", subfolder="models")
 @as_fit_deriv("FWDTI")
 def fwdti_fwf(fwdti_tf):
     """
     full path to a nifti file containing the Free-water DTI free water fraction
     """
-    return fwdti_tf.f
+    return fwdti_tf.fwf, {"Description": "Free Water Fraction"}
 
 
 @immlib.calc("dti_fa")
-@as_file(suffix="_model-dti_param-fa_dwimap.nii.gz", subfolder="models")
+@as_file(suffix="_model-tensor_param-fa_dwimap.nii.gz", subfolder="models")
 @as_fit_deriv("DTI")
 def dti_fa(dti_tf):
     """
     full path to a nifti file containing
     the DTI fractional anisotropy
     """
-    return dti_tf.fa
+    return dti_tf.fa, {"Description": "Fractional Anisotropy"}
 
 
 @immlib.calc("dti_lt0", "dti_lt1", "dti_lt2", "dti_lt3", "dti_lt4", "dti_lt5")
@@ -888,18 +932,18 @@ def dti_lt(dti_tf, dwi_affine):
 
 
 @immlib.calc("dti_cfa")
-@as_file(suffix="_model-dti_param-cfa_dwimap.nii.gz", subfolder="models")
+@as_file(suffix="_model-tensor_param-cfa_dwimap.nii.gz", subfolder="models")
 @as_fit_deriv("DTI")
 def dti_cfa(dti_tf):
     """
     full path to a nifti file containing
     the DTI color fractional anisotropy
     """
-    return dti_tf.color_fa
+    return dti_tf.color_fa, {"Description": "Color Fractional Anisotropy"}
 
 
 @immlib.calc("dti_pdd")
-@as_file(suffix="_model-dti_param-pdd_dwimap.nii.gz", subfolder="models")
+@as_file(suffix="_model-tensor_param-pdd_dwimap.nii.gz", subfolder="models")
 @as_fit_deriv("DTI")
 def dti_pdd(dti_tf):
     """
@@ -909,51 +953,51 @@ def dti_pdd(dti_tf):
     pdd = dti_tf.directions.squeeze()
     # Invert the x coordinates:
     pdd[..., 0] = pdd[..., 0] * -1
-    return pdd
+    return pdd, {"Description": "Principal Diffusion Direction"}
 
 
 @immlib.calc("dti_md")
-@as_file("_model-dti_param-md_dwimap.nii.gz", subfolder="models")
+@as_file("_model-tensor_param-md_dwimap.nii.gz", subfolder="models")
 @as_fit_deriv("DTI")
 def dti_md(dti_tf):
     """
     full path to a nifti file containing
     the DTI mean diffusivity
     """
-    return dti_tf.md
+    return dti_tf.md, {"Description": "Mean Diffusivity"}
 
 
 @immlib.calc("dti_ga")
-@as_file(suffix="_model-dti_param-ga_dwimap.nii.gz", subfolder="models")
+@as_file(suffix="_model-tensor_param-ga_dwimap.nii.gz", subfolder="models")
 @as_fit_deriv("DTI")
 def dti_ga(dti_tf):
     """
     full path to a nifti file containing
     the DTI geodesic anisotropy
     """
-    return dti_tf.ga
+    return dti_tf.ga, {"Description": "Geodesic Anisotropy"}
 
 
 @immlib.calc("dti_rd")
-@as_file(suffix="_model-dti_param-rd_dwimap.nii.gz", subfolder="models")
+@as_file(suffix="_model-tensor_param-rd_dwimap.nii.gz", subfolder="models")
 @as_fit_deriv("DTI")
 def dti_rd(dti_tf):
     """
     full path to a nifti file containing
     the DTI radial diffusivity
     """
-    return dti_tf.rd
+    return dti_tf.rd, {"Description": "Radial Diffusivity"}
 
 
 @immlib.calc("dti_ad")
-@as_file(suffix="_model-dti_param-ad_dwimap.nii.gz", subfolder="models")
+@as_file(suffix="_model-tensor_param-ad_dwimap.nii.gz", subfolder="models")
 @as_fit_deriv("DTI")
 def dti_ad(dti_tf):
     """
     full path to a nifti file containing
     the DTI axial diffusivity
     """
-    return dti_tf.ad
+    return dti_tf.ad, {"Description": "Axial Diffusivity"}
 
 
 @immlib.calc(
@@ -1016,29 +1060,29 @@ def dki_lt(dki_tf, dwi_affine):
 
 
 @immlib.calc("dki_fa")
-@as_file("_model-dki_param-fa_dwimap.nii.gz", subfolder="models")
+@as_file("_model-kurtosis_param-fa_dwimap.nii.gz", subfolder="models")
 @as_fit_deriv("DKI")
 def dki_fa(dki_tf):
     """
     full path to a nifti file containing
     the DKI fractional anisotropy
     """
-    return dki_tf.fa
+    return dki_tf.fa, {"Description": "Fractional Anisotropy"}
 
 
 @immlib.calc("dki_md")
-@as_file("_model-dki_param-md_dwimap.nii.gz", subfolder="models")
+@as_file("_model-kurtosis_param-md_dwimap.nii.gz", subfolder="models")
 @as_fit_deriv("DKI")
 def dki_md(dki_tf):
     """
     full path to a nifti file containing
     the DKI mean diffusivity
     """
-    return dki_tf.md
+    return dki_tf.md, {"Description": "Mean Diffusivity"}
 
 
 @immlib.calc("dki_awf")
-@as_file("_model-dki_param-awf_dwimap.nii.gz", subfolder="models")
+@as_file("_model-kurtosis_param-awf_dwimap.nii.gz", subfolder="models")
 @as_fit_deriv("DKI")
 def dki_awf(dki_params, sphere="repulsion100", gtol=1e-2):
     """
@@ -1061,22 +1105,24 @@ def dki_awf(dki_params, sphere="repulsion100", gtol=1e-2):
         Default: 1e-2
     """
     dki_params = nib.load(dki_params).get_fdata()
-    return axonal_water_fraction(dki_params, sphere=sphere, gtol=gtol)
+    return axonal_water_fraction(dki_params, sphere=sphere, gtol=gtol), {
+        "Description": "Axonal Water Fraction"
+    }
 
 
 @immlib.calc("dki_mk")
-@as_file("_model-dki_param-mk_dwimap.nii.gz", subfolder="models")
+@as_file("_model-kurtosis_param-mk_dwimap.nii.gz", subfolder="models")
 @as_fit_deriv("DKI")
 def dki_mk(dki_tf):
     """
     full path to a nifti file containing
     the DKI mean kurtosis file
     """
-    return dki_tf.mk()
+    return dki_tf.mk(), {"Description": "Mean Kurtosis"}
 
 
 @immlib.calc("dki_kfa")
-@as_file("_model-dki_param-kfa_dwimap.nii.gz", subfolder="models")
+@as_file("_model-kurtosis_param-kfa_dwimap.nii.gz", subfolder="models")
 @as_fit_deriv("DKI")
 def dki_kfa(dki_tf):
     """
@@ -1090,95 +1136,95 @@ def dki_kfa(dki_tf):
     doi: 10.3174/ajnr.A6235. Epub 2019 Sep 26. PMID: 31558496;
     PMCID: PMC7028548.
     """
-    return dki_tf.kfa
+    return dki_tf.kfa, {"Description": "Kurtosis Fractional Anisotropy"}
 
 
 @immlib.calc("dki_cl")
-@as_file("_model-dki_param-cl_dwimap.nii.gz", subfolder="models")
+@as_file("_model-kurtosis_param-cl_dwimap.nii.gz", subfolder="models")
 @as_fit_deriv("DKI")
 def dki_cl(dki_tf):
     """
     full path to a nifti file containing
     the DKI linearity file
     """
-    return dki_tf.linearity
+    return dki_tf.linearity, {"Description": "Linearity"}
 
 
 @immlib.calc("dki_cp")
-@as_file("_model-dki_param-cp_dwimap.nii.gz", subfolder="models")
+@as_file("_model-kurtosis_param-cp_dwimap.nii.gz", subfolder="models")
 @as_fit_deriv("DKI")
 def dki_cp(dki_tf):
     """
     full path to a nifti file containing
     the DKI planarity file
     """
-    return dki_tf.planarity
+    return dki_tf.planarity, {"Description": "Planarity"}
 
 
 @immlib.calc("dki_cs")
-@as_file("_model-dki_param-cs_dwimap.nii.gz", subfolder="models")
+@as_file("_model-kurtosis_param-cs_dwimap.nii.gz", subfolder="models")
 @as_fit_deriv("DKI")
 def dki_cs(dki_tf):
     """
     full path to a nifti file containing
     the DKI sphericity file
     """
-    return dki_tf.sphericity
+    return dki_tf.sphericity, {"Description": "Sphericity"}
 
 
 @immlib.calc("dki_ga")
-@as_file(suffix="_model-dki_param-ga_dwimap.nii.gz", subfolder="models")
+@as_file(suffix="_model-kurtosis_param-ga_dwimap.nii.gz", subfolder="models")
 @as_fit_deriv("DKI")
 def dki_ga(dki_tf):
     """
     full path to a nifti file containing
     the DKI geodesic anisotropy
     """
-    return dki_tf.ga
+    return dki_tf.ga, {"Description": "Geodesic Anisotropy"}
 
 
 @immlib.calc("dki_rd")
-@as_file(suffix="_model-dki_param-rd_dwimap.nii.gz", subfolder="models")
+@as_file(suffix="_model-kurtosis_param-rd_dwimap.nii.gz", subfolder="models")
 @as_fit_deriv("DKI")
 def dki_rd(dki_tf):
     """
     full path to a nifti file containing
     the DKI radial diffusivity
     """
-    return dki_tf.rd
+    return dki_tf.rd, {"Description": "Radial Diffusivity"}
 
 
 @immlib.calc("dki_ad")
-@as_file(suffix="_model-dki_param-ad_dwimap.nii.gz", subfolder="models")
+@as_file(suffix="_model-kurtosis_param-ad_dwimap.nii.gz", subfolder="models")
 @as_fit_deriv("DKI")
 def dki_ad(dki_tf):
     """
     full path to a nifti file containing
     the DKI axial diffusivity
     """
-    return dki_tf.ad
+    return dki_tf.ad, {"Description": "Axial Diffusivity"}
 
 
 @immlib.calc("dki_rk")
-@as_file(suffix="_model-dki_param-rk_dwimap.nii.gz", subfolder="models")
+@as_file(suffix="_model-kurtosis_param-rk_dwimap.nii.gz", subfolder="models")
 @as_fit_deriv("DKI")
 def dki_rk(dki_tf):
     """
     full path to a nifti file containing
     the DKI radial kurtosis
     """
-    return dki_tf.rk()
+    return dki_tf.rk(), {"Description": "Radial Kurtosis"}
 
 
 @immlib.calc("dki_ak")
-@as_file(suffix="_model-dki_param-ak_dwimap.nii.gz", subfolder="models")
+@as_file(suffix="_model-kurtosis_param-ak_dwimap.nii.gz", subfolder="models")
 @as_fit_deriv("DKI")
 def dki_ak(dki_tf):
     """
     full path to a nifti file containing
     the DKI axial kurtosis file
     """
-    return dki_tf.ak()
+    return dki_tf.ak(), {"Description": "Axial Kurtosis"}
 
 
 @immlib.calc("brain_mask")
