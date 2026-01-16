@@ -2,13 +2,17 @@ import logging
 import os.path as op
 from time import time
 
+import bibtexparser
 import immlib
 import nibabel as nib
 import numpy as np
 import pandas as pd
+from bibtexparser.bibdatabase import BibDatabase
+from bibtexparser.bwriter import BibTexWriter
 from dipy.align import resample
 from plotly.subplots import make_subplots
 
+import AFQ
 import AFQ.utils.streamlines as aus
 from AFQ.tasks.utils import get_fname, get_tp, str_to_desc, with_name
 from AFQ.utils.path import drop_extension, write_json
@@ -412,8 +416,40 @@ def init_viz_backend(viz_backend_spec="plotly_no_gif", virtual_frame_buffer=Fals
     return Viz(backend=viz_backend_spec.lower())
 
 
+@immlib.calc("citations")
+def citations(base_fname, citations):
+    """
+    Export Bibtex citation file for methods used by pyAFQ.
+    """
+    refbib_path = op.join(op.dirname(AFQ.__file__), "_references.bib")
+    bib_fname = get_fname(base_fname, "_citations.bib")
+
+    with open(refbib_path, "r") as f:
+        master_db = bibtexparser.load(f)
+
+    master_map = {e["ID"]: e for e in master_db.entries}
+    if op.exists(bib_fname):
+        with open(bib_fname, "r") as f:
+            current_db = bibtexparser.load(f)
+    else:
+        current_db = BibDatabase()
+
+    existing_ids = {e["ID"] for e in current_db.entries}
+
+    for cid in citations:
+        if cid not in existing_ids:
+            current_db.entries.append(master_map[cid])
+
+    writer = BibTexWriter()
+    current_db.entries.sort(key=lambda x: x["ID"])
+    with open(bib_fname, "w") as f:
+        f.write(writer.write(current_db))
+
+    return bib_fname
+
+
 def get_viz_plan(kwargs):
     viz_tasks = with_name(
-        [plot_tract_profiles, viz_bundles, viz_indivBundle, init_viz_backend]
+        [plot_tract_profiles, viz_bundles, viz_indivBundle, init_viz_backend, citations]
     )
     return immlib.plan(**viz_tasks)

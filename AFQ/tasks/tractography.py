@@ -60,7 +60,7 @@ def _meta_from_tracking_params(tracking_params, start_time, n_streamlines, seed,
 
 @immlib.calc("streamlines")
 @as_file("_tractography", subfolder="tractography")
-def streamlines(data_imap, seed, tissue_imap, fodf, tracking_params):
+def streamlines(data_imap, seed, tissue_imap, fodf, citations, tracking_params):
     """
     full path to the complete, unsegmented tractography file
 
@@ -73,6 +73,9 @@ def streamlines(data_imap, seed, tissue_imap, fodf, tracking_params):
         thresholded to 0.2. The ``seed_mask`` items of
         this dict may be ``AFQ.definitions.image.ImageFile`` instances.
     """
+    citations.add("girard2014towards")
+    citations.add("smith2012anatomically")
+
     this_tracking_params = tracking_params.copy()
 
     # get masks

@@ -106,6 +106,7 @@ class ParticipantAFQ(object):
             t1_file=t1_file,
             output_dir=output_dir,
             base_fname=get_base_fname(output_dir, dwi_data_file),
+            citations={"kruper2025software", "Kruper2021-xb", "garyfallidis2014dipy"},
             **kwargs,
         )
         self.make_workflow()

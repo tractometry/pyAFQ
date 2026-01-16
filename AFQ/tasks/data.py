@@ -175,6 +175,7 @@ def dti_params(
     gtab,
     bval_file,
     bvec_file,
+    citations,
     b0_threshold=50,
     robust_tensor_fitting=False,
 ):
@@ -193,6 +194,8 @@ def dti_params(
         it is considered to be b0.
         Default: 50.
     """
+    citations.add("basser1994mr")
+
     mask = nib.load(brain_mask).get_fdata()
     if robust_tensor_fitting:
         bvals, _ = read_bvals_bvecs(bval_file, bvec_file)
@@ -225,11 +228,13 @@ def fwdti_fit(fwdti_params, gtab):
 @immlib.calc("fwdti_params")
 @as_file(suffix="_model-fwdti_param-diffusivity_dwimap.nii.gz", subfolder="models")
 @as_img
-def fwdti_params(brain_mask, data, gtab):
+def fwdti_params(brain_mask, data, gtab, citations):
     """
     Full path to a nifti file containing parameters
     for the free-water DTI fit.
     """
+    citations.add("henriques2017re")
+
     mask = nib.load(brain_mask).get_fdata()
     dtf = fwdti_fit_model(data, gtab, mask=mask)
     meta = dict(Parameters=dict(FitMethod="NLS"), ModelURL=f"{DIPY_GH}reconst/fwdti.py")
@@ -247,11 +252,12 @@ def dki_fit(dki_params, gtab):
 @immlib.calc("dki_params")
 @as_file(suffix="_model-dki_param-diffusivity_dwimap.nii.gz", subfolder="models")
 @as_img
-def dki_params(brain_mask, gtab, data):
+def dki_params(brain_mask, gtab, data, citations):
     """
     full path to a nifti file containing
     parameters for the DKI fit
     """
+    citations.add("henriques2021diffusional")
     if len(dpg.unique_bvals_magnitude(gtab.bvals)) < 3:
         raise ValueError(
             (
@@ -281,11 +287,12 @@ def msdki_fit(msdki_params, gtab):
 @immlib.calc("msdki_params")
 @as_file(suffix="_model-msdki_param-diffusivity_dwimap.nii.gz", subfolder="models")
 @as_img
-def msdki_params(brain_mask, gtab, data):
+def msdki_params(brain_mask, gtab, data, citations):
     """
     full path to a nifti file containing
     parameters for the Mean Signal DKI fit
     """
+    citations.add("neto2018advanced")
     mask = nib.load(brain_mask).get_fdata()
     msdki_model = dpy_msdki.MeanDiffusionKurtosisModel(gtab)
     msdki_fit = msdki_model.fit(data, mask=mask)
@@ -323,6 +330,7 @@ def csd_params(
     brain_mask,
     gtab,
     data,
+    citations,
     csd_response=None,
     csd_sh_order_max=None,
     csd_lambda_=1,
@@ -370,6 +378,7 @@ def csd_params(
             Non-negativity constrained super-resolved spherical
             deconvolution
     """
+    citations.add("tournier2007robust")
     mask = nib.load(brain_mask).get_fdata()
     try:
         csdf = csd_fit_model(
@@ -402,7 +411,7 @@ def csd_params(
 @immlib.calc("csd_aodf_params")
 @as_file(suffix="_model-csd_param-aodf_dwimap.nii.gz", subfolder="models")
 @as_img
-def csd_aodf(csd_params, n_threads, low_mem):
+def csd_aodf(csd_params, n_threads, low_mem, citations):
     """
     full path to a nifti file containing
     SSST CSD ODFs filtered by unified filtering [1]
@@ -413,6 +422,8 @@ def csd_aodf(csd_params, n_threads, low_mem):
         Estimating Asymmetric Orientation Distribution Functions",
         Neuroimage, https://doi.org/10.1016/j.neuroimage.2024.120516
     """
+    citations.add("poirier2024unified")
+    citations.add("renauld2026tractography")
     sh_coeff = nib.load(csd_params).get_fdata()
 
     logger.info("Applying unified filtering to generate asymmetric CSD ODFs...")
@@ -498,7 +509,7 @@ def csd_anisotropic_index(csd_params):
 
 
 @immlib.calc("gq_params", "gq_iso", "gq_aso")
-def gq(base_fname, gtab, dwi_affine, data, gq_sampling_length=1.2):
+def gq(base_fname, gtab, dwi_affine, data, citations, gq_sampling_length=1.2):
     """
     full path to a nifti file containing
     parameters for the Generalized Q-Sampling
@@ -512,6 +523,7 @@ def gq(base_fname, gtab, dwi_affine, data, gq_sampling_length=1.2):
         Diffusion sampling length.
         Default: 1.2
     """
+    citations.add("yeh2010generalized")
     gqmodel = GeneralizedQSamplingModel(gtab, sampling_length=gq_sampling_length)
 
     odf = gwi_odf(gqmodel, data)
@@ -574,6 +586,7 @@ def gq_ai(gq_params):
 @immlib.calc("rumba_model")
 def rumba_model(
     gtab,
+    citations,
     rumba_wm_response=None,
     rumba_gm_response=0.0008,
     rumba_csf_response=0.003,
@@ -600,6 +613,7 @@ def rumba_model(
         Must be a positive int.
         Default: 600
     """
+    citations.add("canales2015spherical")
     if rumba_wm_response is None:
         rumba_wm_response = [0.0017, 0.0002, 0.0002]
     return RumbaSDModel(
@@ -673,7 +687,9 @@ def rumba_f_wm(rumba_fit):
 
 
 @immlib.calc("opdt_params", "opdt_gfa")
-def opdt_params(base_fname, data, gtab, dwi_affine, brain_mask, opdt_sh_order_max=8):
+def opdt_params(
+    base_fname, data, gtab, dwi_affine, brain_mask, citations, opdt_sh_order_max=8
+):
     """
     full path to a nifti file containing
     parameters for the Orientation Probability Density Transform
@@ -686,6 +702,7 @@ def opdt_params(base_fname, data, gtab, dwi_affine, brain_mask, opdt_sh_order_ma
         Spherical harmonics order for OPDT model. Must be even.
         Default: 8
     """
+    citations.add("tristan2009estimation")
     opdt_model = shm.OpdtModel(gtab, opdt_sh_order_max)
     opdt_fit = opdt_model.fit(data, mask=brain_mask)
 
@@ -735,7 +752,9 @@ def opdt_ai(opdt_params):
 
 
 @immlib.calc("csa_params", "csa_gfa")
-def csa_params(base_fname, data, gtab, dwi_affine, brain_mask, csa_sh_order_max=8):
+def csa_params(
+    base_fname, data, gtab, dwi_affine, brain_mask, citations, csa_sh_order_max=8
+):
     """
     full path to a nifti file containing
     parameters for the Constant Solid Angle
@@ -748,6 +767,7 @@ def csa_params(base_fname, data, gtab, dwi_affine, brain_mask, csa_sh_order_max=
         Spherical harmonics order for CSA model. Must be even.
         Default: 8
     """
+    citations.add("aganj2010reconstruction")
     csa_model = shm.CsaOdfModel(gtab, csa_sh_order_max)
     csa_fit = csa_model.fit(data, mask=brain_mask)
 
@@ -1174,7 +1194,11 @@ def brain_mask(structural_imap, b0):
 
 @immlib.calc("bundle_dict", "reg_template", "tmpl_name")
 def get_bundle_dict(
-    b0, bundle_info=None, reg_template_spec="mni_T1", reg_template_space_name="mni"
+    b0,
+    citations,
+    bundle_info=None,
+    reg_template_spec="mni_T1",
+    reg_template_space_name="mni",
 ):
     """
     Dictionary defining the different bundles to be segmented,
@@ -1241,6 +1265,8 @@ def get_bundle_dict(
 
     if bundle_dict.resample_subject_to:
         bundle_dict.resample_subject_to = b0
+
+    citations.update(bundle_dict.citations)
 
     return bundle_dict, reg_template, reg_template_space_name
 

@@ -120,7 +120,7 @@ def pve_internal(structural_imap, pve="synthseg"):
 @immlib.calc("msmtcsd_params")
 @as_file(suffix="_model-msmtcsd_param-fod_dwimap.nii.gz", subfolder="models")
 @as_img
-def msmt_params(data_imap, pve_internal, msmt_sh_order=8, msmt_fa_thr=0.7):
+def msmt_params(data_imap, pve_internal, citations, msmt_sh_order=8, msmt_fa_thr=0.7):
     """
     full path to a nifti file containing
     parameters for the MSMT CSD fit
@@ -142,6 +142,8 @@ def msmt_params(data_imap, pve_internal, msmt_sh_order=8, msmt_fa_thr=0.7):
             deconvolution for improved analysis of multi-shell diffusion
             MRI data. NeuroImage, 103 (2014), pp. 411–426
     """
+    citations.add("jeurissen2014multi")
+
     mask = nib.load(data_imap["brain_mask"]).get_fdata()
 
     pve_img = nib.load(pve_internal)
@@ -212,7 +214,7 @@ def msmt_apm(msmtcsd_params):
 @immlib.calc("msmt_aodf_params")
 @as_file(suffix="_model-msmtcsd_param-aodf_dwimap.nii.gz", subfolder="models")
 @as_img
-def msmt_aodf(msmtcsd_params, data_imap):
+def msmt_aodf(msmtcsd_params, data_imap, citations):
     """
     full path to a nifti file containing
     MSMT CSD ODFs filtered by unified filtering [1]
@@ -223,6 +225,9 @@ def msmt_aodf(msmtcsd_params, data_imap):
         Estimating Asymmetric Orientation Distribution Functions",
         Neuroimage, https://doi.org/10.1016/j.neuroimage.2024.120516
     """
+    citations.add("poirier2024unified")
+    citations.add("renauld2026tractography")
+
     sh_coeff = nib.load(msmtcsd_params).get_fdata()
 
     logger.info("Applying unified filtering to generate asymmetric MSMT CSD ODFs...")

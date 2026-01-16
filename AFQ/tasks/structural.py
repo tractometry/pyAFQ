@@ -15,7 +15,7 @@ logger = logging.getLogger("AFQ")
 
 @immlib.calc("synthseg_model")
 @as_file(suffix="_model-synthseg2_probseg.nii.gz", subfolder="nn")
-def synthseg_model(t1_masked):
+def synthseg_model(t1_masked, citations):
     """
     full path to the synthseg2 model segmentations
 
@@ -29,6 +29,8 @@ def synthseg_model(t1_masked):
         of any contrast and resolution without retraining." Medical image
         analysis 86 (2023): 102789.
     """
+    citations.add("billot_synthseg_2023")
+    citations.add("billot_robust_2023")
     ort = check_onnxruntime(
         "SynthSeg 2.0",
         "Or, provide your own segmentations using PVEImage or PVEImages.",
@@ -40,7 +42,7 @@ def synthseg_model(t1_masked):
 
 @immlib.calc("mx_model")
 @as_file(suffix="_model-multiaxial_probseg.nii.gz", subfolder="nn")
-def mx_model(t1_file, t1w_brain_mask):
+def mx_model(t1_file, t1w_brain_mask, citations):
     """
     full path to the multi-axial model for brain extraction
     outputs
@@ -51,6 +53,7 @@ def mx_model(t1_file, t1w_brain_mask):
         with abnormal brain anatomy: model and data release." Journal of
         Medical Imaging 12.5 (2025): 054001-054001.
     """
+    citations.add("birnbaum2025full")
     ort = check_onnxruntime(
         "Multi-axial", "Or, provide your own segmentations using PVEImage or PVEImages."
     )
@@ -65,7 +68,7 @@ def mx_model(t1_file, t1w_brain_mask):
 
 @immlib.calc("t1w_brain_mask")
 @as_file(suffix="_desc-T1w_mask.nii.gz")
-def t1w_brain_mask(t1_file, brain_mask_definition=None):
+def t1w_brain_mask(t1_file, citations, brain_mask_definition=None):
     """
     full path to a nifti file containing brain mask from T1w image
 
@@ -89,6 +92,8 @@ def t1w_brain_mask(t1_file, brain_mask_definition=None):
     # Note that any case where brain_mask_definition is not None
     # is handled in get_data_plan
     # This is just the default
+
+    citations.add("fani2025mindgrab")
 
     ort = check_onnxruntime(
         "Mindgrab", "Or, provide your own brain mask using brain_mask_definition."
@@ -114,7 +119,7 @@ def t1_masked(t1_file, t1w_brain_mask):
 
 @immlib.calc("t1_subcortex")
 @as_file(suffix="_desc-subcortex_probseg.nii.gz", subfolder="nn")
-def t1_subcortex(t1_masked):
+def t1_subcortex(t1_masked, citations):
     """
     full path to a nifti file containing segmentation of
     subcortical structures from T1w image using Brainchop
@@ -130,6 +135,9 @@ def t1_subcortex(t1_masked):
         "Brainchop Subcortical",
         "Or, provide your own segmentations using PVEImage or PVEImages.",
     )
+
+    citations.add("masoud2023brainchop")
+
     t1_img_masked = nib.load(t1_masked)
 
     subcortical_img = run_brainchop(ort, t1_img_masked, "subcortical")

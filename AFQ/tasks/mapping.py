@@ -148,6 +148,7 @@ def sls_mapping(
     reg_subject,
     data_imap,
     tractography_imap,
+    citations,
     mapping_definition=None,
 ):
     """
@@ -163,6 +164,7 @@ def sls_mapping(
         If None, use SynMap()
         Default: None
     """
+    citations.add("garyfallidis2015robust")
     reg_template = data_imap["reg_template"]
     tmpl_name = data_imap["tmpl_name"]
     if mapping_definition is None:

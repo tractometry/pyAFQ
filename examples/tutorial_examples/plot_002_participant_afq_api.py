@@ -250,6 +250,15 @@ fig_files = myafq.export("tract_profile_plots")
 # .. figure:: {{ fig_files[0] }}
 #
 
+##########################################################################
+# Exporting citations
+# ----------------------
+# Finally, we can export the citations for the some of methods used in this
+# analysis. These are not guaranteed to be comprehensive, but they
+# should be a good starting point.
+
+myafq.export("citations")
+
 #############################################################################
 # References
 # ----------

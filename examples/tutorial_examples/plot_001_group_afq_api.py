@@ -251,6 +251,14 @@ altair_df = ava.combined_profiles_df_to_altair_df(
 altair_chart = ava.altair_df_to_chart(altair_df)
 altair_chart.display()
 
+##########################################################################
+# Exporting citations
+# ----------------------
+# Finally, we can export the citations for the some of methods used in this
+# analysis. These are not guaranteed to be comprehensive, but they
+# should be a good starting point.
+
+myafq.export("citations")
 
 ##########################################################################
 # We can check the number of streamlines per bundle, to make sure

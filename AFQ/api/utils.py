@@ -186,3 +186,5 @@ def export_all_helper(api_afq_object, xforms, indiv, viz):
             api_afq_object.export("tract_profile_plots")
         api_afq_object.export("all_bundles_figure")
         api_afq_object.export("indiv_bundles_figures")
+
+    api_afq_object.export("citations")

@@ -300,7 +300,8 @@ def default_bd():
                 "primary_axis": "I/S",
                 "primary_axis_percentage": 40,
             },
-        }
+        },
+        citations={"Yeatman2012", "takemura2017occipital"},
     )
 
 
@@ -368,7 +369,8 @@ def slf_bd():
                     "distance_threshold": 2,
                 },
             },
-        }
+        },
+        citations={"Sagi2024"},
     )
 
 
@@ -714,6 +716,7 @@ def baby_bd():
             },
         },
         resample_to=afd.read_pediatric_templates()["UNCNeo-withCerebellum-for-babyAFQ"],
+        citations={"Grotheer2022", "grotheer2023human"},
     )
 
 
@@ -820,7 +823,10 @@ def reco_bd(n_bundles):
         Selects between 16 or 80 bundle atlas
     """
     templates = afd.read_hcp_atlas(n_bundles, as_file=True)
-    return BundleDict(templates)
+    return BundleDict(
+        templates,
+        citations={"yeh2018population", "Garyfallidis2018"},
+    )
 
 
 def cerebellar_bd():
@@ -883,7 +889,8 @@ def cerebellar_bd():
                 ],
                 "cross_midline": True,
             },
-        }
+        },
+        citations={"Jossinger2022"},
     )
 
 
@@ -914,7 +921,8 @@ def OR_bd():
                 "end": or_rois["right_V1_MNI"],
                 "cross_midline": False,
             },
-        }
+        },
+        citations={"Caffarra2021"},
     )
 
 
@@ -979,6 +987,11 @@ class BundleDict(MutableMapping):
         than their paths. The default 18 bundles use ~6GB when all loaded.
         Default: False
 
+    citations: set, optional
+        A set of citations (in BibTeX format) relevant to the
+        bundle definitions provided.
+        Default: None
+
     Examples
     --------
     # import OR ROIs and create a custom bundle dict
@@ -1028,6 +1041,7 @@ class BundleDict(MutableMapping):
         resample_to=None,
         resample_subject_to=False,
         keep_in_memory=False,
+        citations=None,
     ):
         if not (isinstance(bundle_info, dict)):
             raise TypeError(
@@ -1039,6 +1053,9 @@ class BundleDict(MutableMapping):
         self.resample_subject_to = resample_subject_to
         self.keep_in_memory = keep_in_memory
         self.max_includes = 3
+        self.citations = citations
+        if self.citations is None:
+            self.citations = set()
 
         self._dict = {}
         self.bundle_names = []
@@ -1408,6 +1425,7 @@ class BundleDict(MutableMapping):
             self.resample_to,
             self.resample_subject_to,
             self.keep_in_memory,
+            self.citations | other.citations,
         )
 
 
