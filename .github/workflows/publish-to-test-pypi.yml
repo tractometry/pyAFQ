@@ -20,11 +20,11 @@ jobs:
         with:
           fetch-depth: 0
       - name: Build sdist
-        run: pipx run build -s
+        run: pipx run build
       - uses: actions/upload-artifact@v6
         with:
           name: source-dist
-          path: ./dist/*.tar.gz
+          path: ./dist/*
   test-sdist:
     name: Test sdist
     needs: [build-sdist]
