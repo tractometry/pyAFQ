@@ -228,7 +228,7 @@ def dti_params(
         Model=dict(
             Description="Diffusion Tensor",
             Parameters=dict(
-                FitMethod="wls",
+                FitMethod=fit_method,
                 OutlierRejectionMethod=robust_tensor_fitting,
             ),
         ),
@@ -265,7 +265,7 @@ def fwdti_params(brain_mask, data, gtab, citations):
             ModelURL=f"{DIPY_GH}reconst/fwdti.py",
         ),
         OrientationEncoding=dict(
-            EncodingAxis=3, Reference="ijk", TensorRank=4, Type="tensor"
+            EncodingAxis=3, Reference="ijk", TensorRank=2, Type="tensor"
         ),
     )
     return dtf.model_params, meta
@@ -672,32 +672,6 @@ def gq(gtab, data, citations, gq_sampling_length=1.2):
     return [(odf, odf_meta), (ISO, iso_meta), (ASO, aso_meta)]
 
 
-@immlib.calc("gq_pmap")
-@as_file(suffix="_model-gq_param-apm_dwimap.nii.gz", subfolder="models")
-@as_fit_deriv("GQ")
-def gq_pmap(gq_params):
-    """
-    full path to a nifti file containing
-    the anisotropic power map from GQ
-    """
-    sh_coeff = nib.load(gq_params).get_fdata()
-    pmap = anisotropic_power(sh_coeff)
-    return pmap, {"Description": "Anisotropic Power Map"}
-
-
-@immlib.calc("gq_ai")
-@as_file(suffix="_model-gq_param-ai_dwimap.nii.gz", subfolder="models")
-@as_fit_deriv("GQ")
-def gq_ai(gq_params):
-    """
-    full path to a nifti file containing
-    the anisotropic index from GQ
-    """
-    sh_coeff = nib.load(gq_params).get_fdata()
-    AI = anisotropic_index(sh_coeff)
-    return AI, {"Description": "Anisotropic Index"}
-
-
 @immlib.calc("rumba_params", "rumba_f_csf", "rumba_f_gm", "rumba_f_wm")
 @as_file(
     suffix=[
@@ -770,13 +744,11 @@ def rumba_params(
     rumba_fit = rumba_model.fit(data, mask=nib.load(brain_mask).get_fdata())
     odf = rumba_fit.odf(sphere=default_sphere)
 
-    model_meta = (
-        dict(
-            Description=(
-                "Robust and Unbiased Model-Based Spherical Deconvolution (RUMBA-SD)"
-            ),
-            URL="https://doi.org/10.1371/journal.pone.0138910",
+    model_meta = dict(
+        Description=(
+            "Robust and Unbiased Model-Based Spherical Deconvolution (RUMBA-SD)"
         ),
+        URL="https://doi.org/10.1371/journal.pone.0138910",
     )
     odf_meta = dict(
         Model=model_meta,
@@ -813,8 +785,8 @@ def rumba_params(
 @immlib.calc("opdt_params", "opdt_gfa")
 @as_file(
     suffix=[
-        "_model-OPDT_param-wm_dwimap.nii.gz",
-        "_model-OPDT_param-GFA_dwimap.nii.gz",
+        "_model-opdt_param-wm_dwimap.nii.gz",
+        "_model-opdt_param-GFA_dwimap.nii.gz",
     ],
     subfolder="models",
 )
@@ -1443,8 +1415,6 @@ def get_data_plan(kwargs):
             dki_lt,
             dki_fa,
             gq,
-            gq_pmap,
-            gq_ai,
             opdt_params,
             opdt_pmap,
             opdt_ai,
