@@ -1,29 +1,19 @@
 import numpy as np
-from dipy.data import default_sphere
-from dipy.reconst.shm import anisotropic_power, sh_to_sf_matrix
-from scipy.linalg import blas
+from dipy.reconst.shm import anisotropic_power
 
-__all__ = ["extract_odf", "anisotropic_index", "anisotropic_power"]
+__all__ = ["get_aso_iso", "anisotropic_index", "anisotropic_power"]
 
 
-def extract_odf(odf, sphere=default_sphere, sh_order_max=8):
+def get_aso_iso(odf):
     """
-    Calculates spherical harmonics coefficients and
-    isotropic and anisotropic diffusion components
-    from an ODF. Could include GFA in future updates.
+    Calculates isotropic and anisotropic diffusion components
+    from an ODF.
     """
     odf_norm = odf / odf.max()
     ASO = odf_norm.max(axis=-1)
     ISO = odf_norm.min(axis=-1)
 
-    _, invB = sh_to_sf_matrix(
-        sphere, sh_order_max=sh_order_max, basis_type=None, return_inv=True
-    )
-    shm = blas.dgemm(alpha=1.0, a=odf.reshape(-1, invB.shape[0]), b=invB).reshape(
-        (*odf.shape[:-1], invB.shape[1])
-    )
-
-    return shm, ASO, ISO
+    return ASO, ISO
 
 
 def anisotropic_index(shm):

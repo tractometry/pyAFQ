@@ -55,7 +55,7 @@ def _model(gtab, data, response=None, sh_order_max=None, csd_fa_thr=0.7):
         raise CsdNanResponseError
 
     csdmodel = my_model(gtab, response, sh_order_max=sh_order_max)
-    return csdmodel
+    return csdmodel, sh_order_max
 
 
 def _fit(
@@ -71,7 +71,8 @@ def _fit(
     """
     Helper function that does the core of fitting a model to data.
     """
-    return _model(gtab, data, response, sh_order_max, csd_fa_thr).fit(data, mask=mask)
+    model, sh_order_max = _model(gtab, data, response, sh_order_max, csd_fa_thr)
+    return model, model.fit(data, mask=mask), sh_order_max
 
 
 def fit_csd(

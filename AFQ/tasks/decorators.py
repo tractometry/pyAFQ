@@ -95,7 +95,9 @@ def as_file(suffix, subfolder=None):
             calculation_name = calculation_name.rstrip(", ")
 
             if all(op.exists(f) for f in resolved_files):
-                return resolved_files if len(resolved_files) > 1 else resolved_files[0]
+                return (
+                    (*resolved_files,) if len(resolved_files) > 1 else resolved_files[0]
+                )
 
             logger.info(f"Calculating {calculation_name}...")
 
@@ -147,7 +149,7 @@ def as_file(suffix, subfolder=None):
                     subfolder=this_sub,
                 )
                 write_json(meta_fname, meta)
-            return resolved_files if len(resolved_files) > 1 else resolved_files[0]
+            return (*resolved_files,) if len(resolved_files) > 1 else resolved_files[0]
 
         wrapper_as_file.__signature__ = new_signature
 
@@ -178,10 +180,11 @@ def as_fit_deriv(tf_name):
 
             results = func(*args, **kwargs)
 
-            if len(results) == 1:
-                data = results[0]
-            else:
+            if isinstance(results, tuple) and len(results) == 2:
                 data, meta = results
+            else:
+                data = results
+                meta = {}
 
             img_meta.update(meta)
 

@@ -15,7 +15,7 @@ from dipy.io.gradients import read_bvals_bvecs
 from dipy.reconst import shm
 from dipy.reconst.dki_micro import axonal_water_fraction
 from dipy.reconst.gqi import GeneralizedQSamplingModel
-from dipy.reconst.rumba import RumbaFit, RumbaSDModel
+from dipy.reconst.rumba import RumbaSDModel
 from numba import get_num_threads
 
 import AFQ.api.bundle_dict as abd
@@ -33,7 +33,7 @@ from AFQ.models.dki import _fit as dki_fit_model
 from AFQ.models.dti import _fit as dti_fit_model
 from AFQ.models.dti import noise_from_b0
 from AFQ.models.fwdti import _fit as fwdti_fit_model
-from AFQ.models.QBallTP import anisotropic_index, anisotropic_power, extract_odf
+from AFQ.models.QBallTP import anisotropic_index, anisotropic_power, get_aso_iso
 from AFQ.tasks.decorators import as_file, as_fit_deriv, as_img
 from AFQ.tasks.utils import with_name
 
@@ -215,7 +215,7 @@ def dti_params(
         Units="mm^2/s",
         Model=dict(
             Parameters=dict(
-                FitMethod=fit_method, OutlierRejection=robust_tensor_fitting
+                FitMethod=fit_method, OutlierRejectionMethod=robust_tensor_fitting
             ),
             ModelURL=f"{DIPY_GH}reconst/dti.py",
         ),
@@ -229,7 +229,7 @@ def dti_params(
             Description="Diffusion Tensor",
             Parameters=dict(
                 FitMethod="wls",
-                OutlierRejectionmethod=robust_tensor_fitting,
+                OutlierRejectionMethod=robust_tensor_fitting,
             ),
         ),
     )
@@ -257,7 +257,17 @@ def fwdti_params(brain_mask, data, gtab, citations):
 
     mask = nib.load(brain_mask).get_fdata()
     dtf = fwdti_fit_model(data, gtab, mask=mask)
-    meta = dict(Parameters=dict(FitMethod="NLS"), ModelURL=f"{DIPY_GH}reconst/fwdti.py")
+    meta = dict(
+        Description=("Diffusion Coefficient, with free-water elimination"),
+        Units="mm^2/s",
+        Model=dict(
+            Parameters=dict(FitMethod="NLS"),
+            ModelURL=f"{DIPY_GH}reconst/fwdti.py",
+        ),
+        OrientationEncoding=dict(
+            EncodingAxis=3, Reference="ijk", TensorRank=4, Type="tensor"
+        ),
+    )
     return dtf.model_params, meta
 
 
@@ -300,7 +310,7 @@ def dki_params(brain_mask, gtab, data, citations):
         ),
         Units="mm^2/s",
         Model=dict(
-            Parameters=dict(FitMethod="wls", OutlierRejection=False),
+            Parameters=dict(FitMethod="wls", OutlierRejectionMethod=False),
             ModelURL=f"{DIPY_GH}reconst/dki.py",
         ),
         OrientationEncoding=dict(
@@ -314,7 +324,7 @@ def dki_params(brain_mask, gtab, data, citations):
             Description="Diffusion Kurtosis Tensor",
             Parameters=dict(
                 FitMethod="wls",
-                OutlierRejectionmethod=False,
+                OutlierRejectionMethod=False,
             ),
         ),
     )
@@ -355,7 +365,7 @@ def msdki_params(brain_mask, gtab, data, citations):
         Units="mm^2/s",
         Model=dict(
             Description="Mean Signal Diffusion Kurtosis Tensor",
-            Parameters=dict(FitMethod="wls", OutlierRejection=False),
+            Parameters=dict(FitMethod="wls", OutlierRejectionMethod=False),
             ModelURL=f"{DIPY_GH}reconst/msdki.py",
         ),
         OrientationEncoding=dict(
@@ -369,7 +379,7 @@ def msdki_params(brain_mask, gtab, data, citations):
             Description="Mean Signal Diffusion Kurtosis Tensor",
             Parameters=dict(
                 FitMethod="wls",
-                OutlierRejectionmethod=False,
+                OutlierRejectionMethod=False,
             ),
         ),
     )
@@ -400,7 +410,7 @@ def msdki_msk(msdki_tf):
 
 
 @immlib.calc("csd_params")
-@as_file(suffix="_model-csd_param-fod_dwimap.nii.gz", subfolder="models")
+@as_file(suffix="_model-csd_param-sswm_dwimap.nii.gz", subfolder="models")
 @as_img
 def csd_params(
     dwi,
@@ -458,7 +468,7 @@ def csd_params(
     citations.add("tournier2007robust")
     mask = nib.load(brain_mask).get_fdata()
     try:
-        csdf = csd_fit_model(
+        csdm, csdf, sh_order_max = csd_fit_model(
             gtab,
             data,
             mask=mask,
@@ -473,16 +483,26 @@ def csd_params(
             f"Could not compute CSD response function for file: {dwi}."
         ) from e
 
-    meta = dict(
-        SphericalHarmonicDegree=csd_sh_order_max,
-        ResponseFunctionTensor=csd_response,
-        lambda_=csd_lambda_,
-        tau=csd_tau,
-        csd_fa_thr=csd_fa_thr,
+    meta_wm = dict(
+        Model=dict(
+            Description="Constrained Spherical Deconvolution (CSD)",
+            URL="https://mrtrix.readthedocs.io/en/latest/constrained_spherical_deconvolution/constrained_spherical_deconvolution.html",
+        ),
+        Description="White matter",
+        NonNegativity="constrained",
+        OrientationEncoding=dict(
+            EncodingAxis=3,
+            Reference="xyz",
+            SphericalHarmonicBasis="descoteaux",
+            SphericalHarmonicDegree=sh_order_max,
+            Type="sh",
+        ),
+        ResponseFunction=dict(
+            Coefficients=csdm.response[0].tolist() + [csdm.response[1]], Type="eigen"
+        ),
     )
-    meta["SphericalHarmonicBasis"] = "DESCOTEAUX"
-    meta["ModelURL"] = f"{DIPY_GH}reconst/csdeconv.py"
-    return csdf.shm_coeff, meta
+
+    return csdf.shm_coeff, meta_wm
 
 
 @immlib.calc("csd_aodf_params")
@@ -508,12 +528,28 @@ def csd_aodf(csd_params, n_threads, low_mem, citations):
         sh_coeff, get_sphere(name="repulsion724"), n_threads=n_threads, low_mem=low_mem
     )
 
-    return aodf, dict(CSDParamsFile=csd_params, Sphere="repulsion724")
+    return aodf, dict(
+        Model=dict(
+            Description=(
+                "ODFs for Asymmetric Constrained Spherical Deconvolution (aCSD)"
+            ),
+            URL="https://doi.org/10.1016/j.neuroimage.2024.120516",
+        ),
+        Description="White matter",
+        OrientationEncoding=dict(
+            EncodingAxis=3,
+            Reference="xyz",
+            AntipodalSymmetry=False,
+            Type="odf",
+            Sphere="repulsion724",
+        ),
+        Source=csd_params,
+    )
 
 
 @immlib.calc("csd_aodf_asi")
 @as_file(suffix="_model-csd_param-asi_dwimap.nii.gz", subfolder="models")
-@as_img
+@as_fit_deriv("CSD_AODF")
 def csd_aodf_asi(csd_aodf_params, brain_mask):
     """
     full path to a nifti file containing
@@ -532,12 +568,12 @@ def csd_aodf_asi(csd_aodf_params, brain_mask):
     brain_mask = nib.load(brain_mask).get_fdata().astype(bool)
     asi = compute_asymmetry_index(aodf, brain_mask)
 
-    return asi, dict(CSDParamsFile=csd_aodf_params)
+    return asi, {"Description": "Asymmetry Index"}
 
 
 @immlib.calc("csd_aodf_opm")
 @as_file(suffix="_model-csd_param-opm_dwimap.nii.gz", subfolder="models")
-@as_img
+@as_fit_deriv("CSD_AODF")
 def csd_aodf_opm(csd_aodf_params, brain_mask):
     """
     full path to a nifti file containing
@@ -556,12 +592,12 @@ def csd_aodf_opm(csd_aodf_params, brain_mask):
     brain_mask = nib.load(brain_mask).get_fdata().astype(bool)
     opm = compute_odd_power_map(aodf, brain_mask)
 
-    return opm, dict(CSDParamsFile=csd_aodf_params)
+    return opm, {"Description": "Odd Power Map"}
 
 
 @immlib.calc("csd_pmap")
 @as_file(suffix="_model-csd_param-apm_dwimap.nii.gz", subfolder="models")
-@as_img
+@as_fit_deriv("CSD")
 def anisotropic_power_map(csd_params):
     """
     full path to a nifti file containing
@@ -569,12 +605,12 @@ def anisotropic_power_map(csd_params):
     """
     sh_coeff = nib.load(csd_params).get_fdata()
     pmap = anisotropic_power(sh_coeff)
-    return pmap, dict(CSDParamsFile=csd_params)
+    return pmap, {"Description": "Anisotropic Power Map"}
 
 
 @immlib.calc("csd_ai")
 @as_file(suffix="_model-csd_param-ai_dwimap.nii.gz", subfolder="models")
-@as_img
+@as_fit_deriv("CSD")
 def csd_anisotropic_index(csd_params):
     """
     full path to a nifti file containing
@@ -582,13 +618,13 @@ def csd_anisotropic_index(csd_params):
     """
     sh_coeff = nib.load(csd_params).get_fdata()
     AI = anisotropic_index(sh_coeff)
-    return AI, dict(CSDParamsFile=csd_params)
+    return AI, {"Description": "Anisotropic Index"}
 
 
 @immlib.calc("gq_params", "gq_iso", "gq_aso")
 @as_file(
     suffix=[
-        "_model-gq_param-fod_dwimap.nii.gz",
+        "_model-gq_param-odf_dwimap.nii.gz",
         "_model-gq_param-iso_dwimap.nii.gz",
         "_model-gq_param-aso_dwimap.nii.gz",
     ],
@@ -598,8 +634,7 @@ def csd_anisotropic_index(csd_params):
 def gq(gtab, data, citations, gq_sampling_length=1.2):
     """
     full path to a nifti file containing
-    parameters for the Generalized Q-Sampling
-    shm_coeff,
+    ODF for the Generalized Q-Sampling,
     full path to a nifti file containing isotropic diffusion component,
     full path to a nifti file containing anisotropic diffusion component
 
@@ -614,15 +649,32 @@ def gq(gtab, data, citations, gq_sampling_length=1.2):
 
     odf = gwi_odf(gqmodel, data)
 
-    GQ_shm, ASO, ISO = extract_odf(odf)
-    GQ_meta = dict(GQSamplingLength=gq_sampling_length)
+    ASO, ISO = get_aso_iso(odf)
+    GQ_meta = dict(
+        Model=dict(
+            Description="Generalized Q-Sampling Imaging Model",
+            URL="https://dsi-studio.labsolver.org/ref/GQI.pdf",
+        ),
+        Parameters=dict(SamplingLength=gq_sampling_length),
+    )
 
-    return [(GQ_shm, GQ_meta), (ISO, GQ_meta), (ASO, GQ_meta)]
+    odf_meta = GQ_meta.copy()
+    odf_meta["Description"] = "ODF from Generalized Q-Sampling"
+    iso_meta = GQ_meta.copy()
+    iso_meta["Description"] = (
+        "Isotropic Diffusion Component from Generalized Q-Sampling"
+    )
+    aso_meta = GQ_meta.copy()
+    aso_meta["Description"] = (
+        "Anisotropic Diffusion Component from Generalized Q-Sampling"
+    )
+
+    return [(odf, odf_meta), (ISO, iso_meta), (ASO, aso_meta)]
 
 
 @immlib.calc("gq_pmap")
 @as_file(suffix="_model-gq_param-apm_dwimap.nii.gz", subfolder="models")
-@as_img
+@as_fit_deriv("GQ")
 def gq_pmap(gq_params):
     """
     full path to a nifti file containing
@@ -630,12 +682,12 @@ def gq_pmap(gq_params):
     """
     sh_coeff = nib.load(gq_params).get_fdata()
     pmap = anisotropic_power(sh_coeff)
-    return pmap, dict(GQParamsFile=gq_params)
+    return pmap, {"Description": "Anisotropic Power Map"}
 
 
 @immlib.calc("gq_ai")
 @as_file(suffix="_model-gq_param-ai_dwimap.nii.gz", subfolder="models")
-@as_img
+@as_fit_deriv("GQ")
 def gq_ai(gq_params):
     """
     full path to a nifti file containing
@@ -643,20 +695,41 @@ def gq_ai(gq_params):
     """
     sh_coeff = nib.load(gq_params).get_fdata()
     AI = anisotropic_index(sh_coeff)
-    return AI, dict(GQParamsFile=gq_params)
+    return AI, {"Description": "Anisotropic Index"}
 
 
-@immlib.calc("rumba_model")
-def rumba_model(
+@immlib.calc("rumba_params", "rumba_f_csf", "rumba_f_gm", "rumba_f_wm")
+@as_file(
+    suffix=[
+        "_model-rumba_param-odf_dwimap.nii.gz",
+        "_model-rumba_param-csf_probseg.nii.gz",
+        "_model-rumba_param-gm_probseg.nii.gz",
+        "_model-rumba_param-wm_probseg.nii.gz",
+    ],
+    subfolder="models",
+)
+@as_img
+def rumba_params(
     gtab,
+<<<<<<< HEAD
     citations,
+=======
+    data,
+    brain_mask,
+>>>>>>> 74574cd4 (complete BIDS updating)
     rumba_wm_response=None,
     rumba_gm_response=0.0008,
     rumba_csf_response=0.003,
     rumba_n_iter=600,
 ):
     """
-    fit for RUMBA-SD model as documented on dipy reconstruction options
+    ODF for the RUMBA-SD model,
+    full path to a nifti file containing
+    the CSF volume fraction for each voxel,
+    full path to a nifti file containing
+    the GM volume fraction for each voxel,
+    full path to a nifti file containing
+    the white matter volume fraction for each voxel
 
     Parameters
     ----------
@@ -678,10 +751,13 @@ def rumba_model(
     """
     citations.add("canales2015spherical")
     if rumba_wm_response is None:
-        rumba_wm_response = [0.0017, 0.0002, 0.0002]
-    return RumbaSDModel(
+        rumba_wm_response = np.asarray([0.0017, 0.0002, 0.0002])
+    else:
+        rumba_wm_response = np.asarray(rumba_wm_response)
+
+    rumba_model = RumbaSDModel(
         gtab,
-        wm_response=np.asarray(rumba_wm_response),
+        wm_response=rumba_wm_response,
         gm_response=rumba_gm_response,
         csf_response=rumba_csf_response,
         n_iter=rumba_n_iter,
@@ -694,65 +770,53 @@ def rumba_model(
         verbose=True,
     )
 
-
-@immlib.calc("rumba_params")
-@as_file(suffix="_model-rumba_param-fod_dwimap.nii.gz", subfolder="models")
-@as_img
-def rumba_params(rumba_model, data, brain_mask):
-    """
-    Takes the fitted RUMBA-SD model as input and returns
-    the spherical harmonics coefficients (SHM).
-    """
     rumba_fit = rumba_model.fit(data, mask=nib.load(brain_mask).get_fdata())
     odf = rumba_fit.odf(sphere=default_sphere)
-    rumba_shm, _, _ = extract_odf(odf)
-    meta = dict()
-    return rumba_shm, meta
 
+    model_meta = (
+        dict(
+            Description=(
+                "Robust and Unbiased Model-Based Spherical Deconvolution (RUMBA-SD)"
+            ),
+            URL="https://doi.org/10.1371/journal.pone.0138910",
+        ),
+    )
+    odf_meta = dict(
+        Model=model_meta,
+        Description="ODF for the RUMBA-SD model",
+        OrientationEncoding=dict(
+            EncodingAxis=3, Reference="xyz", Type="odf", Sphere="default"
+        ),
+        ResponseFunction=dict(Coefficients=rumba_wm_response.tolist(), Type="eigen"),
+    )
 
-@immlib.calc("rumba_fit")
-def rumba_fit(rumba_model, rumba_params):
-    """RUMBA FIT"""
-    return RumbaFit(rumba_model, nib.load(rumba_params).get_fdata())
+    meta_wm = dict(
+        Model=model_meta,
+        Description="White matter volume fraction",
+    )
 
+    meta_gm = dict(
+        Model=model_meta,
+        Description="Gray matter volume fraction",
+    )
 
-@immlib.calc("rumba_f_csf")
-@as_file(suffix="_model-rumba_param-csf_probseg.nii.gz", subfolder="models")
-@as_fit_deriv("RUMBA")
-def rumba_f_csf(rumba_fit):
-    """
-    full path to a nifti file containing
-    the CSF volume fraction for each voxel.
-    """
-    return rumba_fit.f_csf  # CSF volume fractions
+    meta_csf = dict(
+        Model=model_meta,
+        Description="Cerebro-spinal fluid volume fraction",
+    )
 
-
-@immlib.calc("rumba_f_gm")
-@as_file(suffix="_model-rumba_param-gm_probseg.nii.gz", subfolder="models")
-@as_fit_deriv("RUMBA")
-def rumba_f_gm(rumba_fit):
-    """
-    full path to a nifti file containing
-    the GM volume fraction for each voxel.
-    """
-    return rumba_fit.f_gm  # gray matter volume fractions
-
-
-@immlib.calc("rumba_f_wm")
-@as_file(suffix="_model-rumba_param-wm_probseg.nii.gz", subfolder="models")
-@as_fit_deriv("RUMBA")
-def rumba_f_wm(rumba_fit):
-    """
-    full path to a nifti file containing
-    the white matter volume fraction for each voxel.
-    """
-    return rumba_fit.f_wm  # white matter volume fractions
+    return [
+        (odf, odf_meta),
+        (rumba_fit.f_csf, meta_csf),
+        (rumba_fit.f_gm, meta_gm),
+        (rumba_fit.f_wm, meta_wm),
+    ]
 
 
 @immlib.calc("opdt_params", "opdt_gfa")
 @as_file(
     suffix=[
-        "_model-OPDT_param-fod_dwimap.nii.gz",
+        "_model-OPDT_param-wm_dwimap.nii.gz",
         "_model-OPDT_param-GFA_dwimap.nii.gz",
     ],
     subfolder="models",
@@ -775,14 +839,31 @@ def opdt_params(data, gtab, brain_mask, citations, opdt_sh_order_max=8):
     opdt_model = shm.OpdtModel(gtab, opdt_sh_order_max)
     opdt_fit = opdt_model.fit(data, mask=brain_mask)
 
-    meta = dict(sh_order_max=opdt_sh_order_max)
+    OPDT_meta = dict(
+        Model=dict(
+            Description="Orientation Probability Density Transform (OPDT)",
+            URL="https://www.lpi.tel.uva.es/node/103",
+        ),
+        OrientationEncoding=dict(
+            EncodingAxis=3,
+            Reference="xyz",
+            SphericalHarmonicBasis="descoteaux",
+            SphericalHarmonicDegree=opdt_sh_order_max,
+            Type="sh",
+        ),
+    )
 
-    return [(opdt_fit._shm_coef, meta), (opdt_fit.gfa, meta)]
+    shm_meta = OPDT_meta.copy()
+    shm_meta["Description"] = "White Matter"
+    gfa_meta = OPDT_meta.copy()
+    gfa_meta["Description"] = "Generalized Fractional Anisotropy"
+
+    return [(opdt_fit._shm_coef, shm_meta), (opdt_fit.gfa, gfa_meta)]
 
 
 @immlib.calc("opdt_pmap")
 @as_file(suffix="_model-opdt_param-apm_dwimap.nii.gz", subfolder="models")
-@as_img
+@as_fit_deriv("OPDT")
 def opdt_pmap(opdt_params):
     """
     full path to a nifti file containing
@@ -790,12 +871,12 @@ def opdt_pmap(opdt_params):
     """
     sh_coeff = nib.load(opdt_params).get_fdata()
     pmap = anisotropic_power(sh_coeff)
-    return pmap, dict(OPDTParamsFile=opdt_params)
+    return pmap, {"Description": "Anisotropic Power Map"}
 
 
 @immlib.calc("opdt_ai")
 @as_file(suffix="_model-opdt_param-ai_dwimap.nii.gz", subfolder="models")
-@as_img
+@as_fit_deriv("OPDT")
 def opdt_ai(opdt_params):
     """
     full path to a nifti file containing
@@ -803,12 +884,12 @@ def opdt_ai(opdt_params):
     """
     sh_coeff = nib.load(opdt_params).get_fdata()
     AI = anisotropic_index(sh_coeff)
-    return AI, dict(OPDTParamsFile=opdt_params)
+    return AI, {"Description": "Anisotropic Index"}
 
 
 @immlib.calc("csa_params", "csa_gfa")
 @as_file(
-    suffix=["_model-csa_param-fod_dwimap.nii.gz", "_model-csa_param-gfa_dwimap.nii.gz"],
+    suffix=["_model-csa_param-wm_dwimap.nii.gz", "_model-csa_param-gfa_dwimap.nii.gz"],
     subfolder="models",
 )
 @as_img
@@ -829,14 +910,31 @@ def csa_params(data, gtab, brain_mask, citations, csa_sh_order_max=8):
     csa_model = shm.CsaOdfModel(gtab, csa_sh_order_max)
     csa_fit = csa_model.fit(data, mask=brain_mask)
 
-    meta = dict(sh_order_max=csa_sh_order_max)
+    CSA_meta = dict(
+        Model=dict(
+            Description="Constant Solid Angle (CSA)",
+            URL="https://doi.org/10.1016/j.neuroimage.2009.04.049",
+        ),
+        OrientationEncoding=dict(
+            EncodingAxis=3,
+            Reference="xyz",
+            SphericalHarmonicBasis="descoteaux",
+            SphericalHarmonicDegree=csa_sh_order_max,
+            Type="sh",
+        ),
+    )
 
-    return [(csa_fit._shm_coef, meta), (csa_fit.gfa, meta)]
+    shm_meta = CSA_meta.copy()
+    shm_meta["Description"] = "White Matter"
+    gfa_meta = CSA_meta.copy()
+    gfa_meta["Description"] = "Generalized Fractional Anisotropy"
+
+    return [(csa_fit._shm_coef, shm_meta), (csa_fit.gfa, gfa_meta)]
 
 
 @immlib.calc("csa_pmap")
 @as_file(suffix="_model-csa_param-apm_dwimap.nii.gz", subfolder="models")
-@as_img
+@as_fit_deriv("CSA")
 def csa_pmap(csa_params):
     """
     full path to a nifti file containing
@@ -844,12 +942,12 @@ def csa_pmap(csa_params):
     """
     sh_coeff = nib.load(csa_params).get_fdata()
     pmap = anisotropic_power(sh_coeff)
-    return pmap, dict(CSAParamsFile=csa_params)
+    return pmap, {"Description": "Anisotropic Power Map"}
 
 
 @immlib.calc("csa_ai")
 @as_file(suffix="_model-csa_param-ai_dwimap.nii.gz", subfolder="models")
-@as_img
+@as_fit_deriv("CSA")
 def csa_ai(csa_params):
     """
     full path to a nifti file containing
@@ -857,7 +955,7 @@ def csa_ai(csa_params):
     """
     sh_coeff = nib.load(csa_params).get_fdata()
     AI = anisotropic_index(sh_coeff)
-    return AI, dict(CSAParamsFile=csa_params)
+    return AI, {"Description": "Anisotropic Index"}
 
 
 @immlib.calc("fwdti_fa")
@@ -888,7 +986,7 @@ def fwdti_fwf(fwdti_tf):
     """
     full path to a nifti file containing the Free-water DTI free water fraction
     """
-    return fwdti_tf.fwf, {"Description": "Free Water Fraction"}
+    return fwdti_tf.f, {"Description": "Free Water Fraction"}
 
 
 @immlib.calc("dti_fa")
@@ -1381,12 +1479,7 @@ def get_data_plan(kwargs):
             dki_cl,
             dki_cp,
             dki_cs,
-            rumba_fit,
             rumba_params,
-            rumba_model,
-            rumba_f_csf,
-            rumba_f_gm,
-            rumba_f_wm,
             csd_params,
             get_bundle_dict,
         ]

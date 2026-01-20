@@ -25,7 +25,7 @@ from AFQ.models.wmgm_interface import fit_wm_gm_interface
 from AFQ.nn.brainchop import pve_from_subcortex
 from AFQ.nn.multiaxial import extract_pve
 from AFQ.nn.synthseg import pve_from_synthseg
-from AFQ.tasks.decorators import as_file, as_img
+from AFQ.tasks.decorators import as_file, as_fit_deriv, as_img
 from AFQ.tasks.utils import with_name
 
 logger = logging.getLogger("AFQ")
@@ -117,13 +117,24 @@ def pve_internal(structural_imap, pve="synthseg"):
     )
 
 
-@immlib.calc("msmtcsd_params")
-@as_file(suffix="_model-msmtcsd_param-fod_dwimap.nii.gz", subfolder="models")
+@immlib.calc("msmtcsd_params", "msmtcsd_gm", "msmtcsd_csf")
+@as_file(
+    suffix=[
+        "_model-csd_param-wm_dwimap.nii.gz",
+        "_model-csd_param-gm_dwimap.nii.gz",
+        "_model-csd_param-csf_dwimap.nii.gz",
+    ],
+    subfolder="models",
+)
 @as_img
 def msmt_params(data_imap, pve_internal, citations, msmt_sh_order=8, msmt_fa_thr=0.7):
     """
     full path to a nifti file containing
-    parameters for the MSMT CSD fit
+    parameters for the MSMT CSD white matter fit,
+    full path to a nifti file containing
+    parameters for the MSMT CSD gray matter fit,
+    full path to a nifti file containing
+    parameters for the MSMT CSD cerebrospinal fluid fit
 
     Parameters
     ----------
@@ -149,22 +160,22 @@ def msmt_params(data_imap, pve_internal, citations, msmt_sh_order=8, msmt_fa_thr
     pve_img = nib.load(pve_internal)
     pve_data = pve_img.get_fdata()
     csf = resample(
-        pve_data[..., 0],
-        data_imap["data"][..., 0],
-        pve_img.affine,
-        data_imap["dwi_affine"],
+        moving=pve_data[..., 0],
+        static=data_imap["data"][..., 0],
+        moving_affine=pve_img.affine,
+        static_affine=data_imap["dwi_affine"],
     ).get_fdata()
     gm = resample(
-        pve_data[..., 1],
-        data_imap["data"][..., 0],
-        pve_img.affine,
-        data_imap["dwi_affine"],
+        moving=pve_data[..., 1],
+        static=data_imap["data"][..., 0],
+        moving_affine=pve_img.affine,
+        static_affine=data_imap["dwi_affine"],
     ).get_fdata()
     wm = resample(
-        pve_data[..., 2],
-        data_imap["data"][..., 0],
-        pve_img.affine,
-        data_imap["dwi_affine"],
+        moving=pve_data[..., 2],
+        static=data_imap["data"][..., 0],
+        moving_affine=pve_img.affine,
+        static_affine=data_imap["dwi_affine"],
     ).get_fdata()
 
     mask_wm, mask_gm, mask_csf = mask_for_response_msmt(
@@ -192,15 +203,58 @@ def msmt_params(data_imap, pve_internal, citations, msmt_sh_order=8, msmt_fa_thr
     logger.info("Fitting Multi-Shell CSD model...")
     mcsd_fit = mcsd_model.fit(data_imap["data"], mask, n_cpus=data_imap["n_cpus"])
 
-    meta = dict(
-        SphericalHarmonicDegree=msmt_sh_order, SphericalHarmonicBasis="DESCOTEAUX"
+    def _get_meta(desc, sh_order, response):
+        return dict(
+            Model=dict(
+                Description=(
+                    "Multi-Shell Multi-Tissue (MSMT) "
+                    "Constrained Spherical Deconvolution (CSD)"
+                ),
+                URL="https://mrtrix.readthedocs.io/en/latest/constrained_spherical_deconvolution/multi_shell_multi_tissue_csd.html",
+            ),
+            Description=desc,
+            NonNegativity="constrained",
+            OrientationEncoding=dict(
+                EncodingAxis=3,
+                Reference="xyz",
+                SphericalHarmonicBasis="descoteaux",
+                SphericalHarmonicDegree=sh_order,
+                Type="sh",
+            ),
+            ResponseFunction=dict(Coefficients=response, Type="eigen"),
+        )
+
+    meta_wm = _get_meta(
+        "White matter",
+        msmt_sh_order,
+        response_wm[0].tolist(),
     )
-    return mcsd_fit.shm_coeff, meta
+    meta_wm["ParameterURL"] = (
+        "http://www.sciencedirect.com/science/article/pii/S1053811911012092"
+    )
+
+    meta_gm = _get_meta(
+        "Gray matter",
+        0,
+        response_gm[0].tolist(),
+    )
+
+    meta_csf = _get_meta(
+        "Cerebro-spinal fluid",
+        0,
+        response_csf[0].tolist(),
+    )
+
+    return [
+        (mcsd_fit.shm_coeff, meta_wm),
+        (mcsd_fit.volume_fractions[1], meta_gm),
+        (mcsd_fit.volume_fractions[0], meta_csf),
+    ]
 
 
 @immlib.calc("msmt_apm")
-@as_file(suffix="_model-msmtcsd_param-apm_dwimap.nii.gz", subfolder="models")
-@as_img
+@as_file(suffix="_model-csd_param-apm_dwimap.nii.gz", subfolder="models")
+@as_fit_deriv("MSMTCSD")
 def msmt_apm(msmtcsd_params):
     """
     full path to a nifti file containing
@@ -208,7 +262,7 @@ def msmt_apm(msmtcsd_params):
     """
     sh_coeff = nib.load(msmtcsd_params).get_fdata()
     pmap = anisotropic_power(sh_coeff)
-    return pmap, dict(MSMTCSDParamsFile=msmtcsd_params)
+    return pmap, {"Description": "Anisotropic Power Map"}
 
 
 @immlib.calc("msmt_aodf_params")
@@ -238,12 +292,29 @@ def msmt_aodf(msmtcsd_params, data_imap, citations):
         low_mem=data_imap["low_mem"],
     )
 
-    return aodf, dict(MSMTCSDParamsFile=msmtcsd_params, Sphere="repulsion724")
+    return aodf, dict(
+        Model=dict(
+            Description=(
+                "ODFs for Asymmetric MSMT Constrained "
+                "Spherical Deconvolution (aMSMTCSD)"
+            ),
+            URL="https://doi.org/10.1016/j.neuroimage.2024.120516",
+        ),
+        Description="White matter",
+        OrientationEncoding=dict(
+            EncodingAxis=3,
+            Reference="xyz",
+            AntipodalSymmetry=False,
+            Type="odf",
+            Sphere="repulsion724",
+        ),
+        Source=msmtcsd_params,
+    )
 
 
 @immlib.calc("msmt_aodf_asi")
 @as_file(suffix="_model-msmtcsd_param-asi_dwimap.nii.gz", subfolder="models")
-@as_img
+@as_fit_deriv("MSMT_AODF")
 def msmt_aodf_asi(msmt_aodf_params, data_imap):
     """
     full path to a nifti file containing
@@ -262,12 +333,12 @@ def msmt_aodf_asi(msmt_aodf_params, data_imap):
     brain_mask = nib.load(data_imap["brain_mask"]).get_fdata().astype(bool)
     asi = compute_asymmetry_index(aodf, brain_mask)
 
-    return asi, dict(MSMTCSDParamsFile=msmt_aodf_params)
+    return asi, {"Description": "Asymmetry Index"}
 
 
 @immlib.calc("msmt_aodf_opm")
 @as_file(suffix="_model-msmtcsd_param-opm_dwimap.nii.gz", subfolder="models")
-@as_img
+@as_fit_deriv("MSMT_AODF")
 def msmt_aodf_opm(msmt_aodf_params, data_imap):
     """
     full path to a nifti file containing
@@ -286,12 +357,12 @@ def msmt_aodf_opm(msmt_aodf_params, data_imap):
     brain_mask = nib.load(data_imap["brain_mask"]).get_fdata().astype(bool)
     opm = compute_odd_power_map(aodf, brain_mask)
 
-    return opm, dict(MSMTCSDParamsFile=msmt_aodf_params)
+    return opm, {"Description": "Odd Power Map"}
 
 
 @immlib.calc("msmt_aodf_nufid")
 @as_file(suffix="_model-msmtcsd_param-nufid_dwimap.nii.gz", subfolder="models")
-@as_img
+@as_fit_deriv("MSMT_AODF")
 def msmt_aodf_nufid(msmt_aodf_params, data_imap, pve_internal):
     """
     full path to a nifti file containing
@@ -312,7 +383,10 @@ def msmt_aodf_nufid(msmt_aodf_params, data_imap, pve_internal):
     aodf = aodf_img.get_fdata()
 
     csf = resample(
-        pve_data[..., 0], aodf[..., 0], pve_img.affine, aodf_img.affine
+        moving=pve_data[..., 0],
+        static=aodf[..., 0],
+        moving_affine=pve_img.affine,
+        static_affine=aodf_img.affine,
     ).get_fdata()
 
     # Only sphere we use for AODF currently
@@ -323,7 +397,7 @@ def msmt_aodf_nufid(msmt_aodf_params, data_imap, pve_internal):
     logger.info("Number of fiber directions (nufid) map from AODF...")
     nufid = compute_nufid_asym(aodf, sphere, csf, brain_mask)
 
-    return nufid, dict(MSMTCSDParamsFile=msmt_aodf_params, PVE=pve_internal)
+    return nufid, {"Description": "Number of Fiber Directions"}
 
 
 @immlib.calc("csd_aodf_nufid")
@@ -349,7 +423,10 @@ def csd_aodf_nufid(data_imap, pve_internal):
     aodf = aodf_img.get_fdata()
 
     csf = resample(
-        pve_data[..., 0], aodf[..., 0], pve_img.affine, aodf_img.affine
+        moving=pve_data[..., 0],
+        static=aodf[..., 0],
+        moving_affine=pve_img.affine,
+        static_affine=aodf_img.affine,
     ).get_fdata()
 
     # Only sphere we use for AODF currently
@@ -360,7 +437,16 @@ def csd_aodf_nufid(data_imap, pve_internal):
     logger.info("Number of fiber directions (nufid) map from AODF...")
     nufid = compute_nufid_asym(aodf, sphere, csf, brain_mask)
 
-    return nufid, dict(CSDParamsFile=data_imap["csd_aodf_params"], PVE=pve_internal)
+    return nufid, dict(
+        Model=dict(
+            Description=(
+                "ODFs for Asymmetric Constrained Spherical Deconvolution (aCSD)"
+            ),
+            URL="https://doi.org/10.1016/j.neuroimage.2024.120516",
+        ),
+        Source=data_imap["csd_aodf_params"],
+        Description="Number of Fiber Directions",
+    )
 
 
 def get_tissue_plan(kwargs):
