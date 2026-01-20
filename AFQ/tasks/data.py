@@ -711,12 +711,9 @@ def gq_ai(gq_params):
 @as_img
 def rumba_params(
     gtab,
-<<<<<<< HEAD
-    citations,
-=======
     data,
     brain_mask,
->>>>>>> 74574cd4 (complete BIDS updating)
+    citations,
     rumba_wm_response=None,
     rumba_gm_response=0.0008,
     rumba_csf_response=0.003,
