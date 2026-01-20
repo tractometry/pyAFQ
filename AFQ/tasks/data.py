@@ -796,7 +796,7 @@ def rumba_params(
 @as_file(
     suffix=[
         "_model-opdt_param-wm_dwimap.nii.gz",
-        "_model-opdt_param-GFA_dwimap.nii.gz",
+        "_model-opdt_param-gfa_dwimap.nii.gz",
     ],
     subfolder="models",
 )
