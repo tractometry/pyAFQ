@@ -362,7 +362,8 @@ def msdki_fit(msdki_params, gtab):
 def msdki_params(brain_mask, gtab, data, citations):
     """
     full path to a nifti file containing
-    parameters for the Mean Signal DKI fit
+    parameters for the Mean Signal DKI fit,
+    s0 values of Mean Signal DKI fit
     """
     citations.add("neto2018advanced")
     mask = nib.load(brain_mask).get_fdata()
