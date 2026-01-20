@@ -266,7 +266,7 @@ def msmt_apm(msmtcsd_params):
 
 
 @immlib.calc("msmt_aodf_params")
-@as_file(suffix="_model-msmtcsd_param-aodf_dwimap.nii.gz", subfolder="models")
+@as_file(suffix="_model-csd_param-aodf_dwimap.nii.gz", subfolder="models")
 @as_img
 def msmt_aodf(msmtcsd_params, data_imap, citations):
     """
@@ -313,7 +313,7 @@ def msmt_aodf(msmtcsd_params, data_imap, citations):
 
 
 @immlib.calc("msmt_aodf_asi")
-@as_file(suffix="_model-msmtcsd_param-asi_dwimap.nii.gz", subfolder="models")
+@as_file(suffix="_model-csd_param-asi_dwimap.nii.gz", subfolder="models")
 @as_fit_deriv("MSMT_AODF")
 def msmt_aodf_asi(msmt_aodf_params, data_imap):
     """
@@ -337,7 +337,7 @@ def msmt_aodf_asi(msmt_aodf_params, data_imap):
 
 
 @immlib.calc("msmt_aodf_opm")
-@as_file(suffix="_model-msmtcsd_param-opm_dwimap.nii.gz", subfolder="models")
+@as_file(suffix="_model-csd_param-opm_dwimap.nii.gz", subfolder="models")
 @as_fit_deriv("MSMT_AODF")
 def msmt_aodf_opm(msmt_aodf_params, data_imap):
     """
@@ -361,7 +361,7 @@ def msmt_aodf_opm(msmt_aodf_params, data_imap):
 
 
 @immlib.calc("msmt_aodf_nufid")
-@as_file(suffix="_model-msmtcsd_param-nufid_dwimap.nii.gz", subfolder="models")
+@as_file(suffix="_model-csd_param-nufid_dwimap.nii.gz", subfolder="models")
 @as_fit_deriv("MSMT_AODF")
 def msmt_aodf_nufid(msmt_aodf_params, data_imap, pve_internal):
     """

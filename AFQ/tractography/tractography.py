@@ -182,7 +182,7 @@ def track(
         evals, evecs = decompose_tensor(from_lower_triangular(model_params))
         odf = tensor_odf(evals, evecs, sphere)
         dg = dg.from_pmf(odf, max_angle=max_angle, sphere=sphere)
-    elif odf_model == "GQ" or odf_model == "RUMBA" or "AODF" in odf_model:
+    elif (odf_model == "GQ") or (odf_model == "RUMBA") or ("AODF" in odf_model):
         sh_order = shm.order_from_ncoef(model_params.shape[3], full_basis=True)
         pmf = shm.sh_to_sf(model_params, sphere, sh_order_max=sh_order, full_basis=True)
         pmf[pmf < 0] = 0

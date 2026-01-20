@@ -43,6 +43,15 @@ logger = logging.getLogger("AFQ")
 DIPY_GH = "https://github.com/dipy/dipy/blob/master/dipy/"
 
 
+def _or_to_text(outlier_rejection_method):
+    if outlier_rejection_method is True:
+        return "RT"
+    elif outlier_rejection_method is False:
+        return "None"
+    else:
+        return str(outlier_rejection_method)
+
+
 @immlib.calc("data", "gtab", "dwi", "dwi_affine")
 def get_data_gtab(
     dwi_data_file,
@@ -215,7 +224,8 @@ def dti_params(
         Units="mm^2/s",
         Model=dict(
             Parameters=dict(
-                FitMethod=fit_method, OutlierRejectionMethod=robust_tensor_fitting
+                FitMethod=fit_method,
+                OutlierRejectionMethod=_or_to_text(robust_tensor_fitting),
             ),
             ModelURL=f"{DIPY_GH}reconst/dti.py",
         ),
@@ -229,7 +239,7 @@ def dti_params(
             Description="Diffusion Tensor",
             Parameters=dict(
                 FitMethod=fit_method,
-                OutlierRejectionMethod=robust_tensor_fitting,
+                OutlierRejectionMethod=_or_to_text(robust_tensor_fitting),
             ),
         ),
     )
@@ -310,7 +320,7 @@ def dki_params(brain_mask, gtab, data, citations):
         ),
         Units="mm^2/s",
         Model=dict(
-            Parameters=dict(FitMethod="wls", OutlierRejectionMethod=False),
+            Parameters=dict(FitMethod="wls", OutlierRejectionMethod=_or_to_text(False)),
             ModelURL=f"{DIPY_GH}reconst/dki.py",
         ),
         OrientationEncoding=dict(
@@ -324,7 +334,7 @@ def dki_params(brain_mask, gtab, data, citations):
             Description="Diffusion Kurtosis Tensor",
             Parameters=dict(
                 FitMethod="wls",
-                OutlierRejectionMethod=False,
+                OutlierRejectionMethod=_or_to_text(False),
             ),
         ),
     )
@@ -365,7 +375,7 @@ def msdki_params(brain_mask, gtab, data, citations):
         Units="mm^2/s",
         Model=dict(
             Description="Mean Signal Diffusion Kurtosis Tensor",
-            Parameters=dict(FitMethod="wls", OutlierRejectionMethod=False),
+            Parameters=dict(FitMethod="wls", OutlierRejectionMethod=_or_to_text(False)),
             ModelURL=f"{DIPY_GH}reconst/msdki.py",
         ),
         OrientationEncoding=dict(
@@ -379,7 +389,7 @@ def msdki_params(brain_mask, gtab, data, citations):
             Description="Mean Signal Diffusion Kurtosis Tensor",
             Parameters=dict(
                 FitMethod="wls",
-                OutlierRejectionMethod=False,
+                OutlierRejectionMethod=_or_to_text(False),
             ),
         ),
     )
