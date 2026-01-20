@@ -289,7 +289,7 @@ def dki_fit(dki_params, gtab):
     return dpy_dki.DiffusionKurtosisFit(tm, dki_params)
 
 
-@immlib.calc("dki_params")
+@immlib.calc("dki_params", "dki_s0")
 @as_file(
     suffix=[
         "_model-kurtosis_param-diffusivity_dwimap.nii.gz",
@@ -350,7 +350,7 @@ def msdki_fit(msdki_params, gtab):
     return dpy_msdki.MeanDiffusionKurtosisFit(tm, msdki_params)
 
 
-@immlib.calc("msdki_params")
+@immlib.calc("msdki_params", "msdki_s0")
 @as_file(
     suffix=[
         "_model-mskurtosis_param-diffusivity_dwimap.nii.gz",
