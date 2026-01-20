@@ -40,7 +40,7 @@ jobs:
       - name: Display Python version
         run: python -c "import sys; print(sys.version)"
       - name: Install sdist with optional dependencies
-        run: pip install dist/*.tar.gz[all]
+        run: pip install "dist/*.tar.gz[all]"
       - run: python -c 'import AFQ; print(AFQ.__version__)'
       - name: Install pytest
         run: pip install pytest
