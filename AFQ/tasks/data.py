@@ -645,8 +645,7 @@ def gq(gtab, data, citations, gq_sampling_length=1.2):
     """
     full path to a nifti file containing
     ODF for the Generalized Q-Sampling,
-    full path to a nifti file containing isotropic diffusion component,
-    full path to a nifti file containing anisotropic diffusion component
+    full path to a nifti file containing isotropic diffusion component
 
     Parameters
     ----------
