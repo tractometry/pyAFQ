@@ -3,13 +3,21 @@ import tempfile
 
 import nibabel as nib
 import numpy.testing as npt
-import onnxruntime as ort
+
+try:
+    import onnxruntime as ort
+
+    has_onnx = True
+except ImportError:
+    has_onnx = False
+
 
 import AFQ.data.fetch as afd
 from AFQ.nn.brainchop import run_brainchop
 from AFQ.nn.multiaxial import run_multiaxial
 
 
+@npt.dec.skipif(not has_onnx, reason="onnxruntime is not installed")
 def test_run_brainchop():
     tmpdir = tempfile.mkdtemp()
     afd.organize_stanford_data(path=tmpdir)
@@ -26,6 +34,7 @@ def test_run_brainchop():
     npt.assert_(chopped_brain.get_fdata().sum() > 200000)
 
 
+@npt.dec.skipif(not has_onnx, reason="onnxruntime is not installed")
 def test_run_multiaxial():
     tmpdir = tempfile.mkdtemp()
     afd.organize_stanford_data(path=tmpdir)
