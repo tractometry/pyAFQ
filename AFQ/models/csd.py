@@ -143,7 +143,7 @@ def fit_csd(
         data_files, bval_files, bvec_files, b0_threshold=b0_threshold, mask=mask
     )
 
-    csdfit = _fit(
+    _, csdfit, _ = _fit(
         gtab,
         data,
         mask,
