@@ -33,7 +33,7 @@ from AFQ.models.dki import _fit as dki_fit_model
 from AFQ.models.dti import _fit as dti_fit_model
 from AFQ.models.dti import noise_from_b0
 from AFQ.models.fwdti import _fit as fwdti_fit_model
-from AFQ.models.QBallTP import anisotropic_index, anisotropic_power, get_aso_iso
+from AFQ.models.QBallTP import anisotropic_index, anisotropic_power
 from AFQ.tasks.decorators import as_file, as_fit_deriv, as_img
 from AFQ.tasks.utils import with_name
 
@@ -632,12 +632,11 @@ def csd_anisotropic_index(csd_params):
     return AI, {"Description": "Anisotropic Index"}
 
 
-@immlib.calc("gq_params", "gq_iso", "gq_aso")
+@immlib.calc("gq_params", "gq_iso")
 @as_file(
     suffix=[
         "_model-gq_param-odf_dwimap.nii.gz",
         "_model-gq_param-iso_dwimap.nii.gz",
-        "_model-gq_param-aso_dwimap.nii.gz",
     ],
     subfolder="models",
 )
@@ -660,7 +659,8 @@ def gq(gtab, data, citations, gq_sampling_length=1.2):
 
     odf = gwi_odf(gqmodel, data)
 
-    ASO, ISO = get_aso_iso(odf)
+    odf_norm = odf / odf.max()
+    ISO = odf_norm.min(axis=-1)
     GQ_meta = dict(
         Model=dict(
             Description="Generalized Q-Sampling Imaging Model",
@@ -675,12 +675,8 @@ def gq(gtab, data, citations, gq_sampling_length=1.2):
     iso_meta["Description"] = (
         "Isotropic Diffusion Component from Generalized Q-Sampling"
     )
-    aso_meta = GQ_meta.copy()
-    aso_meta["Description"] = (
-        "Anisotropic Diffusion Component from Generalized Q-Sampling"
-    )
 
-    return [(odf, odf_meta), (ISO, iso_meta), (ASO, aso_meta)]
+    return [(odf, odf_meta), (ISO, iso_meta)]
 
 
 @immlib.calc("rumba_params", "rumba_f_csf", "rumba_f_gm", "rumba_f_wm")

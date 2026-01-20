@@ -1,19 +1,7 @@
 import numpy as np
 from dipy.reconst.shm import anisotropic_power
 
-__all__ = ["get_aso_iso", "anisotropic_index", "anisotropic_power"]
-
-
-def get_aso_iso(odf):
-    """
-    Calculates isotropic and anisotropic diffusion components
-    from an ODF.
-    """
-    odf_norm = odf / odf.max()
-    ASO = odf_norm.max(axis=-1)
-    ISO = odf_norm.min(axis=-1)
-
-    return ASO, ISO
+__all__ = ["anisotropic_index", "anisotropic_power"]
 
 
 def anisotropic_index(shm):
