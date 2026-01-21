@@ -1,6 +1,11 @@
 import pytest
 
-from AFQ.viz.utils import Viz
+try:
+    from AFQ.viz.utils import Viz
+except ImportError:
+    Viz = False
+
+pytest.mark.skip(not Viz, "Skipping viz tests, unable to import viz utils")
 
 
 def test_viz_name_errors():
@@ -10,5 +15,6 @@ def test_viz_name_errors():
         TypeError,
         match="Visualization backend contain"
         + " either 'plotly' or 'fury'. "
-            + "It is currently set to plotli"):
+        + "It is currently set to plotli",
+    ):
         Viz("plotli")
