@@ -28,7 +28,6 @@ ignore = [
 
 [tool.pytest.ini_options]
 markers = [
-    "nightly",
     "nightly_basic",
     "nightly_anisotropic",
     "nightly_reco",
