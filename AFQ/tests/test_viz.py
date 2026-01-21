@@ -5,9 +5,8 @@ try:
 except ImportError:
     Viz = False
 
-pytest.mark.skip(not Viz, "Skipping viz tests, unable to import viz utils")
 
-
+@pytest.mark.skip(not Viz, "Skipping viz tests, unable to import viz utils")
 def test_viz_name_errors():
     Viz("fury")
 
