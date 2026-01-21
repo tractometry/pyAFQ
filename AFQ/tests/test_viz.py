@@ -1,12 +1,18 @@
 import pytest
 
 try:
+    import fury  # noqa: F401
+
     from AFQ.viz.utils import Viz
+
+    test_viz = True
 except ImportError:
-    Viz = False
+    test_viz = False
 
 
-@pytest.mark.skipif(not Viz, reason="Skipping viz tests, unable to import viz utils")
+@pytest.mark.skipif(
+    not test_viz, reason="Skipping viz tests, unable to import viz utils"
+)
 def test_viz_name_errors():
     Viz("fury")
 
