@@ -45,7 +45,7 @@ jobs:
       - name: Install pytest
         run: pip install pytest
       - name: Run tests
-        run: pytest -v --pyargs AFQ
+        run: pytest -v --pyargs AFQ --cov-report term-missing --cov=AFQ -m "not nightly and not nightly_basic and not nightly_custom and not nightly_anisotropic and not nightly_slr and not nightly_reco and not nightly_reco80" --durations=0
 
   pre-publish:
     runs-on: ubuntu-latest
