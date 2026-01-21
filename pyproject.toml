@@ -34,6 +34,7 @@ markers = [
     "nightly_reco",
     "nightly_reco80",
     "nightly_custom",
+    "nightly_slr",
     "nightly",
 ]
 
