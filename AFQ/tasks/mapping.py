@@ -85,7 +85,7 @@ def export_rois(base_fname, output_dir, dwi_data_file, data_imap, mapping):
             *bundle_dict.transform_rois(
                 bundle_name,
                 mapping,
-                data_imap["dwi_affine"],
+                data_imap["dwi"],
                 base_fname=base_roi_fname,
                 to_space=to_space,
             )

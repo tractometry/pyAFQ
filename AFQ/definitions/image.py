@@ -384,7 +384,7 @@ class RoiImage(ImageDefinition):
 
             for bundle_name in bundle_dict:
                 bundle_entry = bundle_dict.transform_rois(
-                    bundle_name, mapping_imap["mapping"], data_imap["dwi_affine"]
+                    bundle_name, mapping_imap["mapping"], data_imap["dwi"]
                 )
                 rois = []
                 if self.use_endpoints:

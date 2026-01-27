@@ -26,7 +26,6 @@ __all__ = ["as_file", "as_fit_deriv", "as_img"]
 
 
 logger = logging.getLogger("AFQ")
-logger.setLevel(logging.INFO)
 
 
 def get_new_signature(og_func, needed_args):

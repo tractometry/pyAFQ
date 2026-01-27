@@ -86,8 +86,8 @@ def pve_from_synthseg(synthseg_data):
         PVE data with CSF, GM, and WM segmentations.
     """
 
-    CSF_labels = [0, 3, 4, 11, 12, 21, 22, 17]
-    GM_labels = [2, 7, 8, 9, 10, 14, 15, 16, 20, 25, 26, 27, 28, 29, 30, 31]
+    CSF_labels = [0, 3, 4, 11, 12, 21, 22, 16]
+    GM_labels = [2, 7, 8, 9, 10, 14, 15, 17, 20, 25, 26, 27, 28, 29, 30, 31]
     WM_labels = [1, 5, 19, 23]
     mixed_labels = [13, 18, 32]
 

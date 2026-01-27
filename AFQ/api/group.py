@@ -50,7 +50,6 @@ __all__ = ["GroupAFQ"]
 
 
 logger = logging.getLogger("AFQ")
-logger.setLevel(logging.INFO)
 
 warnings.simplefilter(action="ignore", category=FutureWarning)
 
@@ -142,7 +141,7 @@ class GroupAFQ(object):
         api.GroupAFQ(my_path, csd_sh_order_max=4)
         api.GroupAFQ(
             my_path,
-            reg_template_spec="mni_t2", reg_subject_spec="b0")
+            _spec="mni_t2", reg_subject_spec="b0")
         """
         if bids_layout_kwargs is None:
             bids_layout_kwargs = {}
