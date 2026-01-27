@@ -392,9 +392,7 @@ def run_bundle_rec_plan(
     start_time = time()
     bundle_def = dict(bundle_dict.get_b_info(bundle_name))
     bundle_def.update(
-        bundle_dict.transform_rois(
-            bundle_name, mapping, img.affine, apply_to_recobundles=True
-        )
+        bundle_dict.transform_rois(bundle_name, mapping, img, apply_to_recobundles=True)
     )
 
     def check_space(roi):

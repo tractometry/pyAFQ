@@ -1089,6 +1089,65 @@ def read_oton_templates(as_img=True, resample_to=False):
     return template_dict
 
 
+massp_fnames = [
+    "left_VTA.nii.gz",
+    "right_VTA.nii.gz",
+]
+
+massp_remote_fnames = [
+    "34892325",
+    "34892319",
+]
+
+massp_md5_hashes = [
+    "03d65d85abb161ea25501c343c136e40",
+    "440874b899d2c1057e5fd77b8b350bc4",
+]
+
+fetch_massp_templates = _make_reusable_fetcher(
+    "fetch_massp_templates",
+    op.join(afq_home, "massp_templates"),
+    baseurl,
+    massp_remote_fnames,
+    massp_fnames,
+    md5_list=massp_md5_hashes,
+    doc="Download AFQ MassP templates",
+)
+
+
+def read_massp_templates(as_img=True, resample_to=False):
+    """Load AFQ MASSSP templates from file
+
+    Parameters
+    ----------
+    as_img : bool, optional
+        If True, values are `Nifti1Image`. Otherwise, values are
+        paths to Nifti files. Default: True
+    resample_to : str or nibabel image class instance, optional
+        A template image to resample to. Typically, this should be the
+        template to which individual-level data are registered. Defaults to
+        the MNI template. Default: False
+
+    Returns
+    -------
+    dict with: keys: names of template ROIs and values: nibabel Nifti1Image
+    objects from each of the ROI nifti files.
+    """
+    logger = logging.getLogger("AFQ")
+
+    logger.debug("loading oton templates")
+    tic = time.perf_counter()
+
+    template_dict = _fetcher_to_template(
+        fetch_massp_templates, as_img=as_img, resample_to=resample_to
+    )
+
+    toc = time.perf_counter()
+    logger.debug(f"MASSSP templates loaded in {toc - tic:0.4f} seconds")
+
+    return template_dict
+
+
 cp_fnames = [
     "ICP_L_inferior_prob.nii.gz",
     "ICP_L_superior_prob.nii.gz",

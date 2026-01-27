@@ -10,7 +10,7 @@ import AFQ.utils.volume as auv
 from AFQ.definitions.utils import find_file
 from AFQ.tasks.utils import get_fname, str_to_desc
 
-logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("AFQ")
 
 
 __all__ = [
@@ -1111,7 +1111,7 @@ class BundleDict(MutableMapping):
             self.max_includes = new_max
 
     def _use_bids_info(self, roi_or_sl, bids_layout, bids_path, subject, session):
-        if isinstance(roi_or_sl, dict):
+        if isinstance(roi_or_sl, dict) and "roi" not in roi_or_sl:
             suffix = roi_or_sl.get("suffix", "dwi")
             roi_or_sl = find_file(
                 bids_layout, bids_path, roi_or_sl, suffix, session, subject
@@ -1124,6 +1124,33 @@ class BundleDict(MutableMapping):
         """
         Load ROI or streamline if not already loaded
         """
+        if isinstance(roi_or_sl, dict):
+            space = roi_or_sl.get("space", None)
+            roi_or_sl = roi_or_sl.get("roi", None)
+            if roi_or_sl is None or space is None:
+                raise ValueError(
+                    (
+                        f"Unclear ROI definition for {roi_or_sl}. "
+                        "See 'Defining Custom Bundle Dictionaries' "
+                        "in the documentation for details."
+                    )
+                )
+            if space == "template":
+                resample_to = self.resample_to
+            elif space == "subject":
+                resample_to = self.resample_subject_to
+            else:
+                raise ValueError(
+                    (
+                        f"Unknown space {space} for ROI definition {roi_or_sl}. "
+                        "See 'Defining Custom Bundle Dictionaries' "
+                        "in the documentation for details."
+                    )
+                )
+
+        logger.debug(f"Loading ROI or streamlines: {roi_or_sl}")
+        logger.debug(f"Loading ROI or streamlines from space: {resample_to}")
+
         if isinstance(roi_or_sl, str):
             if ".nii" in roi_or_sl:
                 return afd.read_resample_roi(roi_or_sl, resample_to=resample_to)
@@ -1261,11 +1288,20 @@ class BundleDict(MutableMapping):
         return (
             "space" not in self._dict[bundle_name]
             or self._dict[bundle_name]["space"] == "template"
+            or self._dict[bundle_name]["space"] == "mixed"
         )
 
-    def _roi_transform_helper(self, roi_or_sl, mapping, new_affine, bundle_name):
+    def _roi_transform_helper(self, roi_or_sl, mapping, new_img, bundle_name):
         roi_or_sl = self._cond_load(roi_or_sl, self.resample_to)
         if isinstance(roi_or_sl, nib.Nifti1Image):
+            if (
+                np.allclose(roi_or_sl.affine, new_img.affine)
+                and roi_or_sl.shape == new_img.shape
+            ):
+                # This is the case of a mixed bundle definition, where
+                # some ROIs need transformed and others do not
+                return roi_or_sl
+
             fdata = roi_or_sl.get_fdata()
             if len(np.unique(fdata)) <= 2:
                 boolean_ = True
@@ -1278,7 +1314,7 @@ class BundleDict(MutableMapping):
 
             if boolean_:
                 warped_img = warped_img.astype(np.uint8)
-            warped_img = nib.Nifti1Image(warped_img, new_affine)
+            warped_img = nib.Nifti1Image(warped_img, new_img.affine)
             return warped_img
         else:
             return roi_or_sl
@@ -1287,7 +1323,7 @@ class BundleDict(MutableMapping):
         self,
         bundle_name,
         mapping,
-        new_affine,
+        new_img,
         base_fname=None,
         to_space="subject",
         apply_to_recobundles=False,
@@ -1333,7 +1369,7 @@ class BundleDict(MutableMapping):
                 bundle_name,
                 self._roi_transform_helper,
                 mapping,
-                new_affine,
+                new_img,
                 bundle_name,
                 dry_run=True,
                 apply_to_recobundles=apply_to_recobundles,
