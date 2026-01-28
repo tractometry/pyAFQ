@@ -414,26 +414,22 @@ class RoiImage(ImageDefinition):
                     rois.update(
                         dict.fromkeys(bundle_entry.get("include", []), "waypoint")
                     )
+
+                dist_to_waypoint, dist_to_atlas, _ = tolerance_mm_to_vox(
+                    data_imap["dwi"],
+                    segmentation_params["dist_to_waypoint"],
+                    segmentation_params["dist_to_atlas"],
+                )
                 for roi, roi_type in rois.items():
                     warped_roi = roi.get_fdata()
                     if image_data is None:
                         image_data = np.zeros(warped_roi.shape)
                     if self.dilate:
-                        dist_to_waypoint, dist_to_atlas, _ = tolerance_mm_to_vox(
-                            data_imap["dwi"],
-                            segmentation_params["dist_to_waypoint"],
-                            segmentation_params["dist_to_atlas"],
-                        )
                         edt = distance_transform_edt(np.where(warped_roi == 0, 1, 0))
                         if roi_type == "waypoint":
                             warped_roi = edt <= dist_to_waypoint
                         else:
                             warped_roi = edt <= dist_to_atlas
-                        warped_roi = (
-                            edt <= dist_to_waypoint
-                            if roi_type == "waypoint"
-                            else edt <= dist_to_atlas
-                        )
 
                     image_data = np.logical_or(image_data, warped_roi.astype(bool))
             if self.tissue_property is not None:

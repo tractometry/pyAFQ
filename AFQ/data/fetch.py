@@ -1116,7 +1116,7 @@ fetch_massp_templates = _make_reusable_fetcher(
 
 
 def read_massp_templates(as_img=True, resample_to=False):
-    """Load AFQ MASSSP templates from file
+    """Load AFQ MASSP templates from file
 
     Parameters
     ----------
@@ -1135,7 +1135,7 @@ def read_massp_templates(as_img=True, resample_to=False):
     """
     logger = logging.getLogger("AFQ")
 
-    logger.debug("loading oton templates")
+    logger.debug("loading MASSP templates")
     tic = time.perf_counter()
 
     template_dict = _fetcher_to_template(
@@ -1143,7 +1143,7 @@ def read_massp_templates(as_img=True, resample_to=False):
     )
 
     toc = time.perf_counter()
-    logger.debug(f"MASSSP templates loaded in {toc - tic:0.4f} seconds")
+    logger.debug(f"MASSP templates loaded in {toc - tic:0.4f} seconds")
 
     return template_dict
 

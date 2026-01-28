@@ -1351,8 +1351,8 @@ class BundleDict(MutableMapping):
             Name of the bundle to be transformed.
         mapping : DiffeomorphicMap object
             A mapping between DWI space and a template.
-        new_affine : array
-            Affine of space transformed into.
+        new_img : Nifti1Image
+            Image of space transformed into.
         base_fname : str, optional
             Base file path to construct file path from. Additional BIDS
             descriptors will be added to this file path. If None,
