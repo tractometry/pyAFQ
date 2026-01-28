@@ -3,8 +3,10 @@ import logging
 import nibabel as nib
 import numpy as np
 from dipy.align import resample
+from scipy.ndimage import distance_transform_edt
 
 from AFQ.definitions.utils import Definition, find_file, name_from_path
+from AFQ.recognition.utils import tolerance_mm_to_vox
 from AFQ.tasks.utils import get_tp
 
 __all__ = [
@@ -324,6 +326,13 @@ class RoiImage(ImageDefinition):
     use_endpoints : bool
         Whether to use the endpoints ("start" and "end") to generate
         the image.
+    only_wmgmi : bool
+        Whether to only include portion of ROIs in the WM-GM interface.
+    only_wm : bool
+        Whether to only include portion of ROIs in the white matter.
+    dilate : bool
+        Whether to dilate the ROIs before combining them, according to the
+        tolerance that will be used during bundle recognition.
     tissue_property : str or None
         Tissue property from `scalars` to multiply the ROI image with.
         Can be useful to limit seed mask to the core white matter.
@@ -350,14 +359,20 @@ class RoiImage(ImageDefinition):
         use_presegment=False,
         use_endpoints=False,
         only_wmgmi=False,
+        only_wm=False,
+        dilate=True,
         tissue_property=None,
         tissue_property_n_voxel=None,
         tissue_property_threshold=None,
     ):
+        if only_wmgmi and only_wm:
+            raise ValueError("only_wmgmi and only_wm cannot both be True")
         self.use_waypoints = use_waypoints
         self.use_presegment = use_presegment
         self.use_endpoints = use_endpoints
         self.only_wmgmi = only_wmgmi
+        self.only_wm = only_wm
+        self.dilate = dilate
         self.tissue_property = tissue_property
         self.tissue_property_n_voxel = tissue_property_n_voxel
         self.tissue_property_threshold = tissue_property_threshold
@@ -386,21 +401,40 @@ class RoiImage(ImageDefinition):
                 bundle_entry = bundle_dict.transform_rois(
                     bundle_name, mapping_imap["mapping"], data_imap["dwi"]
                 )
-                rois = []
+                rois = {}
                 if self.use_endpoints:
-                    rois.extend(
-                        [
-                            bundle_entry[end_type]
+                    rois.update(
+                        {
+                            bundle_entry[end_type]: end_type
                             for end_type in ["start", "end"]
                             if end_type in bundle_entry
-                        ]
+                        }
                     )
                 if self.use_waypoints:
-                    rois.extend(bundle_entry.get("include", []))
-                for roi in rois:
+                    rois.update(
+                        dict.fromkeys(bundle_entry.get("include", []), "waypoint")
+                    )
+                for roi, roi_type in rois.items():
                     warped_roi = roi.get_fdata()
                     if image_data is None:
                         image_data = np.zeros(warped_roi.shape)
+                    if self.dilate:
+                        dist_to_waypoint, dist_to_atlas, _ = tolerance_mm_to_vox(
+                            data_imap["dwi"],
+                            segmentation_params["dist_to_waypoint"],
+                            segmentation_params["dist_to_atlas"],
+                        )
+                        edt = distance_transform_edt(np.where(warped_roi == 0, 1, 0))
+                        if roi_type == "waypoint":
+                            warped_roi = edt <= dist_to_waypoint
+                        else:
+                            warped_roi = edt <= dist_to_atlas
+                        warped_roi = (
+                            edt <= dist_to_waypoint
+                            if roi_type == "waypoint"
+                            else edt <= dist_to_atlas
+                        )
+
                     image_data = np.logical_or(image_data, warped_roi.astype(bool))
             if self.tissue_property is not None:
                 tp = nib.load(
@@ -455,6 +489,10 @@ class RoiImage(ImageDefinition):
                             "an ROI Image with WM/GM interface applied."
                         )
                     )
+
+            if self.only_wm:
+                wm = nib.load(tissue_imap["pve_internal"]).get_fdata()[..., 2] >= 0.5
+                image_data = np.logical_and(image_data, wm)
 
             return nib.Nifti1Image(
                 image_data.astype(np.float32), data_imap["dwi_affine"]
