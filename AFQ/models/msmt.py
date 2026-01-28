@@ -43,6 +43,10 @@ def _fit(self, data, mask=None, n_cpus=None):
                 A_outer[i, j, k] = A[k, i] * A[k, j]
 
     Q = R.T @ R
+
+    A = csr_matrix(A)
+    Q = csr_matrix(Q)
+
     if n_cpus > 1:
         ray.init(ignore_reinit_error=True)
 
@@ -57,12 +61,9 @@ def _fit(self, data, mask=None, n_cpus=None):
         def process_batch_remote(batch_indices, data, mask, Q, A, b, R):
             import numpy as np
             import osqp
-            from scipy.sparse import csr_matrix
 
             m = osqp.OSQP()
-            m.setup(
-                P=csr_matrix(Q), A=csr_matrix(A), l=b, u=None, q=None, verbose=False
-            )
+            m.setup(P=Q, A=A, l=b, u=None, q=None, verbose=False)
             return_values = np.zeros(
                 (len(batch_indices),) + data.shape[1:3] + (A.shape[1],),
                 dtype=np.float64,
@@ -93,8 +94,8 @@ def _fit(self, data, mask=None, n_cpus=None):
     else:
         m = osqp.OSQP()
         m.setup(
-            P=csr_matrix(Q),
-            A=csr_matrix(A),
+            P=Q,
+            A=A,
             l=b,
             u=None,
             q=None,
