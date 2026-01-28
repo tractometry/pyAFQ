@@ -11,6 +11,7 @@ from AFQ.definitions.utils import find_file
 from AFQ.tasks.utils import get_fname, str_to_desc
 
 logger = logging.getLogger("AFQ")
+logger.setLevel(logging.INFO)
 
 
 __all__ = [
@@ -1139,6 +1140,14 @@ class BundleDict(MutableMapping):
                 resample_to = self.resample_to
             elif space == "subject":
                 resample_to = self.resample_subject_to
+                if resample_to is False:
+                    raise ValueError(
+                        (
+                            "When using mixed ROI bundle definitions, "
+                            "and subject space ROIs, "
+                            "resample_subject_to cannot be False."
+                        )
+                    )
             else:
                 raise ValueError(
                     (
@@ -1296,7 +1305,7 @@ class BundleDict(MutableMapping):
         if isinstance(roi_or_sl, nib.Nifti1Image):
             if (
                 np.allclose(roi_or_sl.affine, new_img.affine)
-                and roi_or_sl.shape == new_img.shape
+                and roi_or_sl.shape == new_img.shape[:3]
             ):
                 # This is the case of a mixed bundle definition, where
                 # some ROIs need transformed and others do not
@@ -1418,7 +1427,9 @@ class BundleDict(MutableMapping):
 
     def __add__(self, other):
         for resample in ["resample_to", "resample_subject_to"]:
-            if (
+            if getattr(self, resample) == getattr(other, resample):
+                pass
+            elif (
                 not getattr(self, resample)
                 or not getattr(other, resample)
                 or getattr(self, resample) is None

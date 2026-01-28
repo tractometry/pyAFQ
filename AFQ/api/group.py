@@ -50,6 +50,8 @@ __all__ = ["GroupAFQ"]
 
 
 logger = logging.getLogger("AFQ")
+logger.setLevel(logging.INFO)
+
 
 warnings.simplefilter(action="ignore", category=FutureWarning)
 
