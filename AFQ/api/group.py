@@ -144,7 +144,7 @@ class GroupAFQ(object):
         api.GroupAFQ(my_path, csd_sh_order_max=4)
         api.GroupAFQ(
             my_path,
-            _spec="mni_t2", reg_subject_spec="b0")
+            reg_template_spec="mni_t2", reg_subject_spec="b0")
         """
         if bids_layout_kwargs is None:
             bids_layout_kwargs = {}
