@@ -421,7 +421,7 @@ def msdki_msk(msdki_tf):
 
 
 @immlib.calc("csd_params")
-@as_file(suffix="_model-csd_param-sswm_dwimap.nii.gz", subfolder="models")
+@as_file(suffix="_model-csd_param-wm_dwimap.nii.gz", subfolder="models")
 @as_img
 def csd_params(
     dwi,
