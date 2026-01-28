@@ -302,7 +302,7 @@ def default_bd():
                 "primary_axis_percentage": 40,
             },
         },
-        citations={"Yeatman2012", "takemura2017occipital"},
+        citations={"Yeatman2012", "takemura2017occipital", "Tzourio-Mazoyer2002"},
     )
 
 
