@@ -398,6 +398,19 @@ def msdki_params(brain_mask, gtab, data, citations):
     return [(msdki_fit.model_params, meta), (msdki_fit.model_S0, meta_s0)]
 
 
+@immlib.calc("msdki_smt2uFA")
+@as_file("_model-mskurtosis_param-smt2uFA_dwimap.nii.gz", subfolder="models")
+@as_fit_deriv("MSDKI")
+def msdki_smt2uFA(msdki_tf):
+    """
+    full path to a nifti file containing
+    the microscopic fractional anisotropy from the mean signal
+    diffusional kurtosis parameters assuming the 2-compartmental spherical
+    mean technique model
+    """
+    return msdki_tf.smt2uFA, {"Description": "Microscopic Fractional Anisotropy"}
+
+
 @immlib.calc("msdki_msd")
 @as_file("_model-mskurtosis_param-msd_dwimap.nii.gz", subfolder="models")
 @as_fit_deriv("MSDKI")
@@ -1432,6 +1445,7 @@ def get_data_plan(kwargs):
             fwdti_fwf,
             msdki_fit,
             msdki_params,
+            msdki_smt2uFA,
             msdki_msd,
             msdki_msk,
             dki_md,
@@ -1461,7 +1475,15 @@ def get_data_plan(kwargs):
     if "scalars" not in kwargs:
         bvals, _ = read_bvals_bvecs(kwargs["bval_file"], kwargs["bvec_file"])
         if len(dpg.unique_bvals_magnitude(bvals)) > 2:
-            kwargs["scalars"] = ["dki_fa", "dki_md", "dki_kfa", "dki_mk", "t1w"]
+            kwargs["scalars"] = [
+                "dki_fa",
+                "dki_md",
+                "dki_kfa",
+                "dki_mk",
+                "dti_fa",
+                "dti_md",
+                "t1w",
+            ]
         else:
             kwargs["scalars"] = ["dti_fa", "dti_md", "t1w"]
     else:
