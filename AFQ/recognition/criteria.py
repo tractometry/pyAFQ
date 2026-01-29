@@ -24,9 +24,9 @@ from AFQ.utils.stats import chunk_indices
 criteria_order_pre_other_bundles = [
     "prob_map",
     "cross_midline",
+    "length",
     "start",
     "end",
-    "length",
     "primary_axis",
     "include",
     "exclude",
@@ -69,18 +69,17 @@ def cross_midline(b_sls, bundle_def, preproc_imap, **kwargs):
 
 
 def start(b_sls, bundle_def, preproc_imap, **kwargs):
-    accept_idx = b_sls.initiate_selection("Startpoint")
-    abr.clean_by_endpoints(
-        b_sls.get_selected_sls(),
+    b_sls.initiate_selection("Startpoint")
+    accept_idx = abr.clean_by_endpoints(
+        preproc_imap["fgarray"][b_sls.selected_fiber_idxs],
         bundle_def["start"],
         0,
         tol=preproc_imap["dist_to_atlas"],
         flip_sls=b_sls.sls_flipped,
-        accepted_idxs=accept_idx,
     )
     if not b_sls.oriented_yet:
         accepted_idx_flipped = abr.clean_by_endpoints(
-            b_sls.get_selected_sls(),
+            preproc_imap["fgarray"][b_sls.selected_fiber_idxs],
             bundle_def["start"],
             -1,
             tol=preproc_imap["dist_to_atlas"],
@@ -91,18 +90,17 @@ def start(b_sls, bundle_def, preproc_imap, **kwargs):
 
 
 def end(b_sls, bundle_def, preproc_imap, **kwargs):
-    accept_idx = b_sls.initiate_selection("endpoint")
-    abr.clean_by_endpoints(
-        b_sls.get_selected_sls(),
+    b_sls.initiate_selection("endpoint")
+    accept_idx = abr.clean_by_endpoints(
+        preproc_imap["fgarray"][b_sls.selected_fiber_idxs],
         bundle_def["end"],
         -1,
         tol=preproc_imap["dist_to_atlas"],
         flip_sls=b_sls.sls_flipped,
-        accepted_idxs=accept_idx,
     )
     if not b_sls.oriented_yet:
         accepted_idx_flipped = abr.clean_by_endpoints(
-            b_sls.get_selected_sls(),
+            preproc_imap["fgarray"][b_sls.selected_fiber_idxs],
             bundle_def["end"],
             0,
             tol=preproc_imap["dist_to_atlas"],
@@ -116,10 +114,15 @@ def length(b_sls, bundle_def, preproc_imap, **kwargs):
     accept_idx = b_sls.initiate_selection("length")
     min_len = bundle_def["length"].get("min_len", 0) / preproc_imap["vox_dim"]
     max_len = bundle_def["length"].get("max_len", np.inf) / preproc_imap["vox_dim"]
-    for idx, sl in enumerate(b_sls.get_selected_sls()):
-        sl_len = np.sum(np.linalg.norm(np.diff(sl, axis=0), axis=1))
-        if sl_len >= min_len and sl_len <= max_len:
-            accept_idx[idx] = 1
+
+    # Using resampled fgarray biases lengths to be lower. However,
+    # this is not meant to be a precise selection requirement, and
+    # is more meant for efficiency.
+    segments = np.diff(preproc_imap["fgarray"][b_sls.selected_fiber_idxs], axis=1)
+    segment_lengths = np.sqrt(np.sum(segments**2, axis=2))
+    sl_lens = np.sum(segment_lengths, axis=1)
+
+    accept_idx = (sl_lens >= min_len) & (sl_lens <= max_len)
     b_sls.select(accept_idx, "length")
 
 
