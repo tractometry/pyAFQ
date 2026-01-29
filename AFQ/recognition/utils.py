@@ -14,6 +14,23 @@ from AFQ.definitions.mapping import ConformedFnirtMapping
 logger = logging.getLogger("AFQ")
 
 
+def tolerance_mm_to_vox(img, dist_to_waypoint, input_dist_to_atlas):
+    # We need to calculate the size of a voxel, so we can transform
+    # from mm to voxel units:
+    R = img.affine[0:3, 0:3]
+    vox_dim = np.mean(np.diag(np.linalg.cholesky(R.T.dot(R))))
+
+    # Tolerance is set to the square of the distance to the corner
+    # because we are using the squared Euclidean distance in calls to
+    # `cdist` to make those calls faster.
+    if dist_to_waypoint is None:
+        tol = dts.dist_to_corner(img.affine)
+    else:
+        tol = dist_to_waypoint / vox_dim
+    dist_to_atlas = int(input_dist_to_atlas / vox_dim)
+    return tol, dist_to_atlas, vox_dim
+
+
 def flip_sls(select_sl, idx_to_flip, in_place=False):
     """
     Helper function to flip streamlines

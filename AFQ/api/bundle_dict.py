@@ -10,7 +10,8 @@ import AFQ.utils.volume as auv
 from AFQ.definitions.utils import find_file
 from AFQ.tasks.utils import get_fname, str_to_desc
 
-logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("AFQ")
+logger.setLevel(logging.INFO)
 
 
 __all__ = [
@@ -184,6 +185,7 @@ def default_bd():
                 "prob_map": templates["IFO_L_prob_map"],
                 "end": templates["IFO_L_start"],
                 "start": templates["IFO_L_end"],
+                "length": {"min_len": 100, "max_len": 250},
             },
             "Right Inferior Fronto-occipital": {
                 "cross_midline": False,
@@ -193,6 +195,7 @@ def default_bd():
                 "prob_map": templates["IFO_R_prob_map"],
                 "end": templates["IFO_R_start"],
                 "start": templates["IFO_R_end"],
+                "length": {"min_len": 100, "max_len": 250},
             },
             "Left Inferior Longitudinal": {
                 "cross_midline": False,
@@ -220,6 +223,7 @@ def default_bd():
                 "prob_map": templates["ARC_L_prob_map"],
                 "start": templates["ARC_L_start"],
                 "end": templates["ARC_L_end"],
+                "length": {"min_len": 50, "max_len": 250},
             },
             "Right Arcuate": {
                 "cross_midline": False,
@@ -229,6 +233,7 @@ def default_bd():
                 "prob_map": templates["ARC_R_prob_map"],
                 "start": templates["ARC_R_start"],
                 "end": templates["ARC_R_end"],
+                "length": {"min_len": 50, "max_len": 250},
             },
             "Left Uncinate": {
                 "cross_midline": False,
@@ -253,8 +258,10 @@ def default_bd():
                 "include": [templates["SLFt_roi2_L"]],
                 "exclude": [templates["SLF_roi1_L"]],
                 "space": "template",
+                "prob_map": templates["ARC_L_prob_map"],  # Better than nothing
                 "start": templates["pARC_L_start"],
                 "Left Arcuate": {"overlap": 30},
+                "length": {"min_len": 30, "max_len": 120},
                 "primary_axis": "I/S",
                 "primary_axis_percentage": 40,
             },
@@ -263,8 +270,10 @@ def default_bd():
                 "include": [templates["SLFt_roi2_R"]],
                 "exclude": [templates["SLF_roi1_R"]],
                 "space": "template",
+                "prob_map": templates["ARC_R_prob_map"],  # Better than nothing
                 "start": templates["pARC_R_start"],
                 "Right Arcuate": {"overlap": 30},
+                "length": {"min_len": 30, "max_len": 120},
                 "primary_axis": "I/S",
                 "primary_axis_percentage": 40,
             },
@@ -278,8 +287,8 @@ def default_bd():
                     "entire_core": "Anterior",
                 },
                 "Left Inferior Fronto-occipital": {"core": "Right"},
-                "orient_mahal": {"distance_threshold": 3, "clean_rounds": 5},
-                "length": {"min_len": 25},
+                "orient_mahal": {"distance_threshold": 2, "clean_rounds": 1},
+                "length": {"min_len": 25, "max_len": 60},
                 "isolation_forest": {},
                 "primary_axis": "I/S",
                 "primary_axis_percentage": 40,
@@ -294,14 +303,14 @@ def default_bd():
                     "entire_core": "Anterior",
                 },
                 "Right Inferior Fronto-occipital": {"core": "Left"},
-                "orient_mahal": {"distance_threshold": 3, "clean_rounds": 5},
-                "length": {"min_len": 25},
+                "orient_mahal": {"distance_threshold": 2, "clean_rounds": 1},
+                "length": {"min_len": 25, "max_len": 60},
                 "isolation_forest": {},
                 "primary_axis": "I/S",
                 "primary_axis_percentage": 40,
             },
         },
-        citations={"Yeatman2012", "takemura2017occipital"},
+        citations={"Yeatman2012", "takemura2017occipital", "Tzourio-Mazoyer2002"},
     )
 
 
@@ -1111,7 +1120,7 @@ class BundleDict(MutableMapping):
             self.max_includes = new_max
 
     def _use_bids_info(self, roi_or_sl, bids_layout, bids_path, subject, session):
-        if isinstance(roi_or_sl, dict):
+        if isinstance(roi_or_sl, dict) and "roi" not in roi_or_sl:
             suffix = roi_or_sl.get("suffix", "dwi")
             roi_or_sl = find_file(
                 bids_layout, bids_path, roi_or_sl, suffix, session, subject
@@ -1124,6 +1133,41 @@ class BundleDict(MutableMapping):
         """
         Load ROI or streamline if not already loaded
         """
+        if isinstance(roi_or_sl, dict):
+            space = roi_or_sl.get("space", None)
+            roi_or_sl = roi_or_sl.get("roi", None)
+            if roi_or_sl is None or space is None:
+                raise ValueError(
+                    (
+                        f"Unclear ROI definition for {roi_or_sl}. "
+                        "See 'Defining Custom Bundle Dictionaries' "
+                        "in the documentation for details."
+                    )
+                )
+            if space == "template":
+                resample_to = self.resample_to
+            elif space == "subject":
+                resample_to = self.resample_subject_to
+                if resample_to is False:
+                    raise ValueError(
+                        (
+                            "When using mixed ROI bundle definitions, "
+                            "and subject space ROIs, "
+                            "resample_subject_to cannot be False."
+                        )
+                    )
+            else:
+                raise ValueError(
+                    (
+                        f"Unknown space {space} for ROI definition {roi_or_sl}. "
+                        "See 'Defining Custom Bundle Dictionaries' "
+                        "in the documentation for details."
+                    )
+                )
+
+        logger.debug(f"Loading ROI or streamlines: {roi_or_sl}")
+        logger.debug(f"Loading ROI or streamlines from space: {resample_to}")
+
         if isinstance(roi_or_sl, str):
             if ".nii" in roi_or_sl:
                 return afd.read_resample_roi(roi_or_sl, resample_to=resample_to)
@@ -1261,11 +1305,20 @@ class BundleDict(MutableMapping):
         return (
             "space" not in self._dict[bundle_name]
             or self._dict[bundle_name]["space"] == "template"
+            or self._dict[bundle_name]["space"] == "mixed"
         )
 
-    def _roi_transform_helper(self, roi_or_sl, mapping, new_affine, bundle_name):
+    def _roi_transform_helper(self, roi_or_sl, mapping, new_img, bundle_name):
         roi_or_sl = self._cond_load(roi_or_sl, self.resample_to)
         if isinstance(roi_or_sl, nib.Nifti1Image):
+            if (
+                np.allclose(roi_or_sl.affine, new_img.affine)
+                and roi_or_sl.shape == new_img.shape[:3]
+            ):
+                # This is the case of a mixed bundle definition, where
+                # some ROIs need transformed and others do not
+                return roi_or_sl
+
             fdata = roi_or_sl.get_fdata()
             if len(np.unique(fdata)) <= 2:
                 boolean_ = True
@@ -1278,7 +1331,7 @@ class BundleDict(MutableMapping):
 
             if boolean_:
                 warped_img = warped_img.astype(np.uint8)
-            warped_img = nib.Nifti1Image(warped_img, new_affine)
+            warped_img = nib.Nifti1Image(warped_img, new_img.affine)
             return warped_img
         else:
             return roi_or_sl
@@ -1287,7 +1340,7 @@ class BundleDict(MutableMapping):
         self,
         bundle_name,
         mapping,
-        new_affine,
+        new_img,
         base_fname=None,
         to_space="subject",
         apply_to_recobundles=False,
@@ -1306,8 +1359,8 @@ class BundleDict(MutableMapping):
             Name of the bundle to be transformed.
         mapping : DiffeomorphicMap object
             A mapping between DWI space and a template.
-        new_affine : array
-            Affine of space transformed into.
+        new_img : Nifti1Image
+            Image of space transformed into.
         base_fname : str, optional
             Base file path to construct file path from. Additional BIDS
             descriptors will be added to this file path. If None,
@@ -1333,7 +1386,7 @@ class BundleDict(MutableMapping):
                 bundle_name,
                 self._roi_transform_helper,
                 mapping,
-                new_affine,
+                new_img,
                 bundle_name,
                 dry_run=True,
                 apply_to_recobundles=apply_to_recobundles,
@@ -1382,7 +1435,9 @@ class BundleDict(MutableMapping):
 
     def __add__(self, other):
         for resample in ["resample_to", "resample_subject_to"]:
-            if (
+            if getattr(self, resample) == getattr(other, resample):
+                pass
+            elif (
                 not getattr(self, resample)
                 or not getattr(other, resample)
                 or getattr(self, resample) is None

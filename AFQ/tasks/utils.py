@@ -29,7 +29,12 @@ def get_base_fname(output_dir, dwi_data_file):
             key = key_val_pair.split("-")[0]
             if key not in used_key_list:
                 fname = fname + key_val_pair + "_"
-    fname = fname[:-1]
+    if fname[-1] == "_":
+        fname = fname[:-1]
+    else:
+        # if no key value pairs found,
+        # have some default base file name
+        fname = fname + "subject"
     return fname
 
 

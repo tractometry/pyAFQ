@@ -34,6 +34,11 @@ from AFQ.viz.utils import BEST_BUNDLE_ORIENTATIONS, get_eye, trim
 __all__ = ["ParticipantAFQ"]
 
 
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("AFQ")
+logger.setLevel(logging.INFO)
+
+
 class ParticipantAFQ(object):
     f"""{AFQclass_doc}"""
 

@@ -49,8 +49,10 @@ except ImportError:
 __all__ = ["GroupAFQ"]
 
 
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("AFQ")
 logger.setLevel(logging.INFO)
+
 
 warnings.simplefilter(action="ignore", category=FutureWarning)
 
