@@ -185,6 +185,7 @@ def default_bd():
                 "prob_map": templates["IFO_L_prob_map"],
                 "end": templates["IFO_L_start"],
                 "start": templates["IFO_L_end"],
+                "length": {"min_len": 100, "max_len": 250},
             },
             "Right Inferior Fronto-occipital": {
                 "cross_midline": False,
@@ -194,6 +195,7 @@ def default_bd():
                 "prob_map": templates["IFO_R_prob_map"],
                 "end": templates["IFO_R_start"],
                 "start": templates["IFO_R_end"],
+                "length": {"min_len": 100, "max_len": 250},
             },
             "Left Inferior Longitudinal": {
                 "cross_midline": False,
@@ -221,6 +223,7 @@ def default_bd():
                 "prob_map": templates["ARC_L_prob_map"],
                 "start": templates["ARC_L_start"],
                 "end": templates["ARC_L_end"],
+                "length": {"min_len": 50, "max_len": 250},
             },
             "Right Arcuate": {
                 "cross_midline": False,
@@ -230,6 +233,7 @@ def default_bd():
                 "prob_map": templates["ARC_R_prob_map"],
                 "start": templates["ARC_R_start"],
                 "end": templates["ARC_R_end"],
+                "length": {"min_len": 50, "max_len": 250},
             },
             "Left Uncinate": {
                 "cross_midline": False,
@@ -254,8 +258,10 @@ def default_bd():
                 "include": [templates["SLFt_roi2_L"]],
                 "exclude": [templates["SLF_roi1_L"]],
                 "space": "template",
+                "prob_map": templates["ARC_L_prob_map"],  # Better than nothing
                 "start": templates["pARC_L_start"],
                 "Left Arcuate": {"overlap": 30},
+                "length": {"min_len": 30, "max_len": 120},
                 "primary_axis": "I/S",
                 "primary_axis_percentage": 40,
             },
@@ -264,8 +270,10 @@ def default_bd():
                 "include": [templates["SLFt_roi2_R"]],
                 "exclude": [templates["SLF_roi1_R"]],
                 "space": "template",
+                "prob_map": templates["ARC_R_prob_map"],  # Better than nothing
                 "start": templates["pARC_R_start"],
                 "Right Arcuate": {"overlap": 30},
+                "length": {"min_len": 30, "max_len": 120},
                 "primary_axis": "I/S",
                 "primary_axis_percentage": 40,
             },
@@ -280,7 +288,7 @@ def default_bd():
                 },
                 "Left Inferior Fronto-occipital": {"core": "Right"},
                 "orient_mahal": {"distance_threshold": 2, "clean_rounds": 1},
-                "length": {"min_len": 25},
+                "length": {"min_len": 25, "max_len": 60},
                 "isolation_forest": {},
                 "primary_axis": "I/S",
                 "primary_axis_percentage": 40,
@@ -296,7 +304,7 @@ def default_bd():
                 },
                 "Right Inferior Fronto-occipital": {"core": "Left"},
                 "orient_mahal": {"distance_threshold": 2, "clean_rounds": 1},
-                "length": {"min_len": 25},
+                "length": {"min_len": 25, "max_len": 60},
                 "isolation_forest": {},
                 "primary_axis": "I/S",
                 "primary_axis_percentage": 40,
