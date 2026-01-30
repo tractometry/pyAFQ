@@ -281,9 +281,9 @@ def default_bd():
                 "cross_midline": False,
                 "space": "template",
                 "end": templates["VOF_L_end"],
-                "Left Arcuate": {"node_thresh": 20},
+                "Left Arcuate": {"node_thresh": 10},
                 "Left Posterior Arcuate": {
-                    "node_thresh": 20,
+                    "node_thresh": 10,
                     "entire_core": "Anterior",
                 },
                 "Left Inferior Fronto-occipital": {"core": "Right"},
@@ -297,9 +297,9 @@ def default_bd():
                 "cross_midline": False,
                 "space": "template",
                 "end": templates["VOF_R_end"],
-                "Right Arcuate": {"node_thresh": 20},
+                "Right Arcuate": {"node_thresh": 10},
                 "Right Posterior Arcuate": {
-                    "node_thresh": 20,
+                    "node_thresh": 10,
                     "entire_core": "Anterior",
                 },
                 "Right Inferior Fronto-occipital": {"core": "Left"},
