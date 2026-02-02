@@ -280,11 +280,11 @@ def default_bd():
             "Left Vertical Occipital": {
                 "cross_midline": False,
                 "space": "template",
-                "start": templates["VOF_L_start"],
                 "end": templates["VOF_L_end"],
-                "Left Arcuate": {"node_thresh": 10},
+                "Left Arcuate": {"node_thresh": 10, "project": "L/R"},
                 "Left Posterior Arcuate": {
                     "node_thresh": 10,
+                    "project": "L/R",
                     "entire_core": "Anterior",
                 },
                 "Left Inferior Fronto-occipital": {"core": "Right"},
@@ -297,11 +297,11 @@ def default_bd():
             "Right Vertical Occipital": {
                 "cross_midline": False,
                 "space": "template",
-                "start": templates["VOF_R_start"],
                 "end": templates["VOF_R_end"],
-                "Right Arcuate": {"node_thresh": 10},
+                "Right Arcuate": {"node_thresh": 10, "project": "L/R"},
                 "Right Posterior Arcuate": {
                     "node_thresh": 10,
+                    "project": "L/R",
                     "entire_core": "Anterior",
                 },
                 "Right Inferior Fronto-occipital": {"core": "Left"},

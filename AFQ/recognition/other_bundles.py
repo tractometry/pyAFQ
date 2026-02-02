@@ -9,7 +9,9 @@ from scipy.spatial.distance import cdist
 logger = logging.getLogger("AFQ")
 
 
-def clean_by_overlap(this_bundle_sls, other_bundle_sls, overlap, img, remove=False):
+def clean_by_overlap(
+    this_bundle_sls, other_bundle_sls, overlap, img, remove=False, project=None
+):
     """
     Cleans a set of streamlines by only keeping (or removing) those with
     significant overlap with another set of streamlines.
@@ -32,6 +34,11 @@ def clean_by_overlap(this_bundle_sls, other_bundle_sls, overlap, img, remove=Fal
         removed. If False, streamlines that overlap in more than `overlap` nodes
         are removed.
         Default: False.
+    project : {'A/P', 'I/S', 'L/R', None}, optional
+        If specified, the overlap calculation is projected along the given axis
+        before cleaning. For example, 'A/P' projects the streamlines along the
+        anterior-posterior axis.
+        Default: None.
 
     Returns
     -------
@@ -56,6 +63,19 @@ def clean_by_overlap(this_bundle_sls, other_bundle_sls, overlap, img, remove=Fal
     other_bundle_density_map = dtu.density_map(
         other_bundle_sls, np.eye(4), img.shape[:3]
     )
+
+    if project is not None:
+        orientation = nib.orientations.aff2axcodes(img.affine)
+        core_axis = next(
+            idx for idx, label in enumerate(orientation) if label in project.upper()
+        )
+
+        projection = np.sum(other_bundle_density_map, axis=core_axis)
+
+        other_bundle_density_map = np.broadcast_to(
+            np.expand_dims(projection, axis=core_axis), other_bundle_density_map.shape
+        )
+
     fiber_probabilities = dts.values_from_volume(
         other_bundle_density_map, this_bundle_sls, np.eye(4)
     )

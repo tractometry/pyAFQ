@@ -307,7 +307,8 @@ def clean_by_other_bundle(
             other_bundle_sls,
             bundle_def[other_bundle_name]["overlap"],
             img,
-            False,
+            remove=False,
+            project=bundle_def[other_bundle_name].get("project", None),
         )
         cleaned_idx = np.logical_and(cleaned_idx, cleaned_idx_overlap)
 
@@ -317,7 +318,8 @@ def clean_by_other_bundle(
             other_bundle_sls,
             bundle_def[other_bundle_name]["node_thresh"],
             img,
-            True,
+            remove=True,
+            project=bundle_def[other_bundle_name].get("project", None),
         )
         cleaned_idx = np.logical_and(cleaned_idx, cleaned_idx_node_thresh)
 
