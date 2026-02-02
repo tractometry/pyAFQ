@@ -281,9 +281,9 @@ def default_bd():
                 "cross_midline": False,
                 "space": "template",
                 "end": templates["VOF_L_end"],
-                "Left Arcuate": {"node_thresh": 10, "project": "L/R"},
+                "Left Arcuate": {"node_thresh": 20, "project": "L/R"},
                 "Left Posterior Arcuate": {
-                    "node_thresh": 10,
+                    "node_thresh": 20,
                     "project": "L/R",
                     "entire_core": "Anterior",
                 },
@@ -298,9 +298,9 @@ def default_bd():
                 "cross_midline": False,
                 "space": "template",
                 "end": templates["VOF_R_end"],
-                "Right Arcuate": {"node_thresh": 10, "project": "L/R"},
+                "Right Arcuate": {"node_thresh": 20, "project": "L/R"},
                 "Right Posterior Arcuate": {
-                    "node_thresh": 10,
+                    "node_thresh": 20,
                     "project": "L/R",
                     "entire_core": "Anterior",
                 },

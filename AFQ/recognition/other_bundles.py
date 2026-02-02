@@ -10,7 +10,13 @@ logger = logging.getLogger("AFQ")
 
 
 def clean_by_overlap(
-    this_bundle_sls, other_bundle_sls, overlap, img, remove=False, project=None
+    this_bundle_sls,
+    other_bundle_sls,
+    overlap,
+    img,
+    remove=False,
+    project=None,
+    other_bundle_min_density=0.05,
 ):
     """
     Cleans a set of streamlines by only keeping (or removing) those with
@@ -39,6 +45,11 @@ def clean_by_overlap(
         before cleaning. For example, 'A/P' projects the streamlines along the
         anterior-posterior axis.
         Default: None.
+    other_bundle_min_density : float, optional
+        A threshold to binarize the density map of `other_bundle_sls`. Voxels
+        with density values above this threshold (as a fraction of the maximum
+        density) are considered occupied.
+        Default: 0.05.
 
     Returns
     -------
@@ -63,6 +74,10 @@ def clean_by_overlap(
     other_bundle_density_map = dtu.density_map(
         other_bundle_sls, np.eye(4), img.shape[:3]
     )
+
+    other_bundle_density_map = (
+        other_bundle_density_map / other_bundle_density_map.max()
+    ) > other_bundle_min_density
 
     if project is not None:
         orientation = nib.orientations.aff2axcodes(img.affine)
