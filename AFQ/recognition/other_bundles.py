@@ -75,9 +75,10 @@ def clean_by_overlap(
         other_bundle_sls, np.eye(4), img.shape[:3]
     )
 
-    other_bundle_density_map = (
-        other_bundle_density_map / other_bundle_density_map.max()
-    ) > other_bundle_min_density
+    if remove:
+        other_bundle_density_map = (
+            other_bundle_density_map / other_bundle_density_map.max()
+        ) > other_bundle_min_density
 
     if project is not None:
         orientation = nib.orientations.aff2axcodes(img.affine)

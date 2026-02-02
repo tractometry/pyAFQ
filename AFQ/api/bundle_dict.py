@@ -256,7 +256,7 @@ def default_bd():
             "Left Posterior Arcuate": {
                 "cross_midline": False,
                 "include": [templates["SLFt_roi2_L"]],
-                "exclude": [templates["SLF_roi1_L"]],
+                "exclude": [templates["SLF_roi1_L"], templates["IFO_roi1_L"]],
                 "space": "template",
                 "prob_map": templates["ARC_L_prob_map"],  # Better than nothing
                 "start": templates["pARC_L_start"],
@@ -268,7 +268,7 @@ def default_bd():
             "Right Posterior Arcuate": {
                 "cross_midline": False,
                 "include": [templates["SLFt_roi2_R"]],
-                "exclude": [templates["SLF_roi1_R"]],
+                "exclude": [templates["SLF_roi1_R"], templates["IFO_roi1_R"]],
                 "space": "template",
                 "prob_map": templates["ARC_R_prob_map"],  # Better than nothing
                 "start": templates["pARC_R_start"],
