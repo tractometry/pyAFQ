@@ -277,7 +277,7 @@ class ParticipantAFQ(object):
         bundle_dict = self.export("bundle_dict")
         self.logger.info("Generating Montage...")
         viz_backend = self.export("viz_backend")
-        best_scalar = self.export(self.export("best_scalar"))
+        best_scalar = self.kwargs["best_scalar"]
         t1 = nib.load(self.export("t1_masked"))
         size = (images_per_row, math.ceil(len(bundle_dict) / images_per_row))
         for ii, bundle_name in enumerate(tqdm(bundle_dict)):
