@@ -5,6 +5,8 @@ import tempfile
 from time import time
 
 import nibabel as nib
+import numpy as np
+from dipy.align import resample
 from PIL import Image, ImageDraw, ImageFont
 from tqdm import tqdm
 
@@ -277,8 +279,9 @@ class ParticipantAFQ(object):
         bundle_dict = self.export("bundle_dict")
         self.logger.info("Generating Montage...")
         viz_backend = self.export("viz_backend")
-        best_scalar = self.kwargs["best_scalar"]
         t1 = nib.load(self.export("t1_masked"))
+        best_scalar = nib.load(self.export(self.kwargs["best_scalar"]))
+        best_scalar = resample(best_scalar, t1)
         size = (images_per_row, math.ceil(len(bundle_dict) / images_per_row))
         for ii, bundle_name in enumerate(tqdm(bundle_dict)):
             flip_axes = [False, False, False]
@@ -286,12 +289,12 @@ class ParticipantAFQ(object):
                 flip_axes[i] = self.export("dwi_affine")[i, i] < 0
 
             figure = viz_backend.visualize_volume(
-                t1, flip_axes=flip_axes, interact=False, inline=False
+                t1.get_fdata(), flip_axes=flip_axes, interact=False, inline=False
             )
             figure = viz_backend.visualize_bundles(
                 self.export("bundles"),
-                affine=t1.affine,
-                shade_by_volume=best_scalar,
+                img=t1,
+                shade_by_volume=best_scalar.get_fdata(),
                 color_by_direction=True,
                 flip_axes=flip_axes,
                 bundle=bundle_name,
