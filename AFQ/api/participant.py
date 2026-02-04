@@ -5,7 +5,7 @@ import tempfile
 from time import time
 
 import nibabel as nib
-import numpy as np
+from math import radians
 from dipy.align import resample
 from PIL import Image, ImageDraw, ImageFont
 from tqdm import tqdm
@@ -299,40 +299,46 @@ class ParticipantAFQ(object):
                 flip_axes=flip_axes,
                 bundle=bundle_name,
                 figure=figure,
+                n_points=40,
                 interact=False,
                 inline=False,
             )
 
-            view, direc = BEST_BUNDLE_ORIENTATIONS.get(bundle_name, ("Axial", "Top"))
-            eye = get_eye(view, direc)
+            for jj, view in enumerate(["Sagittal", "Coronal", "Axial"]):
+                direc = BEST_BUNDLE_ORIENTATIONS.get(
+                    bundle_name, ("Left", "Front", "Top")
+                )[jj]
 
-            this_fname = tdir + f"/t{ii}.png"
-            if "plotly" in viz_backend.backend:
-                figure.update_layout(
-                    scene_camera=dict(
-                        projection=dict(type="orthographic"),
-                        up={"x": 0, "y": 0, "z": 1},
-                        eye=eye,
-                        center=dict(x=0, y=0, z=0),
-                    ),
-                    showlegend=False,
-                )
-                figure.write_image(this_fname, scale=4)
+                eye = get_eye(view, direc)
 
-                # temporary fix for memory leak
-                import plotly.io as pio
+                this_fname = tdir + f"/t{ii}_{view}.png"
+                if "plotly" in viz_backend.backend:
+                    figure.update_layout(
+                        scene_camera=dict(
+                            projection=dict(type="orthographic"),
+                            up={"x": 0, "y": 0, "z": 1},
+                            eye=eye,
+                            center=dict(x=0, y=0, z=0),
+                        ),
+                        showlegend=False,
+                    )
+                    figure.write_image(this_fname, scale=4)
+                else:
+                    from fury import window
 
-                pio.kaleido.scope._shutdown_kaleido()
-            else:
-                from fury import window
-
-                from AFQ.viz.fury_backend import scene_rotate_forward
-
-                show_m = window.ShowManager(
-                    scene=figure, window_type="offscreen", size=(600, 600)
-                )
-                scene_rotate_forward(show_m, figure)
-                show_m.snapshot(this_fname)
+                    show_m = window.ShowManager(
+                        scene=figure, window_type="offscreen", size=(600, 600)
+                    )
+                    window.update_camera(show_m.screens[0].camera, None, figure)
+                    if view == "Coronal":
+                        show_m.screens[0].controller.rotate((0, radians(-eye["y"] * 90)), None)
+                    elif view == "Axial":
+                        show_m.screens[0].controller.rotate((radians(eye["z"] * 90), 0, 0), None)
+                    elif view == "Sagittal":
+                        pass
+                    show_m.render()
+                    show_m.window.draw()
+                    show_m.snapshot(this_fname)
 
         def _save_file(curr_img):
             save_path = op.abspath(
@@ -345,33 +351,34 @@ class ParticipantAFQ(object):
         max_height = 0
         max_width = 0
         for ii, bundle_name in enumerate(bundle_dict):
-            this_img = Image.open(tdir + f"/t{ii}.png")
-            try:
-                this_img_trimmed[ii] = trim(this_img)
-            except IndexError:  # this_img is a picture of nothing
-                this_img_trimmed[ii] = this_img
+            for view in ["Axial", "Coronal", "Sagittal"]:
+                this_img = Image.open(tdir + f"/t{ii}_{view}.png")
+                try:
+                    this_img_trimmed[ii] = trim(this_img)
+                except IndexError:  # this_img is a picture of nothing
+                    this_img_trimmed[ii] = this_img
 
-            text_sz = 70
-            width, height = this_img_trimmed[ii].size
-            height = height + text_sz
-            result = Image.new(
-                this_img_trimmed[ii].mode, (width, height), color=(255, 255, 255)
-            )
-            result.paste(this_img_trimmed[ii], (0, text_sz))
-            this_img_trimmed[ii] = result
+                text_sz = 70
+                width, height = this_img_trimmed[ii].size
+                height = height + text_sz
+                result = Image.new(
+                    this_img_trimmed[ii].mode, (width, height), color=(255, 255, 255)
+                )
+                result.paste(this_img_trimmed[ii], (0, text_sz))
+                this_img_trimmed[ii] = result
 
-            draw = ImageDraw.Draw(this_img_trimmed[ii])
-            draw.text(
-                (0, 0),
-                bundle_name,
-                (0, 0, 0),
-                font=ImageFont.truetype("Arial", text_sz),
-            )
+                draw = ImageDraw.Draw(this_img_trimmed[ii])
+                draw.text(
+                    (0, 0),
+                    bundle_name,
+                    (0, 0, 0),
+                    font=ImageFont.truetype("Arial", text_sz),
+                )
 
-            if this_img_trimmed[ii].size[0] > max_width:
-                max_width = this_img_trimmed[ii].size[0]
-            if this_img_trimmed[ii].size[1] > max_height:
-                max_height = this_img_trimmed[ii].size[1]
+                if this_img_trimmed[ii].size[0] > max_width:
+                    max_width = this_img_trimmed[ii].size[0]
+                if this_img_trimmed[ii].size[1] > max_height:
+                    max_height = this_img_trimmed[ii].size[1]
 
         curr_img = Image.new(
             "RGB", (max_width * size[0], max_height * size[1]), color="white"
