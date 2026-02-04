@@ -259,7 +259,7 @@ class ParticipantAFQ(object):
         export_all_helper(self, xforms, indiv, viz)
         self.logger.info(f"Time taken for export all: {time() - start_time}")
 
-    def participant_montage(self, images_per_row=2):
+    def participant_montage(self, images_per_row=3):
         """
         Generate montage of all bundles for a given subject.
 
@@ -267,7 +267,7 @@ class ParticipantAFQ(object):
         ----------
         images_per_row : int
             Number of bundle images per row in output file.
-            Default: 2
+            Default: 3
 
         Returns
         -------
@@ -282,7 +282,7 @@ class ParticipantAFQ(object):
         t1 = nib.load(self.export("t1_masked"))
         best_scalar = nib.load(self.export(self.kwargs["best_scalar"]))
         best_scalar = resample(best_scalar, t1)
-        size = (images_per_row, math.ceil(len(bundle_dict) / images_per_row))
+        size = (images_per_row, math.ceil(3 * len(bundle_dict) / images_per_row))
         for ii, bundle_name in enumerate(tqdm(bundle_dict)):
             flip_axes = [False, False, False]
             for i in range(3):
@@ -350,15 +350,16 @@ class ParticipantAFQ(object):
         this_img_trimmed = {}
         max_height = 0
         max_width = 0
-        for ii, bundle_name in enumerate(bundle_dict):
+        ii = 0
+        for b_idx, bundle_name in enumerate(bundle_dict):
             for view in ["Axial", "Coronal", "Sagittal"]:
-                this_img = Image.open(tdir + f"/t{ii}_{view}.png")
+                this_img = Image.open(tdir + f"/t{b_idx}_{view}.png")
                 try:
                     this_img_trimmed[ii] = trim(this_img)
                 except IndexError:  # this_img is a picture of nothing
                     this_img_trimmed[ii] = this_img
 
-                text_sz = 70
+                text_sz = 40
                 width, height = this_img_trimmed[ii].size
                 height = height + text_sz
                 result = Image.new(
@@ -370,26 +371,27 @@ class ParticipantAFQ(object):
                 draw = ImageDraw.Draw(this_img_trimmed[ii])
                 draw.text(
                     (0, 0),
-                    bundle_name,
+                    f"{bundle_name} - {view}",
                     (0, 0, 0),
-                    font=ImageFont.truetype("Arial", text_sz),
+                    font=ImageFont.load_default(text_sz),
                 )
 
                 if this_img_trimmed[ii].size[0] > max_width:
                     max_width = this_img_trimmed[ii].size[0]
                 if this_img_trimmed[ii].size[1] > max_height:
                     max_height = this_img_trimmed[ii].size[1]
+                ii += 1
 
         curr_img = Image.new(
             "RGB", (max_width * size[0], max_height * size[1]), color="white"
         )
 
-        for ii in range(len(bundle_dict)):
-            x_pos = ii % size[0]
-            _ii = ii // size[0]
+        for jj in range(ii):
+            x_pos = jj % size[0]
+            _ii = jj // size[0]
             y_pos = _ii % size[1]
             _ii = _ii // size[1]
-            this_img = this_img_trimmed[ii].resize((max_width, max_height))
+            this_img = this_img_trimmed[jj].resize((max_width, max_height))
             curr_img.paste(this_img, (x_pos * max_width, y_pos * max_height))
 
         _save_file(curr_img)
