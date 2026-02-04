@@ -259,7 +259,7 @@ class ParticipantAFQ(object):
         export_all_helper(self, xforms, indiv, viz)
         self.logger.info(f"Time taken for export all: {time() - start_time}")
 
-    def participant_montage(self, images_per_row=3):
+    def participant_montage(self, images_per_row=3, anatomy=True, bundle_names=None):
         """
         Generate montage of all bundles for a given subject.
 
@@ -269,6 +269,14 @@ class ParticipantAFQ(object):
             Number of bundle images per row in output file.
             Default: 3
 
+        anatomy : bool
+            Whether to include anatomical images in the montage.
+            Default: True
+
+        bundle_names : list of str or None
+            List of bundle names to include in the montage.
+            Default: None (includes all bundles)
+
         Returns
         -------
         filename of montage images
@@ -276,21 +284,26 @@ class ParticipantAFQ(object):
         tdir = tempfile.gettempdir()
 
         all_fnames = []
-        bundle_dict = self.export("bundle_dict")
+        if bundle_names is None:
+            bundle_dict = self.export("bundle_dict")
+            bundle_names = list(bundle_dict.keys())
         self.logger.info("Generating Montage...")
         viz_backend = self.export("viz_backend")
         t1 = nib.load(self.export("t1_masked"))
         best_scalar = nib.load(self.export(self.kwargs["best_scalar"]))
         best_scalar = resample(best_scalar, t1)
-        size = (images_per_row, math.ceil(3 * len(bundle_dict) / images_per_row))
-        for ii, bundle_name in enumerate(tqdm(bundle_dict)):
+        size = (images_per_row, math.ceil(3 * len(bundle_names) / images_per_row))
+        for ii, bundle_name in enumerate(tqdm(bundle_names)):
             flip_axes = [False, False, False]
             for i in range(3):
                 flip_axes[i] = self.export("dwi_affine")[i, i] < 0
 
-            figure = viz_backend.visualize_volume(
-                t1.get_fdata(), flip_axes=flip_axes, interact=False, inline=False
-            )
+            if anatomy:
+                figure = viz_backend.visualize_volume(
+                    t1.get_fdata(), flip_axes=flip_axes, interact=False, inline=False
+                )
+            else:
+                figure = None
             figure = viz_backend.visualize_bundles(
                 self.export("bundles"),
                 img=t1,
@@ -351,7 +364,7 @@ class ParticipantAFQ(object):
         max_height = 0
         max_width = 0
         ii = 0
-        for b_idx, bundle_name in enumerate(bundle_dict):
+        for b_idx, bundle_name in enumerate(bundle_names):
             for view in ["Axial", "Coronal", "Sagittal"]:
                 this_img = Image.open(tdir + f"/t{b_idx}_{view}.png")
                 try:
