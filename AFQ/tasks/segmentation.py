@@ -113,7 +113,7 @@ def segment(data_imap, mapping_imap, tractography_imap, segmentation_params):
         **segmentation_params,
     )
 
-    seg_sft = aus.SegmentedSFT(bundles, Space.VOX)
+    seg_sft = aus.SegmentedSFT(bundles)
 
     if len(seg_sft.sft) < 1:
         raise ValueError("Fatal: No bundles recognized.")

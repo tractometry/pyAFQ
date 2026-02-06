@@ -15,10 +15,9 @@ from AFQ.utils.path import drop_extension, read_json
 
 
 class SegmentedSFT:
-    def __init__(self, bundles, space, sidecar_info=None):
+    def __init__(self, bundles, sidecar_info=None):
         if sidecar_info is None:
             sidecar_info = {}
-        reference = None
         self.bundle_names = []
         sls = []
         idxs = {}
@@ -26,20 +25,17 @@ class SegmentedSFT:
         idx_count = 0
         for b_name in bundles:
             if isinstance(bundles[b_name], dict):
-                this_sls = bundles[b_name]["sl"]
+                this_sft = bundles[b_name]["sl"]
                 this_tracking_idxs[b_name] = bundles[b_name]["idx"]
             else:
-                this_sls = bundles[b_name]
-            if reference is None:
-                reference = this_sls
-            this_sls = list(this_sls.streamlines)
+                this_sft = bundles[b_name]
+            this_sls = list(this_sft.streamlines)
             sls.extend(this_sls)
             new_idx_count = idx_count + len(this_sls)
             idxs[b_name] = np.arange(idx_count, new_idx_count, dtype=np.uint32)
             idx_count = new_idx_count
             self.bundle_names.append(b_name)
 
-        self.sft = StatefulTractogram(sls, reference, space)
         self.bundle_idxs = idxs
         if len(this_tracking_idxs) > 1:
             self.this_tracking_idxs = this_tracking_idxs
@@ -48,12 +44,13 @@ class SegmentedSFT:
 
         self.sidecar_info = sidecar_info
         self.sidecar_info["bundle_ids"] = {}
-        dps = np.zeros(len(self.sft.streamlines))
+        dps = np.zeros(len(sls))
         for ii, bundle_name in enumerate(self.bundle_names):
             self.sidecar_info["bundle_ids"][f"{bundle_name}"] = ii + 1
             dps[self.bundle_idxs[bundle_name]] = ii + 1
-        dps = {"bundle": dps}
-        self.sft.data_per_streamline = dps
+        self.sft = StatefulTractogram.from_sft(
+            sls, this_sft, data_per_streamline={"bundle": dps}
+        )
         if self.this_tracking_idxs is not None:
             for kk, _vv in self.this_tracking_idxs.items():
                 self.this_tracking_idxs[kk] = (
