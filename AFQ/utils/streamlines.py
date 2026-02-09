@@ -105,7 +105,7 @@ class SegmentedSFT:
             else:
                 bundles["whole_brain"] = sft
 
-        return cls(bundles, Space.RASMM, sidecar_info)
+        return cls(bundles, sidecar_info)
 
 
 def split_streamline(streamlines, sl_to_split, split_idx):
