@@ -759,6 +759,8 @@ template_fnames = [
     "ATR_R_start.nii.gz",
     "ATR_L_end.nii.gz",
     "ATR_L_start.nii.gz",
+    "pARC_xroi1_L.nii.gz",
+    "pARC_xroi1_R.nii.gz",
 ]
 
 
@@ -861,6 +863,8 @@ template_remote_fnames = [
     "40944074",
     "40944077",
     "40944080",
+    "61737616",
+    "61737619",
 ]
 
 
@@ -964,6 +968,8 @@ template_md5_hashes = [
     "ffc157e9f73a43eff23821f2cfca614a",
     "a8d308a93b26242c04b878c733cb252f",
     "1c0b570bb2d622718b01ee2c429a5d15",
+    "51c8a6b5fbb0834b03986093b9ee4fa3",
+    "7cf5800a4efa6bac7e70d84095bc259b",
 ]
 
 fetch_templates = _make_reusable_fetcher(
