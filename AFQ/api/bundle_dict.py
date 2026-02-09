@@ -218,7 +218,7 @@ def default_bd():
             "Left Arcuate": {
                 "cross_midline": False,
                 "include": [templates["SLF_roi1_L"], templates["SLFt_roi2_L"]],
-                "exclude": [],
+                "exclude": [templates["IFO_roi1_L"]],
                 "space": "template",
                 "prob_map": templates["ARC_L_prob_map"],
                 "start": templates["ARC_L_start"],
@@ -228,7 +228,7 @@ def default_bd():
             "Right Arcuate": {
                 "cross_midline": False,
                 "include": [templates["SLF_roi1_R"], templates["SLFt_roi2_R"]],
-                "exclude": [],
+                "exclude": [templates["IFO_roi1_R"]],
                 "space": "template",
                 "prob_map": templates["ARC_R_prob_map"],
                 "start": templates["ARC_R_start"],
@@ -259,11 +259,13 @@ def default_bd():
                 "exclude": [
                     templates["SLF_roi1_L"],
                     templates["IFO_roi1_L"],
-                    templates["ILF_L_end"],
+                    templates["ILF_roi2_L"],
+                    templates["HCC_roi2_L"],
                 ],
                 "space": "template",
-                "prob_map": templates["ARC_L_prob_map"],  # Better than nothing
+                "prob_map": templates["ARC_L_prob_map"],
                 "start": templates["pARC_L_start"],
+                "end": templates["VOF_L_end"],
                 "Left Arcuate": {"overlap": 30},
                 "length": {"min_len": 30, "max_len": 120},
                 "primary_axis": "I/S",
@@ -275,11 +277,13 @@ def default_bd():
                 "exclude": [
                     templates["SLF_roi1_R"],
                     templates["IFO_roi1_R"],
-                    templates["ILF_R_end"],
+                    templates["ILF_roi2_R"],
+                    templates["HCC_roi2_R"],
                 ],
                 "space": "template",
-                "prob_map": templates["ARC_R_prob_map"],  # Better than nothing
+                "prob_map": templates["ARC_R_prob_map"],
                 "start": templates["pARC_R_start"],
+                "end": templates["VOF_R_end"],
                 "Right Arcuate": {"overlap": 30},
                 "length": {"min_len": 30, "max_len": 120},
                 "primary_axis": "I/S",
