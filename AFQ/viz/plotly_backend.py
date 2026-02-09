@@ -512,7 +512,7 @@ def create_gif(figure, file_name, n_frames=30, zoom=2.5, z_offset=0.5, size=(600
 
 
 def _draw_roi(figure, roi, name, color, opacity, dimensions, flip_axes):
-    roi = np.where(roi == 1)
+    roi = np.where(roi > 0)
     pts = []
     for i, flip in enumerate(flip_axes):
         if flip:
