@@ -27,14 +27,15 @@ jobs:
       uses: astral-sh/setup-uv@v7
     - name: Install
       run: |
+        uv venv
         uv pip install .[all]
     - name: Nibabel pre-release installation
       if: ${{ matrix.nibabel-pre }}
       run: |
-        pip install --pre nibabel
+        uv pip install --pre nibabel
     - name: Check Dependencies
       run: |
-        python -m pip check
+        uv pip check
     - name: Lint
       run: |
         ruff check .
