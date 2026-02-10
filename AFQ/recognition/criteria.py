@@ -327,6 +327,7 @@ def clean_by_other_bundle(
         cleaned_idx_core = abo.clean_relative_to_other_core(
             bundle_def[other_bundle_name]["core"].lower(),
             preproc_imap["fgarray"][b_sls.selected_fiber_idxs],
+            # the extra specificity of 100 points is needed
             np.array(abu.resample_tg(other_bundle_sls, 100)),
             img.affine,
             False,
@@ -337,7 +338,7 @@ def clean_by_other_bundle(
         cleaned_idx_core = abo.clean_relative_to_other_core(
             bundle_def[other_bundle_name]["entire_core"].lower(),
             preproc_imap["fgarray"][b_sls.selected_fiber_idxs],
-            np.array(abu.resample_tg(other_bundle_sls, 100)),
+            np.array(abu.resample_tg(other_bundle_sls, 20)),
             img.affine,
             True,
         )
