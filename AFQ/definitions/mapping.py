@@ -343,7 +343,7 @@ class SynMap(GeneratedMapMixin, Definition):
                 reg_template.get_fdata(),
                 moving_affine=reg_subject.affine,
                 static_affine=reg_template.affine,
-                prealign=np.linalg.inv(reg_prealign),
+                prealign=reg_prealign,
                 **self.syn_kwargs,
             )
             mapping = get_simplified_transform(mapping)
