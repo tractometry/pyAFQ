@@ -30,7 +30,7 @@ def export_registered_b0(base_fname, data_imap, mapping):
     )
     if not op.exists(warped_b0_fname):
         mean_b0 = nib.load(data_imap["b0"]).get_fdata()
-        warped_b0 = mapping.transform(mean_b0)
+        warped_b0 = mapping.transform_inverse(mean_b0)
         warped_b0 = nib.Nifti1Image(warped_b0, data_imap["reg_template"].affine)
         logger.info(f"Saving {warped_b0_fname}")
         nib.save(warped_b0, warped_b0_fname)
@@ -54,9 +54,7 @@ def template_xform(base_fname, dwi_data_file, data_imap, mapping):
         base_fname, f"_space-{subject_space}_desc-template_anat.nii.gz"
     )
     if not op.exists(template_xform_fname):
-        template_xform = mapping.transform_inverse(
-            data_imap["reg_template"].get_fdata()
-        )
+        template_xform = mapping.transform(data_imap["reg_template"].get_fdata())
         template_xform = nib.Nifti1Image(template_xform, data_imap["dwi_affine"])
         logger.info(f"Saving {template_xform_fname}")
         nib.save(template_xform, template_xform_fname)

@@ -4,6 +4,8 @@ import tempfile
 from math import radians
 
 import numpy as np
+from dipy.align import vector_fields as vfu
+from dipy.align.imwarp import DiffeomorphicMap, mult_aff
 from dipy.data import default_sphere
 from dipy.reconst.gqi import squared_radial_component
 from dipy.tracking.streamline import set_number_of_points
@@ -13,6 +15,75 @@ from scipy.special import gammaln, lpmv
 from tqdm import tqdm
 
 logger = logging.getLogger("AFQ")
+
+
+def get_simplified_transform(self):
+    """Constructs a simplified version of this Diffeomorhic Map
+
+    The simplified version incorporates the pre-align transform, as well as
+    the domain and codomain affine transforms into the displacement field.
+    The resulting transformation may be regarded as operating on the
+    image spaces given by the domain and codomain discretization. As a
+    result, self.prealign, self.disp_grid2world, self.domain_grid2world and
+    self.codomain affine will be None (denoting Identity) in the resulting
+    diffeomorphic map.
+    """
+    if self.dim == 2:
+        simplify_f = vfu.simplify_warp_function_2d
+    else:
+        simplify_f = vfu.simplify_warp_function_3d
+    # Simplify the forward transform
+    D = self.domain_grid2world
+    P = self.prealign
+    Rinv = self.disp_world2grid
+    Cinv = self.codomain_world2grid
+
+    # this is the matrix which we need to multiply the voxel coordinates
+    # to interpolate on the forward displacement field ("in"side the
+    # 'forward' brackets in the expression above)
+    affine_idx_in = mult_aff(Rinv, mult_aff(P, D))
+
+    # this is the matrix which we need to multiply the voxel coordinates
+    # to add to the displacement ("out"side the 'forward' brackets in the
+    # expression above)
+    affine_idx_out = mult_aff(Cinv, mult_aff(P, D))
+
+    # this is the matrix which we need to multiply the displacement vector
+    # prior to adding to the transformed input point
+    affine_disp = Cinv
+
+    new_forward = simplify_f(
+        self.forward, affine_idx_in, affine_idx_out, affine_disp, self.domain_shape
+    )
+
+    # Simplify the backward transform
+    C = self.codomain_grid2world
+    Pinv = self.prealign_inv
+    Dinv = self.domain_world2grid
+
+    affine_idx_in = mult_aff(Rinv, C)
+    affine_idx_out = mult_aff(Dinv, mult_aff(Pinv, C))
+    affine_disp = mult_aff(Dinv, Pinv)
+    new_backward = simplify_f(
+        self.backward,
+        affine_idx_in,
+        affine_idx_out,
+        affine_disp,
+        self.codomain_shape,
+    )
+    simplified = DiffeomorphicMap(
+        dim=self.dim,
+        disp_shape=self.disp_shape,
+        disp_grid2world=None,
+        domain_shape=self.domain_shape,
+        domain_grid2world=None,
+        codomain_shape=self.codomain_shape,
+        codomain_grid2world=None,
+        prealign=None,
+    )
+    simplified.forward = new_forward
+    simplified.backward = new_backward
+    return simplified
 
 
 def gwi_odf(gqmodel, data):

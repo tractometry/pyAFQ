@@ -269,9 +269,9 @@ bundle_counts = pd.read_csv(
         "NDARAA948VFH"]["HBNsiteRU"], index_col=[0])
 for ind in bundle_counts.index:
     if ind == "Total Recognized":
-        threshold = 1000
-    elif "Fronto-occipital" in ind or "Orbital" in ind:
-        threshold = 5
+        threshold = 3000
+    elif "Fronto-occipital" in ind:
+        threshold = 10
     else:
         threshold = 15
     if bundle_counts["n_streamlines"][ind] < threshold:

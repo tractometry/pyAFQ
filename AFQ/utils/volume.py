@@ -12,7 +12,7 @@ from skimage.morphology import binary_dilation
 logger = logging.getLogger("AFQ")
 
 
-def transform_inverse_roi(roi, mapping, bundle_name="ROI"):
+def transform_roi(roi, mapping, bundle_name="ROI"):
     """
     After being non-linearly transformed, ROIs tend to have holes in them.
     We perform a couple of computational geometry operations on the ROI to
@@ -40,12 +40,12 @@ def transform_inverse_roi(roi, mapping, bundle_name="ROI"):
     if isinstance(roi, nib.Nifti1Image):
         roi = roi.get_fdata()
 
-    _roi = mapping.transform_inverse(roi, interpolation="linear")
+    _roi = mapping.transform(roi.astype(float), interpolation="linear")
 
     if np.sum(_roi) == 0:
         logger.warning(f"Lost ROI {bundle_name}, performing automatic binary dilation")
         _roi = binary_dilation(roi)
-        _roi = mapping.transform_inverse(_roi, interpolation="linear")
+        _roi = mapping.transform(_roi.astype(float), interpolation="linear")
 
     _roi = patch_up_roi(_roi > 0, bundle_name=bundle_name).astype(np.int32)
 

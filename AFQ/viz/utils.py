@@ -13,9 +13,7 @@ from dipy.io.stateful_tractogram import StatefulTractogram
 from dipy.tracking.streamline import transform_streamlines
 from PIL import Image, ImageChops
 
-import AFQ.registration as reg
 import AFQ.utils.streamlines as aus
-import AFQ.utils.volume as auv
 
 __all__ = ["Viz"]
 
@@ -591,9 +589,7 @@ def gif_from_pngs(tdir, gif_fname, n_frames, png_fname="tgif", add_zeros=False):
     io.mimsave(gif_fname, angles)
 
 
-def prepare_roi(
-    roi, affine_or_mapping, static_img, roi_affine, static_affine, reg_template
-):
+def prepare_roi(roi, resample_to=None):
     """
     Load the ROI
     Possibly perform a transformation on an ROI
@@ -605,60 +601,27 @@ def prepare_roi(
         The ROI information.
         If str, ROI will be loaded using the str as a path.
 
-    affine_or_mapping : ndarray, Nifti1Image, or str
-       An affine transformation or mapping to apply to the ROI before
-       visualization. Default: no transform.
-
-    static_img: str or Nifti1Image
-        Template to resample roi to.
-
-    roi_affine: ndarray
-
-    static_affine: ndarray
-
-    reg_template: str or Nifti1Image
-        Template to use for registration.
+    resample_to : Nifti1Image, optional
+        If not None, the ROI will be resampled to the space of this image.
 
     Returns
     -------
     ndarray
     """
     viz_logger.info("Preparing ROI...")
+    if isinstance(roi, str):
+        roi = nib.load(roi)
+
+    if resample_to is not None:
+        if not isinstance(roi, nib.Nifti1Image):
+            raise ValueError(
+                ("If resampling, roi must be a Nifti1Image or a path to one.")
+            )
+        roi = resample(roi, resample_to)
+
     if not isinstance(roi, np.ndarray):
-        if isinstance(roi, str):
-            roi = nib.load(roi).get_fdata()
-        else:
-            roi = roi.get_fdata()
+        roi = roi.get_fdata()
 
-    if affine_or_mapping is not None:
-        if isinstance(affine_or_mapping, np.ndarray):
-            # This is an affine:
-            if static_img is None or roi_affine is None or static_affine is None:
-                raise ValueError(
-                    "If using an affine to transform an ROI, "
-                    "need to also specify all of the following",
-                    "inputs: `static_img`, `roi_affine`, ",
-                    "`static_affine`",
-                )
-            roi = resample(
-                roi, static_img, moving_affine=roi_affine, static_affine=static_affine
-            ).get_fdata()
-        else:
-            # Assume it is  a mapping:
-            if isinstance(affine_or_mapping, str) or isinstance(
-                affine_or_mapping, nib.Nifti1Image
-            ):
-                if reg_template is None or static_img is None:
-                    raise ValueError(
-                        "If using a mapping to transform an ROI, need to ",
-                        "also specify all of the following inputs: ",
-                        "`reg_template`, `static_img`",
-                    )
-                affine_or_mapping = reg.read_mapping(
-                    affine_or_mapping, static_img, reg_template
-                )
-
-            roi = auv.transform_inverse_roi(roi, affine_or_mapping).astype(bool)
     return roi
 
 

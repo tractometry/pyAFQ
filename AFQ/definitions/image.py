@@ -932,7 +932,7 @@ class TemplateImage(ImageDefinition):
                 static_affine=reg_template.affine,
             ).get_fdata()
 
-            scalar_data = mapping.transform_inverse(img_data, interpolation="nearest")
+            scalar_data = mapping.transform(img_data, interpolation="nearest")
             return nib.Nifti1Image(
                 scalar_data.astype(np.float32), reg_subject.affine
             ), dict(source=self.path)

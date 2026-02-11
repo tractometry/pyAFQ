@@ -5,16 +5,12 @@ import nibabel as nib
 import nibabel.tmpdirs as nbtmp
 import numpy as np
 import numpy.testing as npt
-from dipy.align.imwarp import DiffeomorphicMap
+from dipy.align.imaffine import AffineMap
+from dipy.align.streamlinear import whole_brain_slr
 from dipy.io.streamline import load_tractogram
 
 import AFQ.data.fetch as afd
-from AFQ.registration import (
-    read_mapping,
-    slr_registration,
-    syn_register_dwi,
-    write_mapping,
-)
+from AFQ.registration import read_affine_mapping, reduce_shape
 
 MNI_T2 = afd.read_mni_template()
 hardi_img, gtab = dpd.read_stanford_hardi()
@@ -50,27 +46,34 @@ def test_slr_registration():
     hcp_atlas = load_tractogram(atlas_fname, "same", bbox_valid_check=False)
 
     with nbtmp.InTemporaryDirectory() as tmpdir:
-        mapping = slr_registration(
+        _, transform, _, _ = whole_brain_slr(
             streamlines,
             hcp_atlas.streamlines,
-            moving_affine=subset_b0_img.affine,
-            static_affine=subset_t2_img.affine,
-            moving_shape=subset_b0_img.shape,
-            static_shape=subset_t2_img.shape,
+            x0="affine",
+            verbose=False,
             progressive=False,
             greater_than=10,
             rm_small_clusters=1,
             rng=np.random.RandomState(seed=8),
         )
-        warped_moving = mapping.transform(subset_b0)
+
+        mapping = AffineMap(
+            transform,
+            domain_grid_shape=reduce_shape(subset_b0_img.shape),
+            domain_grid2world=subset_b0_img.affine,
+            codomain_grid_shape=reduce_shape(subset_t2_img.shape),
+            codomain_grid2world=subset_t2_img.affine,
+        )
+
+        warped_moving = mapping.transform_inverse(subset_b0)
 
         npt.assert_equal(warped_moving.shape, subset_t2.shape)
         mapping_fname = op.join(tmpdir, "mapping.npy")
-        write_mapping(mapping, mapping_fname)
-        file_mapping = read_mapping(mapping_fname, subset_b0_img, subset_t2_img)
+        np.save(mapping_fname, transform)
+        file_mapping = read_affine_mapping(mapping_fname, subset_b0_img, subset_t2_img)
 
         # Test that it has the same effect on the data:
-        warped_from_file = file_mapping.transform(subset_b0)
+        warped_from_file = file_mapping.transform_inverse(subset_b0)
         npt.assert_equal(warped_from_file, warped_moving)
 
         # Test that it is, attribute by attribute, identical:
@@ -78,11 +81,3 @@ def test_slr_registration():
             assert np.all(
                 mapping.__getattribute__(k) == file_mapping.__getattribute__(k)
             )
-
-
-def test_syn_register_dwi():
-    warped_b0, mapping = syn_register_dwi(
-        subset_dwi_data, gtab, template=subset_t2_img, radius=1
-    )
-    npt.assert_equal(isinstance(mapping, DiffeomorphicMap), True)
-    npt.assert_equal(warped_b0.shape, subset_t2_img.shape)

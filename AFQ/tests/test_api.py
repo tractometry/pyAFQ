@@ -789,11 +789,6 @@ def test_AFQ_data_waypoint():
         "sub-01_ses-01_desc-mapping_from-subject_to-mni_xform.nii.gz",
     )
     nib.save(mapping, mapping_file)
-    reg_prealign_file = op.join(
-        myafq.export("output_dir"),
-        "sub-01_ses-01_desc-prealign_from-subject_to-mni_xform.npy",
-    )
-    np.save(reg_prealign_file, np.eye(4))
 
     # Test ROI exporting:
     myafq.export("rois")

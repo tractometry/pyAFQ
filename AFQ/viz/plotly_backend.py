@@ -535,11 +535,7 @@ def _draw_roi(figure, roi, name, color, opacity, dimensions, flip_axes):
 
 def visualize_roi(
     roi,
-    affine_or_mapping=None,
-    static_img=None,
-    roi_affine=None,
-    static_affine=None,
-    reg_template=None,
+    resample_to=None,
     name="ROI",
     figure=None,
     flip_axes=None,
@@ -556,22 +552,8 @@ def visualize_roi(
     roi : str or Nifti1Image
         The ROI information
 
-    affine_or_mapping : ndarray, Nifti1Image, or str, optional
-       An affine transformation or mapping to apply to the ROIs before
-       visualization. Default: no transform.
-
-    static_img: str or Nifti1Image, optional
-        Template to resample roi to.
-        Default: None
-
-    roi_affine: ndarray, optional
-        Default: None
-
-    static_affine: ndarray, optional
-        Default: None
-
-    reg_template: str or Nifti1Image, optional
-        Template to use for registration.
+    resample_to : Nifti1Image, optional
+        If not None, the ROI will be resampled to the space of this image.
         Default: None
 
     name: str, optional
@@ -612,9 +594,7 @@ def visualize_roi(
         color = np.array([0.9999, 0, 0])
     if flip_axes is None:
         flip_axes = [False, False, False]
-    roi = vut.prepare_roi(
-        roi, affine_or_mapping, static_img, roi_affine, static_affine, reg_template
-    )
+    roi = vut.prepare_roi(roi, resample_to)
 
     if figure is None:
         figure = make_subplots(rows=1, cols=1, specs=[[{"type": "scene"}]])

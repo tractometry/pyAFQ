@@ -21,7 +21,7 @@ from AFQ.viz.utils import Viz
 logger = logging.getLogger("AFQ")
 
 
-def _viz_prepare_vol(vol, xform, mapping, scalar_dict, ref):
+def _viz_prepare_vol(vol, scalar_dict, ref):
     if vol in scalar_dict.keys():
         vol = scalar_dict[vol]
 
@@ -31,8 +31,6 @@ def _viz_prepare_vol(vol, xform, mapping, scalar_dict, ref):
     vol = resample(vol, ref)
 
     vol = vol.get_fdata()
-    if xform:
-        vol = mapping.transform_inverse(vol)
     vol[np.isnan(vol)] = 0
     return vol
 
@@ -81,15 +79,12 @@ def viz_bundles(
     """
     if sbv_lims_bundles is None:
         sbv_lims_bundles = [None, None]
-    mapping = mapping_imap["mapping"]
     scalar_dict = segmentation_imap["scalar_dict"]
     profiles_file = segmentation_imap["profiles"]
     t1_img = nib.load(structural_imap["t1_masked"])
     shade_by_volume = get_tp(best_scalar, structural_imap, data_imap, tissue_imap)
-    shade_by_volume = _viz_prepare_vol(
-        shade_by_volume, False, mapping, scalar_dict, t1_img
-    )
-    volume = _viz_prepare_vol(t1_img, False, mapping, scalar_dict, t1_img)
+    shade_by_volume = _viz_prepare_vol(shade_by_volume, scalar_dict, t1_img)
+    volume = _viz_prepare_vol(t1_img, scalar_dict, t1_img)
 
     flip_axes = [False, False, False]
     for i in range(3):
@@ -183,7 +178,6 @@ def viz_indivBundle(
     """
     if sbv_lims_indiv is None:
         sbv_lims_indiv = [None, None]
-    mapping = mapping_imap["mapping"]
     bundle_dict = data_imap["bundle_dict"]
     scalar_dict = segmentation_imap["scalar_dict"]
     volume_img = nib.load(structural_imap["t1_masked"])
@@ -191,10 +185,8 @@ def viz_indivBundle(
     profiles = pd.read_csv(segmentation_imap["profiles"])
 
     start_time = time()
-    volume = _viz_prepare_vol(volume_img, False, mapping, scalar_dict, volume_img)
-    shade_by_volume = _viz_prepare_vol(
-        shade_by_volume, False, mapping, scalar_dict, volume_img
-    )
+    volume = _viz_prepare_vol(volume_img, scalar_dict, volume_img)
+    shade_by_volume = _viz_prepare_vol(shade_by_volume, scalar_dict, volume_img)
 
     flip_axes = [False, False, False]
     for i in range(3):

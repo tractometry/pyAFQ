@@ -334,61 +334,31 @@ def slf_bd():
                 "include": [templates["SFgL"], templates["PaL"]],
                 "exclude": [templates["SLFt_roi2_L"]],
                 "cross_midline": False,
-                "mahal": {
-                    "clean_rounds": 20,
-                    "length_threshold": 4,
-                    "distance_threshold": 2,
-                },
             },
             "Left Superior Longitudinal II": {
                 "include": [templates["MFgL"], templates["PaL"]],
                 "exclude": [templates["SLFt_roi2_L"]],
                 "cross_midline": False,
-                "mahal": {
-                    "clean_rounds": 20,
-                    "length_threshold": 4,
-                    "distance_threshold": 2,
-                },
             },
             "Left Superior Longitudinal III": {
                 "include": [templates["PrgL"], templates["PaL"]],
                 "exclude": [templates["SLFt_roi2_L"]],
                 "cross_midline": False,
-                "mahal": {
-                    "clean_rounds": 20,
-                    "length_threshold": 4,
-                    "distance_threshold": 2,
-                },
             },
             "Right Superior Longitudinal I": {
                 "include": [templates["SFgR"], templates["PaR"]],
                 "exclude": [templates["SLFt_roi2_R"]],
                 "cross_midline": False,
-                "mahal": {
-                    "clean_rounds": 20,
-                    "length_threshold": 4,
-                    "distance_threshold": 2,
-                },
             },
             "Right Superior Longitudinal II": {
                 "include": [templates["MFgR"], templates["PaR"]],
                 "exclude": [templates["SLFt_roi2_R"]],
                 "cross_midline": False,
-                "mahal": {
-                    "clean_rounds": 20,
-                    "length_threshold": 4,
-                    "distance_threshold": 2,
-                },
             },
             "Right Superior Longitudinal III": {
                 "include": [templates["PrgR"], templates["PaR"]],
                 "exclude": [templates["SLFt_roi2_R"]],
                 "cross_midline": False,
-                "mahal": {
-                    "clean_rounds": 20,
-                    "length_threshold": 4,
-                    "distance_threshold": 2,
-                },
             },
         },
         citations={"Sagi2024"},
@@ -1337,9 +1307,7 @@ class BundleDict(MutableMapping):
             else:
                 boolean_ = False
 
-            warped_img = auv.transform_inverse_roi(
-                fdata, mapping, bundle_name=bundle_name
-            )
+            warped_img = auv.transform_roi(fdata, mapping, bundle_name=bundle_name)
 
             if boolean_:
                 warped_img = warped_img.astype(np.uint8)

@@ -155,10 +155,10 @@ def recognize(
 
     tg.to_vox()
     n_streamlines = len(tg)
-    bundle_decisions = np.zeros((n_streamlines, len(bundle_dict)), dtype=np.bool_)
+    bundle_decisions = np.zeros((n_streamlines, len(bundle_dict)), dtype=np.float32)
     bundle_to_flip = np.zeros((n_streamlines, len(bundle_dict)), dtype=np.bool_)
     bundle_roi_closest = -np.ones(
-        (n_streamlines, len(bundle_dict), bundle_dict.max_includes), dtype=np.uint32
+        (n_streamlines, len(bundle_dict), bundle_dict.max_includes), dtype=np.int32
     )
 
     fiber_groups = {}
@@ -205,10 +205,20 @@ def recognize(
                 "Conflicts in bundle assignment detected. "
                 f"{conflicts} conflicts detected in total out of "
                 f"{n_streamlines} total streamlines. "
-                "Defaulting to whichever bundle appears first "
+                "Defaulting to whichever bundle is closest to the include ROI,"
+                "followed by whichever appears first "
                 "in the bundle_dict."
             )
         )
+
+    # Weight by distance to ROI
+    valid_dists = bundle_roi_closest != -1
+    dist_sums = np.sum(np.where(valid_dists, bundle_roi_closest, 0), axis=2)
+    has_any_valid_roi = np.any(valid_dists, axis=2)
+    max_roi_dist_sum = float(dist_sums[has_any_valid_roi].max() + 1)
+    final_mask = (bundle_decisions > 0) & has_any_valid_roi
+    bundle_decisions[final_mask] = 2 - (dist_sums[final_mask] / max_roi_dist_sum)
+
     bundle_decisions = np.concatenate(
         (bundle_decisions, np.ones((n_streamlines, 1))), axis=1
     )

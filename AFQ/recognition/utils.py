@@ -129,15 +129,13 @@ def move_streamlines(tg, to, mapping, img, save_intermediates=None):
         tg.to_vox()
         moved_sl = []
         for sl in tg.streamlines:
-            moved_sl.append(mapping.transform_inverse_pts(sl))
+            moved_sl.append(mapping.transform_pts(sl))
     else:
         tg.to_rasmm()
         if to == "template":
-            volume = mapping.forward
+            moved_sl = mapping.transform_points_inverse(tg.streamlines)
         else:
-            volume = mapping.backward
-        delta = dts.values_from_volume(volume, tg.streamlines, np.eye(4))
-        moved_sl = dts.Streamlines([d + s for d, s in zip(delta, tg.streamlines)])
+            moved_sl = mapping.transform_points(tg.streamlines)
     moved_sft = StatefulTractogram(moved_sl, img, Space.RASMM)
     if save_intermediates is not None:
         save_tractogram(

@@ -1095,6 +1095,115 @@ def read_oton_templates(as_img=True, resample_to=False):
     return template_dict
 
 
+org800_fnames = [
+    "ORG_atlas_tracks_reoriented.trx",
+    "ORG800_atlas_centroids.npy",
+    "ORG800_atlas_e_val.npy",
+    "ORG800_atlas_e_vec_norm.npy",
+    "ORG800_atlas_e_vec.npy",
+    "ORG800_atlas_number_of_eigenvectors.npy",
+    "ORG800_atlas_row_sum_1.npy",
+    "ORG800_atlas_row_sum_matrix.npy",
+    "ORG800_atlas_sigma.npy",
+]
+
+
+org800_remote_fnames = [
+    "61762231",
+    "61762267",
+    "61762270",
+    "61762273",
+    "61762276",
+    "61762279",
+    "61762282",
+    "61762285",
+    "61762288",
+]
+
+
+org800_md5_hashes = [
+    "9022799a73359209080ea832b22ec09b",
+    "09bfa384f5c44801dfa382d31392a979",
+    "bab61eb26cb21035e38b5f68b5fdad3e",
+    "9325f4cb168624d4f275785b18c9f859",
+    "12d426c5a6fcfbe3b8146bc335bdac96",
+    "db74e055c47c5b6354c3cb7bbf165f2c",
+    "e7e51f53b30764f104b93f50d94b6c3c",
+    "7e894c57a820cd7604a1db6b7ab8cce6",
+    "1e195b7055e98eb473bbb5af05d48f7d",
+]
+
+fetch_org800_templates = _make_reusable_fetcher(
+    "fetch_org800_templates",
+    op.join(afq_home, "org800_templates"),
+    baseurl,
+    org800_remote_fnames,
+    org800_fnames,
+    md5_list=org800_md5_hashes,
+    doc="Download AFQ org800 templates",
+)
+
+
+def read_org800_templates(load_npy=True, load_trx=True):
+    """
+    Load O'Donnell Research Group (ORG) Fiber Clustering White
+    Matter Atlas 800 modified for pyAFQ templates from file
+
+    Parameters
+    ----------
+    load_npy : bool, optional
+        If True, values are loaded as numpy arrays. Otherwise, values are
+        paths to npy files. Default: True
+    load_trx : bool, optional
+        If True, the tractogram is loaded as a StatefulTractogram. Otherwise,
+        the value is the path to the trx file. Default: True
+
+    Returns
+    -------
+    dict with: keys: names of atlas info
+    values: Floats, arrays, and StatefulTractogram for the atlas.
+    Any unloaded will instead be paths.
+    """
+    logger = logging.getLogger("AFQ")
+
+    logger.debug("loading org800 templates")
+    tic = time.perf_counter()
+
+    template_dict = _fetcher_to_template(fetch_org800_templates)
+
+    if load_trx:
+        template_dict["tracks_reoriented"] = load_tractogram(
+            template_dict.pop("ORG_atlas_tracks_reoriented"),
+            "same",
+        )
+    if load_npy:
+        template_dict["centroids"] = np.load(
+            template_dict.pop("ORG800_atlas_centroids")
+        )
+        template_dict["e_val"] = np.load(template_dict.pop("ORG800_atlas_e_val"))
+        template_dict["e_vec_norm"] = np.load(
+            template_dict.pop("ORG800_atlas_e_vec_norm")
+        )
+        template_dict["e_vec"] = np.load(template_dict.pop("ORG800_atlas_e_vec"))
+        template_dict["number_of_eigenvectors"] = float(
+            np.load(template_dict.pop("ORG800_atlas_number_of_eigenvectors"))
+        )
+        template_dict["row_sum_1"] = np.load(
+            template_dict.pop("ORG800_atlas_row_sum_1")
+        )
+        template_dict["row_sum_matrix"] = np.load(
+            template_dict.pop("ORG800_atlas_row_sum_matrix")
+        )
+        template_dict["sigma"] = float(np.load(template_dict.pop("ORG800_atlas_sigma")))
+
+    toc = time.perf_counter()
+    logger.debug(
+        f"O'Donnell Research Group 800 templates loaded in {toc - tic:0.4f} seconds"
+    )
+
+    return template_dict
+
+
 massp_fnames = [
     "left_VTA.nii.gz",
     "right_VTA.nii.gz",

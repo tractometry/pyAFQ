@@ -22,7 +22,7 @@ hardi_fbval = op.join(hardi_dir, "HARDI150.bval")
 hardi_fbvec = op.join(hardi_dir, "HARDI150.bvec")
 file_dict = afd.read_stanford_hardi_tractography()
 reg_template = afd.read_mni_template()
-mapping = reg.read_mapping(file_dict["mapping.nii.gz"], hardi_img, reg_template)
+mapping = reg.read_old_mapping(file_dict["mapping.nii.gz"], hardi_img, reg_template)
 streamlines = file_dict["tractography_subsampled.trk"]
 tg = StatefulTractogram(streamlines, hardi_img, Space.RASMM)
 tg.to_vox()

@@ -8,7 +8,6 @@ import tempfile
 import warnings
 from time import time
 
-import dipy.tracking.streamline as dts
 import dipy.tracking.streamlinespeed as dps
 import nibabel as nib
 import numpy as np
@@ -584,12 +583,7 @@ class GroupAFQ(object):
                     these_sls = seg_sft.sft.streamlines[idx]
                     these_sls = dps.set_number_of_points(these_sls, 100)
                     tg = StatefulTractogram(these_sls, seg_sft.sft, Space.RASMM)
-                    delta = dts.values_from_volume(
-                        mapping.forward, tg.streamlines, np.eye(4)
-                    )
-                    moved_sl = dts.Streamlines(
-                        [d + s for d, s in zip(delta, tg.streamlines)]
-                    )
+                    moved_sl = mapping.transform_points_inverse(tg.streamlines)
                     moved_sl = np.asarray(moved_sl)
                     median_sl = np.median(moved_sl, axis=0)
                     sls_dict[b] = {"coreFiber": median_sl.tolist()}
@@ -1026,8 +1020,7 @@ class GroupAFQ(object):
             mapping = mapping_dict[this_sub][this_ses]
 
             if len(sls) > 0:
-                delta = dts.values_from_volume(mapping.forward, sls, np.eye(4))
-                sls_mni.extend([d + s for d, s in zip(delta, sls)])
+                sls_mni = mapping.tranform_points(sls)
 
         moved_sft = StatefulTractogram(sls_mni, reg_template, Space.VOX)
 
