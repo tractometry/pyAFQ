@@ -444,9 +444,7 @@ class AffMap(AffineMapMixin, Definition):
         subject_sls,
         template_sls,
     ):
-        return np.linalg.inv(
-            self.prealign(reg_subject, reg_template)
-        )  # TODO: test: this still needs to be inverted?
+        return np.linalg.inv(self.prealign(reg_subject, reg_template))
 
 
 class IdentityMap(AffineMapMixin, Definition):
