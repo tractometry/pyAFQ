@@ -103,7 +103,7 @@ def read_affine_mapping(affine, domain_img, codomain_img):
     return mapping
 
 
-def read_old_mapping(disp, domain_img, codomain_img):
+def read_old_mapping(disp, domain_img, codomain_img, prealign=None):
     """
     Warning: This is only used for pyAFQ tests and backwards compatibility.
     Read old-style registration mapping from a nifti file.
@@ -140,6 +140,7 @@ def read_old_mapping(disp, domain_img, codomain_img):
         domain_grid2world=domain_img.affine,
         codomain_shape=codomain_img.shape,
         codomain_grid2world=codomain_img.affine,
+        prealign=prealign,
     )
 
     disp_data = disp.get_fdata().astype(np.float32)

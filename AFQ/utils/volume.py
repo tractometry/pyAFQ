@@ -40,7 +40,15 @@ def transform_roi(roi, mapping, bundle_name="ROI"):
     if isinstance(roi, nib.Nifti1Image):
         roi = roi.get_fdata()
 
-    _roi = mapping.transform(roi.astype(float), interpolation="linear")
+    # dilate binary images to avoid losing small ROIs
+    if np.unique(roi).size < 3:
+        scale_factor = max(
+            np.asarray(mapping.codomain_shape) / np.asarray(mapping.domain_shape)
+        )
+        for _ in range(max(np.ceil(scale_factor) - 1, 0).astype(int)):
+            roi = binary_dilation(roi)
+
+    _roi = mapping.transform((roi.astype(float)), interpolation="linear")
 
     if np.sum(_roi) == 0:
         logger.warning(f"Lost ROI {bundle_name}, performing automatic binary dilation")
