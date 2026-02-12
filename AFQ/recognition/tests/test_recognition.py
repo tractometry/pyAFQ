@@ -9,6 +9,7 @@ import pytest
 from dipy.io.stateful_tractogram import Space, StatefulTractogram
 from dipy.stats.analysis import afq_profile
 
+import AFQ.api.bundle_dict as abd
 import AFQ.data.fetch as afd
 import AFQ.recognition.cleaning as abc
 import AFQ.registration as reg
@@ -81,6 +82,47 @@ def test_segment():
 
     clean_sl = abc.clean_bundle(CST_R_sl)
     npt.assert_equal(len(clean_sl), len(CST_R_sl))
+
+
+def test_segment_mixed_roi():
+    lv1_files, lv1_folder = afd.fetch_stanford_hardi_lv1()
+    ar_rois = afd.read_ar_templates()
+    lv1_fname = op.join(lv1_folder, list(lv1_files.keys())[0])
+
+    bundle_info = {
+        "OR LV1": {
+            "start": {"roi": ar_rois["AAL_Thal_L"], "space": "template"},
+            "end": {"roi": lv1_fname, "space": "subject"},
+            "space": "mixed",
+        }
+    }
+
+    with pytest.raises(
+        ValueError,
+        match=(
+            "When using mixed ROI bundle definitions, and subject space ROIs, "
+            "resample_subject_to cannot be False."
+        ),
+    ):
+        fiber_groups, _ = recognize(
+            tg, nib.load(hardi_fdata), mapping, bundle_info, reg_template, 2
+        )
+
+    bundle_info = abd.BundleDict(bundle_info, resample_subject_to=hardi_fdata)
+    fiber_groups, _ = recognize(
+        tg,
+        nib.load(hardi_fdata),
+        mapping,
+        bundle_info,
+        reg_template,
+        2,
+        dist_to_atlas=10,
+    )
+
+    # We asked for 2 fiber groups:
+    npt.assert_equal(len(fiber_groups), 1)
+    OR_LV1_sl = fiber_groups["OR LV1"]
+    npt.assert_(len(OR_LV1_sl) == 2)
 
 
 @pytest.mark.nightly
