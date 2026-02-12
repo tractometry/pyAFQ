@@ -11,21 +11,23 @@ def check_sls_with_inclusion(sls, include_rois, include_roi_tols):
     include_rois = [roi_.get_fdata().copy() for roi_ in include_rois]
     for jj, sl in enumerate(sls):
         closest = np.zeros(len(include_rois), dtype=np.int32)
+        dists = np.zeros(len(include_rois), dtype=np.float32)
         sl = np.asarray(sl)
         valid = True
         for ii, roi in enumerate(include_rois):
             dist = interpolate_scalar_3d(roi, sl)[0]
 
             closest[ii] = np.argmin(dist)
+            dists[ii] = dist[closest[ii]]
             if dist[closest[ii]] > include_roi_tols[ii]:
                 # Too far from one of them:
-                inc_results[jj] = (False, [])
+                inc_results[jj] = (False, [], [])
                 valid = False
                 break
 
         # Checked all the ROIs and it was close to all of them
         if valid:
-            inc_results[jj] = (True, closest)
+            inc_results[jj] = (True, closest, dists)
     return inc_results
 
 

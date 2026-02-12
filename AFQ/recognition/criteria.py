@@ -176,14 +176,16 @@ def include(b_sls, bundle_def, preproc_imap, max_includes, n_cpus, **kwargs):
         )
 
     roi_closest = -np.ones((max_includes, len(b_sls)), dtype=np.int32)
+    roi_dists = -np.ones((max_includes, len(b_sls)), dtype=np.float32)
     if flip_using_include:
         to_flip = np.ones_like(accept_idx, dtype=np.bool_)
     for sl_idx, inc_result in enumerate(inc_results):
-        sl_accepted, sl_closest = inc_result
+        sl_accepted, sl_closest, sl_dists = inc_result
 
         if sl_accepted:
             if len(sl_closest) > 1:
                 roi_closest[: len(sl_closest), sl_idx] = sl_closest
+                roi_dists[: len(sl_dists), sl_idx] = sl_dists
                 # Only accept SLs that, when cut, are meaningful
                 if (len(sl_closest) < 2) or abs(sl_closest[0] - sl_closest[-1]) > 1:
                     # Flip sl if it is close to second ROI
@@ -192,11 +194,13 @@ def include(b_sls, bundle_def, preproc_imap, max_includes, n_cpus, **kwargs):
                         to_flip[sl_idx] = sl_closest[0] > sl_closest[-1]
                         if to_flip[sl_idx]:
                             roi_closest[: len(sl_closest), sl_idx] = np.flip(sl_closest)
+                            roi_dists[: len(sl_dists), sl_idx] = np.flip(sl_dists)
                     accept_idx[sl_idx] = 1
             else:
                 accept_idx[sl_idx] = 1
 
     b_sls.roi_closest = roi_closest.T
+    b_sls.roi_dists = roi_dists.T
     if flip_using_include:
         b_sls.reorient(to_flip)
     b_sls.select(accept_idx, "include")
@@ -390,6 +394,7 @@ def run_bundle_rec_plan(
     bundle_idx,
     bundle_to_flip,
     bundle_roi_closest,
+    bundle_roi_dists,
     bundle_decisions,
     **segmentation_params,
 ):
@@ -499,4 +504,8 @@ def run_bundle_rec_plan(
         if hasattr(b_sls, "roi_closest"):
             bundle_roi_closest[b_sls.selected_fiber_idxs, bundle_idx, :] = (
                 b_sls.roi_closest.copy()
+            )
+        if hasattr(b_sls, "roi_dists"):
+            bundle_roi_dists[b_sls.selected_fiber_idxs, bundle_idx, :] = (
+                b_sls.roi_dists.copy()
             )

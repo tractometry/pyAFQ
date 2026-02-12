@@ -184,6 +184,8 @@ class SlsBeingRecognized:
         self.sls_flipped = self.sls_flipped[idx]
         if hasattr(self, "roi_closest"):
             self.roi_closest = self.roi_closest[idx]
+        if hasattr(self, "roi_dists"):
+            self.roi_dists = self.roi_dists[idx]
         time_taken = time() - self.start_time
         self.logger.info(
             f"After filtering by {clean_name} (time: {time_taken}s), "

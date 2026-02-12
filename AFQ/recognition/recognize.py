@@ -160,6 +160,9 @@ def recognize(
     bundle_roi_closest = -np.ones(
         (n_streamlines, len(bundle_dict), bundle_dict.max_includes), dtype=np.int32
     )
+    bundle_roi_dists = -np.ones(
+        (n_streamlines, len(bundle_dict), bundle_dict.max_includes), dtype=np.float32
+    )
 
     fiber_groups = {}
     meta = {}
@@ -180,6 +183,7 @@ def recognize(
             bundle_idx,
             bundle_to_flip,
             bundle_roi_closest,
+            bundle_roi_dists,
             bundle_decisions,
             clip_edges=clip_edges,
             n_cpus=n_cpus,
@@ -212,10 +216,10 @@ def recognize(
         )
 
     # Weight by distance to ROI
-    valid_dists = bundle_roi_closest != -1
+    valid_dists = bundle_roi_dists > 0
     has_any_valid_roi = np.any(valid_dists, axis=2)
     if np.any(has_any_valid_roi):
-        dist_sums = np.sum(np.where(valid_dists, bundle_roi_closest, 0), axis=2)
+        dist_sums = np.sum(np.where(valid_dists, bundle_roi_dists, 0), axis=2)
         max_roi_dist_sum = float(dist_sums[has_any_valid_roi].max() + 1)
         final_mask = (bundle_decisions > 0) & has_any_valid_roi
         bundle_decisions[final_mask] = 2 - (dist_sums[final_mask] / max_roi_dist_sum)

@@ -65,22 +65,27 @@ def test_check_sls_with_inclusion():
     assert result[0][0] is True
     assert np.allclose(result[0][1][0], 0)
     assert np.allclose(result[0][1][1], 2)
+    assert np.allclose(result[0][2][0], 0)
+    assert np.allclose(result[0][2][1], 0)
     assert result[1][0] is False
 
 
 def test_check_sl_with_inclusion_pass():
-    result, dists = check_sls_with_inclusion(
+    result, dist_idxs, dists = check_sls_with_inclusion(
         [streamline1], include_rois, include_roi_tols
     )[0]
     assert result is True
     assert len(dists) == 2
+    assert np.allclose(dist_idxs[0], 0)
+    assert np.allclose(dist_idxs[1], 2)
 
 
 def test_check_sl_with_inclusion_fail():
-    result, dists = check_sls_with_inclusion(
+    result, dist_idxs, dists = check_sls_with_inclusion(
         [streamline2], include_rois, include_roi_tols
     )[0]
     assert result is False
+    assert dist_idxs == []
     assert dists == []
 
 
