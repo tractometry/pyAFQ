@@ -403,7 +403,6 @@ class ParticipantAFQ(object):
             x_pos = jj % size[0]
             _ii = jj // size[0]
             y_pos = _ii % size[1]
-            _ii = _ii // size[1]
             this_img = this_img_trimmed[jj].resize((max_width, max_height))
             curr_img.paste(this_img, (x_pos * max_width, y_pos * max_height))
 
