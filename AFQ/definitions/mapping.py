@@ -240,16 +240,16 @@ class AffineMapMixin(GeneratedMapMixin):
 
         if not op.exists(mapping_file):
             start_time = time()
-            self.gen_mapping(
-                reg_template,
+            affine = self.gen_mapping(
                 reg_subject,
+                reg_template,
                 subject_sls,
                 template_sls,
             )
             total_time = time() - start_time
 
             logger.info(f"Saving {mapping_file}")
-            np.save(mapping_file, mapping.affine)
+            np.save(mapping_file, affine)
             meta = dict(type="affine", timing=total_time)
             if subject_sls is None:
                 meta["dependent"] = "dwi"
@@ -399,8 +399,8 @@ class SlrMap(AffineMapMixin, Definition):
 
     def gen_mapping(
         self,
-        reg_template,
         reg_subject,
+        reg_template,
         subject_sls,
         template_sls,
     ):
