@@ -111,7 +111,7 @@ def end(b_sls, bundle_def, preproc_imap, **kwargs):
 
 
 def length(b_sls, bundle_def, preproc_imap, **kwargs):
-    accept_idx = b_sls.initiate_selection("length")
+    b_sls.initiate_selection("length")
     min_len = bundle_def["length"].get("min_len", 0) / preproc_imap["vox_dim"]
     max_len = bundle_def["length"].get("max_len", np.inf) / preproc_imap["vox_dim"]
 

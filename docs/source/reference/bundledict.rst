@@ -94,12 +94,14 @@ be it start, end, include, exclude, or probability map, you can in fact input
 a dictionary instead. This dictionary should have two keys:
 - 'roi' : path to the ROI Nifti file
 - 'space' : either 'template' or 'subject', describing the space the ROI
+  is currently in.
 
 Then, for the whole bundle, set "space" to 'mixed'. This allows you to
 specify some ROIs in template space and some in subject space for the same
 bundle. For example:
 
 .. code-block:: python
+
   import os.path as op
   import AFQ.api.bundle_dict as abd
   import AFQ.data.fetch as afd
