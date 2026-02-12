@@ -133,9 +133,9 @@ def move_streamlines(tg, to, mapping, img, save_intermediates=None):
     else:
         tg.to_rasmm()
         if to == "template":
-            moved_sl = mapping.transform_points(tg.streamlines)
-        else:
             moved_sl = mapping.transform_points_inverse(tg.streamlines)
+        else:
+            moved_sl = mapping.transform_points(tg.streamlines)
     moved_sft = StatefulTractogram(moved_sl, img, Space.RASMM)
     if save_intermediates is not None:
         save_tractogram(

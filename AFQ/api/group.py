@@ -583,7 +583,7 @@ class GroupAFQ(object):
                     these_sls = seg_sft.sft.streamlines[idx]
                     these_sls = dps.set_number_of_points(these_sls, 100)
                     tg = StatefulTractogram(these_sls, seg_sft.sft, Space.RASMM)
-                    moved_sl = mapping.transform_points(tg.streamlines)
+                    moved_sl = mapping.transform_points_inverse(tg.streamlines)
                     moved_sl = np.asarray(moved_sl)
                     median_sl = np.median(moved_sl, axis=0)
                     sls_dict[b] = {"coreFiber": median_sl.tolist()}
@@ -1015,14 +1015,13 @@ class GroupAFQ(object):
             this_sub = self.valid_sub_list[ii]
             this_ses = self.valid_ses_list[ii]
             seg_sft = aus.SegmentedSFT.fromfile(bundles_dict[this_sub][this_ses])
-            seg_sft.sft.to_vox()
             sls = seg_sft.get_bundle(bundle_name).streamlines
             mapping = mapping_dict[this_sub][this_ses]
 
             if len(sls) > 0:
-                sls_mni = mapping.transform_points(sls)
+                sls_mni.extend(mapping.transform_points_inverse(sls))
 
-        moved_sft = StatefulTractogram(sls_mni, reg_template, Space.VOX)
+        moved_sft = StatefulTractogram(sls_mni, reg_template, Space.RASMM)
 
         save_path = op.abspath(
             op.join(self.afq_path, f"bundle-{bundle_name}_subjects-all_MNI.trk")
