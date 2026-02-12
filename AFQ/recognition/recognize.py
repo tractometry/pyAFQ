@@ -216,7 +216,7 @@ def recognize(
         )
 
     # Weight by distance to ROI
-    valid_dists = bundle_roi_dists > 0
+    valid_dists = bundle_roi_dists >= -0.5  # i.e., not -1
     has_any_valid_roi = np.any(valid_dists, axis=2)
     if np.any(has_any_valid_roi):
         dist_sums = np.sum(np.where(valid_dists, bundle_roi_dists, 0), axis=2)
