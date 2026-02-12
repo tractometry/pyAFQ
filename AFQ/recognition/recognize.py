@@ -213,11 +213,12 @@ def recognize(
 
     # Weight by distance to ROI
     valid_dists = bundle_roi_closest != -1
-    dist_sums = np.sum(np.where(valid_dists, bundle_roi_closest, 0), axis=2)
     has_any_valid_roi = np.any(valid_dists, axis=2)
-    max_roi_dist_sum = float(dist_sums[has_any_valid_roi].max() + 1)
-    final_mask = (bundle_decisions > 0) & has_any_valid_roi
-    bundle_decisions[final_mask] = 2 - (dist_sums[final_mask] / max_roi_dist_sum)
+    if np.any(has_any_valid_roi):
+        dist_sums = np.sum(np.where(valid_dists, bundle_roi_closest, 0), axis=2)
+        max_roi_dist_sum = float(dist_sums[has_any_valid_roi].max() + 1)
+        final_mask = (bundle_decisions > 0) & has_any_valid_roi
+        bundle_decisions[final_mask] = 2 - (dist_sums[final_mask] / max_roi_dist_sum)
 
     bundle_decisions = np.concatenate(
         (bundle_decisions, np.ones((n_streamlines, 1))), axis=1

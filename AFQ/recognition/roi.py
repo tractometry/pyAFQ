@@ -67,6 +67,14 @@ def clean_by_endpoints(fgarray, target, target_idx, tol=0, flip_sls=None):
     -------
     boolean array of streamlines that survive cleaning.
     """
+    if not isinstance(fgarray, np.ndarray):
+        raise ValueError(
+            (
+                "fgarray must be a numpy ndarray, you can resample "
+                "your streamlines using resample_tg in AFQ.recognition.utils"
+            )
+        )
+
     n_sls, n_nodes, _ = fgarray.shape
 
     # handle target_idx negative values as wrapping around

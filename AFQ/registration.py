@@ -146,6 +146,6 @@ def read_old_mapping(disp, domain_img, codomain_img, prealign=None):
     disp_data = disp.get_fdata().astype(np.float32)
     mapping.forward = disp_data[..., 0]
     mapping.backward = disp_data[..., 1]
-    mapping.is_inverse = True
+    mapping.is_inverse = False
 
     return mapping

@@ -152,7 +152,7 @@ def test_segment_reco():
 
     # This condition should still hold
     npt.assert_equal(len(fiber_groups), 2)
-    npt.assert_(len(fiber_groups["CST_R"]) > 0)
+    npt.assert_(len(fiber_groups["CST_L"]) > 0)
 
 
 def test_exclusion_ROI():
