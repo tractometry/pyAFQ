@@ -27,7 +27,7 @@ def fgarray(tg):
     return fg_array
 
 
-@immlib.calc("crosses")
+@immlib.calc("crosses", "lr_axis", "zero_coord")
 def crosses(fgarray, img):
     """
     Classify the streamlines by whether they cross the midline.
@@ -45,9 +45,13 @@ def crosses(fgarray, img):
             lr_axis = idx
             break
 
-    return np.logical_and(
-        np.any(fgarray[:, :, lr_axis] > zero_coord[lr_axis], axis=1),
-        np.any(fgarray[:, :, lr_axis] < zero_coord[lr_axis], axis=1),
+    return (
+        np.logical_and(
+            np.any(fgarray[:, :, lr_axis] > zero_coord[lr_axis], axis=1),
+            np.any(fgarray[:, :, lr_axis] < zero_coord[lr_axis], axis=1),
+        ),
+        lr_axis,
+        zero_coord[lr_axis],
     )
 
 

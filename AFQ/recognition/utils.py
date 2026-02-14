@@ -1,3 +1,4 @@
+import copy
 import logging
 import os.path as op
 from time import time
@@ -188,3 +189,27 @@ class SlsBeingRecognized:
 
     def __len__(self):
         return len(self.selected_fiber_idxs)
+
+    def copy(self, new_name, n_roi):
+        new_copy = copy.copy(self)
+        new_copy.b_name = new_name
+        if n_roi > 0:
+            if self.n_roi > 0:
+                raise NotImplementedError(
+                    (
+                        "You cannot have includes in the original bundle and"
+                        " subbundles; only one or the other."
+                    )
+                )
+            else:
+                new_copy.n_roi = n_roi
+
+        new_copy.selected_fiber_idxs = self.selected_fiber_idxs.copy()
+        new_copy.sls_flipped = self.sls_flipped.copy()
+
+        if hasattr(self, "roi_closest"):
+            new_copy.roi_closest = self.roi_closest.copy()
+        if hasattr(self, "roi_dists"):
+            new_copy.roi_dists = self.roi_dists.copy()
+
+        return new_copy

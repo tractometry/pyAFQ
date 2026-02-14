@@ -101,6 +101,7 @@ def clean_by_orientation_mahalanobis(
         if np.sum(idx_dist) < min_sl:
             # need to sort and return exactly min_sl:
             idx = idx[np.argsort(np.sum(m_dist, axis=-1))[:min_sl].astype(int)]
+            idx = np.sort(idx)
             logger.debug(
                 (f"At rounds elapsed {rounds_elapsed}, minimum streamlines reached")
             )
@@ -231,6 +232,7 @@ def clean_bundle(
         if np.sum(idx_belong) < min_sl:
             # need to sort and return exactly min_sl:
             idx = idx[np.argsort(np.sum(m_dist, axis=-1))[:min_sl].astype(int)]
+            idx = np.sort(idx)
             logger.debug(
                 (f"At rounds elapsed {rounds_elapsed}, minimum streamlines reached")
             )
@@ -360,6 +362,7 @@ def clean_by_isolation_forest(
         if np.sum(idx_belong) < min_sl:
             # need to sort and return exactly min_sl:
             idx = idx[np.argsort(-sl_outliers)[:min_sl].astype(int)]
+            idx = np.sort(idx)
             logger.debug(
                 (f"At rounds elapsed {rounds_elapsed}, minimum streamlines reached")
             )

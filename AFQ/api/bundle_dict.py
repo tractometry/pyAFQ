@@ -297,12 +297,75 @@ def default_bd():
                     "project": "L/R",
                     "entire_core": "Anterior",
                 },
-                # "Left Inferior Longitudinal": {"core": "Right"},
-                "orient_mahal": {"distance_threshold": 2, "clean_rounds": 1},
                 "length": {"min_len": 25, "max_len": 60},
-                "isolation_forest": {},
+                "mahal": {"clean_rounds": 0},
                 "primary_axis": "I/S",
                 "primary_axis_percentage": 40,
+                "ORG_spectral_subbundles": SpectralSubbundleDict(
+                    {
+                        "Left Vertical Occipital I": {
+                            "cluster_ID": 89,
+                            "isolation_forest": {},
+                            "orient_mahal": {
+                                "distance_threshold": 4,
+                                "clean_rounds": 3,
+                            },
+                        },
+                        "Left Vertical Occipital II": {
+                            "cluster_ID": 82,
+                            "isolation_forest": {},
+                            "orient_mahal": {
+                                "distance_threshold": 4,
+                                "clean_rounds": 3,
+                            },
+                        },
+                        "Left Vertical Occipital III": {
+                            "cluster_ID": 83,
+                            "isolation_forest": {},
+                            "orient_mahal": {
+                                "distance_threshold": 4,
+                                "clean_rounds": 3,
+                            },
+                        },
+                        "Left Vertical Occipital IV": {
+                            "cluster_ID": 21,
+                            "isolation_forest": {},
+                            "orient_mahal": {
+                                "distance_threshold": 4,
+                                "clean_rounds": 3,
+                            },
+                        },
+                        "Left Vertical Occipital V": {
+                            "cluster_ID": 454,
+                            "isolation_forest": {},
+                            "orient_mahal": {
+                                "distance_threshold": 4,
+                                "clean_rounds": 3,
+                            },
+                        },
+                    },
+                    remove_cluster_IDs=[
+                        27,
+                        100,
+                        4,
+                        6,
+                        13,
+                        17,
+                        22,
+                        23,
+                        38,
+                        48,
+                        50,
+                        53,
+                        64,
+                        65,
+                        66,
+                        84,
+                        87,
+                        88,
+                        98,
+                    ],
+                ),
             },
             "Right Vertical Occipital": {
                 "cross_midline": False,
@@ -314,15 +377,84 @@ def default_bd():
                     "project": "L/R",
                     "entire_core": "Anterior",
                 },
-                # "Right Inferior Longitudinal": {"core": "Left"},
-                "orient_mahal": {"distance_threshold": 2, "clean_rounds": 1},
                 "length": {"min_len": 25, "max_len": 60},
-                "isolation_forest": {},
+                "mahal": {"clean_rounds": 0},
                 "primary_axis": "I/S",
                 "primary_axis_percentage": 40,
+                "ORG_spectral_subbundles": SpectralSubbundleDict(
+                    {
+                        "Right Vertical Occipital I": {
+                            "cluster_ID": 89,
+                            "isolation_forest": {},
+                            "orient_mahal": {
+                                "distance_threshold": 4,
+                                "clean_rounds": 3,
+                            },
+                        },
+                        "Right Vertical Occipital II": {
+                            "cluster_ID": 82,
+                            "isolation_forest": {},
+                            "orient_mahal": {
+                                "distance_threshold": 4,
+                                "clean_rounds": 3,
+                            },
+                        },
+                        "Right Vertical Occipital III": {
+                            "cluster_ID": 83,
+                            "isolation_forest": {},
+                            "orient_mahal": {
+                                "distance_threshold": 4,
+                                "clean_rounds": 3,
+                            },
+                        },
+                        "Right Vertical Occipital IV": {
+                            "cluster_ID": 21,
+                            "isolation_forest": {},
+                            "orient_mahal": {
+                                "distance_threshold": 4,
+                                "clean_rounds": 3,
+                            },
+                        },
+                        "Right Vertical Occipital V": {
+                            "cluster_ID": 454,
+                            "isolation_forest": {},
+                            "orient_mahal": {
+                                "distance_threshold": 4,
+                                "clean_rounds": 3,
+                            },
+                        },
+                    },
+                    remove_cluster_IDs=[
+                        27,
+                        100,
+                        4,
+                        6,
+                        13,
+                        17,
+                        22,
+                        23,
+                        38,
+                        48,
+                        50,
+                        53,
+                        64,
+                        65,
+                        66,
+                        84,
+                        87,
+                        88,
+                        98,
+                    ],
+                ),
             },
         },
-        citations={"Yeatman2012", "takemura2017occipital", "Tzourio-Mazoyer2002"},
+        citations={
+            "Yeatman2012",
+            "takemura2017occipital",
+            "Tzourio-Mazoyer2002",
+            "zhang2018anatomically",
+            "Hua2008",
+        },
     )
 
 
@@ -334,31 +466,49 @@ def slf_bd():
                 "include": [templates["SFgL"], templates["PaL"]],
                 "exclude": [templates["SLFt_roi2_L"]],
                 "cross_midline": False,
+                "Left Cingulum Cingulate": {
+                    "node_thresh": 20,
+                },
             },
             "Left Superior Longitudinal II": {
                 "include": [templates["MFgL"], templates["PaL"]],
                 "exclude": [templates["SLFt_roi2_L"]],
                 "cross_midline": False,
+                "Left Cingulum Cingulate": {
+                    "node_thresh": 20,
+                },
             },
             "Left Superior Longitudinal III": {
                 "include": [templates["PrgL"], templates["PaL"]],
                 "exclude": [templates["SLFt_roi2_L"]],
                 "cross_midline": False,
+                "Left Cingulum Cingulate": {
+                    "node_thresh": 20,
+                },
             },
             "Right Superior Longitudinal I": {
                 "include": [templates["SFgR"], templates["PaR"]],
                 "exclude": [templates["SLFt_roi2_R"]],
                 "cross_midline": False,
+                "Right Cingulum Cingulate": {
+                    "node_thresh": 20,
+                },
             },
             "Right Superior Longitudinal II": {
                 "include": [templates["MFgR"], templates["PaR"]],
                 "exclude": [templates["SLFt_roi2_R"]],
                 "cross_midline": False,
+                "Right Cingulum Cingulate": {
+                    "node_thresh": 20,
+                },
             },
             "Right Superior Longitudinal III": {
                 "include": [templates["PrgR"], templates["PaR"]],
                 "exclude": [templates["SLFt_roi2_R"]],
                 "cross_midline": False,
+                "Right Cingulum Cingulate": {
+                    "node_thresh": 20,
+                },
             },
         },
         citations={"Sagi2024"},
@@ -1043,7 +1193,6 @@ class BundleDict(MutableMapping):
         self.resample_to = resample_to
         self.resample_subject_to = resample_subject_to
         self.keep_in_memory = keep_in_memory
-        self.max_includes = 3
         self.citations = citations
         if self.citations is None:
             self.citations = set()
@@ -1096,10 +1245,6 @@ class BundleDict(MutableMapping):
 
     def __print__(self):
         print(self._dict)
-
-    def update_max_includes(self, new_max):
-        if new_max > self.max_includes:
-            self.max_includes = new_max
 
     def _use_bids_info(self, roi_or_sl, bids_layout, bids_path, subject, session):
         if isinstance(roi_or_sl, dict) and "roi" not in roi_or_sl:
@@ -1203,8 +1348,6 @@ class BundleDict(MutableMapping):
 
     def __setitem__(self, key, item):
         self._dict[key] = item
-        if hasattr(item, "get"):
-            self.update_max_includes(len(item.get("include", [])))
         if key not in self.bundle_names:
             self.bundle_names.append(key)
 
@@ -1462,6 +1605,46 @@ class BundleDict(MutableMapping):
             self.keep_in_memory,
             self.citations | other.citations,
         )
+
+
+class SpectralSubbundleDict(BundleDict):
+    """
+    A BundleDict where each bundle is defined as a spectral subbundle of a
+    larger bundle. See `Defining Custom Bundle Dictionaries` in the documentation
+    for details.
+    """
+
+    def __init__(
+        self,
+        bundle_info,
+        resample_to=None,
+        resample_subject_to=False,
+        keep_in_memory=False,
+        citations=None,
+        remove_cluster_IDs=None,
+    ):
+        super().__init__(
+            bundle_info, resample_to, resample_subject_to, keep_in_memory, citations
+        )
+        if remove_cluster_IDs is None:
+            remove_cluster_IDs = []
+        self.remove_cluster_IDs = remove_cluster_IDs
+        self.cluster_IDs = []
+        self.id_to_name = {}
+        for b_name, b_info in bundle_info.items():
+            if "cluster_ID" not in b_info:
+                raise ValueError(
+                    (
+                        f"Bundle {b_name} does not have a cluster_ID. "
+                        "All bundles in a SpectralSubbundleDict must have a cluster_ID."
+                    )
+                )
+            self.cluster_IDs.append(b_info["cluster_ID"])
+            self.id_to_name[b_info["cluster_ID"]] = b_name
+        self.all_cluster_IDs = self.remove_cluster_IDs + self.cluster_IDs
+
+    def get_subbundle_name(self, cluster_id):
+        return self.id_to_name.get(cluster_id, None)
 
 
 def apply_to_roi_dict(

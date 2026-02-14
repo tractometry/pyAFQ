@@ -203,6 +203,9 @@ def viz_indivBundle(
         if "bundlesection" in b_info:
             for sb_name in b_info["bundlesection"]:
                 segmented_bname_to_roi_bname[sb_name] = b_name
+        elif "ORG_spectral_subbundles" in b_info:
+            for sb_name in b_info["ORG_spectral_subbundles"]:
+                segmented_bname_to_roi_bname[sb_name] = b_name
         else:
             segmented_bname_to_roi_bname[b_name] = b_name
 

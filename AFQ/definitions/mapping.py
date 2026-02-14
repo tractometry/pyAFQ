@@ -212,6 +212,7 @@ class GeneratedMapMixin(object):
         return mapping_file, meta_fname
 
     def prealign(self, reg_subject, reg_template):
+        logger.info("Calculating affine pre-alignment...")
         _, aff = affine_registration(reg_subject, reg_template, **self.affine_kwargs)
         return aff
 
@@ -338,6 +339,8 @@ class SynMap(GeneratedMapMixin, Definition):
                 reg_prealign = self.prealign(reg_subject, reg_template)
             else:
                 reg_prealign = None
+
+            logger.info("Calculating SyN registration...")
             _, mapping = syn_registration(
                 reg_subject.get_fdata(),
                 reg_template.get_fdata(),

@@ -6,10 +6,12 @@ import dipy.tracking.streamlinespeed as dps
 import numpy as np
 from dipy.io.stateful_tractogram import Space, StatefulTractogram
 
+import AFQ.recognition.sparse_decisions as ars
 import AFQ.recognition.utils as abu
 from AFQ.api.bundle_dict import BundleDict
 from AFQ.recognition.criteria import run_bundle_rec_plan
 from AFQ.recognition.preprocess import get_preproc_plan
+from AFQ.utils.path import write_json
 
 logger = logging.getLogger("AFQ")
 
@@ -155,14 +157,7 @@ def recognize(
 
     tg.to_vox()
     n_streamlines = len(tg)
-    bundle_decisions = np.zeros((n_streamlines, len(bundle_dict)), dtype=np.float32)
-    bundle_to_flip = np.zeros((n_streamlines, len(bundle_dict)), dtype=np.bool_)
-    bundle_roi_closest = -np.ones(
-        (n_streamlines, len(bundle_dict), bundle_dict.max_includes), dtype=np.int32
-    )
-    bundle_roi_dists = -np.ones(
-        (n_streamlines, len(bundle_dict), bundle_dict.max_includes), dtype=np.float32
-    )
+    recognized_bundles_dict = {}
 
     fiber_groups = {}
     meta = {}
@@ -170,7 +165,7 @@ def recognize(
     preproc_imap = get_preproc_plan(img, tg, dist_to_waypoint, dist_to_atlas)
 
     logger.info("Assigning Streamlines to Bundles")
-    for bundle_idx, bundle_name in enumerate(bundle_dict.bundle_names):
+    for bundle_name in bundle_dict.bundle_names:
         logger.info(f"Finding Streamlines for {bundle_name}")
         run_bundle_rec_plan(
             bundle_dict,
@@ -180,11 +175,7 @@ def recognize(
             reg_template,
             preproc_imap,
             bundle_name,
-            bundle_idx,
-            bundle_to_flip,
-            bundle_roi_closest,
-            bundle_roi_dists,
-            bundle_decisions,
+            recognized_bundles_dict,
             clip_edges=clip_edges,
             n_cpus=n_cpus,
             rb_recognize_params=rb_recognize_params,
@@ -199,10 +190,18 @@ def recognize(
 
     if save_intermediates is not None:
         os.makedirs(save_intermediates, exist_ok=True)
-        bc_path = op.join(save_intermediates, "sls_bundle_decisions.npy")
-        np.save(bc_path, bundle_decisions)
+        bc_path = op.join(save_intermediates, "sls_bundle_decisions.json")
+        write_json(
+            bc_path,
+            {
+                b_name: b_sls.selected_fiber_idxs.tolist()
+                for b_name, b_sls in recognized_bundles_dict.items()
+            },
+        )
 
-    conflicts = np.sum(np.sum(bundle_decisions, axis=1) > 1)
+    sparse_dists = ars.compute_sparse_decisions(recognized_bundles_dict, n_streamlines)
+
+    conflicts = ars.get_conflict_count(sparse_dists)
     if conflicts > 0:
         logger.info(
             (
@@ -215,63 +214,38 @@ def recognize(
             )
         )
 
-    # Weight by distance to ROI
-    valid_dists = bundle_roi_dists >= -0.5  # i.e., not -1
-    has_any_valid_roi = np.any(valid_dists, axis=2)
-    if np.any(has_any_valid_roi):
-        dist_sums = np.sum(np.where(valid_dists, bundle_roi_dists, 0), axis=2)
-        max_roi_dist_sum = float(dist_sums[has_any_valid_roi].max() + 1)
-        final_mask = (bundle_decisions > 0) & has_any_valid_roi
-        bundle_decisions[final_mask] = 2 - (dist_sums[final_mask] / max_roi_dist_sum)
-
-    bundle_decisions = np.concatenate(
-        (bundle_decisions, np.ones((n_streamlines, 1))), axis=1
-    )
-    bundle_decisions = np.argmax(bundle_decisions, -1)
+        ars.remove_conflicts(sparse_dists, recognized_bundles_dict)
 
     # We do another round through, so that we can:
     # 1. Clip streamlines according to ROIs
     # 2. Re-orient streamlines
     logger.info("Re-orienting streamlines to consistent directions")
-    for bundle_idx, bundle in enumerate(bundle_dict.bundle_names):
-        logger.info(f"Processing {bundle}")
+    for b_name, r_bd in recognized_bundles_dict.items():
+        logger.info(f"Processing {b_name}")
 
-        select_idx = np.where(bundle_decisions == bundle_idx)[0]
-
-        if len(select_idx) == 0:
+        if len(r_bd.selected_fiber_idxs) == 0:
             # There's nothing here, set and move to the next bundle:
-            if "bundlesection" in bundle_dict.get_b_info(bundle):
-                for sb_name in bundle_dict.get_b_info(bundle)["bundlesection"]:
+            if "bundlesection" in bundle_dict.get_b_info(b_name):
+                for sb_name in bundle_dict.get_b_info(b_name)["bundlesection"]:
                     _return_empty(sb_name, return_idx, fiber_groups, img)
             else:
-                _return_empty(bundle, return_idx, fiber_groups, img)
+                _return_empty(b_name, return_idx, fiber_groups, img)
             continue
 
-        # Use a list here, because ArraySequence doesn't support item
-        # assignment:
-        select_sl = list(tg.streamlines[select_idx])
-        roi_closest = bundle_roi_closest[select_idx, bundle_idx, :]
-        n_includes = len(bundle_dict.get_b_info(bundle).get("include", []))
-        if clip_edges and n_includes > 1:
-            logger.info("Clipping Streamlines by ROI")
-            select_sl = abu.cut_sls_by_closest(
-                select_sl, roi_closest, (0, n_includes - 1), in_place=True
-            )
-
-        to_flip = bundle_to_flip[select_idx, bundle_idx]
-        b_def = dict(bundle_dict.get_b_info(bundle_name))
+        b_def = r_bd.bundle_def
         if "bundlesection" in b_def:
-            for sb_name, sb_include_cuts in bundle_dict.get_b_info(bundle)[
-                "bundlesection"
-            ].items():
+            for sb_name, sb_include_cuts in b_def["bundlesection"].items():
                 bundlesection_select_sl = abu.cut_sls_by_closest(
-                    select_sl, roi_closest, sb_include_cuts, in_place=False
+                    r_bd.get_selected_sls(),
+                    r_bd.roi_closest,
+                    sb_include_cuts,
+                    in_place=False,
                 )
                 _add_bundle_to_fiber_group(
                     sb_name,
                     bundlesection_select_sl,
-                    select_idx,
-                    to_flip,
+                    r_bd.selected_fiber_idxs,
+                    r_bd.sls_flipped,
                     return_idx,
                     fiber_groups,
                     img,
@@ -279,9 +253,15 @@ def recognize(
                 _add_bundle_to_meta(sb_name, b_def, meta)
         else:
             _add_bundle_to_fiber_group(
-                bundle, select_sl, select_idx, to_flip, return_idx, fiber_groups, img
+                b_name,
+                r_bd.get_selected_sls(cut=clip_edges),
+                r_bd.selected_fiber_idxs,
+                r_bd.sls_flipped,
+                return_idx,
+                fiber_groups,
+                img,
             )
-            _add_bundle_to_meta(bundle, b_def, meta)
+            _add_bundle_to_meta(b_name, b_def, meta)
     return fiber_groups, meta
 
 

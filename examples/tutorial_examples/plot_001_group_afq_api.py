@@ -46,7 +46,7 @@ import AFQ.definitions.image as afm
 
 bids_path = afd.fetch_hbn_preproc(
     ["NDARAA948VFH"],
-    clear_previous_afq="all")[1]
+    clear_previous_afq="recog")[1]
 
 ##########################################################################
 # Set tractography parameters (optional)
@@ -272,6 +272,8 @@ for ind in bundle_counts.index:
         threshold = 3000
     elif "Fronto-occipital" in ind:
         threshold = 10
+    elif "Vertical Occipital" in ind:
+        threshold = 5
     else:
         threshold = 15
     if bundle_counts["n_streamlines"][ind] < threshold:
