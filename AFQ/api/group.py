@@ -554,9 +554,12 @@ class GroupAFQ(object):
                 this_bundles_file = self.export("bundles", collapse=False)[sub][ses]
                 this_mapping = self.export("mapping", collapse=False)[sub][ses]
                 this_img = self.export("dwi", collapse=False)[sub][ses]
+                this_reg_template = self.export("reg_template", collapse=False)[sub][
+                    ses
+                ]
                 seg_sft = aus.SegmentedSFT.fromfile(this_bundles_file, this_img)
                 seg_sft.sft.to_rasmm()
-                subses_info.append((seg_sft, this_mapping))
+                subses_info.append((seg_sft, this_mapping, this_img, this_reg_template))
 
             bundle_dict = self.export("bundle_dict", collapse=False)[
                 self.valid_sub_list[0]
@@ -566,7 +569,7 @@ class GroupAFQ(object):
             load_next_subject()  # load first subject
             for b in bundle_dict.bundle_names:
                 for i in range(len(self.valid_sub_list)):
-                    seg_sft, mapping = subses_info[i]
+                    seg_sft, mapping, img, reg_template = subses_info[i]
                     idx = seg_sft.bundle_idxs[b]
                     # use the first subses that works
                     # otherwise try each successive subses
@@ -582,9 +585,11 @@ class GroupAFQ(object):
                         idx = np.random.choice(idx, size=100, replace=False)
                     these_sls = seg_sft.sft.streamlines[idx]
                     these_sls = dps.set_number_of_points(these_sls, 100)
-                    tg = StatefulTractogram(these_sls, seg_sft.sft, Space.RASMM)
-                    moved_sl = mapping.transform_points_inverse(tg.streamlines)
-                    moved_sl = np.asarray(moved_sl)
+                    tg = StatefulTractogram(these_sls, img, Space.RASMM)
+                    moved_sl = aus.move_streamlines(
+                        tg, "template", mapping, reg_template
+                    )
+                    moved_sl = np.asarray(moved_sl.streamlines)
                     median_sl = np.median(moved_sl, axis=0)
                     sls_dict[b] = {"coreFiber": median_sl.tolist()}
                     for ii, sl_idx in enumerate(idx):
@@ -1015,11 +1020,15 @@ class GroupAFQ(object):
             this_sub = self.valid_sub_list[ii]
             this_ses = self.valid_ses_list[ii]
             seg_sft = aus.SegmentedSFT.fromfile(bundles_dict[this_sub][this_ses])
-            sls = seg_sft.get_bundle(bundle_name).streamlines
+            sls = seg_sft.get_bundle(bundle_name)
             mapping = mapping_dict[this_sub][this_ses]
 
             if len(sls) > 0:
-                sls_mni.extend(mapping.transform_points_inverse(sls))
+                sls_mni.extend(
+                    aus.move_streamlines(
+                        sls, "template", mapping, reg_template
+                    ).streamlines
+                )
 
         moved_sft = StatefulTractogram(sls_mni, reg_template, Space.RASMM)
 

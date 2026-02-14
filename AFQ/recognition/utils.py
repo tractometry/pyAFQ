@@ -9,8 +9,6 @@ from dipy.io.stateful_tractogram import Space, StatefulTractogram
 from dipy.io.streamline import save_tractogram
 from dipy.tracking.distances import bundles_distances_mdf
 
-from AFQ.definitions.mapping import ConformedFnirtMapping
-
 logger = logging.getLogger("AFQ")
 
 
@@ -106,45 +104,6 @@ def read_tg(tg, nb_streamlines=None):
 def orient_by_streamline(sls, template_sl):
     DM = bundles_distances_mdf(sls, [template_sl, template_sl[::-1]])
     return DM[:, 0] > DM[:, 1]
-
-
-def move_streamlines(tg, to, mapping, img, save_intermediates=None):
-    """Move streamlines to or from template space.
-
-    to : str
-        Either "template" or "subject".
-    mapping : ConformedMapping
-        Mapping to use to move streamlines.
-    img : Nifti1Image
-        Space to move streamlines to.
-    """
-    tg_og_space = tg.space
-    if isinstance(mapping, ConformedFnirtMapping):
-        if to != "subject":
-            raise ValueError(
-                "Attempted to transform streamlines to template using "
-                "unsupported mapping. "
-                "Use something other than Fnirt."
-            )
-        tg.to_vox()
-        moved_sl = []
-        for sl in tg.streamlines:
-            moved_sl.append(mapping.transform_pts(sl))
-    else:
-        tg.to_rasmm()
-        if to == "template":
-            moved_sl = mapping.transform_points_inverse(tg.streamlines)
-        else:
-            moved_sl = mapping.transform_points(tg.streamlines)
-    moved_sft = StatefulTractogram(moved_sl, img, Space.RASMM)
-    if save_intermediates is not None:
-        save_tractogram(
-            moved_sft,
-            op.join(save_intermediates, f"sls_in_{to}.trk"),
-            bbox_valid_check=False,
-        )
-    tg.to_space(tg_og_space)
-    return moved_sft
 
 
 def resample_tg(tg, n_points):

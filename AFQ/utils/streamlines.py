@@ -2,7 +2,7 @@ import os.path as op
 
 import numpy as np
 from dipy.io.stateful_tractogram import Space, StatefulTractogram
-from dipy.io.streamline import load_tractogram
+from dipy.io.streamline import load_tractogram, save_tractogram
 
 try:
     from trx.io import load as load_trx
@@ -11,6 +11,7 @@ try:
 except ModuleNotFoundError:
     has_trx = False
 
+from AFQ.definitions.mapping import ConformedFnirtMapping
 from AFQ.utils.path import drop_extension, read_json
 
 
@@ -137,3 +138,58 @@ def split_streamline(streamlines, sl_to_split, split_idx):
     )
 
     return streamlines
+
+
+def move_streamlines(tg, to, mapping, img, to_space=None, save_intermediates=None):
+    """Move streamlines to or from template space.
+
+    to : str
+        Either "template" or "subject". This determines
+        whether we will use the forward or backwards displacement field.
+    mapping : DIPY or pyAFQ mapping
+        Mapping to use to move streamlines.
+    img : Nifti1Image
+        Image defining reference for where the streamlines move to.
+    to_space : Space or None
+        If not None, space to move streamlines to after moving them to the
+        template or subject space. If None, streamlines will be moved back to
+        their original space.
+        Default: None.
+    save_intermediates : str or None
+        If not None, path to save intermediate tractogram after moving to template
+        or subject space.
+        Default: None.
+    """
+    tg_og_space = tg.space
+    if isinstance(mapping, ConformedFnirtMapping):
+        if to != "subject":
+            raise ValueError(
+                "Attempted to transform streamlines to template using "
+                "unsupported mapping. "
+                "Use something other than Fnirt."
+            )
+        tg.to_vox()
+        moved_sl = []
+        for sl in tg.streamlines:
+            moved_sl.append(mapping.transform_pts(sl))
+        moved_sft = StatefulTractogram(moved_sl, img, Space.RASMM)
+    else:
+        tg.to_vox()
+        if to == "template":
+            moved_sl = mapping.transform_points(tg.streamlines)
+        else:
+            moved_sl = mapping.transform_points_inverse(tg.streamlines)
+        moved_sft = StatefulTractogram(moved_sl, img, Space.VOX)
+        moved_sft.to_rasmm()
+
+    if save_intermediates is not None:
+        save_tractogram(
+            moved_sft,
+            op.join(save_intermediates, f"sls_in_{to}.trk"),
+            bbox_valid_check=False,
+        )
+    if to_space is None:
+        tg.to_space(tg_og_space)
+    else:
+        tg.to_space(to_space)
+    return moved_sft

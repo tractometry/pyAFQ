@@ -20,6 +20,7 @@ import AFQ.recognition.roi as abr
 import AFQ.recognition.utils as abu
 from AFQ.api.bundle_dict import apply_to_roi_dict
 from AFQ.utils.stats import chunk_indices
+from AFQ.utils.streamlines import move_streamlines
 
 criteria_order_pre_other_bundles = [
     "prob_map",
@@ -218,7 +219,7 @@ def curvature(b_sls, bundle_def, mapping, img, save_intermediates, **kwargs):
         ref_sl = load_tractogram(
             bundle_def["curvature"]["path"], "same", bbox_valid_check=False
         )
-    moved_ref_sl = abu.move_streamlines(
+    moved_ref_sl = move_streamlines(
         ref_sl, "subject", mapping, img, save_intermediates=save_intermediates
     )
     moved_ref_sl.to_vox()
@@ -264,7 +265,7 @@ def recobundles(
     **kwargs,
 ):
     b_sls.initiate_selection("Recobundles")
-    moved_sl = abu.move_streamlines(
+    moved_sl = move_streamlines(
         StatefulTractogram(b_sls.get_selected_sls(), img, Space.VOX),
         "template",
         mapping,
