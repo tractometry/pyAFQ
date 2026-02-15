@@ -180,7 +180,6 @@ def move_streamlines(tg, to, mapping, img, to_space=None, save_intermediates=Non
         else:
             moved_sl = mapping.transform_points_inverse(tg.streamlines)
         moved_sft = StatefulTractogram(moved_sl, img, Space.VOX)
-        moved_sft.to_rasmm()
 
     if save_intermediates is not None:
         save_tractogram(
@@ -189,7 +188,7 @@ def move_streamlines(tg, to, mapping, img, to_space=None, save_intermediates=Non
             bbox_valid_check=False,
         )
     if to_space is None:
-        tg.to_space(tg_og_space)
+        moved_sft.to_space(tg_og_space)
     else:
-        tg.to_space(to_space)
+        moved_sft.to_space(to_space)
     return moved_sft

@@ -274,6 +274,7 @@ def recobundles(
         "template",
         mapping,
         reg_template,
+        to_space=Space.RASMM,
         save_intermediates=save_intermediates,
     ).streamlines
     moved_sl_resampled = abu.resample_tg(moved_sl, 100)

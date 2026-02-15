@@ -176,7 +176,7 @@ def test_segment_clip_edges_api():
 def test_segment_reco():
     # get bundles for reco method
     bundles_reco = afd.read_hcp_atlas(16)
-    bundle_names = ["CST_R", "CST_L"]
+    bundle_names = ["MCP"]
     for key in list(bundles_reco):
         if key not in bundle_names:
             bundles_reco.pop(key, None)
@@ -193,8 +193,8 @@ def test_segment_reco():
     )
 
     # This condition should still hold
-    npt.assert_equal(len(fiber_groups), 2)
-    npt.assert_(len(fiber_groups["CST_R"]) > 0)
+    npt.assert_equal(len(fiber_groups), 1)
+    npt.assert_(len(fiber_groups["MCP"]) > 0)
 
 
 def test_exclusion_ROI():
