@@ -1,14 +1,12 @@
+import nibabel as nib
 import numpy as np
 import numpy.testing as npt
 import pytest
-
-import nibabel as nib
-
 from dipy.io.stateful_tractogram import Space
 from dipy.io.streamline import StatefulTractogram
 
-import AFQ.utils.volume as afv
 import AFQ.data.fetch as afd
+import AFQ.utils.volume as afv
 
 
 def test_patch_up_roi():
@@ -26,9 +24,8 @@ def test_density_map():
     # subsample even more
     subsampled_tractography = file_dict["tractography_subsampled.trk"][441:444]
     sft = StatefulTractogram(
-        subsampled_tractography,
-        file_dict["mapping.nii.gz"],
-        Space.VOX)
+        subsampled_tractography, file_dict["mapping.nii.gz"], Space.VOX
+    )
     density_map = afv.density_map(sft)
     npt.assert_equal(int(np.sum(density_map.get_fdata())), 69)
 
@@ -37,21 +34,7 @@ def test_density_map():
 
 
 def test_dice_coeff():
-    affine = np.asarray([
-        [1, 0, 0, 0],
-        [0, 1, 0, 0],
-        [0, 0, 1, 0],
-        [0, 0, 0, 0]])
-    img1 = nib.Nifti1Image(
-        np.asarray([
-            [0.8, 0.9, 0],
-            [0, 0, 0],
-            [0, 0, 0]]),
-        affine)
-    img2 = nib.Nifti1Image(
-        np.asarray([
-            [0.5, 0, 0],
-            [0.6, 0, 0],
-            [0, 0, 0]]),
-        affine)
-    npt.assert_equal(afv.dice_coeff(img1, img2), (0.5+0.8)/(0.5+0.6+0.8+0.9))
+    affine = np.asarray([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 0]])
+    img1 = nib.Nifti1Image(np.asarray([[0.8, 0.9, 0], [0, 0, 0], [0, 0, 0]]), affine)
+    img2 = nib.Nifti1Image(np.asarray([[0.5, 0, 0], [0.6, 0, 0], [0, 0, 0]]), affine)
+    npt.assert_equal(afv.dice_coeff(img1, img2), (0.5 + 0.8) / (0.5 + 0.6 + 0.8 + 0.9))

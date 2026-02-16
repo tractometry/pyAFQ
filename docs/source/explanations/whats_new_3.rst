@@ -15,7 +15,7 @@ and the gray matter.
 
 A number of changes have been done to support this shift. Principally, pyAFQ
 now requires a T1-weighted image. This is used to make a brain mask with
-brainchop. Additionally, it is reccomended to provide partial volume
+brainchop. Additionally, it is recommended to provide partial volume
 estimates (PVEs) from other pipelines such as FSLfast
 (https://web.mit.edu/fsl_v5.0.10/fsl/doc/wiki/FAST.html) or Freesurfer
 (https://surfer.nmr.mgh.harvard.edu/).
@@ -25,7 +25,7 @@ and the T1 :cite:`Tzourio-billot_synthseg_2023,billot_robust_2023`.
 These PVEs are used for tractography, which has been radically changed in
 pyAFQ 3.0, relative to previous versions: First,
 we now seed from the white matter gray matter interface to
-reduce biases in streamline termination points. Second, we propogate using
+reduce biases in streamline termination points. Second, we propagate using
 CSD FODs filtered using a unified filtering method to be asymmetric, which
 is necessary to track in the superificial white matter. Third, we use 
 particle filtering tractography (PFT) :cite:`girard2014towards` instead of

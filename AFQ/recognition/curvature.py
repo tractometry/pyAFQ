@@ -1,6 +1,5 @@
-import numpy as np
-
 import dipy.tracking.streamlinespeed as dps
+import numpy as np
 
 
 def sl_curve(sl, n_points):
@@ -11,7 +10,7 @@ def sl_curve(sl, n_points):
     Parameters
     ----------
     sl : 2d array-like
-        Streamline to calcualte displacements for.
+        Streamline to calculate displacements for.
     n_points : int
         Number of points to resample the streamline to
 
@@ -21,16 +20,15 @@ def sl_curve(sl, n_points):
     between each point in sl normalized to 1.
     """
     # Resample to a standardized number of points
-    resampled_sl = dps.set_number_of_points(
-        sl,
-        n_points)
+    resampled_sl = dps.set_number_of_points(sl, n_points)
 
     # displacement at each point
     resampled_sl_diff = np.diff(resampled_sl, axis=0)
 
     # normalize this displacement
-    resampled_sl_diff = resampled_sl_diff / np.linalg.norm(
-        resampled_sl_diff, axis=1)[:, None]
+    resampled_sl_diff = (
+        resampled_sl_diff / np.linalg.norm(resampled_sl_diff, axis=1)[:, None]
+    )
 
     return resampled_sl_diff
 

@@ -8,7 +8,6 @@ import warnings
 
 import numpy as np
 import numpy.testing as npt
-
 from dipy.core.gradients import GradientTable
 from dipy.data import default_sphere, get_3shell_gtab
 from dipy.reconst import shm
@@ -18,9 +17,10 @@ from dipy.reconst.mcsd import (
     multi_shell_fiber_response,
     response_from_mask_msmt,
 )
-from AFQ.models.msmt import MultiShellDeconvModel
 from dipy.sims.voxel import add_noise, multi_tensor, single_tensor
 from dipy.testing.decorators import set_random_number_generator
+
+from AFQ.models.msmt import MultiShellDeconvModel
 
 wm_response = np.array(
     [

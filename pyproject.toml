@@ -1,17 +1,42 @@
 [build-system]
-requires = ["setuptools>=42", "wheel", "setuptools_scm>=3.4"]
+requires = ["setuptools>=64", "setuptools_scm>=8"]
 build-backend = "setuptools.build_meta"
+
+[tool.ruff]
+target-version = "py310"
+exclude = ["docs/source/conf.py",
+         "examples/",
+         "setup.py"]
+
+[tool.ruff.lint]
+select = [
+  "F",
+  "E",
+  "C",
+  "W",
+  "B",
+  "I",
+]
+ignore = [
+  "B905",
+  "C901",
+  "E203",
+  "F821",
+  "B021",
+  "C408"
+]
 
 [tool.pytest.ini_options]
 markers = [
-    "nightly",
     "nightly_basic",
     "nightly_anisotropic",
     "nightly_reco",
     "nightly_reco80",
     "nightly_custom",
+    "nightly_slr",
     "nightly",
 ]
 
 [tool.setuptools_scm]
 write_to = "AFQ/version.py"
+local_scheme = "no-local-version"

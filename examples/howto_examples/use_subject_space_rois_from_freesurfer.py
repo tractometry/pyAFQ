@@ -40,7 +40,7 @@ import AFQ.api.bundle_dict as abd
 #   ``AFQ_data/stanford_hardi/``
 #
 # This data represents the required preprocessed diffusion data necessary for
-# intializing the GroupAFQ object (which we will do next)
+# initializing the GroupAFQ object (which we will do next)
 #
 # The clear_previous_afq is used to remove any previous runs of the afq object
 # stored in the AFQ_data/stanford_hardi/ BIDS directory. Set it to None if

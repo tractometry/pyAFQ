@@ -25,7 +25,7 @@ import AFQ.data.fetch as afd
 import AFQ.api.bundle_dict as abd
 
 
-templates = abd.default18_bd() + abd.callosal_bd()
+templates = abd.default_bd() + abd.callosal_bd()
 
 
 ##########################################################

@@ -38,7 +38,7 @@ key-value pairs:
   bundle should travel in. Can be one of: 'L/R', 'P/A', 'I/S'.
 - 'primary_axis_percentage': Used with primary_axis, defines what fraction
   of a streamlines movement should be in the primary axis.
-- 'length': dicitonary containing 'min_len' and 'max_len'
+- 'length': dictionary containing 'min_len' and 'max_len'
 - 'curvature': 
 - 'mahal': done by default unless orient_mahal or isolation_forest
   are specified. Dictionary with optional keys 'n_points', 'core_only',
@@ -108,7 +108,7 @@ of the steps:
   14. Quickbundles Cleaning
   15. Mahalanobis Cleaning
 If a streamline passes all steps for a bundle, it is included in that bundle.
-If a streamline passess all steps for multiple bundles, then a warning is
+If a streamline passes all steps for multiple bundles, then a warning is
 thrown and the tie goes to whichever bundle is first in the bundle dictionary.
 
 .. note::
@@ -154,4 +154,4 @@ BundleDict like this. The order of addition matters here:
 
 .. code-block:: python
   
-  BundleDictCustomVOF = abd.default18_bd() + newVOF
+  BundleDictCustomVOF = abd.default_bd() + newVOF

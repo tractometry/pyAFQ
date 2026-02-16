@@ -1,8 +1,8 @@
+import nibabel as nib
 import numpy as np
 import numpy.testing as npt
 
 import AFQ.data.fetch as afd
-import nibabel as nib
 
 
 def test_read_roi():

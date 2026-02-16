@@ -1,13 +1,10 @@
 import os
 import os.path as op
 
-import numpy as np
 import nibabel as nib
-
 from dipy.reconst import fwdti
 
 import AFQ.utils.models as ut
-
 
 __all__ = ["fit_fwdti"]
 
@@ -18,8 +15,9 @@ def _fit(data, gtab, mask):
     return fwfit
 
 
-def fit_fwdti(data_files, bval_files, bvec_files, mask=None, out_dir=None,
-              b0_threshold=50):
+def fit_fwdti(
+    data_files, bval_files, bvec_files, mask=None, out_dir=None, b0_threshold=50
+):
     """
     Fit the free water DTI model [1]_, save files with derived maps
 
@@ -55,9 +53,9 @@ def fit_fwdti(data_files, bval_files, bvec_files, mask=None, out_dir=None,
           *ReScience*
 
     """
-    img, data, gtab, mask = ut.prepare_data(data_files, bval_files,
-                                            bvec_files, mask=mask,
-                                            b0_threshold=b0_threshold)
+    img, data, gtab, mask = ut.prepare_data(
+        data_files, bval_files, bvec_files, mask=mask, b0_threshold=b0_threshold
+    )
 
     fwfit = _fit(data, gtab, mask)
 
@@ -69,13 +67,13 @@ def fit_fwdti(data_files, bval_files, bvec_files, mask=None, out_dir=None,
     params = fwfit.model_params
 
     maps = [FA, MD, AD, RD, fwvf, params]
-    names = ['FA', 'MD', 'AD', 'RD', 'FWVF', 'params']
+    names = ["FA", "MD", "AD", "RD", "FWVF", "params"]
 
     if out_dir is None:
         if isinstance(data_files, list):
-            out_dir = op.join(op.split(data_files[0])[0], 'fwdti')
+            out_dir = op.join(op.split(data_files[0])[0], "fwdti")
         else:
-            out_dir = op.join(op.split(data_files)[0], 'fwdti')
+            out_dir = op.join(op.split(data_files)[0], "fwdti")
 
     if not op.exists(out_dir):
         os.makedirs(out_dir)
@@ -83,7 +81,7 @@ def fit_fwdti(data_files, bval_files, bvec_files, mask=None, out_dir=None,
     aff = img.affine
     file_paths = {}
     for m, n in zip(maps, names):
-        file_paths[n] = op.join(out_dir, 'fwdti_%s.nii.gz' % n)
+        file_paths[n] = op.join(out_dir, "fwdti_%s.nii.gz" % n)
         nib.save(nib.Nifti1Image(m, aff), file_paths[n])
 
     return file_paths

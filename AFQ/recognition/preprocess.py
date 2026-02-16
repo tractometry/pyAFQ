@@ -1,15 +1,14 @@
-import numpy as np
-import nibabel as nib
-import immlib
-from time import time
 import logging
+from time import time
 
 import dipy.tracking.streamline as dts
+import immlib
+import nibabel as nib
+import numpy as np
 
 import AFQ.recognition.utils as abu
 
-
-logger = logging.getLogger('AFQ')
+logger = logging.getLogger("AFQ")
 
 
 @immlib.calc("tol", "dist_to_atlas", "vox_dim")
@@ -38,9 +37,7 @@ def fgarray(tg):
     logger.info("Resampling Streamlines...")
     start_time = time()
     fg_array = np.array(abu.resample_tg(tg, 20))
-    logger.info((
-        "Streamlines Resampled "
-        f"(time: {time()-start_time}s)"))
+    logger.info((f"Streamlines Resampled (time: {time() - start_time}s)"))
     return fg_array
 
 
@@ -53,29 +50,30 @@ def crosses(fgarray, img):
     crosses the midline.
     """
     # What is the x,y,z coordinate of 0,0,0 in the template space?
-    zero_coord = np.dot(np.linalg.inv(img.affine),
-                        np.array([0, 0, 0, 1]))
+    zero_coord = np.dot(np.linalg.inv(img.affine), np.array([0, 0, 0, 1]))
 
     orientation = nib.orientations.aff2axcodes(img.affine)
     lr_axis = 0
     for idx, axis_label in enumerate(orientation):
-        if axis_label in ['L', 'R']:
+        if axis_label in ["L", "R"]:
             lr_axis = idx
             break
 
     return np.logical_and(
         np.any(fgarray[:, :, lr_axis] > zero_coord[lr_axis], axis=1),
-        np.any(fgarray[:, :, lr_axis] < zero_coord[lr_axis], axis=1))
+        np.any(fgarray[:, :, lr_axis] < zero_coord[lr_axis], axis=1),
+    )
 
 
 # Things that can be calculated for multiple bundles at once
 # (i.e., for a whole tractogram) go here
 def get_preproc_plan(img, tg, dist_to_waypoint, dist_to_atlas):
     preproc_plan = immlib.plan(
-        tolerance_mm_to_vox=tolerance_mm_to_vox,
-        fgarray=fgarray,
-        crosses=crosses)
+        tolerance_mm_to_vox=tolerance_mm_to_vox, fgarray=fgarray, crosses=crosses
+    )
     return preproc_plan(
-        img=img, tg=tg,
+        img=img,
+        tg=tg,
         dist_to_waypoint=dist_to_waypoint,
-        input_dist_to_atlas=dist_to_atlas)
+        input_dist_to_atlas=dist_to_atlas,
+    )

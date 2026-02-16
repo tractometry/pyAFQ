@@ -31,7 +31,7 @@ import AFQ.definitions.image as afm
 # data and organize it in a BIDS compliant way (for more details on how
 # BIDS is used in pyAFQ, refer to :doc:`plot_006_bids_layout`).
 #
-# The following call dowloads a a single subject's data from the Healthy Brain
+# The following call downloads a a single subject's data from the Healthy Brain
 # Network Processed Open Diffusion Derivatives dataset (HBN-POD2) [1]_, [2]_
 # and organizes it in BIDS in the user's home directory under::
 #
@@ -224,7 +224,7 @@ plotly.io.show(bundle_html["NDARAA948VFH"]["HBNsiteRU"][0])
 
 ##########################################################################
 # We can also visualize the tract profiles in all of the bundles. These
-# plots show both FA (left) and MD (right) layed out anatomically.
+# plots show both FA (left) and MD (right) laid out anatomically.
 # To make this plot, it is required that you install with
 # `pip install pyAFQ[plot]` so that you have the necessary dependencies.
 #
@@ -251,6 +251,14 @@ altair_df = ava.combined_profiles_df_to_altair_df(
 altair_chart = ava.altair_df_to_chart(altair_df)
 altair_chart.display()
 
+##########################################################################
+# Exporting citations
+# ----------------------
+# Finally, we can export the citations for the some of methods used in this
+# analysis. These are not guaranteed to be comprehensive, but they
+# should be a good starting point.
+
+myafq.export("citations")
 
 ##########################################################################
 # We can check the number of streamlines per bundle, to make sure
@@ -271,6 +279,24 @@ for ind in bundle_counts.index:
             "Small number of streamlines found "
             f"for bundle(s):\n{bundle_counts}"))
 
+##########################################################################
+# Alternative way to initialize GroupAFQ when using QSIPrep data
+# --------------------------------------------------------------
+# As a final note, if you are using QSIPrep preprocessed data,
+# you can also initialize the GroupAFQ object using the
+# `from_qsiprep` class method. This method will automatically set
+# the appropriate BIDS filters to find the preprocessed DWI data.
+# Additionally, it will find and use the brain masks and PVE images
+# that QSIPrep generates. Outside of BIDS filters, the arguments
+# are the same as those used when initializing the GroupAFQ object
+# directly.
+
+myafq = GroupAFQ.from_qsiprep(
+    qsi_dir=op.join(afd.afq_home, 'HBN'),
+    participant_labels=['NDARAA948VFH'],
+    tracking_params=tracking_params,
+    ray_n_cpus=1,
+    low_memory=True)
 
 #############################################################################
 # References

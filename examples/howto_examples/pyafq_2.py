@@ -2,7 +2,7 @@
 .. _pyafq-2-settings:
 
 ======================================
-Running pyAFQ 2.x defauls in pyAFQ 3.x
+Running pyAFQ 2.x defaults in pyAFQ 3.x
 ======================================
 """
 from AFQ.api.group import GroupAFQ
@@ -39,7 +39,7 @@ tracking_params = dict(
 # seed and stopping masks. Here, we recreate
 # the PVE images using the FA maps.
 # Note there the CSF map is not used in this case.
-# Additionally, in pyAFQ 2.x, the brain mask was calulated
+# Additionally, in pyAFQ 2.x, the brain mask was calculated
 # using median OTSU. Here, we import it from the Freesurfer segmentation instead.
 
 pve = afm.PVEImages(
@@ -73,10 +73,11 @@ bm_def = afm.LabelledImageFile(
 #    orientation, and isolation forest cleaning instead of mahalanobis for 
 #    distance.
 # Additionally, in the new version, the inferior endpoints of the
-# corticospinal tracts (CST) were removed.
+# corticospinal tracts (CST) were removed, and the superior longitudinal
+# fasciculus (SLF) was broken into three sub-bundles.
 
 templates = afd.read_templates(as_img=False)
-old_vof_paf_cst_definitions = abd.BundleDict({
+old_vof_paf_cst_slf_definitions = abd.BundleDict({
         'Left Corticospinal': {
             'cross_midline': False,
             'include': [templates['CST_roi2_L'],
@@ -95,6 +96,22 @@ old_vof_paf_cst_definitions = abd.BundleDict({
             'prob_map': templates['CST_R_prob_map'],
             'end': templates['CST_R_start'],
             'start': templates['CST_R_end']},
+        "Left Superior Longitudinal": {
+            "cross_midline": False,
+            "include": [templates["SLF_roi1_L"], templates["SLF_roi2_L"]],
+            "exclude": [templates["SLFt_roi2_L"]],
+            "space": "template",
+            "prob_map": templates["SLF_L_prob_map"],
+            "start": templates["SLF_L_start"],
+            "end": templates["SLF_L_end"]},
+        "Right Superior Longitudinal": {
+            "cross_midline": False,
+            "include": [templates["SLF_roi1_R"], templates["SLF_roi2_R"]],
+            "exclude": [templates["SLFt_roi2_R"]],
+            "space": "template",
+            "prob_map": templates["SLF_R_prob_map"],
+            "start": templates["SLF_R_start"],
+            "end": templates["SLF_R_end"]},
         'Left Posterior Arcuate': {'cross_midline': False,
                                    'include': [templates['SLFt_roi2_L']],
                                    'exclude': [templates['SLF_roi1_L']],
@@ -205,8 +222,8 @@ callosal_bd = abd.BundleDict({
         'space': 'template'}})
 
 
-bundle_info = abd.default18_bd() + \
-    old_vof_paf_cst_definitions + \
+bundle_info = abd.default_bd() + \
+    old_vof_paf_cst_slf_definitions + \
     callosal_bd
 
 ################################################################

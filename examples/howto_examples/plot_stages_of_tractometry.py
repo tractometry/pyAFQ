@@ -101,7 +101,7 @@ study_path = afd.fetch_hbn_afq(["NDARAA948VFH"])[1]
 # ---------------------------------
 # The HBN POD2 dataset was processed using the ``qsiprep`` pipeline. The
 # results from this processing are stored within a sub-folder of the
-# derivatives folder wthin the study folder.
+# derivatives folder within the study folder.
 # Here, we will start by visualizing the diffusion data. We read in the
 # diffusion data, as well as the gradient table, using the `nibabel` library.
 # We then extract the b0, b1000, and b2000 volumes from the diffusion data.
@@ -218,7 +218,7 @@ for bval, slicers in zip([0, 1000, 2000],
 #
 # For an example of fitting FA, see:
 # https://docs.dipy.org/1.11.0/examples_built/reconstruction/reconst_dti.html
-# For an exmaple of running tractography, see:
+# For an example of running tractography, see:
 # https://docs.dipy.org/1.11.0/examples_built/fiber_tracking/tracking_probabilistic.html
 
 afq_path = op.join(

@@ -1,13 +1,10 @@
-import numpy as np
-
-from tqdm import tqdm
-import scipy.io
-
-from dipy.io.stateful_tractogram import StatefulTractogram, Space
 import nibabel as nib
+import numpy as np
+import scipy.io
+from dipy.io.stateful_tractogram import Space, StatefulTractogram
+from tqdm import tqdm
 
 from AFQ.data.utils import BUNDLE_MAT_2_PYTHON
-
 
 # This dictionary is used to convert the names of the bundles
 # from old pyAFQ bundle names to the new pyAFQ bundle names.
@@ -39,11 +36,11 @@ old_acronyms_to_formal = {
     "SupParietal": "Callosum Superior Parietal",
     "PostParietal": "Callosum Posterior Parietal",
     "Occipital": "Callosum Occipital",
-    "Temporal": "Callosum Temporal"
+    "Temporal": "Callosum Temporal",
 }
 
 
-class MatlabFileTracking():
+class MatlabFileTracking:
     """
     Helper class.
     Acts the same as a tracking class from DIPY,
@@ -80,7 +77,7 @@ def matlab_tractography(mat_file, img):
     if isinstance(img, str):
         img = nib.load(img)
 
-    tracker = MatlabFileTracking(mat_file['fg']['fibers'][0][0])
+    tracker = MatlabFileTracking(mat_file["fg"]["fibers"][0][0])
     return StatefulTractogram(tracker, img, Space.RASMM)
 
 
@@ -88,7 +85,7 @@ def matlab_mori_groups(mat_file, img):
     """
     Converts a matlab Mori groups file to a dictionary of fiber groups.
     This dictionary is structured the same way as the results of pyAFQ
-    segmentation. The keys are bundle names and the values are 
+    segmentation. The keys are bundle names and the values are
     :class:`StatefulTractogram` instances.
     If you want to merge this dictionary into one :class:`StatefulTractogram`,
     use :class:`SegmentedSFT`.
@@ -121,7 +118,6 @@ def matlab_mori_groups(mat_file, img):
         if py_name is not None:
             bundle_ref = mat_file["fg"]["fibers"][0][i]
             tracker = MatlabFileTracking(bundle_ref)
-            fiber_groups[py_name] =\
-                StatefulTractogram(tracker, img, Space.RASMM)
+            fiber_groups[py_name] = StatefulTractogram(tracker, img, Space.RASMM)
 
     return fiber_groups
