@@ -40,8 +40,6 @@ def _inline_interact(figure, show, show_inline):
 
 
 def _to_color_range(num):
-    if num < 0:
-        num = 0
     if num >= 0.999:
         num = 0.999
     if num <= 0.001:
@@ -232,9 +230,10 @@ def _draw_streamlines(
 
 def _plot_profiles(profiles, bundle_name, color, fig, scalar):
     if isinstance(profiles, pd.DataFrame):
-        sc_max = np.max(profiles[scalar].to_numpy())
-        sc_90 = np.percentile(profiles[scalar].to_numpy(), 10)
-        sc_1 = np.percentile(profiles[scalar].to_numpy(), 99)
+        all_tp = profiles[scalar].to_numpy()
+        all_tp = np.max(all_tp) - all_tp
+        lim_0 = np.percentile(all_tp, 1)
+        lim_1 = np.percentile(all_tp, 90)
 
         profiles = profiles[profiles.tractID == bundle_name]
         x = profiles["nodeID"]
@@ -242,10 +241,14 @@ def _plot_profiles(profiles, bundle_name, color, fig, scalar):
         line_color = []
 
         for scalar_val in profiles[scalar].to_numpy():
-            xformed_scalar = np.minimum(
-                (sc_max - scalar_val) / (sc_1 - sc_90) + sc_90 + 0.1, 0.999
+            brightness = np.minimum(
+                np.maximum(
+                    scalar_val - lim_0,
+                    0,
+                ),
+                lim_1,
             )
-            line_color.append(_color_arr2str(xformed_scalar * color))
+            line_color.append(_color_arr2str(brightness * color))
     else:
         x = np.arange(len(profiles))
         y = profiles

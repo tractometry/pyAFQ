@@ -1,3 +1,4 @@
+import colorsys
 import logging
 import os.path as op
 from collections import OrderedDict
@@ -16,6 +17,23 @@ from PIL import Image, ImageChops
 import AFQ.utils.streamlines as aus
 
 __all__ = ["Viz"]
+
+
+def get_distinct_shades(base_rgb, n_steps, hue_shift):
+    """
+    Creates distinct shades by shifting Hue
+    """
+    hh, ll, ss = colorsys.rgb_to_hls(*base_rgb)
+    shades = []
+
+    for i in range(n_steps):
+        offset = i - (n_steps - 1) / 2
+
+        new_h = (hh + (offset * hue_shift)) % 1.0
+
+        shades.append(colorsys.hls_to_rgb(new_h, ll, ss))
+    return shades
+
 
 viz_logger = logging.getLogger("AFQ")
 tableau_20 = [
@@ -51,6 +69,18 @@ medium_font = 24
 small_font = 20
 marker_size = 200
 
+slf_l_base = tableau_extension[0]
+slf_r_base = tableau_extension[1]
+
+vof_l_base = tableau_20[6]
+vof_r_base = tableau_20[7]
+
+slf_l_shades = get_distinct_shades(slf_l_base, 3, hue_shift=0.1)
+slf_r_shades = get_distinct_shades(slf_r_base, 3, hue_shift=0.1)
+
+vof_l_shades = get_distinct_shades(vof_l_base, 5, hue_shift=0.12)
+vof_r_shades = get_distinct_shades(vof_r_base, 5, hue_shift=0.12)
+
 COLOR_DICT = OrderedDict(
     {
         "Left Anterior Thalamic": tableau_20[0],
@@ -75,8 +105,14 @@ COLOR_DICT = OrderedDict(
         "F_L": tableau_20[12],
         "Right Inferior Longitudinal": tableau_20[13],
         "F_R": tableau_20[13],
-        "Left Superior Longitudinal": tableau_20[14],
-        "Right Superior Longitudinal": tableau_20[15],
+        "Left Superior Longitudinal": slf_l_base,
+        "Right Superior Longitudinal": slf_r_base,
+        "Left Superior Longitudinal I": slf_l_shades[0],
+        "Left Superior Longitudinal II": slf_l_shades[1],
+        "Left Superior Longitudinal III": slf_l_shades[2],
+        "Right Superior Longitudinal I": slf_r_shades[0],
+        "Right Superior Longitudinal II": slf_r_shades[1],
+        "Right Superior Longitudinal III": slf_r_shades[2],
         "Left Uncinate": tableau_20[16],
         "UF_L": tableau_20[16],
         "Right Uncinate": tableau_20[17],
@@ -85,10 +121,20 @@ COLOR_DICT = OrderedDict(
         "AF_L": tableau_20[18],
         "Right Arcuate": tableau_20[19],
         "AF_R": tableau_20[19],
-        "Left Posterior Arcuate": tableau_20[6],
-        "Right Posterior Arcuate": tableau_20[7],
-        "Left Vertical Occipital": tableau_extension[0],
-        "Right Vertical Occipital": tableau_extension[1],
+        "Left Posterior Arcuate": tableau_20[14],
+        "Right Posterior Arcuate": tableau_20[15],
+        "Left Vertical Occipital": vof_l_base,
+        "Right Vertical Occipital": vof_r_base,
+        "Left Vertical Occipital I": vof_l_shades[0],
+        "Left Vertical Occipital II": vof_l_shades[1],
+        "Left Vertical Occipital III": vof_l_shades[2],
+        "Left Vertical Occipital IV": vof_l_shades[3],
+        "Left Vertical Occipital V": vof_l_shades[4],
+        "Right Vertical Occipital I": vof_r_shades[0],
+        "Right Vertical Occipital II": vof_r_shades[1],
+        "Right Vertical Occipital III": vof_r_shades[2],
+        "Right Vertical Occipital IV": vof_r_shades[3],
+        "Right Vertical Occipital V": vof_r_shades[4],
         "median": tableau_20[6],
         # Paul Tol's palette for callosal bundles
         "Callosum Orbital": (0.2, 0.13, 0.53),
@@ -510,7 +556,7 @@ def tract_generator(
     else:
         if bundle is None:
             # No selection: visualize all of them:
-            for bundle_name in seg_sft.bundle_names:
+            for bundle_name in sorted(seg_sft.bundle_names):
                 idx = seg_sft.bundle_idxs[bundle_name]
                 if len(idx) == 0:
                     continue
