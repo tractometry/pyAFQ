@@ -268,7 +268,7 @@ def default_bd():
                 "Left Arcuate": {"overlap": 30},
                 "length": {"min_len": 30, "max_len": 120},
                 "primary_axis": "I/S",
-                "primary_axis_percentage": 40,
+                "primary_axis_percentage": 50,
             },
             "Right Posterior Arcuate": {
                 "cross_midline": False,
@@ -285,68 +285,77 @@ def default_bd():
                 "Right Arcuate": {"overlap": 30},
                 "length": {"min_len": 30, "max_len": 120},
                 "primary_axis": "I/S",
-                "primary_axis_percentage": 40,
+                "primary_axis_percentage": 50,
             },
             "Left Vertical Occipital": {
                 "cross_midline": False,
                 "space": "template",
                 "end": templates["VOF_L_end"],
+                "exclude": [
+                    templates["Cerebellar_Hemi_L"],
+                ],
                 "Left Arcuate": {"node_thresh": 20, "project": "L/R"},
                 "Left Posterior Arcuate": {
                     "node_thresh": 20,
                     "project": "L/R",
                     "entire_core": "Anterior",
                 },
-                "length": {"min_len": 25, "max_len": 60},
+                "length": {"min_len": 30, "max_len": 70},
                 "mahal": {"clean_rounds": 0},
                 "primary_axis": "I/S",
-                "primary_axis_percentage": 40,
+                "primary_axis_percentage": 60,
                 "ORG_spectral_subbundles": SpectralSubbundleDict(
                     {
                         "Left Vertical Occipital I": {
-                            "cluster_ID": 89,
-                            "isolation_forest": {},
+                            "cluster_ID": 82,
                             "orient_mahal": {
-                                "distance_threshold": 4,
-                                "clean_rounds": 3,
+                                "distance_threshold": 2,
+                                "length_threshold": 5,
+                                "clean_rounds": 1,
+                            },
+                            "mahal": {
+                                "distance_threshold": 3,
+                                "length_threshold": 0,
+                                "clean_rounds": 5,
                             },
                         },
                         "Left Vertical Occipital II": {
-                            "cluster_ID": 82,
-                            "isolation_forest": {},
+                            "cluster_ID": 75,
                             "orient_mahal": {
-                                "distance_threshold": 4,
-                                "clean_rounds": 3,
+                                "distance_threshold": 2,
+                                "length_threshold": 5,
+                                "clean_rounds": 1,
+                            },
+                            "mahal": {
+                                "distance_threshold": 3,
+                                "length_threshold": 0,
+                                "clean_rounds": 5,
                             },
                         },
                         "Left Vertical Occipital III": {
-                            "cluster_ID": 83,
-                            "isolation_forest": {},
-                            "orient_mahal": {
-                                "distance_threshold": 4,
-                                "clean_rounds": 3,
-                            },
-                        },
-                        "Left Vertical Occipital IV": {
                             "cluster_ID": 21,
-                            "isolation_forest": {},
                             "orient_mahal": {
-                                "distance_threshold": 4,
-                                "clean_rounds": 3,
+                                "distance_threshold": 2,
+                                "length_threshold": 5,
+                                "clean_rounds": 1,
                             },
-                        },
-                        "Left Vertical Occipital V": {
-                            "cluster_ID": 454,
-                            "isolation_forest": {},
-                            "orient_mahal": {
-                                "distance_threshold": 4,
-                                "clean_rounds": 3,
+                            "mahal": {
+                                "distance_threshold": 3,
+                                "length_threshold": 0,
+                                "clean_rounds": 5,
                             },
                         },
                     },
                     remove_cluster_IDs=[
+                        89,
+                        93,
                         27,
                         100,
+                        102,
+                        454,
+                        27,
+                        555,
+                        118,
                         4,
                         6,
                         13,
@@ -371,62 +380,71 @@ def default_bd():
                 "cross_midline": False,
                 "space": "template",
                 "end": templates["VOF_R_end"],
+                "exclude": [
+                    templates["Cerebellar_Hemi_R"],
+                ],
                 "Right Arcuate": {"node_thresh": 20, "project": "L/R"},
                 "Right Posterior Arcuate": {
                     "node_thresh": 20,
                     "project": "L/R",
                     "entire_core": "Anterior",
                 },
-                "length": {"min_len": 25, "max_len": 60},
+                "length": {"min_len": 30, "max_len": 70},
                 "mahal": {"clean_rounds": 0},
                 "primary_axis": "I/S",
-                "primary_axis_percentage": 40,
+                "primary_axis_percentage": 60,
                 "ORG_spectral_subbundles": SpectralSubbundleDict(
                     {
                         "Right Vertical Occipital I": {
-                            "cluster_ID": 89,
-                            "isolation_forest": {},
+                            "cluster_ID": 82,
                             "orient_mahal": {
-                                "distance_threshold": 4,
-                                "clean_rounds": 3,
+                                "distance_threshold": 2,
+                                "length_threshold": 5,
+                                "clean_rounds": 1,
+                            },
+                            "mahal": {
+                                "distance_threshold": 3,
+                                "length_threshold": 0,
+                                "clean_rounds": 5,
                             },
                         },
                         "Right Vertical Occipital II": {
-                            "cluster_ID": 82,
-                            "isolation_forest": {},
+                            "cluster_ID": 75,
                             "orient_mahal": {
-                                "distance_threshold": 4,
-                                "clean_rounds": 3,
+                                "distance_threshold": 2,
+                                "length_threshold": 5,
+                                "clean_rounds": 1,
+                            },
+                            "mahal": {
+                                "distance_threshold": 3,
+                                "length_threshold": 0,
+                                "clean_rounds": 5,
                             },
                         },
                         "Right Vertical Occipital III": {
-                            "cluster_ID": 83,
-                            "isolation_forest": {},
-                            "orient_mahal": {
-                                "distance_threshold": 4,
-                                "clean_rounds": 3,
-                            },
-                        },
-                        "Right Vertical Occipital IV": {
                             "cluster_ID": 21,
-                            "isolation_forest": {},
                             "orient_mahal": {
-                                "distance_threshold": 4,
-                                "clean_rounds": 3,
+                                "distance_threshold": 2,
+                                "length_threshold": 5,
+                                "clean_rounds": 1,
                             },
-                        },
-                        "Right Vertical Occipital V": {
-                            "cluster_ID": 454,
-                            "isolation_forest": {},
-                            "orient_mahal": {
-                                "distance_threshold": 4,
-                                "clean_rounds": 3,
+                            "mahal": {
+                                "distance_threshold": 3,
+                                "length_threshold": 0,
+                                "clean_rounds": 5,
                             },
                         },
                     },
                     remove_cluster_IDs=[
+                        89,
+                        93,
                         27,
                         100,
+                        102,
+                        454,
+                        27,
+                        555,
+                        118,
                         4,
                         6,
                         13,
@@ -1309,6 +1327,31 @@ class BundleDict(MutableMapping):
 
     def get_b_info(self, b_name):
         return self._dict[b_name]
+
+    def relax_cleaning(self, delta_distance=1, delta_length=1):
+        """
+        This can be useful for PTT
+        """
+        cleaner_keys = ["mahal", "isolation_forest", "orient_mahal"]
+
+        for b_name in self.bundle_names:
+            bundle_data = self._dict[b_name]
+
+            for key in cleaner_keys:
+                if key in bundle_data:
+                    target = bundle_data[key]
+                    if (
+                        "distance_threshold" in target
+                        and target["distance_threshold"] != 0
+                    ):
+                        target["distance_threshold"] += delta_distance
+                    if "length_threshold" in target and target["length_threshold"] != 0:
+                        target["length_threshold"] += delta_length
+
+            if "ORG_spectral_subbundles" in bundle_data:
+                bundle_data["ORG_spectral_subbundles"].relax_cleaning(
+                    delta_distance, delta_length
+                )
 
     def __getitem__(self, key):
         if isinstance(key, tuple) or isinstance(key, list):

@@ -78,8 +78,8 @@ vof_r_base = tableau_20[7]
 slf_l_shades = get_distinct_shades(slf_l_base, 3, hue_shift=0.1)
 slf_r_shades = get_distinct_shades(slf_r_base, 3, hue_shift=0.1)
 
-vof_l_shades = get_distinct_shades(vof_l_base, 5, hue_shift=0.12)
-vof_r_shades = get_distinct_shades(vof_r_base, 5, hue_shift=0.12)
+vof_l_shades = get_distinct_shades(vof_l_base, 3, hue_shift=0.15)
+vof_r_shades = get_distinct_shades(vof_r_base, 3, hue_shift=0.15)
 
 COLOR_DICT = OrderedDict(
     {
@@ -128,13 +128,9 @@ COLOR_DICT = OrderedDict(
         "Left Vertical Occipital I": vof_l_shades[0],
         "Left Vertical Occipital II": vof_l_shades[1],
         "Left Vertical Occipital III": vof_l_shades[2],
-        "Left Vertical Occipital IV": vof_l_shades[3],
-        "Left Vertical Occipital V": vof_l_shades[4],
         "Right Vertical Occipital I": vof_r_shades[0],
         "Right Vertical Occipital II": vof_r_shades[1],
         "Right Vertical Occipital III": vof_r_shades[2],
-        "Right Vertical Occipital IV": vof_r_shades[3],
-        "Right Vertical Occipital V": vof_r_shades[4],
         "median": tableau_20[6],
         # Paul Tol's palette for callosal bundles
         "Callosum Orbital": (0.2, 0.13, 0.53),

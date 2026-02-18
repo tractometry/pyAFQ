@@ -50,7 +50,7 @@ def clean_by_orientation(streamlines, primary_axis, affine, tol=None):
     along_accepted_idx = orientation_along == primary_axis
     if tol is not None:
         percentage_primary = (
-            100 * axis_diff[:, primary_axis] / np.sum(axis_diff, axis=1)
+            100 * endpoint_diff[:, primary_axis] / np.sum(endpoint_diff, axis=1)
         )
         logger.debug(
             (f"Maximum primary percentage found: {np.max(percentage_primary)}")
@@ -73,33 +73,42 @@ def clean_by_orientation_mahalanobis(
     core_only=0.6,
     min_sl=20,
     distance_threshold=3,
+    length_threshold=4,
     clean_rounds=5,
 ):
+    if length_threshold == 0:
+        length_threshold = np.inf
     fgarray = np.array(abu.resample_tg(streamlines, n_points))
 
     if core_only != 0:
         crop_edge = (1.0 - core_only) / 2
         fgarray = fgarray[
             :, int(n_points * crop_edge) : int(n_points * (1 - crop_edge)), :
-        ]  # Crop to middle 60%
+        ]
 
     fgarray_dists = fgarray[:, 1:, :] - fgarray[:, :-1, :]
+    lengths = np.array([sl.shape[0] for sl in streamlines])
     idx = np.arange(len(fgarray))
     rounds_elapsed = 0
     while rounds_elapsed < clean_rounds:
-        # This calculates the Mahalanobis for each streamline/node:
         m_dist = gaussian_weights(
             fgarray_dists, return_mahalnobis=True, n_points=None, stat=np.mean
         )
+        length_z = zscore(lengths)
+
         logger.debug(f"Shape of fgarray: {np.asarray(fgarray_dists).shape}")
         logger.debug((f"Maximum m_dist for each fiber: {np.max(m_dist, axis=1)}"))
 
-        if not (np.any(m_dist >= distance_threshold)):
+        if not (
+            np.any(m_dist >= distance_threshold) or np.any(length_z >= length_threshold)
+        ):
             break
-        idx_dist = np.all(m_dist < distance_threshold, axis=-1)
 
-        if np.sum(idx_dist) < min_sl:
-            # need to sort and return exactly min_sl:
+        idx_dist = np.all(m_dist < distance_threshold, axis=-1)
+        idx_len = length_z < length_threshold
+        idx_belong = np.logical_and(idx_dist, idx_len)
+
+        if np.sum(idx_belong) < min_sl:
             idx = idx[np.argsort(np.sum(m_dist, axis=-1))[:min_sl].astype(int)]
             idx = np.sort(idx)
             logger.debug(
@@ -107,9 +116,9 @@ def clean_by_orientation_mahalanobis(
             )
             break
         else:
-            # Update by selection:
-            idx = idx[idx_dist]
-            fgarray_dists = fgarray_dists[idx_dist]
+            idx = idx[idx_belong]
+            fgarray_dists = fgarray_dists[idx_belong]
+            lengths = lengths[idx_belong]
             rounds_elapsed += 1
             logger.debug((f"Rounds elapsed: {rounds_elapsed}, num kept: {len(idx)}"))
             logger.debug(f"Kept indices: {idx}")
@@ -189,6 +198,9 @@ def clean_bundle(
             return tg, np.arange(len(streamlines))
         else:
             return tg
+
+    if length_threshold == 0:
+        length_threshold = np.inf
 
     # Resample once up-front:
     fgarray = np.asarray(abu.resample_tg(streamlines, n_points))
@@ -319,6 +331,9 @@ def clean_by_isolation_forest(
             ("Isolation Forest cleaning not performed due to low streamline count")
         )
         return np.ones(len(streamlines), dtype=bool)
+
+    if length_threshold == 0:
+        length_threshold = np.inf
 
     # Resample once up-front:
     fgarray = np.asarray(abu.resample_tg(streamlines, n_points))

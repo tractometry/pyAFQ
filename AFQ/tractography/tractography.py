@@ -30,7 +30,7 @@ def track(
     seed_mask=None,
     seed_threshold=0.5,
     thresholds_as_percentages=False,
-    n_seeds=2000000,
+    n_seeds=5000000,
     random_seeds=True,
     rng_seed=None,
     step_size=0.5,
@@ -75,7 +75,7 @@ def track(
         voxel on each dimension (for example, 2 => [2, 2, 2]). If this is a 2D
         array, these are the coordinates of the seeds. Unless random_seeds is
         set to True, in which case this is the total number of random seeds
-        to generate within the mask. Default: 2000000
+        to generate within the mask. Default: 5000000
     random_seeds : bool
         Whether to generate a total of n_seeds random seeds in the mask.
         Default: True

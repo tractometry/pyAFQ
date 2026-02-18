@@ -1,10 +1,10 @@
 import logging
 from time import time
 
-import dipy.tracking.streamline as dts
 import nibabel as nib
 import numpy as np
 import ray
+from dipy.core.interpolation import interpolate_scalar_3d
 from dipy.io.stateful_tractogram import Space, StatefulTractogram
 from dipy.io.streamline import load_tractogram
 from dipy.segment.bundles import RecoBundles
@@ -56,10 +56,9 @@ logger = logging.getLogger("AFQ")
 
 def prob_map(b_sls, bundle_def, preproc_imap, prob_threshold, **kwargs):
     b_sls.initiate_selection("Prob. Map")
-    # using entire fgarray here only because it is the first step
-    fiber_probabilities = dts.values_from_volume(
-        bundle_def["prob_map"].get_fdata(), preproc_imap["fgarray"], np.eye(4)
-    )
+    fiber_probabilities = interpolate_scalar_3d(
+        bundle_def["prob_map"].get_fdata(), preproc_imap["fgarray"].reshape(-1, 3)
+    )[0].reshape(-1, 20)
     fiber_probabilities = np.mean(fiber_probabilities, -1)
     b_sls.select(fiber_probabilities > prob_threshold, "Prob. Map")
 
@@ -153,6 +152,15 @@ def include(b_sls, bundle_def, preproc_imap, n_cpus, **kwargs):
             )
     else:
         include_roi_tols = [preproc_imap["tol"] ** 2] * len(bundle_def["include"])
+
+    # For now I am turning ray parallelization here off.
+    # It is never worthwhile considering other changes we
+    # have made to speed up this step,
+    # so spinning up ray and transferring data back
+    # and forth is not worth it.
+    # In the future, I think we should redo this with numba and
+    # use multithreading
+    n_cpus = 1
 
     # with parallel segmentation, the first for loop will
     # only collect streamlines and does not need tqdm

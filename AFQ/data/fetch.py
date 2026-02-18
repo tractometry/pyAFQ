@@ -761,6 +761,8 @@ template_fnames = [
     "ATR_L_start.nii.gz",
     "pARC_xroi1_L.nii.gz",
     "pARC_xroi1_R.nii.gz",
+    "Cerebellar_Hemi_L.nii.gz",
+    "Cerebellar_Hemi_R.nii.gz",
 ]
 
 
@@ -865,6 +867,8 @@ template_remote_fnames = [
     "40944080",
     "61737616",
     "61737619",
+    "61970155",
+    "61970158",
 ]
 
 
@@ -970,6 +974,8 @@ template_md5_hashes = [
     "1c0b570bb2d622718b01ee2c429a5d15",
     "51c8a6b5fbb0834b03986093b9ee4fa3",
     "7cf5800a4efa6bac7e70d84095bc259b",
+    "f65b3f9133820921d023517a68d4ea41",
+    "4476935f5aadfcdd633b9a23779625ef",
 ]
 
 fetch_templates = _make_reusable_fetcher(
