@@ -332,6 +332,7 @@ def default_bd():
                             },
                         },
                         "Left Vertical Occipital III": {
+                            "Left Inferior Fronto-occipital": {"core": "Right"},
                             "cluster_ID": 25,
                             "orient_mahal": {
                                 "distance_threshold": 2,
@@ -420,6 +421,7 @@ def default_bd():
                             },
                         },
                         "Right Vertical Occipital III": {
+                            "Right Inferior Fronto-occipital": {"core": "Left"},
                             "cluster_ID": 25,
                             "orient_mahal": {
                                 "distance_threshold": 2,

@@ -151,7 +151,11 @@ class SlsBeingRecognized:
             f"After filtering by {clean_name} (time: {time_taken}s), "
             f"{len(self)} streamlines remain."
         )
-        if self.save_intermediates is not None:
+
+        # Only save intermediates after the 90% of the
+        # streamlines have been filtered out,
+        # otherwise its impractical
+        if self.save_intermediates is not None and len(self) < 0.1 * len(self.ref_sls):
             save_tractogram(
                 StatefulTractogram(self.get_selected_sls(cut=cut), self.ref, Space.VOX),
                 op.join(
