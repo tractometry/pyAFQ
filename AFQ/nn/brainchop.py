@@ -4,7 +4,8 @@ import os.path as op
 import nibabel as nib
 import nibabel.processing as nbp
 import numpy as np
-from scipy.ndimage import binary_dilation, gaussian_filter
+from scipy.ndimage import gaussian_filter
+from skimage.morphology import dilation
 from skimage.segmentation import find_boundaries
 
 from AFQ.data.fetch import afq_home, fetch_brainchop_models
@@ -66,7 +67,8 @@ def run_brainchop(ort, t1_img, model_name):
         # Mindgrab can be tight sometimes,
         # better to include a bit more,
         # than to miss some
-        output = binary_dilation(output, iterations=2)
+        for _ in range(2):
+            output = dilation(output)
 
     output_img = nbp.resample_from_to(
         nib.Nifti1Image(output.astype(np.uint8), t1_img_conformed.affine), t1_img

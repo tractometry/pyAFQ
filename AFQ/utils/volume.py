@@ -7,7 +7,7 @@ import scipy.ndimage as ndim
 from dipy.io.utils import create_nifti_header, get_reference_info
 from dipy.tracking.streamline import select_random_set_of_streamlines
 from scipy.spatial.distance import dice
-from skimage.morphology import binary_dilation
+from skimage.morphology import dilation
 
 logger = logging.getLogger("AFQ")
 
@@ -46,13 +46,13 @@ def transform_roi(roi, mapping, bundle_name="ROI"):
             np.asarray(mapping.codomain_shape) / np.asarray(mapping.domain_shape)
         )
         for _ in range(max(np.ceil(scale_factor) - 1, 0).astype(int)):
-            roi = binary_dilation(roi)
+            roi = dilation(roi)
 
     _roi = mapping.transform((roi.astype(float)), interpolation="linear")
 
     if np.sum(_roi) == 0:
-        logger.warning(f"Lost ROI {bundle_name}, performing automatic binary dilation")
-        _roi = binary_dilation(roi)
+        logger.warning(f"Lost ROI {bundle_name}, performing automatic dilation")
+        _roi = dilation(roi)
         _roi = mapping.transform(_roi.astype(float), interpolation="linear")
 
     _roi = patch_up_roi(_roi > 0, bundle_name=bundle_name).astype(np.int32)
