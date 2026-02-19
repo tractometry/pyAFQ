@@ -298,7 +298,6 @@ def default_bd():
                 "Left Posterior Arcuate": {
                     "node_thresh": 20,
                     "project": "L/R",
-                    "entire_core": "Anterior",
                 },
                 "length": {"min_len": 30, "max_len": 70},
                 "mahal": {"clean_rounds": 0},
@@ -307,7 +306,7 @@ def default_bd():
                 "ORG_spectral_subbundles": SpectralSubbundleDict(
                     {
                         "Left Vertical Occipital I": {
-                            "cluster_ID": 82,
+                            "cluster_ID": 61,
                             "orient_mahal": {
                                 "distance_threshold": 2,
                                 "length_threshold": 5,
@@ -333,7 +332,7 @@ def default_bd():
                             },
                         },
                         "Left Vertical Occipital III": {
-                            "cluster_ID": 21,
+                            "cluster_ID": 25,
                             "orient_mahal": {
                                 "distance_threshold": 2,
                                 "length_threshold": 5,
@@ -387,7 +386,6 @@ def default_bd():
                 "Right Posterior Arcuate": {
                     "node_thresh": 20,
                     "project": "L/R",
-                    "entire_core": "Anterior",
                 },
                 "length": {"min_len": 30, "max_len": 70},
                 "mahal": {"clean_rounds": 0},
@@ -396,7 +394,7 @@ def default_bd():
                 "ORG_spectral_subbundles": SpectralSubbundleDict(
                     {
                         "Right Vertical Occipital I": {
-                            "cluster_ID": 82,
+                            "cluster_ID": 61,
                             "orient_mahal": {
                                 "distance_threshold": 2,
                                 "length_threshold": 5,
@@ -422,7 +420,7 @@ def default_bd():
                             },
                         },
                         "Right Vertical Occipital III": {
-                            "cluster_ID": 21,
+                            "cluster_ID": 25,
                             "orient_mahal": {
                                 "distance_threshold": 2,
                                 "length_threshold": 5,
