@@ -719,10 +719,6 @@ template_fnames = [
     "UNC_R_prob_map.nii.gz",
     "ARC_L_prob_map.nii.gz",
     "ARC_R_prob_map.nii.gz",
-    "VOF_R_end.nii.gz",
-    "VOF_R_start.nii.gz",
-    "VOF_L_end.nii.gz",
-    "VOF_L_start.nii.gz",
     "pARC_R_start.nii.gz",
     "pARC_L_start.nii.gz",
     "ARC_R_end.nii.gz",
@@ -763,6 +759,10 @@ template_fnames = [
     "pARC_xroi1_R.nii.gz",
     "Cerebellar_Hemi_L.nii.gz",
     "Cerebellar_Hemi_R.nii.gz",
+    "VOF_L_end.nii.gz",
+    "VOF_R_end.nii.gz",
+    "VOF_L_prob_map.nii.gz",
+    "VOF_R_prob_map.nii.gz",
 ]
 
 
@@ -825,10 +825,6 @@ template_remote_fnames = [
     "11458229",
     "11458232",
     "11458235",
-    "40943957",
-    "40943960",
-    "40943966",
-    "40943969",
     "40943972",
     "40943975",
     "40943978",
@@ -869,6 +865,10 @@ template_remote_fnames = [
     "61737619",
     "61970155",
     "61970158",
+    "62031448",
+    "62031439",
+    "62031442",
+    "62031445",
 ]
 
 
@@ -932,10 +932,6 @@ template_md5_hashes = [
     "19590c712f1776da1fdba64d4eb7f1f6",
     "04d5af0feb2c1b5b52a87ccbbf148e4b",
     "53c277be990d00f7de04f2ea35e74d73",
-    "d37d815fd1bdaaf3a9d2dcfc3ccb1345",
-    "95ed3189d8ac152945e6be1eb24381a3",
-    "a9007e6f2d6ae13ef182f65057c06573",
-    "c6eb9ee33b7caf691749e266f89e8ec4",
     "a06b2e2e52c09a601f683dc39859a7f1",
     "bee876a34fdb03e69a418b791f90975a",
     "680749c9e4565bc02492019d57d8e7d7",
@@ -976,6 +972,10 @@ template_md5_hashes = [
     "7cf5800a4efa6bac7e70d84095bc259b",
     "f65b3f9133820921d023517a68d4ea41",
     "4476935f5aadfcdd633b9a23779625ef",
+    "318ea89a04caf8d6f6afa34c8d173142",
+    "27fe6a73aec3a0d90dae07327c93393e",
+    "db5bd2d1e810e366f5ef67a9cce205c2",
+    "6891cfc038ce7db21e0cc307ae2b1b37",
 ]
 
 fetch_templates = _make_reusable_fetcher(

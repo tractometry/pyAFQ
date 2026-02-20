@@ -47,7 +47,7 @@ valid_noncriterion = [
     "inc_addtol",
     "exc_addtol",
     "ORG_spectral_subbundles",
-    "cluster_ID",
+    "cluster_IDs",
 ]
 
 
@@ -533,9 +533,11 @@ def run_bundle_rec_plan(
     if b_sls:
         if "ORG_spectral_subbundles" in bundle_def:
             subdict = bundle_def["ORG_spectral_subbundles"]
-            c_ids = subdict.cluster_IDs
             b_sls.initiate_selection(
-                (f"ORG spectral clustering, {len(c_ids)} subbundles being recognized")
+                (
+                    f"ORG spectral clustering, {len(subdict.bundle_names)} "
+                    "subbundles being recognized"
+                )
             )
 
             sub_sft = StatefulTractogram(
@@ -545,15 +547,17 @@ def run_bundle_rec_plan(
                 sub_sft, mapping, img, subdict.all_cluster_IDs, n_points=40
             )
             clusters_being_recognized = []
-            for c_id in c_ids:
-                bundle_name = subdict.get_subbundle_name(c_id)
-                n_roi = len(subdict[bundle_name].get("include", []))
-                cluster_b_sls = b_sls.copy(bundle_name, n_roi)
-                cluster_b_sls.select(cluster_labels == c_id, f"Cluster {c_id}")
+            for sub_b_name in subdict.bundle_names:
+                c_ids = subdict._dict[sub_b_name]["cluster_IDs"]
+                n_roi = len(subdict._dict[sub_b_name].get("include", []))
+                cluster_b_sls = b_sls.copy(sub_b_name, n_roi)
+                selected = np.zeros(len(b_sls), dtype=bool)
+                for c_id in c_ids:
+                    selected = np.logical_or(selected, cluster_labels == c_id)
+                cluster_b_sls.select(selected, f"Clusters {c_ids}")
                 clusters_being_recognized.append(cluster_b_sls)
 
-            for ii, c_id in enumerate(c_ids):
-                bundle_name = subdict.get_subbundle_name(c_id)
+            for ii, sub_b_name in enumerate(subdict.bundle_names):
                 run_bundle_rec_plan(
                     bundle_def["ORG_spectral_subbundles"],
                     clusters_being_recognized[ii],
@@ -561,7 +565,7 @@ def run_bundle_rec_plan(
                     img,
                     reg_template,
                     preproc_imap,
-                    bundle_name,
+                    sub_b_name,
                     recognized_bundles_dict,
                     **segmentation_params,
                 )

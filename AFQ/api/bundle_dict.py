@@ -185,7 +185,7 @@ def default_bd():
                 "prob_map": templates["IFO_L_prob_map"],
                 "end": templates["IFO_L_start"],
                 "start": templates["IFO_L_end"],
-                "length": {"min_len": 100, "max_len": 250},
+                "length": {"min_len": 100},
             },
             "Right Inferior Fronto-occipital": {
                 "cross_midline": False,
@@ -195,7 +195,7 @@ def default_bd():
                 "prob_map": templates["IFO_R_prob_map"],
                 "end": templates["IFO_R_start"],
                 "start": templates["IFO_R_end"],
-                "length": {"min_len": 100, "max_len": 250},
+                "length": {"min_len": 100},
             },
             "Left Inferior Longitudinal": {
                 "cross_midline": False,
@@ -223,7 +223,7 @@ def default_bd():
                 "prob_map": templates["ARC_L_prob_map"],
                 "start": templates["ARC_L_start"],
                 "end": templates["ARC_L_end"],
-                "length": {"min_len": 50, "max_len": 250},
+                "length": {"min_len": 50},
             },
             "Right Arcuate": {
                 "cross_midline": False,
@@ -233,7 +233,7 @@ def default_bd():
                 "prob_map": templates["ARC_R_prob_map"],
                 "start": templates["ARC_R_start"],
                 "end": templates["ARC_R_end"],
-                "length": {"min_len": 50, "max_len": 250},
+                "length": {"min_len": 50},
             },
             "Left Uncinate": {
                 "cross_midline": False,
@@ -266,7 +266,7 @@ def default_bd():
                 "start": templates["pARC_L_start"],
                 "end": templates["VOF_L_end"],
                 "Left Arcuate": {"overlap": 30},
-                "length": {"min_len": 30, "max_len": 120},
+                "length": {"min_len": 30},
                 "primary_axis": "I/S",
                 "primary_axis_percentage": 50,
             },
@@ -283,13 +283,14 @@ def default_bd():
                 "start": templates["pARC_R_start"],
                 "end": templates["VOF_R_end"],
                 "Right Arcuate": {"overlap": 30},
-                "length": {"min_len": 30, "max_len": 120},
+                "length": {"min_len": 30},
                 "primary_axis": "I/S",
                 "primary_axis_percentage": 50,
             },
             "Left Vertical Occipital": {
                 "cross_midline": False,
                 "space": "template",
+                "prob_map": templates["VOF_L_prob_map"],
                 "end": templates["VOF_L_end"],
                 "exclude": [
                     templates["Cerebellar_Hemi_L"],
@@ -298,15 +299,16 @@ def default_bd():
                 "Left Posterior Arcuate": {
                     "node_thresh": 20,
                     "project": "L/R",
+                    "core": "Anterior",
                 },
-                "length": {"min_len": 30, "max_len": 70},
+                "length": {"min_len": 30},
                 "mahal": {"clean_rounds": 0},
                 "primary_axis": "I/S",
                 "primary_axis_percentage": 60,
                 "ORG_spectral_subbundles": SpectralSubbundleDict(
                     {
                         "Left Vertical Occipital I": {
-                            "cluster_ID": 61,
+                            "cluster_IDs": [74, 92],
                             "orient_mahal": {
                                 "distance_threshold": 2,
                                 "length_threshold": 5,
@@ -319,21 +321,21 @@ def default_bd():
                             },
                         },
                         "Left Vertical Occipital II": {
-                            "cluster_ID": 75,
+                            "cluster_IDs": [1, 72, 81],
                             "orient_mahal": {
-                                "distance_threshold": 2,
+                                "distance_threshold": 3,
                                 "length_threshold": 5,
                                 "clean_rounds": 1,
                             },
                             "mahal": {
-                                "distance_threshold": 3,
+                                "distance_threshold": 4,
                                 "length_threshold": 0,
                                 "clean_rounds": 5,
                             },
                         },
                         "Left Vertical Occipital III": {
                             "Left Inferior Fronto-occipital": {"core": "Right"},
-                            "cluster_ID": 25,
+                            "cluster_IDs": [2, 7, 18, 25],
                             "orient_mahal": {
                                 "distance_threshold": 2,
                                 "length_threshold": 5,
@@ -349,7 +351,6 @@ def default_bd():
                     remove_cluster_IDs=[
                         89,
                         93,
-                        27,
                         100,
                         102,
                         454,
@@ -379,6 +380,7 @@ def default_bd():
             "Right Vertical Occipital": {
                 "cross_midline": False,
                 "space": "template",
+                "prob_map": templates["VOF_R_prob_map"],
                 "end": templates["VOF_R_end"],
                 "exclude": [
                     templates["Cerebellar_Hemi_R"],
@@ -387,15 +389,16 @@ def default_bd():
                 "Right Posterior Arcuate": {
                     "node_thresh": 20,
                     "project": "L/R",
+                    "core": "Anterior",
                 },
-                "length": {"min_len": 30, "max_len": 70},
+                "length": {"min_len": 30},
                 "mahal": {"clean_rounds": 0},
                 "primary_axis": "I/S",
                 "primary_axis_percentage": 60,
                 "ORG_spectral_subbundles": SpectralSubbundleDict(
                     {
                         "Right Vertical Occipital I": {
-                            "cluster_ID": 61,
+                            "cluster_IDs": [74, 92],
                             "orient_mahal": {
                                 "distance_threshold": 2,
                                 "length_threshold": 5,
@@ -408,21 +411,21 @@ def default_bd():
                             },
                         },
                         "Right Vertical Occipital II": {
-                            "cluster_ID": 75,
+                            "cluster_IDs": [1, 72, 81],
                             "orient_mahal": {
-                                "distance_threshold": 2,
+                                "distance_threshold": 3,
                                 "length_threshold": 5,
                                 "clean_rounds": 1,
                             },
                             "mahal": {
-                                "distance_threshold": 3,
+                                "distance_threshold": 4,
                                 "length_threshold": 0,
                                 "clean_rounds": 5,
                             },
                         },
                         "Right Vertical Occipital III": {
                             "Right Inferior Fronto-occipital": {"core": "Left"},
-                            "cluster_ID": 25,
+                            "cluster_IDs": [2, 7, 18, 25],
                             "orient_mahal": {
                                 "distance_threshold": 2,
                                 "length_threshold": 5,
@@ -438,7 +441,6 @@ def default_bd():
                     remove_cluster_IDs=[
                         89,
                         93,
-                        27,
                         100,
                         102,
                         454,
@@ -1673,21 +1675,16 @@ class SpectralSubbundleDict(BundleDict):
             remove_cluster_IDs = []
         self.remove_cluster_IDs = remove_cluster_IDs
         self.cluster_IDs = []
-        self.id_to_name = {}
         for b_name, b_info in bundle_info.items():
-            if "cluster_ID" not in b_info:
+            if "cluster_IDs" not in b_info:
                 raise ValueError(
                     (
-                        f"Bundle {b_name} does not have a cluster_ID. "
-                        "All bundles in a SpectralSubbundleDict must have a cluster_ID."
+                        f"Bundle {b_name} does not have cluster_IDs. "
+                        "All bundles in a SpectralSubbundleDict must have cluster_IDs."
                     )
                 )
-            self.cluster_IDs.append(b_info["cluster_ID"])
-            self.id_to_name[b_info["cluster_ID"]] = b_name
+            self.cluster_IDs.extend(b_info["cluster_IDs"])
         self.all_cluster_IDs = self.remove_cluster_IDs + self.cluster_IDs
-
-    def get_subbundle_name(self, cluster_id):
-        return self.id_to_name.get(cluster_id, None)
 
 
 def apply_to_roi_dict(
