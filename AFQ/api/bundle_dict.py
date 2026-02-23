@@ -307,7 +307,7 @@ def default_bd():
                 "ORG_spectral_subbundles": SpectralSubbundleDict(
                     {
                         "Left Vertical Occipital I": {
-                            "cluster_IDs": [63],
+                            "cluster_IDs": [61, 63, 77, 82],
                             "orient_mahal": {
                                 "distance_threshold": 2,
                                 "length_threshold": 0,
@@ -320,7 +320,7 @@ def default_bd():
                             },
                         },
                         "Left Vertical Occipital II": {
-                            "cluster_IDs": [1, 81],
+                            "cluster_IDs": [1, 72, 75, 81, 83],
                             "orient_mahal": {
                                 "distance_threshold": 2,
                                 "length_threshold": 0,
@@ -334,7 +334,7 @@ def default_bd():
                         },
                         "Left Vertical Occipital III": {
                             "Left Inferior Fronto-occipital": {"core": "Right"},
-                            "cluster_IDs": [2, 7, 18],
+                            "cluster_IDs": [2, 7, 18, 21, 25, 51],
                             "exclude": [templates["pARC_xroi1_L"]],
                             "orient_mahal": {
                                 "distance_threshold": 2,
@@ -371,6 +371,8 @@ def default_bd():
                         64,
                         65,
                         66,
+                        74,
+                        78,
                         84,
                         87,
                         88,
@@ -411,7 +413,7 @@ def default_bd():
                 "ORG_spectral_subbundles": SpectralSubbundleDict(
                     {
                         "Right Vertical Occipital I": {
-                            "cluster_IDs": [63],
+                            "cluster_IDs": [61, 63, 77, 82],
                             "orient_mahal": {
                                 "distance_threshold": 2,
                                 "length_threshold": 0,
@@ -424,7 +426,7 @@ def default_bd():
                             },
                         },
                         "Right Vertical Occipital II": {
-                            "cluster_IDs": [1, 81],
+                            "cluster_IDs": [1, 72, 75, 81, 83],
                             "orient_mahal": {
                                 "distance_threshold": 2,
                                 "length_threshold": 0,
@@ -438,7 +440,7 @@ def default_bd():
                         },
                         "Right Vertical Occipital III": {
                             "Right Inferior Fronto-occipital": {"core": "Left"},
-                            "cluster_IDs": [2, 7, 18],
+                            "cluster_IDs": [2, 7, 18, 21, 25, 51],
                             "exclude": [templates["pARC_xroi1_R"]],
                             "orient_mahal": {
                                 "distance_threshold": 2,
@@ -475,6 +477,8 @@ def default_bd():
                         64,
                         65,
                         66,
+                        74,
+                        78,
                         84,
                         87,
                         88,
