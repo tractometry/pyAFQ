@@ -787,7 +787,7 @@ class GroupAFQ(object):
 
     clobber = cmd_outputs  # alias for default of cmd_outputs
 
-    def make_all_participant_montages(self, images_per_row=2):
+    def make_all_participant_montages(self, images_per_row=3):
         """
         Generate montage of all bundles for a all subjects.
 
@@ -795,7 +795,7 @@ class GroupAFQ(object):
         ----------
         images_per_row : int
             Number of bundle images per row in output file.
-            Default: 2
+            Default: 3
 
         Returns
         -------

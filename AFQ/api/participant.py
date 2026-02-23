@@ -2,14 +2,15 @@ import logging
 import math
 import os.path as op
 import tempfile
+from math import radians
 from time import time
 
 import nibabel as nib
-from math import radians
 from dipy.align import resample
 from PIL import Image, ImageDraw, ImageFont
 from tqdm import tqdm
 
+import AFQ.utils.streamlines as aus
 from AFQ.api.utils import (
     AFQclass_doc,
     check_attribute,
@@ -284,9 +285,9 @@ class ParticipantAFQ(object):
         tdir = tempfile.gettempdir()
 
         all_fnames = []
+        seg_sft = aus.SegmentedSFT.fromfile(self.export("bundles"))
         if bundle_names is None:
-            bundle_dict = self.export("bundle_dict")
-            bundle_names = list(bundle_dict.keys())
+            bundle_names = list(seg_sft.bundle_names)
         self.logger.info("Generating Montage...")
         viz_backend = self.export("viz_backend")
         t1 = nib.load(self.export("t1_masked"))
@@ -305,7 +306,7 @@ class ParticipantAFQ(object):
             else:
                 figure = None
             figure = viz_backend.visualize_bundles(
-                self.export("bundles"),
+                seg_sft,
                 img=t1,
                 shade_by_volume=best_scalar.get_fdata(),
                 color_by_direction=True,
@@ -336,6 +337,10 @@ class ParticipantAFQ(object):
                         showlegend=False,
                     )
                     figure.write_image(this_fname, scale=4)
+                    # temporary fix for memory leak
+                    import plotly.io as pio
+
+                    pio.kaleido.scope._shutdown_kaleido()
                 else:
                     from fury import window
 
@@ -344,9 +349,9 @@ class ParticipantAFQ(object):
                     )
                     window.update_camera(show_m.screens[0].camera, None, figure)
                     if view == "Coronal":
-                        show_m.screens[0].controller.rotate((0, radians(-eye["y"] * 90)), None)
+                        show_m.screens[0].controller.rotate((0, radians(-90)), None)
                     elif view == "Axial":
-                        show_m.screens[0].controller.rotate((radians(eye["z"] * 90), 0, 0), None)
+                        show_m.screens[0].controller.rotate((radians(90), 0), None)
                     elif view == "Sagittal":
                         pass
                     show_m.render()
