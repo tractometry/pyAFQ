@@ -50,7 +50,7 @@ def clean_by_orientation(streamlines, primary_axis, affine, tol=None):
     along_accepted_idx = orientation_along == primary_axis
     if tol is not None:
         percentage_primary = (
-            100 * endpoint_diff[:, primary_axis] / np.sum(endpoint_diff, axis=1)
+            100 * axis_diff[:, primary_axis] / np.sum(axis_diff, axis=1)
         )
         logger.debug(
             (f"Maximum primary percentage found: {np.max(percentage_primary)}")
