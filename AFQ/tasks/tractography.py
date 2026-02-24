@@ -253,7 +253,7 @@ def gpu_tractography(
     seed,
     tissue_imap,
     tractography_ngpus=0,
-    chunk_size=100000,
+    chunk_size=25000,
 ):
     """
     full path to the complete, unsegmented tractography file
@@ -269,7 +269,7 @@ def gpu_tractography(
         Default: 0
     chunk_size : int, optional
         Chunk size for GPU tracking.
-        Default: 100000
+        Default: 25000
     """
     start_time = time()
     if tracking_params["directions"] == "boot":
