@@ -1,10 +1,10 @@
 import logging
 from time import time
 
+import dipy.tracking.streamline as dts
 import nibabel as nib
 import numpy as np
 import ray
-from dipy.core.interpolation import interpolate_scalar_3d
 from dipy.io.stateful_tractogram import Space, StatefulTractogram
 from dipy.io.streamline import load_tractogram
 from dipy.segment.bundles import RecoBundles
@@ -24,9 +24,9 @@ from AFQ.utils.stats import chunk_indices
 from AFQ.utils.streamlines import move_streamlines
 
 criteria_order_pre_other_bundles = [
-    "prob_map",
-    "cross_midline",
     "length",
+    "cross_midline",
+    "prob_map",
     "start",
     "end",
     "primary_axis",
@@ -48,17 +48,21 @@ valid_noncriterion = [
     "exc_addtol",
     "ORG_spectral_subbundles",
     "cluster_IDs",
+    "startpoint_location",
+    "endpoint_location",
 ]
 
 
 logger = logging.getLogger("AFQ")
 
 
-def prob_map(b_sls, bundle_def, preproc_imap, prob_threshold, **kwargs):
+def prob_map(b_sls, bundle_def, preproc_imap, prob_threshold, img, **kwargs):
     b_sls.initiate_selection("Prob. Map")
-    fiber_probabilities = interpolate_scalar_3d(
-        bundle_def["prob_map"].get_fdata(), preproc_imap["fgarray"].reshape(-1, 3)
-    )[0].reshape(-1, 20)
+    fiber_probabilities = dts.values_from_volume(
+        bundle_def["prob_map"].get_fdata(),
+        preproc_imap["fgarray"][b_sls.selected_fiber_idxs],
+        img.affine,
+    )
     fiber_probabilities = np.mean(fiber_probabilities, -1)
     b_sls.select(fiber_probabilities > prob_threshold, "Prob. Map")
 
@@ -115,15 +119,12 @@ def end(b_sls, bundle_def, preproc_imap, **kwargs):
 
 def length(b_sls, bundle_def, preproc_imap, **kwargs):
     b_sls.initiate_selection("length")
-    min_len = bundle_def["length"].get("min_len", 0) / preproc_imap["vox_dim"]
-    max_len = bundle_def["length"].get("max_len", np.inf) / preproc_imap["vox_dim"]
+    min_len = bundle_def["length"].get("min_len", 0)
+    max_len = bundle_def["length"].get("max_len", np.inf)
 
-    # Using resampled fgarray biases lengths to be lower. However,
-    # this is not meant to be a precise selection requirement, and
-    # is more meant for efficiency.
-    segments = np.diff(preproc_imap["fgarray"][b_sls.selected_fiber_idxs], axis=1)
-    segment_lengths = np.sqrt(np.sum(segments**2, axis=2))
-    sl_lens = np.sum(segment_lengths, axis=1)
+    # No need to use b_sls.selected_fiber_idxs
+    # because this is first step
+    sl_lens = preproc_imap["lengths"]
 
     accept_idx = (sl_lens >= min_len) & (sl_lens <= max_len)
     b_sls.select(accept_idx, "length")
@@ -234,7 +235,6 @@ def curvature(b_sls, bundle_def, mapping, img, save_intermediates, **kwargs):
     moved_ref_sl = move_streamlines(
         ref_sl, "subject", mapping, img, save_intermediates=save_intermediates
     )
-    moved_ref_sl.to_vox()
     moved_ref_sl = moved_ref_sl.streamlines[0]
     moved_ref_curve = abv.sl_curve(moved_ref_sl, len(moved_ref_sl))
     ref_curve_threshold = np.radians(bundle_def["curvature"].get("thresh", 10))
@@ -278,7 +278,7 @@ def recobundles(
 ):
     b_sls.initiate_selection("Recobundles")
     moved_sl = move_streamlines(
-        StatefulTractogram(b_sls.get_selected_sls(), img, Space.VOX),
+        StatefulTractogram(b_sls.get_selected_sls(), img, Space.RASMM),
         "template",
         mapping,
         reg_template,
@@ -305,7 +305,7 @@ def qb_thresh(b_sls, bundle_def, preproc_imap, clip_edges, **kwargs):
     b_sls.initiate_selection("qb_thresh")
     cut = clip_edges or ("bundlesection" in bundle_def)
     qbx = QuickBundles(
-        bundle_def["qb_thresh"] / preproc_imap["vox_dim"],
+        bundle_def["qb_thresh"],
         AveragePointwiseEuclideanMetric(ResampleFeature(nb_points=12)),
     )
     clusters = qbx.cluster(b_sls.get_selected_sls(cut=cut, flip=True))
@@ -509,12 +509,9 @@ def run_bundle_rec_plan(
     # entirely on the wrong side of the midline here after filtering
     if b_sls and "cross_midline" in bundle_def and not bundle_def["cross_midline"]:
         b_sls.initiate_selection("Wrong side of mid.")
-        zero_coord = preproc_imap["zero_coord"]
-        lr_axis = preproc_imap["lr_axis"]
         avg_side = np.sign(
             np.mean(
-                preproc_imap["fgarray"][b_sls.selected_fiber_idxs, :, lr_axis]
-                - zero_coord,
+                preproc_imap["fgarray"][b_sls.selected_fiber_idxs, :, 0],
                 axis=1,
             )
         )
@@ -541,7 +538,7 @@ def run_bundle_rec_plan(
             )
 
             sub_sft = StatefulTractogram(
-                b_sls.get_selected_sls(flip=True), img, Space.VOX
+                b_sls.get_selected_sls(flip=True), img, Space.RASMM
             )
             cluster_labels = subcluster_by_atlas(
                 sub_sft, mapping, img, subdict.all_cluster_IDs, n_points=40

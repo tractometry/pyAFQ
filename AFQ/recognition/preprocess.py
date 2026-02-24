@@ -2,7 +2,6 @@ import logging
 from time import time
 
 import immlib
-import nibabel as nib
 import numpy as np
 
 import AFQ.recognition.utils as abu
@@ -27,39 +26,41 @@ def fgarray(tg):
     return fg_array
 
 
-@immlib.calc("crosses", "lr_axis", "zero_coord")
-def crosses(fgarray, img):
+@immlib.calc("crosses")
+def crosses(fgarray):
     """
     Classify the streamlines by whether they cross the midline.
     Creates a crosses attribute which is an array of booleans. Each boolean
     corresponds to a streamline, and is whether or not that streamline
     crosses the midline.
     """
-    # What is the x,y,z coordinate of 0,0,0 in the template space?
-    zero_coord = np.dot(np.linalg.inv(img.affine), np.array([0, 0, 0, 1]))
-
-    orientation = nib.orientations.aff2axcodes(img.affine)
-    lr_axis = 0
-    for idx, axis_label in enumerate(orientation):
-        if axis_label in ["L", "R"]:
-            lr_axis = idx
-            break
-
-    return (
-        np.logical_and(
-            np.any(fgarray[:, :, lr_axis] > zero_coord[lr_axis], axis=1),
-            np.any(fgarray[:, :, lr_axis] < zero_coord[lr_axis], axis=1),
-        ),
-        lr_axis,
-        zero_coord[lr_axis],
+    return np.logical_and(
+        np.any(fgarray[:, :, 0] > 0, axis=1),
+        np.any(fgarray[:, :, 0] < 0, axis=1),
     )
+
+
+@immlib.calc("lengths")
+def lengths(fgarray):
+    """
+    Calculate the lengths of the streamlines.
+    Using resampled fgarray biases lengths to be lower. However,
+    this is not meant to be a precise selection requirement, and
+    is more meant for efficiency.
+    """
+    segments = np.diff(fgarray, axis=1)
+    segment_lengths = np.sqrt(np.sum(segments**2, axis=2))
+    return np.sum(segment_lengths, axis=1)
 
 
 # Things that can be calculated for multiple bundles at once
 # (i.e., for a whole tractogram) go here
 def get_preproc_plan(img, tg, dist_to_waypoint, dist_to_atlas):
     preproc_plan = immlib.plan(
-        tolerance_mm_to_vox=tolerance_mm_to_vox, fgarray=fgarray, crosses=crosses
+        tolerance_mm_to_vox=tolerance_mm_to_vox,
+        fgarray=fgarray,
+        crosses=crosses,
+        lengths=lengths,
     )
     return preproc_plan(
         img=img,

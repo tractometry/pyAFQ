@@ -2,20 +2,22 @@ import numpy as np
 from dipy.core.interpolation import interpolate_scalar_3d
 
 
-def _interp3d(roi, sl):
-    return interpolate_scalar_3d(roi.get_fdata(), np.asarray(sl))[0]
+def _interp_arr_with_affine(roi, arr, affine):
+    inv_affine = np.linalg.inv(affine)
+    arr_xformd = np.dot(arr, inv_affine[:3, :3]) + inv_affine[:3, 3]
+
+    return np.array(interpolate_scalar_3d(roi, arr_xformd)[0])
 
 
 def check_sls_with_inclusion(sls, include_rois, include_roi_tols):
     inc_results = np.zeros(len(sls), dtype=tuple)
-    include_rois = [roi_.get_fdata().copy() for roi_ in include_rois]
     for jj, sl in enumerate(sls):
         closest = np.zeros(len(include_rois), dtype=np.int32)
         dists = np.zeros(len(include_rois), dtype=np.float32)
         sl = np.asarray(sl)
         valid = True
         for ii, roi in enumerate(include_rois):
-            dist = interpolate_scalar_3d(roi, sl)[0]
+            dist = _interp_arr_with_affine(roi.get_fdata(), sl, roi.affine)
 
             closest[ii] = np.argmin(dist)
             dists[ii] = dist[closest[ii]]
@@ -38,7 +40,10 @@ def check_sl_with_exclusion(sl, exclude_rois, exclude_roi_tols):
     for ii, roi in enumerate(exclude_rois):
         # if any part of the streamline is near any exclusion ROI,
         # return False
-        if np.any(_interp3d(roi, sl) <= exclude_roi_tols[ii]):
+        if np.any(
+            _interp_arr_with_affine(roi.get_fdata(), sl, roi.affine)
+            <= exclude_roi_tols[ii]
+        ):
             return False
     # Either there are no exclusion ROIs, or you are not close to any:
     return True
@@ -53,6 +58,7 @@ def clean_by_endpoints(fgarray, target, target_idx, tol=0, flip_sls=None):
     ----------
     fgarray : ndarray of shape (N, M, 3)
         Where N is number of streamlines, M is number of nodes.
+        Assumed to be in RASMM space.
     target: Nifti1Image
         Nifti1Image containing a distance transform of the ROI.
     target_idx: int.
@@ -87,8 +93,8 @@ def clean_by_endpoints(fgarray, target, target_idx, tol=0, flip_sls=None):
         flipped_indices = n_nodes - 1 - effective_idx
         indices = np.where(flip_sls.astype(bool), flipped_indices, indices)
 
-    distances = interpolate_scalar_3d(
-        target.get_fdata(), fgarray[np.arange(n_sls), indices]
-    )[0]
+    distances = _interp_arr_with_affine(
+        target.get_fdata(), fgarray[np.arange(n_sls), indices], target.affine
+    )
 
     return distances <= tol

@@ -1,7 +1,6 @@
 import logging
 
 import dipy.tracking.streamline as dts
-import nibabel as nib
 import numpy as np
 from dipy.io.stateful_tractogram import StatefulTractogram
 from scipy.stats import zscore
@@ -32,11 +31,8 @@ def clean_by_orientation(streamlines, primary_axis, affine, tol=None):
         raise ValueError(
             f"Primary axis must be one of {axes_names}, got {primary_axis}"
         )
-    orientation = nib.orientations.aff2axcodes(affine)
-    for idx, axis_label in enumerate(orientation):
-        if axis_label in primary_axis:
-            primary_axis = idx
-            break
+
+    primary_axis = abu.axes_dict[primary_axis]
 
     axis_diff = np.zeros((len(streamlines), 3))
     endpoint_diff = np.zeros((len(streamlines), 3))

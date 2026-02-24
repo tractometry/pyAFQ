@@ -13,6 +13,19 @@ from dipy.tracking.distances import bundles_distances_mdf
 logger = logging.getLogger("AFQ")
 
 
+axes_dict = {
+    "L/R": 0,
+    "L": 0,
+    "R": 0,
+    "P/A": 1,
+    "P": 1,
+    "A": 1,
+    "I/S": 2,
+    "I": 2,
+    "S": 2,
+}
+
+
 def tolerance_mm_to_vox(img, dist_to_waypoint, input_dist_to_atlas):
     # We need to calculate the size of a voxel, so we can transform
     # from mm to voxel units:
@@ -157,7 +170,9 @@ class SlsBeingRecognized:
         # otherwise its impractical
         if self.save_intermediates is not None and len(self) < 0.1 * len(self.ref_sls):
             save_tractogram(
-                StatefulTractogram(self.get_selected_sls(cut=cut), self.ref, Space.VOX),
+                StatefulTractogram(
+                    self.get_selected_sls(cut=cut), self.ref, Space.RASMM
+                ),
                 op.join(
                     self.save_intermediates,
                     f"sls_after_{clean_name}_for_{self.b_name}.trk",

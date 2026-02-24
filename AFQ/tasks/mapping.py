@@ -173,7 +173,7 @@ def sls_mapping(
         )
     streamlines_file = tractography_imap["streamlines"]
     tg = load_tractogram(
-        streamlines_file, reg_subject, Space.VOX, bbox_valid_check=False
+        streamlines_file, reg_subject, Space.RASMM, bbox_valid_check=False
     )
     tg.to_rasmm()
 

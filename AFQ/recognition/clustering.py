@@ -152,8 +152,8 @@ def subcluster_by_atlas(
 
     Parameters
     ----------
-    sub_fgarray : ndarray
-        Resampled fiber group in VOX to be labeled.
+    sub_trk : StatefulTractogram
+        streamlines to be labeled.
     mapping : DIPY or pyAFQ mapping
         Mapping to use to move streamlines.
     dwi_ref : Nifti1Image
@@ -176,12 +176,6 @@ def subcluster_by_atlas(
     )
     atlas_fgarray = np.array(abu.resample_tg(moved_atlas_sft.streamlines, n_points))
 
-    # Note: if we need more efficiency,
-    # we could modify the code to consider:
-    # voxel size, midline axis, and midline location
-    # then we should be able to do these calculations in
-    # voxel space without having to move the subject streamlines
-    # to rasmm (but this is not a bottleneck right now)
     sub_trk.to_rasmm()
     sub_fgarray = np.array(abu.resample_tg(sub_trk.streamlines, n_points))
 

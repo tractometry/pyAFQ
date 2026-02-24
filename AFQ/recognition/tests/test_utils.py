@@ -18,7 +18,6 @@ hardi_img = nib.load(hardi_fdata)
 file_dict = afd.read_stanford_hardi_tractography()
 streamlines = file_dict["tractography_subsampled.trk"]
 tg = StatefulTractogram(streamlines, hardi_img, Space.RASMM)
-tg.to_vox()
 streamlines = tg.streamlines
 
 

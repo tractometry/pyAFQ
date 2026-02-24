@@ -26,7 +26,6 @@ reg_template = afd.read_mni_template()
 mapping = reg.read_old_mapping(file_dict["mapping.nii.gz"], hardi_img, reg_template)
 streamlines = file_dict["tractography_subsampled.trk"]
 tg = StatefulTractogram(streamlines, hardi_img, Space.RASMM)
-tg.to_vox()
 streamlines = tg.streamlines
 templates = afd.read_templates()
 cst_r_curve_ref = StatefulTractogram(

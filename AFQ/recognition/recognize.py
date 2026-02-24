@@ -155,7 +155,7 @@ def recognize(
     if not isinstance(bundle_dict, BundleDict):
         bundle_dict = BundleDict(bundle_dict)
 
-    tg.to_vox()
+    tg.to_rasmm()
     n_streamlines = len(tg)
     recognized_bundles_dict = {}
 
@@ -273,10 +273,10 @@ def _return_empty(bundle_name, return_idx, fiber_groups, img):
     """
     if return_idx:
         fiber_groups[bundle_name] = {}
-        fiber_groups[bundle_name]["sl"] = StatefulTractogram([], img, Space.VOX)
+        fiber_groups[bundle_name]["sl"] = StatefulTractogram([], img, Space.RASMM)
         fiber_groups[bundle_name]["idx"] = np.array([])
     else:
-        fiber_groups[bundle_name] = StatefulTractogram([], img, Space.VOX)
+        fiber_groups[bundle_name] = StatefulTractogram([], img, Space.RASMM)
 
 
 def _add_bundle_to_fiber_group(b_name, sl, idx, to_flip, return_idx, fiber_groups, img):
@@ -285,7 +285,7 @@ def _add_bundle_to_fiber_group(b_name, sl, idx, to_flip, return_idx, fiber_group
     """
     sl = abu.flip_sls(sl, to_flip, in_place=False)
 
-    sl = StatefulTractogram(sl, img, Space.VOX)
+    sl = StatefulTractogram(sl, img, Space.RASMM)
 
     if return_idx:
         fiber_groups[b_name] = {}

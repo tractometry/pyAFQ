@@ -89,7 +89,7 @@ def gpu_track(
     directions = directions.lower()
 
     # Roughly handle ACT/CMC for now
-    wm_threshold = 0.01
+    wm_threshold = 0.5
 
     pve_img = nib.load(pve_path)
 

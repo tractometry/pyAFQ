@@ -6,6 +6,8 @@ import nibabel as nib
 import numpy as np
 from scipy.spatial.distance import cdist
 
+import AFQ.recognition.utils as abu
+
 logger = logging.getLogger("AFQ")
 
 
@@ -26,6 +28,7 @@ def clean_by_overlap(
     ----------
     this_bundle_sls : array-like
         A list or array of streamlines to be cleaned.
+        Assumed to be in RASMM space.
     other_bundle_sls : array-like
         A reference list or array of streamlines to determine overlapping regions.
     overlap : int
@@ -72,7 +75,7 @@ def clean_by_overlap(
     >>> cleaned_bundle = [s for i, s in enumerate(bundle1) if clean_idx[i]]
     """
     other_bundle_density_map = dtu.density_map(
-        other_bundle_sls, np.eye(4), img.shape[:3]
+        other_bundle_sls, img.affine, img.shape[:3]
     )
 
     if remove:
@@ -99,7 +102,7 @@ def clean_by_overlap(
         )
 
     fiber_probabilities = dts.values_from_volume(
-        other_bundle_density_map, this_bundle_sls, np.eye(4)
+        other_bundle_density_map, this_bundle_sls, img.affine
     )
     cleaned_idx = np.zeros(len(this_bundle_sls), dtype=np.bool_)
     for ii, fp in enumerate(fiber_probabilities):
@@ -125,8 +128,10 @@ def clean_relative_to_other_core(
         retained.
     this_fgarray : ndarray
         An array of streamlines to be cleaned.
+        Assumed to be in RASMM space.
     other_fgarray : ndarray
         An array of reference streamlines to define the core.
+        Assumed to be in RASMM space.
     affine : ndarray
         The affine transformation matrix.
     entire : bool, optional
@@ -164,17 +169,7 @@ def clean_relative_to_other_core(
         return np.ones(this_fgarray.shape[0], dtype=np.bool_)
 
     # find dimension of core axis
-    orientation = nib.orientations.aff2axcodes(affine)
-    core_axis = None
-    core_upper = core[0].upper()
-    axis_groups = {
-        "L": ("L", "R"),
-        "R": ("L", "R"),
-        "P": ("P", "A"),
-        "A": ("P", "A"),
-        "I": ("I", "S"),
-        "S": ("I", "S"),
-    }
+    core_axis = abu.axes_dict[core[0].upper()]
 
     direction_signs = {
         "L": 1,
@@ -185,18 +180,7 @@ def clean_relative_to_other_core(
         "S": -1,
     }
 
-    core_axis = None
-    for idx, axis_label in enumerate(orientation):
-        if core_upper in axis_groups[axis_label]:
-            core_axis = idx
-            core_direc = direction_signs[core_upper]
-            break
-
-    if affine[core_axis, core_axis] < 0:
-        core_direc = -core_direc
-
-    if core_axis is None:
-        raise ValueError(f"Invalid core axis: {core}")
+    core_direc = direction_signs[core[0].upper()]
 
     core_bundle = np.median(other_fgarray, axis=0)
     cleaned_idx_core = np.zeros(this_fgarray.shape[0], dtype=np.bool_)

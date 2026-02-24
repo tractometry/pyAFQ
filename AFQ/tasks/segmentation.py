@@ -59,9 +59,7 @@ def segment(data_imap, mapping_imap, tractography_imap, segmentation_params):
         or streamlines.endswith(".tck")
         or streamlines.endswith(".vtk")
     ):
-        tg = load_tractogram(
-            streamlines, data_imap["dwi"], Space.VOX, bbox_valid_check=False
-        )
+        tg = load_tractogram(streamlines, data_imap["dwi"], bbox_valid_check=False)
         is_trx = False
     elif streamlines.endswith(".trx"):
         is_trx = True
@@ -85,9 +83,7 @@ def segment(data_imap, mapping_imap, tractography_imap, segmentation_params):
             with open(temp_tck, "wb") as f_out:
                 shutil.copyfileobj(f_in, f_out)
         # initialize stateful tractogram from tck file:
-        tg = load_tractogram(
-            temp_tck, data_imap["dwi"], Space.VOX, bbox_valid_check=False
-        )
+        tg = load_tractogram(temp_tck, data_imap["dwi"], bbox_valid_check=False)
         is_trx = False
     if len(tg.streamlines) == 0:
         raise ValueError(
@@ -119,7 +115,7 @@ def segment(data_imap, mapping_imap, tractography_imap, segmentation_params):
         raise ValueError("Fatal: No bundles recognized.")
 
     if is_trx:
-        seg_sft.sft.dtype_dict = {"positions": np.float16, "offsets": np.uint32}
+        seg_sft.sft.dtype_dict = {"positions": np.float32, "offsets": np.uint32}
         tgram = TrxFile.from_sft(seg_sft.sft)
         tgram.groups = seg_sft.bundle_idxs
 
@@ -175,7 +171,7 @@ def export_bundles(base_fname, output_dir, bundles, tracking_params):
                 logger.info(f"Saving {fname}")
                 if is_trx:
                     seg_sft.sft.dtype_dict = {
-                        "positions": np.float16,
+                        "positions": np.float32,
                         "offsets": np.uint32,
                     }
                     trxfile = TrxFile.from_sft(bundle_sft)
