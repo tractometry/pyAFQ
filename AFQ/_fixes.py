@@ -314,7 +314,7 @@ def gaussian_weights(bundle, n_points=100, return_mahalnobis=False, stat=np.mean
     return weights / np.sum(weights, 0)
 
 
-def make_gif(show_m, out_path, n_frames=36, az_ang=-10):
+def make_gif(show_m, out_path, n_frames=36, az_ang=-10, duration=150):
     """
     Make a video from a Fury Show Manager.
 
@@ -334,6 +334,10 @@ def make_gif(show_m, out_path, n_frames=36, az_ang=-10):
         The angle to rotate the camera around the
         z-axis for each frame, in degrees.
         Default: -10
+
+    duration : int
+        The duration of each frame in the output GIF, in milliseconds.
+        Default: 150
     """
     video = []
 
@@ -341,15 +345,49 @@ def make_gif(show_m, out_path, n_frames=36, az_ang=-10):
     show_m.window.draw()
 
     with tempfile.TemporaryDirectory() as tmp_dir:
-        for ii in tqdm(range(n_frames), desc="Generating GIF"):
+        for ii in tqdm(range(n_frames), desc="Generating GIF", leave=False):
             frame_fname = f"{tmp_dir}/{ii}.png"
             show_m.screens[0].controller.rotate((radians(az_ang), 0), None)
             show_m.render()
             show_m.window.draw()
             show_m.snapshot(frame_fname)
-            video.append(frame_fname)
+            video.append(Image.open(frame_fname).convert("RGB"))
 
-        video = [Image.open(frame) for frame in video]
-        video[0].save(
-            out_path, save_all=True, append_images=video[1:], duration=300, loop=1
+        all_left, all_upper = float("inf"), float("inf")
+        all_right, all_lower = 0, 0
+
+        for img in video:
+            arr = np.array(img)
+            bg_color = arr[0, 0]
+
+            mask = np.any(arr != bg_color, axis=-1)
+
+            if np.any(mask):
+                rows = np.any(mask, axis=1)
+                cols = np.any(mask, axis=0)
+                ymin, ymax = np.where(rows)[0][[0, -1]]
+                xmin, xmax = np.where(cols)[0][[0, -1]]
+
+                all_left = min(all_left, xmin)
+                all_upper = min(all_upper, ymin)
+                all_right = max(all_right, xmax)
+                all_lower = max(all_lower, ymax)
+
+        if all_left < all_right:
+            crop_box = (
+                max(0, all_left),
+                max(0, all_upper),
+                min(video[0].width, all_right),
+                min(video[0].height, all_lower),
+            )
+            cropped_video = [img.crop(crop_box) for img in video]
+        else:
+            cropped_video = video
+
+        cropped_video[0].save(
+            out_path,
+            save_all=True,
+            append_images=cropped_video[1:],
+            duration=duration,
+            loop=1,
         )
