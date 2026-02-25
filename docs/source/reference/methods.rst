@@ -111,6 +111,10 @@ dti_params:
     full path to a nifti file containing parameters for the DTI fit
 
 
+dti_s0:
+    s0 values of DTI fit
+
+
 fwdti_tf:
     Free-water DTI TensorFit object
 
@@ -127,12 +131,20 @@ dki_params:
     full path to a nifti file containing parameters for the DKI fit
 
 
+dki_s0:
+    s0 values of DKI fit
+
+
 msdki_tf:
     Mean Signal DKI DiffusionKurtosisFit object
 
 
 msdki_params:
     full path to a nifti file containing parameters for the Mean Signal DKI fit
+
+
+msdki_s0:
+    s0 values of Mean Signal DKI fit
 
 
 msdki_msd:
@@ -168,47 +180,27 @@ csd_ai:
 
 
 gq_params:
-    full path to a nifti file containing parameters for the Generalized Q-Sampling shm_coeff
+    full path to a nifti file containing ODF for the Generalized Q-Sampling
 
 
 gq_iso:
     full path to a nifti file containing isotropic diffusion component
 
 
-gq_aso:
-    full path to a nifti file containing anisotropic diffusion component
-
-
-gq_pmap:
-    full path to a nifti file containing the anisotropic power map from GQ
-
-
-gq_ai:
-    full path to a nifti file containing the anisotropic index from GQ
-
-
-rumba_model:
-    fit for RUMBA-SD model as documented on dipy reconstruction options
-
-
 rumba_params:
-    Takes the fitted RUMBA-SD model as input and returns the spherical harmonics coefficients (SHM).
-
-
-rumba_fit:
-    RUMBA FIT
+    ODF for the RUMBA-SD model
 
 
 rumba_f_csf:
-    full path to a nifti file containing the CSF volume fraction for each voxel.
+    full path to a nifti file containing the CSF volume fraction for each voxel
 
 
 rumba_f_gm:
-    full path to a nifti file containing the GM volume fraction for each voxel.
+    full path to a nifti file containing the GM volume fraction for each voxel
 
 
 rumba_f_wm:
-    full path to a nifti file containing the white matter volume fraction for each voxel.
+    full path to a nifti file containing the white matter volume fraction for each voxel
 
 
 opdt_params:
@@ -391,6 +383,10 @@ dki_lt5:
     Image of sixth element in the DTI tensor from DKI
 
 
+dki_cfa:
+    full path to a nifti file containing the DKI color fractional anisotropy
+
+
 dki_fa:
     full path to a nifti file containing the DKI fractional anisotropy
 
@@ -468,7 +464,15 @@ pve_internal:
 
 
 msmtcsd_params:
-    full path to a nifti file containing parameters for the MSMT CSD fit
+    full path to a nifti file containing parameters for the MSMT CSD white matter fit
+
+
+msmtcsd_gm:
+    full path to a nifti file containing parameters for the MSMT CSD gray matter fit
+
+
+msmtcsd_csf:
+    full path to a nifti file containing parameters for the MSMT CSD cerebrospinal fluid fit
 
 
 msmt_apm:
@@ -527,7 +531,7 @@ sl_counts:
     full path to a JSON file containing streamline counts
 
 
-median_bundle_lengths:
+bundle_lengths:
     full path to a JSON file containing median bundle lengths
 
 
@@ -565,3 +569,7 @@ tract_profile_plots:
 
 viz_backend:
     An instance of the `AFQ.viz.utils.viz_backend` class.
+
+
+citations:
+    Export Bibtex citation file for methods used by pyAFQ.

@@ -149,7 +149,7 @@ tractography_ngpus: int
 	Number of GPUs to use in tractography. If non-0, this algorithm is used for tractography, https://github.com/dipy/GPUStreamlines PTT, Prob can be used with any SHM model. Bootstrapped can be done with CSA/OPDT. Default: 0
 
 chunk_size: int
-	Chunk size for GPU tracking. Default: 100000
+	Chunk size for GPU tracking. Default: 25000
 
 
 ==========================================================
@@ -172,9 +172,6 @@ volume_opacity_indiv: float
 
 n_points_indiv: int or None
 	n_points to resample streamlines to before plotting. If None, no resampling is done. Default: 40
-
-virtual_frame_buffer: bool
-	Whether to use a virtual frame buffer. This is if generating GIFs in a headless environment. Default: False
 
 viz_backend_spec: str
 	Which visualization backend to use. See Visualization Backends page in documentation for details https://tractometry.org/pyAFQ/reference/viz_backend.html One of {"fury", "plotly", "plotly_no_gif"}. Default: "plotly_no_gif"

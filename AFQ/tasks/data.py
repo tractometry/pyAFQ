@@ -1132,6 +1132,17 @@ def dki_lt(dki_tf, dwi_affine):
     return dki_lt_dict
 
 
+@immlib.calc("dki_cfa")
+@as_file(suffix="_model-kurtosis_param-cfa_dwimap.nii.gz", subfolder="models")
+@as_fit_deriv("DKI")
+def dki_cfa(dki_tf):
+    """
+    full path to a nifti file containing
+    the DKI color fractional anisotropy
+    """
+    return dki_tf.color_fa, {"Description": "Color Fractional Anisotropy"}
+
+
 @immlib.calc("dki_fa")
 @as_file("_model-kurtosis_param-fa_dwimap.nii.gz", subfolder="models")
 @as_fit_deriv("DKI")
@@ -1438,6 +1449,7 @@ def get_data_plan(kwargs):
             dki_awf,
             dki_mk,
             dki_kfa,
+            dki_cfa,
             dki_ga,
             dki_rd,
             dti_ga,
