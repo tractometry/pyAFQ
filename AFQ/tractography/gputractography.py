@@ -178,15 +178,13 @@ def gpu_track(
         sphere.edges,
         max_angle=radians(max_angle),
         step_size=step_size,
+        min_pts=minlen,
+        max_pts=maxlen,
         ngpus=ngpus,
         rng_seed=rng_seed,
         chunk_size=chunk_size,
     ) as gpu_tracker:
         if use_trx:
-            return gpu_tracker.generate_trx(
-                seeds, seed_img, minlen=minlen, maxlen=maxlen
-            )
+            return gpu_tracker.generate_trx(seeds, seed_img)
         else:
-            return gpu_tracker.generate_sft(
-                seeds, seed_img, minlen=minlen, maxlen=maxlen
-            )
+            return gpu_tracker.generate_sft(seeds, seed_img)
