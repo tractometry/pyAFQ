@@ -297,6 +297,8 @@ def gpu_tractography(
         tracking_params["thresholds_as_percentages"],
         tracking_params["max_angle"],
         tracking_params["step_size"],
+        tracking_params["minlen"],
+        tracking_params["maxlen"],
         tracking_params["n_seeds"],
         tracking_params["random_seeds"],
         tracking_params["rng_seed"],

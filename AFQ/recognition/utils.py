@@ -26,6 +26,16 @@ axes_dict = {
 }
 
 
+def manual_orient_sls(fgarray):
+    """
+    Helper function to manually orient streamlines by their endpoints,
+    according to LPI+ pyAFQ standard assuming streamlines are in RASMM
+    """
+    endpoint_diff = fgarray[:, 0, :] - fgarray[:, -1, :]
+    primary_axis = np.argmax(np.abs(endpoint_diff), axis=1)
+    return endpoint_diff[np.arange(len(fgarray)), primary_axis] < 0
+
+
 def tolerance_mm_to_vox(img, dist_to_waypoint, input_dist_to_atlas):
     # We need to calculate the size of a voxel, so we can transform
     # from mm to voxel units:

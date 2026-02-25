@@ -26,9 +26,9 @@ from AFQ.utils.streamlines import move_streamlines
 criteria_order_pre_other_bundles = [
     "length",
     "cross_midline",
-    "prob_map",
     "start",
     "end",
+    "prob_map",
     "primary_axis",
     "include",
     "exclude",
@@ -91,8 +91,15 @@ def start(b_sls, bundle_def, preproc_imap, **kwargs):
             -1,
             tol=preproc_imap["dist_to_atlas"],
         )
+        new_accept_idx = np.logical_or(accepted_idx_flipped, accept_idx)
+        special_idx = np.logical_and(accept_idx, accepted_idx_flipped)
+        special_idx_to_flip = abu.manual_orient_sls(
+            preproc_imap["fgarray"][b_sls.selected_fiber_idxs][special_idx]
+        )
+        accepted_idx_flipped[special_idx] = special_idx_to_flip
         b_sls.reorient(accepted_idx_flipped)
-        accept_idx = np.logical_xor(accepted_idx_flipped, accept_idx)
+        accept_idx = new_accept_idx
+
     b_sls.select(accept_idx, "Startpoint")
 
 
@@ -112,8 +119,14 @@ def end(b_sls, bundle_def, preproc_imap, **kwargs):
             0,
             tol=preproc_imap["dist_to_atlas"],
         )
+        new_accept_idx = np.logical_or(accepted_idx_flipped, accept_idx)
+        special_idx = np.logical_and(accept_idx, accepted_idx_flipped)
+        special_idx_to_flip = abu.manual_orient_sls(
+            preproc_imap["fgarray"][b_sls.selected_fiber_idxs][special_idx]
+        )
+        accepted_idx_flipped[special_idx] = special_idx_to_flip
         b_sls.reorient(accepted_idx_flipped)
-        accept_idx = np.logical_xor(accepted_idx_flipped, accept_idx)
+        accept_idx = new_accept_idx
     b_sls.select(accept_idx, "endpoint")
 
 

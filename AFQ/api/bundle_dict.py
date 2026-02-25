@@ -135,6 +135,7 @@ def default_bd():
                 "prob_map": templates["ATR_L_prob_map"],
                 "start": templates["ATR_L_start"],
                 "end": templates["ATR_L_end"],
+                "length": {"min_len": 30},
             },
             "Right Anterior Thalamic": {
                 "cross_midline": False,
@@ -144,6 +145,7 @@ def default_bd():
                 "prob_map": templates["ATR_R_prob_map"],
                 "start": templates["ATR_R_start"],
                 "end": templates["ATR_R_end"],
+                "length": {"min_len": 30},
             },
             "Left Cingulum Cingulate": {
                 "cross_midline": False,
@@ -152,6 +154,7 @@ def default_bd():
                 "space": "template",
                 "prob_map": templates["CGC_L_prob_map"],
                 "end": templates["CGC_L_start"],
+                "length": {"min_len": 30},
             },
             "Right Cingulum Cingulate": {
                 "cross_midline": False,
@@ -160,6 +163,7 @@ def default_bd():
                 "space": "template",
                 "prob_map": templates["CGC_R_prob_map"],
                 "end": templates["CGC_R_start"],
+                "length": {"min_len": 30},
             },
             "Left Corticospinal": {
                 "cross_midline": False,
@@ -168,6 +172,7 @@ def default_bd():
                 "space": "template",
                 "prob_map": templates["CST_L_prob_map"],
                 "end": templates["CST_L_start"],
+                "length": {"min_len": 40},
             },
             "Right Corticospinal": {
                 "cross_midline": False,
@@ -176,26 +181,27 @@ def default_bd():
                 "space": "template",
                 "prob_map": templates["CST_R_prob_map"],
                 "end": templates["CST_R_start"],
+                "length": {"min_len": 40},
             },
             "Left Inferior Fronto-occipital": {
                 "cross_midline": False,
                 "include": [templates["IFO_roi2_L"], templates["IFO_roi1_L"]],
-                "exclude": [templates["ARC_roi1_L"]],
+                "exclude": [templates["ARC_roi1_L"], templates["CGC_roi1_L"]],
                 "space": "template",
                 "prob_map": templates["IFO_L_prob_map"],
                 "end": templates["IFO_L_start"],
                 "start": templates["IFO_L_end"],
-                "length": {"min_len": 100},
+                "length": {"min_len": 80},
             },
             "Right Inferior Fronto-occipital": {
                 "cross_midline": False,
                 "include": [templates["IFO_roi2_R"], templates["IFO_roi1_R"]],
-                "exclude": [templates["ARC_roi1_R"]],
+                "exclude": [templates["ARC_roi1_R"], templates["CGC_roi1_R"]],
                 "space": "template",
                 "prob_map": templates["IFO_R_prob_map"],
                 "end": templates["IFO_R_start"],
                 "start": templates["IFO_R_end"],
-                "length": {"min_len": 100},
+                "length": {"min_len": 80},
             },
             "Left Inferior Longitudinal": {
                 "cross_midline": False,
@@ -205,6 +211,7 @@ def default_bd():
                 "prob_map": templates["ILF_L_prob_map"],
                 "start": templates["ILF_L_end"],
                 "end": templates["ILF_L_start"],
+                "length": {"min_len": 40},
             },
             "Right Inferior Longitudinal": {
                 "cross_midline": False,
@@ -214,6 +221,7 @@ def default_bd():
                 "prob_map": templates["ILF_R_prob_map"],
                 "start": templates["ILF_R_end"],
                 "end": templates["ILF_R_start"],
+                "length": {"min_len": 40},
             },
             "Left Arcuate": {
                 "cross_midline": False,
@@ -223,7 +231,7 @@ def default_bd():
                 "prob_map": templates["ARC_L_prob_map"],
                 "start": templates["ARC_L_start"],
                 "end": templates["ARC_L_end"],
-                "length": {"min_len": 50},
+                "length": {"min_len": 40},
             },
             "Right Arcuate": {
                 "cross_midline": False,
@@ -233,7 +241,7 @@ def default_bd():
                 "prob_map": templates["ARC_R_prob_map"],
                 "start": templates["ARC_R_start"],
                 "end": templates["ARC_R_end"],
-                "length": {"min_len": 50},
+                "length": {"min_len": 40},
             },
             "Left Uncinate": {
                 "cross_midline": False,
@@ -306,12 +314,12 @@ def default_bd():
                 "primary_axis": "I/S",
                 "ORG_spectral_subbundles": SpectralSubbundleDict(
                     {
-                        "Left Vertical Occipital I": {
+                        "Left V1V3": {
                             "cluster_IDs": [61, 63, 77, 82],
                             "orient_mahal": {
-                                "distance_threshold": 2,
-                                "length_threshold": 0,
-                                "clean_rounds": 1,
+                                "distance_threshold": 3,
+                                "length_threshold": 4,
+                                "clean_rounds": 2,
                             },
                             "mahal": {
                                 "distance_threshold": 3,
@@ -319,33 +327,15 @@ def default_bd():
                                 "clean_rounds": 5,
                             },
                         },
-                        "Left Vertical Occipital II": {
+                        "Left Posterior Vertical Occipital": {
                             "cluster_IDs": [1, 72, 75, 81, 83],
-                            "orient_mahal": {
-                                "distance_threshold": 2,
-                                "length_threshold": 0,
-                                "clean_rounds": 1,
-                            },
-                            "mahal": {
-                                "distance_threshold": 3,
-                                "length_threshold": 4,
-                                "clean_rounds": 5,
-                            },
+                            "isolation_forest": {},
                         },
-                        "Left Vertical Occipital III": {
+                        "Left Anterior Vertical Occipital": {
                             "Left Inferior Fronto-occipital": {"core": "Right"},
                             "cluster_IDs": [2, 7, 18, 21, 25, 51],
                             "exclude": [templates["pARC_xroi1_L"]],
-                            "orient_mahal": {
-                                "distance_threshold": 2,
-                                "length_threshold": 0,
-                                "clean_rounds": 1,
-                            },
-                            "mahal": {
-                                "distance_threshold": 3,
-                                "length_threshold": 4,
-                                "clean_rounds": 5,
-                            },
+                            "isolation_forest": {},
                         },
                     },
                     remove_cluster_IDs=[
@@ -414,12 +404,12 @@ def default_bd():
                 "primary_axis": "I/S",
                 "ORG_spectral_subbundles": SpectralSubbundleDict(
                     {
-                        "Right Vertical Occipital I": {
+                        "Right V1V3": {
                             "cluster_IDs": [61, 63, 77, 82],
                             "orient_mahal": {
-                                "distance_threshold": 2,
-                                "length_threshold": 0,
-                                "clean_rounds": 1,
+                                "distance_threshold": 3,
+                                "length_threshold": 4,
+                                "clean_rounds": 2,
                             },
                             "mahal": {
                                 "distance_threshold": 3,
@@ -427,33 +417,15 @@ def default_bd():
                                 "clean_rounds": 5,
                             },
                         },
-                        "Right Vertical Occipital II": {
+                        "Right Posterior Vertical Occipital": {
                             "cluster_IDs": [1, 72, 75, 81, 83],
-                            "orient_mahal": {
-                                "distance_threshold": 2,
-                                "length_threshold": 0,
-                                "clean_rounds": 1,
-                            },
-                            "mahal": {
-                                "distance_threshold": 3,
-                                "length_threshold": 4,
-                                "clean_rounds": 5,
-                            },
+                            "isolation_forest": {},
                         },
-                        "Right Vertical Occipital III": {
+                        "Right Anterior Vertical Occipital": {
                             "Right Inferior Fronto-occipital": {"core": "Left"},
                             "cluster_IDs": [2, 7, 18, 21, 25, 51],
                             "exclude": [templates["pARC_xroi1_R"]],
-                            "orient_mahal": {
-                                "distance_threshold": 2,
-                                "length_threshold": 0,
-                                "clean_rounds": 1,
-                            },
-                            "mahal": {
-                                "distance_threshold": 3,
-                                "length_threshold": 4,
-                                "clean_rounds": 5,
-                            },
+                            "isolation_forest": {},
                         },
                     },
                     remove_cluster_IDs=[
@@ -516,11 +488,15 @@ def default_bd():
 
 def slf_bd():
     templates = afd.read_slf_templates(as_img=False)
+    templates_afq = afd.read_templates(as_img=False)
+    templates["Frontal_Lobe_L"] = templates_afq["ATR_L_start"]
+    templates["Frontal_Lobe_R"] = templates_afq["ATR_R_start"]
     return BundleDict(
         {
             "Left Superior Longitudinal I": {
                 "include": [templates["SFgL"], templates["PaL"]],
                 "exclude": [templates["SLFt_roi2_L"]],
+                "start": templates["Frontal_Lobe_L"],
                 "cross_midline": False,
                 "Left Cingulum Cingulate": {
                     "node_thresh": 20,
@@ -529,6 +505,7 @@ def slf_bd():
             "Left Superior Longitudinal II": {
                 "include": [templates["MFgL"], templates["PaL"]],
                 "exclude": [templates["SLFt_roi2_L"]],
+                "start": templates["Frontal_Lobe_L"],
                 "cross_midline": False,
                 "Left Cingulum Cingulate": {
                     "node_thresh": 20,
@@ -537,6 +514,7 @@ def slf_bd():
             "Left Superior Longitudinal III": {
                 "include": [templates["PrgL"], templates["PaL"]],
                 "exclude": [templates["SLFt_roi2_L"]],
+                "start": templates["Frontal_Lobe_L"],
                 "cross_midline": False,
                 "Left Cingulum Cingulate": {
                     "node_thresh": 20,
@@ -545,6 +523,7 @@ def slf_bd():
             "Right Superior Longitudinal I": {
                 "include": [templates["SFgR"], templates["PaR"]],
                 "exclude": [templates["SLFt_roi2_R"]],
+                "start": templates["Frontal_Lobe_R"],
                 "cross_midline": False,
                 "Right Cingulum Cingulate": {
                     "node_thresh": 20,
@@ -553,6 +532,7 @@ def slf_bd():
             "Right Superior Longitudinal II": {
                 "include": [templates["MFgR"], templates["PaR"]],
                 "exclude": [templates["SLFt_roi2_R"]],
+                "start": templates["Frontal_Lobe_R"],
                 "cross_midline": False,
                 "Right Cingulum Cingulate": {
                     "node_thresh": 20,
@@ -561,6 +541,7 @@ def slf_bd():
             "Right Superior Longitudinal III": {
                 "include": [templates["PrgR"], templates["PaR"]],
                 "exclude": [templates["SLFt_roi2_R"]],
+                "start": templates["Frontal_Lobe_R"],
                 "cross_midline": False,
                 "Right Cingulum Cingulate": {
                     "node_thresh": 20,

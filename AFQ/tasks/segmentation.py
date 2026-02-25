@@ -32,6 +32,7 @@ from dipy.io.stateful_tractogram import Space, StatefulTractogram
 from dipy.io.streamline import load_tractogram, save_tractogram
 from dipy.stats.analysis import afq_profile
 from dipy.tracking.streamline import set_number_of_points, values_from_volume
+from dipy.tracking.utils import length
 from nibabel.affines import voxel_sizes
 from nibabel.orientations import aff2axcodes
 
@@ -206,26 +207,38 @@ def export_sl_counts(bundles):
     return counts_df, dict(source=bundles)
 
 
-@immlib.calc("median_bundle_lengths")
+@immlib.calc("bundle_lengths")
 @as_file("_desc-medianBundleLengths_tractography.csv", subfolder="stats")
 def export_bundle_lengths(bundles):
     """
     full path to a JSON file containing median bundle lengths
     """
-    med_len_counts = []
+    len_data = {}
     seg_sft = aus.SegmentedSFT.fromfile(bundles)
 
     for bundle in seg_sft.bundle_names:
-        these_lengths = seg_sft.get_bundle(bundle)._tractogram._streamlines._lengths
+        these_lengths = list(length(seg_sft.get_bundle(bundle).streamlines))
         if len(these_lengths) > 0:
-            med_len_counts.append(np.median(these_lengths))
+            len_data[f"{bundle} Median"] = np.median(these_lengths)
+            len_data[f"{bundle} Min"] = np.min(these_lengths)
+            len_data[f"{bundle} Max"] = np.max(these_lengths)
         else:
-            med_len_counts.append(0)
-    med_len_counts.append(np.median(seg_sft.sft._tractogram._streamlines._lengths))
+            len_data[f"{bundle} Median"] = 0
+            len_data[f"{bundle} Min"] = 0
+            len_data[f"{bundle} Max"] = 0
+    len_data["Total Recognized Median"] = np.median(
+        seg_sft.sft._tractogram._streamlines._lengths
+    )
+    len_data["Total Recognized Min"] = np.min(
+        seg_sft.sft._tractogram._streamlines._lengths
+    )
+    len_data["Total Recognized Max"] = np.max(
+        seg_sft.sft._tractogram._streamlines._lengths
+    )
 
     counts_df = pd.DataFrame(
-        data=dict(median_len=med_len_counts),
-        index=seg_sft.bundle_names + ["Total Recognized"],
+        data=len_data,
+        index=[0],
     )
     return counts_df, dict(source=bundles)
 

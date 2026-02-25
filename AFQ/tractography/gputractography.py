@@ -30,6 +30,8 @@ def gpu_track(
     thresholds_as_percentages,
     max_angle,
     step_size,
+    minlen,
+    maxlen,
     n_seeds,
     random_seeds,
     rng_seed,
@@ -70,6 +72,10 @@ def gpu_track(
         array, these are the coordinates of the seeds. Unless random_seeds is
         set to True, in which case this is the total number of random seeds
         to generate within the mask. Default: 1
+    minlen: int, optional
+        The minimal length (mm) in a streamline
+    maxlen: int, optional
+        The minimal length (mm) in a streamline
     random_seeds : bool
         If True, n_seeds is total number of random seeds to generate.
         If False, n_seeds encodes the density of seeds to generate.
@@ -87,6 +93,13 @@ def gpu_track(
     """
     seed_img = nib.load(seed_path)
     directions = directions.lower()
+
+    minlen = int(minlen / step_size)
+    maxlen = int(maxlen / step_size)
+
+    R = seed_img.affine[0:3, 0:3]
+    vox_dim = np.mean(np.diag(np.linalg.cholesky(R.T.dot(R))))
+    step_size = step_size / vox_dim
 
     # Roughly handle ACT/CMC for now
     wm_threshold = 0.5
@@ -170,6 +183,10 @@ def gpu_track(
         chunk_size=chunk_size,
     ) as gpu_tracker:
         if use_trx:
-            return gpu_tracker.generate_trx(seeds, seed_img)
+            return gpu_tracker.generate_trx(
+                seeds, seed_img, minlen=minlen, maxlen=maxlen
+            )
         else:
-            return gpu_tracker.generate_sft(seeds, seed_img)
+            return gpu_tracker.generate_sft(
+                seeds, seed_img, minlen=minlen, maxlen=maxlen
+            )

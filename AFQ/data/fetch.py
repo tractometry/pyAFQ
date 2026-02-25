@@ -865,8 +865,8 @@ template_remote_fnames = [
     "61737619",
     "61970155",
     "61970158",
-    "62084713",
-    "62084716",
+    "62134578",
+    "62134581",
     "62031442",
     "62031445",
 ]
@@ -972,8 +972,8 @@ template_md5_hashes = [
     "7cf5800a4efa6bac7e70d84095bc259b",
     "f65b3f9133820921d023517a68d4ea41",
     "4476935f5aadfcdd633b9a23779625ef",
-    "bac80a77df083c12a01982c0386f94be",
-    "dddd1923e87fb2880091615bc7f8a9a4",
+    "11ba79ff1f9a01c6b064428323d01013",
+    "84df5abfefbed5e3e310f2db0b62fcea",
     "db5bd2d1e810e366f5ef67a9cce205c2",
     "6891cfc038ce7db21e0cc307ae2b1b37",
 ]
