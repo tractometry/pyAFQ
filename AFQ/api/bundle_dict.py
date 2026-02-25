@@ -328,6 +328,7 @@ def default_bd():
                             },
                         },
                         "Left Posterior Vertical Occipital": {
+                            "Left Inferior Fronto-occipital": {"core": "Right"},
                             "cluster_IDs": [1, 72, 75, 81, 83],
                             "isolation_forest": {},
                         },
@@ -418,6 +419,7 @@ def default_bd():
                             },
                         },
                         "Right Posterior Vertical Occipital": {
+                            "Right Inferior Fronto-occipital": {"core": "Left"},
                             "cluster_IDs": [1, 72, 75, 81, 83],
                             "isolation_forest": {},
                         },
