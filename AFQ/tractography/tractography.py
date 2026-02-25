@@ -93,7 +93,7 @@ def track(
     minlen: int, optional
         The minimal length (mm) in a streamline. Default: 20
     maxlen: int, optional
-        The minimal length (mm) in a streamline. Default: 250
+        The maximum length (mm) in a streamline. Default: 250
     odf_model : str or Definition, optional
         Can be either a string or Definition. If a string, it must be one of
         {"DTI", "CSD", "DKI", "GQ", "RUMBA", "MSMT_AODF", "CSD_AODF", "MSMTCSD"}.

@@ -1,3 +1,4 @@
+import nibabel as nib
 import numpy as np
 
 import AFQ.recognition.other_bundles as abo
@@ -9,7 +10,7 @@ this_bundle_sls_sample = np.array(
 other_bundle_sls_sample = np.array(
     [[[0, 1, 2], [1, 2, 3], [2, 2, 2]], [[1, 1, 1], [2, 2, 2], [3, 3, 3]]]
 )
-img_sample = np.zeros((5, 5, 5))
+img_sample = nib.Nifti1Image(np.zeros((5, 5, 5)), np.eye(4))
 node_thresh_sample = 1
 
 

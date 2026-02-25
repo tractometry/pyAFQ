@@ -75,7 +75,7 @@ def gpu_track(
     minlen: int, optional
         The minimal length (mm) in a streamline
     maxlen: int, optional
-        The minimal length (mm) in a streamline
+        The maximum length (mm) in a streamline
     random_seeds : bool
         If True, n_seeds is total number of random seeds to generate.
         If False, n_seeds encodes the density of seeds to generate.

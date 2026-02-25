@@ -63,9 +63,7 @@ bundles = {
 
 
 def test_segment():
-    fiber_groups, _ = recognize(
-        tg, nib.load(hardi_fdata), mapping, bundles, reg_template, 2
-    )
+    fiber_groups, _ = recognize(tg, hardi_img, mapping, bundles, reg_template, 2)
 
     # We asked for 2 fiber groups:
     npt.assert_equal(len(fiber_groups), 2)
@@ -75,7 +73,7 @@ def test_segment():
     npt.assert_(len(CST_R_sl) > 0)
     # Calculate the tract profile for a volume of all-ones:
     tract_profile = afq_profile(
-        np.ones(nib.load(hardi_fdata).shape[:3]), CST_R_sl.streamlines, np.eye(4)
+        np.ones(hardi_img.shape[:3]), CST_R_sl.streamlines, hardi_img.affine
     )
     npt.assert_almost_equal(tract_profile, np.ones(100))
 
@@ -104,13 +102,13 @@ def test_segment_mixed_roi():
         ),
     ):
         fiber_groups, _ = recognize(
-            tg, nib.load(hardi_fdata), mapping, bundle_info, reg_template, 2
+            tg, hardi_img, mapping, bundle_info, reg_template, 2
         )
 
     bundle_info = abd.BundleDict(bundle_info, resample_subject_to=hardi_fdata)
     fiber_groups, _ = recognize(
         tg,
-        nib.load(hardi_fdata),
+        hardi_img,
         mapping,
         bundle_info,
         reg_template,
@@ -121,7 +119,7 @@ def test_segment_mixed_roi():
     # We asked for 2 fiber groups:
     npt.assert_equal(len(fiber_groups), 1)
     OR_LV1_sl = fiber_groups["OR LV1"]
-    npt.assert_(len(OR_LV1_sl) == 2)
+    npt.assert_(len(OR_LV1_sl) == 6)
 
 
 @pytest.mark.nightly
@@ -139,7 +137,7 @@ def test_segment_no_prob():
     }
 
     fiber_groups, _ = recognize(
-        tg, nib.load(hardi_fdata), mapping, bundles_no_prob, reg_template, 1
+        tg, hardi_img, mapping, bundles_no_prob, reg_template, 1
     )
 
     # This condition should still hold
@@ -150,7 +148,7 @@ def test_segment_no_prob():
 def test_segment_return_idx():
     # Test with the return_idx kwarg set to True:
     fiber_groups, _ = recognize(
-        tg, nib.load(hardi_fdata), mapping, bundles, reg_template, 1, return_idx=True
+        tg, hardi_img, mapping, bundles, reg_template, 1, return_idx=True
     )
 
     npt.assert_equal(len(fiber_groups), 2)
@@ -166,7 +164,7 @@ def test_segment_return_idx():
 def test_segment_clip_edges_api():
     # Test with the clip_edges kwarg set to True:
     fiber_groups, _ = recognize(
-        tg, nib.load(hardi_fdata), mapping, bundles, reg_template, 1, clip_edges=True
+        tg, hardi_img, mapping, bundles, reg_template, 1, clip_edges=True
     )
     npt.assert_equal(len(fiber_groups), 2)
     npt.assert_(len(fiber_groups["Right Corticospinal"]) > 0)
@@ -183,7 +181,7 @@ def test_segment_reco():
     # Try recobundles method
     fiber_groups, _ = recognize(
         tg,
-        nib.load(hardi_fdata),
+        hardi_img,
         mapping,
         bundles_reco,
         reg_template,
@@ -216,25 +214,19 @@ def test_exclusion_ROI():
         hardi_img,
         Space.VOX,
     )
-    fiber_groups, _ = recognize(
-        slf_tg, nib.load(hardi_fdata), mapping, slf_bundle, reg_template, 1
-    )
+    fiber_groups, _ = recognize(slf_tg, hardi_img, mapping, slf_bundle, reg_template, 1)
 
     npt.assert_equal(len(fiber_groups["Left Superior Longitudinal"]), 2)
 
     slf_bundle["Left Superior Longitudinal"]["exclude"] = [templates["SLFt_roi2_L"]]
 
-    fiber_groups, _ = recognize(
-        slf_tg, nib.load(hardi_fdata), mapping, slf_bundle, reg_template, 1
-    )
+    fiber_groups, _ = recognize(slf_tg, hardi_img, mapping, slf_bundle, reg_template, 1)
 
     npt.assert_equal(len(fiber_groups["Left Superior Longitudinal"]), 1)
 
 
 def test_segment_sampled_streamlines():
-    fiber_groups, _ = recognize(
-        tg, nib.load(hardi_fdata), mapping, bundles, reg_template, 1
-    )
+    fiber_groups, _ = recognize(tg, hardi_img, mapping, bundles, reg_template, 1)
 
     # Already using a subsampled tck
     # the Right Corticospinal has two streamlines and
@@ -247,7 +239,7 @@ def test_segment_sampled_streamlines():
     # sample and segment streamlines
     sampled_fiber_groups, _ = recognize(
         tg,
-        nib.load(hardi_fdata),
+        hardi_img,
         mapping,
         bundles,
         reg_template,

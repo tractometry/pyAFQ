@@ -4,7 +4,9 @@ from dipy.core.interpolation import interpolate_scalar_3d
 
 def _interp_arr_with_affine(roi, arr, affine):
     inv_affine = np.linalg.inv(affine)
-    arr_xformd = np.dot(arr, inv_affine[:3, :3]) + inv_affine[:3, 3]
+    lin_T = inv_affine[:3, :3].T
+    offset = inv_affine[:3, 3]
+    arr_xformd = np.dot(arr, lin_T) + offset
 
     return np.array(interpolate_scalar_3d(roi, arr_xformd)[0])
 
