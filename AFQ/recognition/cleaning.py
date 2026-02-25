@@ -126,7 +126,7 @@ def clean_bundle(
     tg,
     n_points=100,
     clean_rounds=5,
-    distance_threshold=3,
+    distance_threshold=4,
     length_threshold=4,
     min_sl=20,
     stat=np.mean,
@@ -149,7 +149,7 @@ def clean_bundle(
         the mean of extracted bundles. Default: 5
     distance_threshold : float, optional.
         Threshold of cleaning based on the Mahalanobis distance (the units are
-        standard deviations). Default: 3.
+        standard deviations). Default: 4.
     length_threshold: float, optional
         Threshold for cleaning based on length (in standard deviations). Length
         of any streamline should not be *more* than this number of stdevs from
