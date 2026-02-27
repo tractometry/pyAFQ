@@ -14,7 +14,9 @@ logger = logging.getLogger("AFQ")
 __all__ = ["run_multiaxial", "extract_brain_mask", "multiaxial"]
 
 
-def multiaxial(ort, img, model_sagittal, model_axial, model_coronal, consensus_model):
+def multiaxial(
+    ort, img, model_sagittal, model_axial, model_coronal, consensus_model, onnx_kwargs
+):
     """
     Perform multiaxial segmentation using three ONNX models
     and a consensus model [1].
@@ -31,6 +33,8 @@ def multiaxial(ort, img, model_sagittal, model_axial, model_coronal, consensus_m
         Path to coronal ONNX model.
     consensus_model : str
         Path to consensus ONNX model.
+    onnx_kwargs : dict
+        ONNX kwargs to use for inference.
 
     Returns
     -------
@@ -48,25 +52,25 @@ def multiaxial(ort, img, model_sagittal, model_axial, model_coronal, consensus_m
     pbar = tqdm(total=4)
 
     input_ = img[..., None]
-    sagittal_results = _run_onnx_model(ort, model_sagittal, input_, coords)
+    sagittal_results = _run_onnx_model(ort, model_sagittal, input_, coords, onnx_kwargs)
     pbar.update(1)
 
     input_ = np.swapaxes(img, 0, 1)[..., None]
     coronal_results = np.swapaxes(
-        _run_onnx_model(ort, model_coronal, input_, coords), 0, 1
+        _run_onnx_model(ort, model_coronal, input_, coords, onnx_kwargs), 0, 1
     )
     pbar.update(1)
 
     input_ = np.transpose(img, (2, 0, 1))[..., None]
     axial_results = np.transpose(
-        _run_onnx_model(ort, model_axial, input_, coords), (1, 2, 0, 3)
+        _run_onnx_model(ort, model_axial, input_, coords, onnx_kwargs), (1, 2, 0, 3)
     )
     pbar.update(1)
 
     X = np.concatenate(
         [img[..., None], sagittal_results, coronal_results, axial_results], -1
     )
-    sess = ort.InferenceSession(consensus_model, providers=["CPUExecutionProvider"])
+    sess = ort.InferenceSession(consensus_model, **onnx_kwargs)
     input_name = sess.get_inputs()[0].name
     output_name = sess.get_outputs()[0].name
     yhat = sess.run([output_name], {input_name: X[None, ...]})[0]
@@ -77,8 +81,8 @@ def multiaxial(ort, img, model_sagittal, model_axial, model_coronal, consensus_m
     return pred
 
 
-def _run_onnx_model(ort, model, input_, coords):
-    sess = ort.InferenceSession(model, providers=["CPUExecutionProvider"])
+def _run_onnx_model(ort, model, input_, coords, onnx_kwargs):
+    sess = ort.InferenceSession(model, **onnx_kwargs)
     input_name = sess.get_inputs()[0].name
     coord_name = sess.get_inputs()[1].name
     output_name = sess.get_outputs()[0].name
@@ -131,7 +135,7 @@ def _get_multiaxial_model():
     return model_dict
 
 
-def run_multiaxial(ort, t1_img):
+def run_multiaxial(ort, t1_img, onnx_kwargs):
     """
     Run the multiaxial model.
     """
@@ -155,6 +159,7 @@ def run_multiaxial(ort, t1_img):
         model_dict["axial_model"],
         model_dict["coronal_model"],
         model_dict["consensus_model"],
+        onnx_kwargs,
     )
 
     output_img = nbp.resample_from_to(

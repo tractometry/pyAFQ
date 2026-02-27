@@ -41,7 +41,9 @@ logger = logging.getLogger("AFQ")
 
 @immlib.calc("bundles")
 @as_file("_desc-bundles_tractography")
-def segment(data_imap, mapping_imap, tractography_imap, segmentation_params):
+def segment(
+    structural_imap, data_imap, mapping_imap, tractography_imap, segmentation_params
+):
     """
     full path to a trk/trx file containing containing
     segmented streamlines, labeled by bundle
@@ -106,7 +108,7 @@ def segment(data_imap, mapping_imap, tractography_imap, segmentation_params):
         mapping_imap["mapping"],
         bundle_dict,
         reg_template,
-        data_imap["n_cpus"],
+        structural_imap["n_cpus"],
         **segmentation_params,
     )
 

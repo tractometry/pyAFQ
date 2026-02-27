@@ -1,5 +1,4 @@
 import logging
-import multiprocessing
 
 import dipy.core.gradients as dpg
 import dipy.reconst.dki as dpy_dki
@@ -16,7 +15,6 @@ from dipy.reconst import shm
 from dipy.reconst.dki_micro import axonal_water_fraction
 from dipy.reconst.gqi import GeneralizedQSamplingModel
 from dipy.reconst.rumba import RumbaSDModel
-from numba import get_num_threads
 
 import AFQ.api.bundle_dict as abd
 import AFQ.data.fetch as afd
@@ -98,40 +96,6 @@ def get_data_gtab(
     gtab = dpg.gradient_table(bvals=bvals, bvecs=bvecs, b0_threshold=b0_threshold)
     img = nib.Nifti1Image(data, img.affine)
     return data, gtab, img, img.affine
-
-
-@immlib.calc("n_cpus", "n_threads", "low_mem")
-def configure_ncpus_nthreads(ray_n_cpus=None, numba_n_threads=None, low_memory=False):
-    """
-    Configure the number of CPUs to use for parallel processing with Ray,
-    the number of threads to use for Numba,
-    and whether to use low-memory versions of algorithms
-    where available
-
-    Parameters
-    ----------
-    ray_n_cpus : int, optional
-        The number of CPUs to use for parallel processing with Ray.
-        If None, uses the number of available CPUs minus one.
-        Tractography, Recognition, and MSMT use Ray.
-        Default: None
-    numba_n_threads : int, optional
-        The number of threads to use for Numba.
-        If None, uses the number of available CPUs minus one,
-        but with a maximum of 16.
-        ASYM fit uses Numba.
-        Default: None
-    low_memory : bool, optional
-        Whether to use low-memory versions of algorithms
-        where available.
-        Default: False
-    """
-    if ray_n_cpus is None:
-        ray_n_cpus = max(multiprocessing.cpu_count() - 1, 1)
-    if numba_n_threads is None:
-        numba_n_threads = min(max(get_num_threads() - 1, 1), 16)
-
-    return ray_n_cpus, numba_n_threads, low_memory
 
 
 @immlib.calc("b0")
@@ -519,7 +483,7 @@ def csd_params(
 @immlib.calc("csd_aodf_params")
 @as_file(suffix="_model-csd_param-aodf_dwimap.nii.gz", subfolder="models")
 @as_img
-def csd_aodf(csd_params, n_threads, low_mem, citations):
+def csd_aodf(structural_imap, csd_params, citations):
     """
     full path to a nifti file containing
     SSST CSD ODFs filtered by unified filtering [1]
@@ -536,7 +500,10 @@ def csd_aodf(csd_params, n_threads, low_mem, citations):
 
     logger.info("Applying unified filtering to generate asymmetric CSD ODFs...")
     aodf = unified_filtering(
-        sh_coeff, get_sphere(name="repulsion724"), n_threads=n_threads, low_mem=low_mem
+        sh_coeff,
+        get_sphere(name="repulsion724"),
+        n_threads=structural_imap["n_threads"],
+        low_mem=structural_imap["low_mem"],
     )
 
     return aodf, dict(
@@ -1414,7 +1381,6 @@ def get_data_plan(kwargs):
             b0,
             b0_mask,
             brain_mask,
-            configure_ncpus_nthreads,
             dti_fit,
             dki_fit,
             fwdti_fit,

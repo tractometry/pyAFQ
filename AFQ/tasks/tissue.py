@@ -127,7 +127,14 @@ def pve_internal(structural_imap, pve="synthseg"):
     subfolder="models",
 )
 @as_img
-def msmt_params(data_imap, pve_internal, citations, msmt_sh_order=8, msmt_fa_thr=0.7):
+def msmt_params(
+    structural_imap,
+    data_imap,
+    pve_internal,
+    citations,
+    msmt_sh_order=8,
+    msmt_fa_thr=0.7,
+):
     """
     full path to a nifti file containing
     parameters for the MSMT CSD white matter fit,
@@ -201,7 +208,7 @@ def msmt_params(data_imap, pve_internal, citations, msmt_sh_order=8, msmt_fa_thr
 
     mcsd_model = MultiShellDeconvModel(data_imap["gtab"], response_mcsd)
     logger.info("Fitting Multi-Shell CSD model...")
-    mcsd_fit = mcsd_model.fit(data_imap["data"], mask, n_cpus=data_imap["n_cpus"])
+    mcsd_fit = mcsd_model.fit(data_imap["data"], mask, n_cpus=structural_imap["n_cpus"])
 
     def _get_meta(desc, sh_order, response):
         return dict(
@@ -268,7 +275,7 @@ def msmt_apm(msmtcsd_params):
 @immlib.calc("msmt_aodf_params")
 @as_file(suffix="_model-msmtcsd_param-aodf_dwimap.nii.gz", subfolder="models")
 @as_img
-def msmt_aodf(msmtcsd_params, data_imap, citations):
+def msmt_aodf(msmtcsd_params, structural_imap, citations):
     """
     full path to a nifti file containing
     MSMT CSD ODFs filtered by unified filtering [1]
@@ -288,8 +295,8 @@ def msmt_aodf(msmtcsd_params, data_imap, citations):
     aodf = unified_filtering(
         sh_coeff,
         get_sphere(name="repulsion724"),
-        n_threads=data_imap["n_threads"],
-        low_mem=data_imap["low_mem"],
+        n_threads=structural_imap["n_threads"],
+        low_mem=structural_imap["low_mem"],
     )
 
     return aodf, dict(

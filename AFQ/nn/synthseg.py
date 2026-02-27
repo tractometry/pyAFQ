@@ -28,7 +28,7 @@ def _get_model(model_name):
     return model_fname
 
 
-def run_synthseg(ort, t1_img, model_name):
+def run_synthseg(ort, t1_img, model_name, onnx_kwargs):
     """
     Run the Synthseg Model
 
@@ -57,7 +57,7 @@ def run_synthseg(ort, t1_img, model_name):
     image = t1_data.astype(np.float32)[None, ..., None]
 
     logger.info(f"Running {model_name}...")
-    sess = ort.InferenceSession(model)
+    sess = ort.InferenceSession(model, **onnx_kwargs)
     input_name = sess.get_inputs()[0].name
     output_name = sess.get_outputs()[0].name
     output_channels = sess.run([output_name], {input_name: image})[0]

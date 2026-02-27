@@ -60,7 +60,9 @@ def _meta_from_tracking_params(tracking_params, start_time, n_streamlines, seed,
 
 @immlib.calc("streamlines")
 @as_file("_tractography", subfolder="tractography")
-def streamlines(data_imap, seed, tissue_imap, fodf, citations, tracking_params):
+def streamlines(
+    structural_imap, data_imap, seed, tissue_imap, fodf, citations, tracking_params
+):
     """
     full path to the complete, unsegmented tractography file
 
@@ -84,7 +86,7 @@ def streamlines(data_imap, seed, tissue_imap, fodf, citations, tracking_params):
 
     is_trx = this_tracking_params.get("trx", False)
 
-    num_chunks = data_imap["n_cpus"]
+    num_chunks = structural_imap["n_cpus"]
 
     if is_trx:
         start_time = time()
