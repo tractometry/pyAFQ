@@ -58,10 +58,26 @@ def _meta_from_tracking_params(tracking_params, start_time, n_streamlines, seed,
     return meta
 
 
+def _fiber_odf(data_imap, tissue_imap, tracking_params):
+    odf_model = tracking_params["odf_model"]
+    if isinstance(odf_model, str):
+        calc_name = f"{odf_model.lower()}_params"
+        if calc_name in data_imap:
+            params_file = data_imap[calc_name]
+        elif calc_name in tissue_imap:
+            params_file = tissue_imap[calc_name]
+        else:
+            raise ValueError((f"Could not find {odf_model}"))
+    else:
+        raise TypeError(("odf_model must be a string or Definition"))
+
+    return params_file
+
+
 @immlib.calc("streamlines")
 @as_file("_tractography", subfolder="tractography")
 def streamlines(
-    structural_imap, data_imap, seed, tissue_imap, fodf, citations, tracking_params
+    structural_imap, data_imap, seed, tissue_imap, citations, tracking_params
 ):
     """
     full path to the complete, unsegmented tractography file
@@ -79,6 +95,7 @@ def streamlines(
     citations.add("smith2012anatomically")
 
     this_tracking_params = tracking_params.copy()
+    fodf = _fiber_odf(data_imap, tissue_imap, tracking_params)
 
     # get masks
     this_tracking_params["seed_mask"] = nib.load(seed).get_fdata()
@@ -208,26 +225,6 @@ def streamlines(
     )
 
 
-@immlib.calc("fodf")
-def fiber_odf(data_imap, tissue_imap, tracking_params):
-    """
-    Nifti Image containing the fiber orientation distribution function
-    """
-    odf_model = tracking_params["odf_model"]
-    if isinstance(odf_model, str):
-        calc_name = f"{odf_model.lower()}_params"
-        if calc_name in data_imap:
-            params_file = data_imap[calc_name]
-        elif calc_name in tissue_imap:
-            params_file = tissue_imap[calc_name]
-        else:
-            raise ValueError((f"Could not find {odf_model}"))
-    else:
-        raise TypeError(("odf_model must be a string or Definition"))
-
-    return params_file
-
-
 @immlib.calc("streamlines")
 def custom_tractography(import_tract=None):
     """
@@ -251,7 +248,6 @@ def custom_tractography(import_tract=None):
 def gpu_tractography(
     data_imap,
     tracking_params,
-    fodf,
     seed,
     tissue_imap,
     tractography_ngpus=0,
@@ -274,6 +270,8 @@ def gpu_tractography(
         Default: 25000
     """
     start_time = time()
+    fodf = _fiber_odf(data_imap, tissue_imap, tracking_params)
+
     if tracking_params["directions"] == "boot":
         data = data_imap["data"]
     else:
@@ -316,7 +314,7 @@ def get_tractography_plan(kwargs):
     if "tracking_params" in kwargs and not isinstance(kwargs["tracking_params"], dict):
         raise TypeError("tracking_params a dict")
 
-    tractography_tasks = with_name([streamlines, fiber_odf])
+    tractography_tasks = with_name([streamlines])
 
     # use GPU accelerated tractography if asked for
     if "tractography_ngpus" in kwargs and kwargs["tractography_ngpus"] != 0:
