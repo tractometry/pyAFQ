@@ -30,7 +30,7 @@ def test_run_brainchop():
             "sub-01/ses-01/anat/sub-01_ses-01_T1w.nii.gz"
         ),
     )
-    chopped_brain = run_brainchop(ort, nib.load(t1_path), "mindgrab")
+    chopped_brain = run_brainchop(ort, nib.load(t1_path), "mindgrab", {})
 
     npt.assert_(chopped_brain.get_fdata().sum() > 200000)
 
@@ -47,6 +47,6 @@ def test_run_multiaxial():
             "sub-01/ses-01/anat/sub-01_ses-01_T1w.nii.gz"
         ),
     )
-    chopped_brain = run_multiaxial(ort, nib.load(t1_path))
+    chopped_brain = run_multiaxial(ort, nib.load(t1_path), {})
 
     npt.assert_(chopped_brain.get_fdata().sum() > 200000)
