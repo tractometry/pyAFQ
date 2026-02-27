@@ -165,9 +165,6 @@ class ParticipantAFQ(object):
                     plan_kwargs[key] = self.kwargs[key]
                 elif key in previous_plans:
                     plan_kwargs[key] = previous_plans[key]
-                elif name not in ["data", "structural"] and key == "dwi_affine":
-                    # simplifies syntax to access commonly used dwi_affine
-                    plan_kwargs[key] = previous_plans["data_imap"][key]
                 else:
                     raise NotImplementedError(
                         f"Missing required parameter {key} for {name} plan"

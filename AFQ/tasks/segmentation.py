@@ -269,7 +269,7 @@ def export_density_maps(bundles, data_imap):
 @immlib.calc("profiles")
 @as_file("_desc-profiles_tractography.csv")
 def tract_profiles(
-    bundles, scalar_dict, dwi_affine, profile_weights="gauss", n_points_profile=100
+    bundles, scalar_dict, data_imap, profile_weights="gauss", n_points_profile=100
 ):
     """
     full path to a CSV file containing tract profiles
@@ -338,7 +338,11 @@ def tract_profiles(
                     def _median_weight(bundle):
                         fgarray = set_number_of_points(bundle, n_points_profile)
                         values = np.array(
-                            values_from_volume(scalar_data, fgarray, dwi_affine)  # noqa B023
+                            values_from_volume(
+                                scalar_data,  # noqa B023
+                                fgarray,
+                                data_imap["dwi_affine"],
+                            )
                         )
                         weights = np.zeros(values.shape)
                         for ii, jj in enumerate(
@@ -366,7 +370,7 @@ def tract_profiles(
             this_profile[ii] = afq_profile(
                 scalar_data,
                 this_sl,
-                dwi_affine,
+                data_imap["dwi_affine"],
                 weights=this_prof_weights,
                 n_points=n_points_profile,
             )
