@@ -28,7 +28,7 @@ def configure_ncpus_nthreads(ray_n_cpus=None, numba_n_threads=None, low_memory=F
     ray_n_cpus : int, optional
         The number of CPUs to use for parallel processing with Ray.
         If None, uses the number of available CPUs minus one.
-        Tractography, Recognition, and MSMT use Ray.
+        Tractography and MSMT use Ray.
         Default: None
     numba_n_threads : int, optional
         The number of threads to use for Numba.
@@ -50,7 +50,9 @@ def configure_ncpus_nthreads(ray_n_cpus=None, numba_n_threads=None, low_memory=F
 
 
 @immlib.calc("onnx_kwargs")
-def onnx_kwargs(low_mem, onnx_execution_provider="CPUExecutionProvider"):
+def onnx_kwargs(
+    low_mem, onnx_execution_provider="CPUExecutionProvider", onnx_inter_threads=1
+):
     """
     The execution provider to use for onnx models
 
@@ -65,11 +67,11 @@ def onnx_kwargs(low_mem, onnx_execution_provider="CPUExecutionProvider"):
         "OpenVINOExecutionProvider" for potentially faster
         inference.
         Default: "CPUExecutionProvider"
+    onnx_inter_threads : int, optional
+        The number of inter threads to use for onnx models.
+        Increasing will increase memory usage significantly.
+        Default: 1
 
-    Returns
-    -------
-    str
-        The ONNX execution provider to use for onnx models.
     """
     try:
         import onnxruntime as ort
@@ -86,11 +88,11 @@ def onnx_kwargs(low_mem, onnx_execution_provider="CPUExecutionProvider"):
         )
         onnx_execution_provider = "CPUExecutionProvider"
     options = ort.SessionOptions()
+    options.execution_mode = ort.ExecutionMode.ORT_SEQUENTIAL
+    options.inter_op_num_threads = onnx_inter_threads
     if low_mem:
         options.enable_cpu_mem_arena = False
         options.enable_mem_pattern = False
-        options.execution_mode = ort.ExecutionMode.ORT_SEQUENTIAL
-        options.inter_op_num_threads = 1
 
     onnx_kwargs = {"providers": [onnx_execution_provider], "sess_options": options}
 
