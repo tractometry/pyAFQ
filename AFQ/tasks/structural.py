@@ -87,11 +87,12 @@ def onnx_kwargs(low_mem, onnx_execution_provider="CPUExecutionProvider"):
         onnx_execution_provider = "CPUExecutionProvider"
     options = ort.SessionOptions()
     if low_mem:
-        options.add_session_config_entry("session.use_mem_arena", "0")
+        options.enable_cpu_mem_arena = False
         options.enable_mem_pattern = False
         options.execution_mode = ort.ExecutionMode.ORT_SEQUENTIAL
+        options.inter_op_num_threads = 1
 
-    onnx_kwargs = {"providers": [onnx_execution_provider], "options": options}
+    onnx_kwargs = {"providers": [onnx_execution_provider], "sess_options": options}
 
     return {"onnx_kwargs": onnx_kwargs}
 
