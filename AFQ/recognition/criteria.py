@@ -46,6 +46,7 @@ valid_noncriterion = [
     "primary_axis_percentage",
     "inc_addtol",
     "exc_addtol",
+    "endpoints_exact",
     "ORG_spectral_subbundles",
     "cluster_IDs",
     "startpoint_location",
@@ -77,11 +78,17 @@ def cross_midline(b_sls, bundle_def, preproc_imap, **kwargs):
 
 def start(b_sls, bundle_def, preproc_imap, **kwargs):
     b_sls.initiate_selection("Startpoint")
+    endpoints_exact = bundle_def.get("endpoints_exact", False)
+    if endpoints_exact:
+        tol = 0
+    else:
+        tol = preproc_imap["dist_to_atlas"]
+
     accept_idx = abr.clean_by_endpoints(
         preproc_imap["fgarray"][b_sls.selected_fiber_idxs],
         bundle_def["start"],
         0,
-        tol=preproc_imap["dist_to_atlas"],
+        tol=tol,
         flip_sls=b_sls.sls_flipped,
     )
     if not b_sls.oriented_yet:
@@ -89,7 +96,7 @@ def start(b_sls, bundle_def, preproc_imap, **kwargs):
             preproc_imap["fgarray"][b_sls.selected_fiber_idxs],
             bundle_def["start"],
             -1,
-            tol=preproc_imap["dist_to_atlas"],
+            tol=tol,
         )
         new_accept_idx = np.logical_or(accepted_idx_flipped, accept_idx)
         special_idx = np.logical_and(accept_idx, accepted_idx_flipped)
@@ -105,11 +112,17 @@ def start(b_sls, bundle_def, preproc_imap, **kwargs):
 
 def end(b_sls, bundle_def, preproc_imap, **kwargs):
     b_sls.initiate_selection("endpoint")
+    endpoints_exact = bundle_def.get("endpoints_exact", False)
+    if endpoints_exact:
+        tol = 0
+    else:
+        tol = preproc_imap["dist_to_atlas"]
+
     accept_idx = abr.clean_by_endpoints(
         preproc_imap["fgarray"][b_sls.selected_fiber_idxs],
         bundle_def["end"],
         -1,
-        tol=preproc_imap["dist_to_atlas"],
+        tol=tol,
         flip_sls=b_sls.sls_flipped,
     )
     if not b_sls.oriented_yet:
@@ -117,7 +130,7 @@ def end(b_sls, bundle_def, preproc_imap, **kwargs):
             preproc_imap["fgarray"][b_sls.selected_fiber_idxs],
             bundle_def["end"],
             0,
-            tol=preproc_imap["dist_to_atlas"],
+            tol=tol,
         )
         new_accept_idx = np.logical_or(accepted_idx_flipped, accept_idx)
         special_idx = np.logical_and(accept_idx, accepted_idx_flipped)
@@ -148,8 +161,7 @@ def primary_axis(b_sls, bundle_def, img, **kwargs):
     accept_idx = abc.clean_by_orientation(
         b_sls.get_selected_sls(),
         bundle_def["primary_axis"],
-        img.affine,
-        bundle_def.get("primary_axis_percentage", None),
+        bundle_def.get("core_only", 0.6),
     )
     b_sls.select(accept_idx, "orientation")
 

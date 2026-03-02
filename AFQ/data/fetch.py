@@ -763,6 +763,16 @@ template_fnames = [
     "VOF_R_end.nii.gz",
     "VOF_L_prob_map.nii.gz",
     "VOF_R_prob_map.nii.gz",
+    "VOF_roi1_L.nii.gz",
+    "VOF_roi1_R.nii.gz",
+    "VOF_roi2_L.nii.gz",
+    "VOF_roi2_R.nii.gz",
+    "Temporal_Sup_L.nii.gz",
+    "Temporal_Sup_R.nii.gz",
+    "pARC_L_end.nii.gz",
+    "pARC_R_end.nii.gz",
+    "MdLF_L_end.nii.gz",
+    "MdLF_R_end.nii.gz",
 ]
 
 
@@ -869,6 +879,16 @@ template_remote_fnames = [
     "62134581",
     "62031442",
     "62031445",
+    "62213933",
+    "62213936",
+    "62213939",
+    "62213942",
+    "62282968",
+    "62282971",
+    "62283235",
+    "62283238",
+    "62283226",
+    "62283229",
 ]
 
 
@@ -976,6 +996,16 @@ template_md5_hashes = [
     "84df5abfefbed5e3e310f2db0b62fcea",
     "db5bd2d1e810e366f5ef67a9cce205c2",
     "6891cfc038ce7db21e0cc307ae2b1b37",
+    "ad5407fa6c058c9317a5ba51e5e188bf",
+    "5c52e20d74608da784ee874d23322385",
+    "76baf26294c8430afabcdc9a6d756b12",
+    "eff69ba30619bbf2ff500cd714f07894",
+    "088e850d38fed2d62fc768071d42a43d",
+    "a3d249535ca0452ce9f59c754e13695a",
+    "2cba992046cd80d1b9bdc1de3e101214",
+    "2929851e9611dba80e8c17d2bd767b1d",
+    "827b21f9069cd0192ede3f7153f1ca80",
+    "e2912622d36db6723c48a0a1de887807",
 ]
 
 fetch_templates = _make_reusable_fetcher(

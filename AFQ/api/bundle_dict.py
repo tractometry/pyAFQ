@@ -119,13 +119,45 @@ RECO_BUNDLES_80 = append_l_r(RECO_BUNDLES_80, RECO_UNIQUE)
 DIPY_GH = "https://github.com/dipy/dipy/blob/master/dipy/"
 
 
+def OR_bd():
+    or_rois = afd.read_or_templates()
+
+    return BundleDict(
+        {
+            "Left Optic Radiation": {
+                "include": [or_rois["left_OR_1"], or_rois["left_OR_2"]],
+                "exclude": [
+                    or_rois["left_OP_MNI"],
+                    or_rois["left_TP_MNI"],
+                    or_rois["left_pos_thal_MNI"],
+                ],
+                "start": or_rois["left_thal_MNI"],
+                "end": or_rois["left_V1_MNI"],
+                "cross_midline": False,
+            },
+            "Right Optic Radiation": {
+                "include": [or_rois["right_OR_1"], or_rois["right_OR_2"]],
+                "exclude": [
+                    or_rois["right_OP_MNI"],
+                    or_rois["right_TP_MNI"],
+                    or_rois["right_pos_thal_MNI"],
+                ],
+                "start": or_rois["right_thal_MNI"],
+                "end": or_rois["right_V1_MNI"],
+                "cross_midline": False,
+            },
+        },
+        citations={"Caffarra2021"},
+    )
+
+
 def default_bd():
     templates = afd.read_templates(as_img=False)
     templates["ARC_roi1_L"] = templates["SLF_roi1_L"]
     templates["ARC_roi1_R"] = templates["SLF_roi1_R"]
     templates["ARC_roi2_L"] = templates["SLFt_roi2_L"]
     templates["ARC_roi2_R"] = templates["SLFt_roi2_R"]
-    return BundleDict(
+    return OR_bd() + BundleDict(
         {
             "Left Anterior Thalamic": {
                 "cross_midline": False,
@@ -270,11 +302,12 @@ def default_bd():
                     templates["pARC_xroi1_L"],
                 ],
                 "space": "template",
-                "prob_map": templates["ARC_L_prob_map"],
                 "start": templates["pARC_L_start"],
-                "end": templates["VOF_L_end"],
+                "end": templates["pARC_L_end"],
                 "Left Arcuate": {"overlap": 30},
                 "Left Inferior Fronto-occipital": {"core": "Right"},
+                "Left Optic Radiation": {"core": "Right"},
+                "endpoints_exact": True,
                 "length": {"min_len": 30},
                 "primary_axis": "I/S",
             },
@@ -287,11 +320,12 @@ def default_bd():
                     templates["pARC_xroi1_R"],
                 ],
                 "space": "template",
-                "prob_map": templates["ARC_R_prob_map"],
                 "start": templates["pARC_R_start"],
-                "end": templates["VOF_R_end"],
+                "end": templates["pARC_R_end"],
                 "Right Arcuate": {"overlap": 30},
                 "Right Inferior Fronto-occipital": {"core": "Left"},
+                "Right Optic Radiation": {"core": "Left"},
+                "endpoints_exact": True,
                 "length": {"min_len": 30},
                 "primary_axis": "I/S",
             },
@@ -300,6 +334,7 @@ def default_bd():
                 "space": "template",
                 "prob_map": templates["VOF_L_prob_map"],
                 "end": templates["VOF_L_end"],
+                "include": [templates["VOF_roi1_L"], templates["VOF_roi2_L"]],
                 "exclude": [
                     templates["Cerebellar_Hemi_L"],
                 ],
@@ -329,14 +364,24 @@ def default_bd():
                         },
                         "Left Posterior Vertical Occipital": {
                             "Left Inferior Fronto-occipital": {"core": "Right"},
+                            "Left Optic Radiation": {"core": "Right"},
                             "cluster_IDs": [1, 72, 75, 81, 83],
-                            "isolation_forest": {},
+                            "mahal": {
+                                "distance_threshold": 5,
+                                "length_threshold": 4,
+                                "clean_rounds": 5,
+                            },
                         },
                         "Left Anterior Vertical Occipital": {
                             "Left Inferior Fronto-occipital": {"core": "Right"},
+                            "Left Optic Radiation": {"core": "Right"},
                             "cluster_IDs": [2, 7, 18, 21, 25, 51],
                             "exclude": [templates["pARC_xroi1_L"]],
-                            "isolation_forest": {},
+                            "mahal": {
+                                "distance_threshold": 5,
+                                "length_threshold": 4,
+                                "clean_rounds": 5,
+                            },
                         },
                     },
                     remove_cluster_IDs=[
@@ -394,6 +439,7 @@ def default_bd():
                 "space": "template",
                 "prob_map": templates["VOF_R_prob_map"],
                 "end": templates["VOF_R_end"],
+                "include": [templates["VOF_roi1_R"], templates["VOF_roi2_R"]],
                 "exclude": [
                     templates["Cerebellar_Hemi_R"],
                 ],
@@ -423,14 +469,24 @@ def default_bd():
                         },
                         "Right Posterior Vertical Occipital": {
                             "Right Inferior Fronto-occipital": {"core": "Left"},
+                            "Right Optic Radiation": {"core": "Left"},
                             "cluster_IDs": [1, 72, 75, 81, 83],
-                            "isolation_forest": {},
+                            "mahal": {
+                                "distance_threshold": 5,
+                                "length_threshold": 4,
+                                "clean_rounds": 5,
+                            },
                         },
                         "Right Anterior Vertical Occipital": {
                             "Right Inferior Fronto-occipital": {"core": "Left"},
+                            "Right Optic Radiation": {"core": "Left"},
                             "cluster_IDs": [2, 7, 18, 21, 25, 51],
                             "exclude": [templates["pARC_xroi1_R"]],
-                            "isolation_forest": {},
+                            "mahal": {
+                                "distance_threshold": 5,
+                                "length_threshold": 4,
+                                "clean_rounds": 5,
+                            },
                         },
                     },
                     remove_cluster_IDs=[
@@ -486,10 +542,42 @@ def default_bd():
         },
         citations={
             "Yeatman2012",
-            "takemura2017occipital",
+            "takemura2016major",
             "Tzourio-Mazoyer2002",
             "zhang2018anatomically",
             "Hua2008",
+        },
+    )
+
+
+def mdlf_bd():
+    """
+    Work in Progress.
+    """
+    templates = afd.read_templates(as_img=False)
+    return default_bd() + BundleDict(
+        {
+            "Left Middle Longitudinal": {
+                "cross_midline": False,
+                "start": templates["Temporal_Sup_L"],
+                "end": templates["MdLF_L_end"],
+                "exclude": [templates["SLF_roi1_L"]],
+                "space": "template",
+                "Left Inferior Longitudinal": {"node_thresh": 20},
+                "length": {"min_len": 50},
+            },
+            "Right Middle Longitudinal": {
+                "cross_midline": False,
+                "start": templates["Temporal_Sup_R"],
+                "end": templates["MdLF_R_end"],
+                "exclude": [templates["SLF_roi1_R"]],
+                "space": "template",
+                "Right Inferior Longitudinal": {"node_thresh": 20},
+                "length": {"min_len": 50},
+            },
+        },
+        citations={
+            "wang2013rethinking",
         },
     )
 
@@ -1077,38 +1165,6 @@ def cerebellar_bd():
             },
         },
         citations={"Jossinger2022"},
-    )
-
-
-def OR_bd():
-    or_rois = afd.read_or_templates()
-
-    return BundleDict(
-        {
-            "Left Optic Radiation": {
-                "include": [or_rois["left_OR_1"], or_rois["left_OR_2"]],
-                "exclude": [
-                    or_rois["left_OP_MNI"],
-                    or_rois["left_TP_MNI"],
-                    or_rois["left_pos_thal_MNI"],
-                ],
-                "start": or_rois["left_thal_MNI"],
-                "end": or_rois["left_V1_MNI"],
-                "cross_midline": False,
-            },
-            "Right Optic Radiation": {
-                "include": [or_rois["right_OR_1"], or_rois["right_OR_2"]],
-                "exclude": [
-                    or_rois["right_OP_MNI"],
-                    or_rois["right_TP_MNI"],
-                    or_rois["right_pos_thal_MNI"],
-                ],
-                "start": or_rois["right_thal_MNI"],
-                "end": or_rois["right_V1_MNI"],
-                "cross_midline": False,
-            },
-        },
-        citations={"Caffarra2021"},
     )
 
 

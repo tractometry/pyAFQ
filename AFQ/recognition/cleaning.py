@@ -12,15 +12,24 @@ from AFQ._fixes import gaussian_weights
 logger = logging.getLogger("AFQ")
 
 
-def clean_by_orientation(streamlines, primary_axis, affine, tol=None):
+def clean_by_orientation(streamlines, primary_axis, core_only=0.6):
     """
-    Compute the cardinal orientation of each streamline
+    Retain streamlines whose core is oriented along the primary axis
+    and have endpoints that are also oriented along the primary axis
+    and have a majority of their steps along the primary axis.
 
     Parameters
     ----------
     streamlines : sequence of N by 3 arrays
         Where N is number of nodes in the array, the collection of
         streamlines to filter down to.
+    core_only : float, optional
+        If non-zero, only the core of the bundle is used for cleaning.
+        The core is defined as the middle 60% of each streamline,
+        thus our default is 0.6. This means streamlines are allowed to
+        deviate in the starting and ending 20% of the bundle. This is useful
+        for allowing more diverse endpoints.
+        Default: 0.6
 
     Returns
     -------
@@ -34,31 +43,35 @@ def clean_by_orientation(streamlines, primary_axis, affine, tol=None):
 
     primary_axis = abu.axes_dict[primary_axis]
 
-    axis_diff = np.zeros((len(streamlines), 3))
+    core_accepted_idx = np.zeros(len(streamlines), dtype=bool)
+    if core_only != 0:
+        crop_edge = (1.0 - core_only) / 2
+        for ii, sl in enumerate(streamlines):
+            n_points = len(sl)
+            along_diff = np.abs(
+                np.diff(
+                    sl[int(n_points * crop_edge) : int(n_points * (1 - crop_edge))],
+                    axis=0,
+                )
+            )
+            # The majority of steps must be in the primary axis direction:
+            core_accepted_idx[ii] = np.sum(
+                np.argmax(along_diff, axis=1) == primary_axis
+            ) > (len(along_diff) / 2)
+
     endpoint_diff = np.zeros((len(streamlines), 3))
+    along_diff = np.zeros((len(streamlines), 3))
     for ii, sl in enumerate(streamlines):
-        # endpoint diff is between first and last
         endpoint_diff[ii, :] = np.abs(sl[0, :] - sl[-1, :])
-        # axis diff is difference between the nodes, along
-        axis_diff[ii, :] = np.sum(np.abs(np.diff(sl, axis=0)), axis=0)
-
-    orientation_along = np.argmax(axis_diff, axis=1)
-    along_accepted_idx = orientation_along == primary_axis
-    if tol is not None:
-        percentage_primary = (
-            100 * axis_diff[:, primary_axis] / np.sum(axis_diff, axis=1)
-        )
-        logger.debug(
-            (f"Maximum primary percentage found: {np.max(percentage_primary)}")
-        )
-        along_accepted_idx = np.logical_and(
-            along_accepted_idx, percentage_primary > tol
-        )
-
+        along_diff[ii, :] = np.sum(np.abs(np.diff(sl, axis=0)), axis=0)
     orientation_end = np.argmax(endpoint_diff, axis=1)
+    orientation_along = np.argmax(along_diff, axis=1)
     end_accepted_idx = orientation_end == primary_axis
+    along_accepted_idx = orientation_along == primary_axis
 
-    cleaned_idx = np.logical_and(along_accepted_idx, end_accepted_idx)
+    cleaned_idx = np.logical_and(
+        along_accepted_idx, np.logical_and(end_accepted_idx, core_accepted_idx)
+    )
 
     return cleaned_idx
 
@@ -162,7 +175,7 @@ def clean_bundle(
         calculated. Default: `np.mean` (but can also use median, etc.)
     core_only : float, optional
         If non-zero, only the core of the bundle is used for cleaning.
-        The core is commonly defined as the middle 60% of each streamline,
+        The core is defined as the middle 60% of each streamline,
         thus our default is 0.6. This means streamlines are allowed to
         deviate in the starting and ending 20% of the bundle. This is useful
         for allowing more diverse endpoints.

@@ -82,21 +82,22 @@ def test_segment_clip_edges():
 
 def test_segment_orientation():
     cleaned_idx = abc.clean_by_orientation(
-        streamlines, primary_axis="P/A", affine=np.eye(4)
+        streamlines,
+        primary_axis="P/A",
     )
-    npt.assert_equal(np.sum(cleaned_idx), 93)
-    cleaned_idx_tol = abc.clean_by_orientation(
-        streamlines, primary_axis="P/A", affine=np.eye(4), tol=50
-    )
-    npt.assert_(np.sum(cleaned_idx_tol) < np.sum(cleaned_idx))
+    npt.assert_equal(np.sum(cleaned_idx), 46)
 
     cleaned_idx = abc.clean_by_orientation(
-        streamlines, primary_axis="I/S", affine=np.eye(4)
+        streamlines,
+        primary_axis="I/S",
     )
-    cleaned_idx_tol = abc.clean_by_orientation(
-        streamlines, primary_axis="I/S", affine=np.eye(4), tol=33
+    npt.assert_equal(np.sum(cleaned_idx), 38)
+
+    cleaned_idx = abc.clean_by_orientation(
+        streamlines,
+        primary_axis="L/R",
     )
-    npt.assert_array_equal(cleaned_idx_tol, cleaned_idx)
+    npt.assert_equal(np.sum(cleaned_idx), 438)
 
 
 def test_clean_isolation_forest_basic():
