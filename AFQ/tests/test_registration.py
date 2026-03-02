@@ -32,7 +32,7 @@ subset_t2_img = nib.Nifti1Image(subset_t2, MNI_T2_affine)
 def test_slr_registration():
     # have to import subject sls
     file_dict = afd.read_stanford_hardi_tractography()
-    streamlines = file_dict["tractography_subsampled.trk"]
+    streamlines = file_dict["tractography_subsampled"]
 
     # have to import sls atlas
     afd.fetch_hcp_atlas_16_bundles()

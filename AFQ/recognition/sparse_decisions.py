@@ -93,7 +93,7 @@ def remove_conflicts(sparse_scores, bundles_being_recognized):
     num_bundles = len(bundles_being_recognized)
     split_indices = np.searchsorted(winner_rows, np.arange(num_bundles + 1))
 
-    for i, b_name in enumerate(bundles_being_recognized.keys()):
+    for i, b_name in enumerate(list(bundles_being_recognized.keys())):
         b_sls = bundles_being_recognized[b_name]
         if np.any(b_sls.selected_fiber_idxs[:-1] > b_sls.selected_fiber_idxs[1:]):
             raise NotImplementedError(

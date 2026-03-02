@@ -34,7 +34,7 @@ def test_GQI_fix():
 
 def test_gaussian_weights():
     file_dict = afd.read_stanford_hardi_tractography()
-    streamlines = file_dict["tractography_subsampled.trk"]
+    streamlines = file_dict["tractography_subsampled"]
     assert not np.any(np.isnan(gaussian_weights(streamlines[76:92])))
 
 

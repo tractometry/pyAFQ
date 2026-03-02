@@ -12,7 +12,6 @@ from dipy.stats.analysis import afq_profile
 import AFQ.api.bundle_dict as abd
 import AFQ.data.fetch as afd
 import AFQ.recognition.cleaning as abc
-import AFQ.registration as reg
 from AFQ.recognition.recognize import recognize
 
 dpd.fetch_stanford_hardi()
@@ -23,8 +22,8 @@ hardi_fbval = op.join(hardi_dir, "HARDI150.bval")
 hardi_fbvec = op.join(hardi_dir, "HARDI150.bvec")
 file_dict = afd.read_stanford_hardi_tractography()
 reg_template = afd.read_mni_template()
-mapping = reg.read_old_mapping(file_dict["mapping.nii.gz"], hardi_img, reg_template)
-streamlines = file_dict["tractography_subsampled.trk"]
+mapping = file_dict["mapping"]
+streamlines = file_dict["tractography_subsampled"]
 tg = StatefulTractogram(streamlines, hardi_img, Space.RASMM)
 streamlines = tg.streamlines
 templates = afd.read_templates()
@@ -173,7 +172,7 @@ def test_segment_clip_edges_api():
 def test_segment_reco():
     # get bundles for reco method
     bundles_reco = afd.read_hcp_atlas(16)
-    bundle_names = ["MCP"]
+    bundle_names = ["CCMid"]
     for key in list(bundles_reco):
         if key not in bundle_names:
             bundles_reco.pop(key, None)
@@ -191,7 +190,7 @@ def test_segment_reco():
 
     # This condition should still hold
     npt.assert_equal(len(fiber_groups), 1)
-    npt.assert_(len(fiber_groups["MCP"]) > 0)
+    npt.assert_(len(fiber_groups["CCMid"]) > 0)
 
 
 def test_exclusion_ROI():

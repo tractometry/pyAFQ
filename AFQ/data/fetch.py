@@ -24,7 +24,9 @@ from dipy.segment.featurespeed import ResampleFeature
 from dipy.segment.metric import AveragePointwiseEuclideanMetric
 from tqdm import tqdm
 
+from AFQ._fixes import get_simplified_transform
 from AFQ.data.utils import aws_import_msg_error
+from AFQ.registration import read_old_mapping
 from AFQ.utils.path import apply_cmd_to_afq_derivs, drop_extension
 
 # capture templateflow resource warning and log
@@ -1667,22 +1669,26 @@ def read_stanford_hardi_tractography():
     Reads a minimal tractography from the Stanford dataset.
     """
     files, folder = fetch_stanford_hardi_tractography()
-    files_dict = {}
-    files_dict["mapping.nii.gz"] = nib.load(
-        op.join(afq_home, "stanford_hardi_tractography", "mapping.nii.gz")
-    )
 
     # We need the original data as reference
     dwi_img, gtab = dpd.read_stanford_hardi()
+    reg_template = read_mni_template()
 
-    files_dict["tractography_subsampled.trk"] = load_tractogram(
+    files_dict = {}
+    files_dict["dwi"] = dwi_img
+
+    mapping_file = op.join(afq_home, "stanford_hardi_tractography", "mapping.nii.gz")
+    old_mapping = read_old_mapping(mapping_file, dwi_img, reg_template)
+    files_dict["mapping"] = get_simplified_transform(old_mapping)
+
+    files_dict["tractography_subsampled"] = load_tractogram(
         op.join(afq_home, "stanford_hardi_tractography", "tractography_subsampled.trk"),
         dwi_img,
         bbox_valid_check=False,
         trk_header_check=False,
     ).streamlines
 
-    files_dict["full_segmented_cleaned_tractography.trk"] = load_tractogram(
+    files_dict["full_segmented_cleaned_tractography"] = load_tractogram(
         op.join(
             afq_home,
             "stanford_hardi_tractography",
@@ -1957,10 +1963,10 @@ def read_hcp_atlas(n_bundles=16, as_file=False):
             bundle_dict[bundle]["recobundles"]["centroid"] = centroid_file
 
     # For some reason, this file-name has a 0 in it, instead of an O:
-    bundle_dict["IFOF_R"] = bundle_dict["IF0F_R"]
-    # In the 80-bundle case, there are two files, and both have identical
-    # content, so this is fine:
-    del bundle_dict["IF0F_R"]
+    if "IF0F_R" in bundle_dict:
+        bundle_dict["IFOF_R"] = bundle_dict["IF0F_R"]
+        del bundle_dict["IF0F_R"]
+
     return bundle_dict
 
 

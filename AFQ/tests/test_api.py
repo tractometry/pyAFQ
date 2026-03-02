@@ -697,7 +697,8 @@ def test_AFQ_data_waypoint():
     tmpdir, bids_path, _ = get_temp_hardi()
     t1_path = op.join(tmpdir, "T1.nii.gz")
     t1_path_other = op.join(tmpdir, "T1-untransformed.nii.gz")
-    nib.save(afd.read_mni_template(mask=True, weight="T1w"), t1_path)
+    reg_template = afd.read_mni_template(mask=True, weight="T1w")
+    nib.save(reg_template, t1_path)
     shutil.copy(t1_path, t1_path_other)
 
     vista_folder = op.join(bids_path, "derivatives/vistasoft/sub-01/ses-01/dwi")
@@ -775,8 +776,8 @@ def test_AFQ_data_waypoint():
 
     # Replace the mapping and streamlines with precomputed:
     file_dict = afd.read_stanford_hardi_tractography()
-    mapping = file_dict["mapping.nii.gz"]
-    streamlines = file_dict["tractography_subsampled.trk"]
+    mapping = file_dict["mapping"]
+    streamlines = file_dict["tractography_subsampled"]
     dwi_affine = myafq.export("dwi_affine")
     streamlines = dts.Streamlines(
         dtu.transform_tracking_output(
@@ -784,11 +785,23 @@ def test_AFQ_data_waypoint():
         )
     )
 
-    mapping_file = op.join(
+    mapping_file_forward = op.join(
         myafq.export("output_dir"),
         "sub-01_ses-01_desc-mapping_from-subject_to-mni_xform.nii.gz",
     )
-    nib.save(mapping, mapping_file)
+    nib.save(
+        nib.Nifti1Image(mapping.forward, dwi_affine),
+        mapping_file_forward,
+    )
+
+    mapping_file_backward = op.join(
+        myafq.export("output_dir"),
+        "sub-01_ses-01_desc-mapping_from-mni_to-subject_xform.nii.gz",
+    )
+    nib.save(
+        nib.Nifti1Image(mapping.backward, reg_template.affine),
+        mapping_file_backward,
+    )
 
     # Test ROI exporting:
     myafq.export("rois")

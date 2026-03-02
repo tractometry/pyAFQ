@@ -323,6 +323,7 @@ def recobundles(
         standard_sl = next(iter(bundle_def["recobundles"]["centroid"]))
         oriented_idx = abu.orient_by_streamline(moved_sl[rec_labels], standard_sl)
         b_sls.reorient(rec_labels[oriented_idx])
+    rec_labels = sorted(rec_labels)
     b_sls.select(rec_labels, "Recobundles")
 
 

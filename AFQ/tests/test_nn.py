@@ -36,6 +36,7 @@ def test_run_brainchop():
 
 
 @pytest.mark.skipif(not has_onnx, reason="onnxruntime is not installed")
+@pytest.mark.nightly
 def test_run_multiaxial():
     tmpdir = tempfile.mkdtemp()
     afd.organize_stanford_data(path=tmpdir)

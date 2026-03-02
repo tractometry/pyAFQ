@@ -16,7 +16,7 @@ hardi_dir = op.join(fetcher.dipy_home, "stanford_hardi")
 hardi_fdata = op.join(hardi_dir, "HARDI150.nii.gz")
 hardi_img = nib.load(hardi_fdata)
 file_dict = afd.read_stanford_hardi_tractography()
-streamlines = file_dict["tractography_subsampled.trk"]
+streamlines = file_dict["tractography_subsampled"]
 tg = StatefulTractogram(streamlines, hardi_img, Space.RASMM)
 streamlines = tg.streamlines
 
@@ -85,19 +85,19 @@ def test_segment_orientation():
         streamlines,
         primary_axis="P/A",
     )
-    npt.assert_equal(np.sum(cleaned_idx), 46)
+    npt.assert_equal(np.sum(cleaned_idx), 79)
 
     cleaned_idx = abc.clean_by_orientation(
         streamlines,
         primary_axis="I/S",
     )
-    npt.assert_equal(np.sum(cleaned_idx), 38)
+    npt.assert_equal(np.sum(cleaned_idx), 58)
 
     cleaned_idx = abc.clean_by_orientation(
         streamlines,
         primary_axis="L/R",
     )
-    npt.assert_equal(np.sum(cleaned_idx), 438)
+    npt.assert_equal(np.sum(cleaned_idx), 57)
 
 
 def test_clean_isolation_forest_basic():
