@@ -46,7 +46,7 @@ valid_noncriterion = [
     "primary_axis_percentage",
     "inc_addtol",
     "exc_addtol",
-    "endpoints_exact",
+    "exact_endpoints",
     "ORG_spectral_subbundles",
     "cluster_IDs",
     "startpoint_location",
@@ -78,8 +78,8 @@ def cross_midline(b_sls, bundle_def, preproc_imap, **kwargs):
 
 def start(b_sls, bundle_def, preproc_imap, **kwargs):
     b_sls.initiate_selection("Startpoint")
-    endpoints_exact = bundle_def.get("endpoints_exact", False)
-    if endpoints_exact:
+    exact_endpoints = bundle_def.get("exact_endpoints", False)
+    if exact_endpoints:
         tol = 0
     else:
         tol = preproc_imap["dist_to_atlas"]
@@ -112,8 +112,8 @@ def start(b_sls, bundle_def, preproc_imap, **kwargs):
 
 def end(b_sls, bundle_def, preproc_imap, **kwargs):
     b_sls.initiate_selection("endpoint")
-    endpoints_exact = bundle_def.get("endpoints_exact", False)
-    if endpoints_exact:
+    exact_endpoints = bundle_def.get("exact_endpoints", False)
+    if exact_endpoints:
         tol = 0
     else:
         tol = preproc_imap["dist_to_atlas"]
