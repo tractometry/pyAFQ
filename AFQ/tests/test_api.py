@@ -822,7 +822,7 @@ def test_AFQ_data_waypoint():
         op.join(
             myafq.export("output_dir"),
             "bundles",
-            "sub-01_ses-01_desc-RightInferiorLongitudinal_tractography.trk",
+            "sub-01_ses-01_desc-RightInferiorLongitudinal_tractography.trx",
         )
     )  # noqa
 
@@ -839,7 +839,7 @@ def test_AFQ_data_waypoint():
 
     all_sl = load_tractogram(
         op.join(
-            myafq.export("output_dir"), "tractography", "sub-01_ses-01_tractography.trk"
+            myafq.export("output_dir"), "tractography", "sub-01_ses-01_tractography.trx"
         ),
         reference="same",
     ).streamlines
@@ -852,7 +852,7 @@ def test_AFQ_data_waypoint():
         op.join(
             myafq.export("output_dir"),
             "bundles",
-            "sub-01_ses-01_desc-LeftArcuate_tractography.trk",
+            "sub-01_ses-01_desc-LeftArcuate_tractography.trx",
         ),
         reference="same",
     ).streamlines
@@ -980,6 +980,6 @@ def test_AFQ_data_waypoint():
         op.join(
             output_dir,
             "bundles",
-            "sub-01_ses-01_desc-RightInferiorLongitudinal_tractography.trk",
+            "sub-01_ses-01_desc-RightInferiorLongitudinal_tractography.trx",
         )
     )  # noqa
