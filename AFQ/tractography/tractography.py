@@ -40,7 +40,7 @@ def track(
     basis_type="descoteaux07",
     legacy=True,
     tracker="pft",
-    trx=False,
+    trx=True,
 ):
     """
     Tractography
@@ -113,7 +113,7 @@ def track(
     trx : bool, optional
         Whether to return the streamlines compatible with input to TRX file
         (i.e., as a LazyTractogram class instance).
-        Default: False
+        Default: True
 
     Returns
     -------
