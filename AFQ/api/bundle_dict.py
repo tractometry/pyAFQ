@@ -356,8 +356,9 @@ def default_bd():
                             },
                             "mahal": {
                                 "distance_threshold": 3,
-                                "length_threshold": 4,
+                                "length_threshold": 2,
                                 "clean_rounds": 5,
+                                "remove_lengths": "short",
                             },
                         },
                         "Left Posterior Vertical Occipital": {
@@ -366,8 +367,9 @@ def default_bd():
                             "cluster_IDs": [1, 72, 75, 81, 83],
                             "mahal": {
                                 "distance_threshold": 5,
-                                "length_threshold": 4,
+                                "length_threshold": 2,
                                 "clean_rounds": 5,
+                                "remove_lengths": "short",
                             },
                         },
                         "Left Anterior Vertical Occipital": {
@@ -380,8 +382,9 @@ def default_bd():
                             ],
                             "mahal": {
                                 "distance_threshold": 5,
-                                "length_threshold": 4,
+                                "length_threshold": 2,
                                 "clean_rounds": 5,
+                                "remove_lengths": "short",
                             },
                         },
                     },
@@ -464,8 +467,9 @@ def default_bd():
                             },
                             "mahal": {
                                 "distance_threshold": 3,
-                                "length_threshold": 4,
+                                "length_threshold": 2,
                                 "clean_rounds": 5,
+                                "remove_lengths": "short",
                             },
                         },
                         "Right Posterior Vertical Occipital": {
@@ -474,8 +478,9 @@ def default_bd():
                             "cluster_IDs": [1, 72, 75, 81, 83],
                             "mahal": {
                                 "distance_threshold": 5,
-                                "length_threshold": 4,
+                                "length_threshold": 2,
                                 "clean_rounds": 5,
+                                "remove_lengths": "short",
                             },
                         },
                         "Right Anterior Vertical Occipital": {
@@ -488,8 +493,9 @@ def default_bd():
                             ],
                             "mahal": {
                                 "distance_threshold": 5,
-                                "length_threshold": 4,
+                                "length_threshold": 2,
                                 "clean_rounds": 5,
+                                "remove_lengths": "short",
                             },
                         },
                     },

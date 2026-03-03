@@ -145,6 +145,7 @@ def clean_bundle(
     stat=np.mean,
     core_only=0.6,
     return_idx=False,
+    remove_lengths="long",
 ):
     """
     Clean a segmented fiber group based on the Mahalnobis distance of
@@ -183,6 +184,13 @@ def clean_bundle(
     return_idx : bool
         Whether to return indices in the original streamlines.
         Default: False.
+    remove_lengths : str
+        Specifies which streamlines to remove based on their length.
+        Options are "long" (remove long streamlines), "short"
+        (remove short streamlines), or "both"
+        (remove both long and short streamlines).
+        Default: "long"
+
     Returns
     -------
     A StatefulTractogram class instance containing only the streamlines
@@ -247,7 +255,17 @@ def clean_bundle(
         # Select the fibers that have Mahalanobis smaller than the
         # threshold for all their nodes:
         idx_dist = np.all(m_dist < distance_threshold, axis=-1)
-        idx_len = length_z < length_threshold
+        if remove_lengths == "long":
+            idx_len = length_z < length_threshold
+        elif remove_lengths == "short":
+            idx_len = length_z > -length_threshold
+        elif remove_lengths == "both":
+            idx_len = np.abs(length_z) < length_threshold
+        else:
+            raise ValueError(
+                f"Invalid value for remove_lengths: {remove_lengths}. "
+                "Expected 'long', 'short', or 'both'."
+            )
         idx_belong = np.logical_and(idx_dist, idx_len)
 
         if np.sum(idx_belong) < min_sl:
