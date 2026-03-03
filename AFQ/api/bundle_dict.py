@@ -363,7 +363,6 @@ def default_bd():
                         "Left Posterior Vertical Occipital": {
                             "Left Inferior Fronto-occipital": {"core": "Right"},
                             "Left Optic Radiation": {"core": "Right"},
-                            "exclude": [templates["pVOF_xroi_1_L"]],
                             "cluster_IDs": [1, 72, 75, 81, 83],
                             "mahal": {
                                 "distance_threshold": 5,
@@ -375,7 +374,10 @@ def default_bd():
                             "Left Inferior Fronto-occipital": {"core": "Right"},
                             "Left Optic Radiation": {"core": "Right"},
                             "cluster_IDs": [2, 7, 18, 21, 25, 51],
-                            "exclude": [templates["pARC_xroi1_L"]],
+                            "exclude": [
+                                templates["pARC_xroi1_L"],
+                                templates["pVOF_xroi_1_L"],
+                            ],
                             "mahal": {
                                 "distance_threshold": 5,
                                 "length_threshold": 4,
@@ -469,7 +471,6 @@ def default_bd():
                         "Right Posterior Vertical Occipital": {
                             "Right Inferior Fronto-occipital": {"core": "Left"},
                             "Right Optic Radiation": {"core": "Left"},
-                            "exclude": [templates["pVOF_xroi_1_R"]],
                             "cluster_IDs": [1, 72, 75, 81, 83],
                             "mahal": {
                                 "distance_threshold": 5,
@@ -481,7 +482,10 @@ def default_bd():
                             "Right Inferior Fronto-occipital": {"core": "Left"},
                             "Right Optic Radiation": {"core": "Left"},
                             "cluster_IDs": [2, 7, 18, 21, 25, 51],
-                            "exclude": [templates["pARC_xroi1_R"]],
+                            "exclude": [
+                                templates["pARC_xroi1_R"],
+                                templates["pVOF_xroi_1_R"],
+                            ],
                             "mahal": {
                                 "distance_threshold": 5,
                                 "length_threshold": 4,
