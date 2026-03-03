@@ -376,7 +376,7 @@ def default_bd():
                             "cluster_IDs": [2, 7, 18, 21, 25, 51],
                             "exclude": [
                                 templates["pARC_xroi1_L"],
-                                templates["pVOF_xroi_1_L"],
+                                templates["pVOF_xroi1_L"],
                             ],
                             "mahal": {
                                 "distance_threshold": 5,
@@ -484,7 +484,7 @@ def default_bd():
                             "cluster_IDs": [2, 7, 18, 21, 25, 51],
                             "exclude": [
                                 templates["pARC_xroi1_R"],
-                                templates["pVOF_xroi_1_R"],
+                                templates["pVOF_xroi1_R"],
                             ],
                             "mahal": {
                                 "distance_threshold": 5,

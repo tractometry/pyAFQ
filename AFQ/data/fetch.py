@@ -775,8 +775,8 @@ template_fnames = [
     "pARC_R_end.nii.gz",
     "MdLF_L_end.nii.gz",
     "MdLF_R_end.nii.gz",
-    "pVOF_xroi_1_L.nii.gz",
-    "pVOF_xroi_1_R.nii.gz",
+    "pVOF_xroi1_R.nii.gz",
+    "pVOF_xroi1_L.nii.gz",
 ]
 
 
