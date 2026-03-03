@@ -307,7 +307,6 @@ def default_bd():
                 "Left Arcuate": {"overlap": 30},
                 "Left Inferior Fronto-occipital": {"core": "Right"},
                 "Left Optic Radiation": {"core": "Right"},
-                "endpoints_exact": True,
                 "length": {"min_len": 30},
                 "primary_axis": "I/S",
             },
@@ -325,7 +324,6 @@ def default_bd():
                 "Right Arcuate": {"overlap": 30},
                 "Right Inferior Fronto-occipital": {"core": "Left"},
                 "Right Optic Radiation": {"core": "Left"},
-                "endpoints_exact": True,
                 "length": {"min_len": 30},
                 "primary_axis": "I/S",
             },
@@ -365,6 +363,7 @@ def default_bd():
                         "Left Posterior Vertical Occipital": {
                             "Left Inferior Fronto-occipital": {"core": "Right"},
                             "Left Optic Radiation": {"core": "Right"},
+                            "exclude": [templates["pVOF_xroi_1_L"]],
                             "cluster_IDs": [1, 72, 75, 81, 83],
                             "mahal": {
                                 "distance_threshold": 5,
@@ -470,6 +469,7 @@ def default_bd():
                         "Right Posterior Vertical Occipital": {
                             "Right Inferior Fronto-occipital": {"core": "Left"},
                             "Right Optic Radiation": {"core": "Left"},
+                            "exclude": [templates["pVOF_xroi_1_R"]],
                             "cluster_IDs": [1, 72, 75, 81, 83],
                             "mahal": {
                                 "distance_threshold": 5,

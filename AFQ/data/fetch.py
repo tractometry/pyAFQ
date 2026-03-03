@@ -775,6 +775,8 @@ template_fnames = [
     "pARC_R_end.nii.gz",
     "MdLF_L_end.nii.gz",
     "MdLF_R_end.nii.gz",
+    "pVOF_xroi_1_L.nii.gz",
+    "pVOF_xroi_1_R.nii.gz",
 ]
 
 
@@ -887,10 +889,12 @@ template_remote_fnames = [
     "62213942",
     "62282968",
     "62282971",
-    "62283235",
-    "62283238",
+    "62316400",
+    "62316403",
     "62283226",
     "62283229",
+    "62316817",
+    "62316820",
 ]
 
 
@@ -1004,10 +1008,12 @@ template_md5_hashes = [
     "eff69ba30619bbf2ff500cd714f07894",
     "088e850d38fed2d62fc768071d42a43d",
     "a3d249535ca0452ce9f59c754e13695a",
-    "2cba992046cd80d1b9bdc1de3e101214",
-    "2929851e9611dba80e8c17d2bd767b1d",
+    "df8a7480c507e91976c5a82d5826d521",
+    "243ddae33bf84e7b24da4d1d9f90a121",
     "827b21f9069cd0192ede3f7153f1ca80",
     "e2912622d36db6723c48a0a1de887807",
+    "9ebb676cf213605063934981c7c8fe9e",
+    "cc30b09f5e4c084675380654fc691b95",
 ]
 
 fetch_templates = _make_reusable_fetcher(
