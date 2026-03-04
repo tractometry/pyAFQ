@@ -85,6 +85,7 @@ def clean_by_orientation_mahalanobis(
     distance_threshold=3,
     length_threshold=4,
     clean_rounds=5,
+    remove_lengths="long",
 ):
     if length_threshold == 0:
         length_threshold = np.inf
@@ -124,7 +125,17 @@ def clean_by_orientation_mahalanobis(
             break
 
         idx_dist = np.all(m_dist < distance_threshold, axis=-1)
-        idx_len = length_z < length_threshold
+        if remove_lengths == "long":
+            idx_len = length_z < length_threshold
+        elif remove_lengths == "short":
+            idx_len = length_z > -length_threshold
+        elif remove_lengths == "both":
+            idx_len = np.abs(length_z) < length_threshold
+        else:
+            raise ValueError(
+                f"Invalid value for remove_lengths: {remove_lengths}. "
+                "Expected 'long', 'short', or 'both'."
+            )
         idx_belong = np.logical_and(idx_dist, idx_len)
 
         if np.sum(idx_belong) < min_sl:
