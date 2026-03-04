@@ -3,6 +3,7 @@ import logging
 import dipy.tracking.streamline as dts
 import numpy as np
 from dipy.io.stateful_tractogram import StatefulTractogram
+from dipy.stats.analysis import assignment_map
 from scipy.stats import zscore
 from sklearn.ensemble import IsolationForest
 
@@ -79,7 +80,7 @@ def clean_by_orientation(streamlines, primary_axis, core_only=0.6):
 def clean_by_orientation_mahalanobis(
     streamlines,
     n_points=100,
-    core_only=0.6,
+    core_only=0,
     min_sl=20,
     distance_threshold=3,
     length_threshold=4,
@@ -87,7 +88,11 @@ def clean_by_orientation_mahalanobis(
 ):
     if length_threshold == 0:
         length_threshold = np.inf
-    fgarray = np.array(abu.resample_tg(streamlines, n_points))
+    fgarray = abu.resample_tg(streamlines, n_points)
+
+    assignment_idxs = np.asarray(assignment_map(fgarray, fgarray, 100))
+    assignment_idxs = assignment_idxs.reshape((len(fgarray), n_points))
+    fgarray = np.asarray(fgarray)
 
     if core_only != 0:
         crop_edge = (1.0 - core_only) / 2
@@ -96,12 +101,17 @@ def clean_by_orientation_mahalanobis(
         ]
 
     fgarray_dists = fgarray[:, 1:, :] - fgarray[:, :-1, :]
+    assignment_idxs = assignment_idxs[:, 1:]
     lengths = np.array([sl.shape[0] for sl in streamlines])
     idx = np.arange(len(fgarray))
     rounds_elapsed = 0
     while rounds_elapsed < clean_rounds:
         m_dist = gaussian_weights(
-            fgarray_dists, return_mahalnobis=True, n_points=None, stat=np.mean
+            fgarray_dists,
+            assignment_idxs=assignment_idxs,
+            return_mahalnobis=True,
+            n_points=None,
+            stat=np.mean,
         )
         length_z = zscore(lengths)
 
@@ -128,6 +138,7 @@ def clean_by_orientation_mahalanobis(
             idx = idx[idx_belong]
             fgarray_dists = fgarray_dists[idx_belong]
             lengths = lengths[idx_belong]
+            assignment_idxs = assignment_idxs[idx_belong]
             rounds_elapsed += 1
             logger.debug((f"Rounds elapsed: {rounds_elapsed}, num kept: {len(idx)}"))
             logger.debug(f"Kept indices: {idx}")

@@ -223,7 +223,9 @@ def tensor_odf(evals, evecs, sphere, num_batches=100):
     return odf
 
 
-def gaussian_weights(bundle, n_points=100, return_mahalnobis=False, stat=np.mean):
+def gaussian_weights(
+    bundle, assignment_idxs=None, n_points=100, return_mahalnobis=False, stat=np.mean
+):
     """
     Calculate weights for each streamline/node in a bundle, based on a
     Mahalanobis distance from the core the bundle, at that node (mean, per
@@ -233,6 +235,8 @@ def gaussian_weights(bundle, n_points=100, return_mahalnobis=False, stat=np.mean
     ----------
     bundle : Streamlines
         The streamlines to weight.
+    assignment_idxs : array of shape (n_streamlines, n_points), optional
+        BUAN assignments, optional.
     n_points : int or None, optional
         The number of points to resample to. If this is None, we assume bundle
         is already resampled, and do not do any resampling. Default: 100.
@@ -280,38 +284,48 @@ def gaussian_weights(bundle, n_points=100, return_mahalnobis=False, stat=np.mean
             return weights / np.sum(weights, 0)
     else:
         weights = np.zeros((n_sls, n_nodes))
-    diff = stat(sls, axis=0) - sls
-    for i in range(n_nodes):
-        # This should come back as a 3D covariance matrix with the spatial
-        # variance covariance of this node across the different streamlines,
-        # converted to a positive semi-definite matrix if necessary
-        cov = np.cov(sls[:, i, :].T, ddof=0)
+
+    if assignment_idxs is None:
+        working_groups = np.tile(np.arange(n_nodes), (n_sls, 1))
+    else:
+        working_groups = np.asarray(assignment_idxs)
+
+    flat_coords = sls.reshape(-1, 3)
+    flat_groups = working_groups.reshape(-1)
+    unique_ids = np.unique(flat_groups)
+
+    for gid in unique_ids:
+        mask = flat_groups == gid
+        group_data = flat_coords[mask]
+
+        if len(group_data) < 15:
+            continue
+
+        mu = stat(group_data, axis=0)
+        diff = group_data - mu
+
+        cov = np.cov(group_data.T, ddof=0)
+
+        # Ensure positive semi-definite
         if np.any(np.linalg.eigvals(cov) < 0):
             eigenvalues, eigenvectors = np.linalg.eigh((cov + cov.T) / 2)
             eigenvalues[eigenvalues < 0] = 0
             cov = eigenvectors @ np.diag(eigenvalues) @ eigenvectors.T
 
-        # calculate Mahalanobis for node in every fiber
         if np.any(cov > 0):
-            weights[:, i] = np.sqrt(
-                np.einsum("ij,jk,ik->i", diff[:, i, :], pinvh(cov), diff[:, i, :])
+            weights.ravel()[mask] = np.sqrt(
+                np.einsum("ij,jk,ik->i", diff, pinvh(cov), diff)
             )
 
-        # In the special case where all the streamlines have the exact same
-        # coordinate in this node, the covariance matrix is all zeros, so
-        # we can't calculate the Mahalanobis distance, we will instead give
-        # each streamline an identical weight, equal to the number of
-        # streamlines:
-        else:
-            weights[:, i] = 0
     if return_mahalnobis:
         return weights
 
-    # weighting is inverse to the distance (the further you are, the less you
-    # should be weighted)
-    weights = 1 / weights
-    # Normalize before returning, so that the weights in each node sum to 1:
-    return weights / np.sum(weights, 0)
+    with np.errstate(divide="ignore"):
+        w_inv = 1.0 / weights
+    w_inv[np.isinf(w_inv)] = 0
+
+    denom = np.sum(w_inv, axis=0)
+    return np.divide(w_inv, denom, out=np.zeros_like(w_inv), where=denom != 0)
 
 
 def make_gif(show_m, out_path, n_frames=36, az_ang=-10, duration=150):

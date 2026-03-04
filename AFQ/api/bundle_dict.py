@@ -355,7 +355,7 @@ def default_bd():
                                 "clean_rounds": 2,
                             },
                             "mahal": {
-                                "distance_threshold": 3,
+                                "distance_threshold": 5,
                                 "length_threshold": 2,
                                 "clean_rounds": 5,
                                 "remove_lengths": "short",
@@ -365,6 +365,11 @@ def default_bd():
                             "Left Inferior Fronto-occipital": {"core": "Right"},
                             "Left Optic Radiation": {"core": "Right"},
                             "cluster_IDs": [1, 72, 75, 81, 83],
+                            "orient_mahal": {
+                                "distance_threshold": 3,
+                                "length_threshold": 4,
+                                "clean_rounds": 2,
+                            },
                             "mahal": {
                                 "distance_threshold": 5,
                                 "length_threshold": 2,
@@ -380,6 +385,11 @@ def default_bd():
                                 templates["pARC_xroi1_L"],
                                 templates["pVOF_xroi1_L"],
                             ],
+                            "orient_mahal": {
+                                "distance_threshold": 3,
+                                "length_threshold": 4,
+                                "clean_rounds": 2,
+                            },
                             "mahal": {
                                 "distance_threshold": 5,
                                 "length_threshold": 2,
@@ -466,7 +476,7 @@ def default_bd():
                                 "clean_rounds": 2,
                             },
                             "mahal": {
-                                "distance_threshold": 3,
+                                "distance_threshold": 5,
                                 "length_threshold": 2,
                                 "clean_rounds": 5,
                                 "remove_lengths": "short",
@@ -476,6 +486,11 @@ def default_bd():
                             "Right Inferior Fronto-occipital": {"core": "Left"},
                             "Right Optic Radiation": {"core": "Left"},
                             "cluster_IDs": [1, 72, 75, 81, 83],
+                            "orient_mahal": {
+                                "distance_threshold": 3,
+                                "length_threshold": 4,
+                                "clean_rounds": 2,
+                            },
                             "mahal": {
                                 "distance_threshold": 5,
                                 "length_threshold": 2,
@@ -491,6 +506,11 @@ def default_bd():
                                 templates["pARC_xroi1_R"],
                                 templates["pVOF_xroi1_R"],
                             ],
+                            "orient_mahal": {
+                                "distance_threshold": 3,
+                                "length_threshold": 4,
+                                "clean_rounds": 2,
+                            },
                             "mahal": {
                                 "distance_threshold": 5,
                                 "length_threshold": 2,
