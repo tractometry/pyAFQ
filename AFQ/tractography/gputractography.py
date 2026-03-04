@@ -3,12 +3,6 @@ from math import radians
 
 import nibabel as nib
 import numpy as np
-from cuslines import (
-    BootDirectionGetter,
-    GPUTracker,
-    ProbDirectionGetter,
-    PttDirectionGetter,
-)
 from dipy.align import resample
 from dipy.reconst import shm
 
@@ -38,6 +32,7 @@ def gpu_track(
     use_trx,
     ngpus,
     chunk_size,
+    gpu_backend,
 ):
     """
     Perform GPU tractography on DWI data.
@@ -88,9 +83,59 @@ def gpu_track(
         Number of GPUs to use.
     chunk_size : int
         Chunk size for GPU tracking.
+    gpu_backend : str, optional
+        GPU backend to use for tractography.
+        One of {"auto", "cuda", "metal", "webgpu"}.
     Returns
     -------
     """
+    gpu_backend = gpu_backend.lower()
+    if gpu_backend == "auto":
+        from cuslines import (
+            BootDirectionGetter,
+            GPUTracker,
+            ProbDirectionGetter,
+            PttDirectionGetter,
+        )
+    elif gpu_backend == "cuda":
+        from cuslines.cuda_python import (
+            BootDirectionGetter,
+            GPUTracker,
+            ProbDirectionGetter,
+            PttDirectionGetter,
+        )
+    elif gpu_backend == "metal":
+        from cuslines.metal import (
+            MetalBootDirectionGetter as BootDirectionGetter,
+        )
+        from cuslines.metal import (
+            MetalGPUTracker as GPUTracker,
+        )
+        from cuslines.metal import (
+            MetalProbDirectionGetter as ProbDirectionGetter,
+        )
+        from cuslines.metal import (
+            MetalPttDirectionGetter as PttDirectionGetter,
+        )
+    elif gpu_backend == "webgpu":
+        from cuslines.webgpu import (
+            WebGPUBootDirectionGetter as BootDirectionGetter,
+        )
+        from cuslines.webgpu import (
+            WebGPUProbDirectionGetter as ProbDirectionGetter,
+        )
+        from cuslines.webgpu import (
+            WebGPUPttDirectionGetter as PttDirectionGetter,
+        )
+        from cuslines.webgpu import (
+            WebGPUTracker as GPUTracker,
+        )
+    else:
+        raise ValueError(
+            "gpu_backend must be one of 'auto', 'cuda', "
+            "'metal', or 'webgpu', not {gpu_backend}"
+        )
+
     seed_img = nib.load(seed_path)
     directions = directions.lower()
 

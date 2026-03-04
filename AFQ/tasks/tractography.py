@@ -251,6 +251,7 @@ def gpu_tractography(
     seed,
     tissue_imap,
     tractography_ngpus=0,
+    gpu_backend="auto",
     chunk_size=25000,
 ):
     """
@@ -265,6 +266,10 @@ def gpu_tractography(
         PTT, Prob can be used with any SHM model.
         Bootstrapped can be done with CSA/OPDT.
         Default: 0
+    gpu_backend : str, optional
+        GPU backend to use for tractography.
+        One of {"auto", "cuda", "metal", "webgpu"}.
+        Default: "auto"
     chunk_size : int, optional
         Chunk size for GPU tracking.
         Default: 25000
@@ -305,6 +310,7 @@ def gpu_tractography(
         tracking_params["trx"],
         tractography_ngpus,
         chunk_size,
+        gpu_backend,
     )
 
     return sft, _meta_from_tracking_params(tracking_params, start_time, sft, seed, pve)
