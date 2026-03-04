@@ -359,6 +359,7 @@ def default_bd():
                         },
                         "Left Posterior Vertical Occipital": {
                             "cluster_IDs": [1, 72, 81, 83],
+                            "Left Inferior Fronto-occipital": {"core": "Right"},
                             "orient_mahal": {
                                 "distance_threshold": 4,
                                 "length_threshold": 2,
@@ -368,6 +369,7 @@ def default_bd():
                         },
                         "Left Anterior Vertical Occipital": {
                             "cluster_IDs": [2, 7, 18, 21, 25, 51],
+                            "Left Inferior Fronto-occipital": {"core": "Right"},
                             "exclude": [
                                 templates["pARC_xroi1_L"],
                                 templates["pVOF_xroi1_L"],
@@ -414,6 +416,7 @@ def default_bd():
                         },
                         "Right Posterior Vertical Occipital": {
                             "cluster_IDs": [1, 72, 81, 83],
+                            "Right Inferior Fronto-occipital": {"core": "Left"},
                             "orient_mahal": {
                                 "distance_threshold": 4,
                                 "length_threshold": 2,
@@ -423,6 +426,7 @@ def default_bd():
                         },
                         "Right Anterior Vertical Occipital": {
                             "cluster_IDs": [2, 7, 18, 21, 25, 51],
+                            "Right Inferior Fronto-occipital": {"core": "Left"},
                             "exclude": [
                                 templates["pARC_xroi1_R"],
                                 templates["pVOF_xroi1_R"],
