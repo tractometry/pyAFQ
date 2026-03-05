@@ -2,6 +2,7 @@ import nibabel as nib
 import numpy as np
 from dipy.align import resample
 from scipy.ndimage import gaussian_filter
+from skimage.morphology import skeletonize
 from skimage.segmentation import find_boundaries
 
 
@@ -50,4 +51,16 @@ def fit_wm_gm_interface(PVE_img, dwiref_img):
     wm_boundary[csf_smoothed > gm_smoothed] = 0
     wm_boundary[wm < 0.5] = 0
 
-    return nib.Nifti1Image(wm_boundary.astype(np.float32), dwiref_img.affine)
+    skeletonized_data = np.zeros_like(wm_boundary, dtype=bool)
+    for ii in range(wm_boundary.shape[0]):
+        skeletonized_data[ii] = skeletonize(wm_boundary[ii] > 0)
+    for jj in range(wm_boundary.shape[1]):
+        skeletonized_data[:, jj] = np.logical_or(
+            skeletonize(wm_boundary[:, jj] > 0), skeletonized_data[:, jj]
+        )
+    for kk in range(wm_boundary.shape[2]):
+        skeletonized_data[:, :, kk] = np.logical_or(
+            skeletonize(wm_boundary[:, :, kk] > 0), skeletonized_data[:, :, kk]
+        )
+
+    return nib.Nifti1Image(skeletonized_data.astype(np.float32), dwiref_img.affine)
