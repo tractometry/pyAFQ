@@ -43,7 +43,6 @@ criteria_order_post_other_bundles = ["orient_mahal", "isolation_forest", "qb_thr
 valid_noncriterion = [
     "space",
     "mahal",
-    "primary_axis_percentage",
     "inc_addtol",
     "exc_addtol",
     "exact_endpoints",
@@ -51,6 +50,7 @@ valid_noncriterion = [
     "cluster_IDs",
     "startpoint_location",
     "endpoint_location",
+    "primary_axis_core_only",
 ]
 
 
@@ -161,7 +161,7 @@ def primary_axis(b_sls, bundle_def, img, **kwargs):
     accept_idx = abc.clean_by_orientation(
         b_sls.get_selected_sls(),
         bundle_def["primary_axis"],
-        bundle_def.get("core_only", 0.6),
+        bundle_def.get("primary_axis_core_only", 0.6),
     )
     b_sls.select(accept_idx, "orientation")
 
