@@ -25,6 +25,7 @@ from AFQ.utils.streamlines import move_streamlines
 
 criteria_order_pre_other_bundles = [
     "length",
+    "endpoint_dists",
     "cross_midline",
     "start",
     "end",
@@ -154,6 +155,17 @@ def length(b_sls, bundle_def, preproc_imap, **kwargs):
 
     accept_idx = (sl_lens >= min_len) & (sl_lens <= max_len)
     b_sls.select(accept_idx, "length")
+
+
+def endpoint_dists(b_sls, bundle_def, preproc_imap, **kwargs):
+    b_sls.initiate_selection("endpoint_dists")
+    min_dist = bundle_def["endpoint_dists"].get("min_dist", 0)
+    max_dist = bundle_def["endpoint_dists"].get("max_dist", np.inf)
+
+    sl_endpoint_dists = preproc_imap["endpoint_dists"][b_sls.selected_fiber_idxs]
+
+    accept_idx = (sl_endpoint_dists >= min_dist) & (sl_endpoint_dists <= max_dist)
+    b_sls.select(accept_idx, "endpoint_dists")
 
 
 def primary_axis(b_sls, bundle_def, img, **kwargs):

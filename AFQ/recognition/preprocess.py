@@ -53,6 +53,14 @@ def lengths(fgarray):
     return np.sum(segment_lengths, axis=1)
 
 
+@immlib.calc("endpoint_dists")
+def endpoint_dists(fgarray):
+    """
+    Calculate the distances between the endpoints of the streamlines.
+    """
+    return np.linalg.norm(fgarray[:, 0, :] - fgarray[:, -1, :], axis=1)
+
+
 # Things that can be calculated for multiple bundles at once
 # (i.e., for a whole tractogram) go here
 def get_preproc_plan(img, tg, dist_to_waypoint, dist_to_atlas):
@@ -61,6 +69,7 @@ def get_preproc_plan(img, tg, dist_to_waypoint, dist_to_atlas):
         fgarray=fgarray,
         crosses=crosses,
         lengths=lengths,
+        endpoint_dists=endpoint_dists,
     )
     return preproc_plan(
         img=img,
