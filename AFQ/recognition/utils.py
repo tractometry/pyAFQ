@@ -117,14 +117,6 @@ def cut_sls_by_closest(select_sl, roi_closest, roi_idxs, in_place=False):
     return cut_sl
 
 
-def read_tg(tg, nb_streamlines=None):
-    if nb_streamlines and len(tg) > nb_streamlines:
-        tg = StatefulTractogram.from_sft(
-            dts.select_random_set_of_streamlines(tg.streamlines, nb_streamlines), tg
-        )
-    return tg
-
-
 def orient_by_streamline(sls, template_sl):
     DM = bundles_distances_mdf(sls, [template_sl, template_sl[::-1]])
     return DM[:, 0] > DM[:, 1]

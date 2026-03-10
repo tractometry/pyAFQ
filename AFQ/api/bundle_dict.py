@@ -332,8 +332,8 @@ def default_bd():
                 "start": templates["VOF_L_start"],
                 "include": [templates["VOF_roi1_L"], templates["VOF_roi2_L"]],
                 "exclude": [
-                    templates["VOF_xroi1_L.nii.gz"],
-                    templates["VOF_xroi2_L.nii.gz"],
+                    templates["VOF_xroi1_L"],
+                    templates["VOF_xroi2_L"],
                     templates["Cerebellar_Hemi_L"],
                     templates["pARC_xroi1_L"],
                 ],
@@ -352,11 +352,11 @@ def default_bd():
                             "cluster_IDs": [63, 82],
                         },
                         "Left Posterior Vertical Occipital": {
-                            "cluster_IDs": [1, 72, 81, 83],
+                            "cluster_IDs": [1, 51, 72, 81, 83],
                             "Left Optic Radiation": {"core": "Right"},
                         },
                         "Left Anterior Vertical Occipital": {
-                            "cluster_IDs": [2, 7, 18, 21, 25, 51],
+                            "cluster_IDs": [2, 7, 18, 21, 25],
                             "Left Optic Radiation": {"core": "Right"},
                         },
                     },
@@ -383,8 +383,8 @@ def default_bd():
                 "start": templates["VOF_R_start"],
                 "include": [templates["VOF_roi1_R"], templates["VOF_roi2_R"]],
                 "exclude": [
-                    templates["VOF_xroi1_R.nii.gz"],
-                    templates["VOF_xroi2_R.nii.gz"],
+                    templates["VOF_xroi1_R"],
+                    templates["VOF_xroi2_R"],
                     templates["Cerebellar_Hemi_R"],
                     templates["pARC_xroi1_R"],
                 ],
@@ -403,11 +403,11 @@ def default_bd():
                             "cluster_IDs": [63, 82],
                         },
                         "Right Posterior Vertical Occipital": {
-                            "cluster_IDs": [1, 72, 81, 83],
+                            "cluster_IDs": [1, 51, 72, 81, 83],
                             "Right Optic Radiation": {"core": "Left"},
                         },
                         "Right Anterior Vertical Occipital": {
-                            "cluster_IDs": [2, 7, 18, 21, 25, 51],
+                            "cluster_IDs": [2, 7, 18, 21, 25],
                             "Right Optic Radiation": {"core": "Left"},
                         },
                     },

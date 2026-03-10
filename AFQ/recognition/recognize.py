@@ -5,6 +5,7 @@ import os.path as op
 import dipy.tracking.streamlinespeed as dps
 import numpy as np
 from dipy.io.stateful_tractogram import Space, StatefulTractogram
+from dipy.tracking.streamline import select_random_set_of_streamlines
 
 import AFQ.recognition.sparse_decisions as ars
 import AFQ.recognition.utils as abu
@@ -42,7 +43,7 @@ def recognize(
 
     Parameters
     ----------
-    tg : str, StatefulTractogram
+    tg : StatefulTractogram, or TrxFile
         Tractogram to segment.
     img : str, nib.Nifti1Image
         Image for reference.
@@ -56,10 +57,14 @@ def recognize(
         Number of CPUs to use for parallelization.
     nb_points : int, boolean
         Resample streamlines to nb_points number of points.
-        If False, no resampling is done. Default: False
+        If False, no resampling is done. Can only be done
+        on a StatefulTractogram.
+        Default: False
     nb_streamlines : int, boolean
         Subsample streamlines to nb_streamlines.
-        If False, no subsampling is don. Default: False
+        Can only be done on a StatefulTractogram.
+        If False, no subsampling is done.
+        Default: False
     clip_edges : bool
         Whether to clip the streamlines to be only in between the ROIs.
         Default: False
@@ -144,18 +149,24 @@ def recognize(
         os.makedirs(save_intermediates, exist_ok=True)
 
     logger.info("Preprocessing Streamlines")
-    tg = abu.read_tg(tg, nb_streamlines)
-
-    # If resampling over-write the sft:
-    if nb_points:
-        tg = StatefulTractogram(
-            dps.set_number_of_points(tg.streamlines, nb_points), tg, tg.space
-        )
-
     if not isinstance(bundle_dict, BundleDict):
         bundle_dict = BundleDict(bundle_dict)
 
-    tg.to_rasmm()
+    if isinstance(tg, StatefulTractogram):
+        if nb_streamlines and len(tg) > nb_streamlines:
+            tg = StatefulTractogram(
+                select_random_set_of_streamlines(tg.streamlines, nb_streamlines),
+                tg,
+                tg.space,
+            )
+
+        if nb_points:
+            tg = StatefulTractogram(
+                dps.set_number_of_points(tg.streamlines, nb_points), tg, tg.space
+            )
+
+        tg.to_rasmm()
+
     n_streamlines = len(tg)
     recognized_bundles_dict = {}
 
@@ -169,7 +180,7 @@ def recognize(
         logger.info(f"Finding Streamlines for {bundle_name}")
         run_bundle_rec_plan(
             bundle_dict,
-            tg,
+            tg.streamlines,
             mapping,
             img,
             reg_template,

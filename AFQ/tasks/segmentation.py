@@ -28,13 +28,10 @@ import gzip
 import shutil
 from tempfile import mkdtemp
 
-from dipy.io.stateful_tractogram import Space, StatefulTractogram
 from dipy.io.streamline import load_tractogram, save_tractogram
 from dipy.stats.analysis import afq_profile
 from dipy.tracking.streamline import set_number_of_points, values_from_volume
 from dipy.tracking.utils import length
-from nibabel.affines import voxel_sizes
-from nibabel.orientations import aff2axcodes
 
 logger = logging.getLogger("AFQ")
 
@@ -66,18 +63,7 @@ def segment(
         is_trx = False
     elif streamlines.endswith(".trx"):
         is_trx = True
-        trx = load_trx(streamlines, data_imap["dwi"])
-
-        # Prepare StatefulTractogram
-        affine = np.array(trx.header["VOXEL_TO_RASMM"], dtype=np.float32)
-        dimensions = np.array(trx.header["DIMENSIONS"], dtype=np.uint16)
-        vox_sizes = np.array(voxel_sizes(affine), dtype=np.float32)
-        vox_order = "".join(aff2axcodes(affine))
-        space_attributes = (affine, dimensions, vox_sizes, vox_order)
-
-        # Avoid deep copy triggered by to_sft
-        tg = StatefulTractogram(trx.streamlines, space_attributes, Space.RASMM)
-        del trx
+        tg = load_trx(streamlines, data_imap["dwi"])
     elif streamlines.endswith(".tck.gz"):
         # uncompress tck.gz to a temporary tck:
         temp_tck = op.join(mkdtemp(), op.split(streamlines.replace(".gz", ""))[1])

@@ -437,7 +437,7 @@ def mahalanobis(b_sls, bundle_def, clip_edges, cleaning_params, **kwargs):
 
 def run_bundle_rec_plan(
     bundle_dict,
-    tg,
+    streamlines,
     mapping,
     img,
     reg_template,
@@ -477,14 +477,14 @@ def run_bundle_rec_plan(
     )
     logger.info(f"Time to prep ROIs: {time() - start_time}s")
 
-    if isinstance(tg, abu.SlsBeingRecognized):
+    if isinstance(streamlines, abu.SlsBeingRecognized):
         # This only occurs when your inside a subbundle,
         # in which case we want to keep the same SlsBeingRecognized object so that
         # we can keep track of the same streamlines and their orientations
-        b_sls = tg
+        b_sls = streamlines
     else:
         b_sls = abu.SlsBeingRecognized(
-            tg.streamlines,
+            streamlines,
             logger,
             segmentation_params["save_intermediates"],
             bundle_name,
