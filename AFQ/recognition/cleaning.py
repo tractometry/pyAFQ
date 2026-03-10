@@ -61,18 +61,13 @@ def clean_by_orientation(streamlines, primary_axis, core_only=0.6):
             ) > (len(along_diff) / 2)
 
     endpoint_diff = np.zeros((len(streamlines), 3))
-    along_diff = np.zeros((len(streamlines), 3))
     for ii, sl in enumerate(streamlines):
         endpoint_diff[ii, :] = np.abs(sl[0, :] - sl[-1, :])
-        along_diff[ii, :] = np.sum(np.abs(np.diff(sl, axis=0)), axis=0)
-    orientation_end = np.argmax(endpoint_diff, axis=1)
-    orientation_along = np.argmax(along_diff, axis=1)
-    end_accepted_idx = orientation_end == primary_axis
-    along_accepted_idx = orientation_along == primary_axis
 
-    cleaned_idx = np.logical_and(
-        along_accepted_idx, np.logical_and(end_accepted_idx, core_accepted_idx)
-    )
+    orientation_end = np.argmax(endpoint_diff, axis=1)
+    end_accepted_idx = orientation_end == primary_axis
+
+    cleaned_idx = np.logical_and(end_accepted_idx, core_accepted_idx)
 
     return cleaned_idx
 
