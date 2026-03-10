@@ -1650,6 +1650,7 @@ class SpectralSubbundleDict(BundleDict):
         keep_in_memory=False,
         citations=None,
         remove_cluster_IDs=None,
+        criteria_for_all=None,
     ):
         super().__init__(
             bundle_info, resample_to, resample_subject_to, keep_in_memory, citations
@@ -1667,6 +1668,10 @@ class SpectralSubbundleDict(BundleDict):
                     )
                 )
             self.cluster_IDs.extend(b_info["cluster_IDs"])
+            if criteria_for_all is not None:
+                for criterion, value in criteria_for_all.items():
+                    if criterion not in b_info:
+                        b_info[criterion] = value
         self.all_cluster_IDs = self.remove_cluster_IDs + self.cluster_IDs
 
 
