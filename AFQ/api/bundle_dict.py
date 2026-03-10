@@ -305,7 +305,6 @@ def default_bd():
                 "start": templates["pARC_L_start"],
                 "end": templates["pARC_L_end"],
                 "Left Arcuate": {"overlap": 30},
-                "Left Inferior Fronto-occipital": {"core": "Right"},
                 "Left Optic Radiation": {"core": "Right"},
                 "length": {"min_len": 30},
                 "primary_axis": "I/S",
@@ -322,7 +321,6 @@ def default_bd():
                 "start": templates["pARC_R_start"],
                 "end": templates["pARC_R_end"],
                 "Right Arcuate": {"overlap": 30},
-                "Right Inferior Fronto-occipital": {"core": "Left"},
                 "Right Optic Radiation": {"core": "Left"},
                 "length": {"min_len": 30},
                 "primary_axis": "I/S",
@@ -330,56 +328,50 @@ def default_bd():
             "Left Vertical Occipital": {
                 "cross_midline": False,
                 "space": "template",
-                "prob_map": templates["VOF_L_prob_map"],
                 "end": templates["VOF_L_end"],
+                "start": templates["VOF_L_start"],
                 "include": [templates["VOF_roi1_L"], templates["VOF_roi2_L"]],
                 "exclude": [
+                    templates["VOF_xroi1_L.nii.gz"],
+                    templates["VOF_xroi2_L.nii.gz"],
                     templates["Cerebellar_Hemi_L"],
+                    templates["pARC_xroi1_L"],
                 ],
-                "Left Arcuate": {"node_thresh": 20, "project": "L/R"},
                 "Left Posterior Arcuate": {
                     "node_thresh": 20,
                     "project": "L/R",
                     "core": "Anterior",
                 },
-                "Left Optic Radiation": {"core": "Right"},
                 "length": {"min_len": 30},
+                "endpoint_dists": {"min_dist": 25},
                 "mahal": {"clean_rounds": 0},
                 "primary_axis": "I/S",
                 "ORG_spectral_subbundles": SpectralSubbundleDict(
                     {
                         "Left V1V3": {
-                            "cluster_IDs": [61, 63, 77, 82],
-                            "orient_mahal": {
-                                "distance_threshold": 3,
-                                "length_threshold": 2,
-                                "clean_rounds": 2,
-                                "remove_lengths": "short",
-                            },
+                            "cluster_IDs": [63, 82],
                         },
                         "Left Posterior Vertical Occipital": {
                             "cluster_IDs": [1, 72, 81, 83],
-                            "Left Inferior Fronto-occipital": {"core": "Right"},
-                            "orient_mahal": {
-                                "distance_threshold": 4,
-                                "length_threshold": 2,
-                                "clean_rounds": 10,
-                                "remove_lengths": "short",
-                            },
+                            "Left Optic Radiation": {"core": "Right"},
                         },
                         "Left Anterior Vertical Occipital": {
                             "cluster_IDs": [2, 7, 18, 21, 25, 51],
-                            "Left Inferior Fronto-occipital": {"core": "Right"},
-                            "exclude": [
-                                templates["pARC_xroi1_L"],
-                                templates["pVOF_xroi1_L"],
-                            ],
-                            "orient_mahal": {
-                                "distance_threshold": 4,
-                                "length_threshold": 2,
-                                "clean_rounds": 10,
-                                "remove_lengths": "short",
-                            },
+                            "Left Optic Radiation": {"core": "Right"},
+                        },
+                    },
+                    criteria_for_all={
+                        "orient_mahal": {
+                            "distance_threshold": 4,
+                            "length_threshold": 2,
+                            "clean_rounds": 5,
+                            "remove_lengths": "short",
+                        },
+                        "mahal": {
+                            "distance_threshold": 3,
+                            "length_threshold": 2,
+                            "clean_rounds": 5,
+                            "remove_lengths": "short",
                         },
                     },
                 ),
@@ -387,56 +379,50 @@ def default_bd():
             "Right Vertical Occipital": {
                 "cross_midline": False,
                 "space": "template",
-                "prob_map": templates["VOF_R_prob_map"],
                 "end": templates["VOF_R_end"],
+                "start": templates["VOF_R_start"],
                 "include": [templates["VOF_roi1_R"], templates["VOF_roi2_R"]],
                 "exclude": [
+                    templates["VOF_xroi1_R.nii.gz"],
+                    templates["VOF_xroi2_R.nii.gz"],
                     templates["Cerebellar_Hemi_R"],
+                    templates["pARC_xroi1_R"],
                 ],
-                "Right Arcuate": {"node_thresh": 20, "project": "L/R"},
                 "Right Posterior Arcuate": {
                     "node_thresh": 20,
                     "project": "L/R",
                     "core": "Anterior",
                 },
-                "Right Optic Radiation": {"core": "Left"},
                 "length": {"min_len": 30},
+                "endpoint_dists": {"min_dist": 25},
                 "mahal": {"clean_rounds": 0},
                 "primary_axis": "I/S",
                 "ORG_spectral_subbundles": SpectralSubbundleDict(
                     {
                         "Right V1V3": {
-                            "cluster_IDs": [61, 63, 77, 82],
-                            "orient_mahal": {
-                                "distance_threshold": 3,
-                                "length_threshold": 2,
-                                "clean_rounds": 2,
-                                "remove_lengths": "short",
-                            },
+                            "cluster_IDs": [63, 82],
                         },
                         "Right Posterior Vertical Occipital": {
                             "cluster_IDs": [1, 72, 81, 83],
-                            "Right Inferior Fronto-occipital": {"core": "Left"},
-                            "orient_mahal": {
-                                "distance_threshold": 4,
-                                "length_threshold": 2,
-                                "clean_rounds": 10,
-                                "remove_lengths": "short",
-                            },
+                            "Right Optic Radiation": {"core": "Left"},
                         },
                         "Right Anterior Vertical Occipital": {
                             "cluster_IDs": [2, 7, 18, 21, 25, 51],
-                            "Right Inferior Fronto-occipital": {"core": "Left"},
-                            "exclude": [
-                                templates["pARC_xroi1_R"],
-                                templates["pVOF_xroi1_R"],
-                            ],
-                            "orient_mahal": {
-                                "distance_threshold": 4,
-                                "length_threshold": 2,
-                                "clean_rounds": 10,
-                                "remove_lengths": "short",
-                            },
+                            "Right Optic Radiation": {"core": "Left"},
+                        },
+                    },
+                    criteria_for_all={
+                        "orient_mahal": {
+                            "distance_threshold": 4,
+                            "length_threshold": 2,
+                            "clean_rounds": 5,
+                            "remove_lengths": "short",
+                        },
+                        "mahal": {
+                            "distance_threshold": 3,
+                            "length_threshold": 2,
+                            "clean_rounds": 5,
+                            "remove_lengths": "short",
                         },
                     },
                 ),
