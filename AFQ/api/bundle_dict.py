@@ -332,7 +332,6 @@ def default_bd():
                 "start": templates["VOF_L_start"],
                 "include": [templates["VOF_roi1_L"], templates["VOF_roi2_L"]],
                 "exclude": [
-                    templates["VOF_xroi1_L"],
                     templates["VOF_xroi2_L"],
                     templates["Cerebellar_Hemi_L"],
                     templates["pARC_xroi1_L"],
@@ -349,14 +348,14 @@ def default_bd():
                 "ORG_spectral_subbundles": SpectralSubbundleDict(
                     {
                         "Left V1V3": {
-                            "cluster_IDs": [63, 82],
+                            "cluster_IDs": [78],
                         },
                         "Left Posterior Vertical Occipital": {
-                            "cluster_IDs": [1, 51, 72, 81, 83],
+                            "cluster_IDs": [72, 83],
                             "Left Optic Radiation": {"core": "Right"},
                         },
                         "Left Anterior Vertical Occipital": {
-                            "cluster_IDs": [2, 7, 18, 21, 25],
+                            "cluster_IDs": [7, 18, 21, 25],
                             "Left Optic Radiation": {"core": "Right"},
                         },
                     },
@@ -368,7 +367,7 @@ def default_bd():
                             "remove_lengths": "short",
                         },
                         "mahal": {
-                            "distance_threshold": 3,
+                            "distance_threshold": 4,
                             "length_threshold": 2,
                             "clean_rounds": 5,
                             "remove_lengths": "short",
@@ -383,7 +382,6 @@ def default_bd():
                 "start": templates["VOF_R_start"],
                 "include": [templates["VOF_roi1_R"], templates["VOF_roi2_R"]],
                 "exclude": [
-                    templates["VOF_xroi1_R"],
                     templates["VOF_xroi2_R"],
                     templates["Cerebellar_Hemi_R"],
                     templates["pARC_xroi1_R"],
@@ -400,14 +398,14 @@ def default_bd():
                 "ORG_spectral_subbundles": SpectralSubbundleDict(
                     {
                         "Right V1V3": {
-                            "cluster_IDs": [63, 82],
+                            "cluster_IDs": [78],
                         },
                         "Right Posterior Vertical Occipital": {
-                            "cluster_IDs": [1, 51, 72, 81, 83],
+                            "cluster_IDs": [72, 83],
                             "Right Optic Radiation": {"core": "Left"},
                         },
                         "Right Anterior Vertical Occipital": {
-                            "cluster_IDs": [2, 7, 18, 21, 25],
+                            "cluster_IDs": [7, 18, 21, 25],
                             "Right Optic Radiation": {"core": "Left"},
                         },
                     },
@@ -419,7 +417,7 @@ def default_bd():
                             "remove_lengths": "short",
                         },
                         "mahal": {
-                            "distance_threshold": 3,
+                            "distance_threshold": 4,
                             "length_threshold": 2,
                             "clean_rounds": 5,
                             "remove_lengths": "short",
@@ -1447,7 +1445,7 @@ class BundleDict(MutableMapping):
             or self._dict[bundle_name]["space"] == "mixed"
         )
 
-    def _roi_transform_helper(self, roi_or_sl, mapping, new_img, bundle_name):
+    def _roi_transform_helper(self, roi_or_sl, mapping, new_img):
         roi_or_sl = self._cond_load(roi_or_sl, self.resample_to)
         if isinstance(roi_or_sl, nib.Nifti1Image):
             if (
@@ -1464,10 +1462,8 @@ class BundleDict(MutableMapping):
             else:
                 boolean_ = False
 
-            warped_img = auv.transform_roi(fdata, mapping, bundle_name=bundle_name)
+            warped_img = auv.transform_roi(fdata, mapping, boolean_)
 
-            if boolean_:
-                warped_img = warped_img.astype(np.uint8)
             warped_img = nib.Nifti1Image(warped_img, new_img.affine)
             return warped_img
         else:
@@ -1524,7 +1520,6 @@ class BundleDict(MutableMapping):
                 self._roi_transform_helper,
                 mapping,
                 new_img,
-                bundle_name,
                 dry_run=True,
                 apply_to_recobundles=apply_to_recobundles,
             )

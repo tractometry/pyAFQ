@@ -1,21 +1,11 @@
 import nibabel as nib
 import numpy as np
 import numpy.testing as npt
-import pytest
 from dipy.io.stateful_tractogram import Space
 from dipy.io.streamline import StatefulTractogram
 
 import AFQ.data.fetch as afd
 import AFQ.utils.volume as afv
-
-
-def test_patch_up_roi():
-    roi_bad = np.zeros((10, 10, 10))
-    roi_good = np.ones((10, 10, 10))
-
-    afv.patch_up_roi(roi_good)
-    with pytest.raises(ValueError):
-        afv.patch_up_roi(roi_bad)
 
 
 def test_density_map():
