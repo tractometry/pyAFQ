@@ -353,15 +353,19 @@ def default_bd():
                         },
                         "Left Posterior Vertical Occipital": {
                             "cluster_IDs": [72, 83],
-                            "Left Optic Radiation": {"core": "Right"},
-                            "Left Inferior Longitudinal": {"core": "Right"},
-                            "Left Inferior Fronto-occipital": {"core": "Right"},
+                            "Left Optic Radiation": {
+                                "node_thresh": 20,
+                                "project": "I/S",
+                                "core": "Right",
+                            },
                         },
                         "Left Anterior Vertical Occipital": {
                             "cluster_IDs": [7, 18, 21, 25],
-                            "Left Optic Radiation": {"core": "Right"},
-                            "Left Inferior Longitudinal": {"core": "Right"},
-                            "Left Inferior Fronto-occipital": {"core": "Right"},
+                            "Left Optic Radiation": {
+                                "node_thresh": 20,
+                                "project": "I/S",
+                                "core": "Right",
+                            },
                         },
                     },
                     criteria_for_all={
@@ -408,15 +412,19 @@ def default_bd():
                         },
                         "Right Posterior Vertical Occipital": {
                             "cluster_IDs": [72, 83],
-                            "Right Optic Radiation": {"core": "Left"},
-                            "Right Inferior Longitudinal": {"core": "Left"},
-                            "Right Inferior Fronto-occipital": {"core": "Left"},
+                            "Right Optic Radiation": {
+                                "node_thresh": 20,
+                                "project": "I/S",
+                                "core": "Left",
+                            },
                         },
                         "Right Anterior Vertical Occipital": {
                             "cluster_IDs": [7, 18, 21, 25],
-                            "Right Optic Radiation": {"core": "Left"},
-                            "Right Inferior Longitudinal": {"core": "Left"},
-                            "Right Inferior Fronto-occipital": {"core": "Left"},
+                            "Right Optic Radiation": {
+                                "node_thresh": 20,
+                                "project": "I/S",
+                                "core": "Left",
+                            },
                         },
                     },
                     criteria_for_all={
