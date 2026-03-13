@@ -354,7 +354,6 @@ def default_bd():
                         "Left Posterior Vertical Occipital": {
                             "cluster_IDs": [72, 83],
                             "Left Optic Radiation": {
-                                "node_thresh": 20,
                                 "project": "I/S",
                                 "core": "Right",
                             },
@@ -362,7 +361,6 @@ def default_bd():
                         "Left Anterior Vertical Occipital": {
                             "cluster_IDs": [7, 18, 21, 25],
                             "Left Optic Radiation": {
-                                "node_thresh": 20,
                                 "project": "I/S",
                                 "core": "Right",
                             },
@@ -413,7 +411,6 @@ def default_bd():
                         "Right Posterior Vertical Occipital": {
                             "cluster_IDs": [72, 83],
                             "Right Optic Radiation": {
-                                "node_thresh": 20,
                                 "project": "I/S",
                                 "core": "Left",
                             },
@@ -421,7 +418,6 @@ def default_bd():
                         "Right Anterior Vertical Occipital": {
                             "cluster_IDs": [7, 18, 21, 25],
                             "Right Optic Radiation": {
-                                "node_thresh": 20,
                                 "project": "I/S",
                                 "core": "Left",
                             },
