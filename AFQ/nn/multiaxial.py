@@ -142,7 +142,11 @@ def run_multiaxial(ort, t1_img, onnx_kwargs):
     model_dict = _get_multiaxial_model()
 
     t1_img_conformed = nbp.conform(
-        t1_img, out_shape=(256, 256, 256), voxel_size=(1.0, 1.0, 1.0), orientation="RAS"
+        t1_img,
+        out_shape=(256, 256, 256),
+        voxel_size=(1.0, 1.0, 1.0),
+        orientation="RAS",
+        order=1,
     )
 
     t1_data = t1_img_conformed.get_fdata()
@@ -163,7 +167,9 @@ def run_multiaxial(ort, t1_img, onnx_kwargs):
     )
 
     output_img = nbp.resample_from_to(
-        nib.Nifti1Image(output.astype(np.uint8), t1_img_conformed.affine), t1_img
+        nib.Nifti1Image(output.astype(np.uint8), t1_img_conformed.affine),
+        t1_img,
+        order=0,
     )
 
     return output_img
