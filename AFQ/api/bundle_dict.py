@@ -349,14 +349,19 @@ def default_bd():
                     {
                         "Left V1V3": {
                             "cluster_IDs": [78],
+                            "Left Optic Radiation": {"core": "Anterior"},
                         },
                         "Left Posterior Vertical Occipital": {
                             "cluster_IDs": [72, 83],
                             "Left Optic Radiation": {"core": "Right"},
+                            "Left Inferior Longitudinal": {"core": "Right"},
+                            "Left Inferior Fronto-occipital": {"core": "Right"},
                         },
                         "Left Anterior Vertical Occipital": {
                             "cluster_IDs": [7, 18, 21, 25],
                             "Left Optic Radiation": {"core": "Right"},
+                            "Left Inferior Longitudinal": {"core": "Right"},
+                            "Left Inferior Fronto-occipital": {"core": "Right"},
                         },
                     },
                     criteria_for_all={
@@ -399,14 +404,19 @@ def default_bd():
                     {
                         "Right V1V3": {
                             "cluster_IDs": [78],
+                            "Right Optic Radiation": {"core": "Anterior"},
                         },
                         "Right Posterior Vertical Occipital": {
                             "cluster_IDs": [72, 83],
                             "Right Optic Radiation": {"core": "Left"},
+                            "Right Inferior Longitudinal": {"core": "Left"},
+                            "Right Inferior Fronto-occipital": {"core": "Left"},
                         },
                         "Right Anterior Vertical Occipital": {
                             "cluster_IDs": [7, 18, 21, 25],
                             "Right Optic Radiation": {"core": "Left"},
+                            "Right Inferior Longitudinal": {"core": "Left"},
+                            "Right Inferior Fronto-occipital": {"core": "Left"},
                         },
                     },
                     criteria_for_all={
