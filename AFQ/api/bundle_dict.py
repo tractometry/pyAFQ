@@ -349,13 +349,17 @@ def default_bd():
                     {
                         "Left V1V3": {
                             "cluster_IDs": [78],
-                            "Left Optic Radiation": {"core": "Anterior"},
+                            "Left Optic Radiation": {
+                                "core": "Anterior",
+                                "consideration": "closest",
+                            },
                         },
                         "Left Posterior Vertical Occipital": {
                             "cluster_IDs": [72, 83],
                             "Left Optic Radiation": {
                                 "project": "I/S",
                                 "core": "Right",
+                                "consideration": 10.0,
                             },
                         },
                         "Left Anterior Vertical Occipital": {
@@ -363,6 +367,7 @@ def default_bd():
                             "Left Optic Radiation": {
                                 "project": "I/S",
                                 "core": "Right",
+                                "consideration": 10.0,
                             },
                         },
                     },
@@ -406,13 +411,17 @@ def default_bd():
                     {
                         "Right V1V3": {
                             "cluster_IDs": [78],
-                            "Right Optic Radiation": {"core": "Anterior"},
+                            "Right Optic Radiation": {
+                                "core": "Anterior",
+                                "consideration": "closest",
+                            },
                         },
                         "Right Posterior Vertical Occipital": {
                             "cluster_IDs": [72, 83],
                             "Right Optic Radiation": {
                                 "project": "I/S",
                                 "core": "Left",
+                                "consideration": 10.0,
                             },
                         },
                         "Right Anterior Vertical Occipital": {
@@ -420,6 +429,7 @@ def default_bd():
                             "Right Optic Radiation": {
                                 "project": "I/S",
                                 "core": "Left",
+                                "consideration": 10.0,
                             },
                         },
                     },

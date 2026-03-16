@@ -52,13 +52,17 @@ bids_path = afd.fetch_hbn_preproc(
 # Set tractography parameters (optional)
 # ---------------------------------------
 # We make create a `tracking_params` variable, which we will pass to the
-# GroupAFQ object which specifies that we want 50,000 seeds randomly
+# GroupAFQ object which specifies that we want 200,000 seeds randomly
 # distributed in the white matter. We only do this to make this example faster
-# and consume less space; normally, we use more seeds
+# and consume less space; normally, we use more seeds. Additionally, 
+# we specify that we want to use the CSD ODF model for tractography, instead
+# of the default CSD with asymmetric filtering. This is also to make the
+# example faster and can be removed in practice.
 
-tracking_params = dict(n_seeds=50000,
+tracking_params = dict(n_seeds=200000,
                        random_seeds=True,
                        rng_seed=2025,
+                       odf_model="csd",
                        trx=True)
 
 #####################################################################
@@ -270,8 +274,6 @@ bundle_counts = pd.read_csv(
 for ind in bundle_counts.index:
     if ind == "Total Recognized":
         threshold = 3000
-    elif "Fronto-occipital" in ind:
-        threshold = 10
     elif "Vertical Occipital" in ind:
         threshold = 5
     else:

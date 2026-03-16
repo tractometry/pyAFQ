@@ -70,14 +70,17 @@ os.makedirs(output_dir, exist_ok=True)
 # Set tractography parameters (optional)
 # ---------------------------------------
 # We make create a `tracking_params` variable, which we will pass to the
-# ParticipantAFQ object which specifies that we want 50,000 seeds randomly
-# distributed in the white matter, propagated using DIPY's probabilistic
-# algorithm. We only do this to make this example faster
-# and consume less space; normally, we use more seeds
+# ParticipantAFQ object which specifies that we want 200,000 seeds randomly
+# distributed in the white matter. We only do this to make this example faster
+# and consume less space; normally, we use more seeds. Additionally, 
+# we specify that we want to use the CSD ODF model for tractography, instead
+# of the default CSD with asymmetric filtering. This is also to make the
+# example faster and can be removed in practice.
 
-tracking_params = dict(n_seeds=50000,
+tracking_params = dict(n_seeds=200000,
                        random_seeds=True,
                        rng_seed=2025,
+                       odf_model="csd",
                        trx=True)
 
 #####################################################################
