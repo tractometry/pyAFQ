@@ -45,7 +45,7 @@ def test_clean_relative_to_other_core():
             this_bundle_sls_sample,
             other_bundle_sls_sample,
             np.eye(4),
-            entire=False,
+            consideration="closest",
         )
 
         assert isinstance(cleaned_idx_core, np.ndarray)
@@ -60,7 +60,7 @@ def test_clean_relative_to_other_core():
             this_bundle_sls_sample,
             other_bundle_sls_sample,
             np.eye(4),
-            entire=True,
+            consideration="entire",
         )
 
         assert isinstance(cleaned_idx_core, np.ndarray)

@@ -339,7 +339,7 @@ def recobundles(
     b_sls.select(rec_labels, "Recobundles")
 
 
-def qb_thresh(b_sls, bundle_def, preproc_imap, clip_edges, **kwargs):
+def qb_thresh(b_sls, bundle_def, clip_edges, **kwargs):
     b_sls.initiate_selection("qb_thresh")
     cut = clip_edges or ("bundlesection" in bundle_def)
     qbx = QuickBundles(
@@ -352,7 +352,7 @@ def qb_thresh(b_sls, bundle_def, preproc_imap, clip_edges, **kwargs):
 
 
 def clean_by_other_bundle(
-    b_sls, bundle_def, img, other_bundle_name, other_bundle_sls, **kwargs
+    b_sls, bundle_def, img, preproc_imap, other_bundle_name, other_bundle_sls, **kwargs
 ):
     cleaned_idx = b_sls.initiate_selection(other_bundle_name)
     cleaned_idx = 1
@@ -381,22 +381,16 @@ def clean_by_other_bundle(
         cleaned_idx = np.logical_and(cleaned_idx, cleaned_idx_node_thresh)
 
     if "core" in bundle_def[other_bundle_name]:
+        consideration = bundle_def[other_bundle_name].get("consideration", 10.0)
+        if isinstance(consideration, (int, float)):
+            consideration = float(consideration)
+            consideration = consideration / preproc_imap["vox_dim"]
+
         cleaned_idx_core = abo.clean_relative_to_other_core(
             bundle_def[other_bundle_name]["core"].lower(),
             np.array(abu.resample_tg(flipped_sls, 100)),
             np.array(abu.resample_tg(other_bundle_sls, 100)),
-            img.affine,
-            False,
-        )
-        cleaned_idx = np.logical_and(cleaned_idx, cleaned_idx_core)
-
-    if "entire_core" in bundle_def[other_bundle_name]:
-        cleaned_idx_core = abo.clean_relative_to_other_core(
-            bundle_def[other_bundle_name]["entire_core"].lower(),
-            np.array(abu.resample_tg(flipped_sls, 100)),
-            np.array(abu.resample_tg(other_bundle_sls, 100)),
-            img.affine,
-            True,
+            consideration=consideration,
         )
         cleaned_idx = np.logical_and(cleaned_idx, cleaned_idx_core)
 

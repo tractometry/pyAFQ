@@ -153,14 +153,13 @@ def test_clean_relative_to_other_core_entire_vs_closest():
     this_bundle[0, :, 2] += 5
     this_bundle[1, :, 2] -= 5
     other_bundle = np.array(_make_straight_streamlines(n_sl=2, length=5, axis=0))
-    affine = np.eye(4)
     cleaned_entire = abo.clean_relative_to_other_core(
-        "inferior", this_bundle, other_bundle, affine, entire=True
+        "inferior", this_bundle, other_bundle, consideration="entire"
     )
     npt.assert_equal(cleaned_entire, [True, False])
 
     # With entire=False, same result in this synthetic case
     cleaned_closest = abo.clean_relative_to_other_core(
-        "inferior", this_bundle, other_bundle, affine, entire=False
+        "inferior", this_bundle, other_bundle, consideration="closest"
     )
     npt.assert_equal(cleaned_closest, [True, False])

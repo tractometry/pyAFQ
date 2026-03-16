@@ -114,7 +114,10 @@ def clean_by_overlap(
 
 
 def clean_relative_to_other_core(
-    core, this_fgarray, other_fgarray, affine, entire=False
+    core,
+    this_fgarray,
+    other_fgarray,
+    consideration,
 ):
     """
     Removes streamlines from a set that lie on the opposite side of a specified
@@ -132,13 +135,16 @@ def clean_relative_to_other_core(
     other_fgarray : ndarray
         An array of reference streamlines to define the core.
         Assumed to be in RASMM space.
-    affine : ndarray
-        The affine transformation matrix.
-    entire : bool, optional
-        If True, the entire streamline must lie on the correct side of the core
-        to be retained. If False, only the closest point on the streamline to
+    consideration : float or string, optional
+        If float, the distance threshold (in voxels) for considering a
+        streamline's position relative to the core. All points on
+        the streamline within distance from the core are considered
+        when determining if the streamline lies on the correct side.
+        If string, must be one of 'entire' or 'closest'.
+        If 'entire', the entire streamline must lie on the correct
+        side of the core to be retained.
+        If 'closest', only the closest point on the streamline to
         the core is considered.
-        Default: False.
 
     Returns
     -------
@@ -185,11 +191,28 @@ def clean_relative_to_other_core(
     core_bundle = np.median(other_fgarray, axis=0)
     cleaned_idx_core = np.zeros(this_fgarray.shape[0], dtype=np.bool_)
     for ii, sl in enumerate(this_fgarray):
-        if entire:
+        if isinstance(consideration, float):
+            dist_matrix = cdist(core_bundle, sl, "sqeuclidean")
+            closest_core_indices = np.argmin(dist_matrix, axis=0)
+
+            min_dists_sq = np.min(dist_matrix, axis=0)
+            within_threshold = min_dists_sq < consideration**2
+            if np.any(within_threshold):
+                relevant_sl_pts = sl[within_threshold, core_axis]
+                relevant_core_pts = core_bundle[
+                    closest_core_indices[within_threshold], core_axis
+                ]
+
+                cleaned_idx_core[ii] = np.all(
+                    core_direc * (relevant_sl_pts - relevant_core_pts) > 0
+                )
+            else:
+                cleaned_idx_core[ii] = True
+        elif consideration == "entire":
             cleaned_idx_core[ii] = np.all(
                 core_direc * (sl[:, core_axis] - core_bundle[:, core_axis]) > 0
             )
-        else:
+        elif consideration == "closest":
             dist_matrix = cdist(core_bundle, sl, "sqeuclidean")
             min_dist_indices = np.unravel_index(
                 np.argmin(dist_matrix), dist_matrix.shape
@@ -198,5 +221,11 @@ def clean_relative_to_other_core(
             closest_sl = sl[min_dist_indices[1], core_axis]
 
             cleaned_idx_core[ii] = core_direc * (closest_sl - closest_core) > 0
+        else:
+            raise ValueError(
+                "Invalid value for consideration. Must be a "
+                "float or one of 'entire' or 'closest'. You have provided: "
+                f"{consideration}"
+            )
 
     return cleaned_idx_core
