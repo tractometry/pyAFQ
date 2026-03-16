@@ -243,11 +243,14 @@ def read_callosum_templates(as_img=True, resample_to=False):
     return template_dict
 
 
-synthseg_remote_fnames = ["60017432"]
+synthseg_remote_fnames = ["60017432", "62817277"]
 
-synthseg_fnames = ["synthseg2.onnx"]
+synthseg_fnames = ["synthseg2.onnx", "synthseg2pc_only.onnx"]
 
-synthseg_md5_hashes = ["c9e74653b96ce1725ec078bae4d63eb4"]
+synthseg_md5_hashes = [
+    "c9e74653b96ce1725ec078bae4d63eb4",
+    "ab93a9160958f713dee6a5a63fd6fdd8",
+]
 
 fetch_synthseg_models = _make_reusable_fetcher(
     "fetch_synthseg_models",

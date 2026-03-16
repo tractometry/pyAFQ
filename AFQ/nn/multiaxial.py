@@ -2,11 +2,11 @@ import logging
 import os.path as op
 
 import nibabel as nib
-import nibabel.processing as nbp
 import numpy as np
 from tqdm import tqdm
 
 from AFQ.data.fetch import afq_home, fetch_multiaxial_models
+from AFQ.nn.utils import prepare_t1_for_nn, resample_output
 
 logger = logging.getLogger("AFQ")
 
@@ -141,19 +141,7 @@ def run_multiaxial(ort, t1_img, onnx_kwargs):
     """
     model_dict = _get_multiaxial_model()
 
-    t1_img_conformed = nbp.conform(
-        t1_img,
-        out_shape=(256, 256, 256),
-        voxel_size=(1.0, 1.0, 1.0),
-        orientation="RAS",
-        order=1,
-    )
-
-    t1_data = t1_img_conformed.get_fdata()
-    p02 = np.nanpercentile(t1_data, 2)
-    p98 = np.nanpercentile(t1_data, 98)
-    t1_data = np.clip(t1_data, p02, p98)
-    t1_data = (t1_data - p02) / (p98 - p02)
+    t1_data, conformed_affine = prepare_t1_for_nn(t1_img)
 
     logger.info("Running multiaxial T1w segmentation...")
     output = multiaxial(
@@ -166,11 +154,7 @@ def run_multiaxial(ort, t1_img, onnx_kwargs):
         onnx_kwargs,
     )
 
-    output_img = nbp.resample_from_to(
-        nib.Nifti1Image(output.astype(np.uint8), t1_img_conformed.affine),
-        t1_img,
-        order=0,
-    )
+    output_img = resample_output(output, conformed_affine, t1_img)
 
     return output_img
 
