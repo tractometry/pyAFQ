@@ -906,9 +906,6 @@ def callosal_bd():
                     callosal_templates["Callosum_midsag"],
                     callosal_templates["L_AntFrontal"],
                 ],
-                "isolation_forest": {},
-                "exclude": [templates["CST_roi1_L"], templates["CST_roi1_R"]],
-                "space": "template",
             },
             "Callosum Motor": {
                 "cross_midline": True,
@@ -917,9 +914,6 @@ def callosal_bd():
                     callosal_templates["Callosum_midsag"],
                     callosal_templates["L_Motor"],
                 ],
-                "isolation_forest": {},
-                "exclude": [templates["CST_roi1_L"], templates["CST_roi1_R"]],
-                "space": "template",
             },
             "Callosum Occipital": {
                 "cross_midline": True,
@@ -928,9 +922,6 @@ def callosal_bd():
                     callosal_templates["Callosum_midsag"],
                     callosal_templates["L_Occipital"],
                 ],
-                "isolation_forest": {},
-                "exclude": [templates["CST_roi1_L"], templates["CST_roi1_R"]],
-                "space": "template",
             },
             "Callosum Orbital": {
                 "cross_midline": True,
@@ -939,9 +930,6 @@ def callosal_bd():
                     callosal_templates["Callosum_midsag"],
                     callosal_templates["L_Orbital"],
                 ],
-                "isolation_forest": {},
-                "exclude": [templates["CST_roi1_L"], templates["CST_roi1_R"]],
-                "space": "template",
             },
             "Callosum Posterior Parietal": {
                 "cross_midline": True,
@@ -950,9 +938,6 @@ def callosal_bd():
                     callosal_templates["Callosum_midsag"],
                     callosal_templates["L_PostParietal"],
                 ],
-                "isolation_forest": {},
-                "exclude": [templates["CST_roi1_L"], templates["CST_roi1_R"]],
-                "space": "template",
             },
             "Callosum Superior Frontal": {
                 "cross_midline": True,
@@ -961,9 +946,6 @@ def callosal_bd():
                     callosal_templates["Callosum_midsag"],
                     callosal_templates["L_SupFrontal"],
                 ],
-                "isolation_forest": {},
-                "exclude": [templates["CST_roi1_L"], templates["CST_roi1_R"]],
-                "space": "template",
             },
             "Callosum Superior Parietal": {
                 "cross_midline": True,
@@ -972,9 +954,6 @@ def callosal_bd():
                     callosal_templates["Callosum_midsag"],
                     callosal_templates["L_SupParietal"],
                 ],
-                "isolation_forest": {},
-                "exclude": [templates["CST_roi1_L"], templates["CST_roi1_R"]],
-                "space": "template",
             },
             "Callosum Temporal": {
                 "cross_midline": True,
@@ -983,11 +962,14 @@ def callosal_bd():
                     callosal_templates["Callosum_midsag"],
                     callosal_templates["L_Temporal"],
                 ],
-                "isolation_forest": {},
-                "exclude": [templates["CST_roi1_L"], templates["CST_roi1_R"]],
-                "space": "template",
             },
-        }
+        },
+        citations={"Dougherty2007"},
+        criteria_for_all={
+            "isolation_forest": {},
+            "exclude": [templates["CST_roi1_L"], templates["CST_roi1_R"]],
+            "space": "template",
+        },
     )
 
 
@@ -1134,6 +1116,13 @@ class BundleDict(MutableMapping):
         bundle definitions provided.
         Default: None
 
+    criteria_for_all: dict, optional
+        A dictionary of criteria that should be applied to all bundles.
+        For example, you might want to set cleaning parameters
+        for all bundles. Applied immediately after instantiation and
+        does not affect newly added bundles.
+        Default: None
+
     Examples
     --------
     # import OR ROIs and create a custom bundle dict
@@ -1184,6 +1173,7 @@ class BundleDict(MutableMapping):
         resample_subject_to=False,
         keep_in_memory=False,
         citations=None,
+        criteria_for_all=None,
     ):
         if not (isinstance(bundle_info, dict)):
             raise TypeError(
@@ -1201,6 +1191,10 @@ class BundleDict(MutableMapping):
         self._dict = {}
         self.bundle_names = []
         for key, item in bundle_info.items():
+            if criteria_for_all is not None:
+                for criterion, value in criteria_for_all.items():
+                    if criterion not in item:
+                        item[criterion] = value
             self.__setitem__(key, item)
 
         self.logger = logging.getLogger("AFQ")
