@@ -44,7 +44,6 @@ def test_clean_relative_to_other_core():
             core,
             this_bundle_sls_sample,
             other_bundle_sls_sample,
-            np.eye(4),
             consideration="closest",
         )
 
@@ -59,7 +58,6 @@ def test_clean_relative_to_other_core():
             core,
             this_bundle_sls_sample,
             other_bundle_sls_sample,
-            np.eye(4),
             consideration="entire",
         )
 

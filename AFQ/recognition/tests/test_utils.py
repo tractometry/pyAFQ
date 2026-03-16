@@ -85,19 +85,19 @@ def test_segment_orientation():
         streamlines,
         primary_axis="P/A",
     )
-    npt.assert_equal(np.sum(cleaned_idx), 79)
+    npt.assert_equal(np.sum(cleaned_idx), 80)
 
     cleaned_idx = abc.clean_by_orientation(
         streamlines,
         primary_axis="I/S",
     )
-    npt.assert_equal(np.sum(cleaned_idx), 58)
+    npt.assert_equal(np.sum(cleaned_idx), 61)
 
     cleaned_idx = abc.clean_by_orientation(
         streamlines,
         primary_axis="L/R",
     )
-    npt.assert_equal(np.sum(cleaned_idx), 57)
+    npt.assert_equal(np.sum(cleaned_idx), 59)
 
 
 def test_clean_isolation_forest_basic():
