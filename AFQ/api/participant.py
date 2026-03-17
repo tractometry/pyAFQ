@@ -36,16 +36,21 @@ from AFQ.viz.utils import BEST_BUNDLE_ORIENTATIONS, get_eye, trim
 __all__ = ["ParticipantAFQ"]
 
 
-logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("AFQ")
-logger.setLevel(logging.INFO)
 
 
 class ParticipantAFQ(object):
     f"""{AFQclass_doc}"""
 
     def __init__(
-        self, dwi_data_file, bval_file, bvec_file, t1_file, output_dir, **kwargs
+        self,
+        dwi_data_file,
+        bval_file,
+        bvec_file,
+        t1_file,
+        output_dir,
+        logging_level,
+        **kwargs,
     ):
         """
         Initialize a ParticipantAFQ object.
@@ -63,6 +68,9 @@ class ParticipantAFQ(object):
             to the DWI data, though not resampled.
         output_dir : str
             Path to output directory.
+        logging_level: int, optional
+            The logging level to use for this class.
+            Default: logging.INFO
         kwargs : additional optional parameters
             You can set additional parameters for any step
             of the process. See :ref:`usage/kwargs` for more details.
@@ -101,6 +109,8 @@ class ParticipantAFQ(object):
             )
 
         self.logger = logging.getLogger("AFQ")
+        self.logger.setLevel(logging_level)
+        logging.basicConfig(level=logging_level)
 
         # This is remembered to warn users
         # if their inputs are unused

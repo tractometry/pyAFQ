@@ -47,6 +47,22 @@ pve_wm:
     White matter partial volume estimate map
 
 
+n_cpus:
+    Configure the number of CPUs to use for parallel processing with Ray
+
+
+n_threads:
+    the number of threads to use for Numba
+
+
+low_mem:
+    whether to use low-memory versions of algorithms where available
+
+
+onnx_kwargs:
+    The execution provider to use for onnx models
+
+
 synthseg_model:
     full path to the synthseg2 model segmentations
 
@@ -81,18 +97,6 @@ dwi:
 
 dwi_affine:
     the affine transformation of the DWI data
-
-
-n_cpus:
-    Configure the number of CPUs to use for parallel processing with Ray
-
-
-n_threads:
-    the number of threads to use for Numba
-
-
-low_mem:
-    whether to use low-memory versions of algorithms where available
 
 
 b0:
@@ -532,7 +536,7 @@ sl_counts:
 
 
 bundle_lengths:
-    full path to a JSON file containing median bundle lengths
+    full path to a CSV file containing median + min + max bundle lengths
 
 
 density_maps:
@@ -549,10 +553,6 @@ scalar_dict:
 
 streamlines:
     full path to the complete, unsegmented tractography file
-
-
-fodf:
-    Nifti Image containing the fiber orientation distribution function
 
 
 all_bundles_figure:

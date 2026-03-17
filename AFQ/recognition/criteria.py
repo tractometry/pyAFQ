@@ -533,7 +533,9 @@ def run_bundle_rec_plan(
             inputs[criterion] = globals()[criterion](**inputs)
     if b_sls:
         if "mahal" in bundle_def or (
-            "isolation_forest" not in bundle_def and "orient_mahal" not in bundle_def
+            "isolation_forest" not in bundle_def
+            and "orient_mahal" not in bundle_def
+            and "ORG_spectral_subbundles" not in bundle_def
         ):
             mahalanobis(**inputs)
 

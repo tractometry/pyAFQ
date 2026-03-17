@@ -133,7 +133,7 @@ def gpu_track(
     else:
         raise ValueError(
             "gpu_backend must be one of 'auto', 'cuda', "
-            "'metal', or 'webgpu', not {gpu_backend}"
+            f"'metal', or 'webgpu', not {gpu_backend}"
         )
 
     seed_img = nib.load(seed_path)

@@ -199,7 +199,7 @@ def export_sl_counts(bundles):
 @as_file("_desc-medianBundleLengths_tractography.csv", subfolder="stats")
 def export_bundle_lengths(bundles):
     """
-    full path to a JSON file containing median bundle lengths
+    full path to a CSV file containing median + min + max bundle lengths
     """
     len_data = {}
     seg_sft = aus.SegmentedSFT.fromfile(bundles)

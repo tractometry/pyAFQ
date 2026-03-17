@@ -48,9 +48,7 @@ except ImportError:
 __all__ = ["GroupAFQ"]
 
 
-logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("AFQ")
-logger.setLevel(logging.INFO)
 
 
 warnings.simplefilter(action="ignore", category=FutureWarning)
@@ -88,6 +86,7 @@ class GroupAFQ(object):
         output_dir=None,
         parallel_params=None,
         bids_layout_kwargs=None,
+        logging_level=logging.INFO,
         **kwargs,
     ):
         """
@@ -134,6 +133,9 @@ class GroupAFQ(object):
             For large datasets, try:
             {"validate": False, "index_metadata": False}
             Default: {}
+        logging_level: int, optional
+            The logging level to use for this class.
+            Default: logging.INFO
         kwargs : additional optional parameters
             You can set additional parameters for any step
             of the process. See :ref:`usage/kwargs` for more details.
@@ -175,6 +177,9 @@ class GroupAFQ(object):
 
         parallel_params["engine"] = parallel_params.get("engine", "serial")
         self.logger = logger
+
+        self.logger.setLevel(logging_level)
+        logging.basicConfig(level=logging_level)
 
         self.parallel_params = parallel_params
         self.plans_dict = {}

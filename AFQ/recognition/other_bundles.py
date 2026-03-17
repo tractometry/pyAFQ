@@ -35,7 +35,7 @@ def clean_by_overlap(
         The minimum number of nodes allowed to overlap between `this_bundle_sls`
         and `other_bundle_sls`. Streamlines with overlaps beyond this threshold
         are removed.
-    img : nibabel.Nifti1Image or ndarray
+    img : nibabel.Nifti1Image
         A reference 3D image that defines the spatial dimensions for the density
         map.
     remove : bool, optional
