@@ -49,7 +49,7 @@ class ParticipantAFQ(object):
         bvec_file,
         t1_file,
         output_dir,
-        logging_level,
+        logging_level=logging.INFO,
         **kwargs,
     ):
         """
