@@ -119,6 +119,8 @@ class SynthSegLabels(IntEnum):
     CTX_RH_TEMPORALPOLE = 99
     CTX_RH_TRANSVERSETEMPORAL = 100
     CTX_RH_INSULA = 101
+    LEFT_HYPOTHALAMUS = 102
+    RIGHT_HYPOTHALAMUS = 103
 
 
 def _get_model(model_name):
@@ -126,6 +128,7 @@ def _get_model(model_name):
     model_dictionary = {
         "synthseg2": "synthseg2.onnx",
         "synthseg2pc": "synthseg2pc_only.onnx",
+        "synthseg_hypo": "synthseg_hypo.onnx",
     }
 
     model_fname = op.join(model_dir, model_dictionary[model_name])
@@ -135,7 +138,9 @@ def _get_model(model_name):
     return model_fname
 
 
-def run_synthseg(ort, t1_img, model_name, onnx_kwargs, parc_cortex=False):
+def run_synthseg(
+    ort, t1_img, model_name, onnx_kwargs, parc_cortex=False, parc_hypothalamus=False
+):
     """
     Run the Synthseg Model
 
@@ -206,6 +211,25 @@ def run_synthseg(ort, t1_img, model_name, onnx_kwargs, parc_cortex=False):
             output,
         )
 
+    if parc_hypothalamus:
+        parc_model = _get_model("synthseg_hypo")
+
+        logger.info("Running Synthseg Hypothalamus...")
+        start_time = time()
+        sess = ort.InferenceSession(parc_model, **onnx_kwargs)
+        input_name = sess.get_inputs()[0].name
+        output_name = sess.get_outputs()[0].name
+        output_channels = sess.run([output_name], {input_name: image})[0]
+        total_time = time() - start_time
+        logger.info((f"Finished Synthseg Hypothalamus in {total_time:.2f} seconds."))
+        hypo_output = output_channels.argmax(axis=4)[0].astype(np.uint8)
+        output[(hypo_output >= 1) & (hypo_output <= 5)] = (
+            SynthSegLabels.LEFT_HYPOTHALAMUS
+        )
+        output[(hypo_output >= 6) & (hypo_output <= 10)] = (
+            SynthSegLabels.RIGHT_HYPOTHALAMUS
+        )
+
     output_img = resample_output(output, conformed_affine, t1_img)
 
     return output_img
@@ -253,6 +277,8 @@ def pve_from_synthseg(synthseg_data):
         SynthSegLabels.RIGHT_HIPPOCAMPUS,
         SynthSegLabels.RIGHT_AMYGDALA,
         SynthSegLabels.RIGHT_ACCUMBENS_AREA,
+        SynthSegLabels.LEFT_HYPOTHALAMUS,
+        SynthSegLabels.RIGHT_HYPOTHALAMUS,
     ]
     GM_labels.extend(
         range(SynthSegLabels.BACKGROUND_PARC, SynthSegLabels.CTX_RH_INSULA + 1)
