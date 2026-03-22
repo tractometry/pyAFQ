@@ -1326,14 +1326,11 @@ class BundleDict(MutableMapping):
 
             for key in cleaner_keys:
                 if key in bundle_data:
-                    target = bundle_data[key]
-                    if (
-                        "distance_threshold" in target
-                        and target["distance_threshold"] != 0
-                    ):
-                        target["distance_threshold"] += delta_distance
-                    if "length_threshold" in target and target["length_threshold"] != 0:
-                        target["length_threshold"] += delta_length
+                    if bundle_data[key].get("distance_threshold", 3) != 0:
+                        bundle_data[key]["distance_threshold"] += delta_distance
+
+                    if bundle_data[key].get("length_threshold", 4) != 0:
+                        bundle_data[key]["length_threshold"] += delta_length
 
             if "ORG_spectral_subbundles" in bundle_data:
                 bundle_data["ORG_spectral_subbundles"].relax_cleaning(
