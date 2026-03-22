@@ -1326,11 +1326,11 @@ class BundleDict(MutableMapping):
 
             for key in cleaner_keys:
                 if key in bundle_data:
-                    dt = bundle_data[key].get("distance_threshold", 3)
+                    dt = bundle_data[key].get("distance_threshold", 0)
                     if dt != 0:
                         bundle_data[key]["distance_threshold"] = dt + delta_distance
 
-                    lt = bundle_data[key].get("length_threshold", 4)
+                    lt = bundle_data[key].get("length_threshold", 0)
                     if lt != 0:
                         bundle_data[key]["length_threshold"] = lt + delta_length
 
