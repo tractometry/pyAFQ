@@ -26,7 +26,7 @@ def track(
     pve,
     directions="prob",
     max_angle=30.0,
-    sphere=None,
+    sphere="repulsion724",
     seed_mask=None,
     seed_threshold=0.5,
     thresholds_as_percentages=False,
@@ -60,9 +60,10 @@ def track(
         Default: "prob"
     max_angle : float, optional.
         The maximum turning angle in each step. Default: 30
-    sphere : Sphere object, optional.
-        The discretization of direction getting. default:
-        dipy.data.default_sphere.
+    sphere : str or DIPY Sphere
+        The discretization of the ODF. Can be a DIPY Sphere or
+        a string name of a DIPY Sphere.
+        Default: "repulsion724"
     seed_mask : array, optional.
         Float or binary mask describing the ROI within which we seed for
         tracking.
@@ -164,8 +165,8 @@ def track(
         params_img.affine,
     )
 
-    if sphere is None:
-        sphere = dpd.default_sphere
+    if isinstance(sphere, str):
+        sphere = dpd.get_sphere(name=sphere)
 
     logger.info("Getting Directions...")
     if directions == "det":

@@ -25,7 +25,7 @@ def test_GQI_fix():
 
         gqmodel = GeneralizedQSamplingModel(gtab, sampling_length=1.2)
 
-        odf_ours = gwi_odf(gqmodel, data)
+        odf_ours = gwi_odf(gqmodel, data, default_sphere)
 
         odf_theirs = gqmodel.fit(data).odf(default_sphere)
 

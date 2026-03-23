@@ -6,7 +6,6 @@ from math import radians
 import numpy as np
 from dipy.align import vector_fields as vfu
 from dipy.align.imwarp import DiffeomorphicMap, mult_aff
-from dipy.data import default_sphere
 from dipy.reconst.gqi import squared_radial_component
 from dipy.tracking.streamline import set_number_of_points
 from PIL import Image
@@ -86,10 +85,10 @@ def get_simplified_transform(self):
     return simplified
 
 
-def gwi_odf(gqmodel, data):
+def gwi_odf(gqmodel, data, sphere):
     gqi_vector = np.real(
         squared_radial_component(
-            np.dot(gqmodel.b_vector, default_sphere.vertices.T) * gqmodel.Lambda
+            np.dot(gqmodel.b_vector, sphere.vertices.T) * gqmodel.Lambda
         )
     )
     odf = blas.dgemm(

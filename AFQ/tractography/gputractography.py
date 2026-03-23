@@ -50,6 +50,8 @@ def gpu_track(
         Estimations of partial volumes of WM, GM, and CSF.
     odf_model : str, optional
         One of {"OPDT", "CSA"}
+    sphere : DIPY Sphere
+        The discretization of the ODF.
     seed_threshold : float
         The value of the seed_path above which tracking is seeded.
     thresholds_as_percentages : bool

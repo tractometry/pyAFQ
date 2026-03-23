@@ -288,7 +288,9 @@ def gpu_tractography(
 
     sphere = tracking_params["sphere"]
     if sphere is None:
-        sphere = dpd.default_sphere
+        sphere = dpd.get_sphere(name="repulsion724")
+    else:
+        sphere = dpd.get_sphere(name=tracking_params["sphere"])
 
     sft = gpu_track(
         data,
