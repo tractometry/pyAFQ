@@ -235,7 +235,8 @@ def gaussian_weights(
     bundle : Streamlines
         The streamlines to weight.
     assignment_idxs : array of shape (n_streamlines, n_points), optional
-        BUAN assignments, optional.
+        BUAN assignments. If None, use the node index as the group assignment.
+        Default: None
     n_points : int or None, optional
         The number of points to resample to. If this is None, we assume bundle
         is already resampled, and do not do any resampling. Default: 100.
