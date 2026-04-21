@@ -1,5 +1,4 @@
 import logging
-import multiprocessing
 
 import immlib
 import nibabel as nib
@@ -42,7 +41,7 @@ def configure_ncpus_nthreads(ray_n_cpus=None, numba_n_threads=None, low_memory=F
         Default: False
     """
     if ray_n_cpus is None:
-        ray_n_cpus = max(multiprocessing.cpu_count() - 1, 1)
+        ray_n_cpus = 1
     if numba_n_threads is None:
         numba_n_threads = min(max(get_num_threads() - 1, 1), 16)
 
