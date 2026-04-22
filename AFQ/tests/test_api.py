@@ -370,6 +370,42 @@ def test_AFQ_data():
         assert len(os.listdir(op.join(myafq.afq_path, "sub-01", "ses-01", "dwi"))) == 0
 
 
+def test_AFQ_seed_array():
+    """
+    Test if API can run with an array of seeds passed in
+    """
+    _, bids_path, _ = get_temp_hardi()
+    freesurfer_folder = op.join(bids_path, "derivatives/freesurfer/sub-01/ses-01/anat")
+    seg_file = op.join(freesurfer_folder, "sub-01_ses-01_seg.nii.gz")
+    bm_def = LabelledImageFile(path=seg_file, exclusive_labels=[0])
+
+    pve = PVEImages(
+        LabelledImageFile(path=seg_file, inclusive_labels=[0]),
+        LabelledImageFile(path=seg_file, exclusive_labels=[0, 1, 2], combine="and"),
+        LabelledImageFile(path=seg_file, inclusive_labels=[1, 2]),
+    )
+
+    seed_mask = nib.load(seg_file).get_fdata() == 1
+
+    seeds = dtu.random_seeds_from_mask(
+        seed_mask,
+        seeds_count=20,
+        seed_count_per_voxel=False,
+        affine=np.eye(4),
+        random_seed=20,
+    )
+
+    myafq = GroupAFQ(
+        bids_path=bids_path,
+        dwi_preproc_pipeline="vistasoft",
+        t1_preproc_pipeline="freesurfer",
+        brain_mask_definition=bm_def,
+        pve=pve,
+        tracking_params=dict(odf_model="dti", n_seeds=seeds),
+    )
+    myafq.export("streamlines")
+
+
 @pytest.mark.nightly_anisotropic
 def test_AFQ_anisotropic():
     """

@@ -220,6 +220,12 @@ def streamlines(
         sft.to_vox()
         n_streamlines = len(sft.streamlines)
 
+    if len(sft) == 0:
+        raise ValueError(
+            "No streamlines were generated. "
+            "Please check your tracking parameters and input data."
+        )
+
     return sft, _meta_from_tracking_params(
         tracking_params, start_time, n_streamlines, seed, tissue_imap["pve_internal"]
     )
@@ -391,6 +397,13 @@ def get_tractography_plan(kwargs):
             as_file("_desc-seed_mask.nii.gz", subfolder="tractography")(
                 seed_mask.get_image_getter("tractography")
             )
+        )
+    else:
+        raise TypeError(
+            "seed_mask must be an AFQ Definition when using the GroupAFQ or "
+            "ParticipantAFQ API. Consider using "
+            'ScalarImage("wm_gm_interface"), ThresholdedScalarImage, '
+            "RoiImage, or another AFQ Image definition."
         )
 
     if isinstance(odf_model, Definition):
