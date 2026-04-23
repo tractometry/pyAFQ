@@ -503,17 +503,27 @@ def run_bundle_rec_plan(
             and (potential_criterion not in recognized_bundles_dict.keys())
             and (potential_criterion not in valid_noncriterion)
         ):
-            raise ValueError(
-                (
-                    "Invalid criterion in bundle definition:\n"
-                    f"{potential_criterion} in bundle {bundle_name}.\n"
-                    "Valid criteria are:\n"
-                    f"{criteria_order_pre_other_bundles}\n"
-                    f"{criteria_order_post_other_bundles}\n"
-                    f"{recognized_bundles_dict.keys()}\n"
-                    f"{valid_noncriterion}\n"
+            if potential_criterion in bundle_dict.bundle_names:
+                raise ValueError(
+                    (
+                        f"Bundle {potential_criterion} is being used as a criterion in "
+                        f"the definition of bundle {bundle_name}, however this bundle "
+                        "was not found."
+                        " This could because of insufficient streamlines"
+                    )
                 )
-            )
+            else:
+                raise ValueError(
+                    (
+                        "Invalid criterion in bundle definition:\n"
+                        f"{potential_criterion} in bundle {bundle_name}.\n"
+                        "Valid criteria are:\n"
+                        f"{criteria_order_pre_other_bundles}\n"
+                        f"{criteria_order_post_other_bundles}\n"
+                        f"{recognized_bundles_dict.keys()}\n"
+                        f"{valid_noncriterion}\n"
+                    )
+                )
 
     for criterion in criteria_order_pre_other_bundles:
         if b_sls and criterion in bundle_def:
