@@ -411,9 +411,11 @@ def get_tractography_plan(kwargs):
             odf_model.get_image_getter("tractography")
         )
 
+    n_seeds = kwargs["tracking_params"]["n_seeds"]
     if (
         kwargs["tracking_params"]["random_seeds"]
-        and kwargs["tracking_params"]["n_seeds"] <= 20
+        and isinstance(n_seeds, int)
+        and n_seeds <= 20
     ):
         raise ValueError(
             "Using random seeds with a low number of seeds is not recommended."
