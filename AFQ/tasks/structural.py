@@ -31,8 +31,7 @@ def configure_ncpus_nthreads(ray_n_cpus=None, numba_n_threads=None, low_memory=F
         Default: None
     numba_n_threads : int, optional
         The number of threads to use for Numba and DIPY tracking.
-        If None, uses the number of available CPUs minus one,
-        but with a maximum of 32.
+        If None, uses the number of available CPUs minus one.
         Default: None
     low_memory : bool, optional
         Whether to use low-memory versions of algorithms
