@@ -32,7 +32,7 @@ def track(
     seed_mask=None,
     seed_threshold=0.5,
     thresholds_as_percentages=False,
-    n_seeds=2e7,
+    n_seeds=1e7,
     random_seeds=True,
     rng_seed=None,
     step_size=0.5,
@@ -273,7 +273,7 @@ def track(
         total=len(seeds) * 0.7,
         desc="Tracking...",
     )
-    logger.info(f"Tracking took {time() - start_time:.2f} seconds.")
+    logger.info((f"Seed initialization took {time() - start_time:.2f} seconds."))
 
     if trx:
         return LazyTractogram(lambda: tracker, affine_to_rasmm=params_img.affine)
