@@ -110,6 +110,35 @@ def b0(dwi, gtab):
     return mean_b0, meta
 
 
+@immlib.calc("t1w_b0")
+@as_file("_desc-T1wOverB0.nii.gz")
+@as_img
+def t1w_over_b0(structural_imap, b0, citations, r1_epsilon=1e-2):
+    """
+    full path to a nifti file containing the T1w over mean b0
+    which is a proxy for R1 [1]_
+
+    References
+    ----------
+    .. [1] Moskovich, Shachar, Oshrat Shtangel, and Aviv A. Mezer.
+            Approximating R1 and R2: a quantitative approach to
+            clinical weighted MRI. Vol. 45. No. 18. Hoboken,
+            USA: John Wiley & Sons, Inc., 2024.
+    """
+    citations.add("moskovich2024approximating")
+
+    t1_img = nib.load(structural_imap["t1_masked"])
+    b0_img = nib.load(b0)
+    resampled_t1 = resample(t1_img, b0_img)
+    data = np.divide(
+        resampled_t1.get_fdata(),
+        b0_img.get_fdata(),
+        where=b0_img.get_fdata() >= r1_epsilon,
+    )
+    meta = dict(T1w=structural_imap["t1_masked"], b0=b0)
+    return data, meta
+
+
 @immlib.calc("masked_b0")
 @as_file("_desc-masked_b0ref.nii.gz")
 @as_img
@@ -1441,9 +1470,9 @@ def get_data_plan(kwargs):
     if "scalars" not in kwargs:
         bvals, _ = read_bvals_bvecs(kwargs["bval_file"], kwargs["bvec_file"])
         if len(dpg.unique_bvals_magnitude(bvals)) > 2:
-            kwargs["scalars"] = ["dki_fa", "dki_md", "dki_kfa", "dki_mk", "t1w"]
+            kwargs["scalars"] = ["dki_fa", "dki_md", "dki_kfa", "dki_mk", "t1w_b0"]
         else:
-            kwargs["scalars"] = ["dti_fa", "dti_md", "t1w"]
+            kwargs["scalars"] = ["dti_fa", "dti_md", "t1w_b0"]
     else:
         scalars = []
         for scalar in kwargs["scalars"]:
