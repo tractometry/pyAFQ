@@ -1,4 +1,5 @@
 import logging
+from time import time
 
 import dipy.tracking.utils as dtu
 import numpy as np
@@ -40,6 +41,7 @@ def gen_seeds(
     :func:`AFQ.tractography.tractography.track`.
     """
     logger.info("Generating Seeds...")
+    start_time = time()
     if _is_int(n_seeds):
         # If it's float type, cast to integer:
         if isinstance(n_seeds, float):
@@ -61,4 +63,6 @@ def gen_seeds(
     else:
         # If user provided an array, we'll use n_seeds as the seeds:
         seeds = n_seeds
+
+    logger.info(f"Generated {len(seeds)} seeds in {time() - start_time:.2f} seconds.")
     return seeds

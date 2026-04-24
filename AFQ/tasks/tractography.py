@@ -99,7 +99,6 @@ def streamlines(
 
     # get masks
     this_tracking_params["seed_mask"] = nib.load(seed).get_fdata()
-    this_tracking_params["pve"] = tissue_imap["pve_internal"]
 
     is_trx = this_tracking_params.get("trx", False)
 
@@ -115,6 +114,9 @@ def streamlines(
                     "parallel, please install ray or remove the"
                     " 'num_chunks' arg"
                 )
+
+            this_tracking_params["pve"] = tissue_imap["pve_internal"]
+            this_tracking_params["n_threads"] = structural_imap["n_threads"]
 
             @ray.remote
             class TractActor:
@@ -207,17 +209,30 @@ def streamlines(
 
             sft = trx_concatenate(sfts)
         else:
-            lazyt = aft.track(fodf, **this_tracking_params)
+            lazyt = aft.track(
+                fodf,
+                tissue_imap["pve_internal"],
+                structural_imap["n_threads"],
+                **this_tracking_params,
+            )
             # Chunk size is number of streamlines tracked before saving to disk.
             sft = TrxFile.from_lazy_tractogram(
-                lazyt, seed, dtype_dict=dtype_dict, chunk_size=1e5
+                lazyt,
+                seed,
+                dtype_dict=dtype_dict,
+                chunk_size=1e5,
+                extra_buffer=int(1e6),
             )
         n_streamlines = len(sft)
 
     else:
         start_time = time()
-        sft = aft.track(fodf, **this_tracking_params)
-        sft.to_vox()
+        sft = aft.track(
+            fodf,
+            tissue_imap["pve_internal"],
+            structural_imap["n_threads"],
+            **this_tracking_params,
+        )
         n_streamlines = len(sft.streamlines)
 
     if len(sft) == 0:

@@ -26,7 +26,7 @@ tracking_params = dict(
     n_seeds=1,
     random_seeds=False,
     minlen=50,
-    tracker="local",
+    directions="prob",
     seed_mask=afm.ScalarImage("dti_fa"),
     seed_threshold=0.2
 )

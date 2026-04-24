@@ -1,18 +1,19 @@
 import logging
+from time import time
 
 import dipy.data as dpd
 import nibabel as nib
 import numpy as np
 from dipy.align import resample
-from dipy.direction import (
-    DeterministicMaximumDirectionGetter,
-    ProbabilisticDirectionGetter,
-)
 from dipy.io.stateful_tractogram import Space, StatefulTractogram
 from dipy.reconst import shm
 from dipy.reconst.dti import decompose_tensor, from_lower_triangular
-from dipy.tracking.local_tracking import LocalTracking, ParticleFilteringTracking
 from dipy.tracking.stopping_criterion import ActStoppingCriterion
+from dipy.tracking.tracker import (
+    deterministic_tracking,
+    pft_tracking,
+    probabilistic_tracking,
+)
 from nibabel.streamlines.tractogram import LazyTractogram
 from skimage.segmentation import find_boundaries
 from tqdm import tqdm
@@ -24,13 +25,14 @@ from AFQ.tractography.utils import gen_seeds
 def track(
     params_file,
     pve,
+    n_threads,
     directions="prob",
     max_angle=30.0,
     sphere="repulsion724",
     seed_mask=None,
     seed_threshold=0.5,
     thresholds_as_percentages=False,
-    n_seeds=1e7,
+    n_seeds=2e7,
     random_seeds=True,
     rng_seed=None,
     step_size=0.5,
@@ -39,7 +41,6 @@ def track(
     odf_model="CSD_AODF",
     basis_type="descoteaux07",
     legacy=True,
-    tracker="pft",
     trx=True,
 ):
     """
@@ -54,9 +55,13 @@ def track(
         Full path to a nifti file containing tissue probability maps,
         or nibabel img with tissue probability maps. This should be of the
         order (pve_csf, pve_gm, pve_wm).
+    n_threads : int
+        The number of threads to use in tracking.
+        If 0 or -1, uses all available threads.
     directions : str
         How tracking directions are determined.
-        One of: {"det" | "prob"}
+        One of: {"det" | "prob" | "pft"}
+        pft refers to Particle Filtering Tracking ([Girard2014]_).
         Default: "prob"
     max_angle : float, optional.
         The maximum turning angle in each step. Default: 30
@@ -105,12 +110,8 @@ def track(
         The spherical harmonic basis type used to represent the coefficients.
         One of {"descoteaux07", "tournier07"}. Default: "descoteaux07"
     legacy : bool, optional
-        Whether to use the legacy implementation of the direction getter.
+        Whether the legacy SH basis definition should be used.
         See Dipy documentation for more details. Default: True
-    tracker : str, optional
-        Which strategy to use in tracking. This can be the standard local
-        tracking ("local") or Particle Filtering Tracking ([Girard2014]_).
-        One of {"local", "pft"}. Default: "pft"
     trx : bool, optional
         Whether to return the streamlines compatible with input to TRX file
         (i.e., as a LazyTractogram class instance).
@@ -148,9 +149,8 @@ def track(
         odf_model = odf_model.upper()
     directions = directions.lower()
 
-    # transform from mm to step size units
-    minlen = int(minlen / step_size)
-    maxlen = int(maxlen / step_size)
+    if n_threads == -1:
+        n_threads = 0
 
     if seed_mask is None:
         seed_mask = np.ones(params_img.shape[:3])
@@ -167,37 +167,6 @@ def track(
 
     if isinstance(sphere, str):
         sphere = dpd.get_sphere(name=sphere)
-
-    logger.info("Getting Directions...")
-    if directions == "det":
-        dg = DeterministicMaximumDirectionGetter
-    elif directions == "prob":
-        dg = ProbabilisticDirectionGetter
-    else:
-        raise ValueError(f"Unrecognized direction '{directions}'.")
-
-    logger.debug(f"Using basis type: {basis_type}")
-    logger.debug(f"Using legacy DG: {legacy}")
-
-    if odf_model == "DTI" or odf_model == "DKI":
-        evals, evecs = decompose_tensor(from_lower_triangular(model_params))
-        odf = tensor_odf(evals, evecs, sphere)
-        dg = dg.from_pmf(odf, max_angle=max_angle, sphere=sphere)
-    elif (odf_model == "GQ") or (odf_model == "RUMBA") or ("AODF" in odf_model):
-        sh_order = shm.order_from_ncoef(model_params.shape[3], full_basis=True)
-        pmf = shm.sh_to_sf(model_params, sphere, sh_order_max=sh_order, full_basis=True)
-        pmf[pmf < 0] = 0
-        dg = dg.from_pmf(
-            np.asarray(pmf, dtype=float), max_angle=max_angle, sphere=sphere
-        )
-    else:
-        dg = dg.from_shcoeff(
-            model_params,
-            max_angle=max_angle,
-            sphere=sphere,
-            basis_type=basis_type,
-            legacy=legacy,
-        )
 
     if not len(pve_data.shape) == 4 or pve_data.shape[3] != 3:
         raise RuntimeError(
@@ -228,77 +197,83 @@ def track(
         static_affine=params_img.affine,
     ).get_fdata()
 
-    # here we treat edges as gm
+    # here we treat wm that borders the edge of the brain mask as gm
     # this is so that streamlines that hit the end of the
     # (presumably masked) fodf are treated as valid
+    # (think brain stem)
     brain_mask = np.any(model_params != 0, axis=-1).astype(np.uint8)
     edge = find_boundaries(brain_mask, mode="inner")
     pve_gm_data[edge] = 1.0
     pve_wm_data[edge] = 0.0
     pve_csf_data[edge] = 0.0
 
+    # Here we adjust the stopping criterion to be slightly more permissive
+    pve_gm_data = pve_gm_data.astype(float) * 0.51
+    pve_csf_data = pve_csf_data.astype(float) * 0.51
+
     stopping_criterion = ActStoppingCriterion.from_pve(
         pve_wm_data, pve_gm_data, pve_csf_data
     )
 
-    if tracker == "local":
-        my_tracker = LocalTracking
-    elif tracker == "pft":
-        my_tracker = ParticleFilteringTracking
+    if odf_model == "DTI" or odf_model == "DKI":
+        evals, evecs = decompose_tensor(from_lower_triangular(model_params))
+        odf = tensor_odf(evals, evecs, sphere)
+    elif (odf_model == "GQ") or (odf_model == "RUMBA") or ("AODF" in odf_model):
+        sh_order = shm.order_from_ncoef(model_params.shape[3], full_basis=True)
+        odf = shm.sh_to_sf(model_params, sphere, sh_order_max=sh_order, full_basis=True)
+        odf[odf < 0] = 0
     else:
-        raise ValueError(
-            f"Unrecognized tracker '{tracker}'. Must be one of {{'local', 'pft'}}."
-        )
+        odf = None
 
-    logger.info(
-        f"Tracking with {len(seeds)} seeds, average of 1-3 directions per seed..."
-    )
+    if directions == "det":  #  /todo check if works with nonsymmetric
+        tracker = deterministic_tracking
+    elif directions == "prob":
+        tracker = probabilistic_tracking
+    elif directions == "pft":
+        tracker = pft_tracking
+    else:
+        raise ValueError(f"Unrecognized direction '{directions}'.")
+    tracking_kwargs = {}
 
-    return _tracking(
-        my_tracker,
-        seeds,
-        dg,
-        stopping_criterion,
-        params_img,
-        step_size=step_size,
-        minlen=minlen,
-        maxlen=maxlen,
-        random_seed=rng_seed,
-        trx=trx,
-    )
+    if (
+        (odf_model == "DTI")
+        or (odf_model == "DKI")
+        or (odf_model == "GQ")
+        or (odf_model == "RUMBA")
+        or ("AODF" in odf_model)
+    ):
+        tracking_kwargs["sf"] = odf
+    else:
+        tracking_kwargs["sh"] = model_params
 
+    logger.info(f"Tracking with {len(seeds)} seeds...")
 
-def _tracking(
-    tracker,
-    seeds,
-    dg,
-    stopping_criterion,
-    params_img,
-    step_size=0.5,
-    minlen=40,
-    maxlen=200,
-    random_seed=None,
-    trx=False,
-):
-    """
-    Helper function
-    """
     if len(seeds.shape) == 1:
         seeds = seeds[None, ...]
 
+    logger.info("Note there will be a long initial delay as seeds are initialized")
+    start_time = time()
     tracker = tqdm(
         tracker(
-            dg,
-            stopping_criterion,
             seeds,
+            stopping_criterion,
             params_img.affine,
+            max_angle=max_angle,
+            sphere=sphere,
+            basis_type=basis_type,
+            legacy=legacy,
             step_size=step_size,
-            minlen=minlen,
-            maxlen=maxlen,
+            min_len=minlen,
+            max_len=maxlen,
             return_all=False,
-            random_seed=random_seed,
-        )
+            random_seed=rng_seed,
+            nbr_threads=n_threads,
+            **tracking_kwargs,
+        ),
+        total=len(seeds) * 0.7,
+        desc="Tracking...",
     )
+    logger.info(f"Tracking took {time() - start_time:.2f} seconds.")
 
     if trx:
         return LazyTractogram(lambda: tracker, affine_to_rasmm=params_img.affine)

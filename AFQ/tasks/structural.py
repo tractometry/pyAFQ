@@ -30,10 +30,9 @@ def configure_ncpus_nthreads(ray_n_cpus=None, numba_n_threads=None, low_memory=F
         Tractography and MSMT use Ray.
         Default: None
     numba_n_threads : int, optional
-        The number of threads to use for Numba.
+        The number of threads to use for Numba and DIPY tracking.
         If None, uses the number of available CPUs minus one,
-        but with a maximum of 16.
-        ASYM fit uses Numba.
+        but with a maximum of 32.
         Default: None
     low_memory : bool, optional
         Whether to use low-memory versions of algorithms
@@ -43,7 +42,7 @@ def configure_ncpus_nthreads(ray_n_cpus=None, numba_n_threads=None, low_memory=F
     if ray_n_cpus is None:
         ray_n_cpus = 1
     if numba_n_threads is None:
-        numba_n_threads = min(max(get_num_threads() - 1, 1), 16)
+        numba_n_threads = min(max(get_num_threads() - 1, 1), 32)
 
     return ray_n_cpus, numba_n_threads, low_memory
 
