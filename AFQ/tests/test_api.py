@@ -401,7 +401,7 @@ def test_AFQ_seed_array():
         t1_preproc_pipeline="freesurfer",
         brain_mask_definition=bm_def,
         pve=pve,
-        tracking_params=dict(odf_model="dti", n_seeds=seeds),
+        tracking_params=dict(odf_model="dti", n_seeds=seeds, rng_seed=2026),
     )
     myafq.export("streamlines")
 
