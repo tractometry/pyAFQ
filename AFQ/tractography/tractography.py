@@ -26,11 +26,11 @@ def track(
     pve,
     directions="prob",
     max_angle=30.0,
-    sphere=None,
+    sphere="repulsion724",
     seed_mask=None,
     seed_threshold=0.5,
     thresholds_as_percentages=False,
-    n_seeds=2000000,
+    n_seeds=1e7,
     random_seeds=True,
     rng_seed=None,
     step_size=0.5,
@@ -40,7 +40,7 @@ def track(
     basis_type="descoteaux07",
     legacy=True,
     tracker="pft",
-    trx=False,
+    trx=True,
 ):
     """
     Tractography
@@ -60,9 +60,10 @@ def track(
         Default: "prob"
     max_angle : float, optional.
         The maximum turning angle in each step. Default: 30
-    sphere : Sphere object, optional.
-        The discretization of direction getting. default:
-        dipy.data.default_sphere.
+    sphere : str or DIPY Sphere
+        The discretization of the ODF. Can be a DIPY Sphere or
+        a string name of a DIPY Sphere.
+        Default: "repulsion724"
     seed_mask : array, optional.
         Float or binary mask describing the ROI within which we seed for
         tracking.
@@ -75,7 +76,7 @@ def track(
         voxel on each dimension (for example, 2 => [2, 2, 2]). If this is a 2D
         array, these are the coordinates of the seeds. Unless random_seeds is
         set to True, in which case this is the total number of random seeds
-        to generate within the mask. Default: 2000000
+        to generate within the mask. Default: 1e7
     random_seeds : bool
         Whether to generate a total of n_seeds random seeds in the mask.
         Default: True
@@ -93,7 +94,7 @@ def track(
     minlen: int, optional
         The minimal length (mm) in a streamline. Default: 20
     maxlen: int, optional
-        The minimal length (mm) in a streamline. Default: 250
+        The maximum length (mm) in a streamline. Default: 250
     odf_model : str or Definition, optional
         Can be either a string or Definition. If a string, it must be one of
         {"DTI", "CSD", "DKI", "GQ", "RUMBA", "MSMT_AODF", "CSD_AODF", "MSMTCSD"}.
@@ -113,7 +114,7 @@ def track(
     trx : bool, optional
         Whether to return the streamlines compatible with input to TRX file
         (i.e., as a LazyTractogram class instance).
-        Default: False
+        Default: True
 
     Returns
     -------
@@ -164,8 +165,8 @@ def track(
         params_img.affine,
     )
 
-    if sphere is None:
-        sphere = dpd.default_sphere
+    if isinstance(sphere, str):
+        sphere = dpd.get_sphere(name=sphere)
 
     logger.info("Getting Directions...")
     if directions == "det":

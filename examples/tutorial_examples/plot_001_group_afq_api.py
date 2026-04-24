@@ -52,11 +52,11 @@ bids_path = afd.fetch_hbn_preproc(
 # Set tractography parameters (optional)
 # ---------------------------------------
 # We make create a `tracking_params` variable, which we will pass to the
-# GroupAFQ object which specifies that we want 50,000 seeds randomly
+# GroupAFQ object which specifies that we want 200,000 seeds randomly
 # distributed in the white matter. We only do this to make this example faster
-# and consume less space; normally, we use more seeds
+# and consume less space; normally, we use more seeds.
 
-tracking_params = dict(n_seeds=50000,
+tracking_params = dict(n_seeds=200000,
                        random_seeds=True,
                        rng_seed=2025,
                        trx=True)
@@ -269,8 +269,8 @@ bundle_counts = pd.read_csv(
         "NDARAA948VFH"]["HBNsiteRU"], index_col=[0])
 for ind in bundle_counts.index:
     if ind == "Total Recognized":
-        threshold = 1000
-    elif "Fronto-occipital" in ind or "Orbital" in ind:
+        threshold = 3000
+    elif "Vertical Occipital" in ind:
         threshold = 5
     else:
         threshold = 15

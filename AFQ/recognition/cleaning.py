@@ -1,9 +1,9 @@
 import logging
 
 import dipy.tracking.streamline as dts
-import nibabel as nib
 import numpy as np
 from dipy.io.stateful_tractogram import StatefulTractogram
+from dipy.stats.analysis import assignment_map
 from scipy.stats import zscore
 from sklearn.ensemble import IsolationForest
 
@@ -13,15 +13,24 @@ from AFQ._fixes import gaussian_weights
 logger = logging.getLogger("AFQ")
 
 
-def clean_by_orientation(streamlines, primary_axis, affine, tol=None):
+def clean_by_orientation(streamlines, primary_axis, core_only=0.6):
     """
-    Compute the cardinal orientation of each streamline
+    Retain streamlines whose core is oriented along the primary axis
+    and have endpoints that are also oriented along the primary axis
+    and have a majority of their steps along the primary axis.
 
     Parameters
     ----------
     streamlines : sequence of N by 3 arrays
         Where N is number of nodes in the array, the collection of
         streamlines to filter down to.
+    core_only : float, optional
+        If non-zero, only the core of the bundle is used for cleaning.
+        The core is defined as the middle 60% of each streamline,
+        thus our default is 0.6. This means streamlines are allowed to
+        deviate in the starting and ending 20% of the bundle. This is useful
+        for allowing more diverse endpoints.
+        Default: 0.6
 
     Returns
     -------
@@ -32,37 +41,33 @@ def clean_by_orientation(streamlines, primary_axis, affine, tol=None):
         raise ValueError(
             f"Primary axis must be one of {axes_names}, got {primary_axis}"
         )
-    orientation = nib.orientations.aff2axcodes(affine)
-    for idx, axis_label in enumerate(orientation):
-        if axis_label in primary_axis:
-            primary_axis = idx
-            break
 
-    axis_diff = np.zeros((len(streamlines), 3))
+    primary_axis = abu.axes_dict[primary_axis]
+
+    core_accepted_idx = np.zeros(len(streamlines), dtype=bool)
+    if core_only != 0:
+        crop_edge = (1.0 - core_only) / 2
+        for ii, sl in enumerate(streamlines):
+            n_points = len(sl)
+            along_diff = np.abs(
+                np.diff(
+                    sl[int(n_points * crop_edge) : int(n_points * (1 - crop_edge))],
+                    axis=0,
+                )
+            )
+            # The majority of steps must be in the primary axis direction:
+            core_accepted_idx[ii] = np.sum(
+                np.argmax(along_diff, axis=1) == primary_axis
+            ) > (len(along_diff) / 2)
+
     endpoint_diff = np.zeros((len(streamlines), 3))
     for ii, sl in enumerate(streamlines):
-        # endpoint diff is between first and last
         endpoint_diff[ii, :] = np.abs(sl[0, :] - sl[-1, :])
-        # axis diff is difference between the nodes, along
-        axis_diff[ii, :] = np.sum(np.abs(np.diff(sl, axis=0)), axis=0)
-
-    orientation_along = np.argmax(axis_diff, axis=1)
-    along_accepted_idx = orientation_along == primary_axis
-    if tol is not None:
-        percentage_primary = (
-            100 * axis_diff[:, primary_axis] / np.sum(axis_diff, axis=1)
-        )
-        logger.debug(
-            (f"Maximum primary percentage found: {np.max(percentage_primary)}")
-        )
-        along_accepted_idx = np.logical_and(
-            along_accepted_idx, percentage_primary > tol
-        )
 
     orientation_end = np.argmax(endpoint_diff, axis=1)
     end_accepted_idx = orientation_end == primary_axis
 
-    cleaned_idx = np.logical_and(along_accepted_idx, end_accepted_idx)
+    cleaned_idx = np.logical_and(end_accepted_idx, core_accepted_idx)
 
     return cleaned_idx
 
@@ -70,45 +75,76 @@ def clean_by_orientation(streamlines, primary_axis, affine, tol=None):
 def clean_by_orientation_mahalanobis(
     streamlines,
     n_points=100,
-    core_only=0.6,
+    core_only=0,
     min_sl=20,
     distance_threshold=3,
+    length_threshold=4,
     clean_rounds=5,
+    remove_lengths="long",
 ):
-    fgarray = np.array(abu.resample_tg(streamlines, n_points))
+    if length_threshold == 0:
+        length_threshold = np.inf
+    fgarray = abu.resample_tg(streamlines, n_points)
+
+    assignment_idxs = np.asarray(assignment_map(fgarray, fgarray, 100))
+    assignment_idxs = assignment_idxs.reshape((len(fgarray), n_points))
+    fgarray = np.asarray(fgarray)
 
     if core_only != 0:
         crop_edge = (1.0 - core_only) / 2
         fgarray = fgarray[
             :, int(n_points * crop_edge) : int(n_points * (1 - crop_edge)), :
-        ]  # Crop to middle 60%
+        ]
 
     fgarray_dists = fgarray[:, 1:, :] - fgarray[:, :-1, :]
+    assignment_idxs = assignment_idxs[:, 1:]
+    lengths = np.array([sl.shape[0] for sl in streamlines])
     idx = np.arange(len(fgarray))
     rounds_elapsed = 0
     while rounds_elapsed < clean_rounds:
-        # This calculates the Mahalanobis for each streamline/node:
         m_dist = gaussian_weights(
-            fgarray_dists, return_mahalnobis=True, n_points=None, stat=np.mean
+            fgarray_dists,
+            assignment_idxs=assignment_idxs,
+            return_mahalnobis=True,
+            n_points=None,
+            stat=np.mean,
         )
+        length_z = zscore(lengths)
+
         logger.debug(f"Shape of fgarray: {np.asarray(fgarray_dists).shape}")
         logger.debug((f"Maximum m_dist for each fiber: {np.max(m_dist, axis=1)}"))
 
-        if not (np.any(m_dist >= distance_threshold)):
+        if not (
+            np.any(m_dist >= distance_threshold) or np.any(length_z >= length_threshold)
+        ):
             break
-        idx_dist = np.all(m_dist < distance_threshold, axis=-1)
 
-        if np.sum(idx_dist) < min_sl:
-            # need to sort and return exactly min_sl:
+        idx_dist = np.all(m_dist < distance_threshold, axis=-1)
+        if remove_lengths == "long":
+            idx_len = length_z < length_threshold
+        elif remove_lengths == "short":
+            idx_len = length_z > -length_threshold
+        elif remove_lengths == "both":
+            idx_len = np.abs(length_z) < length_threshold
+        else:
+            raise ValueError(
+                f"Invalid value for remove_lengths: {remove_lengths}. "
+                "Expected 'long', 'short', or 'both'."
+            )
+        idx_belong = np.logical_and(idx_dist, idx_len)
+
+        if np.sum(idx_belong) < min_sl:
             idx = idx[np.argsort(np.sum(m_dist, axis=-1))[:min_sl].astype(int)]
+            idx = np.sort(idx)
             logger.debug(
                 (f"At rounds elapsed {rounds_elapsed}, minimum streamlines reached")
             )
             break
         else:
-            # Update by selection:
-            idx = idx[idx_dist]
-            fgarray_dists = fgarray_dists[idx_dist]
+            idx = idx[idx_belong]
+            fgarray_dists = fgarray_dists[idx_belong]
+            lengths = lengths[idx_belong]
+            assignment_idxs = assignment_idxs[idx_belong]
             rounds_elapsed += 1
             logger.debug((f"Rounds elapsed: {rounds_elapsed}, num kept: {len(idx)}"))
             logger.debug(f"Kept indices: {idx}")
@@ -120,12 +156,13 @@ def clean_bundle(
     tg,
     n_points=100,
     clean_rounds=5,
-    distance_threshold=3,
+    distance_threshold=4,
     length_threshold=4,
     min_sl=20,
     stat=np.mean,
     core_only=0.6,
     return_idx=False,
+    remove_lengths="long",
 ):
     """
     Clean a segmented fiber group based on the Mahalnobis distance of
@@ -143,7 +180,7 @@ def clean_bundle(
         the mean of extracted bundles. Default: 5
     distance_threshold : float, optional.
         Threshold of cleaning based on the Mahalanobis distance (the units are
-        standard deviations). Default: 3.
+        standard deviations). Default: 4.
     length_threshold: float, optional
         Threshold for cleaning based on length (in standard deviations). Length
         of any streamline should not be *more* than this number of stdevs from
@@ -156,7 +193,7 @@ def clean_bundle(
         calculated. Default: `np.mean` (but can also use median, etc.)
     core_only : float, optional
         If non-zero, only the core of the bundle is used for cleaning.
-        The core is commonly defined as the middle 60% of each streamline,
+        The core is defined as the middle 60% of each streamline,
         thus our default is 0.6. This means streamlines are allowed to
         deviate in the starting and ending 20% of the bundle. This is useful
         for allowing more diverse endpoints.
@@ -164,6 +201,13 @@ def clean_bundle(
     return_idx : bool
         Whether to return indices in the original streamlines.
         Default: False.
+    remove_lengths : str
+        Specifies which streamlines to remove based on their length.
+        Options are "long" (remove long streamlines), "short"
+        (remove short streamlines), or "both"
+        (remove both long and short streamlines).
+        Default: "long"
+
     Returns
     -------
     A StatefulTractogram class instance containing only the streamlines
@@ -188,6 +232,9 @@ def clean_bundle(
             return tg, np.arange(len(streamlines))
         else:
             return tg
+
+    if length_threshold == 0:
+        length_threshold = np.inf
 
     # Resample once up-front:
     fgarray = np.asarray(abu.resample_tg(streamlines, n_points))
@@ -225,12 +272,23 @@ def clean_bundle(
         # Select the fibers that have Mahalanobis smaller than the
         # threshold for all their nodes:
         idx_dist = np.all(m_dist < distance_threshold, axis=-1)
-        idx_len = length_z < length_threshold
+        if remove_lengths == "long":
+            idx_len = length_z < length_threshold
+        elif remove_lengths == "short":
+            idx_len = length_z > -length_threshold
+        elif remove_lengths == "both":
+            idx_len = np.abs(length_z) < length_threshold
+        else:
+            raise ValueError(
+                f"Invalid value for remove_lengths: {remove_lengths}. "
+                "Expected 'long', 'short', or 'both'."
+            )
         idx_belong = np.logical_and(idx_dist, idx_len)
 
         if np.sum(idx_belong) < min_sl:
             # need to sort and return exactly min_sl:
             idx = idx[np.argsort(np.sum(m_dist, axis=-1))[:min_sl].astype(int)]
+            idx = np.sort(idx)
             logger.debug(
                 (f"At rounds elapsed {rounds_elapsed}, minimum streamlines reached")
             )
@@ -318,6 +376,9 @@ def clean_by_isolation_forest(
         )
         return np.ones(len(streamlines), dtype=bool)
 
+    if length_threshold == 0:
+        length_threshold = np.inf
+
     # Resample once up-front:
     fgarray = np.asarray(abu.resample_tg(streamlines, n_points))
     fgarray_dists = np.zeros_like(fgarray)
@@ -360,6 +421,7 @@ def clean_by_isolation_forest(
         if np.sum(idx_belong) < min_sl:
             # need to sort and return exactly min_sl:
             idx = idx[np.argsort(-sl_outliers)[:min_sl].astype(int)]
+            idx = np.sort(idx)
             logger.debug(
                 (f"At rounds elapsed {rounds_elapsed}, minimum streamlines reached")
             )

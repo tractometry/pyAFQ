@@ -172,7 +172,7 @@ def export_all_helper(api_afq_object, xforms, indiv, viz):
         api_afq_object.export("indiv_bundles")
         api_afq_object.export("rois")
     api_afq_object.export("sl_counts")
-    api_afq_object.export("median_bundle_lengths")
+    api_afq_object.export("bundle_lengths")
     api_afq_object.export("profiles")
 
     if viz:

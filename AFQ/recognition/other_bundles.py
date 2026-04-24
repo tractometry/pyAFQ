@@ -6,10 +6,20 @@ import nibabel as nib
 import numpy as np
 from scipy.spatial.distance import cdist
 
+import AFQ.recognition.utils as abu
+
 logger = logging.getLogger("AFQ")
 
 
-def clean_by_overlap(this_bundle_sls, other_bundle_sls, overlap, img, remove=False):
+def clean_by_overlap(
+    this_bundle_sls,
+    other_bundle_sls,
+    overlap,
+    img,
+    remove=False,
+    project=None,
+    other_bundle_min_density=0.05,
+):
     """
     Cleans a set of streamlines by only keeping (or removing) those with
     significant overlap with another set of streamlines.
@@ -18,13 +28,14 @@ def clean_by_overlap(this_bundle_sls, other_bundle_sls, overlap, img, remove=Fal
     ----------
     this_bundle_sls : array-like
         A list or array of streamlines to be cleaned.
+        Assumed to be in RASMM space.
     other_bundle_sls : array-like
         A reference list or array of streamlines to determine overlapping regions.
     overlap : int
         The minimum number of nodes allowed to overlap between `this_bundle_sls`
         and `other_bundle_sls`. Streamlines with overlaps beyond this threshold
         are removed.
-    img : nibabel.Nifti1Image or ndarray
+    img : nibabel.Nifti1Image
         A reference 3D image that defines the spatial dimensions for the density
         map.
     remove : bool, optional
@@ -32,6 +43,16 @@ def clean_by_overlap(this_bundle_sls, other_bundle_sls, overlap, img, remove=Fal
         removed. If False, streamlines that overlap in more than `overlap` nodes
         are removed.
         Default: False.
+    project : {'A/P', 'I/S', 'L/R', None}, optional
+        If specified, the overlap calculation is projected along the given axis
+        before cleaning. For example, 'A/P' projects the streamlines along the
+        anterior-posterior axis.
+        Default: None.
+    other_bundle_min_density : float, optional
+        A threshold to binarize the density map of `other_bundle_sls`. Voxels
+        with density values above this threshold (as a fraction of the maximum
+        density) are considered occupied.
+        Default: 0.05.
 
     Returns
     -------
@@ -54,10 +75,34 @@ def clean_by_overlap(this_bundle_sls, other_bundle_sls, overlap, img, remove=Fal
     >>> cleaned_bundle = [s for i, s in enumerate(bundle1) if clean_idx[i]]
     """
     other_bundle_density_map = dtu.density_map(
-        other_bundle_sls, np.eye(4), img.shape[:3]
+        other_bundle_sls, img.affine, img.shape[:3]
     )
+
+    if remove:
+        max_val = other_bundle_density_map.max()
+        if max_val > 0:
+            other_bundle_density_map = (
+                other_bundle_density_map / max_val
+            ) > other_bundle_min_density
+        else:
+            other_bundle_density_map = np.zeros_like(
+                other_bundle_density_map, dtype=bool
+            )
+
+    if project is not None:
+        orientation = nib.orientations.aff2axcodes(img.affine)
+        core_axis = next(
+            idx for idx, label in enumerate(orientation) if label in project.upper()
+        )
+
+        projection = np.sum(other_bundle_density_map, axis=core_axis)
+
+        other_bundle_density_map = np.broadcast_to(
+            np.expand_dims(projection, axis=core_axis), other_bundle_density_map.shape
+        )
+
     fiber_probabilities = dts.values_from_volume(
-        other_bundle_density_map, this_bundle_sls, np.eye(4)
+        other_bundle_density_map, this_bundle_sls, img.affine
     )
     cleaned_idx = np.zeros(len(this_bundle_sls), dtype=np.bool_)
     for ii, fp in enumerate(fiber_probabilities):
@@ -69,7 +114,10 @@ def clean_by_overlap(this_bundle_sls, other_bundle_sls, overlap, img, remove=Fal
 
 
 def clean_relative_to_other_core(
-    core, this_fgarray, other_fgarray, affine, entire=False
+    core,
+    this_fgarray,
+    other_fgarray,
+    consideration,
 ):
     """
     Removes streamlines from a set that lie on the opposite side of a specified
@@ -83,15 +131,20 @@ def clean_relative_to_other_core(
         retained.
     this_fgarray : ndarray
         An array of streamlines to be cleaned.
+        Assumed to be in RASMM space.
     other_fgarray : ndarray
         An array of reference streamlines to define the core.
-    affine : ndarray
-        The affine transformation matrix.
-    entire : bool, optional
-        If True, the entire streamline must lie on the correct side of the core
-        to be retained. If False, only the closest point on the streamline to
+        Assumed to be in RASMM space.
+    consideration : float or string, optional
+        If float, the distance threshold (in voxels) for considering a
+        streamline's position relative to the core. All points on
+        the streamline within distance from the core are considered
+        when determining if the streamline lies on the correct side.
+        If string, must be one of 'entire' or 'closest'.
+        If 'entire', the entire streamline must lie on the correct
+        side of the core to be retained.
+        If 'closest', only the closest point on the streamline to
         the core is considered.
-        Default: False.
 
     Returns
     -------
@@ -122,17 +175,7 @@ def clean_relative_to_other_core(
         return np.ones(this_fgarray.shape[0], dtype=np.bool_)
 
     # find dimension of core axis
-    orientation = nib.orientations.aff2axcodes(affine)
-    core_axis = None
-    core_upper = core[0].upper()
-    axis_groups = {
-        "L": ("L", "R"),
-        "R": ("L", "R"),
-        "P": ("P", "A"),
-        "A": ("P", "A"),
-        "I": ("I", "S"),
-        "S": ("I", "S"),
-    }
+    core_axis = abu.axes_dict[core[0].upper()]
 
     direction_signs = {
         "L": 1,
@@ -143,27 +186,33 @@ def clean_relative_to_other_core(
         "S": -1,
     }
 
-    core_axis = None
-    for idx, axis_label in enumerate(orientation):
-        if core_upper in axis_groups[axis_label]:
-            core_axis = idx
-            core_direc = direction_signs[core_upper]
-            break
-
-    if affine[core_axis, core_axis] < 0:
-        core_direc = -core_direc
-
-    if core_axis is None:
-        raise ValueError(f"Invalid core axis: {core}")
+    core_direc = direction_signs[core[0].upper()]
 
     core_bundle = np.median(other_fgarray, axis=0)
     cleaned_idx_core = np.zeros(this_fgarray.shape[0], dtype=np.bool_)
     for ii, sl in enumerate(this_fgarray):
-        if entire:
+        if isinstance(consideration, float):
+            dist_matrix = cdist(core_bundle, sl, "sqeuclidean")
+            closest_core_indices = np.argmin(dist_matrix, axis=0)
+
+            min_dists_sq = np.min(dist_matrix, axis=0)
+            within_threshold = min_dists_sq < consideration**2
+            if np.any(within_threshold):
+                relevant_sl_pts = sl[within_threshold, core_axis]
+                relevant_core_pts = core_bundle[
+                    closest_core_indices[within_threshold], core_axis
+                ]
+
+                cleaned_idx_core[ii] = np.all(
+                    core_direc * (relevant_sl_pts - relevant_core_pts) > 0
+                )
+            else:
+                cleaned_idx_core[ii] = True
+        elif consideration == "entire":
             cleaned_idx_core[ii] = np.all(
                 core_direc * (sl[:, core_axis] - core_bundle[:, core_axis]) > 0
             )
-        else:
+        elif consideration == "closest":
             dist_matrix = cdist(core_bundle, sl, "sqeuclidean")
             min_dist_indices = np.unravel_index(
                 np.argmin(dist_matrix), dist_matrix.shape
@@ -172,5 +221,11 @@ def clean_relative_to_other_core(
             closest_sl = sl[min_dist_indices[1], core_axis]
 
             cleaned_idx_core[ii] = core_direc * (closest_sl - closest_core) > 0
+        else:
+            raise ValueError(
+                "Invalid value for consideration. Must be a "
+                "float or one of 'entire' or 'closest'. You have provided: "
+                f"{consideration}"
+            )
 
     return cleaned_idx_core

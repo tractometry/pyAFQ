@@ -29,7 +29,12 @@ def get_base_fname(output_dir, dwi_data_file):
             key = key_val_pair.split("-")[0]
             if key not in used_key_list:
                 fname = fname + key_val_pair + "_"
-    fname = fname[:-1]
+    if fname[-1] == "_":
+        fname = fname[:-1]
+    else:
+        # if no key value pairs found,
+        # have some default base file name
+        fname = fname + "subject"
     return fname
 
 
@@ -55,7 +60,11 @@ def check_onnxruntime(model_name, alternative_text):
             f"When we tried to import onnxruntime, we got the "
             f"following error:\n{e}\n"
             f"Please install onnxruntime to use this feature, "
-            f"by doing `pip install onnxruntime` or `pip install pyAFQ[nn]`. "
+            f"by doing `pip install onnxruntime` or "
+            f"`pip install onnxruntime-gpu` if you have a compatible GPU or "
+            f"`pip install pyAFQ[nn]` or "
+            "`pip install pyAFQ[gpu]` if you have a compatible GPU "
+            "and want GPUStreamlines. "
             f"{alternative_text}\n"
             "If there are still issues, post an issue on "
             "https://github.com/tractometry/pyAFQ/issues"

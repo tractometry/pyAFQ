@@ -28,19 +28,19 @@ import gzip
 import shutil
 from tempfile import mkdtemp
 
-from dipy.io.stateful_tractogram import Space, StatefulTractogram
 from dipy.io.streamline import load_tractogram, save_tractogram
 from dipy.stats.analysis import afq_profile
 from dipy.tracking.streamline import set_number_of_points, values_from_volume
-from nibabel.affines import voxel_sizes
-from nibabel.orientations import aff2axcodes
+from dipy.tracking.utils import length
 
 logger = logging.getLogger("AFQ")
 
 
 @immlib.calc("bundles")
 @as_file("_desc-bundles_tractography")
-def segment(data_imap, mapping_imap, tractography_imap, segmentation_params):
+def segment(
+    structural_imap, data_imap, mapping_imap, tractography_imap, segmentation_params
+):
     """
     full path to a trk/trx file containing containing
     segmented streamlines, labeled by bundle
@@ -59,24 +59,11 @@ def segment(data_imap, mapping_imap, tractography_imap, segmentation_params):
         or streamlines.endswith(".tck")
         or streamlines.endswith(".vtk")
     ):
-        tg = load_tractogram(
-            streamlines, data_imap["dwi"], Space.VOX, bbox_valid_check=False
-        )
+        tg = load_tractogram(streamlines, data_imap["dwi"], bbox_valid_check=False)
         is_trx = False
     elif streamlines.endswith(".trx"):
         is_trx = True
-        trx = load_trx(streamlines, data_imap["dwi"])
-
-        # Prepare StatefulTractogram
-        affine = np.array(trx.header["VOXEL_TO_RASMM"], dtype=np.float32)
-        dimensions = np.array(trx.header["DIMENSIONS"], dtype=np.uint16)
-        vox_sizes = np.array(voxel_sizes(affine), dtype=np.float32)
-        vox_order = "".join(aff2axcodes(affine))
-        space_attributes = (affine, dimensions, vox_sizes, vox_order)
-
-        # Avoid deep copy triggered by to_sft
-        tg = StatefulTractogram(trx.streamlines, space_attributes, Space.RASMM)
-        del trx
+        tg = load_trx(streamlines, data_imap["dwi"])
     elif streamlines.endswith(".tck.gz"):
         # uncompress tck.gz to a temporary tck:
         temp_tck = op.join(mkdtemp(), op.split(streamlines.replace(".gz", ""))[1])
@@ -85,9 +72,7 @@ def segment(data_imap, mapping_imap, tractography_imap, segmentation_params):
             with open(temp_tck, "wb") as f_out:
                 shutil.copyfileobj(f_in, f_out)
         # initialize stateful tractogram from tck file:
-        tg = load_tractogram(
-            temp_tck, data_imap["dwi"], Space.VOX, bbox_valid_check=False
-        )
+        tg = load_tractogram(temp_tck, data_imap["dwi"], bbox_valid_check=False)
         is_trx = False
     if len(tg.streamlines) == 0:
         raise ValueError(
@@ -109,17 +94,17 @@ def segment(data_imap, mapping_imap, tractography_imap, segmentation_params):
         mapping_imap["mapping"],
         bundle_dict,
         reg_template,
-        data_imap["n_cpus"],
+        structural_imap["n_cpus"],
         **segmentation_params,
     )
 
-    seg_sft = aus.SegmentedSFT(bundles, Space.VOX)
+    seg_sft = aus.SegmentedSFT(bundles)
 
     if len(seg_sft.sft) < 1:
         raise ValueError("Fatal: No bundles recognized.")
 
     if is_trx:
-        seg_sft.sft.dtype_dict = {"positions": np.float16, "offsets": np.uint32}
+        seg_sft.sft.dtype_dict = {"positions": np.float32, "offsets": np.uint32}
         tgram = TrxFile.from_sft(seg_sft.sft)
         tgram.groups = seg_sft.bundle_idxs
 
@@ -175,7 +160,7 @@ def export_bundles(base_fname, output_dir, bundles, tracking_params):
                 logger.info(f"Saving {fname}")
                 if is_trx:
                     seg_sft.sft.dtype_dict = {
-                        "positions": np.float16,
+                        "positions": np.float32,
                         "offsets": np.uint32,
                     }
                     trxfile = TrxFile.from_sft(bundle_sft)
@@ -210,26 +195,38 @@ def export_sl_counts(bundles):
     return counts_df, dict(source=bundles)
 
 
-@immlib.calc("median_bundle_lengths")
+@immlib.calc("bundle_lengths")
 @as_file("_desc-medianBundleLengths_tractography.csv", subfolder="stats")
 def export_bundle_lengths(bundles):
     """
-    full path to a JSON file containing median bundle lengths
+    full path to a CSV file containing median + min + max bundle lengths
     """
-    med_len_counts = []
+    len_data = {}
     seg_sft = aus.SegmentedSFT.fromfile(bundles)
 
     for bundle in seg_sft.bundle_names:
-        these_lengths = seg_sft.get_bundle(bundle)._tractogram._streamlines._lengths
+        these_lengths = list(length(seg_sft.get_bundle(bundle).streamlines))
         if len(these_lengths) > 0:
-            med_len_counts.append(np.median(these_lengths))
+            len_data[f"{bundle} Median"] = np.median(these_lengths)
+            len_data[f"{bundle} Min"] = np.min(these_lengths)
+            len_data[f"{bundle} Max"] = np.max(these_lengths)
         else:
-            med_len_counts.append(0)
-    med_len_counts.append(np.median(seg_sft.sft._tractogram._streamlines._lengths))
+            len_data[f"{bundle} Median"] = 0
+            len_data[f"{bundle} Min"] = 0
+            len_data[f"{bundle} Max"] = 0
+    len_data["Total Recognized Median"] = np.median(
+        seg_sft.sft._tractogram._streamlines._lengths
+    )
+    len_data["Total Recognized Min"] = np.min(
+        seg_sft.sft._tractogram._streamlines._lengths
+    )
+    len_data["Total Recognized Max"] = np.max(
+        seg_sft.sft._tractogram._streamlines._lengths
+    )
 
     counts_df = pd.DataFrame(
-        data=dict(median_len=med_len_counts),
-        index=seg_sft.bundle_names + ["Total Recognized"],
+        data=len_data,
+        index=[0],
     )
     return counts_df, dict(source=bundles)
 
@@ -258,7 +255,7 @@ def export_density_maps(bundles, data_imap):
 @immlib.calc("profiles")
 @as_file("_desc-profiles_tractography.csv")
 def tract_profiles(
-    bundles, scalar_dict, dwi_affine, profile_weights="gauss", n_points_profile=100
+    bundles, scalar_dict, data_imap, profile_weights="gauss", n_points_profile=100
 ):
     """
     full path to a CSV file containing tract profiles
@@ -327,7 +324,11 @@ def tract_profiles(
                     def _median_weight(bundle):
                         fgarray = set_number_of_points(bundle, n_points_profile)
                         values = np.array(
-                            values_from_volume(scalar_data, fgarray, dwi_affine)  # noqa B023
+                            values_from_volume(
+                                scalar_data,  # noqa B023
+                                fgarray,
+                                data_imap["dwi_affine"],
+                            )
                         )
                         weights = np.zeros(values.shape)
                         for ii, jj in enumerate(
@@ -355,7 +356,7 @@ def tract_profiles(
             this_profile[ii] = afq_profile(
                 scalar_data,
                 this_sl,
-                dwi_affine,
+                data_imap["dwi_affine"],
                 weights=this_prof_weights,
                 n_points=n_points_profile,
             )

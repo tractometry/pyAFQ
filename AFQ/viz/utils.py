@@ -1,3 +1,4 @@
+import colorsys
 import logging
 import os.path as op
 from collections import OrderedDict
@@ -13,11 +14,26 @@ from dipy.io.stateful_tractogram import StatefulTractogram
 from dipy.tracking.streamline import transform_streamlines
 from PIL import Image, ImageChops
 
-import AFQ.registration as reg
 import AFQ.utils.streamlines as aus
-import AFQ.utils.volume as auv
 
 __all__ = ["Viz"]
+
+
+def get_distinct_shades(base_rgb, n_steps, hue_shift):
+    """
+    Creates distinct shades by shifting Hue
+    """
+    hh, ll, ss = colorsys.rgb_to_hls(*base_rgb)
+    shades = []
+
+    for i in range(n_steps):
+        offset = i - (n_steps - 1) / 2
+
+        new_h = (hh + (offset * hue_shift)) % 1.0
+
+        shades.append(colorsys.hls_to_rgb(new_h, ll, ss))
+    return shades
+
 
 viz_logger = logging.getLogger("AFQ")
 tableau_20 = [
@@ -53,6 +69,18 @@ medium_font = 24
 small_font = 20
 marker_size = 200
 
+slf_l_base = tableau_extension[0]
+slf_r_base = tableau_extension[1]
+
+vof_l_base = tableau_20[6]
+vof_r_base = tableau_20[7]
+
+slf_l_shades = get_distinct_shades(slf_l_base, 3, hue_shift=0.1)
+slf_r_shades = get_distinct_shades(slf_r_base, 3, hue_shift=0.1)
+
+vof_l_shades = get_distinct_shades(vof_l_base, 3, hue_shift=0.15)
+vof_r_shades = get_distinct_shades(vof_r_base, 3, hue_shift=0.15)
+
 COLOR_DICT = OrderedDict(
     {
         "Left Anterior Thalamic": tableau_20[0],
@@ -77,8 +105,14 @@ COLOR_DICT = OrderedDict(
         "F_L": tableau_20[12],
         "Right Inferior Longitudinal": tableau_20[13],
         "F_R": tableau_20[13],
-        "Left Superior Longitudinal": tableau_20[14],
-        "Right Superior Longitudinal": tableau_20[15],
+        "Left Superior Longitudinal": slf_l_base,
+        "Right Superior Longitudinal": slf_r_base,
+        "Left Superior Longitudinal I": slf_l_shades[0],
+        "Left Superior Longitudinal II": slf_l_shades[1],
+        "Left Superior Longitudinal III": slf_l_shades[2],
+        "Right Superior Longitudinal I": slf_r_shades[0],
+        "Right Superior Longitudinal II": slf_r_shades[1],
+        "Right Superior Longitudinal III": slf_r_shades[2],
         "Left Uncinate": tableau_20[16],
         "UF_L": tableau_20[16],
         "Right Uncinate": tableau_20[17],
@@ -87,10 +121,16 @@ COLOR_DICT = OrderedDict(
         "AF_L": tableau_20[18],
         "Right Arcuate": tableau_20[19],
         "AF_R": tableau_20[19],
-        "Left Posterior Arcuate": tableau_20[6],
-        "Right Posterior Arcuate": tableau_20[7],
-        "Left Vertical Occipital": tableau_extension[0],
-        "Right Vertical Occipital": tableau_extension[1],
+        "Left Posterior Arcuate": tableau_20[14],
+        "Right Posterior Arcuate": tableau_20[15],
+        "Left Vertical Occipital": vof_l_base,
+        "Right Vertical Occipital": vof_r_base,
+        "Left V1V3": vof_l_shades[0],
+        "Left Posterior Vertical Occipital": vof_l_shades[1],
+        "Left Anterior Vertical Occipital": vof_l_shades[2],
+        "Right V1V3": vof_r_shades[0],
+        "Right Posterior Vertical Occipital": vof_r_shades[1],
+        "Right Anterior Vertical Occipital": vof_r_shades[2],
         "median": tableau_20[6],
         # Paul Tol's palette for callosal bundles
         "Callosum Orbital": (0.2, 0.13, 0.53),
@@ -150,28 +190,28 @@ SCALAR_REMOVE_MODEL = {"dti_md": "MD", "dki_md": "MD", "dki_fa": "FA", "dti_fa":
 RECO_FLIP = ["IFO_L", "IFO_R", "UNC_L", "ILF_L", "ILF_R"]
 
 BEST_BUNDLE_ORIENTATIONS = {
-    "Left Anterior Thalamic": ("Sagittal", "Left"),
-    "Right Anterior Thalamic": ("Sagittal", "Right"),
-    "Left Corticospinal": ("Sagittal", "Left"),
-    "Right Corticospinal": ("Sagittal", "Right"),
-    "Left Cingulum Cingulate": ("Sagittal", "Left"),
-    "Right Cingulum Cingulate": ("Sagittal", "Right"),
-    "Forceps Minor": ("Axial", "Top"),
-    "Forceps Major": ("Axial", "Top"),
-    "Left Inferior Fronto-occipital": ("Sagittal", "Left"),
-    "Right Inferior Fronto-occipital": ("Sagittal", "Right"),
-    "Left Inferior Longitudinal": ("Sagittal", "Left"),
-    "Right Inferior Longitudinal": ("Sagittal", "Right"),
-    "Left Superior Longitudinal": ("Axial", "Top"),
-    "Right Superior Longitudinal": ("Axial", "Top"),
-    "Left Uncinate": ("Axial", "Bottom"),
-    "Right Uncinate": ("Axial", "Bottom"),
-    "Left Arcuate": ("Sagittal", "Left"),
-    "Right Arcuate": ("Sagittal", "Right"),
-    "Left Vertical Occipital": ("Coronal", "Back"),
-    "Right Vertical Occipital": ("Coronal", "Back"),
-    "Left Posterior Arcuate": ("Coronal", "Back"),
-    "Right Posterior Arcuate": ("Coronal", "Back"),
+    "Left Anterior Thalamic": ("Left", "Front", "Top"),
+    "Right Anterior Thalamic": ("Right", "Front", "Top"),
+    "Left Corticospinal": ("Left", "Front", "Top"),
+    "Right Corticospinal": ("Right", "Front", "Top"),
+    "Left Cingulum Cingulate": ("Left", "Front", "Top"),
+    "Right Cingulum Cingulate": ("Right", "Front", "Top"),
+    "Forceps Minor": ("Left", "Front", "Top"),
+    "Forceps Major": ("Left", "Back", "Top"),
+    "Left Inferior Fronto-occipital": ("Left", "Front", "Bottom"),
+    "Right Inferior Fronto-occipital": ("Right", "Front", "Bottom"),
+    "Left Inferior Longitudinal": ("Left", "Front", "Bottom"),
+    "Right Inferior Longitudinal": ("Right", "Front", "Bottom"),
+    "Left Superior Longitudinal": ("Left", "Front", "Top"),
+    "Right Superior Longitudinal": ("Right", "Front", "Top"),
+    "Left Uncinate": ("Left", "Front", "Bottom"),
+    "Right Uncinate": ("Right", "Front", "Bottom"),
+    "Left Arcuate": ("Left", "Front", "Top"),
+    "Right Arcuate": ("Right", "Front", "Top"),
+    "Left Vertical Occipital": ("Left", "Back", "Top"),
+    "Right Vertical Occipital": ("Right", "Back", "Top"),
+    "Left Posterior Arcuate": ("Left", "Back", "Top"),
+    "Right Posterior Arcuate": ("Right", "Back", "Top"),
 }
 
 
@@ -512,7 +552,7 @@ def tract_generator(
     else:
         if bundle is None:
             # No selection: visualize all of them:
-            for bundle_name in seg_sft.bundle_names:
+            for bundle_name in sorted(seg_sft.bundle_names):
                 idx = seg_sft.bundle_idxs[bundle_name]
                 if len(idx) == 0:
                     continue
@@ -591,9 +631,7 @@ def gif_from_pngs(tdir, gif_fname, n_frames, png_fname="tgif", add_zeros=False):
     io.mimsave(gif_fname, angles)
 
 
-def prepare_roi(
-    roi, affine_or_mapping, static_img, roi_affine, static_affine, reg_template
-):
+def prepare_roi(roi, resample_to=None):
     """
     Load the ROI
     Possibly perform a transformation on an ROI
@@ -605,60 +643,27 @@ def prepare_roi(
         The ROI information.
         If str, ROI will be loaded using the str as a path.
 
-    affine_or_mapping : ndarray, Nifti1Image, or str
-       An affine transformation or mapping to apply to the ROI before
-       visualization. Default: no transform.
-
-    static_img: str or Nifti1Image
-        Template to resample roi to.
-
-    roi_affine: ndarray
-
-    static_affine: ndarray
-
-    reg_template: str or Nifti1Image
-        Template to use for registration.
+    resample_to : Nifti1Image, optional
+        If not None, the ROI will be resampled to the space of this image.
 
     Returns
     -------
     ndarray
     """
     viz_logger.info("Preparing ROI...")
+    if isinstance(roi, str):
+        roi = nib.load(roi)
+
+    if resample_to is not None:
+        if not isinstance(roi, nib.Nifti1Image):
+            raise ValueError(
+                ("If resampling, roi must be a Nifti1Image or a path to one.")
+            )
+        roi = resample(roi, resample_to)
+
     if not isinstance(roi, np.ndarray):
-        if isinstance(roi, str):
-            roi = nib.load(roi).get_fdata()
-        else:
-            roi = roi.get_fdata()
+        roi = roi.get_fdata()
 
-    if affine_or_mapping is not None:
-        if isinstance(affine_or_mapping, np.ndarray):
-            # This is an affine:
-            if static_img is None or roi_affine is None or static_affine is None:
-                raise ValueError(
-                    "If using an affine to transform an ROI, "
-                    "need to also specify all of the following",
-                    "inputs: `static_img`, `roi_affine`, ",
-                    "`static_affine`",
-                )
-            roi = resample(
-                roi, static_img, moving_affine=roi_affine, static_affine=static_affine
-            ).get_fdata()
-        else:
-            # Assume it is  a mapping:
-            if isinstance(affine_or_mapping, str) or isinstance(
-                affine_or_mapping, nib.Nifti1Image
-            ):
-                if reg_template is None or static_img is None:
-                    raise ValueError(
-                        "If using a mapping to transform an ROI, need to ",
-                        "also specify all of the following inputs: ",
-                        "`reg_template`, `static_img`",
-                    )
-                affine_or_mapping = reg.read_mapping(
-                    affine_or_mapping, static_img, reg_template
-                )
-
-            roi = auv.transform_inverse_roi(roi, affine_or_mapping).astype(bool)
     return roi
 
 

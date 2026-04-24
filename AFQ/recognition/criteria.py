@@ -19,14 +19,17 @@ import AFQ.recognition.other_bundles as abo
 import AFQ.recognition.roi as abr
 import AFQ.recognition.utils as abu
 from AFQ.api.bundle_dict import apply_to_roi_dict
+from AFQ.recognition.clustering import subcluster_by_atlas
 from AFQ.utils.stats import chunk_indices
+from AFQ.utils.streamlines import move_streamlines
 
 criteria_order_pre_other_bundles = [
-    "prob_map",
+    "length",
+    "endpoint_dists",
     "cross_midline",
     "start",
     "end",
-    "length",
+    "prob_map",
     "primary_axis",
     "include",
     "exclude",
@@ -41,20 +44,26 @@ criteria_order_post_other_bundles = ["orient_mahal", "isolation_forest", "qb_thr
 valid_noncriterion = [
     "space",
     "mahal",
-    "primary_axis_percentage",
     "inc_addtol",
     "exc_addtol",
+    "exact_endpoints",
+    "ORG_spectral_subbundles",
+    "cluster_IDs",
+    "startpoint_location",
+    "endpoint_location",
+    "primary_axis_core_only",
 ]
 
 
 logger = logging.getLogger("AFQ")
 
 
-def prob_map(b_sls, bundle_def, preproc_imap, prob_threshold, **kwargs):
+def prob_map(b_sls, bundle_def, preproc_imap, prob_threshold, img, **kwargs):
     b_sls.initiate_selection("Prob. Map")
-    # using entire fgarray here only because it is the first step
     fiber_probabilities = dts.values_from_volume(
-        bundle_def["prob_map"].get_fdata(), preproc_imap["fgarray"], np.eye(4)
+        bundle_def["prob_map"].get_fdata(),
+        preproc_imap["fgarray"][b_sls.selected_fiber_idxs],
+        img.affine,
     )
     fiber_probabilities = np.mean(fiber_probabilities, -1)
     b_sls.select(fiber_probabilities > prob_threshold, "Prob. Map")
@@ -69,58 +78,94 @@ def cross_midline(b_sls, bundle_def, preproc_imap, **kwargs):
 
 
 def start(b_sls, bundle_def, preproc_imap, **kwargs):
-    accept_idx = b_sls.initiate_selection("Startpoint")
-    abr.clean_by_endpoints(
-        b_sls.get_selected_sls(),
+    b_sls.initiate_selection("Startpoint")
+    exact_endpoints = bundle_def.get("exact_endpoints", False)
+    if exact_endpoints:
+        tol = 0
+    else:
+        tol = preproc_imap["dist_to_atlas"]
+
+    accept_idx = abr.clean_by_endpoints(
+        preproc_imap["fgarray"][b_sls.selected_fiber_idxs],
         bundle_def["start"],
         0,
-        tol=preproc_imap["dist_to_atlas"],
+        tol=tol,
         flip_sls=b_sls.sls_flipped,
-        accepted_idxs=accept_idx,
     )
     if not b_sls.oriented_yet:
         accepted_idx_flipped = abr.clean_by_endpoints(
-            b_sls.get_selected_sls(),
+            preproc_imap["fgarray"][b_sls.selected_fiber_idxs],
             bundle_def["start"],
             -1,
-            tol=preproc_imap["dist_to_atlas"],
+            tol=tol,
         )
+        new_accept_idx = np.logical_or(accepted_idx_flipped, accept_idx)
+        special_idx = np.logical_and(accept_idx, accepted_idx_flipped)
+        special_idx_to_flip = abu.manual_orient_sls(
+            preproc_imap["fgarray"][b_sls.selected_fiber_idxs][special_idx]
+        )
+        accepted_idx_flipped[special_idx] = special_idx_to_flip
         b_sls.reorient(accepted_idx_flipped)
-        accept_idx = np.logical_xor(accepted_idx_flipped, accept_idx)
+        accept_idx = new_accept_idx
+
     b_sls.select(accept_idx, "Startpoint")
 
 
 def end(b_sls, bundle_def, preproc_imap, **kwargs):
-    accept_idx = b_sls.initiate_selection("endpoint")
-    abr.clean_by_endpoints(
-        b_sls.get_selected_sls(),
+    b_sls.initiate_selection("endpoint")
+    exact_endpoints = bundle_def.get("exact_endpoints", False)
+    if exact_endpoints:
+        tol = 0
+    else:
+        tol = preproc_imap["dist_to_atlas"]
+
+    accept_idx = abr.clean_by_endpoints(
+        preproc_imap["fgarray"][b_sls.selected_fiber_idxs],
         bundle_def["end"],
         -1,
-        tol=preproc_imap["dist_to_atlas"],
+        tol=tol,
         flip_sls=b_sls.sls_flipped,
-        accepted_idxs=accept_idx,
     )
     if not b_sls.oriented_yet:
         accepted_idx_flipped = abr.clean_by_endpoints(
-            b_sls.get_selected_sls(),
+            preproc_imap["fgarray"][b_sls.selected_fiber_idxs],
             bundle_def["end"],
             0,
-            tol=preproc_imap["dist_to_atlas"],
+            tol=tol,
         )
+        new_accept_idx = np.logical_or(accepted_idx_flipped, accept_idx)
+        special_idx = np.logical_and(accept_idx, accepted_idx_flipped)
+        special_idx_to_flip = abu.manual_orient_sls(
+            preproc_imap["fgarray"][b_sls.selected_fiber_idxs][special_idx]
+        )
+        accepted_idx_flipped[special_idx] = special_idx_to_flip
         b_sls.reorient(accepted_idx_flipped)
-        accept_idx = np.logical_xor(accepted_idx_flipped, accept_idx)
+        accept_idx = new_accept_idx
     b_sls.select(accept_idx, "endpoint")
 
 
 def length(b_sls, bundle_def, preproc_imap, **kwargs):
-    accept_idx = b_sls.initiate_selection("length")
-    min_len = bundle_def["length"].get("min_len", 0) / preproc_imap["vox_dim"]
-    max_len = bundle_def["length"].get("max_len", np.inf) / preproc_imap["vox_dim"]
-    for idx, sl in enumerate(b_sls.get_selected_sls()):
-        sl_len = np.sum(np.linalg.norm(np.diff(sl, axis=0), axis=1))
-        if sl_len >= min_len and sl_len <= max_len:
-            accept_idx[idx] = 1
+    b_sls.initiate_selection("length")
+    min_len = bundle_def["length"].get("min_len", 0)
+    max_len = bundle_def["length"].get("max_len", np.inf)
+
+    # No need to use b_sls.selected_fiber_idxs
+    # because this is first step
+    sl_lens = preproc_imap["lengths"]
+
+    accept_idx = (sl_lens >= min_len) & (sl_lens <= max_len)
     b_sls.select(accept_idx, "length")
+
+
+def endpoint_dists(b_sls, bundle_def, preproc_imap, **kwargs):
+    b_sls.initiate_selection("endpoint_dists")
+    min_dist = bundle_def["endpoint_dists"].get("min_dist", 0)
+    max_dist = bundle_def["endpoint_dists"].get("max_dist", np.inf)
+
+    sl_endpoint_dists = preproc_imap["endpoint_dists"][b_sls.selected_fiber_idxs]
+
+    accept_idx = (sl_endpoint_dists >= min_dist) & (sl_endpoint_dists <= max_dist)
+    b_sls.select(accept_idx, "endpoint_dists")
 
 
 def primary_axis(b_sls, bundle_def, img, **kwargs):
@@ -128,13 +173,12 @@ def primary_axis(b_sls, bundle_def, img, **kwargs):
     accept_idx = abc.clean_by_orientation(
         b_sls.get_selected_sls(),
         bundle_def["primary_axis"],
-        img.affine,
-        bundle_def.get("primary_axis_percentage", None),
+        bundle_def.get("primary_axis_core_only", 0.6),
     )
     b_sls.select(accept_idx, "orientation")
 
 
-def include(b_sls, bundle_def, preproc_imap, max_includes, n_cpus, **kwargs):
+def include(b_sls, bundle_def, preproc_imap, n_cpus, **kwargs):
     accept_idx = b_sls.initiate_selection("include")
     flip_using_include = len(bundle_def["include"]) > 1 and not b_sls.oriented_yet
 
@@ -146,6 +190,15 @@ def include(b_sls, bundle_def, preproc_imap, max_includes, n_cpus, **kwargs):
             )
     else:
         include_roi_tols = [preproc_imap["tol"] ** 2] * len(bundle_def["include"])
+
+    # For now I am turning ray parallelization here off.
+    # It is never worthwhile considering other changes we
+    # have made to speed up this step,
+    # so spinning up ray and transferring data back
+    # and forth is not worth it.
+    # In the future, I think we should redo this with numba and
+    # use multithreading
+    n_cpus = 1
 
     # with parallel segmentation, the first for loop will
     # only collect streamlines and does not need tqdm
@@ -172,15 +225,18 @@ def include(b_sls, bundle_def, preproc_imap, max_includes, n_cpus, **kwargs):
             b_sls.get_selected_sls(), bundle_def["include"], include_roi_tols
         )
 
-    roi_closest = -np.ones((max_includes, len(b_sls)), dtype=np.int32)
+    n_inc = len(bundle_def["include"])
+    roi_closest = np.zeros((n_inc, len(b_sls)), dtype=np.int32)
+    roi_dists = np.zeros((n_inc, len(b_sls)), dtype=np.float32)
     if flip_using_include:
         to_flip = np.ones_like(accept_idx, dtype=np.bool_)
     for sl_idx, inc_result in enumerate(inc_results):
-        sl_accepted, sl_closest = inc_result
+        sl_accepted, sl_closest, sl_dists = inc_result
 
         if sl_accepted:
+            roi_closest[:, sl_idx] = sl_closest
+            roi_dists[:, sl_idx] = sl_dists
             if len(sl_closest) > 1:
-                roi_closest[: len(sl_closest), sl_idx] = sl_closest
                 # Only accept SLs that, when cut, are meaningful
                 if (len(sl_closest) < 2) or abs(sl_closest[0] - sl_closest[-1]) > 1:
                     # Flip sl if it is close to second ROI
@@ -188,12 +244,14 @@ def include(b_sls, bundle_def, preproc_imap, max_includes, n_cpus, **kwargs):
                     if flip_using_include:
                         to_flip[sl_idx] = sl_closest[0] > sl_closest[-1]
                         if to_flip[sl_idx]:
-                            roi_closest[: len(sl_closest), sl_idx] = np.flip(sl_closest)
+                            roi_closest[:, sl_idx] = np.flip(sl_closest)
+                            roi_dists[:, sl_idx] = np.flip(sl_dists)
                     accept_idx[sl_idx] = 1
             else:
                 accept_idx[sl_idx] = 1
 
     b_sls.roi_closest = roi_closest.T
+    b_sls.roi_dists = roi_dists.T
     if flip_using_include:
         b_sls.reorient(to_flip)
     b_sls.select(accept_idx, "include")
@@ -211,10 +269,9 @@ def curvature(b_sls, bundle_def, mapping, img, save_intermediates, **kwargs):
         ref_sl = load_tractogram(
             bundle_def["curvature"]["path"], "same", bbox_valid_check=False
         )
-    moved_ref_sl = abu.move_streamlines(
+    moved_ref_sl = move_streamlines(
         ref_sl, "subject", mapping, img, save_intermediates=save_intermediates
     )
-    moved_ref_sl.to_vox()
     moved_ref_sl = moved_ref_sl.streamlines[0]
     moved_ref_curve = abv.sl_curve(moved_ref_sl, len(moved_ref_sl))
     ref_curve_threshold = np.radians(bundle_def["curvature"].get("thresh", 10))
@@ -257,11 +314,12 @@ def recobundles(
     **kwargs,
 ):
     b_sls.initiate_selection("Recobundles")
-    moved_sl = abu.move_streamlines(
-        StatefulTractogram(b_sls.get_selected_sls(), img, Space.VOX),
+    moved_sl = move_streamlines(
+        StatefulTractogram(b_sls.get_selected_sls(), img, Space.RASMM),
         "template",
         mapping,
         reg_template,
+        to_space=Space.RASMM,
         save_intermediates=save_intermediates,
     ).streamlines
     moved_sl_resampled = abu.resample_tg(moved_sl, 100)
@@ -277,14 +335,15 @@ def recobundles(
         standard_sl = next(iter(bundle_def["recobundles"]["centroid"]))
         oriented_idx = abu.orient_by_streamline(moved_sl[rec_labels], standard_sl)
         b_sls.reorient(rec_labels[oriented_idx])
+    rec_labels = sorted(rec_labels)
     b_sls.select(rec_labels, "Recobundles")
 
 
-def qb_thresh(b_sls, bundle_def, preproc_imap, clip_edges, **kwargs):
+def qb_thresh(b_sls, bundle_def, clip_edges, **kwargs):
     b_sls.initiate_selection("qb_thresh")
     cut = clip_edges or ("bundlesection" in bundle_def)
     qbx = QuickBundles(
-        bundle_def["qb_thresh"] / preproc_imap["vox_dim"],
+        bundle_def["qb_thresh"],
         AveragePointwiseEuclideanMetric(ResampleFeature(nb_points=12)),
     )
     clusters = qbx.cluster(b_sls.get_selected_sls(cut=cut, flip=True))
@@ -297,44 +356,41 @@ def clean_by_other_bundle(
 ):
     cleaned_idx = b_sls.initiate_selection(other_bundle_name)
     cleaned_idx = 1
+    flipped_sls = b_sls.get_selected_sls(flip=True)
 
     if "overlap" in bundle_def[other_bundle_name]:
         cleaned_idx_overlap = abo.clean_by_overlap(
-            b_sls.get_selected_sls(),
+            flipped_sls,
             other_bundle_sls,
             bundle_def[other_bundle_name]["overlap"],
             img,
-            False,
+            remove=False,
+            project=bundle_def[other_bundle_name].get("project", None),
         )
         cleaned_idx = np.logical_and(cleaned_idx, cleaned_idx_overlap)
 
     if "node_thresh" in bundle_def[other_bundle_name]:
         cleaned_idx_node_thresh = abo.clean_by_overlap(
-            b_sls.get_selected_sls(),
+            flipped_sls,
             other_bundle_sls,
             bundle_def[other_bundle_name]["node_thresh"],
             img,
-            True,
+            remove=True,
+            project=bundle_def[other_bundle_name].get("project", None),
         )
         cleaned_idx = np.logical_and(cleaned_idx, cleaned_idx_node_thresh)
 
     if "core" in bundle_def[other_bundle_name]:
+        consideration = bundle_def[other_bundle_name].get("consideration", 10.0)
+        if isinstance(consideration, (int, float)):
+            consideration = float(consideration)
+            consideration = consideration / preproc_imap["vox_dim"]
+
         cleaned_idx_core = abo.clean_relative_to_other_core(
             bundle_def[other_bundle_name]["core"].lower(),
-            preproc_imap["fgarray"][b_sls.selected_fiber_idxs],
-            np.array(abu.resample_tg(other_bundle_sls, 20)),
-            img.affine,
-            False,
-        )
-        cleaned_idx = np.logical_and(cleaned_idx, cleaned_idx_core)
-
-    if "entire_core" in bundle_def[other_bundle_name]:
-        cleaned_idx_core = abo.clean_relative_to_other_core(
-            bundle_def[other_bundle_name]["entire_core"].lower(),
-            preproc_imap["fgarray"][b_sls.selected_fiber_idxs],
-            np.array(abu.resample_tg(other_bundle_sls, 20)),
-            img.affine,
-            True,
+            np.array(abu.resample_tg(flipped_sls, 100)),
+            np.array(abu.resample_tg(other_bundle_sls, 100)),
+            consideration=consideration,
         )
         cleaned_idx = np.logical_and(cleaned_idx, cleaned_idx_core)
 
@@ -375,16 +431,13 @@ def mahalanobis(b_sls, bundle_def, clip_edges, cleaning_params, **kwargs):
 
 def run_bundle_rec_plan(
     bundle_dict,
-    tg,
+    streamlines,
     mapping,
     img,
     reg_template,
     preproc_imap,
     bundle_name,
-    bundle_idx,
-    bundle_to_flip,
-    bundle_roi_closest,
-    bundle_decisions,
+    recognized_bundles_dict,
     **segmentation_params,
 ):
     # Warp ROIs
@@ -392,9 +445,7 @@ def run_bundle_rec_plan(
     start_time = time()
     bundle_def = dict(bundle_dict.get_b_info(bundle_name))
     bundle_def.update(
-        bundle_dict.transform_rois(
-            bundle_name, mapping, img.affine, apply_to_recobundles=True
-        )
+        bundle_dict.transform_rois(bundle_name, mapping, img, apply_to_recobundles=True)
     )
 
     def check_space(roi):
@@ -420,20 +471,25 @@ def run_bundle_rec_plan(
     )
     logger.info(f"Time to prep ROIs: {time() - start_time}s")
 
-    b_sls = abu.SlsBeingRecognized(
-        tg.streamlines,
-        logger,
-        segmentation_params["save_intermediates"],
-        bundle_name,
-        img,
-        len(bundle_def.get("include", [])),
-    )
+    if isinstance(streamlines, abu.SlsBeingRecognized):
+        # This only occurs when your inside a subbundle,
+        # in which case we want to keep the same SlsBeingRecognized object so that
+        # we can keep track of the same streamlines and their orientations
+        b_sls = streamlines
+    else:
+        b_sls = abu.SlsBeingRecognized(
+            streamlines,
+            logger,
+            segmentation_params["save_intermediates"],
+            bundle_name,
+            img,
+            len(bundle_def.get("include", [])),
+        )
 
     inputs = {}
     inputs["b_sls"] = b_sls
     inputs["preproc_imap"] = preproc_imap
     inputs["bundle_def"] = bundle_def
-    inputs["max_includes"] = bundle_dict.max_includes
     inputs["mapping"] = mapping
     inputs["img"] = img
     inputs["reg_template"] = reg_template
@@ -444,41 +500,67 @@ def run_bundle_rec_plan(
         if (
             (potential_criterion not in criteria_order_post_other_bundles)
             and (potential_criterion not in criteria_order_pre_other_bundles)
-            and (potential_criterion not in bundle_dict.bundle_names)
+            and (potential_criterion not in recognized_bundles_dict.keys())
             and (potential_criterion not in valid_noncriterion)
         ):
-            raise ValueError(
-                (
-                    "Invalid criterion in bundle definition:\n"
-                    f"{potential_criterion} in bundle {bundle_name}.\n"
-                    "Valid criteria are:\n"
-                    f"{criteria_order_pre_other_bundles}\n"
-                    f"{criteria_order_post_other_bundles}\n"
-                    f"{bundle_dict.bundle_names}\n"
-                    f"{valid_noncriterion}\n"
+            if potential_criterion in bundle_dict.bundle_names:
+                raise ValueError(
+                    (
+                        f"Bundle {potential_criterion} is being used as a criterion in "
+                        f"the definition of bundle {bundle_name}, however this bundle "
+                        "was not found."
+                        " This could because of insufficient streamlines"
+                    )
                 )
-            )
+            else:
+                raise ValueError(
+                    (
+                        "Invalid criterion in bundle definition:\n"
+                        f"{potential_criterion} in bundle {bundle_name}.\n"
+                        "Valid criteria are:\n"
+                        f"{criteria_order_pre_other_bundles}\n"
+                        f"{criteria_order_post_other_bundles}\n"
+                        f"{recognized_bundles_dict.keys()}\n"
+                        f"{valid_noncriterion}\n"
+                    )
+                )
 
     for criterion in criteria_order_pre_other_bundles:
         if b_sls and criterion in bundle_def:
             inputs[criterion] = globals()[criterion](**inputs)
     if b_sls:
-        for ii, bundle_name in enumerate(bundle_dict.bundle_names):
-            if bundle_name in bundle_def.keys():
-                idx = np.where(bundle_decisions[:, ii])[0]
+        for o_bundle_name in recognized_bundles_dict.keys():
+            if o_bundle_name in bundle_def.keys():
                 clean_by_other_bundle(
                     **inputs,
-                    other_bundle_name=bundle_name,
-                    other_bundle_sls=tg.streamlines[idx],
+                    other_bundle_name=o_bundle_name,
+                    other_bundle_sls=recognized_bundles_dict[
+                        o_bundle_name
+                    ].get_selected_sls(flip=True),
                 )
     for criterion in criteria_order_post_other_bundles:
         if b_sls and criterion in bundle_def:
             inputs[criterion] = globals()[criterion](**inputs)
     if b_sls:
         if "mahal" in bundle_def or (
-            "isolation_forest" not in bundle_def and "orient_mahal" not in bundle_def
+            "isolation_forest" not in bundle_def
+            and "orient_mahal" not in bundle_def
+            and "ORG_spectral_subbundles" not in bundle_def
         ):
             mahalanobis(**inputs)
+
+    # If you don't cross the midline, we remove streamliens
+    # entirely on the wrong side of the midline here after filtering
+    if b_sls and "cross_midline" in bundle_def and not bundle_def["cross_midline"]:
+        b_sls.initiate_selection("Wrong side of mid.")
+        avg_side = np.sign(
+            np.mean(
+                preproc_imap["fgarray"][b_sls.selected_fiber_idxs, :, 0],
+                axis=1,
+            )
+        )
+        majority_side = np.sign(np.sum(avg_side))
+        b_sls.select(avg_side == majority_side, "Wrong side of mid.")
 
     if b_sls and not b_sls.oriented_yet:
         raise ValueError(
@@ -490,9 +572,44 @@ def run_bundle_rec_plan(
         )
 
     if b_sls:
-        bundle_to_flip[b_sls.selected_fiber_idxs, bundle_idx] = b_sls.sls_flipped.copy()
-        bundle_decisions[b_sls.selected_fiber_idxs, bundle_idx] = 1
-        if hasattr(b_sls, "roi_closest"):
-            bundle_roi_closest[b_sls.selected_fiber_idxs, bundle_idx, :] = (
-                b_sls.roi_closest.copy()
+        if "ORG_spectral_subbundles" in bundle_def:
+            subdict = bundle_def["ORG_spectral_subbundles"]
+            b_sls.initiate_selection(
+                (
+                    f"ORG spectral clustering, {len(subdict.bundle_names)} "
+                    "subbundles being recognized"
+                )
             )
+
+            sub_sft = StatefulTractogram(
+                b_sls.get_selected_sls(flip=True), img, Space.RASMM
+            )
+            cluster_labels = subcluster_by_atlas(
+                sub_sft, mapping, img, subdict.all_cluster_IDs, n_points=40
+            )
+            clusters_being_recognized = []
+            for sub_b_name in subdict.bundle_names:
+                c_ids = subdict._dict[sub_b_name]["cluster_IDs"]
+                n_roi = len(subdict._dict[sub_b_name].get("include", []))
+                cluster_b_sls = b_sls.copy(sub_b_name, n_roi)
+                selected = np.zeros(len(b_sls), dtype=bool)
+                for c_id in c_ids:
+                    selected = np.logical_or(selected, cluster_labels == c_id)
+                cluster_b_sls.select(selected, f"Clusters {c_ids}")
+                clusters_being_recognized.append(cluster_b_sls)
+
+            for ii, sub_b_name in enumerate(subdict.bundle_names):
+                run_bundle_rec_plan(
+                    bundle_def["ORG_spectral_subbundles"],
+                    clusters_being_recognized[ii],
+                    mapping,
+                    img,
+                    reg_template,
+                    preproc_imap,
+                    sub_b_name,
+                    recognized_bundles_dict,
+                    **segmentation_params,
+                )
+        else:
+            b_sls.bundle_def = bundle_def
+            recognized_bundles_dict[bundle_name] = b_sls

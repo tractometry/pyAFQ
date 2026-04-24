@@ -8,7 +8,6 @@ import tempfile
 import warnings
 from time import time
 
-import dipy.tracking.streamline as dts
 import dipy.tracking.streamlinespeed as dps
 import nibabel as nib
 import numpy as np
@@ -50,7 +49,7 @@ __all__ = ["GroupAFQ"]
 
 
 logger = logging.getLogger("AFQ")
-logger.setLevel(logging.INFO)
+
 
 warnings.simplefilter(action="ignore", category=FutureWarning)
 
@@ -87,6 +86,7 @@ class GroupAFQ(object):
         output_dir=None,
         parallel_params=None,
         bids_layout_kwargs=None,
+        logging_level=logging.INFO,
         **kwargs,
     ):
         """
@@ -133,6 +133,9 @@ class GroupAFQ(object):
             For large datasets, try:
             {"validate": False, "index_metadata": False}
             Default: {}
+        logging_level: int, optional
+            The logging level to use for this class.
+            Default: logging.INFO
         kwargs : additional optional parameters
             You can set additional parameters for any step
             of the process. See :ref:`usage/kwargs` for more details.
@@ -174,6 +177,9 @@ class GroupAFQ(object):
 
         parallel_params["engine"] = parallel_params.get("engine", "serial")
         self.logger = logger
+
+        self.logger.setLevel(logging_level)
+        logging.basicConfig(level=logging_level)
 
         self.parallel_params = parallel_params
         self.plans_dict = {}
@@ -553,9 +559,12 @@ class GroupAFQ(object):
                 this_bundles_file = self.export("bundles", collapse=False)[sub][ses]
                 this_mapping = self.export("mapping", collapse=False)[sub][ses]
                 this_img = self.export("dwi", collapse=False)[sub][ses]
+                this_reg_template = self.export("reg_template", collapse=False)[sub][
+                    ses
+                ]
                 seg_sft = aus.SegmentedSFT.fromfile(this_bundles_file, this_img)
                 seg_sft.sft.to_rasmm()
-                subses_info.append((seg_sft, this_mapping))
+                subses_info.append((seg_sft, this_mapping, this_img, this_reg_template))
 
             bundle_dict = self.export("bundle_dict", collapse=False)[
                 self.valid_sub_list[0]
@@ -565,7 +574,7 @@ class GroupAFQ(object):
             load_next_subject()  # load first subject
             for b in bundle_dict.bundle_names:
                 for i in range(len(self.valid_sub_list)):
-                    seg_sft, mapping = subses_info[i]
+                    seg_sft, mapping, img, reg_template = subses_info[i]
                     idx = seg_sft.bundle_idxs[b]
                     # use the first subses that works
                     # otherwise try each successive subses
@@ -581,14 +590,11 @@ class GroupAFQ(object):
                         idx = np.random.choice(idx, size=100, replace=False)
                     these_sls = seg_sft.sft.streamlines[idx]
                     these_sls = dps.set_number_of_points(these_sls, 100)
-                    tg = StatefulTractogram(these_sls, seg_sft.sft, Space.RASMM)
-                    delta = dts.values_from_volume(
-                        mapping.forward, tg.streamlines, np.eye(4)
+                    tg = StatefulTractogram(these_sls, img, Space.RASMM)
+                    moved_sl = aus.move_streamlines(
+                        tg, "template", mapping, reg_template
                     )
-                    moved_sl = dts.Streamlines(
-                        [d + s for d, s in zip(delta, tg.streamlines)]
-                    )
-                    moved_sl = np.asarray(moved_sl)
+                    moved_sl = np.asarray(moved_sl.streamlines)
                     median_sl = np.median(moved_sl, axis=0)
                     sls_dict[b] = {"coreFiber": median_sl.tolist()}
                     for ii, sl_idx in enumerate(idx):
@@ -786,7 +792,7 @@ class GroupAFQ(object):
 
     clobber = cmd_outputs  # alias for default of cmd_outputs
 
-    def make_all_participant_montages(self, images_per_row=2):
+    def make_all_participant_montages(self, images_per_row=3):
         """
         Generate montage of all bundles for a all subjects.
 
@@ -794,7 +800,7 @@ class GroupAFQ(object):
         ----------
         images_per_row : int
             Number of bundle images per row in output file.
-            Default: 2
+            Default: 3
 
         Returns
         -------
@@ -1019,15 +1025,17 @@ class GroupAFQ(object):
             this_sub = self.valid_sub_list[ii]
             this_ses = self.valid_ses_list[ii]
             seg_sft = aus.SegmentedSFT.fromfile(bundles_dict[this_sub][this_ses])
-            seg_sft.sft.to_vox()
-            sls = seg_sft.get_bundle(bundle_name).streamlines
+            sls = seg_sft.get_bundle(bundle_name)
             mapping = mapping_dict[this_sub][this_ses]
 
             if len(sls) > 0:
-                delta = dts.values_from_volume(mapping.forward, sls, np.eye(4))
-                sls_mni.extend([d + s for d, s in zip(delta, sls)])
+                sls_mni.extend(
+                    aus.move_streamlines(
+                        sls, "template", mapping, reg_template
+                    ).streamlines
+                )
 
-        moved_sft = StatefulTractogram(sls_mni, reg_template, Space.VOX)
+        moved_sft = StatefulTractogram(sls_mni, reg_template, Space.RASMM)
 
         save_path = op.abspath(
             op.join(self.afq_path, f"bundle-{bundle_name}_subjects-all_MNI.trk")

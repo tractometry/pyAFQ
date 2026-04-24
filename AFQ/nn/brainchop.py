@@ -1,13 +1,13 @@
 import logging
 import os.path as op
 
-import nibabel as nib
-import nibabel.processing as nbp
 import numpy as np
-from scipy.ndimage import binary_dilation, gaussian_filter
+from scipy.ndimage import gaussian_filter
+from skimage.morphology import dilation
 from skimage.segmentation import find_boundaries
 
 from AFQ.data.fetch import afq_home, fetch_brainchop_models
+from AFQ.nn.utils import prepare_t1_for_nn, resample_output
 
 logger = logging.getLogger("AFQ")
 
@@ -29,7 +29,7 @@ def _get_model(model_name):
     return model_fname
 
 
-def run_brainchop(ort, t1_img, model_name):
+def run_brainchop(ort, t1_img, model_name, onnx_kwargs):
     """
     Run the Brainchop command line interface with the provided arguments.
 
@@ -41,21 +41,12 @@ def run_brainchop(ort, t1_img, model_name):
         https://doi.org/10.21105/joss.05098
     """
     model = _get_model(model_name)
-
-    t1_img_conformed = nbp.conform(
-        t1_img, out_shape=(256, 256, 256), voxel_size=(1.0, 1.0, 1.0), orientation="LIA"
-    )
-
-    t1_data = t1_img_conformed.get_fdata()
-    p02 = np.nanpercentile(t1_data, 2)
-    p98 = np.nanpercentile(t1_data, 98)
-    t1_data = np.clip(t1_data, p02, p98)
-    t1_data = (t1_data - p02) / (p98 - p02)
+    t1_data, conformed_affine = prepare_t1_for_nn(t1_img)
 
     image = t1_data.astype(np.float32)[None, None, ...]
 
     logger.info(f"Running {model_name}...")
-    sess = ort.InferenceSession(model)
+    sess = ort.InferenceSession(model, **onnx_kwargs)
     input_name = sess.get_inputs()[0].name
     output_name = sess.get_outputs()[0].name
     output_channels = sess.run([output_name], {input_name: image})[0]
@@ -66,11 +57,10 @@ def run_brainchop(ort, t1_img, model_name):
         # Mindgrab can be tight sometimes,
         # better to include a bit more,
         # than to miss some
-        output = binary_dilation(output, iterations=2)
+        for _ in range(2):
+            output = dilation(output)
 
-    output_img = nbp.resample_from_to(
-        nib.Nifti1Image(output.astype(np.uint8), t1_img_conformed.affine), t1_img
-    )
+    output_img = resample_output(output, conformed_affine, t1_img)
 
     return output_img
 

@@ -2,6 +2,7 @@ import logging
 
 import immlib
 import nibabel as nib
+from numba import get_num_threads
 
 from AFQ.definitions.utils import Definition
 from AFQ.nn.brainchop import run_brainchop
@@ -13,9 +14,93 @@ from AFQ.tasks.utils import check_onnxruntime, with_name
 logger = logging.getLogger("AFQ")
 
 
+@immlib.calc("n_cpus", "n_threads", "low_mem")
+def configure_ncpus_nthreads(ray_n_cpus=None, numba_n_threads=None, low_memory=False):
+    """
+    Configure the number of CPUs to use for parallel processing with Ray,
+    the number of threads to use for Numba,
+    and whether to use low-memory versions of algorithms
+    where available
+
+    Parameters
+    ----------
+    ray_n_cpus : int, optional
+        The number of CPUs to use for parallel processing with Ray.
+        If None, uses the number of available CPUs minus one.
+        Tractography and MSMT use Ray.
+        Default: None
+    numba_n_threads : int, optional
+        The number of threads to use for Numba.
+        If None, uses the number of available CPUs minus one,
+        but with a maximum of 16.
+        ASYM fit uses Numba.
+        Default: None
+    low_memory : bool, optional
+        Whether to use low-memory versions of algorithms
+        where available.
+        Default: False
+    """
+    if ray_n_cpus is None:
+        ray_n_cpus = 1
+    if numba_n_threads is None:
+        numba_n_threads = min(max(get_num_threads() - 1, 1), 16)
+
+    return ray_n_cpus, numba_n_threads, low_memory
+
+
+@immlib.calc("onnx_kwargs")
+def onnx_kwargs(
+    low_mem, onnx_execution_provider="CPUExecutionProvider", onnx_inter_threads=1
+):
+    """
+    The execution provider to use for onnx models
+
+    Parameters
+    ----------
+    onnx_execution_provider : str, optional
+        The execution provider to use for onnx models.
+        By default this is set to CPUExecutionProvider
+        which should work on all systems. If you have a
+        compatible GPU and the appropriate onnxruntime installed
+        you can set this to "CUDAExecutionProvider" or
+        "OpenVINOExecutionProvider" for potentially faster
+        inference.
+        Default: "CPUExecutionProvider"
+    onnx_inter_threads : int, optional
+        The number of inter threads to use for onnx models.
+        Increasing will increase memory usage significantly.
+        Default: 1
+
+    """
+    try:
+        import onnxruntime as ort
+    except ImportError:
+        # In this case, we can throw a more informative error
+        # when the user tries to run a model
+        # that requires onnxruntime
+        return onnx_execution_provider
+    if onnx_execution_provider not in ort.get_available_providers():
+        logger.warning(
+            f"{onnx_execution_provider} is not available. "
+            f"Available providers are: {ort.get_available_providers()}. "
+            "Falling back to CPUExecutionProvider."
+        )
+        onnx_execution_provider = "CPUExecutionProvider"
+    options = ort.SessionOptions()
+    options.execution_mode = ort.ExecutionMode.ORT_SEQUENTIAL
+    options.inter_op_num_threads = onnx_inter_threads
+    if low_mem:
+        options.enable_cpu_mem_arena = False
+        options.enable_mem_pattern = False
+
+    onnx_kwargs = {"providers": [onnx_execution_provider], "sess_options": options}
+
+    return {"onnx_kwargs": onnx_kwargs}
+
+
 @immlib.calc("synthseg_model")
 @as_file(suffix="_model-synthseg2_probseg.nii.gz", subfolder="nn")
-def synthseg_model(t1_masked, citations):
+def synthseg_model(t1_masked, citations, onnx_kwargs):
     """
     full path to the synthseg2 model segmentations
 
@@ -36,13 +121,13 @@ def synthseg_model(t1_masked, citations):
         "Or, provide your own segmentations using PVEImage or PVEImages.",
     )
     t1_img = nib.load(t1_masked)
-    predictions = run_synthseg(ort, t1_img, "synthseg2")
+    predictions = run_synthseg(ort, t1_img, "synthseg2", onnx_kwargs)
     return predictions, dict(T1w=t1_masked)
 
 
 @immlib.calc("mx_model")
 @as_file(suffix="_model-multiaxial_probseg.nii.gz", subfolder="nn")
-def mx_model(t1_file, t1w_brain_mask, citations):
+def mx_model(t1_file, t1w_brain_mask, citations, onnx_kwargs):
     """
     full path to the multi-axial model for brain extraction
     outputs
@@ -59,7 +144,7 @@ def mx_model(t1_file, t1w_brain_mask, citations):
     )
     t1_img = nib.load(t1_file)
     t1_mask = nib.load(t1w_brain_mask)
-    predictions = run_multiaxial(ort, t1_img)
+    predictions = run_multiaxial(ort, t1_img, onnx_kwargs)
     predictions = nib.Nifti1Image(
         predictions.get_fdata() * t1_mask.get_fdata(), t1_img.affine
     )
@@ -68,7 +153,7 @@ def mx_model(t1_file, t1w_brain_mask, citations):
 
 @immlib.calc("t1w_brain_mask")
 @as_file(suffix="_desc-T1w_mask.nii.gz")
-def t1w_brain_mask(t1_file, citations, brain_mask_definition=None):
+def t1w_brain_mask(t1_file, citations, onnx_kwargs, brain_mask_definition=None):
     """
     full path to a nifti file containing brain mask from T1w image
 
@@ -98,7 +183,7 @@ def t1w_brain_mask(t1_file, citations, brain_mask_definition=None):
     ort = check_onnxruntime(
         "Mindgrab", "Or, provide your own brain mask using brain_mask_definition."
     )
-    return run_brainchop(ort, nib.load(t1_file), "mindgrab"), dict(
+    return run_brainchop(ort, nib.load(t1_file), "mindgrab", onnx_kwargs), dict(
         T1w=t1_file, model="mindgrab"
     )
 
@@ -119,7 +204,7 @@ def t1_masked(t1_file, t1w_brain_mask):
 
 @immlib.calc("t1_subcortex")
 @as_file(suffix="_desc-subcortex_probseg.nii.gz", subfolder="nn")
-def t1_subcortex(t1_masked, citations):
+def t1_subcortex(t1_masked, citations, onnx_kwargs):
     """
     full path to a nifti file containing segmentation of
     subcortical structures from T1w image using Brainchop
@@ -140,7 +225,7 @@ def t1_subcortex(t1_masked, citations):
 
     t1_img_masked = nib.load(t1_masked)
 
-    subcortical_img = run_brainchop(ort, t1_img_masked, "subcortical")
+    subcortical_img = run_brainchop(ort, t1_img_masked, "subcortical", onnx_kwargs)
 
     meta = dict(
         T1w=t1_masked,
@@ -172,7 +257,15 @@ def t1_subcortex(t1_masked, citations):
 
 def get_structural_plan(kwargs):
     structural_tasks = with_name(
-        [mx_model, synthseg_model, t1w_brain_mask, t1_subcortex, t1_masked]
+        [
+            mx_model,
+            synthseg_model,
+            t1w_brain_mask,
+            t1_subcortex,
+            t1_masked,
+            onnx_kwargs,
+            configure_ncpus_nthreads,
+        ]
     )
 
     bm_def = kwargs.get("brain_mask_definition", None)

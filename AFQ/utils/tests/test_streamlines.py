@@ -37,7 +37,7 @@ def test_SegmentedSFT():
         ),
     }
 
-    seg_sft = aus.SegmentedSFT(bundles, Space.VOX)
+    seg_sft = aus.SegmentedSFT(bundles)
     for k1 in bundles.keys():
         for sl1, sl2 in zip(
             bundles[k1].streamlines, seg_sft.get_bundle(k1).streamlines

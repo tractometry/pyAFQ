@@ -4,6 +4,7 @@ import numpy.testing as npt
 from scipy.ndimage import distance_transform_edt
 
 import AFQ.recognition.roi as abr
+import AFQ.recognition.utils as abu
 from AFQ.recognition.roi import check_sl_with_exclusion, check_sls_with_inclusion
 
 shape = (15, 15, 15)
@@ -17,6 +18,7 @@ streamlines = [
     np.array([[1, 1, 1], [2, 1, 1], [3, 1, 1]]),
     np.array([[1, 1, 1], [2, 1, 1]]),
 ]
+fgarray = np.array(abu.resample_tg(streamlines, 20))
 
 roi1 = np.ones(shape, dtype=np.float32)
 roi1[1, 2, 3] = 0
@@ -43,15 +45,15 @@ exclude_roi_tols = [1]
 
 
 def test_clean_by_endpoints():
-    clean_idx_start = list(abr.clean_by_endpoints(streamlines, start_roi, 0))
-    clean_idx_end = list(abr.clean_by_endpoints(streamlines, end_roi, -1))
+    clean_idx_start = list(abr.clean_by_endpoints(fgarray, start_roi, 0))
+    clean_idx_end = list(abr.clean_by_endpoints(fgarray, end_roi, -1))
     npt.assert_array_equal(
         np.logical_and(clean_idx_start, clean_idx_end), np.array([1, 1, 0, 0])
     )
 
     # If tol=1, the third streamline also gets included
-    clean_idx_start = list(abr.clean_by_endpoints(streamlines, start_roi, 0, tol=1))
-    clean_idx_end = list(abr.clean_by_endpoints(streamlines, end_roi, -1, tol=1))
+    clean_idx_start = list(abr.clean_by_endpoints(fgarray, start_roi, 0, tol=1))
+    clean_idx_end = list(abr.clean_by_endpoints(fgarray, end_roi, -1, tol=1))
     npt.assert_array_equal(
         np.logical_and(clean_idx_start, clean_idx_end), np.array([1, 1, 1, 0])
     )
@@ -63,22 +65,27 @@ def test_check_sls_with_inclusion():
     assert result[0][0] is True
     assert np.allclose(result[0][1][0], 0)
     assert np.allclose(result[0][1][1], 2)
+    assert np.allclose(result[0][2][0], 0)
+    assert np.allclose(result[0][2][1], 0)
     assert result[1][0] is False
 
 
 def test_check_sl_with_inclusion_pass():
-    result, dists = check_sls_with_inclusion(
+    result, dist_idxs, dists = check_sls_with_inclusion(
         [streamline1], include_rois, include_roi_tols
     )[0]
     assert result is True
     assert len(dists) == 2
+    assert np.allclose(dist_idxs[0], 0)
+    assert np.allclose(dist_idxs[1], 2)
 
 
 def test_check_sl_with_inclusion_fail():
-    result, dists = check_sls_with_inclusion(
+    result, dist_idxs, dists = check_sls_with_inclusion(
         [streamline2], include_rois, include_roi_tols
     )[0]
     assert result is False
+    assert dist_idxs == []
     assert dists == []
 
 

@@ -40,8 +40,6 @@ def _inline_interact(figure, show, show_inline):
 
 
 def _to_color_range(num):
-    if num < 0:
-        num = 0
     if num >= 0.999:
         num = 0.999
     if num <= 0.001:
@@ -232,9 +230,10 @@ def _draw_streamlines(
 
 def _plot_profiles(profiles, bundle_name, color, fig, scalar):
     if isinstance(profiles, pd.DataFrame):
-        sc_max = np.max(profiles[scalar].to_numpy())
-        sc_90 = np.percentile(profiles[scalar].to_numpy(), 10)
-        sc_1 = np.percentile(profiles[scalar].to_numpy(), 99)
+        all_tp = profiles[scalar].to_numpy()
+        all_tp = np.max(all_tp) - all_tp
+        lim_0 = np.percentile(all_tp, 1)
+        lim_1 = np.percentile(all_tp, 90)
 
         profiles = profiles[profiles.tractID == bundle_name]
         x = profiles["nodeID"]
@@ -242,10 +241,14 @@ def _plot_profiles(profiles, bundle_name, color, fig, scalar):
         line_color = []
 
         for scalar_val in profiles[scalar].to_numpy():
-            xformed_scalar = np.minimum(
-                (sc_max - scalar_val) / (sc_1 - sc_90) + sc_90 + 0.1, 0.999
+            brightness = np.minimum(
+                np.maximum(
+                    scalar_val - lim_0,
+                    0,
+                ),
+                lim_1,
             )
-            line_color.append(_color_arr2str(xformed_scalar * color))
+            line_color.append(_color_arr2str(brightness * color))
     else:
         x = np.arange(len(profiles))
         y = profiles
@@ -512,7 +515,7 @@ def create_gif(figure, file_name, n_frames=30, zoom=2.5, z_offset=0.5, size=(600
 
 
 def _draw_roi(figure, roi, name, color, opacity, dimensions, flip_axes):
-    roi = np.where(roi == 1)
+    roi = np.where(roi > 0)
     pts = []
     for i, flip in enumerate(flip_axes):
         if flip:
@@ -535,11 +538,7 @@ def _draw_roi(figure, roi, name, color, opacity, dimensions, flip_axes):
 
 def visualize_roi(
     roi,
-    affine_or_mapping=None,
-    static_img=None,
-    roi_affine=None,
-    static_affine=None,
-    reg_template=None,
+    resample_to=None,
     name="ROI",
     figure=None,
     flip_axes=None,
@@ -556,22 +555,8 @@ def visualize_roi(
     roi : str or Nifti1Image
         The ROI information
 
-    affine_or_mapping : ndarray, Nifti1Image, or str, optional
-       An affine transformation or mapping to apply to the ROIs before
-       visualization. Default: no transform.
-
-    static_img: str or Nifti1Image, optional
-        Template to resample roi to.
-        Default: None
-
-    roi_affine: ndarray, optional
-        Default: None
-
-    static_affine: ndarray, optional
-        Default: None
-
-    reg_template: str or Nifti1Image, optional
-        Template to use for registration.
+    resample_to : Nifti1Image, optional
+        If not None, the ROI will be resampled to the space of this image.
         Default: None
 
     name: str, optional
@@ -612,9 +597,7 @@ def visualize_roi(
         color = np.array([0.9999, 0, 0])
     if flip_axes is None:
         flip_axes = [False, False, False]
-    roi = vut.prepare_roi(
-        roi, affine_or_mapping, static_img, roi_affine, static_affine, reg_template
-    )
+    roi = vut.prepare_roi(roi, resample_to)
 
     if figure is None:
         figure = make_subplots(rows=1, cols=1, specs=[[{"type": "scene"}]])

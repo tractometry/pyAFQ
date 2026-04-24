@@ -10,7 +10,8 @@ import AFQ.utils.volume as auv
 from AFQ.definitions.utils import find_file
 from AFQ.tasks.utils import get_fname, str_to_desc
 
-logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("AFQ")
+logger.setLevel(logging.INFO)
 
 
 __all__ = [
@@ -118,13 +119,45 @@ RECO_BUNDLES_80 = append_l_r(RECO_BUNDLES_80, RECO_UNIQUE)
 DIPY_GH = "https://github.com/dipy/dipy/blob/master/dipy/"
 
 
+def OR_bd():
+    or_rois = afd.read_or_templates()
+
+    return BundleDict(
+        {
+            "Left Optic Radiation": {
+                "include": [or_rois["left_OR_1"], or_rois["left_OR_2"]],
+                "exclude": [
+                    or_rois["left_OP_MNI"],
+                    or_rois["left_TP_MNI"],
+                    or_rois["left_pos_thal_MNI"],
+                ],
+                "start": or_rois["left_thal_MNI"],
+                "end": or_rois["left_V1_MNI"],
+                "cross_midline": False,
+            },
+            "Right Optic Radiation": {
+                "include": [or_rois["right_OR_1"], or_rois["right_OR_2"]],
+                "exclude": [
+                    or_rois["right_OP_MNI"],
+                    or_rois["right_TP_MNI"],
+                    or_rois["right_pos_thal_MNI"],
+                ],
+                "start": or_rois["right_thal_MNI"],
+                "end": or_rois["right_V1_MNI"],
+                "cross_midline": False,
+            },
+        },
+        citations={"Caffarra2021"},
+    )
+
+
 def default_bd():
     templates = afd.read_templates(as_img=False)
     templates["ARC_roi1_L"] = templates["SLF_roi1_L"]
     templates["ARC_roi1_R"] = templates["SLF_roi1_R"]
     templates["ARC_roi2_L"] = templates["SLFt_roi2_L"]
     templates["ARC_roi2_R"] = templates["SLFt_roi2_R"]
-    return BundleDict(
+    return OR_bd() + BundleDict(
         {
             "Left Anterior Thalamic": {
                 "cross_midline": False,
@@ -134,6 +167,7 @@ def default_bd():
                 "prob_map": templates["ATR_L_prob_map"],
                 "start": templates["ATR_L_start"],
                 "end": templates["ATR_L_end"],
+                "length": {"min_len": 30},
             },
             "Right Anterior Thalamic": {
                 "cross_midline": False,
@@ -143,6 +177,7 @@ def default_bd():
                 "prob_map": templates["ATR_R_prob_map"],
                 "start": templates["ATR_R_start"],
                 "end": templates["ATR_R_end"],
+                "length": {"min_len": 30},
             },
             "Left Cingulum Cingulate": {
                 "cross_midline": False,
@@ -151,6 +186,7 @@ def default_bd():
                 "space": "template",
                 "prob_map": templates["CGC_L_prob_map"],
                 "end": templates["CGC_L_start"],
+                "length": {"min_len": 30},
             },
             "Right Cingulum Cingulate": {
                 "cross_midline": False,
@@ -159,6 +195,7 @@ def default_bd():
                 "space": "template",
                 "prob_map": templates["CGC_R_prob_map"],
                 "end": templates["CGC_R_start"],
+                "length": {"min_len": 30},
             },
             "Left Corticospinal": {
                 "cross_midline": False,
@@ -167,6 +204,7 @@ def default_bd():
                 "space": "template",
                 "prob_map": templates["CST_L_prob_map"],
                 "end": templates["CST_L_start"],
+                "length": {"min_len": 40},
             },
             "Right Corticospinal": {
                 "cross_midline": False,
@@ -175,24 +213,27 @@ def default_bd():
                 "space": "template",
                 "prob_map": templates["CST_R_prob_map"],
                 "end": templates["CST_R_start"],
+                "length": {"min_len": 40},
             },
             "Left Inferior Fronto-occipital": {
                 "cross_midline": False,
                 "include": [templates["IFO_roi2_L"], templates["IFO_roi1_L"]],
-                "exclude": [templates["ARC_roi1_L"]],
+                "exclude": [templates["ARC_roi1_L"], templates["CGC_roi1_L"]],
                 "space": "template",
                 "prob_map": templates["IFO_L_prob_map"],
                 "end": templates["IFO_L_start"],
                 "start": templates["IFO_L_end"],
+                "length": {"min_len": 80},
             },
             "Right Inferior Fronto-occipital": {
                 "cross_midline": False,
                 "include": [templates["IFO_roi2_R"], templates["IFO_roi1_R"]],
-                "exclude": [templates["ARC_roi1_R"]],
+                "exclude": [templates["ARC_roi1_R"], templates["CGC_roi1_R"]],
                 "space": "template",
                 "prob_map": templates["IFO_R_prob_map"],
                 "end": templates["IFO_R_start"],
                 "start": templates["IFO_R_end"],
+                "length": {"min_len": 80},
             },
             "Left Inferior Longitudinal": {
                 "cross_midline": False,
@@ -202,6 +243,7 @@ def default_bd():
                 "prob_map": templates["ILF_L_prob_map"],
                 "start": templates["ILF_L_end"],
                 "end": templates["ILF_L_start"],
+                "length": {"min_len": 40},
             },
             "Right Inferior Longitudinal": {
                 "cross_midline": False,
@@ -211,24 +253,27 @@ def default_bd():
                 "prob_map": templates["ILF_R_prob_map"],
                 "start": templates["ILF_R_end"],
                 "end": templates["ILF_R_start"],
+                "length": {"min_len": 40},
             },
             "Left Arcuate": {
                 "cross_midline": False,
                 "include": [templates["SLF_roi1_L"], templates["SLFt_roi2_L"]],
-                "exclude": [],
+                "exclude": [templates["IFO_roi1_L"]],
                 "space": "template",
                 "prob_map": templates["ARC_L_prob_map"],
                 "start": templates["ARC_L_start"],
                 "end": templates["ARC_L_end"],
+                "length": {"min_len": 40},
             },
             "Right Arcuate": {
                 "cross_midline": False,
                 "include": [templates["SLF_roi1_R"], templates["SLFt_roi2_R"]],
-                "exclude": [],
+                "exclude": [templates["IFO_roi1_R"]],
                 "space": "template",
                 "prob_map": templates["ARC_R_prob_map"],
                 "start": templates["ARC_R_start"],
                 "end": templates["ARC_R_end"],
+                "length": {"min_len": 40},
             },
             "Left Uncinate": {
                 "cross_midline": False,
@@ -251,122 +296,261 @@ def default_bd():
             "Left Posterior Arcuate": {
                 "cross_midline": False,
                 "include": [templates["SLFt_roi2_L"]],
-                "exclude": [templates["SLF_roi1_L"]],
+                "exclude": [
+                    templates["SLF_roi1_L"],
+                    templates["IFO_roi1_L"],
+                    templates["pARC_xroi1_L"],
+                ],
                 "space": "template",
                 "start": templates["pARC_L_start"],
+                "end": templates["pARC_L_end"],
                 "Left Arcuate": {"overlap": 30},
+                "Left Optic Radiation": {"core": "Right"},
+                "length": {"min_len": 30},
                 "primary_axis": "I/S",
-                "primary_axis_percentage": 40,
             },
             "Right Posterior Arcuate": {
                 "cross_midline": False,
                 "include": [templates["SLFt_roi2_R"]],
-                "exclude": [templates["SLF_roi1_R"]],
+                "exclude": [
+                    templates["SLF_roi1_R"],
+                    templates["IFO_roi1_R"],
+                    templates["pARC_xroi1_R"],
+                ],
                 "space": "template",
                 "start": templates["pARC_R_start"],
+                "end": templates["pARC_R_end"],
                 "Right Arcuate": {"overlap": 30},
+                "Right Optic Radiation": {"core": "Left"},
+                "length": {"min_len": 30},
                 "primary_axis": "I/S",
-                "primary_axis_percentage": 40,
             },
             "Left Vertical Occipital": {
                 "cross_midline": False,
                 "space": "template",
                 "end": templates["VOF_L_end"],
-                "Left Arcuate": {"node_thresh": 20},
+                "start": templates["VOF_L_start"],
+                "include": [templates["VOF_roi1_L"], templates["VOF_roi2_L"]],
+                "exclude": [
+                    templates["VOF_xroi2_L"],
+                    templates["Cerebellar_Hemi_L"],
+                    templates["pARC_xroi1_L"],
+                ],
                 "Left Posterior Arcuate": {
                     "node_thresh": 20,
-                    "entire_core": "Anterior",
+                    "project": "L/R",
+                    "core": "Anterior",
                 },
-                "Left Inferior Fronto-occipital": {"core": "Right"},
-                "orient_mahal": {"distance_threshold": 3, "clean_rounds": 5},
-                "length": {"min_len": 25},
-                "isolation_forest": {},
+                "length": {"min_len": 30},
+                "endpoint_dists": {"min_dist": 25},
+                "mahal": {"clean_rounds": 0},
                 "primary_axis": "I/S",
-                "primary_axis_percentage": 40,
+                "ORG_spectral_subbundles": SpectralSubbundleDict(
+                    {
+                        "Left V1V3": {
+                            "cluster_IDs": [78],
+                            "Left Optic Radiation": {
+                                "core": "Anterior",
+                                "consideration": "closest",
+                            },
+                        },
+                        "Left Posterior Vertical Occipital": {
+                            "cluster_IDs": [72, 83],
+                            "Left Optic Radiation": {
+                                "project": "I/S",
+                                "core": "Right",
+                                "consideration": 10.0,
+                            },
+                        },
+                        "Left Anterior Vertical Occipital": {
+                            "cluster_IDs": [7, 18, 21, 25],
+                            "Left Optic Radiation": {
+                                "project": "I/S",
+                                "core": "Right",
+                                "consideration": 10.0,
+                            },
+                        },
+                    },
+                    criteria_for_all={
+                        "orient_mahal": {
+                            "distance_threshold": 4,
+                            "length_threshold": 2,
+                            "clean_rounds": 5,
+                            "remove_lengths": "short",
+                        },
+                        "mahal": {
+                            "distance_threshold": 4,
+                            "length_threshold": 2,
+                            "clean_rounds": 5,
+                            "remove_lengths": "short",
+                        },
+                    },
+                ),
             },
             "Right Vertical Occipital": {
                 "cross_midline": False,
                 "space": "template",
                 "end": templates["VOF_R_end"],
-                "Right Arcuate": {"node_thresh": 20},
+                "start": templates["VOF_R_start"],
+                "include": [templates["VOF_roi1_R"], templates["VOF_roi2_R"]],
+                "exclude": [
+                    templates["VOF_xroi2_R"],
+                    templates["Cerebellar_Hemi_R"],
+                    templates["pARC_xroi1_R"],
+                ],
                 "Right Posterior Arcuate": {
                     "node_thresh": 20,
-                    "entire_core": "Anterior",
+                    "project": "L/R",
+                    "core": "Anterior",
                 },
-                "Right Inferior Fronto-occipital": {"core": "Left"},
-                "orient_mahal": {"distance_threshold": 3, "clean_rounds": 5},
-                "length": {"min_len": 25},
-                "isolation_forest": {},
+                "length": {"min_len": 30},
+                "endpoint_dists": {"min_dist": 25},
+                "mahal": {"clean_rounds": 0},
                 "primary_axis": "I/S",
-                "primary_axis_percentage": 40,
+                "ORG_spectral_subbundles": SpectralSubbundleDict(
+                    {
+                        "Right V1V3": {
+                            "cluster_IDs": [78],
+                            "Right Optic Radiation": {
+                                "core": "Anterior",
+                                "consideration": "closest",
+                            },
+                        },
+                        "Right Posterior Vertical Occipital": {
+                            "cluster_IDs": [72, 83],
+                            "Right Optic Radiation": {
+                                "project": "I/S",
+                                "core": "Left",
+                                "consideration": 10.0,
+                            },
+                        },
+                        "Right Anterior Vertical Occipital": {
+                            "cluster_IDs": [7, 18, 21, 25],
+                            "Right Optic Radiation": {
+                                "project": "I/S",
+                                "core": "Left",
+                                "consideration": 10.0,
+                            },
+                        },
+                    },
+                    criteria_for_all={
+                        "orient_mahal": {
+                            "distance_threshold": 4,
+                            "length_threshold": 2,
+                            "clean_rounds": 5,
+                            "remove_lengths": "short",
+                        },
+                        "mahal": {
+                            "distance_threshold": 4,
+                            "length_threshold": 2,
+                            "clean_rounds": 5,
+                            "remove_lengths": "short",
+                        },
+                    },
+                ),
             },
         },
-        citations={"Yeatman2012", "takemura2017occipital"},
+        citations={
+            "Yeatman2012",
+            "takemura2016major",
+            "Tzourio-Mazoyer2002",
+            "zhang2018anatomically",
+            "Hua2008",
+        },
+    )
+
+
+def mdlf_bd():
+    """
+    Work in Progress.
+    """
+    templates = afd.read_templates(as_img=False)
+    return default_bd() + BundleDict(
+        {
+            "Left Middle Longitudinal": {
+                "cross_midline": False,
+                "start": templates["Temporal_Sup_L"],
+                "end": templates["MdLF_L_end"],
+                "exclude": [templates["SLF_roi1_L"]],
+                "space": "template",
+                "Left Inferior Longitudinal": {"node_thresh": 20},
+                "length": {"min_len": 50},
+            },
+            "Right Middle Longitudinal": {
+                "cross_midline": False,
+                "start": templates["Temporal_Sup_R"],
+                "end": templates["MdLF_R_end"],
+                "exclude": [templates["SLF_roi1_R"]],
+                "space": "template",
+                "Right Inferior Longitudinal": {"node_thresh": 20},
+                "length": {"min_len": 50},
+            },
+        },
+        citations={
+            "wang2013rethinking",
+        },
     )
 
 
 def slf_bd():
     templates = afd.read_slf_templates(as_img=False)
+    templates_afq = afd.read_templates(as_img=False)
+    templates["Frontal_Lobe_L"] = templates_afq["ATR_L_start"]
+    templates["Frontal_Lobe_R"] = templates_afq["ATR_R_start"]
     return BundleDict(
         {
             "Left Superior Longitudinal I": {
                 "include": [templates["SFgL"], templates["PaL"]],
                 "exclude": [templates["SLFt_roi2_L"]],
+                "start": templates["Frontal_Lobe_L"],
                 "cross_midline": False,
-                "mahal": {
-                    "clean_rounds": 20,
-                    "length_threshold": 4,
-                    "distance_threshold": 2,
+                "Left Cingulum Cingulate": {
+                    "node_thresh": 20,
                 },
             },
             "Left Superior Longitudinal II": {
                 "include": [templates["MFgL"], templates["PaL"]],
                 "exclude": [templates["SLFt_roi2_L"]],
+                "start": templates["Frontal_Lobe_L"],
                 "cross_midline": False,
-                "mahal": {
-                    "clean_rounds": 20,
-                    "length_threshold": 4,
-                    "distance_threshold": 2,
+                "Left Cingulum Cingulate": {
+                    "node_thresh": 20,
                 },
             },
             "Left Superior Longitudinal III": {
                 "include": [templates["PrgL"], templates["PaL"]],
                 "exclude": [templates["SLFt_roi2_L"]],
+                "start": templates["Frontal_Lobe_L"],
                 "cross_midline": False,
-                "mahal": {
-                    "clean_rounds": 20,
-                    "length_threshold": 4,
-                    "distance_threshold": 2,
+                "Left Cingulum Cingulate": {
+                    "node_thresh": 20,
                 },
             },
             "Right Superior Longitudinal I": {
                 "include": [templates["SFgR"], templates["PaR"]],
                 "exclude": [templates["SLFt_roi2_R"]],
+                "start": templates["Frontal_Lobe_R"],
                 "cross_midline": False,
-                "mahal": {
-                    "clean_rounds": 20,
-                    "length_threshold": 4,
-                    "distance_threshold": 2,
+                "Right Cingulum Cingulate": {
+                    "node_thresh": 20,
                 },
             },
             "Right Superior Longitudinal II": {
                 "include": [templates["MFgR"], templates["PaR"]],
                 "exclude": [templates["SLFt_roi2_R"]],
+                "start": templates["Frontal_Lobe_R"],
                 "cross_midline": False,
-                "mahal": {
-                    "clean_rounds": 20,
-                    "length_threshold": 4,
-                    "distance_threshold": 2,
+                "Right Cingulum Cingulate": {
+                    "node_thresh": 20,
                 },
             },
             "Right Superior Longitudinal III": {
                 "include": [templates["PrgR"], templates["PaR"]],
                 "exclude": [templates["SLFt_roi2_R"]],
+                "start": templates["Frontal_Lobe_R"],
                 "cross_midline": False,
-                "mahal": {
-                    "clean_rounds": 20,
-                    "length_threshold": 4,
-                    "distance_threshold": 2,
+                "Right Cingulum Cingulate": {
+                    "node_thresh": 20,
                 },
             },
         },
@@ -732,9 +916,6 @@ def callosal_bd():
                     callosal_templates["Callosum_midsag"],
                     callosal_templates["L_AntFrontal"],
                 ],
-                "isolation_forest": {},
-                "exclude": [templates["CST_roi1_L"], templates["CST_roi1_R"]],
-                "space": "template",
             },
             "Callosum Motor": {
                 "cross_midline": True,
@@ -743,9 +924,6 @@ def callosal_bd():
                     callosal_templates["Callosum_midsag"],
                     callosal_templates["L_Motor"],
                 ],
-                "isolation_forest": {},
-                "exclude": [templates["CST_roi1_L"], templates["CST_roi1_R"]],
-                "space": "template",
             },
             "Callosum Occipital": {
                 "cross_midline": True,
@@ -754,9 +932,6 @@ def callosal_bd():
                     callosal_templates["Callosum_midsag"],
                     callosal_templates["L_Occipital"],
                 ],
-                "isolation_forest": {},
-                "exclude": [templates["CST_roi1_L"], templates["CST_roi1_R"]],
-                "space": "template",
             },
             "Callosum Orbital": {
                 "cross_midline": True,
@@ -765,9 +940,6 @@ def callosal_bd():
                     callosal_templates["Callosum_midsag"],
                     callosal_templates["L_Orbital"],
                 ],
-                "isolation_forest": {},
-                "exclude": [templates["CST_roi1_L"], templates["CST_roi1_R"]],
-                "space": "template",
             },
             "Callosum Posterior Parietal": {
                 "cross_midline": True,
@@ -776,9 +948,6 @@ def callosal_bd():
                     callosal_templates["Callosum_midsag"],
                     callosal_templates["L_PostParietal"],
                 ],
-                "isolation_forest": {},
-                "exclude": [templates["CST_roi1_L"], templates["CST_roi1_R"]],
-                "space": "template",
             },
             "Callosum Superior Frontal": {
                 "cross_midline": True,
@@ -787,9 +956,6 @@ def callosal_bd():
                     callosal_templates["Callosum_midsag"],
                     callosal_templates["L_SupFrontal"],
                 ],
-                "isolation_forest": {},
-                "exclude": [templates["CST_roi1_L"], templates["CST_roi1_R"]],
-                "space": "template",
             },
             "Callosum Superior Parietal": {
                 "cross_midline": True,
@@ -798,9 +964,6 @@ def callosal_bd():
                     callosal_templates["Callosum_midsag"],
                     callosal_templates["L_SupParietal"],
                 ],
-                "isolation_forest": {},
-                "exclude": [templates["CST_roi1_L"], templates["CST_roi1_R"]],
-                "space": "template",
             },
             "Callosum Temporal": {
                 "cross_midline": True,
@@ -809,11 +972,14 @@ def callosal_bd():
                     callosal_templates["Callosum_midsag"],
                     callosal_templates["L_Temporal"],
                 ],
-                "isolation_forest": {},
-                "exclude": [templates["CST_roi1_L"], templates["CST_roi1_R"]],
-                "space": "template",
             },
-        }
+        },
+        citations={"Dougherty2007"},
+        criteria_for_all={
+            "isolation_forest": {},
+            "exclude": [templates["CST_roi1_L"], templates["CST_roi1_R"]],
+            "space": "template",
+        },
     )
 
 
@@ -894,38 +1060,6 @@ def cerebellar_bd():
     )
 
 
-def OR_bd():
-    or_rois = afd.read_or_templates()
-
-    return BundleDict(
-        {
-            "Left Optic Radiation": {
-                "include": [or_rois["left_OR_1"], or_rois["left_OR_2"]],
-                "exclude": [
-                    or_rois["left_OP_MNI"],
-                    or_rois["left_TP_MNI"],
-                    or_rois["left_pos_thal_MNI"],
-                ],
-                "start": or_rois["left_thal_MNI"],
-                "end": or_rois["left_V1_MNI"],
-                "cross_midline": False,
-            },
-            "Right Optic Radiation": {
-                "include": [or_rois["right_OR_1"], or_rois["right_OR_2"]],
-                "exclude": [
-                    or_rois["right_OP_MNI"],
-                    or_rois["right_TP_MNI"],
-                    or_rois["right_pos_thal_MNI"],
-                ],
-                "start": or_rois["right_thal_MNI"],
-                "end": or_rois["right_V1_MNI"],
-                "cross_midline": False,
-            },
-        },
-        citations={"Caffarra2021"},
-    )
-
-
 class _BundleEntry(Mapping):
     """Describes how to recognize a single bundle, immutable"""
 
@@ -992,6 +1126,13 @@ class BundleDict(MutableMapping):
         bundle definitions provided.
         Default: None
 
+    criteria_for_all: dict, optional
+        A dictionary of criteria that should be applied to all bundles.
+        For example, you might want to set cleaning parameters
+        for all bundles. Applied immediately after instantiation and
+        does not affect newly added bundles.
+        Default: None
+
     Examples
     --------
     # import OR ROIs and create a custom bundle dict
@@ -1042,6 +1183,7 @@ class BundleDict(MutableMapping):
         resample_subject_to=False,
         keep_in_memory=False,
         citations=None,
+        criteria_for_all=None,
     ):
         if not (isinstance(bundle_info, dict)):
             raise TypeError(
@@ -1052,7 +1194,6 @@ class BundleDict(MutableMapping):
         self.resample_to = resample_to
         self.resample_subject_to = resample_subject_to
         self.keep_in_memory = keep_in_memory
-        self.max_includes = 3
         self.citations = citations
         if self.citations is None:
             self.citations = set()
@@ -1060,6 +1201,10 @@ class BundleDict(MutableMapping):
         self._dict = {}
         self.bundle_names = []
         for key, item in bundle_info.items():
+            if criteria_for_all is not None:
+                for criterion, value in criteria_for_all.items():
+                    if criterion not in item:
+                        item[criterion] = value
             self.__setitem__(key, item)
 
         self.logger = logging.getLogger("AFQ")
@@ -1106,12 +1251,8 @@ class BundleDict(MutableMapping):
     def __print__(self):
         print(self._dict)
 
-    def update_max_includes(self, new_max):
-        if new_max > self.max_includes:
-            self.max_includes = new_max
-
     def _use_bids_info(self, roi_or_sl, bids_layout, bids_path, subject, session):
-        if isinstance(roi_or_sl, dict):
+        if isinstance(roi_or_sl, dict) and "roi" not in roi_or_sl:
             suffix = roi_or_sl.get("suffix", "dwi")
             roi_or_sl = find_file(
                 bids_layout, bids_path, roi_or_sl, suffix, session, subject
@@ -1124,6 +1265,41 @@ class BundleDict(MutableMapping):
         """
         Load ROI or streamline if not already loaded
         """
+        if isinstance(roi_or_sl, dict):
+            space = roi_or_sl.get("space", None)
+            roi_or_sl = roi_or_sl.get("roi", None)
+            if roi_or_sl is None or space is None:
+                raise ValueError(
+                    (
+                        f"Unclear ROI definition for {roi_or_sl}. "
+                        "See 'Defining Custom Bundle Dictionaries' "
+                        "in the documentation for details."
+                    )
+                )
+            if space == "template":
+                resample_to = self.resample_to
+            elif space == "subject":
+                resample_to = self.resample_subject_to
+                if resample_to is False:
+                    raise ValueError(
+                        (
+                            "When using mixed ROI bundle definitions, "
+                            "and subject space ROIs, "
+                            "resample_subject_to cannot be False."
+                        )
+                    )
+            else:
+                raise ValueError(
+                    (
+                        f"Unknown space {space} for ROI definition {roi_or_sl}. "
+                        "See 'Defining Custom Bundle Dictionaries' "
+                        "in the documentation for details."
+                    )
+                )
+
+        logger.debug(f"Loading ROI or streamlines: {roi_or_sl}")
+        logger.debug(f"Loading ROI or streamlines from space: {resample_to}")
+
         if isinstance(roi_or_sl, str):
             if ".nii" in roi_or_sl:
                 return afd.read_resample_roi(roi_or_sl, resample_to=resample_to)
@@ -1138,6 +1314,30 @@ class BundleDict(MutableMapping):
 
     def get_b_info(self, b_name):
         return self._dict[b_name]
+
+    def relax_cleaning(self, delta_distance=1, delta_length=1):
+        """
+        This can be useful for PTT
+        """
+        cleaner_keys = ["mahal", "isolation_forest", "orient_mahal"]
+
+        for b_name in self.bundle_names:
+            bundle_data = self._dict[b_name]
+
+            for key in cleaner_keys:
+                if key in bundle_data:
+                    dt = bundle_data[key].get("distance_threshold", 0)
+                    if dt != 0:
+                        bundle_data[key]["distance_threshold"] = dt + delta_distance
+
+                    lt = bundle_data[key].get("length_threshold", 0)
+                    if lt != 0:
+                        bundle_data[key]["length_threshold"] = lt + delta_length
+
+            if "ORG_spectral_subbundles" in bundle_data:
+                bundle_data["ORG_spectral_subbundles"].relax_cleaning(
+                    delta_distance, delta_length
+                )
 
     def __getitem__(self, key):
         if isinstance(key, tuple) or isinstance(key, list):
@@ -1177,8 +1377,6 @@ class BundleDict(MutableMapping):
 
     def __setitem__(self, key, item):
         self._dict[key] = item
-        if hasattr(item, "get"):
-            self.update_max_includes(len(item.get("include", [])))
         if key not in self.bundle_names:
             self.bundle_names.append(key)
 
@@ -1261,24 +1459,29 @@ class BundleDict(MutableMapping):
         return (
             "space" not in self._dict[bundle_name]
             or self._dict[bundle_name]["space"] == "template"
+            or self._dict[bundle_name]["space"] == "mixed"
         )
 
-    def _roi_transform_helper(self, roi_or_sl, mapping, new_affine, bundle_name):
+    def _roi_transform_helper(self, roi_or_sl, mapping, new_img):
         roi_or_sl = self._cond_load(roi_or_sl, self.resample_to)
         if isinstance(roi_or_sl, nib.Nifti1Image):
+            if (
+                np.allclose(roi_or_sl.affine, new_img.affine)
+                and roi_or_sl.shape == new_img.shape[:3]
+            ):
+                # This is the case of a mixed bundle definition, where
+                # some ROIs need transformed and others do not
+                return roi_or_sl
+
             fdata = roi_or_sl.get_fdata()
             if len(np.unique(fdata)) <= 2:
                 boolean_ = True
             else:
                 boolean_ = False
 
-            warped_img = auv.transform_inverse_roi(
-                fdata, mapping, bundle_name=bundle_name
-            )
+            warped_img = auv.transform_roi(fdata, mapping, boolean_)
 
-            if boolean_:
-                warped_img = warped_img.astype(np.uint8)
-            warped_img = nib.Nifti1Image(warped_img, new_affine)
+            warped_img = nib.Nifti1Image(warped_img, new_img.affine)
             return warped_img
         else:
             return roi_or_sl
@@ -1287,7 +1490,7 @@ class BundleDict(MutableMapping):
         self,
         bundle_name,
         mapping,
-        new_affine,
+        new_img,
         base_fname=None,
         to_space="subject",
         apply_to_recobundles=False,
@@ -1306,8 +1509,8 @@ class BundleDict(MutableMapping):
             Name of the bundle to be transformed.
         mapping : DiffeomorphicMap object
             A mapping between DWI space and a template.
-        new_affine : array
-            Affine of space transformed into.
+        new_img : Nifti1Image
+            Image of space transformed into.
         base_fname : str, optional
             Base file path to construct file path from. Additional BIDS
             descriptors will be added to this file path. If None,
@@ -1333,8 +1536,7 @@ class BundleDict(MutableMapping):
                 bundle_name,
                 self._roi_transform_helper,
                 mapping,
-                new_affine,
-                bundle_name,
+                new_img,
                 dry_run=True,
                 apply_to_recobundles=apply_to_recobundles,
             )
@@ -1382,7 +1584,9 @@ class BundleDict(MutableMapping):
 
     def __add__(self, other):
         for resample in ["resample_to", "resample_subject_to"]:
-            if (
+            if getattr(self, resample) == getattr(other, resample):
+                pass
+            elif (
                 not getattr(self, resample)
                 or not getattr(other, resample)
                 or getattr(self, resample) is None
@@ -1427,6 +1631,46 @@ class BundleDict(MutableMapping):
             self.keep_in_memory,
             self.citations | other.citations,
         )
+
+
+class SpectralSubbundleDict(BundleDict):
+    """
+    A BundleDict where each bundle is defined as a spectral subbundle of a
+    larger bundle. See `Defining Custom Bundle Dictionaries` in the documentation
+    for details.
+    """
+
+    def __init__(
+        self,
+        bundle_info,
+        resample_to=None,
+        resample_subject_to=False,
+        keep_in_memory=False,
+        citations=None,
+        remove_cluster_IDs=None,
+        criteria_for_all=None,
+    ):
+        super().__init__(
+            bundle_info, resample_to, resample_subject_to, keep_in_memory, citations
+        )
+        if remove_cluster_IDs is None:
+            remove_cluster_IDs = []
+        self.remove_cluster_IDs = remove_cluster_IDs
+        self.cluster_IDs = []
+        for b_name, b_info in bundle_info.items():
+            if "cluster_IDs" not in b_info:
+                raise ValueError(
+                    (
+                        f"Bundle {b_name} does not have cluster_IDs. "
+                        "All bundles in a SpectralSubbundleDict must have cluster_IDs."
+                    )
+                )
+            self.cluster_IDs.extend(b_info["cluster_IDs"])
+            if criteria_for_all is not None:
+                for criterion, value in criteria_for_all.items():
+                    if criterion not in b_info:
+                        b_info[criterion] = value
+        self.all_cluster_IDs = self.remove_cluster_IDs + self.cluster_IDs
 
 
 def apply_to_roi_dict(

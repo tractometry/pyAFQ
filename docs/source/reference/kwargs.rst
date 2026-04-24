@@ -17,6 +17,21 @@ Here are the arguments you can pass to kwargs, to customize the tractometry pipe
 ==========================================================
 STRUCTURAL
 ==========================================================
+ray_n_cpus: int
+	The number of CPUs to use for parallel processing with Ray. If None, uses the number of available CPUs minus one. Tractography and MSMT use Ray. Default: None
+
+numba_n_threads: int
+	The number of threads to use for Numba. If None, uses the number of available CPUs minus one, but with a maximum of 16. ASYM fit uses Numba. Default: None
+
+low_memory: bool
+	Whether to use low-memory versions of algorithms where available. Default: False
+
+onnx_execution_provider: str
+	The execution provider to use for onnx models. By default this is set to CPUExecutionProvider which should work on all systems. If you have a compatible GPU and the appropriate onnxruntime installed you can set this to "CUDAExecutionProvider" or "OpenVINOExecutionProvider" for potentially faster inference. Default: "CPUExecutionProvider"
+
+onnx_inter_threads: int
+	The number of inter threads to use for onnx models. Increasing will increase memory usage significantly. Default: 1
+
 brain_mask_definition: instance from `AFQ.definitions.image`
 	This will be used to create the brain mask, which gets applied before registration to a template. If you want no brain mask to be applied, use FullImage. If None, use Brainchop Mindgrab model. Default: None
 
@@ -32,15 +47,6 @@ max_bval: float
 
 b0_threshold: int
 	The value of b under which it is considered to be b0. Default: 50.
-
-ray_n_cpus: int
-	The number of CPUs to use for parallel processing with Ray. If None, uses the number of available CPUs minus one. Tractography, Recognition, and MSMT use Ray. Default: None
-
-numba_n_threads: int
-	The number of threads to use for Numba. If None, uses the number of available CPUs minus one, but with a maximum of 16. ASYM fit uses Numba. Default: None
-
-low_memory: bool
-	Whether to use low-memory versions of algorithms where available. Default: False
 
 robust_tensor_fitting: bool
 	Whether to use robust_tensor_fitting when doing dti. Only applies to dti. Default: False
@@ -148,8 +154,11 @@ import_tract: dict or str or None
 tractography_ngpus: int
 	Number of GPUs to use in tractography. If non-0, this algorithm is used for tractography, https://github.com/dipy/GPUStreamlines PTT, Prob can be used with any SHM model. Bootstrapped can be done with CSA/OPDT. Default: 0
 
+gpu_backend: str
+	GPU backend to use for tractography. One of {"auto", "cuda", "metal", "webgpu"}. Default: "auto"
+
 chunk_size: int
-	Chunk size for GPU tracking. Default: 100000
+	Chunk size for GPU tracking. Default: 25000
 
 
 ==========================================================
@@ -172,9 +181,6 @@ volume_opacity_indiv: float
 
 n_points_indiv: int or None
 	n_points to resample streamlines to before plotting. If None, no resampling is done. Default: 40
-
-virtual_frame_buffer: bool
-	Whether to use a virtual frame buffer. This is if generating GIFs in a headless environment. Default: False
 
 viz_backend_spec: str
 	Which visualization backend to use. See Visualization Backends page in documentation for details https://tractometry.org/pyAFQ/reference/viz_backend.html One of {"fury", "plotly", "plotly_no_gif"}. Default: "plotly_no_gif"

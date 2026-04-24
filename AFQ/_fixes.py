@@ -4,7 +4,8 @@ import tempfile
 from math import radians
 
 import numpy as np
-from dipy.data import default_sphere
+from dipy.align import vector_fields as vfu
+from dipy.align.imwarp import DiffeomorphicMap, mult_aff
 from dipy.reconst.gqi import squared_radial_component
 from dipy.tracking.streamline import set_number_of_points
 from PIL import Image
@@ -15,10 +16,79 @@ from tqdm import tqdm
 logger = logging.getLogger("AFQ")
 
 
-def gwi_odf(gqmodel, data):
+def get_simplified_transform(self):
+    """Constructs a simplified version of this Diffeomorhic Map
+
+    The simplified version incorporates the pre-align transform, as well as
+    the domain and codomain affine transforms into the displacement field.
+    The resulting transformation may be regarded as operating on the
+    image spaces given by the domain and codomain discretization. As a
+    result, self.prealign, self.disp_grid2world, self.domain_grid2world and
+    self.codomain affine will be None (denoting Identity) in the resulting
+    diffeomorphic map.
+    """
+    if self.dim == 2:
+        simplify_f = vfu.simplify_warp_function_2d
+    else:
+        simplify_f = vfu.simplify_warp_function_3d
+    # Simplify the forward transform
+    D = self.domain_grid2world
+    P = self.prealign
+    Rinv = self.disp_world2grid
+    Cinv = self.codomain_world2grid
+
+    # this is the matrix which we need to multiply the voxel coordinates
+    # to interpolate on the forward displacement field ("in"side the
+    # 'forward' brackets in the expression above)
+    affine_idx_in = mult_aff(Rinv, mult_aff(P, D))
+
+    # this is the matrix which we need to multiply the voxel coordinates
+    # to add to the displacement ("out"side the 'forward' brackets in the
+    # expression above)
+    affine_idx_out = mult_aff(Cinv, mult_aff(P, D))
+
+    # this is the matrix which we need to multiply the displacement vector
+    # prior to adding to the transformed input point
+    affine_disp = Cinv
+
+    new_forward = simplify_f(
+        self.forward, affine_idx_in, affine_idx_out, affine_disp, self.domain_shape
+    )
+
+    # Simplify the backward transform
+    C = self.codomain_grid2world
+    Pinv = self.prealign_inv
+    Dinv = self.domain_world2grid
+
+    affine_idx_in = mult_aff(Rinv, C)
+    affine_idx_out = mult_aff(Dinv, mult_aff(Pinv, C))
+    affine_disp = mult_aff(Dinv, Pinv)
+    new_backward = simplify_f(
+        self.backward,
+        affine_idx_in,
+        affine_idx_out,
+        affine_disp,
+        self.codomain_shape,
+    )
+    simplified = DiffeomorphicMap(
+        dim=self.dim,
+        disp_shape=self.disp_shape,
+        disp_grid2world=None,
+        domain_shape=self.domain_shape,
+        domain_grid2world=None,
+        codomain_shape=self.codomain_shape,
+        codomain_grid2world=None,
+        prealign=None,
+    )
+    simplified.forward = new_forward
+    simplified.backward = new_backward
+    return simplified
+
+
+def gwi_odf(gqmodel, data, sphere):
     gqi_vector = np.real(
         squared_radial_component(
-            np.dot(gqmodel.b_vector, default_sphere.vertices.T) * gqmodel.Lambda
+            np.dot(gqmodel.b_vector, sphere.vertices.T) * gqmodel.Lambda
         )
     )
     odf = blas.dgemm(
@@ -152,7 +222,9 @@ def tensor_odf(evals, evecs, sphere, num_batches=100):
     return odf
 
 
-def gaussian_weights(bundle, n_points=100, return_mahalnobis=False, stat=np.mean):
+def gaussian_weights(
+    bundle, assignment_idxs=None, n_points=100, return_mahalnobis=False, stat=np.mean
+):
     """
     Calculate weights for each streamline/node in a bundle, based on a
     Mahalanobis distance from the core the bundle, at that node (mean, per
@@ -162,6 +234,9 @@ def gaussian_weights(bundle, n_points=100, return_mahalnobis=False, stat=np.mean
     ----------
     bundle : Streamlines
         The streamlines to weight.
+    assignment_idxs : array of shape (n_streamlines, n_points), optional
+        BUAN assignments. If None, use the node index as the group assignment.
+        Default: None
     n_points : int or None, optional
         The number of points to resample to. If this is None, we assume bundle
         is already resampled, and do not do any resampling. Default: 100.
@@ -209,41 +284,51 @@ def gaussian_weights(bundle, n_points=100, return_mahalnobis=False, stat=np.mean
             return weights / np.sum(weights, 0)
     else:
         weights = np.zeros((n_sls, n_nodes))
-    diff = stat(sls, axis=0) - sls
-    for i in range(n_nodes):
-        # This should come back as a 3D covariance matrix with the spatial
-        # variance covariance of this node across the different streamlines,
-        # converted to a positive semi-definite matrix if necessary
-        cov = np.cov(sls[:, i, :].T, ddof=0)
+
+    if assignment_idxs is None:
+        working_groups = np.tile(np.arange(n_nodes), (n_sls, 1))
+    else:
+        working_groups = np.asarray(assignment_idxs)
+
+    flat_coords = sls.reshape(-1, 3)
+    flat_groups = working_groups.reshape(-1)
+    unique_ids = np.unique(flat_groups)
+
+    for gid in unique_ids:
+        mask = flat_groups == gid
+        group_data = flat_coords[mask]
+
+        if len(group_data) < 15:
+            continue
+
+        mu = stat(group_data, axis=0)
+        diff = group_data - mu
+
+        cov = np.cov(group_data.T, ddof=0)
+
+        # Ensure positive semi-definite
         if np.any(np.linalg.eigvals(cov) < 0):
             eigenvalues, eigenvectors = np.linalg.eigh((cov + cov.T) / 2)
             eigenvalues[eigenvalues < 0] = 0
             cov = eigenvectors @ np.diag(eigenvalues) @ eigenvectors.T
 
-        # calculate Mahalanobis for node in every fiber
         if np.any(cov > 0):
-            weights[:, i] = np.sqrt(
-                np.einsum("ij,jk,ik->i", diff[:, i, :], pinvh(cov), diff[:, i, :])
+            weights.ravel()[mask] = np.sqrt(
+                np.einsum("ij,jk,ik->i", diff, pinvh(cov), diff)
             )
 
-        # In the special case where all the streamlines have the exact same
-        # coordinate in this node, the covariance matrix is all zeros, so
-        # we can't calculate the Mahalanobis distance, we will instead give
-        # each streamline an identical weight, equal to the number of
-        # streamlines:
-        else:
-            weights[:, i] = 0
     if return_mahalnobis:
         return weights
 
-    # weighting is inverse to the distance (the further you are, the less you
-    # should be weighted)
-    weights = 1 / weights
-    # Normalize before returning, so that the weights in each node sum to 1:
-    return weights / np.sum(weights, 0)
+    with np.errstate(divide="ignore"):
+        w_inv = 1.0 / weights
+    w_inv[np.isinf(w_inv)] = 0
+
+    denom = np.sum(w_inv, axis=0)
+    return np.divide(w_inv, denom, out=np.zeros_like(w_inv), where=denom != 0)
 
 
-def make_gif(show_m, out_path, n_frames=36, az_ang=-10):
+def make_gif(show_m, out_path, n_frames=36, az_ang=-10, duration=150):
     """
     Make a video from a Fury Show Manager.
 
@@ -263,6 +348,10 @@ def make_gif(show_m, out_path, n_frames=36, az_ang=-10):
         The angle to rotate the camera around the
         z-axis for each frame, in degrees.
         Default: -10
+
+    duration : int
+        The duration of each frame in the output GIF, in milliseconds.
+        Default: 150
     """
     video = []
 
@@ -270,15 +359,49 @@ def make_gif(show_m, out_path, n_frames=36, az_ang=-10):
     show_m.window.draw()
 
     with tempfile.TemporaryDirectory() as tmp_dir:
-        for ii in tqdm(range(n_frames), desc="Generating GIF"):
+        for ii in tqdm(range(n_frames), desc="Generating GIF", leave=False):
             frame_fname = f"{tmp_dir}/{ii}.png"
             show_m.screens[0].controller.rotate((radians(az_ang), 0), None)
             show_m.render()
             show_m.window.draw()
             show_m.snapshot(frame_fname)
-            video.append(frame_fname)
+            video.append(Image.open(frame_fname).convert("RGB"))
 
-        video = [Image.open(frame) for frame in video]
-        video[0].save(
-            out_path, save_all=True, append_images=video[1:], duration=300, loop=1
+        all_left, all_upper = float("inf"), float("inf")
+        all_right, all_lower = 0, 0
+
+        for img in video:
+            arr = np.array(img)
+            bg_color = arr[0, 0]
+
+            mask = np.any(arr != bg_color, axis=-1)
+
+            if np.any(mask):
+                rows = np.any(mask, axis=1)
+                cols = np.any(mask, axis=0)
+                ymin, ymax = np.where(rows)[0][[0, -1]]
+                xmin, xmax = np.where(cols)[0][[0, -1]]
+
+                all_left = min(all_left, xmin)
+                all_upper = min(all_upper, ymin)
+                all_right = max(all_right, xmax)
+                all_lower = max(all_lower, ymax)
+
+        if all_left < all_right:
+            crop_box = (
+                max(0, all_left),
+                max(0, all_upper),
+                min(video[0].width, all_right),
+                min(video[0].height, all_lower),
+            )
+            cropped_video = [img.crop(crop_box) for img in video]
+        else:
+            cropped_video = video
+
+        cropped_video[0].save(
+            out_path,
+            save_all=True,
+            append_images=cropped_video[1:],
+            duration=duration,
+            loop=1,
         )

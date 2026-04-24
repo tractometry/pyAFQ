@@ -16,9 +16,8 @@ hardi_dir = op.join(fetcher.dipy_home, "stanford_hardi")
 hardi_fdata = op.join(hardi_dir, "HARDI150.nii.gz")
 hardi_img = nib.load(hardi_fdata)
 file_dict = afd.read_stanford_hardi_tractography()
-streamlines = file_dict["tractography_subsampled.trk"]
+streamlines = file_dict["tractography_subsampled"]
 tg = StatefulTractogram(streamlines, hardi_img, Space.RASMM)
-tg.to_vox()
 streamlines = tg.streamlines
 
 
@@ -83,21 +82,22 @@ def test_segment_clip_edges():
 
 def test_segment_orientation():
     cleaned_idx = abc.clean_by_orientation(
-        streamlines, primary_axis="P/A", affine=np.eye(4)
+        streamlines,
+        primary_axis="P/A",
     )
-    npt.assert_equal(np.sum(cleaned_idx), 93)
-    cleaned_idx_tol = abc.clean_by_orientation(
-        streamlines, primary_axis="P/A", affine=np.eye(4), tol=50
-    )
-    npt.assert_(np.sum(cleaned_idx_tol) < np.sum(cleaned_idx))
+    npt.assert_equal(np.sum(cleaned_idx), 80)
 
     cleaned_idx = abc.clean_by_orientation(
-        streamlines, primary_axis="I/S", affine=np.eye(4)
+        streamlines,
+        primary_axis="I/S",
     )
-    cleaned_idx_tol = abc.clean_by_orientation(
-        streamlines, primary_axis="I/S", affine=np.eye(4), tol=33
+    npt.assert_equal(np.sum(cleaned_idx), 61)
+
+    cleaned_idx = abc.clean_by_orientation(
+        streamlines,
+        primary_axis="L/R",
     )
-    npt.assert_array_equal(cleaned_idx_tol, cleaned_idx)
+    npt.assert_equal(np.sum(cleaned_idx), 59)
 
 
 def test_clean_isolation_forest_basic():
@@ -153,14 +153,13 @@ def test_clean_relative_to_other_core_entire_vs_closest():
     this_bundle[0, :, 2] += 5
     this_bundle[1, :, 2] -= 5
     other_bundle = np.array(_make_straight_streamlines(n_sl=2, length=5, axis=0))
-    affine = np.eye(4)
     cleaned_entire = abo.clean_relative_to_other_core(
-        "inferior", this_bundle, other_bundle, affine, entire=True
+        "inferior", this_bundle, other_bundle, consideration="entire"
     )
     npt.assert_equal(cleaned_entire, [True, False])
 
     # With entire=False, same result in this synthetic case
     cleaned_closest = abo.clean_relative_to_other_core(
-        "inferior", this_bundle, other_bundle, affine, entire=False
+        "inferior", this_bundle, other_bundle, consideration="closest"
     )
     npt.assert_equal(cleaned_closest, [True, False])

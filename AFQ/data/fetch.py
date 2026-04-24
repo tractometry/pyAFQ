@@ -24,7 +24,9 @@ from dipy.segment.featurespeed import ResampleFeature
 from dipy.segment.metric import AveragePointwiseEuclideanMetric
 from tqdm import tqdm
 
+from AFQ._fixes import get_simplified_transform
 from AFQ.data.utils import aws_import_msg_error
+from AFQ.registration import read_old_mapping
 from AFQ.utils.path import apply_cmd_to_afq_derivs, drop_extension
 
 # capture templateflow resource warning and log
@@ -241,11 +243,15 @@ def read_callosum_templates(as_img=True, resample_to=False):
     return template_dict
 
 
-synthseg_remote_fnames = ["60017432"]
+synthseg_remote_fnames = ["60017432", "62817277", "62900542"]
 
-synthseg_fnames = ["synthseg2.onnx"]
+synthseg_fnames = ["synthseg2.onnx", "synthseg2pc_only.onnx", "synthseg_hypo.onnx"]
 
-synthseg_md5_hashes = ["c9e74653b96ce1725ec078bae4d63eb4"]
+synthseg_md5_hashes = [
+    "c9e74653b96ce1725ec078bae4d63eb4",
+    "ab93a9160958f713dee6a5a63fd6fdd8",
+    "7f4908aebaed11b7edea12ba59a56e20",
+]
 
 fetch_synthseg_models = _make_reusable_fetcher(
     "fetch_synthseg_models",
@@ -719,10 +725,6 @@ template_fnames = [
     "UNC_R_prob_map.nii.gz",
     "ARC_L_prob_map.nii.gz",
     "ARC_R_prob_map.nii.gz",
-    "VOF_R_end.nii.gz",
-    "VOF_R_start.nii.gz",
-    "VOF_L_end.nii.gz",
-    "VOF_L_start.nii.gz",
     "pARC_R_start.nii.gz",
     "pARC_L_start.nii.gz",
     "ARC_R_end.nii.gz",
@@ -759,6 +761,28 @@ template_fnames = [
     "ATR_R_start.nii.gz",
     "ATR_L_end.nii.gz",
     "ATR_L_start.nii.gz",
+    "pARC_xroi1_L.nii.gz",
+    "pARC_xroi1_R.nii.gz",
+    "Cerebellar_Hemi_L.nii.gz",
+    "Cerebellar_Hemi_R.nii.gz",
+    "VOF_L_end.nii.gz",
+    "VOF_R_end.nii.gz",
+    "VOF_L_start.nii.gz",
+    "VOF_R_start.nii.gz",
+    "VOF_roi1_L.nii.gz",
+    "VOF_roi1_R.nii.gz",
+    "VOF_roi2_L.nii.gz",
+    "VOF_roi2_R.nii.gz",
+    "Temporal_Sup_L.nii.gz",
+    "Temporal_Sup_R.nii.gz",
+    "pARC_L_end.nii.gz",
+    "pARC_R_end.nii.gz",
+    "MdLF_L_end.nii.gz",
+    "MdLF_R_end.nii.gz",
+    "VOF_xroi1_L.nii.gz",
+    "VOF_xroi1_R.nii.gz",
+    "VOF_xroi2_L.nii.gz",
+    "VOF_xroi2_R.nii.gz",
 ]
 
 
@@ -821,10 +845,6 @@ template_remote_fnames = [
     "11458229",
     "11458232",
     "11458235",
-    "40943957",
-    "40943960",
-    "40943966",
-    "40943969",
     "40943972",
     "40943975",
     "40943978",
@@ -861,6 +881,28 @@ template_remote_fnames = [
     "40944074",
     "40944077",
     "40944080",
+    "61737616",
+    "61737619",
+    "61970155",
+    "61970158",
+    "62582581",
+    "62582587",
+    "62582584",
+    "62582590",
+    "62213933",
+    "62213936",
+    "62213939",
+    "62213942",
+    "62282968",
+    "62282971",
+    "62316400",
+    "62316403",
+    "62283226",
+    "62283229",
+    "62582593",
+    "62582596",
+    "62582599",
+    "62582602",
 ]
 
 
@@ -924,10 +966,6 @@ template_md5_hashes = [
     "19590c712f1776da1fdba64d4eb7f1f6",
     "04d5af0feb2c1b5b52a87ccbbf148e4b",
     "53c277be990d00f7de04f2ea35e74d73",
-    "d37d815fd1bdaaf3a9d2dcfc3ccb1345",
-    "95ed3189d8ac152945e6be1eb24381a3",
-    "a9007e6f2d6ae13ef182f65057c06573",
-    "c6eb9ee33b7caf691749e266f89e8ec4",
     "a06b2e2e52c09a601f683dc39859a7f1",
     "bee876a34fdb03e69a418b791f90975a",
     "680749c9e4565bc02492019d57d8e7d7",
@@ -964,6 +1002,28 @@ template_md5_hashes = [
     "ffc157e9f73a43eff23821f2cfca614a",
     "a8d308a93b26242c04b878c733cb252f",
     "1c0b570bb2d622718b01ee2c429a5d15",
+    "51c8a6b5fbb0834b03986093b9ee4fa3",
+    "7cf5800a4efa6bac7e70d84095bc259b",
+    "f65b3f9133820921d023517a68d4ea41",
+    "4476935f5aadfcdd633b9a23779625ef",
+    "2f995fe535c89cffe1db76ad78dd4945",
+    "a761f60d24b93067dd3e03e14e29ccc2",
+    "ac6fe744af27278d48d0db27aaef1a95",
+    "2b35d15df7fe9e668fc68d88343eb628",
+    "ad5407fa6c058c9317a5ba51e5e188bf",
+    "5c52e20d74608da784ee874d23322385",
+    "76baf26294c8430afabcdc9a6d756b12",
+    "eff69ba30619bbf2ff500cd714f07894",
+    "088e850d38fed2d62fc768071d42a43d",
+    "a3d249535ca0452ce9f59c754e13695a",
+    "df8a7480c507e91976c5a82d5826d521",
+    "243ddae33bf84e7b24da4d1d9f90a121",
+    "827b21f9069cd0192ede3f7153f1ca80",
+    "e2912622d36db6723c48a0a1de887807",
+    "85818094178308ef4367ba7296125e3c",
+    "0cda34ce714759bad909fcf9051f3d64",
+    "6b65a5e178853e993f52b438ffb0f6c6",
+    "e36f5adf08eb3efd5849397f0f8ef6a4",
 ]
 
 fetch_templates = _make_reusable_fetcher(
@@ -1085,6 +1145,174 @@ def read_oton_templates(as_img=True, resample_to=False):
         f"Optic Tract and Posterior Optic Nerve templates "
         f"loaded in {toc - tic:0.4f} seconds"
     )
+
+    return template_dict
+
+
+org800_fnames = [
+    "ORG_atlas_tracks_reoriented.trx",
+    "ORG800_atlas_centroids.npy",
+    "ORG800_atlas_e_val.npy",
+    "ORG800_atlas_e_vec_norm.npy",
+    "ORG800_atlas_e_vec.npy",
+    "ORG800_atlas_number_of_eigenvectors.npy",
+    "ORG800_atlas_row_sum_1.npy",
+    "ORG800_atlas_row_sum_matrix.npy",
+    "ORG800_atlas_sigma.npy",
+]
+
+
+org800_remote_fnames = [
+    "61762231",
+    "61762267",
+    "61762270",
+    "61762273",
+    "61762276",
+    "61762279",
+    "61762282",
+    "61762285",
+    "61762288",
+]
+
+
+org800_md5_hashes = [
+    "9022799a73359209080ea832b22ec09b",
+    "09bfa384f5c44801dfa382d31392a979",
+    "bab61eb26cb21035e38b5f68b5fdad3e",
+    "9325f4cb168624d4f275785b18c9f859",
+    "12d426c5a6fcfbe3b8146bc335bdac96",
+    "db74e055c47c5b6354c3cb7bbf165f2c",
+    "e7e51f53b30764f104b93f50d94b6c3c",
+    "7e894c57a820cd7604a1db6b7ab8cce6",
+    "1e195b7055e98eb473bbb5af05d48f7d",
+]
+
+fetch_org800_templates = _make_reusable_fetcher(
+    "fetch_org800_templates",
+    op.join(afq_home, "org800_templates"),
+    baseurl,
+    org800_remote_fnames,
+    org800_fnames,
+    md5_list=org800_md5_hashes,
+    doc="Download AFQ org800 templates",
+)
+
+
+def read_org800_templates(load_npy=True, load_trx=True):
+    """
+    Load O'Donnell Research Group (ORG) Fiber Clustering White
+    Matter Atlas 800 modified for pyAFQ templates from file
+
+    Parameters
+    ----------
+    load_npy : bool, optional
+        If True, values are loaded as numpy arrays. Otherwise, values are
+        paths to npy files. Default: True
+    load_trx : bool, optional
+        If True, the tractogram is loaded as a StatefulTractogram. Otherwise,
+        the value is the path to the trx file. Default: True
+
+    Returns
+    -------
+    dict with: keys: names of atlas info
+    values: Floats, arrays, and StatefulTractogram for the atlas.
+    Any unloaded will instead be paths.
+    """
+    logger = logging.getLogger("AFQ")
+
+    logger.debug("loading org800 templates")
+    tic = time.perf_counter()
+
+    template_dict = _fetcher_to_template(fetch_org800_templates)
+
+    if load_trx:
+        template_dict["tracks_reoriented"] = load_tractogram(
+            template_dict.pop("ORG_atlas_tracks_reoriented"),
+            "same",
+        )
+    if load_npy:
+        template_dict["centroids"] = np.load(
+            template_dict.pop("ORG800_atlas_centroids")
+        )
+        template_dict["e_val"] = np.load(template_dict.pop("ORG800_atlas_e_val"))
+        template_dict["e_vec_norm"] = np.load(
+            template_dict.pop("ORG800_atlas_e_vec_norm")
+        )
+        template_dict["e_vec"] = np.load(template_dict.pop("ORG800_atlas_e_vec"))
+        template_dict["number_of_eigenvectors"] = float(
+            np.load(template_dict.pop("ORG800_atlas_number_of_eigenvectors"))
+        )
+        template_dict["row_sum_1"] = np.load(
+            template_dict.pop("ORG800_atlas_row_sum_1")
+        )
+        template_dict["row_sum_matrix"] = np.load(
+            template_dict.pop("ORG800_atlas_row_sum_matrix")
+        )
+        template_dict["sigma"] = float(np.load(template_dict.pop("ORG800_atlas_sigma")))
+
+    toc = time.perf_counter()
+    logger.debug(
+        f"O'Donnell Research Group 800 templates loaded in {toc - tic:0.4f} seconds"
+    )
+
+    return template_dict
+
+
+massp_fnames = [
+    "left_VTA.nii.gz",
+    "right_VTA.nii.gz",
+]
+
+massp_remote_fnames = [
+    "34892325",
+    "34892319",
+]
+
+massp_md5_hashes = [
+    "03d65d85abb161ea25501c343c136e40",
+    "440874b899d2c1057e5fd77b8b350bc4",
+]
+
+fetch_massp_templates = _make_reusable_fetcher(
+    "fetch_massp_templates",
+    op.join(afq_home, "massp_templates"),
+    baseurl,
+    massp_remote_fnames,
+    massp_fnames,
+    md5_list=massp_md5_hashes,
+    doc="Download AFQ MassP templates",
+)
+
+
+def read_massp_templates(as_img=True, resample_to=False):
+    """Load AFQ MASSP templates from file
+
+    Parameters
+    ----------
+    as_img : bool, optional
+        If True, values are `Nifti1Image`. Otherwise, values are
+        paths to Nifti files. Default: True
+    resample_to : str or nibabel image class instance, optional
+        A template image to resample to. Typically, this should be the
+        template to which individual-level data are registered. Defaults to
+        the MNI template. Default: False
+
+    Returns
+    -------
+    dict with: keys: names of template ROIs and values: nibabel Nifti1Image
+    objects from each of the ROI nifti files.
+    """
+    logger = logging.getLogger("AFQ")
+
+    logger.debug("loading MASSP templates")
+    tic = time.perf_counter()
+
+    template_dict = _fetcher_to_template(
+        fetch_massp_templates, as_img=as_img, resample_to=resample_to
+    )
+
+    toc = time.perf_counter()
+    logger.debug(f"MASSP templates loaded in {toc - tic:0.4f} seconds")
 
     return template_dict
 
@@ -1457,22 +1685,26 @@ def read_stanford_hardi_tractography():
     Reads a minimal tractography from the Stanford dataset.
     """
     files, folder = fetch_stanford_hardi_tractography()
-    files_dict = {}
-    files_dict["mapping.nii.gz"] = nib.load(
-        op.join(afq_home, "stanford_hardi_tractography", "mapping.nii.gz")
-    )
 
     # We need the original data as reference
     dwi_img, gtab = dpd.read_stanford_hardi()
+    reg_template = read_mni_template()
 
-    files_dict["tractography_subsampled.trk"] = load_tractogram(
+    files_dict = {}
+    files_dict["dwi"] = dwi_img
+
+    mapping_file = op.join(afq_home, "stanford_hardi_tractography", "mapping.nii.gz")
+    old_mapping = read_old_mapping(mapping_file, dwi_img, reg_template)
+    files_dict["mapping"] = get_simplified_transform(old_mapping)
+
+    files_dict["tractography_subsampled"] = load_tractogram(
         op.join(afq_home, "stanford_hardi_tractography", "tractography_subsampled.trk"),
         dwi_img,
         bbox_valid_check=False,
         trk_header_check=False,
     ).streamlines
 
-    files_dict["full_segmented_cleaned_tractography.trk"] = load_tractogram(
+    files_dict["full_segmented_cleaned_tractography"] = load_tractogram(
         op.join(
             afq_home,
             "stanford_hardi_tractography",
@@ -1747,10 +1979,10 @@ def read_hcp_atlas(n_bundles=16, as_file=False):
             bundle_dict[bundle]["recobundles"]["centroid"] = centroid_file
 
     # For some reason, this file-name has a 0 in it, instead of an O:
-    bundle_dict["IFOF_R"] = bundle_dict["IF0F_R"]
-    # In the 80-bundle case, there are two files, and both have identical
-    # content, so this is fine:
-    del bundle_dict["IF0F_R"]
+    if "IF0F_R" in bundle_dict:
+        bundle_dict["IFOF_R"] = bundle_dict["IF0F_R"]
+        del bundle_dict["IF0F_R"]
+
     return bundle_dict
 
 

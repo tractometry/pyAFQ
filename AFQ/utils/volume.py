@@ -3,16 +3,16 @@ import logging
 import dipy.tracking.utils as dtu
 import nibabel as nib
 import numpy as np
-import scipy.ndimage as ndim
 from dipy.io.utils import create_nifti_header, get_reference_info
 from dipy.tracking.streamline import select_random_set_of_streamlines
+from scipy.ndimage import distance_transform_edt
 from scipy.spatial.distance import dice
-from skimage.morphology import binary_dilation
+from skimage.morphology import dilation
 
 logger = logging.getLogger("AFQ")
 
 
-def transform_inverse_roi(roi, mapping, bundle_name="ROI"):
+def transform_roi(roi, mapping, is_boolean):
     """
     After being non-linearly transformed, ROIs tend to have holes in them.
     We perform a couple of computational geometry operations on the ROI to
@@ -27,9 +27,8 @@ def transform_inverse_roi(roi, mapping, bundle_name="ROI"):
     mapping : DiffeomorphicMap object
         A mapping between DWI space and a template.
 
-    bundle_name : str, optional
-        Name of bundle, which may be useful for error messages.
-        Default: None
+    is_boolean : bool
+        Whether the ROI is boolean or not.
 
     Returns
     -------
@@ -40,43 +39,17 @@ def transform_inverse_roi(roi, mapping, bundle_name="ROI"):
     if isinstance(roi, nib.Nifti1Image):
         roi = roi.get_fdata()
 
-    _roi = mapping.transform_inverse(roi, interpolation="linear")
+    if is_boolean:
+        # dilate binary images to avoid losing small ROIs
+        roi = dilation(roi)
+        roi = distance_transform_edt(roi.astype(bool))
 
-    if np.sum(_roi) == 0:
-        logger.warning(f"Lost ROI {bundle_name}, performing automatic binary dilation")
-        _roi = binary_dilation(roi)
-        _roi = mapping.transform_inverse(_roi, interpolation="linear")
+    roi = mapping.transform((roi.astype(float)), interpolation="linear")
 
-    _roi = patch_up_roi(_roi > 0, bundle_name=bundle_name).astype(np.int32)
-
-    return _roi
-
-
-def patch_up_roi(roi, bundle_name="ROI"):
-    """
-    After being non-linearly transformed, ROIs tend to have holes in them.
-    We perform a couple of computational geometry operations on the ROI to
-    fix that up.
-
-    Parameters
-    ----------
-    roi : 3D binary array
-        The ROI after it has been transformed.
-
-    bundle_name : str, optional
-        Name of bundle, which may be useful for error messages.
-        Default: None
-
-    Returns
-    -------
-    ROI after dilation and hole-filling
-    """
-    hole_filled = ndim.binary_fill_holes(roi > 0)
-    if not np.any(hole_filled):
-        raise ValueError(
-            (f"{bundle_name} found to be empty after applying the mapping.")
-        )
-    return hole_filled
+    if is_boolean:
+        return (roi > 0.5).astype(np.uint8)
+    else:
+        return roi.astype(np.float32)
 
 
 def density_map(tractogram, n_sls=None, normalize=False):

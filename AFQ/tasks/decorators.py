@@ -26,7 +26,6 @@ __all__ = ["as_file", "as_fit_deriv", "as_img"]
 
 
 logger = logging.getLogger("AFQ")
-logger.setLevel(logging.INFO)
 
 
 def get_new_signature(og_func, needed_args):
@@ -164,13 +163,21 @@ def as_fit_deriv(tf_name):
     """
 
     def _as_fit_deriv(func):
+        module_name = func.__module__
+        is_data_module = "data" in module_name
+        dependency = "dwi_affine" if is_data_module else "data_imap"
+
         new_signature, new_params = get_new_signature(
-            func, ["dwi_affine", f"{tf_name.lower()}_params"]
+            func, [dependency, f"{tf_name.lower()}_params"]
         )
 
         @functools.wraps(func)
         def wrapper_as_fit_deriv(*args, **kwargs):
-            dwi_affine = get_param(kwargs, new_params, "dwi_affine")
+            if is_data_module:
+                dwi_affine = get_param(kwargs, new_params, "dwi_affine")
+            else:
+                data_imap = get_param(kwargs, new_params, "data_imap")
+                dwi_affine = data_imap["dwi_affine"]
             params = get_param(kwargs, new_params, f"{tf_name.lower()}_params")
             params_meta = read_json(drop_extension(params) + ".json")
             img_meta = {}
@@ -203,11 +210,19 @@ def as_img(func):
     Decorator to convert function output (ndarray, meta) into (Nifti1Image, meta).
     Supports functions returning a single tuple or a list of tuples.
     """
-    new_signature, new_params = get_new_signature(func, ["dwi_affine"])
+    module_name = func.__module__
+    is_data_module = "data" in module_name
+    dependency = "dwi_affine" if is_data_module else "data_imap"
+
+    new_signature, new_params = get_new_signature(func, [dependency])
 
     @functools.wraps(func)
     def wrapper_as_img(*args, **kwargs):
-        dwi_affine = get_param(kwargs, new_params, "dwi_affine")
+        if is_data_module:
+            dwi_affine = get_param(kwargs, new_params, "dwi_affine")
+        else:
+            data_imap = get_param(kwargs, new_params, "data_imap")
+            dwi_affine = data_imap["dwi_affine"]
 
         start_time = time()
         results = func(*args, **kwargs)

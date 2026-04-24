@@ -58,9 +58,27 @@ def _meta_from_tracking_params(tracking_params, start_time, n_streamlines, seed,
     return meta
 
 
+def _fiber_odf(data_imap, tissue_imap, tracking_params):
+    odf_model = tracking_params["odf_model"]
+    if isinstance(odf_model, str):
+        calc_name = f"{odf_model.lower()}_params"
+        if calc_name in data_imap:
+            params_file = data_imap[calc_name]
+        elif calc_name in tissue_imap:
+            params_file = tissue_imap[calc_name]
+        else:
+            raise ValueError((f"Could not find {odf_model}"))
+    else:
+        raise TypeError(("odf_model must be a string or Definition"))
+
+    return params_file
+
+
 @immlib.calc("streamlines")
 @as_file("_tractography", subfolder="tractography")
-def streamlines(data_imap, seed, tissue_imap, fodf, citations, tracking_params):
+def streamlines(
+    structural_imap, data_imap, seed, tissue_imap, citations, tracking_params
+):
     """
     full path to the complete, unsegmented tractography file
 
@@ -77,6 +95,7 @@ def streamlines(data_imap, seed, tissue_imap, fodf, citations, tracking_params):
     citations.add("smith2012anatomically")
 
     this_tracking_params = tracking_params.copy()
+    fodf = _fiber_odf(data_imap, tissue_imap, tracking_params)
 
     # get masks
     this_tracking_params["seed_mask"] = nib.load(seed).get_fdata()
@@ -84,11 +103,11 @@ def streamlines(data_imap, seed, tissue_imap, fodf, citations, tracking_params):
 
     is_trx = this_tracking_params.get("trx", False)
 
-    num_chunks = data_imap["n_cpus"]
+    num_chunks = structural_imap["n_cpus"]
 
     if is_trx:
         start_time = time()
-        dtype_dict = {"positions": np.float16, "offsets": np.uint32}
+        dtype_dict = {"positions": np.float32, "offsets": np.uint32}
         if num_chunks and num_chunks > 1:
             if not has_ray:
                 raise ImportError(
@@ -201,29 +220,15 @@ def streamlines(data_imap, seed, tissue_imap, fodf, citations, tracking_params):
         sft.to_vox()
         n_streamlines = len(sft.streamlines)
 
+    if len(sft) == 0:
+        raise ValueError(
+            "No streamlines were generated. "
+            "Please check your tracking parameters and input data."
+        )
+
     return sft, _meta_from_tracking_params(
         tracking_params, start_time, n_streamlines, seed, tissue_imap["pve_internal"]
     )
-
-
-@immlib.calc("fodf")
-def fiber_odf(data_imap, tissue_imap, tracking_params):
-    """
-    Nifti Image containing the fiber orientation distribution function
-    """
-    odf_model = tracking_params["odf_model"]
-    if isinstance(odf_model, str):
-        calc_name = f"{odf_model.lower()}_params"
-        if calc_name in data_imap:
-            params_file = data_imap[calc_name]
-        elif calc_name in tissue_imap:
-            params_file = tissue_imap[calc_name]
-        else:
-            raise ValueError((f"Could not find {odf_model}"))
-    else:
-        raise TypeError(("odf_model must be a string or Definition"))
-
-    return params_file
 
 
 @immlib.calc("streamlines")
@@ -249,11 +254,11 @@ def custom_tractography(import_tract=None):
 def gpu_tractography(
     data_imap,
     tracking_params,
-    fodf,
     seed,
     tissue_imap,
     tractography_ngpus=0,
-    chunk_size=100000,
+    gpu_backend="auto",
+    chunk_size=25000,
 ):
     """
     full path to the complete, unsegmented tractography file
@@ -267,11 +272,17 @@ def gpu_tractography(
         PTT, Prob can be used with any SHM model.
         Bootstrapped can be done with CSA/OPDT.
         Default: 0
+    gpu_backend : str, optional
+        GPU backend to use for tractography.
+        One of {"auto", "cuda", "metal", "webgpu"}.
+        Default: "auto"
     chunk_size : int, optional
         Chunk size for GPU tracking.
-        Default: 100000
+        Default: 25000
     """
     start_time = time()
+    fodf = _fiber_odf(data_imap, tissue_imap, tracking_params)
+
     if tracking_params["directions"] == "boot":
         data = data_imap["data"]
     else:
@@ -283,7 +294,9 @@ def gpu_tractography(
 
     sphere = tracking_params["sphere"]
     if sphere is None:
-        sphere = dpd.default_sphere
+        sphere = dpd.get_sphere(name="repulsion724")
+    else:
+        sphere = dpd.get_sphere(name=tracking_params["sphere"])
 
     sft = gpu_track(
         data,
@@ -297,12 +310,15 @@ def gpu_tractography(
         tracking_params["thresholds_as_percentages"],
         tracking_params["max_angle"],
         tracking_params["step_size"],
+        tracking_params["minlen"],
+        tracking_params["maxlen"],
         tracking_params["n_seeds"],
         tracking_params["random_seeds"],
         tracking_params["rng_seed"],
         tracking_params["trx"],
         tractography_ngpus,
         chunk_size,
+        gpu_backend,
     )
 
     return sft, _meta_from_tracking_params(tracking_params, start_time, sft, seed, pve)
@@ -312,7 +328,7 @@ def get_tractography_plan(kwargs):
     if "tracking_params" in kwargs and not isinstance(kwargs["tracking_params"], dict):
         raise TypeError("tracking_params a dict")
 
-    tractography_tasks = with_name([streamlines, fiber_odf])
+    tractography_tasks = with_name([streamlines])
 
     # use GPU accelerated tractography if asked for
     if "tractography_ngpus" in kwargs and kwargs["tractography_ngpus"] != 0:
@@ -382,10 +398,29 @@ def get_tractography_plan(kwargs):
                 seed_mask.get_image_getter("tractography")
             )
         )
+    else:
+        raise TypeError(
+            "seed_mask must be an AFQ Definition when using the GroupAFQ or "
+            "ParticipantAFQ API. Consider using "
+            'ScalarImage("wm_gm_interface"), ThresholdedScalarImage, '
+            "RoiImage, or another AFQ Image definition."
+        )
 
     if isinstance(odf_model, Definition):
         tractography_tasks["fiber_odf_res"] = immlib.calc("fodf")(
             odf_model.get_image_getter("tractography")
+        )
+
+    n_seeds = kwargs["tracking_params"]["n_seeds"]
+    if (
+        kwargs["tracking_params"]["random_seeds"]
+        and isinstance(n_seeds, int)
+        and n_seeds <= 20
+    ):
+        raise ValueError(
+            "Using random seeds with a low number of seeds is not recommended."
+            " Please increase n_seeds or set random_seeds to False."
+            " A recommended number of seeds when using random seeds is 1e7."
         )
 
     return immlib.plan(**tractography_tasks)

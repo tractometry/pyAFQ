@@ -86,6 +86,46 @@ relation to the Left Arcuate and Inferior Longitudinal fasciculi:
       'Left Inferior Longitudinal': {'core': 'Left'},
   }
 
+
+Mixed space ROIs
+================
+Everywhere in the bundle dictionary where an ROI is specified as a path,
+be it start, end, include, exclude, or probability map, you can in fact input
+a dictionary instead. This dictionary should have two keys:
+- 'roi' : path to the ROI Nifti file
+- 'space' : either 'template' or 'subject', describing the space the ROI
+  is currently in.
+
+Then, for the whole bundle, set "space" to 'mixed'. This allows you to
+specify some ROIs in template space and some in subject space for the same
+bundle. For example:
+
+.. code-block:: python
+
+  import os.path as op
+  import AFQ.api.bundle_dict as abd
+  import AFQ.data.fetch as afd
+
+  # First, organize the data
+  afd.organize_stanford_data()
+  bids_path = op.join(op.expanduser('~'), 'AFQ_data', 'stanford_hardi')
+  sub_path = op.join(bids_path, 'derivatives', 'vistasoft', 'sub-01', 'ses-01')
+  dwi_path = op.join(sub_path, 'dwi', 'sub-01_ses-01_dwi.nii.gz')
+
+  lv1_files, lv1_folder = afd.fetch_stanford_hardi_lv1()
+  ar_rois = afd.read_ar_templates()
+  lv1_fname = op.join(lv1_folder, list(lv1_files.keys())[0])
+
+  # Then, prepare the bundle dictionary
+  bundle_info = abd.BundleDict({
+        "OR LV1": {
+            "start": {"roi": ar_rois["AAL_Thal_L"], "space": "template"},
+            "end": {"roi": lv1_fname, "space": "subject"},
+            "space": "mixed"
+        }
+    }, resample_subject_to=dwi_path)
+
+
 Filtering Order
 ===============
 When doing bundle recognition, streamlines are filtered out from the whole

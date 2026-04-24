@@ -2,12 +2,15 @@ import logging
 import math
 import os.path as op
 import tempfile
+from math import radians
 from time import time
 
 import nibabel as nib
+from dipy.align import resample
 from PIL import Image, ImageDraw, ImageFont
 from tqdm import tqdm
 
+import AFQ.utils.streamlines as aus
 from AFQ.api.utils import (
     AFQclass_doc,
     check_attribute,
@@ -33,11 +36,21 @@ from AFQ.viz.utils import BEST_BUNDLE_ORIENTATIONS, get_eye, trim
 __all__ = ["ParticipantAFQ"]
 
 
+logger = logging.getLogger("AFQ")
+
+
 class ParticipantAFQ(object):
     f"""{AFQclass_doc}"""
 
     def __init__(
-        self, dwi_data_file, bval_file, bvec_file, t1_file, output_dir, **kwargs
+        self,
+        dwi_data_file,
+        bval_file,
+        bvec_file,
+        t1_file,
+        output_dir,
+        logging_level=logging.INFO,
+        **kwargs,
     ):
         """
         Initialize a ParticipantAFQ object.
@@ -55,6 +68,9 @@ class ParticipantAFQ(object):
             to the DWI data, though not resampled.
         output_dir : str
             Path to output directory.
+        logging_level: int, optional
+            The logging level to use for this class.
+            Default: logging.INFO
         kwargs : additional optional parameters
             You can set additional parameters for any step
             of the process. See :ref:`usage/kwargs` for more details.
@@ -93,6 +109,8 @@ class ParticipantAFQ(object):
             )
 
         self.logger = logging.getLogger("AFQ")
+        self.logger.setLevel(logging_level)
+        logging.basicConfig(level=logging_level)
 
         # This is remembered to warn users
         # if their inputs are unused
@@ -157,9 +175,6 @@ class ParticipantAFQ(object):
                     plan_kwargs[key] = self.kwargs[key]
                 elif key in previous_plans:
                     plan_kwargs[key] = previous_plans[key]
-                elif name not in ["data", "structural"] and key == "dwi_affine":
-                    # simplifies syntax to access commonly used dwi_affine
-                    plan_kwargs[key] = previous_plans["data_imap"][key]
                 else:
                     raise NotImplementedError(
                         f"Missing required parameter {key} for {name} plan"
@@ -252,7 +267,7 @@ class ParticipantAFQ(object):
         export_all_helper(self, xforms, indiv, viz)
         self.logger.info(f"Time taken for export all: {time() - start_time}")
 
-    def participant_montage(self, images_per_row=2):
+    def participant_montage(self, images_per_row=3, anatomy=True, bundle_names=None):
         """
         Generate montage of all bundles for a given subject.
 
@@ -260,7 +275,15 @@ class ParticipantAFQ(object):
         ----------
         images_per_row : int
             Number of bundle images per row in output file.
-            Default: 2
+            Default: 3
+
+        anatomy : bool
+            Whether to include anatomical images in the montage.
+            Default: True
+
+        bundle_names : list of str or None
+            List of bundle names to include in the montage.
+            Default: None (includes all bundles)
 
         Returns
         -------
@@ -269,62 +292,78 @@ class ParticipantAFQ(object):
         tdir = tempfile.gettempdir()
 
         all_fnames = []
-        bundle_dict = self.export("bundle_dict")
+        seg_sft = aus.SegmentedSFT.fromfile(self.export("bundles"))
+        if bundle_names is None:
+            bundle_names = list(seg_sft.bundle_names)
         self.logger.info("Generating Montage...")
         viz_backend = self.export("viz_backend")
-        best_scalar = self.export(self.export("best_scalar"))
         t1 = nib.load(self.export("t1_masked"))
-        size = (images_per_row, math.ceil(len(bundle_dict) / images_per_row))
-        for ii, bundle_name in enumerate(tqdm(bundle_dict)):
+        best_scalar = nib.load(self.export(self.kwargs["best_scalar"]))
+        best_scalar = resample(best_scalar, t1)
+        size = (images_per_row, math.ceil(3 * len(bundle_names) / images_per_row))
+        for ii, bundle_name in enumerate(tqdm(bundle_names)):
             flip_axes = [False, False, False]
             for i in range(3):
                 flip_axes[i] = self.export("dwi_affine")[i, i] < 0
 
-            figure = viz_backend.visualize_volume(
-                t1, flip_axes=flip_axes, interact=False, inline=False
-            )
+            if anatomy:
+                figure = viz_backend.visualize_volume(
+                    t1.get_fdata(), flip_axes=flip_axes, interact=False, inline=False
+                )
+            else:
+                figure = None
             figure = viz_backend.visualize_bundles(
-                self.export("bundles"),
-                affine=t1.affine,
-                shade_by_volume=best_scalar,
+                seg_sft,
+                img=t1,
+                shade_by_volume=best_scalar.get_fdata(),
                 color_by_direction=True,
                 flip_axes=flip_axes,
                 bundle=bundle_name,
                 figure=figure,
+                n_points=40,
                 interact=False,
                 inline=False,
             )
 
-            view, direc = BEST_BUNDLE_ORIENTATIONS.get(bundle_name, ("Axial", "Top"))
-            eye = get_eye(view, direc)
+            for jj, view in enumerate(["Sagittal", "Coronal", "Axial"]):
+                direc = BEST_BUNDLE_ORIENTATIONS.get(
+                    bundle_name, ("Left", "Front", "Top")
+                )[jj]
 
-            this_fname = tdir + f"/t{ii}.png"
-            if "plotly" in viz_backend.backend:
-                figure.update_layout(
-                    scene_camera=dict(
-                        projection=dict(type="orthographic"),
-                        up={"x": 0, "y": 0, "z": 1},
-                        eye=eye,
-                        center=dict(x=0, y=0, z=0),
-                    ),
-                    showlegend=False,
-                )
-                figure.write_image(this_fname, scale=4)
+                eye = get_eye(view, direc)
 
-                # temporary fix for memory leak
-                import plotly.io as pio
+                this_fname = tdir + f"/t{ii}_{view}.png"
+                if "plotly" in viz_backend.backend:
+                    figure.update_layout(
+                        scene_camera=dict(
+                            projection=dict(type="orthographic"),
+                            up={"x": 0, "y": 0, "z": 1},
+                            eye=eye,
+                            center=dict(x=0, y=0, z=0),
+                        ),
+                        showlegend=False,
+                    )
+                    figure.write_image(this_fname, scale=4)
+                    # temporary fix for memory leak
+                    import plotly.io as pio
 
-                pio.kaleido.scope._shutdown_kaleido()
-            else:
-                from fury import window
+                    pio.kaleido.scope._shutdown_kaleido()
+                else:
+                    from fury import window
 
-                from AFQ.viz.fury_backend import scene_rotate_forward
-
-                show_m = window.ShowManager(
-                    scene=figure, window_type="offscreen", size=(600, 600)
-                )
-                scene_rotate_forward(show_m, figure)
-                show_m.snapshot(this_fname)
+                    show_m = window.ShowManager(
+                        scene=figure, window_type="offscreen", size=(600, 600)
+                    )
+                    window.update_camera(show_m.screens[0].camera, None, figure)
+                    if view == "Coronal":
+                        show_m.screens[0].controller.rotate((0, radians(-90)), None)
+                    elif view == "Axial":
+                        show_m.screens[0].controller.rotate((radians(90), 0), None)
+                    elif view == "Sagittal":
+                        pass
+                    show_m.render()
+                    show_m.window.draw()
+                    show_m.snapshot(this_fname)
 
         def _save_file(curr_img):
             save_path = op.abspath(
@@ -336,45 +375,47 @@ class ParticipantAFQ(object):
         this_img_trimmed = {}
         max_height = 0
         max_width = 0
-        for ii, bundle_name in enumerate(bundle_dict):
-            this_img = Image.open(tdir + f"/t{ii}.png")
-            try:
-                this_img_trimmed[ii] = trim(this_img)
-            except IndexError:  # this_img is a picture of nothing
-                this_img_trimmed[ii] = this_img
+        ii = 0
+        for b_idx, bundle_name in enumerate(bundle_names):
+            for view in ["Axial", "Coronal", "Sagittal"]:
+                this_img = Image.open(tdir + f"/t{b_idx}_{view}.png")
+                try:
+                    this_img_trimmed[ii] = trim(this_img)
+                except IndexError:  # this_img is a picture of nothing
+                    this_img_trimmed[ii] = this_img
 
-            text_sz = 70
-            width, height = this_img_trimmed[ii].size
-            height = height + text_sz
-            result = Image.new(
-                this_img_trimmed[ii].mode, (width, height), color=(255, 255, 255)
-            )
-            result.paste(this_img_trimmed[ii], (0, text_sz))
-            this_img_trimmed[ii] = result
+                text_sz = 40
+                width, height = this_img_trimmed[ii].size
+                height = height + text_sz
+                result = Image.new(
+                    this_img_trimmed[ii].mode, (width, height), color=(255, 255, 255)
+                )
+                result.paste(this_img_trimmed[ii], (0, text_sz))
+                this_img_trimmed[ii] = result
 
-            draw = ImageDraw.Draw(this_img_trimmed[ii])
-            draw.text(
-                (0, 0),
-                bundle_name,
-                (0, 0, 0),
-                font=ImageFont.truetype("Arial", text_sz),
-            )
+                draw = ImageDraw.Draw(this_img_trimmed[ii])
+                draw.text(
+                    (0, 0),
+                    f"{bundle_name} - {view}",
+                    (0, 0, 0),
+                    font=ImageFont.load_default(text_sz),
+                )
 
-            if this_img_trimmed[ii].size[0] > max_width:
-                max_width = this_img_trimmed[ii].size[0]
-            if this_img_trimmed[ii].size[1] > max_height:
-                max_height = this_img_trimmed[ii].size[1]
+                if this_img_trimmed[ii].size[0] > max_width:
+                    max_width = this_img_trimmed[ii].size[0]
+                if this_img_trimmed[ii].size[1] > max_height:
+                    max_height = this_img_trimmed[ii].size[1]
+                ii += 1
 
         curr_img = Image.new(
             "RGB", (max_width * size[0], max_height * size[1]), color="white"
         )
 
-        for ii in range(len(bundle_dict)):
-            x_pos = ii % size[0]
-            _ii = ii // size[0]
+        for jj in range(ii):
+            x_pos = jj % size[0]
+            _ii = jj // size[0]
             y_pos = _ii % size[1]
-            _ii = _ii // size[1]
-            this_img = this_img_trimmed[ii].resize((max_width, max_height))
+            this_img = this_img_trimmed[jj].resize((max_width, max_height))
             curr_img.paste(this_img, (x_pos * max_width, y_pos * max_height))
 
         _save_file(curr_img)

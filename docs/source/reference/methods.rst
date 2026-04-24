@@ -47,6 +47,22 @@ pve_wm:
     White matter partial volume estimate map
 
 
+n_cpus:
+    Configure the number of CPUs to use for parallel processing with Ray
+
+
+n_threads:
+    the number of threads to use for Numba
+
+
+low_mem:
+    whether to use low-memory versions of algorithms where available
+
+
+onnx_kwargs:
+    The execution provider to use for onnx models
+
+
 synthseg_model:
     full path to the synthseg2 model segmentations
 
@@ -83,18 +99,6 @@ dwi_affine:
     the affine transformation of the DWI data
 
 
-n_cpus:
-    Configure the number of CPUs to use for parallel processing with Ray
-
-
-n_threads:
-    the number of threads to use for Numba
-
-
-low_mem:
-    whether to use low-memory versions of algorithms where available
-
-
 b0:
     full path to a nifti file containing the mean b0
 
@@ -109,6 +113,10 @@ dti_tf:
 
 dti_params:
     full path to a nifti file containing parameters for the DTI fit
+
+
+dti_s0:
+    s0 values of DTI fit
 
 
 fwdti_tf:
@@ -127,12 +135,20 @@ dki_params:
     full path to a nifti file containing parameters for the DKI fit
 
 
+dki_s0:
+    s0 values of DKI fit
+
+
 msdki_tf:
     Mean Signal DKI DiffusionKurtosisFit object
 
 
 msdki_params:
     full path to a nifti file containing parameters for the Mean Signal DKI fit
+
+
+msdki_s0:
+    s0 values of Mean Signal DKI fit
 
 
 msdki_msd:
@@ -168,47 +184,27 @@ csd_ai:
 
 
 gq_params:
-    full path to a nifti file containing parameters for the Generalized Q-Sampling shm_coeff
+    full path to a nifti file containing ODF for the Generalized Q-Sampling
 
 
 gq_iso:
     full path to a nifti file containing isotropic diffusion component
 
 
-gq_aso:
-    full path to a nifti file containing anisotropic diffusion component
-
-
-gq_pmap:
-    full path to a nifti file containing the anisotropic power map from GQ
-
-
-gq_ai:
-    full path to a nifti file containing the anisotropic index from GQ
-
-
-rumba_model:
-    fit for RUMBA-SD model as documented on dipy reconstruction options
-
-
 rumba_params:
-    Takes the fitted RUMBA-SD model as input and returns the spherical harmonics coefficients (SHM).
-
-
-rumba_fit:
-    RUMBA FIT
+    ODF for the RUMBA-SD model
 
 
 rumba_f_csf:
-    full path to a nifti file containing the CSF volume fraction for each voxel.
+    full path to a nifti file containing the CSF volume fraction for each voxel
 
 
 rumba_f_gm:
-    full path to a nifti file containing the GM volume fraction for each voxel.
+    full path to a nifti file containing the GM volume fraction for each voxel
 
 
 rumba_f_wm:
-    full path to a nifti file containing the white matter volume fraction for each voxel.
+    full path to a nifti file containing the white matter volume fraction for each voxel
 
 
 opdt_params:
@@ -391,6 +387,10 @@ dki_lt5:
     Image of sixth element in the DTI tensor from DKI
 
 
+dki_cfa:
+    full path to a nifti file containing the DKI color fractional anisotropy
+
+
 dki_fa:
     full path to a nifti file containing the DKI fractional anisotropy
 
@@ -468,7 +468,15 @@ pve_internal:
 
 
 msmtcsd_params:
-    full path to a nifti file containing parameters for the MSMT CSD fit
+    full path to a nifti file containing parameters for the MSMT CSD white matter fit
+
+
+msmtcsd_gm:
+    full path to a nifti file containing parameters for the MSMT CSD gray matter fit
+
+
+msmtcsd_csf:
+    full path to a nifti file containing parameters for the MSMT CSD cerebrospinal fluid fit
 
 
 msmt_apm:
@@ -527,8 +535,8 @@ sl_counts:
     full path to a JSON file containing streamline counts
 
 
-median_bundle_lengths:
-    full path to a JSON file containing median bundle lengths
+bundle_lengths:
+    full path to a CSV file containing median + min + max bundle lengths
 
 
 density_maps:
@@ -547,10 +555,6 @@ streamlines:
     full path to the complete, unsegmented tractography file
 
 
-fodf:
-    Nifti Image containing the fiber orientation distribution function
-
-
 all_bundles_figure:
     figure for the visualization of the recognized bundles in the subject's brain.
 
@@ -565,3 +569,7 @@ tract_profile_plots:
 
 viz_backend:
     An instance of the `AFQ.viz.utils.viz_backend` class.
+
+
+citations:
+    Export Bibtex citation file for methods used by pyAFQ.

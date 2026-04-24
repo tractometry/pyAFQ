@@ -3,12 +3,6 @@ from math import radians
 
 import nibabel as nib
 import numpy as np
-from cuslines import (
-    BootDirectionGetter,
-    GPUTracker,
-    ProbDirectionGetter,
-    PttDirectionGetter,
-)
 from dipy.align import resample
 from dipy.reconst import shm
 
@@ -30,12 +24,15 @@ def gpu_track(
     thresholds_as_percentages,
     max_angle,
     step_size,
+    minlen,
+    maxlen,
     n_seeds,
     random_seeds,
     rng_seed,
     use_trx,
     ngpus,
     chunk_size,
+    gpu_backend,
 ):
     """
     Perform GPU tractography on DWI data.
@@ -53,6 +50,8 @@ def gpu_track(
         Estimations of partial volumes of WM, GM, and CSF.
     odf_model : str, optional
         One of {"OPDT", "CSA"}
+    sphere : DIPY Sphere
+        The discretization of the ODF.
     seed_threshold : float
         The value of the seed_path above which tracking is seeded.
     thresholds_as_percentages : bool
@@ -70,6 +69,10 @@ def gpu_track(
         array, these are the coordinates of the seeds. Unless random_seeds is
         set to True, in which case this is the total number of random seeds
         to generate within the mask. Default: 1
+    minlen: int, optional
+        The minimal length (mm) in a streamline
+    maxlen: int, optional
+        The maximum length (mm) in a streamline
     random_seeds : bool
         If True, n_seeds is total number of random seeds to generate.
         If False, n_seeds encodes the density of seeds to generate.
@@ -82,14 +85,71 @@ def gpu_track(
         Number of GPUs to use.
     chunk_size : int
         Chunk size for GPU tracking.
+    gpu_backend : str, optional
+        GPU backend to use for tractography.
+        One of {"auto", "cuda", "metal", "webgpu"}.
     Returns
     -------
     """
+    gpu_backend = gpu_backend.lower()
+    if gpu_backend == "auto":
+        from cuslines import (
+            BootDirectionGetter,
+            GPUTracker,
+            ProbDirectionGetter,
+            PttDirectionGetter,
+        )
+    elif gpu_backend == "cuda":
+        from cuslines.cuda_python import (
+            BootDirectionGetter,
+            GPUTracker,
+            ProbDirectionGetter,
+            PttDirectionGetter,
+        )
+    elif gpu_backend == "metal":
+        from cuslines.metal import (
+            MetalBootDirectionGetter as BootDirectionGetter,
+        )
+        from cuslines.metal import (
+            MetalGPUTracker as GPUTracker,
+        )
+        from cuslines.metal import (
+            MetalProbDirectionGetter as ProbDirectionGetter,
+        )
+        from cuslines.metal import (
+            MetalPttDirectionGetter as PttDirectionGetter,
+        )
+    elif gpu_backend == "webgpu":
+        from cuslines.webgpu import (
+            WebGPUBootDirectionGetter as BootDirectionGetter,
+        )
+        from cuslines.webgpu import (
+            WebGPUProbDirectionGetter as ProbDirectionGetter,
+        )
+        from cuslines.webgpu import (
+            WebGPUPttDirectionGetter as PttDirectionGetter,
+        )
+        from cuslines.webgpu import (
+            WebGPUTracker as GPUTracker,
+        )
+    else:
+        raise ValueError(
+            "gpu_backend must be one of 'auto', 'cuda', "
+            f"'metal', or 'webgpu', not {gpu_backend}"
+        )
+
     seed_img = nib.load(seed_path)
     directions = directions.lower()
 
+    minlen = int(minlen / step_size)
+    maxlen = int(maxlen / step_size)
+
+    R = seed_img.affine[0:3, 0:3]
+    vox_dim = np.mean(np.diag(np.linalg.cholesky(R.T.dot(R))))
+    step_size = step_size / vox_dim
+
     # Roughly handle ACT/CMC for now
-    wm_threshold = 0.01
+    wm_threshold = 0.5
 
     pve_img = nib.load(pve_path)
 
@@ -165,6 +225,8 @@ def gpu_track(
         sphere.edges,
         max_angle=radians(max_angle),
         step_size=step_size,
+        min_pts=minlen,
+        max_pts=maxlen,
         ngpus=ngpus,
         rng_seed=rng_seed,
         chunk_size=chunk_size,

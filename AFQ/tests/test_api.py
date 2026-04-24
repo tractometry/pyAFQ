@@ -370,6 +370,42 @@ def test_AFQ_data():
         assert len(os.listdir(op.join(myafq.afq_path, "sub-01", "ses-01", "dwi"))) == 0
 
 
+def test_AFQ_seed_array():
+    """
+    Test if API can run with an array of seeds passed in
+    """
+    _, bids_path, _ = get_temp_hardi()
+    freesurfer_folder = op.join(bids_path, "derivatives/freesurfer/sub-01/ses-01/anat")
+    seg_file = op.join(freesurfer_folder, "sub-01_ses-01_seg.nii.gz")
+    bm_def = LabelledImageFile(path=seg_file, exclusive_labels=[0])
+
+    pve = PVEImages(
+        LabelledImageFile(path=seg_file, inclusive_labels=[0]),
+        LabelledImageFile(path=seg_file, exclusive_labels=[0, 1, 2], combine="and"),
+        LabelledImageFile(path=seg_file, inclusive_labels=[1, 2]),
+    )
+
+    seed_mask = nib.load(seg_file).get_fdata() == 1
+
+    seeds = dtu.random_seeds_from_mask(
+        seed_mask,
+        seeds_count=20,
+        seed_count_per_voxel=False,
+        affine=np.eye(4),
+        random_seed=20,
+    )
+
+    myafq = GroupAFQ(
+        bids_path=bids_path,
+        dwi_preproc_pipeline="vistasoft",
+        t1_preproc_pipeline="freesurfer",
+        brain_mask_definition=bm_def,
+        pve=pve,
+        tracking_params=dict(odf_model="dti", n_seeds=seeds, rng_seed=2026),
+    )
+    myafq.export("streamlines")
+
+
 @pytest.mark.nightly_anisotropic
 def test_AFQ_anisotropic():
     """
@@ -697,7 +733,8 @@ def test_AFQ_data_waypoint():
     tmpdir, bids_path, _ = get_temp_hardi()
     t1_path = op.join(tmpdir, "T1.nii.gz")
     t1_path_other = op.join(tmpdir, "T1-untransformed.nii.gz")
-    nib.save(afd.read_mni_template(mask=True, weight="T1w"), t1_path)
+    reg_template = afd.read_mni_template(mask=True, weight="T1w")
+    nib.save(reg_template, t1_path)
     shutil.copy(t1_path, t1_path_other)
 
     vista_folder = op.join(bids_path, "derivatives/vistasoft/sub-01/ses-01/dwi")
@@ -775,8 +812,8 @@ def test_AFQ_data_waypoint():
 
     # Replace the mapping and streamlines with precomputed:
     file_dict = afd.read_stanford_hardi_tractography()
-    mapping = file_dict["mapping.nii.gz"]
-    streamlines = file_dict["tractography_subsampled.trk"]
+    mapping = file_dict["mapping"]
+    streamlines = file_dict["tractography_subsampled"]
     dwi_affine = myafq.export("dwi_affine")
     streamlines = dts.Streamlines(
         dtu.transform_tracking_output(
@@ -784,16 +821,23 @@ def test_AFQ_data_waypoint():
         )
     )
 
-    mapping_file = op.join(
+    mapping_file_forward = op.join(
         myafq.export("output_dir"),
         "sub-01_ses-01_desc-mapping_from-subject_to-mni_xform.nii.gz",
     )
-    nib.save(mapping, mapping_file)
-    reg_prealign_file = op.join(
-        myafq.export("output_dir"),
-        "sub-01_ses-01_desc-prealign_from-subject_to-mni_xform.npy",
+    nib.save(
+        nib.Nifti1Image(mapping.forward, dwi_affine),
+        mapping_file_forward,
     )
-    np.save(reg_prealign_file, np.eye(4))
+
+    mapping_file_backward = op.join(
+        myafq.export("output_dir"),
+        "sub-01_ses-01_desc-mapping_from-mni_to-subject_xform.nii.gz",
+    )
+    nib.save(
+        nib.Nifti1Image(mapping.backward, reg_template.affine),
+        mapping_file_backward,
+    )
 
     # Test ROI exporting:
     myafq.export("rois")
@@ -814,7 +858,7 @@ def test_AFQ_data_waypoint():
         op.join(
             myafq.export("output_dir"),
             "bundles",
-            "sub-01_ses-01_desc-RightInferiorLongitudinal_tractography.trk",
+            "sub-01_ses-01_desc-RightInferiorLongitudinal_tractography.trx",
         )
     )  # noqa
 
@@ -831,7 +875,7 @@ def test_AFQ_data_waypoint():
 
     all_sl = load_tractogram(
         op.join(
-            myafq.export("output_dir"), "tractography", "sub-01_ses-01_tractography.trk"
+            myafq.export("output_dir"), "tractography", "sub-01_ses-01_tractography.trx"
         ),
         reference="same",
     ).streamlines
@@ -844,7 +888,7 @@ def test_AFQ_data_waypoint():
         op.join(
             myafq.export("output_dir"),
             "bundles",
-            "sub-01_ses-01_desc-LeftArcuate_tractography.trk",
+            "sub-01_ses-01_desc-LeftArcuate_tractography.trx",
         ),
         reference="same",
     ).streamlines
@@ -972,6 +1016,6 @@ def test_AFQ_data_waypoint():
         op.join(
             output_dir,
             "bundles",
-            "sub-01_ses-01_desc-RightInferiorLongitudinal_tractography.trk",
+            "sub-01_ses-01_desc-RightInferiorLongitudinal_tractography.trx",
         )
     )  # noqa

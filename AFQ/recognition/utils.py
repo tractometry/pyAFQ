@@ -1,3 +1,4 @@
+import copy
 import logging
 import os.path as op
 from time import time
@@ -9,9 +10,47 @@ from dipy.io.stateful_tractogram import Space, StatefulTractogram
 from dipy.io.streamline import save_tractogram
 from dipy.tracking.distances import bundles_distances_mdf
 
-from AFQ.definitions.mapping import ConformedFnirtMapping
-
 logger = logging.getLogger("AFQ")
+
+
+axes_dict = {
+    "L/R": 0,
+    "L": 0,
+    "R": 0,
+    "P/A": 1,
+    "P": 1,
+    "A": 1,
+    "I/S": 2,
+    "I": 2,
+    "S": 2,
+}
+
+
+def manual_orient_sls(fgarray):
+    """
+    Helper function to manually orient streamlines by their endpoints,
+    according to LPI+ pyAFQ standard assuming streamlines are in RASMM
+    """
+    endpoint_diff = fgarray[:, 0, :] - fgarray[:, -1, :]
+    primary_axis = np.argmax(np.abs(endpoint_diff), axis=1)
+    return endpoint_diff[np.arange(len(fgarray)), primary_axis] < 0
+
+
+def tolerance_mm_to_vox(img, dist_to_waypoint, input_dist_to_atlas):
+    # We need to calculate the size of a voxel, so we can transform
+    # from mm to voxel units:
+    R = img.affine[0:3, 0:3]
+    vox_dim = np.mean(np.diag(np.linalg.cholesky(R.T.dot(R))))
+
+    # Tolerance is set to the square of the distance to the corner
+    # because we are using the squared Euclidean distance in calls to
+    # `cdist` to make those calls faster.
+    if dist_to_waypoint is None:
+        tol = dts.dist_to_corner(img.affine)
+    else:
+        tol = dist_to_waypoint / vox_dim
+    dist_to_atlas = int(input_dist_to_atlas / vox_dim)
+    return tol, dist_to_atlas, vox_dim
 
 
 def flip_sls(select_sl, idx_to_flip, in_place=False):
@@ -78,58 +117,9 @@ def cut_sls_by_closest(select_sl, roi_closest, roi_idxs, in_place=False):
     return cut_sl
 
 
-def read_tg(tg, nb_streamlines=None):
-    if nb_streamlines and len(tg) > nb_streamlines:
-        tg = StatefulTractogram.from_sft(
-            dts.select_random_set_of_streamlines(tg.streamlines, nb_streamlines), tg
-        )
-    return tg
-
-
 def orient_by_streamline(sls, template_sl):
     DM = bundles_distances_mdf(sls, [template_sl, template_sl[::-1]])
     return DM[:, 0] > DM[:, 1]
-
-
-def move_streamlines(tg, to, mapping, img, save_intermediates=None):
-    """Move streamlines to or from template space.
-
-    to : str
-        Either "template" or "subject".
-    mapping : ConformedMapping
-        Mapping to use to move streamlines.
-    img : Nifti1Image
-        Space to move streamlines to.
-    """
-    tg_og_space = tg.space
-    if isinstance(mapping, ConformedFnirtMapping):
-        if to != "subject":
-            raise ValueError(
-                "Attempted to transform streamlines to template using "
-                "unsupported mapping. "
-                "Use something other than Fnirt."
-            )
-        tg.to_vox()
-        moved_sl = []
-        for sl in tg.streamlines:
-            moved_sl.append(mapping.transform_inverse_pts(sl))
-    else:
-        tg.to_rasmm()
-        if to == "template":
-            volume = mapping.forward
-        else:
-            volume = mapping.backward
-        delta = dts.values_from_volume(volume, tg.streamlines, np.eye(4))
-        moved_sl = dts.Streamlines([d + s for d, s in zip(delta, tg.streamlines)])
-    moved_sft = StatefulTractogram(moved_sl, img, Space.RASMM)
-    if save_intermediates is not None:
-        save_tractogram(
-            moved_sft,
-            op.join(save_intermediates, f"sls_in_{to}.trk"),
-            bbox_valid_check=False,
-        )
-    tg.to_space(tg_og_space)
-    return moved_sft
 
 
 def resample_tg(tg, n_points):
@@ -169,14 +159,22 @@ class SlsBeingRecognized:
         self.sls_flipped = self.sls_flipped[idx]
         if hasattr(self, "roi_closest"):
             self.roi_closest = self.roi_closest[idx]
+        if hasattr(self, "roi_dists"):
+            self.roi_dists = self.roi_dists[idx]
         time_taken = time() - self.start_time
         self.logger.info(
             f"After filtering by {clean_name} (time: {time_taken}s), "
             f"{len(self)} streamlines remain."
         )
-        if self.save_intermediates is not None:
+
+        # Only save intermediates after the 90% of the
+        # streamlines have been filtered out,
+        # otherwise its impractical
+        if self.save_intermediates is not None and len(self) < 0.1 * len(self.ref_sls):
             save_tractogram(
-                StatefulTractogram(self.get_selected_sls(cut=cut), self.ref, Space.VOX),
+                StatefulTractogram(
+                    self.get_selected_sls(cut=cut), self.ref, Space.RASMM
+                ),
                 op.join(
                     self.save_intermediates,
                     f"sls_after_{clean_name}_for_{self.b_name}.trk",
@@ -212,3 +210,27 @@ class SlsBeingRecognized:
 
     def __len__(self):
         return len(self.selected_fiber_idxs)
+
+    def copy(self, new_name, n_roi):
+        new_copy = copy.copy(self)
+        new_copy.b_name = new_name
+        if n_roi > 0:
+            if self.n_roi > 0:
+                raise NotImplementedError(
+                    (
+                        "You cannot have includes in the original bundle and"
+                        " subbundles; only one or the other."
+                    )
+                )
+            else:
+                new_copy.n_roi = n_roi
+
+        new_copy.selected_fiber_idxs = self.selected_fiber_idxs.copy()
+        new_copy.sls_flipped = self.sls_flipped.copy()
+
+        if hasattr(self, "roi_closest"):
+            new_copy.roi_closest = self.roi_closest.copy()
+        if hasattr(self, "roi_dists"):
+            new_copy.roi_dists = self.roi_dists.copy()
+
+        return new_copy

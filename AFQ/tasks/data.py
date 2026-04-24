@@ -1,5 +1,4 @@
 import logging
-import multiprocessing
 
 import dipy.core.gradients as dpg
 import dipy.reconst.dki as dpy_dki
@@ -10,13 +9,12 @@ import immlib
 import nibabel as nib
 import numpy as np
 from dipy.align import resample
-from dipy.data import default_sphere, get_sphere
+from dipy.data import get_sphere
 from dipy.io.gradients import read_bvals_bvecs
 from dipy.reconst import shm
 from dipy.reconst.dki_micro import axonal_water_fraction
 from dipy.reconst.gqi import GeneralizedQSamplingModel
 from dipy.reconst.rumba import RumbaSDModel
-from numba import get_num_threads
 
 import AFQ.api.bundle_dict as abd
 import AFQ.data.fetch as afd
@@ -98,40 +96,6 @@ def get_data_gtab(
     gtab = dpg.gradient_table(bvals=bvals, bvecs=bvecs, b0_threshold=b0_threshold)
     img = nib.Nifti1Image(data, img.affine)
     return data, gtab, img, img.affine
-
-
-@immlib.calc("n_cpus", "n_threads", "low_mem")
-def configure_ncpus_nthreads(ray_n_cpus=None, numba_n_threads=None, low_memory=False):
-    """
-    Configure the number of CPUs to use for parallel processing with Ray,
-    the number of threads to use for Numba,
-    and whether to use low-memory versions of algorithms
-    where available
-
-    Parameters
-    ----------
-    ray_n_cpus : int, optional
-        The number of CPUs to use for parallel processing with Ray.
-        If None, uses the number of available CPUs minus one.
-        Tractography, Recognition, and MSMT use Ray.
-        Default: None
-    numba_n_threads : int, optional
-        The number of threads to use for Numba.
-        If None, uses the number of available CPUs minus one,
-        but with a maximum of 16.
-        ASYM fit uses Numba.
-        Default: None
-    low_memory : bool, optional
-        Whether to use low-memory versions of algorithms
-        where available.
-        Default: False
-    """
-    if ray_n_cpus is None:
-        ray_n_cpus = max(multiprocessing.cpu_count() - 1, 1)
-    if numba_n_threads is None:
-        numba_n_threads = min(max(get_num_threads() - 1, 1), 16)
-
-    return ray_n_cpus, numba_n_threads, low_memory
 
 
 @immlib.calc("b0")
@@ -519,7 +483,7 @@ def csd_params(
 @immlib.calc("csd_aodf_params")
 @as_file(suffix="_model-csd_param-aodf_dwimap.nii.gz", subfolder="models")
 @as_img
-def csd_aodf(csd_params, n_threads, low_mem, citations):
+def csd_aodf(structural_imap, csd_params, tracking_params, citations):
     """
     full path to a nifti file containing
     SSST CSD ODFs filtered by unified filtering [1]
@@ -536,7 +500,10 @@ def csd_aodf(csd_params, n_threads, low_mem, citations):
 
     logger.info("Applying unified filtering to generate asymmetric CSD ODFs...")
     aodf = unified_filtering(
-        sh_coeff, get_sphere(name="repulsion724"), n_threads=n_threads, low_mem=low_mem
+        sh_coeff,
+        get_sphere(tracking_params["sphere"]),
+        n_threads=structural_imap["n_threads"],
+        low_mem=structural_imap["low_mem"],
     )
 
     return aodf, dict(
@@ -552,7 +519,7 @@ def csd_aodf(csd_params, n_threads, low_mem, citations):
             Reference="xyz",
             AntipodalSymmetry=False,
             Type="odf",
-            Sphere="repulsion724",
+            Sphere=tracking_params["sphere"],
         ),
         Source=csd_params,
     )
@@ -641,7 +608,7 @@ def csd_anisotropic_index(csd_params):
     subfolder="models",
 )
 @as_img
-def gq(gtab, data, citations, gq_sampling_length=1.2):
+def gq(gtab, data, tracking_params, citations, gq_sampling_length=1.2):
     """
     full path to a nifti file containing
     ODF for the Generalized Q-Sampling,
@@ -656,7 +623,9 @@ def gq(gtab, data, citations, gq_sampling_length=1.2):
     citations.add("yeh2010generalized")
     gqmodel = GeneralizedQSamplingModel(gtab, sampling_length=gq_sampling_length)
 
-    odf = gwi_odf(gqmodel, data)
+    sphere = get_sphere(tracking_params["sphere"])
+
+    odf = gwi_odf(gqmodel, data, sphere)
 
     odf_norm = odf / odf.max()
     ISO = odf_norm.min(axis=-1)
@@ -693,6 +662,7 @@ def rumba_params(
     gtab,
     data,
     brain_mask,
+    tracking_params,
     citations,
     rumba_wm_response=None,
     rumba_gm_response=0.0008,
@@ -743,12 +713,12 @@ def rumba_params(
         R=1,
         voxelwise=False,
         use_tv=False,
-        sphere=default_sphere,
+        sphere=get_sphere(tracking_params["sphere"]),
         verbose=True,
     )
 
     rumba_fit = rumba_model.fit(data, mask=nib.load(brain_mask).get_fdata())
-    odf = rumba_fit.odf(sphere=default_sphere)
+    odf = rumba_fit.odf(sphere=get_sphere(tracking_params["sphere"]))
 
     model_meta = dict(
         Description=(
@@ -760,7 +730,10 @@ def rumba_params(
         Model=model_meta,
         Description="ODF for the RUMBA-SD model",
         OrientationEncoding=dict(
-            EncodingAxis=3, Reference="xyz", Type="odf", Sphere="default"
+            EncodingAxis=3,
+            Reference="xyz",
+            Type="odf",
+            Sphere=tracking_params["sphere"],
         ),
         ResponseFunction=dict(Coefficients=rumba_wm_response.tolist(), Type="eigen"),
     )
@@ -1132,6 +1105,17 @@ def dki_lt(dki_tf, dwi_affine):
     return dki_lt_dict
 
 
+@immlib.calc("dki_cfa")
+@as_file(suffix="_model-kurtosis_param-cfa_dwimap.nii.gz", subfolder="models")
+@as_fit_deriv("DKI")
+def dki_cfa(dki_tf):
+    """
+    full path to a nifti file containing
+    the DKI color fractional anisotropy
+    """
+    return dki_tf.color_fa, {"Description": "Color Fractional Anisotropy"}
+
+
 @immlib.calc("dki_fa")
 @as_file("_model-kurtosis_param-fa_dwimap.nii.gz", subfolder="models")
 @as_fit_deriv("DKI")
@@ -1157,17 +1141,13 @@ def dki_md(dki_tf):
 @immlib.calc("dki_awf")
 @as_file("_model-kurtosis_param-awf_dwimap.nii.gz", subfolder="models")
 @as_fit_deriv("DKI")
-def dki_awf(dki_params, sphere="repulsion100", gtol=1e-2):
+def dki_awf(dki_params, tracking_params, gtol=1e-2):
     """
     full path to a nifti file containing
     the DKI axonal water fraction
 
     Parameters
     ----------
-    sphere : Sphere class instance, optional
-        The sphere providing sample directions for the initial
-        search of the maximal value of kurtosis.
-        Default: 'repulsion100'
     gtol : float, optional
         This input is to refine kurtosis maxima under the precision of
         the directions sampled on the sphere class instance.
@@ -1178,9 +1158,9 @@ def dki_awf(dki_params, sphere="repulsion100", gtol=1e-2):
         Default: 1e-2
     """
     dki_params = nib.load(dki_params).get_fdata()
-    return axonal_water_fraction(dki_params, sphere=sphere, gtol=gtol), {
-        "Description": "Axonal Water Fraction"
-    }
+    return axonal_water_fraction(
+        dki_params, sphere=tracking_params["sphere"], gtol=gtol
+    ), {"Description": "Axonal Water Fraction"}
 
 
 @immlib.calc("dki_mk")
@@ -1403,7 +1383,6 @@ def get_data_plan(kwargs):
             b0,
             b0_mask,
             brain_mask,
-            configure_ncpus_nthreads,
             dti_fit,
             dki_fit,
             fwdti_fit,
@@ -1438,6 +1417,7 @@ def get_data_plan(kwargs):
             dki_awf,
             dki_mk,
             dki_kfa,
+            dki_cfa,
             dki_ga,
             dki_rd,
             dti_ga,

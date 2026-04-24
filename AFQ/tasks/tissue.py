@@ -127,7 +127,14 @@ def pve_internal(structural_imap, pve="synthseg"):
     subfolder="models",
 )
 @as_img
-def msmt_params(data_imap, pve_internal, citations, msmt_sh_order=8, msmt_fa_thr=0.7):
+def msmt_params(
+    structural_imap,
+    data_imap,
+    pve_internal,
+    citations,
+    msmt_sh_order=8,
+    msmt_fa_thr=0.7,
+):
     """
     full path to a nifti file containing
     parameters for the MSMT CSD white matter fit,
@@ -201,7 +208,7 @@ def msmt_params(data_imap, pve_internal, citations, msmt_sh_order=8, msmt_fa_thr
 
     mcsd_model = MultiShellDeconvModel(data_imap["gtab"], response_mcsd)
     logger.info("Fitting Multi-Shell CSD model...")
-    mcsd_fit = mcsd_model.fit(data_imap["data"], mask, n_cpus=data_imap["n_cpus"])
+    mcsd_fit = mcsd_model.fit(data_imap["data"], mask, n_cpus=structural_imap["n_cpus"])
 
     def _get_meta(desc, sh_order, response):
         return dict(
@@ -268,7 +275,7 @@ def msmt_apm(msmtcsd_params):
 @immlib.calc("msmt_aodf_params")
 @as_file(suffix="_model-msmtcsd_param-aodf_dwimap.nii.gz", subfolder="models")
 @as_img
-def msmt_aodf(msmtcsd_params, data_imap, citations):
+def msmt_aodf(msmtcsd_params, structural_imap, tracking_params, citations):
     """
     full path to a nifti file containing
     MSMT CSD ODFs filtered by unified filtering [1]
@@ -287,9 +294,9 @@ def msmt_aodf(msmtcsd_params, data_imap, citations):
     logger.info("Applying unified filtering to generate asymmetric MSMT CSD ODFs...")
     aodf = unified_filtering(
         sh_coeff,
-        get_sphere(name="repulsion724"),
-        n_threads=data_imap["n_threads"],
-        low_mem=data_imap["low_mem"],
+        get_sphere(name=tracking_params["sphere"]),
+        n_threads=structural_imap["n_threads"],
+        low_mem=structural_imap["low_mem"],
     )
 
     return aodf, dict(
@@ -306,7 +313,7 @@ def msmt_aodf(msmtcsd_params, data_imap, citations):
             Reference="xyz",
             AntipodalSymmetry=False,
             Type="odf",
-            Sphere="repulsion724",
+            Sphere=tracking_params["sphere"],
         ),
         Source=msmtcsd_params,
     )
@@ -363,7 +370,7 @@ def msmt_aodf_opm(msmt_aodf_params, data_imap):
 @immlib.calc("msmt_aodf_nufid")
 @as_file(suffix="_model-msmtcsd_param-nufid_dwimap.nii.gz", subfolder="models")
 @as_fit_deriv("MSMT_AODF")
-def msmt_aodf_nufid(msmt_aodf_params, data_imap, pve_internal):
+def msmt_aodf_nufid(msmt_aodf_params, data_imap, tracking_params, pve_internal):
     """
     full path to a nifti file containing
     the MSMT CSD Number of fiber directions (nufid) map [1]
@@ -389,13 +396,12 @@ def msmt_aodf_nufid(msmt_aodf_params, data_imap, pve_internal):
         static_affine=aodf_img.affine,
     ).get_fdata()
 
-    # Only sphere we use for AODF currently
-    sphere = get_sphere(name="repulsion724")
-
     brain_mask = nib.load(data_imap["brain_mask"]).get_fdata().astype(bool)
 
     logger.info("Number of fiber directions (nufid) map from AODF...")
-    nufid = compute_nufid_asym(aodf, sphere, csf, brain_mask)
+    nufid = compute_nufid_asym(
+        aodf, get_sphere(name=tracking_params["sphere"]), csf, brain_mask
+    )
 
     return nufid, {"Description": "Number of Fiber Directions"}
 
@@ -403,7 +409,7 @@ def msmt_aodf_nufid(msmt_aodf_params, data_imap, pve_internal):
 @immlib.calc("csd_aodf_nufid")
 @as_file(suffix="_model-csd_param-nufid_dwimap.nii.gz", subfolder="models")
 @as_img
-def csd_aodf_nufid(data_imap, pve_internal):
+def csd_aodf_nufid(data_imap, pve_internal, tracking_params):
     """
     full path to a nifti file containing
     the CSD Number of fiber directions (nufid) map [1]
@@ -429,13 +435,12 @@ def csd_aodf_nufid(data_imap, pve_internal):
         static_affine=aodf_img.affine,
     ).get_fdata()
 
-    # Only sphere we use for AODF currently
-    sphere = get_sphere(name="repulsion724")
-
     brain_mask = nib.load(data_imap["brain_mask"]).get_fdata().astype(bool)
 
     logger.info("Number of fiber directions (nufid) map from AODF...")
-    nufid = compute_nufid_asym(aodf, sphere, csf, brain_mask)
+    nufid = compute_nufid_asym(
+        aodf, get_sphere(name=tracking_params["sphere"]), csf, brain_mask
+    )
 
     return nufid, dict(
         Model=dict(
