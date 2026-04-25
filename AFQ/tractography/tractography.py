@@ -227,7 +227,7 @@ def track(
     else:
         odf = None
 
-    if directions == "det":  #  /todo check if works with nonsymmetric
+    if directions == "det":
         tracker = deterministic_tracking
     elif directions == "prob":
         tracker = probabilistic_tracking
@@ -247,6 +247,9 @@ def track(
         tracking_kwargs["sf"] = odf
     else:
         tracking_kwargs["sh"] = model_params
+
+    if rng_seed is not None:
+        tracking_kwargs["random_seed"] = int(rng_seed)
 
     logger.info(f"Tracking with {len(seeds)} seeds...")
 
@@ -268,8 +271,7 @@ def track(
             min_len=minlen,
             max_len=maxlen,
             return_all=False,
-            random_seed=rng_seed,
-            nbr_threads=n_threads,
+            nbr_threads=int(n_threads),
             **tracking_kwargs,
         ),
         total=len(seeds) * 0.7,
