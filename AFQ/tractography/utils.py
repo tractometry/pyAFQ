@@ -62,7 +62,7 @@ def gen_seeds(
             seeds = dtu.seeds_from_mask(seed_mask, density=n_seeds, affine=affine)
     else:
         # If user provided an array, we'll use n_seeds as the seeds:
-        seeds = n_seeds
+        seeds = np.asarray(n_seeds)
 
     logger.info(f"Generated {len(seeds)} seeds in {time() - start_time:.2f} seconds.")
     return seeds

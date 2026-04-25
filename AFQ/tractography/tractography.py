@@ -208,6 +208,8 @@ def track(
     pve_csf_data[edge] = 0.0
 
     # Here we adjust the stopping criterion to be slightly more permissive
+    # DIPY stops ACT at 0.5, so this will cause streamlines to continue
+    # further into the WM-GM interface
     pve_gm_data = pve_gm_data.astype(float) * 0.51
     pve_csf_data = pve_csf_data.astype(float) * 0.51
 
