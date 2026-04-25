@@ -275,7 +275,7 @@ def track(
             **tracking_kwargs,
         ),
         total=len(seeds) * 0.7,
-        desc="Tracking...",
+        desc="Tracking, note that the total is only an estimate...",
     )
     logger.info((f"Seed initialization took {time() - start_time:.2f} seconds."))
 
