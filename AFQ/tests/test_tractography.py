@@ -77,6 +77,7 @@ def test_dti_local_tracking():
             sphere="repulsion724",
             seed_mask=None,
             n_seeds=1,
+            random_seeds=False,
             step_size=step_size,
             minlen=minlen,
             odf_model="DTI",

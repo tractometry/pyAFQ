@@ -46,7 +46,7 @@ import AFQ.definitions.image as afm
 
 bids_path = afd.fetch_hbn_preproc(
     ["NDARAA948VFH"],
-    clear_previous_afq="all")[1]
+    clear_previous_afq="track")[1]
 
 ##########################################################################
 # Set tractography parameters (optional)
@@ -56,7 +56,7 @@ bids_path = afd.fetch_hbn_preproc(
 # distributed in the white matter. We only do this to make this example faster
 # and consume less space; normally, we use more seeds.
 
-tracking_params = dict(n_seeds=200000,
+tracking_params = dict(n_seeds=500000,
                        random_seeds=True,
                        rng_seed=2025,
                        trx=True)

@@ -37,7 +37,7 @@ def track(
     rng_seed=None,
     step_size=0.5,
     minlen=20,
-    maxlen=250,
+    maxlen=500,
     odf_model="CSD_AODF",
     basis_type="descoteaux07",
     legacy=True,
@@ -207,11 +207,10 @@ def track(
     pve_wm_data[edge] = 0.0
     pve_csf_data[edge] = 0.0
 
-    # Here we adjust the stopping criterion to be slightly more permissive
-    # DIPY stops ACT at 0.5, so this will cause streamlines to continue
-    # further into the WM-GM interface
-    pve_gm_data = pve_gm_data.astype(float) * 0.51
-    pve_csf_data = pve_csf_data.astype(float) * 0.51
+    # We relax ACT stopping criterion here to allow streamlines closer
+    # to the WM/GM boundary.
+    pve_gm_data *= 0.8
+    pve_csf_data *= 0.8
 
     stopping_criterion = ActStoppingCriterion.from_pve(
         pve_wm_data, pve_gm_data, pve_csf_data
@@ -220,12 +219,18 @@ def track(
     if odf_model == "DTI" or odf_model == "DKI":
         evals, evecs = decompose_tensor(from_lower_triangular(model_params))
         odf = tensor_odf(evals, evecs, sphere)
-    elif (odf_model == "GQ") or (odf_model == "RUMBA") or ("AODF" in odf_model):
+        model_params = shm.sf_to_sh(
+            odf, sphere, basis_type=basis_type, legacy=legacy, full_basis=True
+        )
+
+    tracking_kwargs = {}
+    if (odf_model == "GQ") or (odf_model == "RUMBA") or ("AODF" in odf_model):
         sh_order = shm.order_from_ncoef(model_params.shape[3], full_basis=True)
-        odf = shm.sh_to_sf(model_params, sphere, sh_order_max=sh_order, full_basis=True)
-        odf[odf < 0] = 0
+        pmf = shm.sh_to_sf(model_params, sphere, sh_order_max=sh_order, full_basis=True)
+        pmf[pmf < 0] = 0
+        tracking_kwargs["sf"] = pmf
     else:
-        odf = None
+        tracking_kwargs["sh"] = model_params
 
     if directions == "det":
         tracker = deterministic_tracking
@@ -235,18 +240,6 @@ def track(
         tracker = pft_tracking
     else:
         raise ValueError(f"Unrecognized direction '{directions}'.")
-    tracking_kwargs = {}
-
-    if (
-        (odf_model == "DTI")
-        or (odf_model == "DKI")
-        or (odf_model == "GQ")
-        or (odf_model == "RUMBA")
-        or ("AODF" in odf_model)
-    ):
-        tracking_kwargs["sf"] = odf
-    else:
-        tracking_kwargs["sh"] = model_params
 
     if rng_seed is not None:
         tracking_kwargs["random_seed"] = int(rng_seed)
@@ -274,8 +267,8 @@ def track(
             nbr_threads=int(n_threads),
             **tracking_kwargs,
         ),
-        total=len(seeds) * 0.7,
-        desc="Tracking, note that the total is only an estimate...",
+        total=len(seeds),
+        desc="Tracking, note that the total is an overestimate...",
     )
     logger.info((f"Seed initialization took {time() - start_time:.2f} seconds."))
 
