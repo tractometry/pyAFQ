@@ -46,7 +46,7 @@ import AFQ.definitions.image as afm
 
 bids_path = afd.fetch_hbn_preproc(
     ["NDARAA948VFH"],
-    clear_previous_afq="track")[1]
+    clear_previous_afq="all")[1]
 
 ##########################################################################
 # Set tractography parameters (optional)
