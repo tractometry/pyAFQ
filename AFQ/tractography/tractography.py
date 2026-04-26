@@ -224,7 +224,9 @@ def track(
         )
 
     tracking_kwargs = {}
-    if (odf_model == "GQ") or (odf_model == "RUMBA") or ("AODF" in odf_model):
+    if directions == "pft" and (odf_model == "DTI" or odf_model == "DKI"):
+        tracking_kwargs["sf"] = odf
+    elif (odf_model == "GQ") or (odf_model == "RUMBA") or ("AODF" in odf_model):
         sh_order = shm.order_from_ncoef(model_params.shape[3], full_basis=True)
         pmf = shm.sh_to_sf(model_params, sphere, sh_order_max=sh_order, full_basis=True)
         pmf[pmf < 0] = 0

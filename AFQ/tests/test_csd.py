@@ -20,7 +20,7 @@ def test_fit_csd():
         np.savetxt(op.join(tmpdir, "bvecs.txt"), bvecs)
         for sh_order_max in [4, 6]:
             fname = csd.fit_csd(
-                fdata,
+                str(fdata),
                 op.join(tmpdir, "bvals.txt"),
                 op.join(tmpdir, "bvecs.txt"),
                 out_dir=tmpdir,
