@@ -210,7 +210,6 @@ def track(
     # We relax ACT stopping criterion here to allow streamlines closer
     # to the WM/GM boundary.
     pve_gm_data *= 0.8
-    pve_csf_data *= 0.8
 
     stopping_criterion = ActStoppingCriterion.from_pve(
         pve_wm_data, pve_gm_data, pve_csf_data
