@@ -31,6 +31,7 @@ def track(
     sphere="repulsion724",
     seed_mask=None,
     seed_threshold=0.5,
+    gm_threshold=0.4,
     thresholds_as_percentages=False,
     n_seeds=1e7,
     random_seeds=True,
@@ -76,6 +77,9 @@ def track(
     seed_threshold : float, optional.
         A value of the seed_mask above which tracking is seeded.
         Default to 0.
+    gm_threshold : float, optional.
+        A value of the pve_gm_data above which we consider a voxel to be GM
+        for the purposes of ACT stopping criterion. Default: 0.4.
     n_seeds : int or 2D array, optional.
         The seeding density: if this is an int, it is is how many seeds in each
         voxel on each dimension (for example, 2 => [2, 2, 2]). If this is a 2D
@@ -209,7 +213,7 @@ def track(
 
     # We relax ACT stopping criterion here to allow streamlines closer
     # to the WM/GM boundary.
-    pve_gm_data *= 0.8
+    pve_gm_data *= 0.5 / gm_threshold
 
     stopping_criterion = ActStoppingCriterion.from_pve(
         pve_wm_data, pve_gm_data, pve_csf_data
