@@ -244,6 +244,7 @@ def test_segment_sampled_streamlines():
         reg_template,
         1,
         nb_streamlines=nb_streamlines,
+        rng=2026,
     )
 
     # sampled streamlines should be subset of the original streamlines

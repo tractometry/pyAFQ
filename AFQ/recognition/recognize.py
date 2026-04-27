@@ -155,7 +155,9 @@ def recognize(
     if isinstance(tg, StatefulTractogram):
         if nb_streamlines and len(tg) > nb_streamlines:
             tg = StatefulTractogram(
-                select_random_set_of_streamlines(tg.streamlines, nb_streamlines),
+                select_random_set_of_streamlines(
+                    tg.streamlines, nb_streamlines, rng=rng
+                ),
                 tg,
                 tg.space,
             )
