@@ -21,6 +21,7 @@ def gpu_track(
     sphere,
     directions,
     seed_threshold,
+    stop_threshold,
     thresholds_as_percentages,
     max_angle,
     step_size,
@@ -54,6 +55,8 @@ def gpu_track(
         The discretization of the ODF.
     seed_threshold : float
         The value of the seed_path above which tracking is seeded.
+    stop_threshold : float
+        A value of the WM data below which we stop tracking.
     thresholds_as_percentages : bool
         Interpret seed_threshold as percentages of the
         total non-nan voxels in the seed mask to include
@@ -148,9 +151,6 @@ def gpu_track(
     vox_dim = np.mean(np.diag(np.linalg.cholesky(R.T.dot(R))))
     step_size = step_size / vox_dim
 
-    # Roughly handle ACT/CMC for now
-    wm_threshold = 0.5
-
     pve_img = nib.load(pve_path)
 
     wm_img = resample(
@@ -170,14 +170,15 @@ def gpu_track(
             dg = BootDirectionGetter.from_dipy_csa(gtab, sphere)
         else:
             raise ValueError(f"odf_model must be 'opdt' or 'csa', not {odf_model}")
+        full_basis = False
     else:
         # Convert SH coefficients to ODFs
         sym_order = (-3.0 + np.sqrt(1.0 + 8.0 * data.shape[3])) / 2.0
         if sym_order.is_integer():
             sh_order_max = sym_order
             full_basis = False
-        full_order = np.sqrt(data.shape[3]) - 1.0
-        if full_order.is_integer():
+        else:
+            full_order = np.sqrt(data.shape[3]) - 1.0
             sh_order_max = full_order
             full_basis = True
 
@@ -194,7 +195,7 @@ def gpu_track(
 
         if directions == "ptt":
             # Set FOD to 0 outside mask for probing
-            data[wm_data < wm_threshold, :] = 0
+            data[wm_data < stop_threshold, :] = 0
             dg = PttDirectionGetter()
         elif directions == "prob":
             dg = ProbDirectionGetter()
@@ -220,9 +221,10 @@ def gpu_track(
         dg,
         data,
         wm_data,
-        wm_threshold,
+        stop_threshold,
         sphere.vertices,
         sphere.edges,
+        full_basis=full_basis,
         max_angle=radians(max_angle),
         step_size=step_size,
         min_pts=minlen,

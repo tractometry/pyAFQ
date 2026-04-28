@@ -322,6 +322,7 @@ def gpu_tractography(
         sphere,
         tracking_params["directions"],
         tracking_params["seed_threshold"],
+        tracking_params["gm_threshold"],
         tracking_params["thresholds_as_percentages"],
         tracking_params["max_angle"],
         tracking_params["step_size"],
