@@ -224,7 +224,7 @@ def gpu_track(
         stop_threshold,
         sphere.vertices,
         sphere.edges,
-        full_basis=full_basis,
+        sphere_symm=not full_basis,
         max_angle=radians(max_angle),
         step_size=step_size,
         min_pts=minlen,
