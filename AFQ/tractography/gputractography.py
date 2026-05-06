@@ -98,23 +98,23 @@ def gpu_track(
     if gpu_backend == "auto":
         from cuslines import (
             BootDirectionGetter,
-            GPUTracker,
             ProbDirectionGetter,
             PttDirectionGetter,
+            Tracker,
         )
     elif gpu_backend == "cuda":
         from cuslines.cuda_python import (
             BootDirectionGetter,
-            GPUTracker,
             ProbDirectionGetter,
             PttDirectionGetter,
+            Tracker,
         )
     elif gpu_backend == "metal":
         from cuslines.metal import (
             MetalBootDirectionGetter as BootDirectionGetter,
         )
         from cuslines.metal import (
-            MetalGPUTracker as GPUTracker,
+            MetalGPUTracker as Tracker,
         )
         from cuslines.metal import (
             MetalProbDirectionGetter as ProbDirectionGetter,
@@ -133,7 +133,7 @@ def gpu_track(
             WebGPUPttDirectionGetter as PttDirectionGetter,
         )
         from cuslines.webgpu import (
-            WebGPUTracker as GPUTracker,
+            WebGPUTracker as Tracker,
         )
     else:
         raise ValueError(
@@ -217,7 +217,7 @@ def gpu_track(
     if rng_seed is None:
         rng_seed = np.random.randint(0, 2**31 - 1)
 
-    with GPUTracker(
+    with Tracker(
         dg,
         data,
         wm_data,
