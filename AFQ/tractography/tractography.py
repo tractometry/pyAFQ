@@ -87,8 +87,9 @@ def track(
     n_seeds : int or 2D array, optional.
         The seeding density: if this is an int, it is is how many seeds in each
         voxel on each dimension (for example, 2 => [2, 2, 2]). If this is a 2D
-        array, these are the coordinates of the seeds. Unless random_seeds is
-        set to True, in which case this is the total number of random seeds
+        array, these are the coordinates of the seeds in RASMM.
+        Unless random_seeds is set to True,
+        in which case this is the total number of random seeds
         to generate within the mask. Default: 1e7
     random_seeds : bool
         Whether to generate a total of n_seeds random seeds in the mask.
@@ -251,6 +252,16 @@ def track(
     else:
         tracking_kwargs["random_seed"] = np.random.randint(0, 2**31 - 1)
 
+    seeds = gen_seeds(
+        seed_mask,
+        seed_threshold,
+        n_seeds,
+        thresholds_as_percentages,
+        random_seeds,
+        rng_seed,
+        params_img.affine,
+    )
+
     if directions == "prob":
         jit_backend = jit_backend.lower()
         if jit_backend == "auto":
@@ -292,15 +303,9 @@ def track(
 
         dg = ProbDirectionGetter()
 
-        seeds = gen_seeds(
-            seed_mask,
-            seed_threshold,
-            n_seeds,
-            thresholds_as_percentages,
-            random_seeds,
-            rng_seed,
-            np.eye(4),  # JIT expects seeds in voxel space
-        )
+        inv_affine = np.linalg.inv(params_img.affine)
+        seeds = np.dot(seeds, inv_affine[:3, :3].T)
+        seeds += inv_affine[:3, 3]
 
         minlen = int(minlen / step_size)
         maxlen = int(maxlen / step_size)
@@ -345,16 +350,6 @@ def track(
             raise ValueError(f"Unrecognized direction '{directions}'.")
 
         logger.info("Note there will be a long initial delay as seeds are initialized")
-
-        seeds = gen_seeds(
-            seed_mask,
-            seed_threshold,
-            n_seeds,
-            thresholds_as_percentages,
-            random_seeds,
-            rng_seed,
-            params_img.affine,
-        )
 
         start_time = time()
         tracker = tqdm(
