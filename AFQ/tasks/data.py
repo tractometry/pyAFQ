@@ -110,7 +110,7 @@ def b0(dwi, gtab):
     return mean_b0, meta
 
 
-@immlib.calc("t1w_b0")
+@immlib.calc("t1w_over_b0")
 @as_file("_desc-T1wOverB0.nii.gz")
 @as_img
 def t1w_over_b0(structural_imap, b0, citations, r1_epsilon=1e-2):
@@ -127,12 +127,12 @@ def t1w_over_b0(structural_imap, b0, citations, r1_epsilon=1e-2):
 
     References
     ----------
-    .. [1] Moskovich, Shachar, Oshrat Shtangel, and Aviv A. Mezer.
-            Approximating R1 and R2: a quantitative approach to
-            clinical weighted MRI. Vol. 45. No. 18. Hoboken,
-            USA: John Wiley & Sons, Inc., 2024.
+    .. [1] Moskovich, S., Shtangel, O., & Mezer, A. (2024).
+             Approximating R1 and R2: A quantitative approach to
+             clinical weighted MRI. Hum. Brain Mapp., 45(18), e70102.
+
     """
-    citations.add("moskovich2024approximating")
+    citations.add("Moskovich2024-qd")
 
     t1_img = nib.load(structural_imap["t1_masked"])
     b0_img = nib.load(b0)
@@ -1480,9 +1480,9 @@ def get_data_plan(kwargs):
     if "scalars" not in kwargs:
         bvals, _ = read_bvals_bvecs(kwargs["bval_file"], kwargs["bvec_file"])
         if len(dpg.unique_bvals_magnitude(bvals)) > 2:
-            kwargs["scalars"] = ["dki_fa", "dki_md", "dki_kfa", "dki_mk", "t1w_b0"]
+            kwargs["scalars"] = ["dki_fa", "dki_md", "dki_kfa", "dki_mk", "t1w_over_b0"]
         else:
-            kwargs["scalars"] = ["dti_fa", "dti_md", "t1w_b0"]
+            kwargs["scalars"] = ["dti_fa", "dti_md", "t1w_over_b0"]
     else:
         scalars = []
         for scalar in kwargs["scalars"]:
