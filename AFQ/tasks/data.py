@@ -113,14 +113,14 @@ def b0(dwi, gtab):
 @immlib.calc("t1w_over_b0")
 @as_file("_desc-T1wOverB0.nii.gz")
 @as_img
-def t1w_over_b0(structural_imap, b0, citations, r1_epsilon=1e-2):
+def t1w_over_b0(structural_imap, b0, citations, min_b0_for_r1_approximation=1e-2):
     """
     full path to a nifti file containing the T1w over mean b0
     which is a proxy for R1 [1]_
 
     Parameters
     ----------
-    r1_epsilon : float, optional
+    min_b0_for_r1_approximation : float, optional
         The minimum value of b0 to consider when doing the division.
         This is to avoid dividing by small numbers.
         Default: 1e-2
@@ -142,7 +142,7 @@ def t1w_over_b0(structural_imap, b0, citations, r1_epsilon=1e-2):
         resampled_t1.get_fdata(),
         b0_img.get_fdata(),
         out=data,
-        where=b0_img.get_fdata() >= r1_epsilon,
+        where=b0_img.get_fdata() >= min_b0_for_r1_approximation,
     )
     meta = dict(T1w=structural_imap["t1_masked"], b0=b0)
     return data, meta
