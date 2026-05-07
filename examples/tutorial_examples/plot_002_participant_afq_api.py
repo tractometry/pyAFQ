@@ -70,11 +70,11 @@ os.makedirs(output_dir, exist_ok=True)
 # Set tractography parameters (optional)
 # ---------------------------------------
 # We make create a `tracking_params` variable, which we will pass to the
-# ParticipantAFQ object which specifies that we want 200,000 seeds randomly
+# ParticipantAFQ object which specifies that we want 500,000 seeds randomly
 # distributed in the white matter. We only do this to make this example faster
 # and consume less space; normally, we use more seeds.
 
-tracking_params = dict(n_seeds=200000,
+tracking_params = dict(n_seeds=500000,
                        random_seeds=True,
                        rng_seed=2025,
                        trx=True)

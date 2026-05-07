@@ -52,7 +52,7 @@ bids_path = afd.fetch_hbn_preproc(
 # Set tractography parameters (optional)
 # ---------------------------------------
 # We make create a `tracking_params` variable, which we will pass to the
-# GroupAFQ object which specifies that we want 200,000 seeds randomly
+# GroupAFQ object which specifies that we want 500,000 seeds randomly
 # distributed in the white matter. We only do this to make this example faster
 # and consume less space; normally, we use more seeds.
 

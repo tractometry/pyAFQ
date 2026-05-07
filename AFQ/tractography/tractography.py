@@ -156,6 +156,8 @@ def track(
 
     if isinstance(pve, str):
         pve_img = nib.load(pve)
+    if isinstance(pve, nib.Nifti1Image):
+        pve_img = pve
     pve_data = pve_img.get_fdata()
 
     model_params = params_img.get_fdata()
