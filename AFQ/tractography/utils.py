@@ -64,5 +64,9 @@ def gen_seeds(
         # If user provided an array, we'll use n_seeds as the seeds:
         seeds = np.asarray(n_seeds)
 
+    if len(seeds.shape) == 1:
+        seeds = seeds[None, ...]
+
     logger.info(f"Generated {len(seeds)} seeds in {time() - start_time:.2f} seconds.")
+    logger.info(f"Tracking with {len(seeds)} seeds...")
     return seeds

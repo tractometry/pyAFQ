@@ -4,7 +4,6 @@ from time import time
 import dipy.tracking.streamline as dts
 import nibabel as nib
 import numpy as np
-import ray
 from dipy.io.stateful_tractogram import Space, StatefulTractogram
 from dipy.io.streamline import load_tractogram
 from dipy.segment.bundles import RecoBundles
@@ -20,7 +19,6 @@ import AFQ.recognition.roi as abr
 import AFQ.recognition.utils as abu
 from AFQ.api.bundle_dict import apply_to_roi_dict
 from AFQ.recognition.clustering import subcluster_by_atlas
-from AFQ.utils.stats import chunk_indices
 from AFQ.utils.streamlines import move_streamlines
 
 criteria_order_pre_other_bundles = [
@@ -178,7 +176,7 @@ def primary_axis(b_sls, bundle_def, img, **kwargs):
     b_sls.select(accept_idx, "orientation")
 
 
-def include(b_sls, bundle_def, preproc_imap, n_cpus, **kwargs):
+def include(b_sls, bundle_def, preproc_imap, **kwargs):
     accept_idx = b_sls.initiate_selection("include")
     flip_using_include = len(bundle_def["include"]) > 1 and not b_sls.oriented_yet
 
@@ -191,39 +189,9 @@ def include(b_sls, bundle_def, preproc_imap, n_cpus, **kwargs):
     else:
         include_roi_tols = [preproc_imap["tol"] ** 2] * len(bundle_def["include"])
 
-    # For now I am turning ray parallelization here off.
-    # It is never worthwhile considering other changes we
-    # have made to speed up this step,
-    # so spinning up ray and transferring data back
-    # and forth is not worth it.
-    # In the future, I think we should redo this with numba and
-    # use multithreading
-    n_cpus = 1
-
-    # with parallel segmentation, the first for loop will
-    # only collect streamlines and does not need tqdm
-    if n_cpus > 1:
-        inc_results = np.zeros(len(b_sls), dtype=tuple)
-
-        inc_rois_id = ray.put(bundle_def["include"])
-        inc_roi_tols_id = ray.put(include_roi_tols)
-
-        _check_inc_parallel = ray.remote(num_cpus=n_cpus)(abr.check_sls_with_inclusion)
-
-        sls_chunks = list(chunk_indices(np.arange(len(b_sls)), n_cpus))
-        futures = [
-            _check_inc_parallel.remote(
-                b_sls.get_selected_sls()[sls_chunk], inc_rois_id, inc_roi_tols_id
-            )
-            for sls_chunk in sls_chunks
-        ]
-
-        for ii, future in enumerate(futures):
-            inc_results[sls_chunks[ii]] = ray.get(future)
-    else:
-        inc_results = abr.check_sls_with_inclusion(
-            b_sls.get_selected_sls(), bundle_def["include"], include_roi_tols
-        )
+    inc_results = abr.check_sls_with_inclusion(
+        b_sls.get_selected_sls(), bundle_def["include"], include_roi_tols
+    )
 
     n_inc = len(bundle_def["include"])
     roi_closest = np.zeros((n_inc, len(b_sls)), dtype=np.int32)
@@ -405,13 +373,12 @@ def orient_mahal(b_sls, bundle_def, **kwargs):
     b_sls.select(accept_idx, "orient_mahal")
 
 
-def isolation_forest(b_sls, bundle_def, n_cpus, rng, **kwargs):
+def isolation_forest(b_sls, bundle_def, rng, **kwargs):
     b_sls.initiate_selection("isolation_forest")
     accept_idx = abc.clean_by_isolation_forest(
         b_sls.get_selected_sls(),
         distance_threshold=bundle_def["isolation_forest"].get("distance_threshold", 3),
         n_rounds=bundle_def["isolation_forest"].get("n_rounds", 5),
-        n_jobs=n_cpus,
         random_state=rng,
     )
     b_sls.select(accept_idx, "isolation_forest")

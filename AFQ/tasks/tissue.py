@@ -208,7 +208,7 @@ def msmt_params(
 
     mcsd_model = MultiShellDeconvModel(data_imap["gtab"], response_mcsd)
     logger.info("Fitting Multi-Shell CSD model...")
-    mcsd_fit = mcsd_model.fit(data_imap["data"], mask, n_cpus=structural_imap["n_cpus"])
+    mcsd_fit = mcsd_model.fit(data_imap["data"], mask)
 
     def _get_meta(desc, sh_order, response):
         return dict(

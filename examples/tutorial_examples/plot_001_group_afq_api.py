@@ -116,12 +116,7 @@ brain_mask_definition = afm.ImageFile(
 # the name of the t1 preprocessing pipeline we want to use (in this case,
 # its the same, qsiprep [3]), the participant labels we want to process
 # (in this case, just a single subject), the PVE images we defined above, and
-# the tracking parameters we defined above. We set ray_n_cpus=1 and
-# low_memory=True to avoid memory issues running this example on
-# Github actions. If these settings are omitted,
-# which can be done in most cases, the default behavior will
-# parallelize processing, resulting in faster runtime,
-# but also in higher memory usage.
+# the tracking parameters we defined above.
 
 myafq = GroupAFQ(
     bids_path=op.join(afd.afq_home, 'HBN'),
@@ -130,9 +125,7 @@ myafq = GroupAFQ(
     participant_labels=['NDARAA948VFH'],
     pve=pve,
     brain_mask_definition=brain_mask_definition,
-    tracking_params=tracking_params,
-    ray_n_cpus=1,
-    low_memory=True)
+    tracking_params=tracking_params)
 
 ##########################################################################
 # Calculating DKI FA (Diffusion Kurtosis Imaging Fractional Anisotropy)
@@ -294,9 +287,7 @@ for ind in bundle_counts.index:
 myafq = GroupAFQ.from_qsiprep(
     qsi_dir=op.join(afd.afq_home, 'HBN'),
     participant_labels=['NDARAA948VFH'],
-    tracking_params=tracking_params,
-    ray_n_cpus=1,
-    low_memory=True)
+    tracking_params=tracking_params)
 
 #############################################################################
 # References

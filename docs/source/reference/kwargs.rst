@@ -17,9 +17,6 @@ Here are the arguments you can pass to kwargs, to customize the tractometry pipe
 ==========================================================
 STRUCTURAL
 ==========================================================
-ray_n_cpus: int
-	The number of CPUs to use for parallel processing with Ray. If None, uses the number of available CPUs minus one. Tractography and MSMT use Ray. Default: None
-
 numba_n_threads: int
 	The number of threads to use for Numba. If None, uses the number of available CPUs minus one, but with a maximum of 16. ASYM fit uses Numba. Default: None
 

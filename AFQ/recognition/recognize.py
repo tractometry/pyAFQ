@@ -23,7 +23,6 @@ def recognize(
     mapping,
     bundle_dict,
     reg_template,
-    n_cpus,
     nb_points=False,
     nb_streamlines=False,
     clip_edges=False,
@@ -53,8 +52,6 @@ def recognize(
         Dictionary of bundles to segment.
     reg_template : str, nib.Nifti1Image
         Template image for registration.
-    n_cpus : int
-        Number of CPUs to use for parallelization.
     nb_points : int, boolean
         Resample streamlines to nb_points number of points.
         If False, no resampling is done. Can only be done
@@ -190,7 +187,6 @@ def recognize(
             bundle_name,
             recognized_bundles_dict,
             clip_edges=clip_edges,
-            n_cpus=n_cpus,
             rb_recognize_params=rb_recognize_params,
             prob_threshold=prob_threshold,
             refine_reco=refine_reco,

@@ -46,11 +46,6 @@ pve_gm:
 pve_wm:
     White matter partial volume estimate map
 
-
-n_cpus:
-    Configure the number of CPUs to use for parallel processing with Ray
-
-
 n_threads:
     the number of threads to use for Numba
 

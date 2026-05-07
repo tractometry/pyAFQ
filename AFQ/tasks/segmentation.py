@@ -94,7 +94,6 @@ def segment(
         mapping_imap["mapping"],
         bundle_dict,
         reg_template,
-        structural_imap["n_cpus"],
         **segmentation_params,
     )
 

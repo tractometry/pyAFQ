@@ -67,7 +67,6 @@ myafq = ParticipantAFQ(
     t1_file=t1_file,
     output_dir=output_dir,
     pve=pve,
-    ray_n_cpus=1,
     tracking_params={
         "n_seeds": 10000,
         "random_seeds": True,
