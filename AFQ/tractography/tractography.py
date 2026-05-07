@@ -284,7 +284,7 @@ def track(
             )
         else:
             raise ValueError(
-                "gpu_backend must be one of 'auto', 'cuda', "
+                "jit_backend must be one of 'auto', 'cuda', "
                 f"'metal', 'numba', or 'webgpu', not {jit_backend}"
             )
 
