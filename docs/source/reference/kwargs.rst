@@ -18,7 +18,7 @@ Here are the arguments you can pass to kwargs, to customize the tractometry pipe
 STRUCTURAL
 ==========================================================
 numba_n_threads: int
-	The number of threads to use for Numba. If None, uses the number of available CPUs minus one, but with a maximum of 16. ASYM fit uses Numba. Default: None
+	The number of threads to use for Numba and DIPY tracking. If None, uses the number of available CPUs minus one. Default: None
 
 low_memory: bool
 	Whether to use low-memory versions of algorithms where available. Default: False
@@ -44,6 +44,9 @@ max_bval: float
 
 b0_threshold: int
 	The value of b under which it is considered to be b0. Default: 50.
+
+min_b0_for_r1_approximation: float
+	The minimum value of b0 to consider when doing the division. This is to avoid dividing by small numbers. Default: 1e-2
 
 robust_tensor_fitting: bool
 	Whether to use robust_tensor_fitting when doing dti. Only applies to dti. Default: False
@@ -83,9 +86,6 @@ opdt_sh_order_max: int
 
 csa_sh_order_max: int
 	Spherical harmonics order for CSA model. Must be even. Default: 8
-
-sphere: Sphere class instance
-	The sphere providing sample directions for the initial search of the maximal value of kurtosis. Default: 'repulsion100'
 
 gtol: float
 	This input is to refine kurtosis maxima under the precision of the directions sampled on the sphere class instance. The gradient of the convergence procedure must be less than gtol before successful termination. If gtol is None, fiber direction is directly taken from the initial sampled directions of the given sphere object. Default: 1e-2
@@ -147,15 +147,6 @@ tracking_params: dict
 
 import_tract: dict or str or None
 	BIDS filters for inputing a user made tractography file, or a path to the tractography file. If None, DIPY is used to generate the tractography. Default: None
-
-tractography_ngpus: int
-	Number of GPUs to use in tractography. If non-0, this algorithm is used for tractography, https://github.com/dipy/GPUStreamlines PTT, Prob can be used with any SHM model. Bootstrapped can be done with CSA/OPDT. Default: 0
-
-gpu_backend: str
-	GPU backend to use for tractography. One of {"auto", "cuda", "metal", "webgpu"}. Default: "auto"
-
-chunk_size: int
-	Chunk size for GPU tracking. Default: 25000
 
 
 ==========================================================

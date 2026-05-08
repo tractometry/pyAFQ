@@ -46,8 +46,9 @@ pve_gm:
 pve_wm:
     White matter partial volume estimate map
 
+
 n_threads:
-    the number of threads to use for Numba
+    Configure the number of threads to use for Numba
 
 
 low_mem:
@@ -96,6 +97,10 @@ dwi_affine:
 
 b0:
     full path to a nifti file containing the mean b0
+
+
+t1w_over_b0:
+    full path to a nifti file containing the T1w over mean b0 which is a proxy for R1 [1]_
 
 
 masked_b0:
