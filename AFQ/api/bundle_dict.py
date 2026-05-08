@@ -555,6 +555,14 @@ def slf_bd():
             },
         },
         citations={"Sagi2024"},
+        criteria_for_all={
+            "mahal": {
+                "distance_threshold": 3,
+                "length_threshold": 3,
+                "clean_rounds": 5,
+                "remove_lengths": "both",
+            },
+        },
     )
 
 
@@ -976,7 +984,6 @@ def callosal_bd():
         },
         citations={"Dougherty2007"},
         criteria_for_all={
-            "isolation_forest": {},
             "exclude": [templates["CST_roi1_L"], templates["CST_roi1_R"]],
             "space": "template",
         },
