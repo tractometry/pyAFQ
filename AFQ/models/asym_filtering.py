@@ -232,7 +232,6 @@ def _unified_filter_build_nx(
                 # the direction controls the align weight
                 if i == j == k == 0 or disable_align:
                     # hack for main direction to have maximal weight
-                    # w_align = np.ones((1, len(directions)), dtype=np.float32)
                     w_align = np.zeros((1, len(directions)), dtype=np.float32)
                 else:
                     dxy /= len_xy
@@ -252,7 +251,7 @@ def _unified_filter_build_nx(
 
     for ui in range(len(directions)):
         w_sum = np.sum(nx_weights[..., ui])
-        nx_weights /= w_sum
+        nx_weights[..., ui] /= w_sum
 
     return nx_weights
 
