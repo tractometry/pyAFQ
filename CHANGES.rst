@@ -1,3 +1,70 @@
+3.0 (May 08, 2026)
+==================
+PyAFQ 3.0 now requires T1w images as input, and uses them for
+registration, tissue segmentation,and brain segmentation.
+It also includes a major overhaul of the documentation,
+with many new examples and better organization. It includes asymmetric ODFs
+and WMGMI seeding by default to better handle the superficial white matter.
+It includes numba accelerated prob tracking by default, as well as:
+cuda, metal, and webgpu accelerated tracking. 
+Other minor fixes and improvements are also included.
+  * [FIX] SLF and callosal defaults (#182)
+  * [ENH] Faster Tracking (#180)
+  * [ENH] Have t1/b0 be the default tp instead of t1 (#181)
+  * [ENH/FIX] Changes for reward bundles and VOF (#166)
+  * Python 3.13 (#175)
+  * [ENH] Starting conforming to new BIDS (#152)
+  * [WIP/FIX] GPUStreamlines (#153)
+  * MAINT: Move setuptools_scm config to pyproject.toml (#165)
+  * Adds verbose flag to test pypi upload (#164)
+  * Explicitly import Fury before running viz test. (#163)
+  * Adds kwarg explicitly. (#162)
+  * One more try here. (#161)
+  * Actually decorate this test. (#160)
+  * More fixes after merging #156 (#159)
+  * Remove coverage reporting. (#158)
+  * Fix after merging #156. Skips nightly tests. (#157)
+  * Fixes after merge of #155. (#156)
+  * Fixes after merge of #154. (#155)
+  * Overhaul release machinery (#154)
+  * [ENH] First take at a citation system (#146)
+  * [DOC] Add Optic tract example (#143)
+  * [DOC] update docs to new citation (#144)
+  * [FIX] Make this info, not warning, as it is normal (#151)
+  * [ENH] Provide Apptainer .def file as reference (#149)
+  * [DOC] Move links to examples into more prominent position (#150)
+  * [ENH] Update pyAFQ to use cuda python (#136)
+  * [DOC] update kwargs/methods in docs (#145)
+  * [ENH] From qsiprep (#142)
+  * [ENH] make SLF subdivisions default (#140)
+  * [ENH] better immlib errors (#141)
+  * DOC: Update link to DIPY intersphinx. (#114)
+  * [Nightly] add nn to nn tests; scale back reco tests (#139)
+  * [ENH] Remove co-located warnings by moving forceps into separate bd, update default_18 to default (#138)
+  * [TESTS] Increase nightly test swap size (#137)
+  * MAINT: Add ruff for linting (#134)
+  * Add onnxruntime to a couple of nightly test runs. (#133)
+  * Install onnxruntime on nightly tests (#130)
+  * [ENH] PyAFQ in the superficial white matter (#103)
+  * Do not round images on resample. (#126)
+  * RF: Make tracking indices a dictionary. (#121)
+  * [DOC] more explicit cleaning testing (#118)
+  * BF: Remove all traces of Forceps bundles. (#116)
+  * Nightly Fixes post immlib (#112)
+  * [ENH] Immlib over pimms (#108)
+  * Adapt DTI representation to tighter BEP16 compliance. (#78)
+  * [ENH] much nicer plotly (#107)
+  * Tractometry explanation (#106)
+  * Upgrade deprecated key-word argument (#79)
+  * Remove a warning now raised in DIPY, in advance of deprecation in 2.0.0 (#101)
+  * [DOC] Restructure Docs (#100)
+  * [FIX] cast certain user inputs before calling GPU Streamlines (#96)
+  * Fix combined bundles/ group montage read-only logic (#95)
+  * Don't overwrite existing files (#69)
+  * [FIX] Fix Spelling of 'Sagittal' in Pediatric Templates (#94)
+  * [DOC] Re-tool Video example so it can become more prominent (#85)
+  * [FIX] allowed larger offsets for massive TRX files (#93)
+
 2.1 (July 17, 2025)
 ===================
 Overhaul of pyAFQ Documentation, including new examples, better
@@ -201,7 +268,7 @@ documentation improvements, and many other minor fixes
   * [ENH] more specific bids entities and fixes to be bids compatible (#1035)
   * Removes some of the sphinx gallery ignore patterns. (#1017)
   * [enh] set afq home (#1037)
-  * [FIX] pin astroid (#1038)
+  * [FIX] pin asteroid (#1038)
   * [ENH] Proposal for better bd management (#1014)
   * [FIX] download LV1 roi in this example (#1031)
   * [FIX] set default back to serial (#1030)
@@ -229,7 +296,7 @@ docs to a new system. Other minor fixes.
   * [FIX] fix a small bug in the curvature code (#985)
   * added more documentation of dependencies (#1002)
   * [Doc] add an example of single subject rois; reduce example time (#999)
-  * RF: Set dask as the default paralellization engine. (#1009)
+  * RF: Set dask as the default parallelization engine. (#1009)
   * [ENH] add OR pediatric bundle definition, make it easier to add future pediatric bundles (#1007)
   * DOC: Myst (#992)
   * [ENH] Much faster mahal cleaning (#982)
@@ -241,7 +308,7 @@ docs to a new system. Other minor fixes.
   * [ENH] Adds export_up_to, adds some minor fixes here and there (#977)
   * [ENH] allow the setting of number of voxels for a seed mask (#976)
   * [ENH] Calculate new curvature metric manually (#973)
-  * [FIX] split GPU pyafq docker builds into differnet actions (#975)
+  * [FIX] split GPU pyafq docker builds into different actions (#975)
   * [ENH] add CUDA 12 compat to GPU tractography (#972)
   * [ENH] allow GPU docker file to play nice with singularity (#971)
   * [ENH/FIX] Improvements for finding the Visual Pathway (#953)
@@ -252,7 +319,7 @@ docs to a new system. Other minor fixes.
 1.0.1 (February 22, 2023)
 =========================
 Fixed two bugs, where max streamline length was not being enforced and the
-mean b0 was being calculated incorrectly. Small documenation fixes.
+mean b0 was being calculated incorrectly. Small documentation fixes.
   * [FIX] Add max length constraint, b0 fix (#955)
   * Small documentation fixes, to improve auto-rendering of API docs. (#949)
   * MAINT: Upgrade pytest as a start to tackling CI errors. (#945)
@@ -287,7 +354,7 @@ minor additions, fixes, and documentation updates.
   * Added streamline filtering by primary orientation; other bundle definition fixes (#898)
   * [FIX] cmd output only run on our files (#881)
   * Set logger levels to INFO (#867)
-  * [DOC] add pyafq overview desciption (#875)
+  * [DOC] add pyafq overview description (#875)
   * Fix nightly tests (#873)
   * Upgrade pybids. (#869)
   * [ENH] Apply arbitrary command to some/all pyAFQ outputs, more BIDSy names (#853)
@@ -364,7 +431,7 @@ to the documentation.
   * DOC: Adds intersphinx mapping to numpy python dipy (#230)
   * [ENH] Better BundleDict System (#788)
   * [ENH] Updated model defaults (#792)
-  * [DOC] fix minor erros in documenation (#786)
+  * [DOC] fix minor errors in documentation (#786)
   * Adds CITATION file. (#787)
   * [FIX,ENH] fix typo in docs, bug in GroupAFQ init, add export_all to ParticipantAFQ (#784)
   * [FIX] use plotly cmap instead of matplotlib cmap in plotly_backend (#785)
@@ -443,7 +510,7 @@ the initial requirements for integration with QSIPrep.
 This release is the first one to use Pimms as our pipeline engine, which allows
 for parallelization across subjects and sessions using multi-processing. It also
 contains integration of AFQ-Browser as a derivative, and a variety of other
-fixes and improvments.
+fixes and improvements.
 
   * WIP: Add OR fetcher and example (#646)
   * [Fix] Better export all behavior (#726)
@@ -504,7 +571,7 @@ both pyAFQ by itself, as well as in tandem with qsiprep.
   *  [FIX] try to make pyafq play nice with pybids 0.9.3 (#660)
   * BF: _gen_sl_counts function was failing with more than one subject (#656)
   * [FIX] remove invalid sls from tractography, which could be custom (#654)
-  * [FIX] Propogate flip axial to export_all (#651)
+  * [FIX] Propagate flip axial to export_all (#651)
   * [ENH] make cvxpy optional (#653)
   * Allow ItkMap in pyAFQ (#650)
   * Dipy should be at least 1.4.0 (#643)
@@ -599,7 +666,7 @@ This version matches our first paper describing/using the software.
   * ENH: Dice coeff (#484)
   * enh adding distclean and realclean targets for sphinx build (#489)
   * FIX: Downsample number of streamlines vizzed down to 200 when vizzing all bundles (#482)
-  * ENH: Return contast index dataframe from contrast_index (#483)
+  * ENH: Return contrast index dataframe from contrast_index (#483)
   * Require dipy versions higher than 0.12, so that we can use current ma… (#488)
   * Reg algo automatically chosen based on whether mapping is provided, syn mapping for sls fixed, recobundle defaults updated (#472)
   * Apply brain mask to subject img before registration (#478)
@@ -664,7 +731,7 @@ and enhancements.
   * ENH: Dice coeff (#484)
   * enh adding distclean and realclean targets for sphinx build (#489)
   * FIX: Downsample number of streamlines vizzed down to 200 when vizzing all bundles (#482)
-  * ENH: Return contast index dataframe from contrast_index (#483)
+  * ENH: Return contrast index dataframe from contrast_index (#483)
   * Require dipy versions higher than 0.12, so that we can use current ma… (#488)
   * Reg algo automatically chosen based on whether mapping is provided, syn mapping for sls fixed, recobundle defaults updated (#472)
   * Apply brain mask to subject img before registration (#478)
