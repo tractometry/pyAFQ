@@ -47,7 +47,7 @@ def unified_filtering(
     sh_data,
     sphere,
     sh_basis="descoteaux07",
-    is_legacy=False,
+    is_legacy=True,
     sigma_spatial=1.0,
     sigma_align=0.8,
     sigma_angle=None,
@@ -667,7 +667,7 @@ def compute_nufid_asym(sh_coeffs, sphere, csf, mask):
         sh_order_max=sh_order,
         basis_type="descoteaux07",
         full_basis=full_basis,
-        legacy=False,
+        legacy=True,
     )
 
     # Guess at threshold from 2.0 * mean of ODF maxes in CSF

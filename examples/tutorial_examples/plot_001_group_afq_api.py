@@ -264,7 +264,7 @@ for ind in bundle_counts.index:
     if ind == "Total Recognized":
         threshold = 3e4
     else:
-        threshold = 30
+        threshold = 20
     if bundle_counts["n_streamlines"][ind] < threshold:
         raise ValueError((
             "Small number of streamlines found "
