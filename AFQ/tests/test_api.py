@@ -385,13 +385,14 @@ def test_AFQ_seed_array():
         LabelledImageFile(path=seg_file, inclusive_labels=[1, 2]),
     )
 
-    seed_mask = nib.load(seg_file).get_fdata() == 1
+    seg_img = nib.load(seg_file)
+    seed_mask = seg_img.get_fdata() == 1
 
     seeds = dtu.random_seeds_from_mask(
         seed_mask,
         seeds_count=20,
         seed_count_per_voxel=False,
-        affine=np.eye(4),
+        affine=seg_img.affine,
         random_seed=20,
     )
 
@@ -575,7 +576,6 @@ def test_AFQ_slr():
             "full_segmented_cleaned_tractography.trk",
         ),
         segmentation_params={"dist_to_waypoint": 10},
-        n_cpus=1,
         bundle_info=bd,
         mapping_definition=SlrMap(slr_kwargs={"rng": np.random.RandomState(seed)}),
     )
@@ -805,7 +805,6 @@ def test_AFQ_data_waypoint():
         pve=pve,
         brain_mask_definition=bm_def,
         n_points_profile=50,
-        ray_n_cpus=1,
         tracking_params=tracking_params,
         segmentation_params=segmentation_params,
     )
@@ -969,7 +968,7 @@ def test_AFQ_data_waypoint():
             dwi_preproc_pipeline="vistasoft",
             t1_preproc_pipeline="freesurfer",
         ),
-        DATA=dict(bundle_info=bundle_dict_as_str, ray_n_cpus=1),
+        DATA=dict(bundle_info=bundle_dict_as_str),
         TISSUE=dict(pve=pve_as_str),
         SEGMENTATION=dict(
             n_points_profile=50,

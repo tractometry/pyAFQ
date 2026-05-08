@@ -283,14 +283,6 @@ class GroupAFQ(object):
         if len(self.sessions) * len(self.subjects) < 2:
             self.parallel_params["engine"] = "serial"
 
-        # do not parallelize within subject if parallelizing across
-        # subject-sessions
-        if self.parallel_params["engine"] != "serial":
-            if "ray_n_cpus" not in kwargs:
-                kwargs["ray_n_cpus"] = 1
-            if "numba_n_threads" not in kwargs:
-                kwargs["numba_n_threads"] = 1
-
         self.valid_sub_list = []
         self.valid_ses_list = []
         self.pAFQ_list = []

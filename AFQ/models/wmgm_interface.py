@@ -43,7 +43,7 @@ def fit_wm_gm_interface(PVE_img, dwiref_img):
         static_affine=dwiref_img.affine,
     ).get_fdata()
 
-    wm_boundary = find_boundaries(wm > 0.5, mode="inner")
+    wm_boundary = find_boundaries(wm > 0.9, mode="inner")
     gm_smoothed = gaussian_filter(gm, 1)
     csf_smoothed = gaussian_filter(csf, 1)
 

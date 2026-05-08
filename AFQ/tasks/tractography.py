@@ -1,45 +1,27 @@
 import logging
 from time import time
 
-import dipy.data as dpd
 import immlib
 import nibabel as nib
 import numpy as np
 from trx.trx_file_memmap import TrxFile
-from trx.trx_file_memmap import concatenate as trx_concatenate
 
 import AFQ.tractography.tractography as aft
 from AFQ.definitions.image import ScalarImage
 from AFQ.definitions.utils import Definition
 from AFQ.tasks.decorators import as_file
 from AFQ.tasks.utils import get_default_args, with_name
-from AFQ.tractography.utils import gen_seeds
-
-try:
-    import ray
-
-    has_ray = True
-except ModuleNotFoundError:
-    has_ray = False
-
-try:
-    from AFQ.tractography.gputractography import gpu_track
-
-    has_gputrack = True
-except ModuleNotFoundError:
-    has_gputrack = False
 
 logger = logging.getLogger("AFQ")
 
 
-def _meta_from_tracking_params(tracking_params, start_time, n_streamlines, seed, pve):
+def _meta_from_tracking_params(tracking_params, start_time, seed, pve, n_streamlines=0):
     meta_directions = {"det": "deterministic", "prob": "probabilistic"}
     meta = dict(
         TractographyClass="local",
         TractographyMethod=meta_directions.get(
             tracking_params["directions"], tracking_params["directions"]
         ),
-        Count=n_streamlines,
         Seeding=dict(
             ROI=seed,
             n_seeds=tracking_params["n_seeds"],
@@ -55,6 +37,8 @@ def _meta_from_tracking_params(tracking_params, start_time, n_streamlines, seed,
         ),
         Timing=time() - start_time,
     )
+    if n_streamlines != 0:
+        meta["Count"] = n_streamlines
     return meta
 
 
@@ -99,125 +83,47 @@ def streamlines(
 
     # get masks
     this_tracking_params["seed_mask"] = nib.load(seed).get_fdata()
-    this_tracking_params["pve"] = tissue_imap["pve_internal"]
 
     is_trx = this_tracking_params.get("trx", False)
-
-    num_chunks = structural_imap["n_cpus"]
 
     if is_trx:
         start_time = time()
         dtype_dict = {"positions": np.float32, "offsets": np.uint32}
-        if num_chunks and num_chunks > 1:
-            if not has_ray:
-                raise ImportError(
-                    "Ray is required to perform tractography in"
-                    "parallel, please install ray or remove the"
-                    " 'num_chunks' arg"
-                )
 
-            @ray.remote
-            class TractActor:
-                def __init__(self):
-                    self.TrxFile = TrxFile
-                    self.aft = aft
-                    self.objects = {}
+        lazyt = aft.track(
+            fodf,
+            tissue_imap["pve_internal"],
+            structural_imap["n_threads"],
+            **this_tracking_params,
+        )
 
-                def trx_from_lazy_tractogram(self, lazyt_id, seed, dtype_dict):
-                    id = self.objects[lazyt_id]
-                    return self.TrxFile.from_lazy_tractogram(
-                        id, seed, dtype_dict=dtype_dict
-                    )
-
-                def create_lazyt(self, id, *args, **kwargs):
-                    self.objects[id] = self.aft.track(*args, **kwargs)
-                    return id
-
-                def delete_lazyt(self, id):
-                    if id in self.objects:
-                        del self.objects[id]
-
-            actors = [TractActor.remote() for _ in range(num_chunks)]
-            object_id = 1
-            tracking_params_list = []
-
-            # random seeds case
-            if isinstance(
-                this_tracking_params.get("n_seeds"), int
-            ) and this_tracking_params.get("random_seeds"):
-                remainder = this_tracking_params["n_seeds"] % num_chunks
-                for i in range(num_chunks):
-                    # create copy of tracking params
-                    copy = this_tracking_params.copy()
-                    n_seeds = this_tracking_params["n_seeds"]
-                    copy["n_seeds"] = n_seeds // num_chunks
-                    # add remainder to 1st list
-                    if i == 0:
-                        copy["n_seeds"] += remainder
-                    tracking_params_list.append(copy)
-
-            elif isinstance(this_tracking_params["n_seeds"], (np.ndarray, list)):
-                n_seeds = np.array(this_tracking_params["n_seeds"])
-                seed_chunks = np.array_split(n_seeds, num_chunks)
-                tracking_params_list = [
-                    this_tracking_params.copy() for _ in range(num_chunks)
-                ]
-
-                for i in range(num_chunks):
-                    tracking_params_list[i]["n_seeds"] = seed_chunks[i]
-
-            else:
-                seeds = gen_seeds(
-                    this_tracking_params["seed_mask"],
-                    this_tracking_params["seed_threshold"],
-                    this_tracking_params["n_seeds"],
-                    this_tracking_params["thresholds_as_percentages"],
-                    this_tracking_params["random_seeds"],
-                    this_tracking_params["rng_seed"],
-                    data_imap["dwi_affine"],
-                )
-                seed_chunks = np.array_split(seeds, num_chunks)
-                tracking_params_list = [
-                    this_tracking_params.copy() for _ in range(num_chunks)
-                ]
-                for i in range(num_chunks):
-                    tracking_params_list[i]["n_seeds"] = seed_chunks[i]
-
-            # create lazyt inside each actor
-            tasks = [
-                ray_actor.create_lazyt.remote(
-                    object_id, fodf, **tracking_params_list[i]
-                )
-                for i, ray_actor in enumerate(actors)
-            ]
-            ray.get(tasks)
-
-            # create trx from lazyt
-            tasks = [
-                ray_actor.trx_from_lazy_tractogram.remote(
-                    object_id, seed, dtype_dict=dtype_dict
-                )
-                for ray_actor in actors
-            ]
-            sfts = ray.get(tasks)
-
-            # cleanup objects
-            tasks = [ray_actor.delete_lazyt.remote(object_id) for ray_actor in actors]
-            ray.get(tasks)
-
-            sft = trx_concatenate(sfts)
+        if (
+            this_tracking_params["directions"] == "prob"
+            or this_tracking_params["directions"] == "ptt"
+        ):
+            # We do not count these as we go yet,
+            # this needs to be implemented in GPUStreamlines
+            n_streamlines = 0
+            sft = lazyt
         else:
-            lazyt = aft.track(fodf, **this_tracking_params)
             # Chunk size is number of streamlines tracked before saving to disk.
             sft = TrxFile.from_lazy_tractogram(
-                lazyt, seed, dtype_dict=dtype_dict, chunk_size=1e5
+                lazyt,
+                seed,
+                dtype_dict=dtype_dict,
+                chunk_size=1e5,
+                extra_buffer=int(1e6),
             )
-        n_streamlines = len(sft)
+            n_streamlines = len(sft)
 
     else:
         start_time = time()
-        sft = aft.track(fodf, **this_tracking_params)
-        sft.to_vox()
+        sft = aft.track(
+            fodf,
+            tissue_imap["pve_internal"],
+            structural_imap["n_threads"],
+            **this_tracking_params,
+        )
         n_streamlines = len(sft.streamlines)
 
     if len(sft) == 0:
@@ -227,7 +133,11 @@ def streamlines(
         )
 
     return sft, _meta_from_tracking_params(
-        tracking_params, start_time, n_streamlines, seed, tissue_imap["pve_internal"]
+        tracking_params,
+        start_time,
+        seed,
+        tissue_imap["pve_internal"],
+        n_streamlines,
     )
 
 
@@ -249,98 +159,12 @@ def custom_tractography(import_tract=None):
     return import_tract
 
 
-@immlib.calc("streamlines")
-@as_file("_tractography", subfolder="tractography")
-def gpu_tractography(
-    data_imap,
-    tracking_params,
-    seed,
-    tissue_imap,
-    tractography_ngpus=0,
-    gpu_backend="auto",
-    chunk_size=25000,
-):
-    """
-    full path to the complete, unsegmented tractography file
-
-    Parameters
-    ----------
-    tractography_ngpus : int, optional
-        Number of GPUs to use in tractography. If non-0,
-        this algorithm is used for tractography,
-        https://github.com/dipy/GPUStreamlines
-        PTT, Prob can be used with any SHM model.
-        Bootstrapped can be done with CSA/OPDT.
-        Default: 0
-    gpu_backend : str, optional
-        GPU backend to use for tractography.
-        One of {"auto", "cuda", "metal", "webgpu"}.
-        Default: "auto"
-    chunk_size : int, optional
-        Chunk size for GPU tracking.
-        Default: 25000
-    """
-    start_time = time()
-    fodf = _fiber_odf(data_imap, tissue_imap, tracking_params)
-
-    if tracking_params["directions"] == "boot":
-        data = data_imap["data"]
-    else:
-        if isinstance(fodf, str):
-            fodf = nib.load(fodf)
-        data = fodf.get_fdata()
-
-    pve = tissue_imap["pve_internal"]
-
-    sphere = tracking_params["sphere"]
-    if sphere is None:
-        sphere = dpd.get_sphere(name="repulsion724")
-    else:
-        sphere = dpd.get_sphere(name=tracking_params["sphere"])
-
-    sft = gpu_track(
-        data,
-        data_imap["gtab"],
-        seed,
-        pve,
-        tracking_params["odf_model"],
-        sphere,
-        tracking_params["directions"],
-        tracking_params["seed_threshold"],
-        tracking_params["thresholds_as_percentages"],
-        tracking_params["max_angle"],
-        tracking_params["step_size"],
-        tracking_params["minlen"],
-        tracking_params["maxlen"],
-        tracking_params["n_seeds"],
-        tracking_params["random_seeds"],
-        tracking_params["rng_seed"],
-        tracking_params["trx"],
-        tractography_ngpus,
-        chunk_size,
-        gpu_backend,
-    )
-
-    return sft, _meta_from_tracking_params(tracking_params, start_time, sft, seed, pve)
-
-
 def get_tractography_plan(kwargs):
     if "tracking_params" in kwargs and not isinstance(kwargs["tracking_params"], dict):
         raise TypeError("tracking_params a dict")
 
     tractography_tasks = with_name([streamlines])
 
-    # use GPU accelerated tractography if asked for
-    if "tractography_ngpus" in kwargs and kwargs["tractography_ngpus"] != 0:
-        if not has_gputrack:
-            raise ImportError(
-                "Please install from ghcr.io/nrdg/pyafq_gpu"
-                " docker file or from "
-                "https://github.com/dipy/GPUStreamlines"
-                " to use gpu-accelerated"
-                " tractography"
-            )
-        tractography_tasks["streamlines_res"] = gpu_tractography
     # use imported tractography if given
     if "import_tract" in kwargs and kwargs["import_tract"] is not None:
         tractography_tasks["streamlines_res"] = custom_tractography

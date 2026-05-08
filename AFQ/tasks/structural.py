@@ -14,38 +14,28 @@ from AFQ.tasks.utils import check_onnxruntime, with_name
 logger = logging.getLogger("AFQ")
 
 
-@immlib.calc("n_cpus", "n_threads", "low_mem")
-def configure_ncpus_nthreads(ray_n_cpus=None, numba_n_threads=None, low_memory=False):
+@immlib.calc("n_threads", "low_mem")
+def configure_ncpus_nthreads(numba_n_threads=None, low_memory=False):
     """
-    Configure the number of CPUs to use for parallel processing with Ray,
-    the number of threads to use for Numba,
+    Configure the number of threads to use for Numba,
     and whether to use low-memory versions of algorithms
     where available
 
     Parameters
     ----------
-    ray_n_cpus : int, optional
-        The number of CPUs to use for parallel processing with Ray.
-        If None, uses the number of available CPUs minus one.
-        Tractography and MSMT use Ray.
-        Default: None
     numba_n_threads : int, optional
-        The number of threads to use for Numba.
-        If None, uses the number of available CPUs minus one,
-        but with a maximum of 16.
-        ASYM fit uses Numba.
+        The number of threads to use for Numba and DIPY tracking.
+        If None, uses the number of available CPUs minus one.
         Default: None
     low_memory : bool, optional
         Whether to use low-memory versions of algorithms
         where available.
         Default: False
     """
-    if ray_n_cpus is None:
-        ray_n_cpus = 1
     if numba_n_threads is None:
-        numba_n_threads = min(max(get_num_threads() - 1, 1), 16)
+        numba_n_threads = max(get_num_threads() - 1, 1)
 
-    return ray_n_cpus, numba_n_threads, low_memory
+    return numba_n_threads, low_memory
 
 
 @immlib.calc("onnx_kwargs")

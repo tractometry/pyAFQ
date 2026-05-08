@@ -86,7 +86,7 @@ def clean_by_orientation_mahalanobis(
         length_threshold = np.inf
     fgarray = abu.resample_tg(streamlines, n_points)
 
-    assignment_idxs = np.asarray(assignment_map(fgarray, fgarray, 100))
+    _, assignment_idxs = np.asarray(assignment_map(fgarray, fgarray, n_points))
     assignment_idxs = assignment_idxs.reshape((len(fgarray), n_points))
     fgarray = np.asarray(fgarray)
 

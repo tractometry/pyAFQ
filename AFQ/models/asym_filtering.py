@@ -47,7 +47,7 @@ def unified_filtering(
     sh_data,
     sphere,
     sh_basis="descoteaux07",
-    is_legacy=False,
+    is_legacy=True,
     sigma_spatial=1.0,
     sigma_align=0.8,
     sigma_angle=None,
@@ -232,7 +232,6 @@ def _unified_filter_build_nx(
                 # the direction controls the align weight
                 if i == j == k == 0 or disable_align:
                     # hack for main direction to have maximal weight
-                    # w_align = np.ones((1, len(directions)), dtype=np.float32)
                     w_align = np.zeros((1, len(directions)), dtype=np.float32)
                 else:
                     dxy /= len_xy
@@ -252,7 +251,7 @@ def _unified_filter_build_nx(
 
     for ui in range(len(directions)):
         w_sum = np.sum(nx_weights[..., ui])
-        nx_weights /= w_sum
+        nx_weights[..., ui] /= w_sum
 
     return nx_weights
 
@@ -668,7 +667,7 @@ def compute_nufid_asym(sh_coeffs, sphere, csf, mask):
         sh_order_max=sh_order,
         basis_type="descoteaux07",
         full_basis=full_basis,
-        legacy=False,
+        legacy=True,
     )
 
     # Guess at threshold from 2.0 * mean of ODF maxes in CSF

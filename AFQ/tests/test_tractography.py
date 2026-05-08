@@ -50,7 +50,8 @@ def test_csd_local_tracking():
             sls = track(
                 fname,
                 fpve,
-                directions,
+                1,
+                directions=directions,
                 odf_model="CSD",
                 max_angle=30.0,
                 sphere="repulsion724",
@@ -58,7 +59,6 @@ def test_csd_local_tracking():
                 n_seeds=seeds,
                 step_size=step_size,
                 minlen=minlen,
-                tracker="local",
             ).streamlines
 
             for sl in sls:
@@ -71,15 +71,16 @@ def test_dti_local_tracking():
         sls = track(
             fdict["params"],
             fpve,
-            directions,
+            1,
+            directions=directions,
             max_angle=30.0,
             sphere="repulsion724",
             seed_mask=None,
             n_seeds=1,
+            random_seeds=False,
             step_size=step_size,
             minlen=minlen,
             odf_model="DTI",
-            tracker="local",
         ).streamlines
         for sl in sls:
             npt.assert_(len(sl) >= minlen / step_size)
@@ -103,20 +104,19 @@ def test_pft_tracking():
         ],
         ["DTI", "CSD"],
     ):
-        for directions in ["det", "prob"]:
-            sls = track(
-                fname,
-                fpve,
-                directions,
-                max_angle=30.0,
-                sphere="repulsion724",
-                seed_mask=None,
-                n_seeds=1,
-                step_size=step_size,
-                minlen=minlen,
-                odf_model=odf,
-                tracker="pft",
-            ).streamlines
+        sls = track(
+            fname,
+            fpve,
+            1,
+            "pft",
+            max_angle=30.0,
+            sphere="repulsion724",
+            seed_mask=None,
+            n_seeds=1,
+            step_size=step_size,
+            minlen=minlen,
+            odf_model=odf,
+        ).streamlines
 
-            for sl in sls:
-                npt.assert_(len(sl) >= minlen / step_size)
+        for sl in sls:
+            npt.assert_(len(sl) >= minlen / step_size)

@@ -444,7 +444,6 @@ class GroupCSVComparison:
             self.bundles = bundles
         self.color_dict = vut.gen_color_dict([*self.bundles, "median"])
 
-        # TODO: make these parameters
         self.scalar_markers = ["o", "x"]
         self.patterns = (None, "/", "o", "x", "-", ".", "+", "//", "\\", "*", "O", "|")
 

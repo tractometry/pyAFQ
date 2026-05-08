@@ -151,7 +151,6 @@ my_afq = GroupAFQ(
     output_dir=op.join(study_dir, "derivatives", "afq_otoc"),
     pve=pve,
     tracking_params=tractography_params,
-    ray_n_cpus=4,
     segmentation_params=segmentation_params,
     bundle_info=otoc_bd)
 

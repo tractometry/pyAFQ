@@ -52,11 +52,11 @@ bids_path = afd.fetch_hbn_preproc(
 # Set tractography parameters (optional)
 # ---------------------------------------
 # We make create a `tracking_params` variable, which we will pass to the
-# GroupAFQ object which specifies that we want 200,000 seeds randomly
+# GroupAFQ object which specifies that we want 100,000 seeds randomly
 # distributed in the white matter. We only do this to make this example faster
 # and consume less space; normally, we use more seeds.
 
-tracking_params = dict(n_seeds=200000,
+tracking_params = dict(n_seeds=1e5,
                        random_seeds=True,
                        rng_seed=2025,
                        trx=True)
@@ -116,12 +116,7 @@ brain_mask_definition = afm.ImageFile(
 # the name of the t1 preprocessing pipeline we want to use (in this case,
 # its the same, qsiprep [3]), the participant labels we want to process
 # (in this case, just a single subject), the PVE images we defined above, and
-# the tracking parameters we defined above. We set ray_n_cpus=1 and
-# low_memory=True to avoid memory issues running this example on
-# Github actions. If these settings are omitted,
-# which can be done in most cases, the default behavior will
-# parallelize processing, resulting in faster runtime,
-# but also in higher memory usage.
+# the tracking parameters we defined above.
 
 myafq = GroupAFQ(
     bids_path=op.join(afd.afq_home, 'HBN'),
@@ -130,9 +125,7 @@ myafq = GroupAFQ(
     participant_labels=['NDARAA948VFH'],
     pve=pve,
     brain_mask_definition=brain_mask_definition,
-    tracking_params=tracking_params,
-    ray_n_cpus=1,
-    low_memory=True)
+    tracking_params=tracking_params)
 
 ##########################################################################
 # Calculating DKI FA (Diffusion Kurtosis Imaging Fractional Anisotropy)
@@ -269,11 +262,9 @@ bundle_counts = pd.read_csv(
         "NDARAA948VFH"]["HBNsiteRU"], index_col=[0])
 for ind in bundle_counts.index:
     if ind == "Total Recognized":
-        threshold = 3000
-    elif "Vertical Occipital" in ind:
-        threshold = 5
+        threshold = 3e4
     else:
-        threshold = 15
+        threshold = 20
     if bundle_counts["n_streamlines"][ind] < threshold:
         raise ValueError((
             "Small number of streamlines found "
@@ -294,9 +285,7 @@ for ind in bundle_counts.index:
 myafq = GroupAFQ.from_qsiprep(
     qsi_dir=op.join(afd.afq_home, 'HBN'),
     participant_labels=['NDARAA948VFH'],
-    tracking_params=tracking_params,
-    ray_n_cpus=1,
-    low_memory=True)
+    tracking_params=tracking_params)
 
 #############################################################################
 # References

@@ -20,7 +20,7 @@ estimates (PVEs) from other pipelines such as FSLfast
 (https://web.mit.edu/fsl_v5.0.10/fsl/doc/wiki/FAST.html) or Freesurfer
 (https://surfer.nmr.mgh.harvard.edu/).
 If these are not provided, pyAFQ will generate them using SynthSeg
-and the T1 :cite:`Tzourio-billot_synthseg_2023,billot_robust_2023`.
+and the T1 :cite:`billot_synthseg_2023,billot_robust_2023`.
 
 These PVEs are used for tractography, which has been radically changed in
 pyAFQ 3.0, relative to previous versions: First,
