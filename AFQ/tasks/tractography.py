@@ -97,7 +97,10 @@ def streamlines(
             **this_tracking_params,
         )
 
-        if this_tracking_params["directions"] == "prob":
+        if (
+            this_tracking_params["directions"] == "prob"
+            or this_tracking_params["directions"] == "ptt"
+        ):
             # We do not count these as we go yet,
             # this needs to be implemented in GPUStreamlines
             n_streamlines = 0

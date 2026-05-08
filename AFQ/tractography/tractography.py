@@ -126,10 +126,12 @@ def track(
         (i.e., as a LazyTractogram class instance).
         Default: True
     jit_backend : str, optional
-        If directions is "prob", the JIT backend to use. One of {"auto",
-        "cuda", "metal", "webgpu", or "numba"}. Default: "numba"
+        If directions is "prob" or "ptt", the JIT backend to use.
+        One of {"auto", "cuda", "metal", "webgpu", or "numba"}.
+        Default: "numba"
     jit_chunk_size : int, optional
-        If directions is "prob", the chunk size to use for JIT tracking.
+        If directions is "prob" or "ptt", the chunk size to use
+        for JIT tracking.
         Default: 25000
 
     Returns
@@ -262,17 +264,21 @@ def track(
         params_img.affine,
     )
 
-    if directions == "prob":
+    if directions == "prob" or directions == "ptt":
         jit_backend = jit_backend.lower()
         if jit_backend == "auto":
             from cuslines import (
                 ProbDirectionGetter,
+                PttDirectionGetter,
                 Tracker,
             )
         elif jit_backend == "cuda":
             from cuslines.cuda_python import (
+                GPUTracker as Tracker,
+            )
+            from cuslines.cuda_python import (
                 ProbDirectionGetter,
-                Tracker,
+                PttDirectionGetter,
             )
         elif jit_backend == "metal":
             from cuslines.metal import (
@@ -281,9 +287,15 @@ def track(
             from cuslines.metal import (
                 MetalProbDirectionGetter as ProbDirectionGetter,
             )
+            from cuslines.metal import (
+                MetalPttDirectionGetter as PttDirectionGetter,
+            )
         elif jit_backend == "webgpu":
             from cuslines.webgpu import (
                 WebGPUProbDirectionGetter as ProbDirectionGetter,
+            )
+            from cuslines.webgpu import (
+                WebGPUPttDirectionGetter as PttDirectionGetter,
             )
             from cuslines.webgpu import (
                 WebGPUTracker as Tracker,
@@ -291,6 +303,9 @@ def track(
         elif jit_backend == "numba":
             from cuslines.numba import (
                 CPUProbDirectionGetter as ProbDirectionGetter,
+            )
+            from cuslines.numba import (
+                CPUPttDirectionGetter as PttDirectionGetter,
             )
             from cuslines.numba import (
                 CPUTracker as Tracker,
@@ -301,7 +316,10 @@ def track(
                 f"'metal', 'numba', or 'webgpu', not {jit_backend}"
             )
 
-        dg = ProbDirectionGetter()
+        if directions == "ptt":
+            dg = PttDirectionGetter()
+        else:
+            dg = ProbDirectionGetter()
 
         inv_affine = np.linalg.inv(params_img.affine)
         seeds = np.dot(seeds, inv_affine[:3, :3].T)
