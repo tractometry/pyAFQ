@@ -46,7 +46,7 @@ def track(
     legacy=True,
     trx=True,
     jit_backend="numba",
-    jit_chunk_size=25000,
+    jit_chunk_size=None,
 ):
     """
     Tractography
@@ -131,8 +131,9 @@ def track(
         Default: "numba"
     jit_chunk_size : int, optional
         If directions is "prob" or "ptt", the chunk size to use
-        for JIT tracking.
-        Default: 25000
+        for JIT tracking. If None, chooses 25000 for numba backend
+        and 5000 for other backends.
+        Default: None
 
     Returns
     -------
@@ -331,6 +332,12 @@ def track(
         R = params_img.affine[0:3, 0:3]
         vox_dim = np.mean(np.diag(np.linalg.cholesky(R.T.dot(R))))
         step_size = step_size / vox_dim
+
+        if jit_chunk_size is None:
+            if jit_backend == "numba":
+                jit_chunk_size = 25000
+            else:
+                jit_chunk_size = 5000
 
         if n_threads != 0:
             old_numba_n_threads = numba.get_num_threads()
