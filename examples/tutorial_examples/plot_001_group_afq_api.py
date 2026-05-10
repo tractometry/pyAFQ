@@ -262,7 +262,7 @@ bundle_counts = pd.read_csv(
         "NDARAA948VFH"]["HBNsiteRU"], index_col=[0])
 for ind in bundle_counts.index:
     if ind == "Total Recognized":
-        threshold = 3e4
+        threshold = 2500
     else:
         threshold = 20
     if bundle_counts["n_streamlines"][ind] < threshold:
