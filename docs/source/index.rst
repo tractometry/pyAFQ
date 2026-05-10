@@ -44,13 +44,13 @@ Kruper, J., Yeatman, J. D., Richie-Halford, A., Bloom, D., Grotheer, M., Caffarr
   @article{kruper2025software,
     title={A software ecosystem for brain tractometry processing, analysis, and insight},
     author={Kruper, John and Richie-Halford, Adam and Qiao, Joanna and Gilmore, Asa and Chang, Kelly and Grotheer, Mareike and Roy, Ethan and Caffarra, Sendy and Gomez, Teresa and Chou, Sam and others},
-  journal={PLoS computational biology},
-  volume={21},
-  number={8},
-  pages={e1013323},
-  year={2025},
-  publisher={Public Library of Science San Francisco, CA USA},
-  doi=10.1371/journal.pcbi.1013323
+    journal={PLoS computational biology},
+    volume={21},
+    number={8},
+    pages={e1013323},
+    year={2025},
+    publisher={Public Library of Science San Francisco, CA USA},
+    doi={10.1371/journal.pcbi.1013323},
   }
 
   @article {Kruper2021-xb,
@@ -66,7 +66,7 @@ Kruper, J., Yeatman, J. D., Richie-Halford, A., Bloom, D., Grotheer, M., Caffarr
     number    =  1,
     month     =  nov,
     year      =  2021,
-    doi       =  10.52294/e6198273-b8e3-4b63-babb-6e6b0da10669,
+    doi       =  {10.52294/e6198273-b8e3-4b63-babb-6e6b0da10669},
   }
 
 Guide Layout
