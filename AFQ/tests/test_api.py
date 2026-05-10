@@ -507,7 +507,12 @@ def test_API_type_checking():
             raise e
     del myafq
 
-    with pytest.raises(ValueError, match=("Fatal: No bundles recognized.")):
+    with pytest.raises(
+        ValueError,
+        match=(
+            "Using random seeds with a low number of seeds is not recommended. Please increase n_seeds or set random_seeds to False. A recommended number of seeds when using random seeds is 1e7."  # noqa: E501
+        ),
+    ):
         myafq = GroupAFQ(
             bids_path,
             dwi_preproc_pipeline="vistasoft",
@@ -516,6 +521,31 @@ def test_API_type_checking():
             reg_subject_spec="dti_fa_subject",
             tracking_params={
                 "n_seeds": 10,
+                "rng_seed": seed,
+                "random_seeds": True,
+                "seed_mask": ScalarImage("dti_fa"),
+                "directions": "det",
+                "odf_model": "DTI",
+            },
+            bundle_info=abd.default_bd()["Left Arcuate", "Right Arcuate"],
+        )
+        try:
+            myafq.export("bundles")
+        except LazyError as e:
+            while e.__context__:
+                e = e.__context__
+            raise e
+    del myafq
+
+    with pytest.raises(ValueError, match=("Fatal: No bundles recognized.")):
+        myafq = GroupAFQ(
+            bids_path,
+            dwi_preproc_pipeline="vistasoft",
+            t1_preproc_pipeline="freesurfer",
+            mapping_definition=IdentityMap(),
+            reg_subject_spec="dti_fa_subject",
+            tracking_params={
+                "n_seeds": 100,
                 "rng_seed": seed,
                 "random_seeds": True,
                 "seed_mask": ScalarImage("dti_fa"),
