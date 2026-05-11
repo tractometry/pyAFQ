@@ -6,12 +6,12 @@ import dipy.tracking.streamlinespeed as dps
 import numpy as np
 from dipy.io.stateful_tractogram import Space, StatefulTractogram
 from dipy.tracking.streamline import select_random_set_of_streamlines
+from trx.io import load as load_trx
 
 import AFQ.recognition.sparse_decisions as ars
 import AFQ.recognition.utils as abu
 from AFQ.api.bundle_dict import BundleDict
-from AFQ.recognition.criteria import run_bundle_rec_plan
-from AFQ.recognition.preprocess import get_preproc_plan
+from AFQ.recognition.criteria import recognize_bundles
 from AFQ.utils.path import write_json
 
 logger = logging.getLogger("AFQ")
@@ -36,13 +36,14 @@ def recognize(
     dist_to_atlas=4,
     save_intermediates=None,
     cleaning_params=None,
+    chunk_size=int(1e6),
 ):
     """
     Segment streamlines into bundles.
 
     Parameters
     ----------
-    tg : StatefulTractogram, or TrxFile
+    tg : StatefulTractogram, or path to a TRXfile
         Tractogram to segment.
     img : str, nib.Nifti1Image
         Image for reference.
@@ -114,6 +115,12 @@ def recognize(
         override the default parameters of that method. However, this
         can be overridden by setting the cleaning parameters in the
         bundle_dict. Default: {}.
+    chunk_size : int, optional
+        Number of streamlines to preprocess at a time. The full
+        tractogram is processed in chunks of this size to keep peak
+        memory bounded. Per-chunk surviving candidates are merged
+        before the global per-bundle filtering steps run.
+        Default: 1e6.
 
     References
     ----------
@@ -166,36 +173,28 @@ def recognize(
 
         tg.to_rasmm()
 
-    n_streamlines = len(tg)
-    recognized_bundles_dict = {}
-
     fiber_groups = {}
     meta = {}
 
-    preproc_imap = get_preproc_plan(img, tg, dist_to_waypoint, dist_to_atlas)
-
-    logger.info("Assigning Streamlines to Bundles")
-    for bundle_name in bundle_dict.bundle_names:
-        logger.info(f"Finding Streamlines for {bundle_name}")
-        run_bundle_rec_plan(
-            bundle_dict,
-            tg.streamlines,
-            mapping,
-            img,
-            reg_template,
-            preproc_imap,
-            bundle_name,
-            recognized_bundles_dict,
-            clip_edges=clip_edges,
-            rb_recognize_params=rb_recognize_params,
-            prob_threshold=prob_threshold,
-            refine_reco=refine_reco,
-            rng=rng,
-            return_idx=return_idx,
-            filter_by_endpoints=filter_by_endpoints,
-            save_intermediates=save_intermediates,
-            cleaning_params=cleaning_params,
-        )
+    recognized_bundles_dict = recognize_bundles(
+        tg,
+        bundle_dict,
+        mapping,
+        img,
+        reg_template,
+        chunk_size=chunk_size,
+        dist_to_waypoint=dist_to_waypoint,
+        dist_to_atlas=dist_to_atlas,
+        save_intermediates=save_intermediates,
+        clip_edges=clip_edges,
+        rb_recognize_params=rb_recognize_params,
+        prob_threshold=prob_threshold,
+        refine_reco=refine_reco,
+        rng=rng,
+        return_idx=return_idx,
+        filter_by_endpoints=filter_by_endpoints,
+        cleaning_params=cleaning_params,
+    )
 
     if save_intermediates is not None:
         os.makedirs(save_intermediates, exist_ok=True)
@@ -208,6 +207,10 @@ def recognize(
             },
         )
 
+    if isinstance(tg, str):
+        tg = load_trx(tg, img)
+
+    n_streamlines = len(tg)
     sparse_dists = ars.compute_sparse_decisions(recognized_bundles_dict, n_streamlines)
 
     conflicts = ars.get_conflict_count(sparse_dists)

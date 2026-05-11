@@ -128,8 +128,11 @@ def streamlines(
 
     if len(sft) == 0:
         raise ValueError(
-            "No streamlines were generated. "
-            "Please check your tracking parameters and input data."
+            "No streamlines were generated."
+            " This is likely due to errors in defining the "
+            " tractography parameters or the"
+            " seed/PVE masks."
+            " Please check your tracking parameters and input data."
         )
 
     return sft, _meta_from_tracking_params(

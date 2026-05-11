@@ -1,5 +1,4 @@
 import copy
-import logging
 import os.path as op
 from time import time
 
@@ -9,9 +8,7 @@ import numpy as np
 from dipy.io.stateful_tractogram import Space, StatefulTractogram
 from dipy.io.streamline import save_tractogram
 from dipy.tracking.distances import bundles_distances_mdf
-
-logger = logging.getLogger("AFQ")
-
+from tqdm import tqdm
 
 axes_dict = {
     "L/R": 0,
@@ -137,11 +134,10 @@ def resample_tg(tg, n_points):
 
 
 class SlsBeingRecognized:
-    def __init__(self, sls, logger, save_intermediates, b_name, ref, n_roi):
+    def __init__(self, sls, save_intermediates, b_name, ref, n_roi):
         self.oriented_yet = False
         self.selected_fiber_idxs = np.arange(len(sls), dtype=np.uint32)
         self.sls_flipped = np.zeros(len(sls), dtype=np.bool_)
-        self.logger = logger
         self.start_time = -1
         self.save_intermediates = save_intermediates
         self.b_name = b_name
@@ -151,7 +147,7 @@ class SlsBeingRecognized:
 
     def initiate_selection(self, clean_name):
         self.start_time = time()
-        self.logger.info(f"Filtering by {clean_name}")
+        tqdm.write(f"Filtering by {clean_name}")
         return np.zeros(len(self.selected_fiber_idxs), dtype=np.bool_)
 
     def select(self, idx, clean_name, cut=False):
@@ -162,7 +158,7 @@ class SlsBeingRecognized:
         if hasattr(self, "roi_dists"):
             self.roi_dists = self.roi_dists[idx]
         time_taken = time() - self.start_time
-        self.logger.info(
+        tqdm.write(
             f"After filtering by {clean_name} (time: {time_taken}s), "
             f"{len(self)} streamlines remain."
         )
@@ -231,6 +227,80 @@ class SlsBeingRecognized:
         if hasattr(self, "roi_closest"):
             new_copy.roi_closest = self.roi_closest.copy()
         if hasattr(self, "roi_dists"):
-            new_copy.roi_dists = self.roi_dists.copy()
+            self.roi_dists = self.roi_dists.copy()
 
         return new_copy
+
+    def export_selected(self, chunk_offset):
+        return {
+            "global_idx": (
+                self.selected_fiber_idxs.astype(np.int64) + int(chunk_offset)
+            ).copy(),
+            "sls_flipped": self.sls_flipped.copy(),
+            "oriented_yet": self.oriented_yet,
+            "roi_closest": (
+                self.roi_closest.copy() if hasattr(self, "roi_closest") else None
+            ),
+            "roi_dists": (
+                self.roi_dists.copy() if hasattr(self, "roi_dists") else None
+            ),
+        }
+
+    @classmethod
+    def from_selected(
+        cls,
+        survivor_dicts,
+        full_streamlines,
+        save_intermediates,
+        b_name,
+        ref,
+        n_roi,
+    ):
+        non_empty = [d for d in survivor_dicts if d["global_idx"].size > 0]
+        if not non_empty:
+            return None
+
+        global_idx = np.concatenate([d["global_idx"] for d in non_empty])
+        sls_flipped = np.concatenate([d["sls_flipped"] for d in non_empty])
+        oriented_yet = any(d["oriented_yet"] for d in non_empty)
+
+        if global_idx.size > 1 and not np.all(np.diff(global_idx) > 0):
+            order = np.argsort(global_idx, kind="stable")
+            global_idx = global_idx[order]
+            sls_flipped = sls_flipped[order]
+        else:
+            order = None
+
+        has_roi = [d["roi_closest"] is not None for d in non_empty]
+        if any(has_roi):
+            if not all(has_roi):
+                raise RuntimeError(
+                    "Inconsistent roi_closest across chunks for bundle "
+                    f"{b_name}: some chunks have it, some don't. This is a"
+                    " bug in chunked recognition."
+                )
+            roi_closest = np.concatenate([d["roi_closest"] for d in non_empty], axis=0)
+            roi_dists = np.concatenate([d["roi_dists"] for d in non_empty], axis=0)
+            if order is not None:
+                roi_closest = roi_closest[order]
+                roi_dists = roi_dists[order]
+        else:
+            roi_closest = None
+            roi_dists = None
+
+        inst = cls(
+            full_streamlines,
+            save_intermediates,
+            b_name,
+            ref,
+            n_roi,
+        )
+
+        inst.selected_fiber_idxs = global_idx.astype(np.uint32, copy=False)
+        inst.sls_flipped = sls_flipped
+        inst.oriented_yet = oriented_yet
+        if roi_closest is not None:
+            inst.roi_closest = roi_closest
+            inst.roi_dists = roi_dists
+
+        return inst

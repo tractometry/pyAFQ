@@ -63,7 +63,10 @@ def segment(
         is_trx = False
     elif streamlines.endswith(".trx"):
         is_trx = True
-        tg = load_trx(streamlines, data_imap["dwi"])
+        if segmentation_params["nb_streamlines"] or segmentation_params["nb_points"]:
+            tg = load_trx(streamlines, data_imap["dwi"])
+        else:
+            tg = streamlines
     elif streamlines.endswith(".tck.gz"):
         # uncompress tck.gz to a temporary tck:
         temp_tck = op.join(mkdtemp(), op.split(streamlines.replace(".gz", ""))[1])
@@ -74,13 +77,6 @@ def segment(
         # initialize stateful tractogram from tck file:
         tg = load_tractogram(temp_tck, data_imap["dwi"], bbox_valid_check=False)
         is_trx = False
-    if len(tg.streamlines) == 0:
-        raise ValueError(
-            f"There are no streamlines in {streamlines}."
-            " This is likely due to errors in defining the "
-            " tractography parameters or the"
-            " seed/PVE masks."
-        )
 
     if not is_trx:
         indices_to_remove, _ = tg.remove_invalid_streamlines()
