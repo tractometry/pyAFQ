@@ -286,36 +286,59 @@ def gaussian_weights(
         weights = np.zeros((n_sls, n_nodes))
 
     if assignment_idxs is None:
-        working_groups = np.tile(np.arange(n_nodes), (n_sls, 1))
+        mu = stat(sls, axis=0)
+        diff = sls - mu
+
+        cov = np.einsum("snj,snk->njk", diff, diff) / n_sls
+        cov = 0.5 * (cov + cov.transpose(0, 2, 1))
+
+        eigvals, eigvecs = np.linalg.eigh(cov)
+        eigvals = np.clip(eigvals, 0, None)
+
+        max_ev = eigvals.max(axis=1, keepdims=True)
+        tol = np.finfo(eigvals.dtype).eps * np.maximum(max_ev, 1e-6) * cov.shape[-1]
+        inv_eigvals = np.where(
+            eigvals > tol, 1.0 / np.where(eigvals > tol, eigvals, 1.0), 0.0
+        )
+
+        inv_cov = np.einsum("nij,nj,nkj->nik", eigvecs, inv_eigvals, eigvecs)
+
+        m = np.einsum("snj,njk,snk->sn", diff, inv_cov, diff)
+        np.clip(m, 0, None, out=m)
+        weights = np.sqrt(m)
+
+        degenerate = max_ev.ravel() <= 0
+        if np.any(degenerate):
+            weights[:, degenerate] = 0
     else:
         working_groups = np.asarray(assignment_idxs)
 
-    flat_coords = sls.reshape(-1, 3)
-    flat_groups = working_groups.reshape(-1)
-    unique_ids = np.unique(flat_groups)
+        flat_coords = sls.reshape(-1, 3)
+        flat_groups = working_groups.reshape(-1)
+        unique_ids = np.unique(flat_groups)
 
-    for gid in unique_ids:
-        mask = flat_groups == gid
-        group_data = flat_coords[mask]
+        for gid in unique_ids:
+            mask = flat_groups == gid
+            group_data = flat_coords[mask]
 
-        if len(group_data) < 15:
-            continue
+            if len(group_data) < 15:
+                continue
 
-        mu = stat(group_data, axis=0)
-        diff = group_data - mu
+            mu = stat(group_data, axis=0)
+            diff = group_data - mu
 
-        cov = np.cov(group_data.T, ddof=0)
+            cov = np.cov(group_data.T, ddof=0)
 
-        # Ensure positive semi-definite
-        if np.any(np.linalg.eigvals(cov) < 0):
-            eigenvalues, eigenvectors = np.linalg.eigh((cov + cov.T) / 2)
-            eigenvalues[eigenvalues < 0] = 0
-            cov = eigenvectors @ np.diag(eigenvalues) @ eigenvectors.T
+            # Ensure positive semi-definite
+            if np.any(np.linalg.eigvals(cov) < 0):
+                eigenvalues, eigenvectors = np.linalg.eigh((cov + cov.T) / 2)
+                eigenvalues[eigenvalues < 0] = 0
+                cov = eigenvectors @ np.diag(eigenvalues) @ eigenvectors.T
 
-        if np.any(cov > 0):
-            weights.ravel()[mask] = np.sqrt(
-                np.einsum("ij,jk,ik->i", diff, pinvh(cov), diff)
-            )
+            if np.any(cov > 0):
+                weights.ravel()[mask] = np.sqrt(
+                    np.einsum("ij,jk,ik->i", diff, pinvh(cov), diff)
+                )
 
     if return_mahalnobis:
         return weights

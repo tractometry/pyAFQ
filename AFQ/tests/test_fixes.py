@@ -10,7 +10,6 @@ from dipy.reconst.gqi import GeneralizedQSamplingModel
 
 import AFQ.data.fetch as afd
 from AFQ._fixes import gaussian_weights, gwi_odf
-from AFQ._fixes import gaussian_weights as gaussian_weights_fast
 from AFQ.utils.testing import make_dki_data
 
 
@@ -35,7 +34,19 @@ def test_GQI_fix():
 def test_gaussian_weights():
     file_dict = afd.read_stanford_hardi_tractography()
     streamlines = file_dict["tractography_subsampled"]
-    assert not np.any(np.isnan(gaussian_weights(streamlines[76:92])))
+
+    weights = gaussian_weights(streamlines)
+    assert not np.any(np.isnan(weights))
+
+    # test consistency
+    assignment_idxs = np.tile(np.arange(100), (len(streamlines), 1))
+    assignment_method_weights = gaussian_weights(
+        streamlines, assignment_idxs=assignment_idxs
+    )
+
+    assert np.allclose(
+        weights, assignment_method_weights[: len(weights)], rtol=1e-6, atol=1e-6
+    )
 
 
 def test_mahal_fix():
@@ -70,7 +81,7 @@ def test_mahal_fix():
         ]
     )
     npt.assert_array_almost_equal(
-        gaussian_weights_fast(
+        gaussian_weights(
             sls_array, n_points=None, return_mahalnobis=True, stat=np.mean
         )[:3],
         results,
