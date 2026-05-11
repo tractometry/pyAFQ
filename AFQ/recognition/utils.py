@@ -227,7 +227,7 @@ class SlsBeingRecognized:
         if hasattr(self, "roi_closest"):
             new_copy.roi_closest = self.roi_closest.copy()
         if hasattr(self, "roi_dists"):
-            self.roi_dists = self.roi_dists.copy()
+            new_copy.roi_dists = self.roi_dists.copy()
 
         return new_copy
 

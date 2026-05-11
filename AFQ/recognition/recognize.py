@@ -6,7 +6,6 @@ import dipy.tracking.streamlinespeed as dps
 import numpy as np
 from dipy.io.stateful_tractogram import Space, StatefulTractogram
 from dipy.tracking.streamline import select_random_set_of_streamlines
-from trx.io import load as load_trx
 
 import AFQ.recognition.sparse_decisions as ars
 import AFQ.recognition.utils as abu
@@ -176,7 +175,7 @@ def recognize(
     fiber_groups = {}
     meta = {}
 
-    recognized_bundles_dict = recognize_bundles(
+    recognized_bundles_dict, n_streamlines = recognize_bundles(
         tg,
         bundle_dict,
         mapping,
@@ -207,10 +206,6 @@ def recognize(
             },
         )
 
-    if isinstance(tg, str):
-        tg = load_trx(tg, img)
-
-    n_streamlines = len(tg)
     sparse_dists = ars.compute_sparse_decisions(recognized_bundles_dict, n_streamlines)
 
     conflicts = ars.get_conflict_count(sparse_dists)

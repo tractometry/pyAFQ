@@ -19,7 +19,7 @@ import AFQ.recognition.utils as abu
 import AFQ.utils.streamlines as aus
 
 
-@njit(parallel=True)
+@njit(parallel=True, fastmath=True, cache=True)
 def _compute_mean_euclidean_matrix(group_n, group_m):
     len_n = group_n.shape[0]
     len_m = group_m.shape[0]

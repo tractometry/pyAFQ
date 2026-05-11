@@ -441,7 +441,7 @@ def _validate_criteria(bundle_def, bundle_name, bundle_dict, recognized_bundles_
                 raise ValueError(
                     f"Bundle {potential_criterion} is being used as a criterion in "
                     f"the definition of bundle {bundle_name}, however this bundle "
-                    "was not found. This could because of insufficient streamlines"
+                    "was not found. This could be because of insufficient streamlines"
                 )
             else:
                 raise ValueError(
@@ -505,6 +505,9 @@ def _run_global_phase(
     reg_template,
     preproc_scalars,
     recognized_bundles_dict,
+    vox_dim,
+    tol,
+    dist_to_atlas,
     is_subbundle=False,
     **segmentation_params,
 ):
@@ -518,6 +521,9 @@ def _run_global_phase(
         "mapping": mapping,
         "img": img,
         "reg_template": reg_template,
+        "vox_dim": vox_dim,
+        "tol": tol,
+        "dist_to_atlas": dist_to_atlas,
     }
     inputs.update(segmentation_params)
 
@@ -615,6 +621,9 @@ def _run_global_phase(
                 reg_template,
                 preproc_scalars,
                 recognized_bundles_dict,
+                vox_dim,
+                tol,
+                dist_to_atlas,
                 is_subbundle=True,
                 **segmentation_params,
             )
@@ -677,12 +686,12 @@ def recognize_bundles(
             f"({(chunk_end / n_streamlines) * 100:.2f}%)"
         )
 
-        if tg_path is not None:
+        if tg_path is not None and tg is None:
             tg = load_trx(tg_path, img)
         chunk_streamlines = tg.streamlines[chunk_start:chunk_end].copy()
         if tg_path is not None:
             tg.close()
-            del tg
+            tg = None
 
         chunk_preproc = PreprocPlan(chunk_streamlines)
 
@@ -742,9 +751,11 @@ def recognize_bundles(
         if need_fgarray:
             candidate_global_idx = np.array(merged.selected_fiber_idxs, dtype=np.int64)
             cand_streamlines = [tg.streamlines[int(i)] for i in candidate_global_idx]
+            start_time = time()
             fgarray_for_candidates = np.asarray(
                 resample_tg(cand_streamlines, 20), dtype=np.float32
             )
+            tqdm.write(f"Resampling took {time() - start_time:.2f} seconds")
             del cand_streamlines
         else:
             candidate_global_idx = None
@@ -761,8 +772,11 @@ def recognize_bundles(
             reg_template,
             preproc_scalars,
             recognized_bundles_dict,
+            vox_dim,
+            tol,
+            dist_to_atlas,
             save_intermediates=save_intermediates,
             **segmentation_params,
         )
 
-    return recognized_bundles_dict
+    return recognized_bundles_dict, n_streamlines

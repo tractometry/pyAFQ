@@ -223,7 +223,7 @@ def tensor_odf(evals, evecs, sphere, num_batches=100):
 
 
 def gaussian_weights(
-    bundle, assignment_idxs=None, n_points=100, return_mahalnobis=False, stat=np.mean
+    bundle, assignment_idxs=None, n_points=100, return_mahalanobis=False, stat=np.mean
 ):
     """
     Calculate weights for each streamline/node in a bundle, based on a
@@ -270,7 +270,7 @@ def gaussian_weights(
 
     n_sls, n_nodes, _ = sls.shape
 
-    if n_sls < 15:  # Cov^-1 unstable under this amount
+    def _weighting_failed():
         weights = np.ones((n_sls, n_nodes))
         logger.warning(
             (
@@ -278,10 +278,13 @@ def gaussian_weights(
                 "weighting everything evenly"
             )
         )
-        if return_mahalnobis:
+        if return_mahalanobis:
             return np.full((n_sls, n_nodes), np.nan)
         else:
             return weights / np.sum(weights, 0)
+
+    if n_sls < 15:  # Cov^-1 unstable under this amount
+        return _weighting_failed()
     else:
         weights = np.zeros((n_sls, n_nodes))
 
@@ -309,7 +312,7 @@ def gaussian_weights(
 
         degenerate = max_ev.ravel() <= 0
         if np.any(degenerate):
-            weights[:, degenerate] = 0
+            return _weighting_failed()
     else:
         working_groups = np.asarray(assignment_idxs)
 
@@ -340,7 +343,7 @@ def gaussian_weights(
                     np.einsum("ij,jk,ik->i", diff, pinvh(cov), diff)
                 )
 
-    if return_mahalnobis:
+    if return_mahalanobis:
         return weights
 
     with np.errstate(divide="ignore"):
@@ -348,7 +351,14 @@ def gaussian_weights(
     w_inv[np.isinf(w_inv)] = 0
 
     denom = np.sum(w_inv, axis=0)
-    return np.divide(w_inv, denom, out=np.zeros_like(w_inv), where=denom != 0)
+    w = np.divide(w_inv, denom, out=np.zeros_like(w_inv), where=denom != 0)
+    col_sums = w.sum(axis=0)
+    if np.max(np.abs(col_sums - 1)) > 1e-3:
+        return _weighting_failed()
+    else:
+        final_sums = w.sum(axis=0, keepdims=True)
+        np.divide(w, final_sums, out=w, where=final_sums != 0)
+        return w
 
 
 def make_gif(show_m, out_path, n_frames=36, az_ang=-10, duration=150):

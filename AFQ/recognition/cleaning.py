@@ -105,7 +105,7 @@ def clean_by_orientation_mahalanobis(
         m_dist = gaussian_weights(
             fgarray_dists,
             assignment_idxs=assignment_idxs,
-            return_mahalnobis=True,
+            return_mahalanobis=True,
             n_points=None,
             stat=np.mean,
         )
@@ -253,7 +253,7 @@ def clean_bundle(
     while rounds_elapsed < clean_rounds:
         # This calculates the Mahalanobis for each streamline/node:
         m_dist = gaussian_weights(
-            fgarray, return_mahalnobis=True, n_points=None, stat=stat
+            fgarray, return_mahalanobis=True, n_points=None, stat=stat
         )
         logger.debug(f"Shape of fgarray: {np.asarray(fgarray).shape}")
         logger.debug(f"Shape of m_dist: {m_dist.shape}")

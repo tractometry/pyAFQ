@@ -48,6 +48,9 @@ def test_gaussian_weights():
         weights, assignment_method_weights[: len(weights)], rtol=1e-6, atol=1e-6
     )
 
+    assert np.allclose(np.sum(weights), 100)
+    assert np.allclose(np.sum(assignment_method_weights), 100)
+
 
 def test_mahal_fix():
     sls = [
@@ -82,7 +85,7 @@ def test_mahal_fix():
     )
     npt.assert_array_almost_equal(
         gaussian_weights(
-            sls_array, n_points=None, return_mahalnobis=True, stat=np.mean
+            sls_array, n_points=None, return_mahalanobis=True, stat=np.mean
         )[:3],
         results,
     )
