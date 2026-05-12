@@ -25,7 +25,7 @@ def _compute_mean_euclidean_matrix(group_n, group_m):
     len_m = group_m.shape[0]
     num_points = group_n.shape[1]
 
-    dist_matrix = np.empty((len_n, len_m), dtype=np.float64)
+    dist_matrix = np.empty((len_n, len_m), dtype=np.float32)
 
     for i in prange(len_n):
         for j in range(len_m):
@@ -144,7 +144,13 @@ def spectral_atlas_label(
 
 
 def subcluster_by_atlas(
-    sub_trk, mapping, dwi_ref, cluster_indices, atlas_data=None, n_points=20
+    sub_trk,
+    mapping,
+    dwi_ref,
+    cluster_indices,
+    atlas_data=None,
+    n_points=20,
+    batch_size=int(5e4),
 ):
     """
     Use an existing atlas to label a new set of streamlines, and return the
@@ -165,6 +171,8 @@ def subcluster_by_atlas(
         See `afd.read_org800_templates` as a reference.
     n_points : int, optional
         Number of points to resample streamlines to for labeling. Default is 20.
+    batch_size : int, optional
+        Number of streamlines to process in a batch. Default is 50,000.
     """
 
     if atlas_data is None:
@@ -177,13 +185,33 @@ def subcluster_by_atlas(
     atlas_fgarray = np.array(abu.resample_tg(moved_atlas_sft.streamlines, n_points))
 
     sub_trk.to_rasmm()
-    sub_fgarray = np.array(abu.resample_tg(sub_trk.streamlines, n_points))
+    n_sub = len(sub_trk.streamlines)
 
-    cluster_idxs, _ = spectral_atlas_label(
-        sub_fgarray,
-        atlas_fgarray,
-        atlas_data=atlas_data,
-        cluster_indices=cluster_indices,
-    )
+    if n_sub <= batch_size:
+        sub_fgarray = np.asarray(
+            abu.resample_tg(sub_trk.streamlines, n_points), dtype=np.float32
+        )
+        cluster_idxs, _ = spectral_atlas_label(
+            sub_fgarray,
+            atlas_fgarray,
+            atlas_data=atlas_data,
+            cluster_indices=cluster_indices,
+        )
+        return cluster_idxs
 
-    return cluster_idxs
+    all_idxs = np.empty(n_sub, dtype=np.int64)
+    for start in range(0, n_sub, batch_size):
+        end = min(start + batch_size, n_sub)
+        batch_sls = sub_trk.streamlines[start:end]
+        batch_fgarray = np.asarray(
+            abu.resample_tg(batch_sls, n_points), dtype=np.float32
+        )
+        batch_idxs, _ = spectral_atlas_label(
+            batch_fgarray,
+            atlas_fgarray,
+            atlas_data=atlas_data,
+            cluster_indices=cluster_indices,
+        )
+        all_idxs[start:end] = batch_idxs
+
+    return all_idxs
