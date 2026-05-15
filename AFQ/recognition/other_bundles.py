@@ -140,6 +140,8 @@ def clean_relative_to_other_core(
         streamline's position relative to the core. All points on
         the streamline within distance from the core are considered
         when determining if the streamline lies on the correct side.
+        If no points are within consideration distance, the closest point
+        on the streamline to the core is considered.
         If string, must be one of 'entire' or 'closest'.
         If 'entire', the entire streamline must lie on the correct
         side of the core to be retained.
@@ -190,6 +192,15 @@ def clean_relative_to_other_core(
 
     core_bundle = np.median(other_fgarray, axis=0)
     cleaned_idx_core = np.zeros(this_fgarray.shape[0], dtype=np.bool_)
+
+    def _consideration_closest(sl):
+        dist_matrix = cdist(core_bundle, sl, "sqeuclidean")
+        min_dist_indices = np.unravel_index(np.argmin(dist_matrix), dist_matrix.shape)
+        closest_core = core_bundle[min_dist_indices[0], core_axis]
+        closest_sl = sl[min_dist_indices[1], core_axis]
+
+        return core_direc * (closest_sl - closest_core) > 0
+
     for ii, sl in enumerate(this_fgarray):
         if isinstance(consideration, float):
             dist_matrix = cdist(core_bundle, sl, "sqeuclidean")
@@ -207,20 +218,13 @@ def clean_relative_to_other_core(
                     core_direc * (relevant_sl_pts - relevant_core_pts) > 0
                 )
             else:
-                cleaned_idx_core[ii] = True
+                cleaned_idx_core[ii] = _consideration_closest(sl)
         elif consideration == "entire":
             cleaned_idx_core[ii] = np.all(
                 core_direc * (sl[:, core_axis] - core_bundle[:, core_axis]) > 0
             )
         elif consideration == "closest":
-            dist_matrix = cdist(core_bundle, sl, "sqeuclidean")
-            min_dist_indices = np.unravel_index(
-                np.argmin(dist_matrix), dist_matrix.shape
-            )
-            closest_core = core_bundle[min_dist_indices[0], core_axis]
-            closest_sl = sl[min_dist_indices[1], core_axis]
-
-            cleaned_idx_core[ii] = core_direc * (closest_sl - closest_core) > 0
+            cleaned_idx_core[ii] = _consideration_closest(sl)
         else:
             raise ValueError(
                 "Invalid value for consideration. Must be a "
