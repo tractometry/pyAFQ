@@ -686,6 +686,8 @@ def load_volume(volume):
     viz_logger.info("Loading Volume...")
     if isinstance(volume, str):
         return nib.load(volume).get_fdata()
+    elif isinstance(volume, nib.Nifti1Image):
+        return volume.get_fdata()
     else:
         return volume
 
