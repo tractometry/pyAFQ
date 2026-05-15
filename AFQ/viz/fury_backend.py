@@ -303,7 +303,7 @@ def visualize_volume(
     -------
     Fury Scene object
     """
-    volume = vut.load_volume(volume)
+    volume = vut.load_volume(volume).get_fdata()
 
     if figure is None:
         figure = window.Scene()
