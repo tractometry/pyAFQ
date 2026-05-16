@@ -223,7 +223,7 @@ def tensor_odf(evals, evecs, sphere, num_batches=100):
 
 
 def gaussian_weights(
-    bundle, assignment_idxs=None, n_points=100, return_mahalnobis=False, stat=np.mean
+    bundle, assignment_idxs=None, n_points=100, return_mahalanobis=False, stat=np.mean
 ):
     """
     Calculate weights for each streamline/node in a bundle, based on a
@@ -270,7 +270,7 @@ def gaussian_weights(
 
     n_sls, n_nodes, _ = sls.shape
 
-    if n_sls < 15:  # Cov^-1 unstable under this amount
+    def _weighting_failed():
         weights = np.ones((n_sls, n_nodes))
         logger.warning(
             (
@@ -278,46 +278,72 @@ def gaussian_weights(
                 "weighting everything evenly"
             )
         )
-        if return_mahalnobis:
+        if return_mahalanobis:
             return np.full((n_sls, n_nodes), np.nan)
         else:
             return weights / np.sum(weights, 0)
+
+    if n_sls < 15:  # Cov^-1 unstable under this amount
+        return _weighting_failed()
     else:
         weights = np.zeros((n_sls, n_nodes))
 
     if assignment_idxs is None:
-        working_groups = np.tile(np.arange(n_nodes), (n_sls, 1))
+        mu = stat(sls, axis=0)
+        diff = sls - mu
+
+        cov = np.einsum("snj,snk->njk", diff, diff) / n_sls
+        cov = 0.5 * (cov + cov.transpose(0, 2, 1))
+
+        eigvals, eigvecs = np.linalg.eigh(cov)
+        eigvals = np.clip(eigvals, 0, None)
+
+        max_ev = eigvals.max(axis=1, keepdims=True)
+        tol = np.finfo(eigvals.dtype).eps * np.maximum(max_ev, 1e-6) * cov.shape[-1]
+        inv_eigvals = np.where(
+            eigvals > tol, 1.0 / np.where(eigvals > tol, eigvals, 1.0), 0.0
+        )
+
+        inv_cov = np.einsum("nij,nj,nkj->nik", eigvecs, inv_eigvals, eigvecs)
+
+        m = np.einsum("snj,njk,snk->sn", diff, inv_cov, diff)
+        np.clip(m, 0, None, out=m)
+        weights = np.sqrt(m)
+
+        degenerate = max_ev.ravel() <= 0
+        if np.any(degenerate):
+            return _weighting_failed()
     else:
         working_groups = np.asarray(assignment_idxs)
 
-    flat_coords = sls.reshape(-1, 3)
-    flat_groups = working_groups.reshape(-1)
-    unique_ids = np.unique(flat_groups)
+        flat_coords = sls.reshape(-1, 3)
+        flat_groups = working_groups.reshape(-1)
+        unique_ids = np.unique(flat_groups)
 
-    for gid in unique_ids:
-        mask = flat_groups == gid
-        group_data = flat_coords[mask]
+        for gid in unique_ids:
+            mask = flat_groups == gid
+            group_data = flat_coords[mask]
 
-        if len(group_data) < 15:
-            continue
+            if len(group_data) < 15:
+                continue
 
-        mu = stat(group_data, axis=0)
-        diff = group_data - mu
+            mu = stat(group_data, axis=0)
+            diff = group_data - mu
 
-        cov = np.cov(group_data.T, ddof=0)
+            cov = np.cov(group_data.T, ddof=0)
 
-        # Ensure positive semi-definite
-        if np.any(np.linalg.eigvals(cov) < 0):
-            eigenvalues, eigenvectors = np.linalg.eigh((cov + cov.T) / 2)
-            eigenvalues[eigenvalues < 0] = 0
-            cov = eigenvectors @ np.diag(eigenvalues) @ eigenvectors.T
+            # Ensure positive semi-definite
+            if np.any(np.linalg.eigvals(cov) < 0):
+                eigenvalues, eigenvectors = np.linalg.eigh((cov + cov.T) / 2)
+                eigenvalues[eigenvalues < 0] = 0
+                cov = eigenvectors @ np.diag(eigenvalues) @ eigenvectors.T
 
-        if np.any(cov > 0):
-            weights.ravel()[mask] = np.sqrt(
-                np.einsum("ij,jk,ik->i", diff, pinvh(cov), diff)
-            )
+            if np.any(cov > 0):
+                weights.ravel()[mask] = np.sqrt(
+                    np.einsum("ij,jk,ik->i", diff, pinvh(cov), diff)
+                )
 
-    if return_mahalnobis:
+    if return_mahalanobis:
         return weights
 
     with np.errstate(divide="ignore"):
@@ -325,7 +351,14 @@ def gaussian_weights(
     w_inv[np.isinf(w_inv)] = 0
 
     denom = np.sum(w_inv, axis=0)
-    return np.divide(w_inv, denom, out=np.zeros_like(w_inv), where=denom != 0)
+    w = np.divide(w_inv, denom, out=np.zeros_like(w_inv), where=denom != 0)
+    col_sums = w.sum(axis=0)
+    if np.max(np.abs(col_sums - 1)) > 1e-3:
+        return _weighting_failed()
+    else:
+        final_sums = w.sum(axis=0, keepdims=True)
+        np.divide(w, final_sums, out=w, where=final_sums != 0)
+        return w
 
 
 def make_gif(show_m, out_path, n_frames=36, az_ang=-10, duration=150):

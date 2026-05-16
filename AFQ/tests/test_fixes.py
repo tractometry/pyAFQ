@@ -10,7 +10,6 @@ from dipy.reconst.gqi import GeneralizedQSamplingModel
 
 import AFQ.data.fetch as afd
 from AFQ._fixes import gaussian_weights, gwi_odf
-from AFQ._fixes import gaussian_weights as gaussian_weights_fast
 from AFQ.utils.testing import make_dki_data
 
 
@@ -35,43 +34,58 @@ def test_GQI_fix():
 def test_gaussian_weights():
     file_dict = afd.read_stanford_hardi_tractography()
     streamlines = file_dict["tractography_subsampled"]
-    assert not np.any(np.isnan(gaussian_weights(streamlines[76:92])))
+
+    weights = gaussian_weights(streamlines)
+    assert not np.any(np.isnan(weights))
+
+    # test consistency
+    assignment_idxs = np.tile(np.arange(100), (len(streamlines), 1))
+    assignment_method_weights = gaussian_weights(
+        streamlines, assignment_idxs=assignment_idxs
+    )
+
+    assert np.allclose(
+        weights, assignment_method_weights[: len(weights)], rtol=1e-6, atol=1e-6
+    )
+
+    assert np.allclose(np.sum(weights), 100)
+    assert np.allclose(np.sum(assignment_method_weights), 100)
 
 
 def test_mahal_fix():
     sls = [
-        [[8.0, 53, 39], [8, 50, 39], [8, 45, 39], [30, 41, 61], [28, 61, 38]],
-        [[8, 53, 39], [8, 50, 39], [8, 45, 39], [30, 41, 62], [20, 44, 34]],
-        [[8, 53, 39], [8, 50, 39], [8, 45, 39], [50, 67, 88], [10, 10, 20]],
-        [[8, 53, 39], [8, 50, 39], [8, 45, 39], [35, 43, 65], [25, 55, 35]],
-        [[8, 53, 39], [8, 50, 39], [8, 45, 39], [40, 50, 70], [15, 15, 25]],
-        [[8, 53, 39], [8, 50, 39], [8, 45, 39], [45, 54, 75], [12, 22, 32]],
-        [[8, 53, 39], [8, 50, 39], [8, 45, 39], [32, 48, 68], [28, 58, 40]],
-        [[8, 53, 39], [8, 50, 39], [8, 45, 39], [38, 52, 72], [18, 38, 28]],
-        [[8, 53, 39], [8, 50, 39], [8, 45, 39], [34, 44, 64], [21, 41, 31]],
-        [[8, 53, 39], [8, 50, 39], [8, 45, 39], [36, 46, 66], [23, 53, 33]],
-        [[8, 53, 39], [8, 50, 39], [8, 45, 39], [37, 47, 67], [24, 54, 34]],
-        [[8, 53, 39], [8, 50, 39], [8, 45, 39], [39, 49, 69], [19, 39, 29]],
-        [[8, 53, 39], [8, 50, 39], [8, 45, 39], [33, 53, 73], [22, 42, 32]],
-        [[8, 53, 39], [8, 50, 39], [8, 45, 39], [31, 51, 71], [26, 56, 36]],
-        [[8, 53, 39], [8, 50, 39], [8, 45, 39], [29, 59, 79], [27, 57, 37]],
-        [[8, 53, 39], [8, 50, 39], [8, 45, 39], [28, 58, 78], [17, 47, 27]],
-        [[8, 53, 39], [8, 50, 39], [8, 45, 39], [27, 57, 77], [16, 36, 26]],
-        [[8, 53, 39], [8, 50, 39], [8, 45, 39], [26, 56, 76], [14, 24, 34]],
-        [[8, 53, 39], [8, 50, 39], [8, 45, 39], [25, 55, 75], [13, 23, 33]],
-        [[8, 53, 39], [8, 50, 39], [8, 45, 39], [24, 54, 74], [11, 21, 31]],
+        [[30, 41, 61], [28, 61, 38]],
+        [[30, 41, 62], [20, 44, 34]],
+        [[50, 67, 88], [10, 10, 20]],
+        [[35, 43, 65], [25, 55, 35]],
+        [[40, 50, 70], [15, 15, 25]],
+        [[45, 54, 75], [12, 22, 32]],
+        [[32, 48, 68], [28, 58, 40]],
+        [[38, 52, 72], [18, 38, 28]],
+        [[34, 44, 64], [21, 41, 31]],
+        [[36, 46, 66], [23, 53, 33]],
+        [[37, 47, 67], [24, 54, 34]],
+        [[39, 49, 69], [19, 39, 29]],
+        [[33, 53, 73], [22, 42, 32]],
+        [[31, 51, 71], [26, 56, 36]],
+        [[29, 59, 79], [27, 57, 37]],
+        [[28, 58, 78], [17, 47, 27]],
+        [[27, 57, 77], [16, 36, 26]],
+        [[26, 56, 76], [14, 24, 34]],
+        [[25, 55, 75], [13, 23, 33]],
+        [[24, 54, 74], [11, 21, 31]],
     ]
     sls_array = np.asarray(sls).astype(float)
     results = np.asarray(
         [
-            [0.0, 0.0, 0.0, 1.718654, 1.550252],
-            [0.0, 0.0, 0.0, 2.202227, 0.7881],
-            [0.0, 0.0, 0.0, 3.415999, 2.689814],
+            [1.718654, 1.550252],
+            [2.202227, 0.7881],
+            [3.415999, 2.689814],
         ]
     )
     npt.assert_array_almost_equal(
-        gaussian_weights_fast(
-            sls_array, n_points=None, return_mahalnobis=True, stat=np.mean
+        gaussian_weights(
+            sls_array, n_points=None, return_mahalanobis=True, stat=np.mean
         )[:3],
         results,
     )
