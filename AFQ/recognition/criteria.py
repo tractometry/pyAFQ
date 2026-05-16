@@ -229,6 +229,10 @@ def include(b_sls, bundle_def, **kwargs):
 
 
 def curvature(b_sls, bundle_def, mapping, img, save_intermediates, **kwargs):
+    """
+    Filters streamlines by how well they match
+    a curve in orientation and shape but not scale
+    """
     accept_idx = b_sls.initiate_selection("curvature")
     if "sft" in bundle_def["curvature"]:
         ref_sl = bundle_def["curvature"]["sft"]
