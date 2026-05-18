@@ -1,3 +1,15 @@
+3.1 (May 18, 2026)
+==================
+Fixes a bug in VOF recogntion where some very far anterior
+streamlines were being included. Batches recognition to allow
+very large tractograms. Other minor fixes and documentation updates.
+  * [ENH] Better consideration (#189)
+  * [ENH] Finally, batched bundle recognition (#187)
+  * TST: Refactor API test (#188)
+  * DOC: Update front page references. (#184)
+  * TST: Test both for small number of seeds and for failure to find bundle… (#186)
+  * [DOC/FIX] Let group example pass, better default chunk size for GPU (#185)
+
 3.0 (May 08, 2026)
 ==================
 PyAFQ 3.0 now requires T1w images as input, and uses them for
