@@ -1,14 +1,14 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Defining Custom Bundle Dictionaries &#8212; AFQ 2.1 documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Defining Custom Bundle Dictionaries &#8212; AFQ 3.1 documentation</title>
   
   
   
@@ -16,75 +16,73 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
 
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=fd6457a4" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=c6496573" />
   
-  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
-  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/sphinx_highlight.js"></script>
-    <script src="../_static/design-tabs.js"></script>
+    <script src="../_static/documentation_options.js?v=b576230a"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/sg-tags.js?v=d80f6fa4"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/bundledict';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Major Fiber Tracts" href="fibertracts.html" />
-    <link rel="prev" title="AFQ.registration" href="api/AFQ/registration/index.html" />
+    <link rel="prev" title="AFQ.viz.utils" href="api/AFQ/viz/utils/index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
   </head>
-  
-  
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
-
+  <body data-default-mode="">
   
   
   <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
-
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
   
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../search.html"
       method="get">
@@ -92,7 +90,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -100,15 +97,15 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
 
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
   <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
@@ -134,8 +131,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="AFQ 2.1 documentation - Home"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.1 documentation - Home"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="AFQ 3.1 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="AFQ 3.1 documentation - Home"/>
   
   
 </a></div>
@@ -153,6 +150,20 @@
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="../guides_index.html">
     User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/tutorial_examples/index.html">
+    Tutorials: Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../howto/howto_examples/index.html">
+    How to examples
   </a>
 </li>
 
@@ -188,29 +199,21 @@
         <div class="navbar-item navbar-persistent--container">
           
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
       
         <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -235,15 +238,11 @@ document.write(`
   
     <div class="navbar-persistent--mobile">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
@@ -262,7 +261,8 @@ document.write(`
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -280,6 +280,20 @@ document.write(`
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="../guides_index.html">
     User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/tutorial_examples/index.html">
+    Tutorials: Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../howto/howto_examples/index.html">
+    How to examples
   </a>
 </li>
 
@@ -316,15 +330,11 @@ document.write(`
         
           <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
         
           <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -355,7 +365,6 @@ document.write(`
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -365,12 +374,13 @@ document.write(`
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
         <div class="sidebar-primary-item">
+
 <nav class="bd-docs-nav bd-links"
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../tutorials/index.html">Getting started with pyAFQ</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../tutorials/tutorial_examples/index.html">Tutorials: getting started with the pyAFQ Python library</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../tutorials/tutorial_examples/index.html">Tutorials: Getting started</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../tutorials/tutorial_examples/plot_001_group_afq_api.html">Getting started with pyAFQ - GroupAFQ</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../tutorials/tutorial_examples/plot_002_participant_afq_api.html">Getting started with pyAFQ - ParticipantAFQ</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../tutorials/tutorial_examples/plot_003_rerun.html">Re-running pyAFQ</a></li>
@@ -400,16 +410,18 @@ document.write(`
 <li class="toctree-l2 has-children"><a class="reference internal" href="../howto/howto_examples/index.html">How to examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../howto/howto_examples/acoustic_radiations.html">How to add new bundles into pyAFQ (Acoustic Radiations Example)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../howto/howto_examples/add_custom_bundle.html">How to add new bundles into pyAFQ (SLF 1/2/3 Example)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/howto_examples/afq_callosal.html">Callosal bundles using AFQ API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/howto_examples/afq_fwdti.html">How to use Free water DTI</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../howto/howto_examples/baby_afq.html">BabyAFQ : tractometry for infant dMRI data</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../howto/howto_examples/cerebellar_peduncles.html">Delineating cerebellar peduncles</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../howto/howto_examples/cloudknot_example.html">Using cloudknot to run pyAFQ on AWS batch:</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../howto/howto_examples/cloudknot_hcp_example.html">AFQ with HCP data</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../howto/howto_examples/optic_radiations.html">How to add new bundles into pyAFQ(Optic Radiations Example)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../howto/howto_examples/plot_afq_callosal.html">Callosal bundles using AFQ API</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../howto/howto_examples/plot_recobundles.html">Using RecoBundles for bundle recognition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/howto_examples/optic_tract.html">How to track the Optic Tract and Posterior Optic Nerve in pyAFQ</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../howto/howto_examples/plot_stages_of_tractometry.html">Understanding the different stages of tractometry with videos</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../howto/howto_examples/run_afq_fwdti.html">How to use Free water DTI</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../howto/howto_examples/run_pyAFQ_with_GPU.html">Running pyAFQ using the GPU for tractography</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/howto_examples/pyAFQ_with_GPU.html">Running pyAFQ using the GPU for tractography</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/howto_examples/pyafq_2.html">Running pyAFQ 2.x defaults in pyAFQ 3.x</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/howto_examples/recobundles.html">Using RecoBundles for bundle recognition</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../howto/howto_examples/use_subject_space_rois_from_freesurfer.html">Using Subject Space ROIs from Freesurfer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../howto/howto_examples/vof_example.html">How to segment out only some bundles</a></li>
 </ul>
@@ -417,27 +429,28 @@ document.write(`
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../explanations/index.html">Explanations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../explanations/tractometry_pipeline.html">AFQ Tractometry Pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../explanations/bundle_orientation.html">Bundle Orientation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../explanations/modeling.html">Modeling White Matter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../explanations/profiling.html">Profiling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../explanations/recognition.html">Bundle Recognition</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../explanations/tractography.html">Tractography</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../explanations/whats_new_3.html">What’s new in PyAFQ 3.0</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Reference Documentation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2 has-children"><a class="reference internal" href="api/index.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="api/AFQ/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ</span></code></a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/AFQ/api/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.api</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/AFQ/data/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.data</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/AFQ/definitions/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.definitions</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/AFQ/models/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.models</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/AFQ/recognition/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.recognition</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/AFQ/tasks/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.tasks</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/AFQ/tractography/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.tractography</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/AFQ/utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.utils</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/AFQ/viz/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.viz</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/AFQ/registration/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.registration</span></code></a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/AFQ/index.html">AFQ</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/AFQ/api/index.html">AFQ.api</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/AFQ/data/index.html">AFQ.data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/AFQ/definitions/index.html">AFQ.definitions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/AFQ/models/index.html">AFQ.models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/AFQ/nn/index.html">AFQ.nn</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/AFQ/recognition/index.html">AFQ.recognition</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/AFQ/registration/index.html">AFQ.registration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/AFQ/tasks/index.html">AFQ.tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/AFQ/tractography/index.html">AFQ.tractography</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/AFQ/utils/index.html">AFQ.utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/AFQ/viz/index.html">AFQ.viz</a></li>
 </ul>
 </details></li>
 </ul>
@@ -446,6 +459,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="fibertracts.html">Major Fiber Tracts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tissue_properties.html">Tissue Properties in pyAFQ</a></li>
 <li class="toctree-l2"><a class="reference internal" href="methods.html">The pyAFQ API methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kwargs.html">The pyAFQ API optional arguments</a></li>
 <li class="toctree-l2"><a class="reference internal" href="viz_backend.html">Visualization Backends</a></li>
 
 <li class="toctree-l2"><a class="reference internal" href="mapping.html">The pyAFQ Mapping API</a></li>
@@ -459,9 +473,14 @@ document.write(`
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -479,8 +498,6 @@ document.write(`
       
         <div class="header-article-item">
 
-
-
 <nav aria-label="Breadcrumb" class="d-print-none">
   <ul class="bd-breadcrumbs">
     
@@ -495,7 +512,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="index.html" class="nav-link">Reference Documentation</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">Defining...</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Defining Custom Bundle Dictionaries</span></li>
   </ul>
 </nav>
 </div>
@@ -512,46 +529,130 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <div class="section" id="defining-custom-bundle-dictionaries">
-<span id="bundle-dict-label"></span><h1>Defining Custom Bundle Dictionaries<a class="headerlink" href="#defining-custom-bundle-dictionaries" title="Permalink to this heading">#</a></h1>
+  <section id="defining-custom-bundle-dictionaries">
+<span id="bundle-dict-label"></span><h1>Defining Custom Bundle Dictionaries<a class="headerlink" href="#defining-custom-bundle-dictionaries" title="Link to this heading">#</a></h1>
 <p>pyAFQ has a system for defining custom bundles. Custom bundles are defined
 by passing a custom <cite>bundle_info</cite> dictionary to
 <a class="reference internal" href="api/AFQ/api/bundle_dict/index.html#AFQ.api.bundle_dict.BundleDict" title="AFQ.api.bundle_dict.BundleDict"><code class="xref py py-class docutils literal notranslate"><span class="pre">AFQ.api.bundle_dict.BundleDict</span></code></a>: The keys of <cite>bundle_info</cite> are bundle
 names; the values are another dictionary describing the bundle, with these
 key-value pairs:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="s1">&#39;include&#39;</span> <span class="p">:</span> <span class="n">a</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">paths</span> <span class="n">to</span> <span class="n">Nifti</span> <span class="n">files</span> <span class="n">containing</span> <span class="n">inclusion</span> <span class="n">ROI</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span>
-  <span class="n">One</span> <span class="n">must</span> <span class="n">either</span> <span class="n">have</span> <span class="n">at</span> <span class="n">least</span> <span class="mi">1</span> <span class="n">include</span> <span class="n">ROI</span><span class="p">,</span> <span class="ow">or</span> <span class="s1">&#39;start&#39;</span> <span class="ow">or</span> <span class="s1">&#39;end&#39;</span> <span class="n">ROIs</span><span class="o">.</span>
-<span class="o">-</span> <span class="s1">&#39;exclude&#39;</span> <span class="p">:</span> <span class="n">a</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">paths</span> <span class="n">to</span> <span class="n">Nifti</span> <span class="n">files</span> <span class="n">containing</span> <span class="n">exclusion</span> <span class="n">ROI</span><span class="p">(</span><span class="n">s</span><span class="p">),</span>
-  <span class="n">optional</span><span class="o">.</span>
-<span class="o">-</span> <span class="s1">&#39;start&#39;</span> <span class="p">:</span> <span class="n">path</span> <span class="n">to</span> <span class="n">a</span> <span class="n">Nifti</span> <span class="n">file</span> <span class="n">containing</span> <span class="n">the</span> <span class="n">start</span> <span class="n">ROI</span><span class="p">,</span> <span class="n">optional</span>
-<span class="o">-</span> <span class="s1">&#39;end&#39;</span> <span class="p">:</span> <span class="n">path</span> <span class="n">to</span> <span class="n">a</span> <span class="n">Nifti</span> <span class="n">file</span> <span class="n">containing</span> <span class="n">the</span> <span class="n">end</span> <span class="n">ROI</span><span class="p">,</span> <span class="n">optional</span>
-<span class="o">-</span> <span class="s1">&#39;cross_midline&#39;</span> <span class="p">:</span> <span class="n">boolean</span> <span class="n">describing</span> <span class="n">whether</span> <span class="n">the</span> <span class="n">bundle</span> <span class="ow">is</span> <span class="n">required</span> <span class="n">to</span>
-  <span class="n">cross</span> <span class="n">the</span> <span class="n">midline</span> <span class="p">(</span><span class="kc">True</span><span class="p">)</span> <span class="ow">or</span> <span class="n">prohibited</span> <span class="kn">from</span><span class="w"> </span><span class="nn">crossing</span> <span class="p">(</span><span class="kc">False</span><span class="p">),</span> <span class="n">optional</span><span class="o">.</span>
-  <span class="n">If</span> <span class="kc">None</span><span class="p">,</span> <span class="n">the</span> <span class="n">bundle</span> <span class="n">may</span> <span class="ow">or</span> <span class="n">may</span> <span class="ow">not</span> <span class="n">cross</span> <span class="n">the</span> <span class="n">midline</span><span class="o">.</span>
-<span class="o">-</span> <span class="s1">&#39;space&#39;</span> <span class="p">:</span> <span class="n">a</span> <span class="n">string</span> <span class="n">which</span> <span class="ow">is</span> <span class="n">either</span> <span class="s1">&#39;template&#39;</span> <span class="ow">or</span> <span class="s1">&#39;subject&#39;</span><span class="p">,</span> <span class="n">optional</span>
-<span class="n">If</span> <span class="n">this</span> <span class="n">field</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">given</span> <span class="ow">or</span> <span class="s1">&#39;template&#39;</span> <span class="ow">is</span> <span class="n">given</span><span class="p">,</span> <span class="n">the</span> <span class="n">ROI</span> <span class="n">will</span> <span class="n">be</span>
-<span class="n">transformed</span> <span class="kn">from</span><span class="w"> </span><span class="nn">template</span> <span class="n">to</span> <span class="n">subject</span> <span class="n">space</span> <span class="n">before</span> <span class="n">being</span> <span class="n">used</span><span class="o">.</span>
-<span class="o">-</span> <span class="s1">&#39;prob_map&#39;</span> <span class="p">:</span> <span class="n">path</span> <span class="n">to</span> <span class="n">a</span> <span class="n">Nifti</span> <span class="n">file</span> <span class="n">which</span> <span class="ow">is</span> <span class="n">the</span> <span class="n">probability</span> <span class="nb">map</span><span class="p">,</span>
-  <span class="n">optional</span><span class="o">.</span>
-<span class="o">-</span> <span class="s1">&#39;inc_addtol&#39;</span> <span class="p">:</span> <span class="n">List</span> <span class="n">of</span> <span class="n">floats</span> <span class="n">describing</span> <span class="n">how</span> <span class="n">much</span> <span class="n">tolerance</span> <span class="n">to</span> <span class="n">add</span> <span class="ow">or</span>
-  <span class="n">subtract</span> <span class="ow">in</span> <span class="n">mm</span> <span class="kn">from</span><span class="w"> </span><span class="nn">each</span> <span class="n">of</span> <span class="n">the</span> <span class="n">inclusion</span> <span class="n">ROIs</span><span class="o">.</span> <span class="n">The</span> <span class="nb">list</span> <span class="n">must</span> <span class="n">be</span> <span class="n">the</span>
-  <span class="n">same</span> <span class="n">length</span> <span class="k">as</span> <span class="s1">&#39;include&#39;</span><span class="o">.</span> <span class="n">optional</span><span class="o">.</span>
-<span class="o">-</span> <span class="s1">&#39;exc_addtol&#39;</span> <span class="p">:</span> <span class="n">List</span> <span class="n">of</span> <span class="n">floats</span> <span class="n">describing</span> <span class="n">how</span> <span class="n">much</span> <span class="n">tolerance</span> <span class="n">to</span> <span class="n">add</span> <span class="ow">or</span>
-  <span class="n">subtract</span> <span class="ow">in</span> <span class="n">mm</span> <span class="kn">from</span><span class="w"> </span><span class="nn">each</span> <span class="n">of</span> <span class="n">the</span> <span class="n">exclusion</span> <span class="n">ROIs</span><span class="o">.</span> <span class="n">The</span> <span class="nb">list</span> <span class="n">must</span> <span class="n">be</span> <span class="n">the</span>
-  <span class="n">same</span> <span class="n">length</span> <span class="k">as</span> <span class="s1">&#39;exclude&#39;</span><span class="o">.</span> <span class="n">optional</span><span class="o">.</span>
-<span class="o">-</span> <span class="s1">&#39;mahal&#39;</span><span class="p">:</span> <span class="n">Dict</span> <span class="n">describing</span> <span class="n">the</span> <span class="n">parameters</span> <span class="k">for</span> <span class="n">cleaning</span><span class="o">.</span> <span class="n">By</span> <span class="n">default</span><span class="p">,</span> <span class="n">we</span>
-  <span class="n">use</span> <span class="n">the</span> <span class="n">default</span> <span class="n">behavior</span> <span class="n">of</span> <span class="n">the</span> <span class="n">seg</span><span class="o">.</span><span class="n">clean_bundle</span> <span class="n">function</span><span class="o">.</span>
-<span class="o">-</span> <span class="s1">&#39;recobundles&#39;</span><span class="p">:</span> <span class="n">Dict</span> <span class="n">which</span> <span class="n">should</span> <span class="n">contain</span> <span class="n">an</span> <span class="s1">&#39;sl&#39;</span> <span class="n">key</span> <span class="ow">and</span> <span class="s1">&#39;centroid&#39;</span>
-  <span class="n">key</span><span class="o">.</span> <span class="n">The</span> <span class="s1">&#39;sl&#39;</span> <span class="n">key</span> <span class="n">should</span> <span class="n">be</span> <span class="n">the</span> <span class="n">reference</span> <span class="n">streamline</span> <span class="ow">and</span> <span class="n">the</span> <span class="s1">&#39;centroid&#39;</span>
-  <span class="n">key</span> <span class="n">should</span> <span class="n">be</span> <span class="n">the</span> <span class="n">centroid</span> <span class="n">threshold</span> <span class="k">for</span> <span class="n">Recobundles</span><span class="o">.</span>
-<span class="o">-</span> <span class="s1">&#39;qb_thresh&#39;</span><span class="p">:</span> <span class="n">Float</span> <span class="n">which</span> <span class="ow">is</span> <span class="n">the</span> <span class="n">threshold</span> <span class="k">for</span> <span class="n">Quickbundles</span> <span class="n">cleaning</span><span class="o">.</span>
-<span class="o">-</span> <span class="s1">&#39;primary_axis&#39;</span><span class="p">:</span> <span class="n">string</span> <span class="n">which</span> <span class="ow">is</span> <span class="n">the</span> <span class="n">primary</span> <span class="n">axis</span> <span class="n">the</span>
-  <span class="n">bundle</span> <span class="n">should</span> <span class="n">travel</span> <span class="ow">in</span><span class="o">.</span> <span class="n">Can</span> <span class="n">be</span> <span class="n">one</span> <span class="n">of</span><span class="p">:</span> <span class="s1">&#39;L/R&#39;</span><span class="p">,</span> <span class="s1">&#39;P/A&#39;</span><span class="p">,</span> <span class="s1">&#39;I/S&#39;</span><span class="o">.</span>
-<span class="o">-</span> <span class="s1">&#39;primary_axis_percentage&#39;</span><span class="p">:</span> <span class="n">Used</span> <span class="k">with</span> <span class="n">primary_axis</span><span class="p">,</span> <span class="n">defines</span> <span class="n">what</span> <span class="n">fraction</span>
-  <span class="n">of</span> <span class="n">a</span> <span class="n">streamlines</span> <span class="n">movement</span> <span class="n">should</span> <span class="n">be</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">primary</span> <span class="n">axis</span><span class="o">.</span>
-<span class="o">-</span> <span class="s1">&#39;length&#39;</span><span class="p">:</span> <span class="n">dicitonary</span> <span class="n">containing</span> <span class="s1">&#39;min_len&#39;</span> <span class="ow">and</span> <span class="s1">&#39;max_len&#39;</span>
+<ul class="simple">
+<li><p>‘include’ : a list of paths to Nifti files containing inclusion ROI(s).
+One must either have at least 1 include ROI, or ‘start’ or ‘end’ ROIs.</p></li>
+<li><p>‘exclude’ : a list of paths to Nifti files containing exclusion ROI(s),
+optional.</p></li>
+<li><p>‘start’ : path to a Nifti file containing the start ROI, optional</p></li>
+<li><p>‘end’ : path to a Nifti file containing the end ROI, optional</p></li>
+<li><p>‘cross_midline’ : boolean describing whether the bundle is required to
+cross the midline (True) or prohibited from crossing (False), optional.
+If None, the bundle may or may not cross the midline.</p></li>
+<li><p>‘space’ : a string which is either ‘template’ or ‘subject’, optional
+If this field is not given or ‘template’ is given, the ROI will be
+transformed from template to subject space before being used.</p></li>
+<li><p>‘prob_map’ : path to a Nifti file which is the probability map,
+optional.</p></li>
+<li><p>‘inc_addtol’ : List of floats describing how much tolerance to add or
+subtract in mm from each of the inclusion ROIs. The list must be the
+same length as ‘include’. optional.</p></li>
+<li><p>‘exc_addtol’ : List of floats describing how much tolerance to add or
+subtract in mm from each of the exclusion ROIs. The list must be the
+same length as ‘exclude’. optional.</p></li>
+<li><p>‘mahal’: Dict describing the parameters for cleaning. By default, we
+use the default behavior of the seg.clean_bundle function.</p></li>
+<li><p>‘recobundles’: Dict which should contain an ‘sl’ key and ‘centroid’
+key. The ‘sl’ key should be the reference streamline and the ‘centroid’
+key should be the centroid threshold for Recobundles.</p></li>
+<li><p>‘qb_thresh’: Float which is the threshold for Quickbundles cleaning.</p></li>
+<li><p>‘primary_axis’: string which is the primary axis the
+bundle should travel in. Can be one of: ‘L/R’, ‘P/A’, ‘I/S’.</p></li>
+<li><p>‘primary_axis_percentage’: Used with primary_axis, defines what fraction
+of a streamlines movement should be in the primary axis.</p></li>
+<li><p>‘length’: dictionary containing ‘min_len’ and ‘max_len’</p></li>
+<li><p>‘curvature’:</p></li>
+<li><p>‘mahal’: done by default unless orient_mahal or isolation_forest
+are specified. Dictionary with optional keys ‘n_points’, ‘core_only’,
+‘min_sl’, ‘distance_threshold’, and ‘clean_rounds’. These parameters
+control the Mahalanobis distance cleaning of the bundle, further
+information can be found at <a class="reference internal" href="api/AFQ/recognition/cleaning/index.html#AFQ.recognition.cleaning.clean_bundle" title="AFQ.recognition.cleaning.clean_bundle"><code class="xref py py-func docutils literal notranslate"><span class="pre">AFQ.recognition.cleaning.clean_bundle()</span></code></a>.</p></li>
+<li><p>‘orient_mahal’: cleans streamlines based on Mahalanobis distance of their
+orientation to the mean orientation of the bundle. It should be a
+dictionary which can be empty or contain n_points, core_only, min_sl,
+distance_threshold, or clean_rounds as in ‘mahal’.</p></li>
+<li><p>‘isolation_forest’: dictionary with optional key ‘percent_outlier_thresh’,
+which gives the percentage threshold for outliers (default 25).</p></li>
+</ul>
+<section id="filtering-by-other-bundles">
+<h2>Filtering by Other Bundles<a class="headerlink" href="#filtering-by-other-bundles" title="Link to this heading">#</a></h2>
+<p>Custom bundle definitions can also include keys that match the names of other
+bundles in the same <cite>BundleDict</cite>. This allows you to filter streamlines in one
+bundle based on their spatial relationship to another bundle. Note bundles are
+segmented in the order they appear in their <cite>BundleDict</cite>, so later bundles cannot
+be used to segment earlier bundles. The following options are supported:</p>
+<ul class="simple">
+<li><p><strong>`overlap`</strong> - Keeps streamlines that spatially overlap with another bundle
+by at least the given node threshold.</p></li>
+<li><p><strong>`node_thresh`</strong> - Remove streamlines that share at least the specified number
+of nodes with another bundle.</p></li>
+<li><p><strong>`core`</strong> - Removes streamlines based on whether their closest point lies
+on the specified side of the <em>core</em> of another bundle. The value should be
+one of <cite>‘Left’</cite>, <cite>‘Right’</cite>, <cite>‘Anterior’</cite>, <cite>‘Posterior’</cite>, <cite>‘Superior’</cite>,
+or <cite>‘Inferior’</cite>.</p></li>
+<li><p><strong>`entire_core`</strong> - Similar to <cite>core</cite>, but the entire streamline must lie on
+the correct side of the core to be retained, not just the closest point.</p></li>
+</ul>
+<p>These references allow defining tracts relative to previously recognized
+bundles. For example, the Vertical Occipital Fasciculus (VOF) can be defined in
+relation to the Left Arcuate and Inferior Longitudinal fasciculi:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;Left Vertical Occipital&#39;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;VOF_L_start&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;end&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;VOF_L_end&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;Left Arcuate&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;node_thresh&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">},</span>
+    <span class="s1">&#39;Left Inferior Longitudinal&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;core&#39;</span><span class="p">:</span> <span class="s1">&#39;Left&#39;</span><span class="p">},</span>
+<span class="p">}</span>
 </pre></div>
 </div>
+</section>
+<section id="mixed-space-rois">
+<h2>Mixed space ROIs<a class="headerlink" href="#mixed-space-rois" title="Link to this heading">#</a></h2>
+<p>Everywhere in the bundle dictionary where an ROI is specified as a path,
+be it start, end, include, exclude, or probability map, you can in fact input
+a dictionary instead. This dictionary should have two keys:
+- ‘roi’ : path to the ROI Nifti file
+- ‘space’ : either ‘template’ or ‘subject’, describing the space the ROI</p>
+<blockquote>
+<div><p>is currently in.</p>
+</div></blockquote>
+<p>Then, for the whole bundle, set “space” to ‘mixed’. This allows you to
+specify some ROIs in template space and some in subject space for the same
+bundle. For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">op</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">AFQ.api.bundle_dict</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">abd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">AFQ.data.fetch</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">afd</span>
+
+<span class="c1"># First, organize the data</span>
+<span class="n">afd</span><span class="o">.</span><span class="n">organize_stanford_data</span><span class="p">()</span>
+<span class="n">bids_path</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">&#39;~&#39;</span><span class="p">),</span> <span class="s1">&#39;AFQ_data&#39;</span><span class="p">,</span> <span class="s1">&#39;stanford_hardi&#39;</span><span class="p">)</span>
+<span class="n">sub_path</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">bids_path</span><span class="p">,</span> <span class="s1">&#39;derivatives&#39;</span><span class="p">,</span> <span class="s1">&#39;vistasoft&#39;</span><span class="p">,</span> <span class="s1">&#39;sub-01&#39;</span><span class="p">,</span> <span class="s1">&#39;ses-01&#39;</span><span class="p">)</span>
+<span class="n">dwi_path</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sub_path</span><span class="p">,</span> <span class="s1">&#39;dwi&#39;</span><span class="p">,</span> <span class="s1">&#39;sub-01_ses-01_dwi.nii.gz&#39;</span><span class="p">)</span>
+
+<span class="n">lv1_files</span><span class="p">,</span> <span class="n">lv1_folder</span> <span class="o">=</span> <span class="n">afd</span><span class="o">.</span><span class="n">fetch_stanford_hardi_lv1</span><span class="p">()</span>
+<span class="n">ar_rois</span> <span class="o">=</span> <span class="n">afd</span><span class="o">.</span><span class="n">read_ar_templates</span><span class="p">()</span>
+<span class="n">lv1_fname</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lv1_folder</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">lv1_files</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="c1"># Then, prepare the bundle dictionary</span>
+<span class="n">bundle_info</span> <span class="o">=</span> <span class="n">abd</span><span class="o">.</span><span class="n">BundleDict</span><span class="p">({</span>
+      <span class="s2">&quot;OR LV1&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;roi&quot;</span><span class="p">:</span> <span class="n">ar_rois</span><span class="p">[</span><span class="s2">&quot;AAL_Thal_L&quot;</span><span class="p">],</span> <span class="s2">&quot;space&quot;</span><span class="p">:</span> <span class="s2">&quot;template&quot;</span><span class="p">},</span>
+          <span class="s2">&quot;end&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;roi&quot;</span><span class="p">:</span> <span class="n">lv1_fname</span><span class="p">,</span> <span class="s2">&quot;space&quot;</span><span class="p">:</span> <span class="s2">&quot;subject&quot;</span><span class="p">},</span>
+          <span class="s2">&quot;space&quot;</span><span class="p">:</span> <span class="s2">&quot;mixed&quot;</span>
+      <span class="p">}</span>
+  <span class="p">},</span> <span class="n">resample_subject_to</span><span class="o">=</span><span class="n">dwi_path</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="filtering-order">
+<h2>Filtering Order<a class="headerlink" href="#filtering-order" title="Link to this heading">#</a></h2>
 <p>When doing bundle recognition, streamlines are filtered out from the whole
 tractography according to the series of steps defined in the bundle
 dictionaries. Of course, no one bundle uses every step, but here is the order
@@ -565,20 +666,29 @@ of the steps:</p>
 <li><p>Min and Max length</p></li>
 <li><p>Primary axis</p></li>
 <li><p>Include</p></li>
-<li><p>Curvature</p></li>
 <li><p>Exclude</p></li>
+<li><p>Curvature</p></li>
 <li><p>Recobundles</p></li>
+<li><p>Cleaning by other bundles</p></li>
+<li><p>Mahalanobis Orientation Cleaning</p></li>
+<li><p>Isoldation Forest Cleaning</p></li>
 <li><p>Quickbundles Cleaning</p></li>
 <li><p>Mahalanobis Cleaning</p></li>
 </ol>
 </div></blockquote>
 <p>If a streamline passes all steps for a bundle, it is included in that bundle.
-If a streamline passess all steps for multiple bundles, then a warning is
+If a streamline passes all steps for multiple bundles, then a warning is
 thrown and the tie goes to whichever bundle is first in the bundle dictionary.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
 <p>If, for debugging purposes, you want to save out the streamlines
 remaining after each step, set <cite>save_intermediates</cite> to a path in
 <cite>segmentation_params</cite>. Then the streamlines will be saved out after each step
 to that path. Only do this for one subject at a time.</p>
+</div>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">#</a></h2>
 <p>Custom bundle definitions such as the OR, and the standard BundleDict can be
 combined through addition. For an example, see
 <a class="reference external" href="howto/howto_examples/optic_radiations.html">Plotting the Optic Radiations</a>.
@@ -586,31 +696,33 @@ Some tracts, such as the Vertical Occipital Fasciculus, may be defined relative
 to other tracts. In those cases, the custom tract definitions should appear in the BundleDict
 object after the reference tracts have been defined. These reference tracts can
 be included as keys in the same dictionary for that tract. For example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">newVOF</span> <span class="o">=</span> <span class="n">abd</span><span class="o">.</span><span class="n">BundleDict</span><span class="p">({</span>
-             <span class="s1">&#39;Left Vertical Occipital&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
-                                 <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span>
-                                 <span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;VOF_L_start&#39;</span><span class="p">],</span>
-                                 <span class="s1">&#39;end&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;VOF_L_end&#39;</span><span class="p">],</span>
-                                 <span class="s1">&#39;inc_addtol&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                                 <span class="s1">&#39;Left Arcuate&#39;</span><span class="p">:</span> <span class="p">{</span>
-                                     <span class="s1">&#39;node_thresh&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">},</span>
-                                 <span class="s1">&#39;Left Posterior Arcuate&#39;</span><span class="p">:</span> <span class="p">{</span>
-                                     <span class="s1">&#39;node_thresh&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-                                     <span class="s1">&#39;core&#39;</span><span class="p">:</span> <span class="s1">&#39;Posterior&#39;</span><span class="p">},</span>
-                                 <span class="s1">&#39;Left Inferior Longitudinal&#39;</span><span class="p">:</span> <span class="p">{</span>
-                                     <span class="s1">&#39;core&#39;</span><span class="p">:</span> <span class="s1">&#39;Left&#39;</span><span class="p">},</span>
-                                 <span class="s1">&#39;primary_axis&#39;</span><span class="p">:</span> <span class="s1">&#39;I/S&#39;</span><span class="p">,</span>
-                                 <span class="s1">&#39;primary_axis_percentage&#39;</span><span class="p">:</span> <span class="mi">40</span><span class="p">}</span>
-                         <span class="p">})</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">newVOF</span> <span class="o">=</span> <span class="n">abd</span><span class="o">.</span><span class="n">BundleDict</span><span class="p">({</span>
+        <span class="s1">&#39;Left Vertical Occipital&#39;</span><span class="p">:</span> <span class="p">{</span>
+                            <span class="s1">&#39;cross_midline&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                            <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+                            <span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;VOF_L_start&#39;</span><span class="p">],</span>
+                            <span class="s1">&#39;end&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="p">[</span><span class="s1">&#39;VOF_L_end&#39;</span><span class="p">],</span>
+                            <span class="s1">&#39;inc_addtol&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                            <span class="s1">&#39;Left Arcuate&#39;</span><span class="p">:</span> <span class="p">{</span>
+                                <span class="s1">&#39;node_thresh&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">},</span>
+                            <span class="s1">&#39;Left Posterior Arcuate&#39;</span><span class="p">:</span> <span class="p">{</span>
+                                <span class="s1">&#39;node_thresh&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                                <span class="s1">&#39;core&#39;</span><span class="p">:</span> <span class="s1">&#39;Posterior&#39;</span><span class="p">},</span>
+                            <span class="s1">&#39;Left Inferior Longitudinal&#39;</span><span class="p">:</span> <span class="p">{</span>
+                                <span class="s1">&#39;core&#39;</span><span class="p">:</span> <span class="s1">&#39;Left&#39;</span><span class="p">},</span>
+                            <span class="s1">&#39;primary_axis&#39;</span><span class="p">:</span> <span class="s1">&#39;I/S&#39;</span><span class="p">,</span>
+                            <span class="s1">&#39;primary_axis_percentage&#39;</span><span class="p">:</span> <span class="mi">40</span><span class="p">}</span>
+                    <span class="p">})</span>
 </pre></div>
 </div>
 <p>This definition of the VOF in the custom BundleDict would first require left ARC, left pARC, and left ILF
 to be defined, in the same way the tiebreaker above works. You would then construct your custom
 BundleDict like this. The order of addition matters here:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">BundleDictCustomVOF</span> <span class="o">=</span> <span class="n">abd</span><span class="o">.</span><span class="n">default18_bd</span><span class="p">()</span> <span class="o">+</span> <span class="n">newVOF</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">BundleDictCustomVOF</span> <span class="o">=</span> <span class="n">abd</span><span class="o">.</span><span class="n">default_bd</span><span class="p">()</span> <span class="o">+</span> <span class="n">newVOF</span>
 </pre></div>
 </div>
-</div>
+</section>
+</section>
 
 
                 </article>
@@ -623,12 +735,12 @@ BundleDict like this. The order of addition matters here:</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="api/AFQ/registration/index.html"
+       href="api/AFQ/viz/utils/index.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.registration</span></code></p>
+        <p class="prev-next-title">AFQ.viz.utils</p>
       </div>
     </a>
     <a class="right-next"
@@ -647,8 +759,24 @@ BundleDict like this. The order of addition matters here:</p>
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#filtering-by-other-bundles">Filtering by Other Bundles</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mixed-space-rois">Mixed space ROIs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#filtering-order">Filtering Order</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples">Examples</a></li>
+</ul>
+  </nav></div>
 
   <div class="sidebar-secondary-item">
 
@@ -688,8 +816,8 @@ BundleDict like this. The order of addition matters here:</p>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
 
 
   <footer class="bd-footer">
@@ -710,7 +838,7 @@ BundleDict like this. The order of addition matters here:</p>
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
     <br/>
   </p>
 </div>
@@ -722,16 +850,20 @@ BundleDict like this. The order of addition matters here:</p>
     <div class="footer-items__end">
       
         <div class="footer-item"><div class="footer">
-    <div class="footer-content">
-      <div class="copyright">
-        Please Cite the following paper:
-      </div>
-      <div class="citation">
-        <a href="https://doi.org/10.52294/e6198273-b8e3-4b63-babb-6e6b0da10669">Kruper et al. (2021)</a>
-      </div>
+  <div class="footer-content">
+    <div class="copyright">
+      Please Cite the following papers:
+    </div>
+    <div class="citation">
+      <a href="https://doi.org/10.1371/journal.pcbi.1013323">
+        Kruper et al. (2025)
+      </a><br>
+      <a href="https://doi.org/10.52294/e6198273-b8e3-4b63-babb-6e6b0da10669">
+        Kruper et al. (2021)
+      </a>
     </div>
   </div>
-  </div>
+</div></div>
       
     </div>
   

@@ -1,0 +1,279 @@
+AFQ.tasks.structural
+====================
+
+.. py:module:: AFQ.tasks.structural
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   AFQ.tasks.structural.logger
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   AFQ.tasks.structural.configure_ncpus_nthreads
+   AFQ.tasks.structural.onnx_kwargs
+   AFQ.tasks.structural.synthseg_model
+   AFQ.tasks.structural.mx_model
+   AFQ.tasks.structural.t1w_brain_mask
+   AFQ.tasks.structural.t1_masked
+   AFQ.tasks.structural.t1_subcortex
+   AFQ.tasks.structural.get_structural_plan
+
+
+Module Contents
+---------------
+
+.. py:data:: logger
+
+.. py:function:: configure_ncpus_nthreads(numba_n_threads=None, low_memory=False)
+
+   
+   Configure the number of threads to use for Numba,
+   and whether to use low-memory versions of algorithms
+   where available
+
+
+   :Parameters:
+
+       **numba_n_threads** : int, optional
+           The number of threads to use for Numba and DIPY tracking.
+           If None, uses the number of available CPUs minus one.
+           Default: None
+
+       **low_memory** : bool, optional
+           Whether to use low-memory versions of algorithms
+           where available.
+           Default: False
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: onnx_kwargs(low_mem, onnx_execution_provider='CPUExecutionProvider', onnx_inter_threads=1)
+
+   
+   The execution provider to use for onnx models
+
+
+   :Parameters:
+
+       **onnx_execution_provider** : str, optional
+           The execution provider to use for onnx models.
+           By default this is set to CPUExecutionProvider
+           which should work on all systems. If you have a
+           compatible GPU and the appropriate onnxruntime installed
+           you can set this to "CUDAExecutionProvider" or
+           "OpenVINOExecutionProvider" for potentially faster
+           inference.
+           Default: "CPUExecutionProvider"
+
+       **onnx_inter_threads** : int, optional
+           The number of inter threads to use for onnx models.
+           Increasing will increase memory usage significantly.
+           Default: 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: synthseg_model(t1_masked, citations, onnx_kwargs)
+
+   
+   full path to the synthseg2 model segmentations
+
+
+
+
+
+
+
+
+
+
+
+
+   .. rubric:: References
+
+   [1] Billot, Benjamin, et al. "Robust machine learning segmentation
+       for large-scale analysis of heterogeneous clinical brain MRI
+       datasets." Proceedings of the National Academy of Sciences 120.9
+       (2023): e2216399120.
+   [2] Billot, Benjamin, et al. "SynthSeg: Segmentation of brain MRI scans
+       of any contrast and resolution without retraining." Medical image
+       analysis 86 (2023): 102789.
+
+   .. only:: latex
+
+      
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: mx_model(t1_file, t1w_brain_mask, citations, onnx_kwargs)
+
+   
+   full path to the multi-axial model for brain extraction
+   outputs
+
+
+
+
+
+
+
+
+
+
+
+
+   .. rubric:: References
+
+   [1] Birnbaum, Andrew M., et al. "Full-head segmentation of MRI
+       with abnormal brain anatomy: model and data release." Journal of
+       Medical Imaging 12.5 (2025): 054001-054001.
+
+   .. only:: latex
+
+      
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: t1w_brain_mask(t1_file, citations, onnx_kwargs, brain_mask_definition=None)
+
+   
+   full path to a nifti file containing brain mask from T1w image
+
+
+   :Parameters:
+
+       **brain_mask_definition** : instance from `AFQ.definitions.image`, optional
+           This will be used to create
+           the brain mask, which gets applied before registration to a
+           template.
+           If you want no brain mask to be applied, use FullImage.
+           If None, use Brainchop Mindgrab model.
+           Default: None
+
+
+
+
+
+
+
+
+
+
+   .. rubric:: References
+
+   [1] Masoud, M., Hu, F., & Plis, S. (2023). Brainchop: In-browser MRI
+       volumetric segmentation and rendering. Journal of Open Source
+       Software, 8(83), 5098.
+       https://doi.org/10.21105/joss.05098
+
+   .. only:: latex
+
+      
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: t1_masked(t1_file, t1w_brain_mask)
+
+   
+   full path to a nifti file containing the T1w masked
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: t1_subcortex(t1_masked, citations, onnx_kwargs)
+
+   
+   full path to a nifti file containing segmentation of
+   subcortical structures from T1w image using Brainchop
+
+
+
+
+
+
+
+
+
+
+
+
+   .. rubric:: References
+
+   [1] Masoud, M., Hu, F., & Plis, S. (2023). Brainchop: In-browser MRI
+       volumetric segmentation and rendering. Journal of Open Source
+       Software, 8(83), 5098.
+       https://doi.org/10.21105/joss.05098
+
+   .. only:: latex
+
+      
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: get_structural_plan(kwargs)
+

@@ -1,17 +1,16 @@
-:py:mod:`AFQ.tractography`
-==========================
+AFQ.tractography
+================
 
 .. py:module:: AFQ.tractography
 
 
 Submodules
 ----------
+
 .. toctree::
-   :titlesonly:
    :maxdepth: 1
 
-   gputractography/index.rst
-   tractography/index.rst
-   utils/index.rst
+   /reference/api/AFQ/tractography/tractography/index
+   /reference/api/AFQ/tractography/utils/index
 
 

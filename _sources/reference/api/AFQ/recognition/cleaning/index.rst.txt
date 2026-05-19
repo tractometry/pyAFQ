@@ -1,39 +1,39 @@
-:py:mod:`AFQ.recognition.cleaning`
-==================================
+AFQ.recognition.cleaning
+========================
 
 .. py:module:: AFQ.recognition.cleaning
 
 
-Module Contents
----------------
-
-
-Functions
-~~~~~~~~~
-
-.. autoapisummary::
-
-   AFQ.recognition.cleaning.clean_by_orientation
-   AFQ.recognition.cleaning.clean_bundle
-
-
-
 Attributes
-~~~~~~~~~~
+----------
 
 .. autoapisummary::
 
    AFQ.recognition.cleaning.logger
 
 
+Functions
+---------
+
+.. autoapisummary::
+
+   AFQ.recognition.cleaning.clean_by_orientation
+   AFQ.recognition.cleaning.clean_by_orientation_mahalanobis
+   AFQ.recognition.cleaning.clean_bundle
+   AFQ.recognition.cleaning.clean_by_isolation_forest
+
+
+Module Contents
+---------------
+
 .. py:data:: logger
 
-   
-
-.. py:function:: clean_by_orientation(streamlines, primary_axis, affine, tol=None)
+.. py:function:: clean_by_orientation(streamlines, primary_axis, core_only=0.6)
 
    
-   Compute the cardinal orientation of each streamline
+   Retain streamlines whose core is oriented along the primary axis
+   and have endpoints that are also oriented along the primary axis
+   and have a majority of their steps along the primary axis.
 
 
    :Parameters:
@@ -42,9 +42,17 @@ Attributes
            Where N is number of nodes in the array, the collection of
            streamlines to filter down to.
 
+       **core_only** : float, optional
+           If non-zero, only the core of the bundle is used for cleaning.
+           The core is defined as the middle 60% of each streamline,
+           thus our default is 0.6. This means streamlines are allowed to
+           deviate in the starting and ending 20% of the bundle. This is useful
+           for allowing more diverse endpoints.
+           Default: 0.6
+
    :Returns:
 
-       cleaned_idx, indicies of streamlines that passed cleaning
+       cleaned_idx, indices of streamlines that passed cleaning
            ..
 
 
@@ -62,7 +70,9 @@ Attributes
    ..
        !! processed by numpydoc !!
 
-.. py:function:: clean_bundle(tg, n_points=100, clean_rounds=5, distance_threshold=3, length_threshold=4, min_sl=20, stat='mean', return_idx=False)
+.. py:function:: clean_by_orientation_mahalanobis(streamlines, n_points=100, core_only=0, min_sl=20, distance_threshold=3, length_threshold=4, clean_rounds=5, remove_lengths='long')
+
+.. py:function:: clean_bundle(tg, n_points=100, clean_rounds=5, distance_threshold=4, length_threshold=4, min_sl=20, stat=np.mean, core_only=0.6, return_idx=False, remove_lengths='long')
 
    
    Clean a segmented fiber group based on the Mahalnobis distance of
@@ -84,7 +94,7 @@ Attributes
 
        **distance_threshold** : float, optional.
            Threshold of cleaning based on the Mahalanobis distance (the units are
-           standard deviations). Default: 3.
+           standard deviations). Default: 4.
 
        **length_threshold: float, optional**
            Threshold for cleaning based on length (in standard deviations). Length
@@ -99,25 +109,102 @@ Attributes
            The statistic of each node relative to which the Mahalanobis is
            calculated. Default: `np.mean` (but can also use median, etc.)
 
+       **core_only** : float, optional
+           If non-zero, only the core of the bundle is used for cleaning.
+           The core is defined as the middle 60% of each streamline,
+           thus our default is 0.6. This means streamlines are allowed to
+           deviate in the starting and ending 20% of the bundle. This is useful
+           for allowing more diverse endpoints.
+           Default: 0.6
+
        **return_idx** : bool
            Whether to return indices in the original streamlines.
            Default: False.
 
-       **Returns**
+       **remove_lengths** : str
+           Specifies which streamlines to remove based on their length.
+           Options are "long" (remove long streamlines), "short"
+           (remove short streamlines), or "both"
+           (remove both long and short streamlines).
+           Default: "long"
+
+   :Returns:
+
+       A StatefulTractogram class instance containing only the streamlines
            ..
 
-       **-------**
+       that have a Mahalanobis distance smaller than `clean_threshold` from
            ..
 
-       **A StatefulTractogram class instance containing only the streamlines**
+       the mean of each one of the nodes.
            ..
 
-       **that have a Mahalanobis distance smaller than `clean_threshold` from**
-           ..
 
-       **the mean of each one of the nodes.**
-           ..
 
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: clean_by_isolation_forest(tg, n_points=100, distance_threshold=3, length_threshold=4, n_rounds=5, min_sl=20, n_jobs=None, random_state=None)
+
+   
+   Use Isolation Forest (IF) to clean streamlines.
+   Nodes are passed to IF, and nodes are assigned anamoly scores.
+   These are re-mapped back on to the streamlines. Streamlines with maximum
+   outlier scores too many s.d. away from the mean outlier score
+   are removed. This is done in several rounds. This is better for cleaning
+   bundles that are not tube-like.
+
+
+   :Parameters:
+
+       **tg** : StatefulTractogram class instance or ArraySequence
+           A whole-brain tractogram to be segmented.
+
+       **n_points** : int, optional
+           Number of points to resample streamlines to.
+           Default: 100
+
+       **distance_threshold** : int, optional
+           Streamlines with average node anamoly score below this many
+           s.d. of average node anaomly score are removed.
+           Default: 3
+
+       **length_threshold: float, optional**
+           Threshold for cleaning based on length (in standard deviations).
+           Length of any streamline should not be *more* than this number of
+           stdevs from the mean length.
+           Default: 4.
+
+       **n_rounds** : int, optional.
+           Number of rounds of cleaning based on Isolation Forest.
+           Default: 5
+
+       **min_sl** : int, optional.
+           Number of streamlines in a bundle under which we will
+           not bother with cleaning outliers. Default: 20.
+
+       **n_jobs** : int, optional
+           Number of parallel jobs to use for LOF.
+           Default: None (single-threaded).
+
+       **random_state** : int, optional
+           Random state for IsolationForest.
+           Default: None
+
+   :Returns:
+
+       indices of streamlines that passed cleaning
+           ..
 
 
 

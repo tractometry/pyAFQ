@@ -1,15 +1,11 @@
-:py:mod:`AFQ.models.dki`
-========================
+AFQ.models.dki
+==============
 
 .. py:module:: AFQ.models.dki
 
 
-Module Contents
----------------
-
-
 Functions
-~~~~~~~~~
+---------
 
 .. autoapisummary::
 
@@ -17,6 +13,8 @@ Functions
    AFQ.models.dki.predict
 
 
+Module Contents
+---------------
 
 .. py:function:: fit_dki(data_files, bval_files, bvec_files, mask=None, min_kurtosis=-1, max_kurtosis=3, out_dir=None, b0_threshold=50)
 

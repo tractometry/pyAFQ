@@ -1,47 +1,19 @@
-:py:mod:`AFQ.models.QBallTP`
-============================
+AFQ.models.QBallTP
+==================
 
 .. py:module:: AFQ.models.QBallTP
 
 
-Module Contents
----------------
-
-
 Functions
-~~~~~~~~~
+---------
 
 .. autoapisummary::
 
-   AFQ.models.QBallTP.extract_odf
    AFQ.models.QBallTP.anisotropic_index
 
 
-
-.. py:function:: extract_odf(odf, sphere=default_sphere, sh_order_max=8)
-
-   
-   Calculates spherical harmonics coefficients and
-   isotropic and anisotropic diffusion components
-   from an ODF. Could include GFA in future updates.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
+Module Contents
+---------------
 
 .. py:function:: anisotropic_index(shm)
 

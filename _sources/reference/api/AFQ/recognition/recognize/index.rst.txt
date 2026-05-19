@@ -1,15 +1,19 @@
-:py:mod:`AFQ.recognition.recognize`
-===================================
+AFQ.recognition.recognize
+=========================
 
 .. py:module:: AFQ.recognition.recognize
 
 
-Module Contents
----------------
+Attributes
+----------
+
+.. autoapisummary::
+
+   AFQ.recognition.recognize.logger
 
 
 Functions
-~~~~~~~~~
+---------
 
 .. autoapisummary::
 
@@ -19,20 +23,12 @@ Functions
    AFQ.recognition.recognize._add_bundle_to_meta
 
 
-
-Attributes
-~~~~~~~~~~
-
-.. autoapisummary::
-
-   AFQ.recognition.recognize.logger
-
+Module Contents
+---------------
 
 .. py:data:: logger
 
-   
-
-.. py:function:: recognize(tg, img, mapping, bundle_dict, reg_template, nb_points=False, nb_streamlines=False, clip_edges=False, parallel_segmentation={'engine': 'serial'}, rb_recognize_params=dict(model_clust_thr=1.25, reduction_thr=25, pruning_thr=12), refine_reco=False, prob_threshold=0, dist_to_waypoint=None, rng=None, return_idx=False, filter_by_endpoints=True, dist_to_atlas=4, save_intermediates=None, cleaning_params={})
+.. py:function:: recognize(tg, img, mapping, bundle_dict, reg_template, nb_points=False, nb_streamlines=False, clip_edges=False, rb_recognize_params=None, refine_reco=False, prob_threshold=0, dist_to_waypoint=None, rng=None, return_idx=False, filter_by_endpoints=True, dist_to_atlas=4, save_intermediates=None, cleaning_params=None, chunk_size=int(1000000.0))
 
    
    Segment streamlines into bundles.
@@ -40,7 +36,7 @@ Attributes
 
    :Parameters:
 
-       **tg** : str, StatefulTractogram
+       **tg** : StatefulTractogram, or path to a TRXfile
            Tractogram to segment.
 
        **img** : str, nib.Nifti1Image
@@ -57,23 +53,19 @@ Attributes
 
        **nb_points** : int, boolean
            Resample streamlines to nb_points number of points.
-           If False, no resampling is done. Default: False
+           If False, no resampling is done. Can only be done
+           on a StatefulTractogram.
+           Default: False
 
        **nb_streamlines** : int, boolean
            Subsample streamlines to nb_streamlines.
-           If False, no subsampling is don. Default: False
+           Can only be done on a StatefulTractogram.
+           If False, no subsampling is done.
+           Default: False
 
        **clip_edges** : bool
            Whether to clip the streamlines to be only in between the ROIs.
            Default: False
-
-       **parallel_segmentation** : dict or AFQ.api.BundleDict
-           How to parallelize segmentation across processes when performing
-           waypoint ROI segmentation. Set to {"engine": "serial"} to not
-           perform parallelization. Some engines may cause errors, depending
-           on the system. See ``dipy.utils.parallel.paramap`` for
-           details.
-           Default: {"engine": "serial"}
 
        **rb_recognize_params** : dict
            RecoBundles parameters for the recognize function.
@@ -131,8 +123,15 @@ Attributes
        **cleaning_params** : dict, optional
            Cleaning params to pass to seg.clean_bundle. This will
            override the default parameters of that method. However, this
-           can be overriden by setting the cleaning parameters in the
+           can be overridden by setting the cleaning parameters in the
            bundle_dict. Default: {}.
+
+       **chunk_size** : int, optional
+           Number of streamlines to preprocess at a time. The full
+           tractogram is processed in chunks of this size to keep peak
+           memory bounded. Per-chunk surviving candidates are merged
+           before the global per-bundle filtering steps run.
+           Default: 1e6.
 
 
 
@@ -217,5 +216,4 @@ Attributes
        !! processed by numpydoc !!
 
 .. py:function:: _add_bundle_to_meta(bundle_name, b_def, meta)
-
 

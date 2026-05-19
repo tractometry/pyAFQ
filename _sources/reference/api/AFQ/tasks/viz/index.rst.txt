@@ -1,15 +1,19 @@
-:py:mod:`AFQ.tasks.viz`
-=======================
+AFQ.tasks.viz
+=============
 
 .. py:module:: AFQ.tasks.viz
 
 
-Module Contents
----------------
+Attributes
+----------
+
+.. autoapisummary::
+
+   AFQ.tasks.viz.logger
 
 
 Functions
-~~~~~~~~~
+---------
 
 .. autoapisummary::
 
@@ -18,29 +22,21 @@ Functions
    AFQ.tasks.viz.viz_indivBundle
    AFQ.tasks.viz.plot_tract_profiles
    AFQ.tasks.viz.init_viz_backend
+   AFQ.tasks.viz.citations
    AFQ.tasks.viz.get_viz_plan
 
 
-
-Attributes
-~~~~~~~~~~
-
-.. autoapisummary::
-
-   AFQ.tasks.viz.logger
-
+Module Contents
+---------------
 
 .. py:data:: logger
 
-   
+.. py:function:: _viz_prepare_vol(vol, scalar_dict, ref)
 
-.. py:function:: _viz_prepare_vol(vol, xform, mapping, scalar_dict)
-
-
-.. py:function:: viz_bundles(base_fname, viz_backend, data_imap, mapping_imap, segmentation_imap, best_scalar, sbv_lims_bundles=[None, None], volume_opacity_bundles=0.3, n_points_bundles=40)
+.. py:function:: viz_bundles(base_fname, viz_backend, structural_imap, data_imap, tissue_imap, mapping_imap, segmentation_imap, best_scalar, sbv_lims_bundles=None, volume_opacity_bundles=0.5, n_points_bundles=40)
 
    
-   figure for the visualizaion of the recognized
+   figure for the visualization of the recognized
    bundles in the subject's brain.
 
 
@@ -92,11 +88,11 @@ Attributes
    ..
        !! processed by numpydoc !!
 
-.. py:function:: viz_indivBundle(base_fname, output_dir, viz_backend, data_imap, mapping_imap, segmentation_imap, best_scalar, sbv_lims_indiv=[None, None], volume_opacity_indiv=0.3, n_points_indiv=40)
+.. py:function:: viz_indivBundle(base_fname, output_dir, viz_backend, structural_imap, data_imap, tissue_imap, mapping_imap, segmentation_imap, best_scalar, sbv_lims_indiv=None, volume_opacity_indiv=0.5, n_points_indiv=40)
 
    
    list of full paths to html or gif files
-   containing visualizaions of individual bundles
+   containing visualizations of individual bundles
 
 
    :Parameters:
@@ -158,17 +154,13 @@ Attributes
    ..
        !! processed by numpydoc !!
 
-.. py:function:: init_viz_backend(viz_backend_spec='plotly_no_gif', virtual_frame_buffer=False)
+.. py:function:: init_viz_backend(viz_backend_spec='plotly_no_gif')
 
    
    An instance of the `AFQ.viz.utils.viz_backend` class.
 
 
    :Parameters:
-
-       **virtual_frame_buffer** : bool, optional
-           Whether to use a virtual fram buffer. This is neccessary if
-           generating GIFs in a headless environment. Default: False
 
        **viz_backend_spec** : str, optional
            Which visualization backend to use.
@@ -193,6 +185,28 @@ Attributes
    ..
        !! processed by numpydoc !!
 
-.. py:function:: get_viz_plan(kwargs)
+.. py:function:: citations(base_fname, citations)
 
+   
+   Export Bibtex citation file for methods used by pyAFQ.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: get_viz_plan(kwargs)
 

@@ -2,8 +2,8 @@
 
 .. _tutorial_examples:
 
-Tutorials: getting started with the pyAFQ Python library
-=========================================================
+Tutorials: Getting started
+==========================
 
 These tutorials provide a walk-through of basic pyAFQ usage and some more
 advanced use-cases. Each one of these pages contains code that users can run
@@ -13,6 +13,10 @@ tutorial, and will save results as it goes along.
 
 .. toctree::
     :maxdepth: 2
+
+.. raw:: html
+
+  <div id='sg-tag-list' class='sphx-glr-tag-list'></div>
 
 
 .. raw:: html
@@ -30,7 +34,7 @@ tutorial, and will save results as it goes along.
   .. image:: /tutorials/tutorial_examples/images/thumb/sphx_glr_plot_001_group_afq_api_thumb.png
     :alt:
 
-  :ref:`sphx_glr_tutorials_tutorial_examples_plot_001_group_afq_api.py`
+  :doc:`/tutorials/tutorial_examples/plot_001_group_afq_api`
 
 .. raw:: html
 
@@ -47,7 +51,7 @@ tutorial, and will save results as it goes along.
   .. image:: /tutorials/tutorial_examples/images/thumb/sphx_glr_plot_002_participant_afq_api_thumb.png
     :alt:
 
-  :ref:`sphx_glr_tutorials_tutorial_examples_plot_002_participant_afq_api.py`
+  :doc:`/tutorials/tutorial_examples/plot_002_participant_afq_api`
 
 .. raw:: html
 
@@ -64,7 +68,7 @@ tutorial, and will save results as it goes along.
   .. image:: /tutorials/tutorial_examples/images/thumb/sphx_glr_plot_003_rerun_thumb.png
     :alt:
 
-  :ref:`sphx_glr_tutorials_tutorial_examples_plot_003_rerun.py`
+  :doc:`/tutorials/tutorial_examples/plot_003_rerun`
 
 .. raw:: html
 
@@ -74,14 +78,14 @@ tutorial, and will save results as it goes along.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to use the export methods to obtain results from the ParticipantAFQ object. The export methods are used to calculate derived quantities from the data, such as DTI parameters, tract profiles, and bundle segmentations. ">
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to use the export methods to obtain results from the ParticipantAFQ object. The export methods are used to calculate derived quantities from the data, such as DKI parameters, tract profiles, and bundle segmentations. ">
 
 .. only:: html
 
   .. image:: /tutorials/tutorial_examples/images/thumb/sphx_glr_plot_004_export_thumb.png
     :alt:
 
-  :ref:`sphx_glr_tutorials_tutorial_examples_plot_004_export.py`
+  :doc:`/tutorials/tutorial_examples/plot_004_export`
 
 .. raw:: html
 
@@ -98,7 +102,7 @@ tutorial, and will save results as it goes along.
   .. image:: /tutorials/tutorial_examples/images/thumb/sphx_glr_plot_005_viz_thumb.png
     :alt:
 
-  :ref:`sphx_glr_tutorials_tutorial_examples_plot_005_viz.py`
+  :doc:`/tutorials/tutorial_examples/plot_005_viz`
 
 .. raw:: html
 
@@ -115,7 +119,7 @@ tutorial, and will save results as it goes along.
   .. image:: /tutorials/tutorial_examples/images/thumb/sphx_glr_plot_006_bids_layout_thumb.png
     :alt:
 
-  :ref:`sphx_glr_tutorials_tutorial_examples_plot_006_bids_layout.py`
+  :doc:`/tutorials/tutorial_examples/plot_006_bids_layout`
 
 .. raw:: html
 
@@ -132,7 +136,7 @@ tutorial, and will save results as it goes along.
   .. image:: /tutorials/tutorial_examples/images/thumb/sphx_glr_plot_007_rois_thumb.png
     :alt:
 
-  :ref:`sphx_glr_tutorials_tutorial_examples_plot_007_rois.py`
+  :doc:`/tutorials/tutorial_examples/plot_007_rois`
 
 .. raw:: html
 

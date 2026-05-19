@@ -1,19 +1,19 @@
-:py:mod:`AFQ.viz`
-=================
+AFQ.viz
+=======
 
 .. py:module:: AFQ.viz
 
 
 Submodules
 ----------
+
 .. toctree::
-   :titlesonly:
    :maxdepth: 1
 
-   altair/index.rst
-   fury_backend/index.rst
-   plot/index.rst
-   plotly_backend/index.rst
-   utils/index.rst
+   /reference/api/AFQ/viz/altair/index
+   /reference/api/AFQ/viz/fury_backend/index
+   /reference/api/AFQ/viz/plot/index
+   /reference/api/AFQ/viz/plotly_backend/index
+   /reference/api/AFQ/viz/utils/index
 
 

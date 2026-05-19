@@ -1,0 +1,107 @@
+AFQ.recognition.sparse_decisions
+================================
+
+.. py:module:: AFQ.recognition.sparse_decisions
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   AFQ.recognition.sparse_decisions.compute_sparse_decisions
+   AFQ.recognition.sparse_decisions.get_conflict_count
+   AFQ.recognition.sparse_decisions.remove_conflicts
+
+
+Module Contents
+---------------
+
+.. py:function:: compute_sparse_decisions(bundles_being_recognized, n_streamlines)
+
+   
+   Compute a sparse matrix of distances to ROIs for the streamlines that are
+   currently being recognized. This can be used to weight decisions by distance
+   to ROIs, without having to create a dense matrix of distances for all
+   streamlines and all bundles.
+
+
+   :Parameters:
+
+       **bundles_being_recognized** : dict
+           A dictionary of SlsBeingRecognized objects, keyed by bundle name.
+
+       **n_streamlines** : int
+           The total number of streamlines in the original tractogram.
+
+   :Returns:
+
+       csr_matrix
+           A sparse matrix of shape (number of bundles being recognized, n_streamlines),
+           where the entry (i, j) is a score:
+               bundles with ROIs result in weights [2.0 to 3.0] with higher scores
+               for streamlines closer to ROIs
+               Non-ROI bundles result in weight 1.0
+               Everything else is 0.0 (implicit in sparse matrices)
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: get_conflict_count(sparse_scores)
+
+   
+   Count how many streamlines are being considered for more than one bundle
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: remove_conflicts(sparse_scores, bundles_being_recognized)
+
+   
+   Returns a dictionary of {bundle_name: np.array(accepted_indices)}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+

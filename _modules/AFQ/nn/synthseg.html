@@ -1,0 +1,1168 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AFQ.nn.synthseg &#8212; AFQ 3.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=fd6457a4" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=c6496573" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../../_static/documentation_options.js?v=b576230a"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/sg-tags.js?v=d80f6fa4"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/AFQ/nn/synthseg';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../../_static/searchtools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script src="../../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 3.1 documentation - Home"/>
+    <img src="../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="AFQ 3.1 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../guides_index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../tutorials/tutorial_examples/index.html">
+    Tutorials: Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../howto/howto_examples/index.html">
+    How to examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../developing/index.html">
+    Developing pyAFQ
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../bib.html">
+    Bibliography
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../reference/api/index.html">
+    API Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/tractometry/pyAFQ" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../guides_index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../tutorials/tutorial_examples/index.html">
+    Tutorials: Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../howto/howto_examples/index.html">
+    How to examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../developing/index.html">
+    Developing pyAFQ
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../bib.html">
+    Bibliography
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../reference/api/index.html">
+    API Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/tractometry/pyAFQ" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../AFQ.html" class="nav-link">AFQ</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">AFQ.nn.synthseg</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for AFQ.nn.synthseg</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">op</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">IntEnum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">time</span><span class="w"> </span><span class="kn">import</span> <span class="n">time</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.ndimage</span><span class="w"> </span><span class="kn">import</span> <span class="n">gaussian_filter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">skimage.segmentation</span><span class="w"> </span><span class="kn">import</span> <span class="n">find_boundaries</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.data.fetch</span><span class="w"> </span><span class="kn">import</span> <span class="n">afq_home</span><span class="p">,</span> <span class="n">fetch_synthseg_models</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.nn.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">prepare_t1_for_nn</span><span class="p">,</span> <span class="n">resample_output</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;AFQ&quot;</span><span class="p">)</span>
+
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;run_synthseg&quot;</span><span class="p">,</span> <span class="s2">&quot;SynthSegLabels&quot;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="SynthSegLabels">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SynthSegLabels</span><span class="p">(</span><span class="n">IntEnum</span><span class="p">):</span>
+<div class="viewcode-block" id="SynthSegLabels.BACKGROUND">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.BACKGROUND">[docs]</a>
+    <span class="n">BACKGROUND</span> <span class="o">=</span> <span class="mi">0</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.LEFT_CEREBRAL_WHITE_MATTER">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.LEFT_CEREBRAL_WHITE_MATTER">[docs]</a>
+    <span class="n">LEFT_CEREBRAL_WHITE_MATTER</span> <span class="o">=</span> <span class="mi">1</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.LEFT_CEREBRAL_CORTEX">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.LEFT_CEREBRAL_CORTEX">[docs]</a>
+    <span class="n">LEFT_CEREBRAL_CORTEX</span> <span class="o">=</span> <span class="mi">2</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.LEFT_LATERAL_VENTRICLE">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.LEFT_LATERAL_VENTRICLE">[docs]</a>
+    <span class="n">LEFT_LATERAL_VENTRICLE</span> <span class="o">=</span> <span class="mi">3</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.LEFT_INFERIOR_LATERAL_VENTRICLE">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.LEFT_INFERIOR_LATERAL_VENTRICLE">[docs]</a>
+    <span class="n">LEFT_INFERIOR_LATERAL_VENTRICLE</span> <span class="o">=</span> <span class="mi">4</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.LEFT_CEREBELLUM_WHITE_MATTER">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.LEFT_CEREBELLUM_WHITE_MATTER">[docs]</a>
+    <span class="n">LEFT_CEREBELLUM_WHITE_MATTER</span> <span class="o">=</span> <span class="mi">5</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.LEFT_CEREBELLUM_CORTEX">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.LEFT_CEREBELLUM_CORTEX">[docs]</a>
+    <span class="n">LEFT_CEREBELLUM_CORTEX</span> <span class="o">=</span> <span class="mi">6</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.LEFT_THALAMUS">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.LEFT_THALAMUS">[docs]</a>
+    <span class="n">LEFT_THALAMUS</span> <span class="o">=</span> <span class="mi">7</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.LEFT_CAUDATE">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.LEFT_CAUDATE">[docs]</a>
+    <span class="n">LEFT_CAUDATE</span> <span class="o">=</span> <span class="mi">8</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.LEFT_PUTAMEN">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.LEFT_PUTAMEN">[docs]</a>
+    <span class="n">LEFT_PUTAMEN</span> <span class="o">=</span> <span class="mi">9</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.LEFT_PALLIDUM">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.LEFT_PALLIDUM">[docs]</a>
+    <span class="n">LEFT_PALLIDUM</span> <span class="o">=</span> <span class="mi">10</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.THIRD_VENTRICLE">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.THIRD_VENTRICLE">[docs]</a>
+    <span class="n">THIRD_VENTRICLE</span> <span class="o">=</span> <span class="mi">11</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.FOURTH_VENTRICLE">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.FOURTH_VENTRICLE">[docs]</a>
+    <span class="n">FOURTH_VENTRICLE</span> <span class="o">=</span> <span class="mi">12</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.BRAIN_STEM">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.BRAIN_STEM">[docs]</a>
+    <span class="n">BRAIN_STEM</span> <span class="o">=</span> <span class="mi">13</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.LEFT_HIPPOCAMPUS">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.LEFT_HIPPOCAMPUS">[docs]</a>
+    <span class="n">LEFT_HIPPOCAMPUS</span> <span class="o">=</span> <span class="mi">14</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.LEFT_AMYGDALA">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.LEFT_AMYGDALA">[docs]</a>
+    <span class="n">LEFT_AMYGDALA</span> <span class="o">=</span> <span class="mi">15</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CSF">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CSF">[docs]</a>
+    <span class="n">CSF</span> <span class="o">=</span> <span class="mi">16</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.LEFT_ACCUMBENS_AREA">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.LEFT_ACCUMBENS_AREA">[docs]</a>
+    <span class="n">LEFT_ACCUMBENS_AREA</span> <span class="o">=</span> <span class="mi">17</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.LEFT_VENTRAL_DC">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.LEFT_VENTRAL_DC">[docs]</a>
+    <span class="n">LEFT_VENTRAL_DC</span> <span class="o">=</span> <span class="mi">18</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.RIGHT_CEREBRAL_WHITE_MATTER">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.RIGHT_CEREBRAL_WHITE_MATTER">[docs]</a>
+    <span class="n">RIGHT_CEREBRAL_WHITE_MATTER</span> <span class="o">=</span> <span class="mi">19</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.RIGHT_CEREBRAL_CORTEX">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.RIGHT_CEREBRAL_CORTEX">[docs]</a>
+    <span class="n">RIGHT_CEREBRAL_CORTEX</span> <span class="o">=</span> <span class="mi">20</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.RIGHT_LATERAL_VENTRICLE">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.RIGHT_LATERAL_VENTRICLE">[docs]</a>
+    <span class="n">RIGHT_LATERAL_VENTRICLE</span> <span class="o">=</span> <span class="mi">21</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.RIGHT_INFERIOR_LATERAL_VENTRICLE">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.RIGHT_INFERIOR_LATERAL_VENTRICLE">[docs]</a>
+    <span class="n">RIGHT_INFERIOR_LATERAL_VENTRICLE</span> <span class="o">=</span> <span class="mi">22</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.RIGHT_CEREBELLUM_WHITE_MATTER">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.RIGHT_CEREBELLUM_WHITE_MATTER">[docs]</a>
+    <span class="n">RIGHT_CEREBELLUM_WHITE_MATTER</span> <span class="o">=</span> <span class="mi">23</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.RIGHT_CEREBELLUM_CORTEX">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.RIGHT_CEREBELLUM_CORTEX">[docs]</a>
+    <span class="n">RIGHT_CEREBELLUM_CORTEX</span> <span class="o">=</span> <span class="mi">24</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.RIGHT_THALAMUS">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.RIGHT_THALAMUS">[docs]</a>
+    <span class="n">RIGHT_THALAMUS</span> <span class="o">=</span> <span class="mi">25</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.RIGHT_CAUDATE">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.RIGHT_CAUDATE">[docs]</a>
+    <span class="n">RIGHT_CAUDATE</span> <span class="o">=</span> <span class="mi">26</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.RIGHT_PUTAMEN">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.RIGHT_PUTAMEN">[docs]</a>
+    <span class="n">RIGHT_PUTAMEN</span> <span class="o">=</span> <span class="mi">27</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.RIGHT_PALLIDUM">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.RIGHT_PALLIDUM">[docs]</a>
+    <span class="n">RIGHT_PALLIDUM</span> <span class="o">=</span> <span class="mi">28</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.RIGHT_HIPPOCAMPUS">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.RIGHT_HIPPOCAMPUS">[docs]</a>
+    <span class="n">RIGHT_HIPPOCAMPUS</span> <span class="o">=</span> <span class="mi">29</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.RIGHT_AMYGDALA">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.RIGHT_AMYGDALA">[docs]</a>
+    <span class="n">RIGHT_AMYGDALA</span> <span class="o">=</span> <span class="mi">30</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.RIGHT_ACCUMBENS_AREA">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.RIGHT_ACCUMBENS_AREA">[docs]</a>
+    <span class="n">RIGHT_ACCUMBENS_AREA</span> <span class="o">=</span> <span class="mi">31</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.RIGHT_VENTRAL_DC">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.RIGHT_VENTRAL_DC">[docs]</a>
+    <span class="n">RIGHT_VENTRAL_DC</span> <span class="o">=</span> <span class="mi">32</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.BACKGROUND_PARC">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.BACKGROUND_PARC">[docs]</a>
+    <span class="n">BACKGROUND_PARC</span> <span class="o">=</span> <span class="mi">33</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_LH_BANKSSTS">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_LH_BANKSSTS">[docs]</a>
+    <span class="n">CTX_LH_BANKSSTS</span> <span class="o">=</span> <span class="mi">34</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_LH_CAUDALANTERIORCINGULATE">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_LH_CAUDALANTERIORCINGULATE">[docs]</a>
+    <span class="n">CTX_LH_CAUDALANTERIORCINGULATE</span> <span class="o">=</span> <span class="mi">35</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_LH_CAUDALMIDDLEFRONTAL">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_LH_CAUDALMIDDLEFRONTAL">[docs]</a>
+    <span class="n">CTX_LH_CAUDALMIDDLEFRONTAL</span> <span class="o">=</span> <span class="mi">36</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_LH_CUNEUS">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_LH_CUNEUS">[docs]</a>
+    <span class="n">CTX_LH_CUNEUS</span> <span class="o">=</span> <span class="mi">37</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_LH_ENTORHINAL">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_LH_ENTORHINAL">[docs]</a>
+    <span class="n">CTX_LH_ENTORHINAL</span> <span class="o">=</span> <span class="mi">38</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_LH_FUSIFORM">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_LH_FUSIFORM">[docs]</a>
+    <span class="n">CTX_LH_FUSIFORM</span> <span class="o">=</span> <span class="mi">39</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_LH_INFERIORPARIETAL">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_LH_INFERIORPARIETAL">[docs]</a>
+    <span class="n">CTX_LH_INFERIORPARIETAL</span> <span class="o">=</span> <span class="mi">40</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_LH_INFERIORTEMPORAL">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_LH_INFERIORTEMPORAL">[docs]</a>
+    <span class="n">CTX_LH_INFERIORTEMPORAL</span> <span class="o">=</span> <span class="mi">41</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_LH_ISTHMUSCINGULATE">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_LH_ISTHMUSCINGULATE">[docs]</a>
+    <span class="n">CTX_LH_ISTHMUSCINGULATE</span> <span class="o">=</span> <span class="mi">42</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_LH_LATERALOCCIPITAL">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_LH_LATERALOCCIPITAL">[docs]</a>
+    <span class="n">CTX_LH_LATERALOCCIPITAL</span> <span class="o">=</span> <span class="mi">43</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_LH_LATERALORBITOFRONTAL">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_LH_LATERALORBITOFRONTAL">[docs]</a>
+    <span class="n">CTX_LH_LATERALORBITOFRONTAL</span> <span class="o">=</span> <span class="mi">44</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_LH_LINGUAL">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_LH_LINGUAL">[docs]</a>
+    <span class="n">CTX_LH_LINGUAL</span> <span class="o">=</span> <span class="mi">45</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_LH_MEDIALORBITOFRONTAL">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_LH_MEDIALORBITOFRONTAL">[docs]</a>
+    <span class="n">CTX_LH_MEDIALORBITOFRONTAL</span> <span class="o">=</span> <span class="mi">46</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_LH_MIDDLETEMPORAL">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_LH_MIDDLETEMPORAL">[docs]</a>
+    <span class="n">CTX_LH_MIDDLETEMPORAL</span> <span class="o">=</span> <span class="mi">47</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_LH_PARAHIPPOCAMPAL">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_LH_PARAHIPPOCAMPAL">[docs]</a>
+    <span class="n">CTX_LH_PARAHIPPOCAMPAL</span> <span class="o">=</span> <span class="mi">48</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_LH_PARACENTRAL">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_LH_PARACENTRAL">[docs]</a>
+    <span class="n">CTX_LH_PARACENTRAL</span> <span class="o">=</span> <span class="mi">49</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_LH_PARSOPERCULARIS">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_LH_PARSOPERCULARIS">[docs]</a>
+    <span class="n">CTX_LH_PARSOPERCULARIS</span> <span class="o">=</span> <span class="mi">50</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_LH_PARSORBITALIS">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_LH_PARSORBITALIS">[docs]</a>
+    <span class="n">CTX_LH_PARSORBITALIS</span> <span class="o">=</span> <span class="mi">51</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_LH_PARSTRIANGULARIS">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_LH_PARSTRIANGULARIS">[docs]</a>
+    <span class="n">CTX_LH_PARSTRIANGULARIS</span> <span class="o">=</span> <span class="mi">52</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_LH_PERICALCARINE">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_LH_PERICALCARINE">[docs]</a>
+    <span class="n">CTX_LH_PERICALCARINE</span> <span class="o">=</span> <span class="mi">53</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_LH_POSTCENTRAL">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_LH_POSTCENTRAL">[docs]</a>
+    <span class="n">CTX_LH_POSTCENTRAL</span> <span class="o">=</span> <span class="mi">54</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_LH_POSTERIORCINGULATE">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_LH_POSTERIORCINGULATE">[docs]</a>
+    <span class="n">CTX_LH_POSTERIORCINGULATE</span> <span class="o">=</span> <span class="mi">55</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_LH_PRECENTRAL">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_LH_PRECENTRAL">[docs]</a>
+    <span class="n">CTX_LH_PRECENTRAL</span> <span class="o">=</span> <span class="mi">56</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_LH_PRECUNEUS">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_LH_PRECUNEUS">[docs]</a>
+    <span class="n">CTX_LH_PRECUNEUS</span> <span class="o">=</span> <span class="mi">57</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_LH_ROSTRALANTERIORCINGULATE">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_LH_ROSTRALANTERIORCINGULATE">[docs]</a>
+    <span class="n">CTX_LH_ROSTRALANTERIORCINGULATE</span> <span class="o">=</span> <span class="mi">58</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_LH_ROSTRALMIDDLEFRONTAL">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_LH_ROSTRALMIDDLEFRONTAL">[docs]</a>
+    <span class="n">CTX_LH_ROSTRALMIDDLEFRONTAL</span> <span class="o">=</span> <span class="mi">59</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_LH_SUPERIORFRONTAL">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_LH_SUPERIORFRONTAL">[docs]</a>
+    <span class="n">CTX_LH_SUPERIORFRONTAL</span> <span class="o">=</span> <span class="mi">60</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_LH_SUPERIORPARIETAL">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_LH_SUPERIORPARIETAL">[docs]</a>
+    <span class="n">CTX_LH_SUPERIORPARIETAL</span> <span class="o">=</span> <span class="mi">61</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_LH_SUPERIORTEMPORAL">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_LH_SUPERIORTEMPORAL">[docs]</a>
+    <span class="n">CTX_LH_SUPERIORTEMPORAL</span> <span class="o">=</span> <span class="mi">62</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_LH_SUPRAMARGINAL">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_LH_SUPRAMARGINAL">[docs]</a>
+    <span class="n">CTX_LH_SUPRAMARGINAL</span> <span class="o">=</span> <span class="mi">63</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_LH_FRONTALPOLE">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_LH_FRONTALPOLE">[docs]</a>
+    <span class="n">CTX_LH_FRONTALPOLE</span> <span class="o">=</span> <span class="mi">64</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_LH_TEMPORALPOLE">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_LH_TEMPORALPOLE">[docs]</a>
+    <span class="n">CTX_LH_TEMPORALPOLE</span> <span class="o">=</span> <span class="mi">65</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_LH_TRANSVERSETEMPORAL">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_LH_TRANSVERSETEMPORAL">[docs]</a>
+    <span class="n">CTX_LH_TRANSVERSETEMPORAL</span> <span class="o">=</span> <span class="mi">66</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_LH_INSULA">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_LH_INSULA">[docs]</a>
+    <span class="n">CTX_LH_INSULA</span> <span class="o">=</span> <span class="mi">67</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_RH_BANKSSTS">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_RH_BANKSSTS">[docs]</a>
+    <span class="n">CTX_RH_BANKSSTS</span> <span class="o">=</span> <span class="mi">68</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_RH_CAUDALANTERIORCINGULATE">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_RH_CAUDALANTERIORCINGULATE">[docs]</a>
+    <span class="n">CTX_RH_CAUDALANTERIORCINGULATE</span> <span class="o">=</span> <span class="mi">69</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_RH_CAUDALMIDDLEFRONTAL">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_RH_CAUDALMIDDLEFRONTAL">[docs]</a>
+    <span class="n">CTX_RH_CAUDALMIDDLEFRONTAL</span> <span class="o">=</span> <span class="mi">70</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_RH_CUNEUS">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_RH_CUNEUS">[docs]</a>
+    <span class="n">CTX_RH_CUNEUS</span> <span class="o">=</span> <span class="mi">71</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_RH_ENTORHINAL">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_RH_ENTORHINAL">[docs]</a>
+    <span class="n">CTX_RH_ENTORHINAL</span> <span class="o">=</span> <span class="mi">72</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_RH_FUSIFORM">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_RH_FUSIFORM">[docs]</a>
+    <span class="n">CTX_RH_FUSIFORM</span> <span class="o">=</span> <span class="mi">73</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_RH_INFERIORPARIETAL">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_RH_INFERIORPARIETAL">[docs]</a>
+    <span class="n">CTX_RH_INFERIORPARIETAL</span> <span class="o">=</span> <span class="mi">74</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_RH_INFERIORTEMPORAL">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_RH_INFERIORTEMPORAL">[docs]</a>
+    <span class="n">CTX_RH_INFERIORTEMPORAL</span> <span class="o">=</span> <span class="mi">75</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_RH_ISTHMUSCINGULATE">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_RH_ISTHMUSCINGULATE">[docs]</a>
+    <span class="n">CTX_RH_ISTHMUSCINGULATE</span> <span class="o">=</span> <span class="mi">76</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_RH_LATERALOCCIPITAL">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_RH_LATERALOCCIPITAL">[docs]</a>
+    <span class="n">CTX_RH_LATERALOCCIPITAL</span> <span class="o">=</span> <span class="mi">77</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_RH_LATERALORBITOFRONTAL">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_RH_LATERALORBITOFRONTAL">[docs]</a>
+    <span class="n">CTX_RH_LATERALORBITOFRONTAL</span> <span class="o">=</span> <span class="mi">78</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_RH_LINGUAL">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_RH_LINGUAL">[docs]</a>
+    <span class="n">CTX_RH_LINGUAL</span> <span class="o">=</span> <span class="mi">79</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_RH_MEDIALORBITOFRONTAL">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_RH_MEDIALORBITOFRONTAL">[docs]</a>
+    <span class="n">CTX_RH_MEDIALORBITOFRONTAL</span> <span class="o">=</span> <span class="mi">80</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_RH_MIDDLETEMPORAL">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_RH_MIDDLETEMPORAL">[docs]</a>
+    <span class="n">CTX_RH_MIDDLETEMPORAL</span> <span class="o">=</span> <span class="mi">81</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_RH_PARAHIPPOCAMPAL">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_RH_PARAHIPPOCAMPAL">[docs]</a>
+    <span class="n">CTX_RH_PARAHIPPOCAMPAL</span> <span class="o">=</span> <span class="mi">82</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_RH_PARACENTRAL">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_RH_PARACENTRAL">[docs]</a>
+    <span class="n">CTX_RH_PARACENTRAL</span> <span class="o">=</span> <span class="mi">83</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_RH_PARSOPERCULARIS">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_RH_PARSOPERCULARIS">[docs]</a>
+    <span class="n">CTX_RH_PARSOPERCULARIS</span> <span class="o">=</span> <span class="mi">84</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_RH_PARSORBITALIS">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_RH_PARSORBITALIS">[docs]</a>
+    <span class="n">CTX_RH_PARSORBITALIS</span> <span class="o">=</span> <span class="mi">85</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_RH_PARSTRIANGULARIS">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_RH_PARSTRIANGULARIS">[docs]</a>
+    <span class="n">CTX_RH_PARSTRIANGULARIS</span> <span class="o">=</span> <span class="mi">86</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_RH_PERICALCARINE">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_RH_PERICALCARINE">[docs]</a>
+    <span class="n">CTX_RH_PERICALCARINE</span> <span class="o">=</span> <span class="mi">87</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_RH_POSTCENTRAL">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_RH_POSTCENTRAL">[docs]</a>
+    <span class="n">CTX_RH_POSTCENTRAL</span> <span class="o">=</span> <span class="mi">88</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_RH_POSTERIORCINGULATE">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_RH_POSTERIORCINGULATE">[docs]</a>
+    <span class="n">CTX_RH_POSTERIORCINGULATE</span> <span class="o">=</span> <span class="mi">89</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_RH_PRECENTRAL">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_RH_PRECENTRAL">[docs]</a>
+    <span class="n">CTX_RH_PRECENTRAL</span> <span class="o">=</span> <span class="mi">90</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_RH_PRECUNEUS">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_RH_PRECUNEUS">[docs]</a>
+    <span class="n">CTX_RH_PRECUNEUS</span> <span class="o">=</span> <span class="mi">91</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_RH_ROSTRALANTERIORCINGULATE">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_RH_ROSTRALANTERIORCINGULATE">[docs]</a>
+    <span class="n">CTX_RH_ROSTRALANTERIORCINGULATE</span> <span class="o">=</span> <span class="mi">92</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_RH_ROSTRALMIDDLEFRONTAL">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_RH_ROSTRALMIDDLEFRONTAL">[docs]</a>
+    <span class="n">CTX_RH_ROSTRALMIDDLEFRONTAL</span> <span class="o">=</span> <span class="mi">93</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_RH_SUPERIORFRONTAL">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_RH_SUPERIORFRONTAL">[docs]</a>
+    <span class="n">CTX_RH_SUPERIORFRONTAL</span> <span class="o">=</span> <span class="mi">94</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_RH_SUPERIORPARIETAL">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_RH_SUPERIORPARIETAL">[docs]</a>
+    <span class="n">CTX_RH_SUPERIORPARIETAL</span> <span class="o">=</span> <span class="mi">95</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_RH_SUPERIORTEMPORAL">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_RH_SUPERIORTEMPORAL">[docs]</a>
+    <span class="n">CTX_RH_SUPERIORTEMPORAL</span> <span class="o">=</span> <span class="mi">96</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_RH_SUPRAMARGINAL">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_RH_SUPRAMARGINAL">[docs]</a>
+    <span class="n">CTX_RH_SUPRAMARGINAL</span> <span class="o">=</span> <span class="mi">97</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_RH_FRONTALPOLE">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_RH_FRONTALPOLE">[docs]</a>
+    <span class="n">CTX_RH_FRONTALPOLE</span> <span class="o">=</span> <span class="mi">98</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_RH_TEMPORALPOLE">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_RH_TEMPORALPOLE">[docs]</a>
+    <span class="n">CTX_RH_TEMPORALPOLE</span> <span class="o">=</span> <span class="mi">99</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_RH_TRANSVERSETEMPORAL">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_RH_TRANSVERSETEMPORAL">[docs]</a>
+    <span class="n">CTX_RH_TRANSVERSETEMPORAL</span> <span class="o">=</span> <span class="mi">100</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.CTX_RH_INSULA">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.CTX_RH_INSULA">[docs]</a>
+    <span class="n">CTX_RH_INSULA</span> <span class="o">=</span> <span class="mi">101</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.LEFT_HYPOTHALAMUS">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.LEFT_HYPOTHALAMUS">[docs]</a>
+    <span class="n">LEFT_HYPOTHALAMUS</span> <span class="o">=</span> <span class="mi">102</span></div>
+
+<div class="viewcode-block" id="SynthSegLabels.RIGHT_HYPOTHALAMUS">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.SynthSegLabels.RIGHT_HYPOTHALAMUS">[docs]</a>
+    <span class="n">RIGHT_HYPOTHALAMUS</span> <span class="o">=</span> <span class="mi">103</span></div>
+</div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_model</span><span class="p">(</span><span class="n">model_name</span><span class="p">):</span>
+    <span class="n">model_dir</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">afq_home</span><span class="p">,</span> <span class="s2">&quot;synthseg_onnx&quot;</span><span class="p">)</span>
+    <span class="n">model_dictionary</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;synthseg2&quot;</span><span class="p">:</span> <span class="s2">&quot;synthseg2.onnx&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;synthseg2pc&quot;</span><span class="p">:</span> <span class="s2">&quot;synthseg2pc_only.onnx&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;synthseg_hypo&quot;</span><span class="p">:</span> <span class="s2">&quot;synthseg_hypo.onnx&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">model_fname</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">model_dir</span><span class="p">,</span> <span class="n">model_dictionary</span><span class="p">[</span><span class="n">model_name</span><span class="p">])</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">op</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">model_fname</span><span class="p">):</span>
+        <span class="n">fetch_synthseg_models</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">model_fname</span>
+
+
+<div class="viewcode-block" id="run_synthseg">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/synthseg/index.html#AFQ.nn.synthseg.run_synthseg">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_synthseg</span><span class="p">(</span>
+    <span class="n">ort</span><span class="p">,</span> <span class="n">t1_img</span><span class="p">,</span> <span class="n">model_name</span><span class="p">,</span> <span class="n">onnx_kwargs</span><span class="p">,</span> <span class="n">parc_cortex</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">parc_hypothalamus</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Run the Synthseg Model</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    [1] Billot, Benjamin, et al. &quot;Robust machine learning segmentation</span>
+<span class="sd">        for large-scale analysis of heterogeneous clinical brain MRI</span>
+<span class="sd">        datasets.&quot; Proceedings of the National Academy of Sciences 120.9</span>
+<span class="sd">        (2023): e2216399120.</span>
+<span class="sd">    [2] Billot, Benjamin, et al. &quot;SynthSeg: Segmentation of brain MRI scans</span>
+<span class="sd">        of any contrast and resolution without retraining.&quot; Medical image</span>
+<span class="sd">        analysis 86 (2023): 102789.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">_get_model</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
+    <span class="n">t1_data</span><span class="p">,</span> <span class="n">conformed_affine</span> <span class="o">=</span> <span class="n">prepare_t1_for_nn</span><span class="p">(</span><span class="n">t1_img</span><span class="p">)</span>
+
+    <span class="n">image</span> <span class="o">=</span> <span class="n">t1_data</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)[</span><span class="kc">None</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Running </span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
+    <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+    <span class="n">sess</span> <span class="o">=</span> <span class="n">ort</span><span class="o">.</span><span class="n">InferenceSession</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="o">**</span><span class="n">onnx_kwargs</span><span class="p">)</span>
+    <span class="n">input_name</span> <span class="o">=</span> <span class="n">sess</span><span class="o">.</span><span class="n">get_inputs</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
+    <span class="n">output_name</span> <span class="o">=</span> <span class="n">sess</span><span class="o">.</span><span class="n">get_outputs</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
+    <span class="n">output_channels</span> <span class="o">=</span> <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="n">output_name</span><span class="p">],</span> <span class="p">{</span><span class="n">input_name</span><span class="p">:</span> <span class="n">image</span><span class="p">})[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">total_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">((</span><span class="sa">f</span><span class="s2">&quot;Finished </span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2"> in </span><span class="si">{</span><span class="n">total_time</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> seconds.&quot;</span><span class="p">))</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="n">output_channels</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">4</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">parc_cortex</span><span class="p">:</span>
+        <span class="n">parc_model</span> <span class="o">=</span> <span class="n">_get_model</span><span class="p">(</span><span class="s2">&quot;synthseg2pc&quot;</span><span class="p">)</span>
+
+        <span class="n">cortex_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="n">cortex_mask</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">output</span> <span class="o">==</span> <span class="n">SynthSegLabels</span><span class="o">.</span><span class="n">LEFT_CEREBRAL_CORTEX</span><span class="p">)</span>
+            <span class="o">|</span> <span class="p">(</span><span class="n">output</span> <span class="o">==</span> <span class="n">SynthSegLabels</span><span class="o">.</span><span class="n">RIGHT_CEREBRAL_CORTEX</span><span class="p">),</span>
+            <span class="mi">0</span><span class="p">,</span>
+            <span class="mi">1</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">cortex_mask</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">output</span> <span class="o">==</span> <span class="n">SynthSegLabels</span><span class="o">.</span><span class="n">LEFT_CEREBRAL_CORTEX</span><span class="p">)</span>
+            <span class="o">|</span> <span class="p">(</span><span class="n">output</span> <span class="o">==</span> <span class="n">SynthSegLabels</span><span class="o">.</span><span class="n">RIGHT_CEREBRAL_CORTEX</span><span class="p">),</span>
+            <span class="mi">1</span><span class="p">,</span>
+            <span class="mi">0</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">sess_parc</span> <span class="o">=</span> <span class="n">ort</span><span class="o">.</span><span class="n">InferenceSession</span><span class="p">(</span><span class="n">parc_model</span><span class="p">,</span> <span class="o">**</span><span class="n">onnx_kwargs</span><span class="p">)</span>
+        <span class="n">parc_inputs</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">sess_parc</span><span class="o">.</span><span class="n">get_inputs</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">image</span><span class="p">,</span>
+            <span class="n">sess_parc</span><span class="o">.</span><span class="n">get_inputs</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">cortex_mask</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="s2">&quot;Running Synthseg2 Cortical Parcellation (this will take longer)...&quot;</span>
+        <span class="p">)</span>
+        <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+        <span class="n">parc_output_channels</span> <span class="o">=</span> <span class="n">sess_parc</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">parc_inputs</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">total_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Finished Synthseg2 Cortical Parcellation in </span><span class="si">{</span><span class="n">total_time</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> seconds.&quot;</span>
+        <span class="p">)</span>
+        <span class="n">parc_labels</span> <span class="o">=</span> <span class="n">parc_output_channels</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">offset</span> <span class="o">=</span> <span class="n">output_channels</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">output</span> <span class="o">==</span> <span class="n">SynthSegLabels</span><span class="o">.</span><span class="n">LEFT_CEREBRAL_CORTEX</span><span class="p">)</span>
+            <span class="o">|</span> <span class="p">(</span><span class="n">output</span> <span class="o">==</span> <span class="n">SynthSegLabels</span><span class="o">.</span><span class="n">RIGHT_CEREBRAL_CORTEX</span><span class="p">),</span>
+            <span class="n">parc_labels</span> <span class="o">+</span> <span class="n">offset</span><span class="p">,</span>
+            <span class="n">output</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">parc_hypothalamus</span><span class="p">:</span>
+        <span class="n">parc_model</span> <span class="o">=</span> <span class="n">_get_model</span><span class="p">(</span><span class="s2">&quot;synthseg_hypo&quot;</span><span class="p">)</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Running Synthseg Hypothalamus...&quot;</span><span class="p">)</span>
+        <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+        <span class="n">sess</span> <span class="o">=</span> <span class="n">ort</span><span class="o">.</span><span class="n">InferenceSession</span><span class="p">(</span><span class="n">parc_model</span><span class="p">,</span> <span class="o">**</span><span class="n">onnx_kwargs</span><span class="p">)</span>
+        <span class="n">input_name</span> <span class="o">=</span> <span class="n">sess</span><span class="o">.</span><span class="n">get_inputs</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
+        <span class="n">output_name</span> <span class="o">=</span> <span class="n">sess</span><span class="o">.</span><span class="n">get_outputs</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
+        <span class="n">output_channels</span> <span class="o">=</span> <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="n">output_name</span><span class="p">],</span> <span class="p">{</span><span class="n">input_name</span><span class="p">:</span> <span class="n">image</span><span class="p">})[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">total_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">((</span><span class="sa">f</span><span class="s2">&quot;Finished Synthseg Hypothalamus in </span><span class="si">{</span><span class="n">total_time</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> seconds.&quot;</span><span class="p">))</span>
+        <span class="n">hypo_output</span> <span class="o">=</span> <span class="n">output_channels</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">4</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+        <span class="n">output</span><span class="p">[(</span><span class="n">hypo_output</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">hypo_output</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="p">)]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">SynthSegLabels</span><span class="o">.</span><span class="n">LEFT_HYPOTHALAMUS</span>
+        <span class="p">)</span>
+        <span class="n">output</span><span class="p">[(</span><span class="n">hypo_output</span> <span class="o">&gt;=</span> <span class="mi">6</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">hypo_output</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="p">)]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">SynthSegLabels</span><span class="o">.</span><span class="n">RIGHT_HYPOTHALAMUS</span>
+        <span class="p">)</span>
+
+    <span class="n">output_img</span> <span class="o">=</span> <span class="n">resample_output</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">conformed_affine</span><span class="p">,</span> <span class="n">t1_img</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">output_img</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">pve_from_synthseg</span><span class="p">(</span><span class="n">synthseg_data</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute partial volume estimates from SynthSeg segmentation.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    synthseg_data : ndarray</span>
+<span class="sd">        The output segmentation from SynthSeg.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pve : ndarray</span>
+<span class="sd">        PVE data with CSF, GM, and WM segmentations.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">CSF_labels</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">SynthSegLabels</span><span class="o">.</span><span class="n">BACKGROUND</span><span class="p">,</span>
+        <span class="n">SynthSegLabels</span><span class="o">.</span><span class="n">LEFT_LATERAL_VENTRICLE</span><span class="p">,</span>
+        <span class="n">SynthSegLabels</span><span class="o">.</span><span class="n">LEFT_INFERIOR_LATERAL_VENTRICLE</span><span class="p">,</span>
+        <span class="n">SynthSegLabels</span><span class="o">.</span><span class="n">THIRD_VENTRICLE</span><span class="p">,</span>
+        <span class="n">SynthSegLabels</span><span class="o">.</span><span class="n">FOURTH_VENTRICLE</span><span class="p">,</span>
+        <span class="n">SynthSegLabels</span><span class="o">.</span><span class="n">RIGHT_LATERAL_VENTRICLE</span><span class="p">,</span>
+        <span class="n">SynthSegLabels</span><span class="o">.</span><span class="n">RIGHT_INFERIOR_LATERAL_VENTRICLE</span><span class="p">,</span>
+        <span class="n">SynthSegLabels</span><span class="o">.</span><span class="n">CSF</span><span class="p">,</span>
+    <span class="p">]</span>
+
+    <span class="n">GM_labels</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">SynthSegLabels</span><span class="o">.</span><span class="n">LEFT_CEREBRAL_CORTEX</span><span class="p">,</span>
+        <span class="n">SynthSegLabels</span><span class="o">.</span><span class="n">LEFT_CEREBELLUM_CORTEX</span><span class="p">,</span>
+        <span class="n">SynthSegLabels</span><span class="o">.</span><span class="n">LEFT_THALAMUS</span><span class="p">,</span>
+        <span class="n">SynthSegLabels</span><span class="o">.</span><span class="n">LEFT_CAUDATE</span><span class="p">,</span>
+        <span class="n">SynthSegLabels</span><span class="o">.</span><span class="n">LEFT_PUTAMEN</span><span class="p">,</span>
+        <span class="n">SynthSegLabels</span><span class="o">.</span><span class="n">LEFT_HIPPOCAMPUS</span><span class="p">,</span>
+        <span class="n">SynthSegLabels</span><span class="o">.</span><span class="n">LEFT_AMYGDALA</span><span class="p">,</span>
+        <span class="n">SynthSegLabels</span><span class="o">.</span><span class="n">LEFT_ACCUMBENS_AREA</span><span class="p">,</span>
+        <span class="n">SynthSegLabels</span><span class="o">.</span><span class="n">RIGHT_CEREBRAL_CORTEX</span><span class="p">,</span>
+        <span class="n">SynthSegLabels</span><span class="o">.</span><span class="n">RIGHT_CEREBELLUM_CORTEX</span><span class="p">,</span>
+        <span class="n">SynthSegLabels</span><span class="o">.</span><span class="n">RIGHT_THALAMUS</span><span class="p">,</span>
+        <span class="n">SynthSegLabels</span><span class="o">.</span><span class="n">RIGHT_CAUDATE</span><span class="p">,</span>
+        <span class="n">SynthSegLabels</span><span class="o">.</span><span class="n">RIGHT_PUTAMEN</span><span class="p">,</span>
+        <span class="n">SynthSegLabels</span><span class="o">.</span><span class="n">RIGHT_HIPPOCAMPUS</span><span class="p">,</span>
+        <span class="n">SynthSegLabels</span><span class="o">.</span><span class="n">RIGHT_AMYGDALA</span><span class="p">,</span>
+        <span class="n">SynthSegLabels</span><span class="o">.</span><span class="n">RIGHT_ACCUMBENS_AREA</span><span class="p">,</span>
+        <span class="n">SynthSegLabels</span><span class="o">.</span><span class="n">LEFT_HYPOTHALAMUS</span><span class="p">,</span>
+        <span class="n">SynthSegLabels</span><span class="o">.</span><span class="n">RIGHT_HYPOTHALAMUS</span><span class="p">,</span>
+    <span class="p">]</span>
+    <span class="n">GM_labels</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+        <span class="nb">range</span><span class="p">(</span><span class="n">SynthSegLabels</span><span class="o">.</span><span class="n">BACKGROUND_PARC</span><span class="p">,</span> <span class="n">SynthSegLabels</span><span class="o">.</span><span class="n">CTX_RH_INSULA</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="n">WM_labels</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">SynthSegLabels</span><span class="o">.</span><span class="n">LEFT_CEREBRAL_WHITE_MATTER</span><span class="p">,</span>
+        <span class="n">SynthSegLabels</span><span class="o">.</span><span class="n">LEFT_CEREBELLUM_WHITE_MATTER</span><span class="p">,</span>
+        <span class="n">SynthSegLabels</span><span class="o">.</span><span class="n">RIGHT_CEREBRAL_WHITE_MATTER</span><span class="p">,</span>
+        <span class="n">SynthSegLabels</span><span class="o">.</span><span class="n">RIGHT_CEREBELLUM_WHITE_MATTER</span><span class="p">,</span>
+    <span class="p">]</span>
+
+    <span class="n">mixed_labels</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">SynthSegLabels</span><span class="o">.</span><span class="n">BRAIN_STEM</span><span class="p">,</span>
+        <span class="n">SynthSegLabels</span><span class="o">.</span><span class="n">LEFT_PALLIDUM</span><span class="p">,</span>
+        <span class="n">SynthSegLabels</span><span class="o">.</span><span class="n">RIGHT_PALLIDUM</span><span class="p">,</span>
+        <span class="n">SynthSegLabels</span><span class="o">.</span><span class="n">LEFT_VENTRAL_DC</span><span class="p">,</span>
+        <span class="n">SynthSegLabels</span><span class="o">.</span><span class="n">RIGHT_VENTRAL_DC</span><span class="p">,</span>
+    <span class="p">]</span>
+
+    <span class="n">PVE</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">synthseg_data</span><span class="o">.</span><span class="n">shape</span> <span class="o">+</span> <span class="p">(</span><span class="mi">3</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+    <span class="n">PVE</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">synthseg_data</span><span class="p">,</span> <span class="n">CSF_labels</span><span class="p">),</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">PVE</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">synthseg_data</span><span class="p">,</span> <span class="n">GM_labels</span><span class="p">),</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">PVE</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">synthseg_data</span><span class="p">,</span> <span class="n">WM_labels</span><span class="p">),</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+    <span class="c1"># For mixed labels, we assume they are WM interior, GM exterior</span>
+    <span class="c1"># except on boundaries with wm, where we assume they are WM.</span>
+    <span class="c1"># We additionally set GM to 0.4 and WM to 0.6</span>
+    <span class="c1"># This is a simplification, basically so they do not cause problems</span>
+    <span class="c1"># with ACT</span>
+    <span class="n">wm_fuzzed</span> <span class="o">=</span> <span class="n">gaussian_filter</span><span class="p">(</span><span class="n">PVE</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">nwm_fuzzed</span> <span class="o">=</span> <span class="n">gaussian_filter</span><span class="p">(</span><span class="n">PVE</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">PVE</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">bs_exterior</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span>
+        <span class="n">find_boundaries</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">synthseg_data</span><span class="p">,</span> <span class="n">mixed_labels</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;inner&quot;</span><span class="p">),</span>
+        <span class="n">nwm_fuzzed</span> <span class="o">&gt;=</span> <span class="n">wm_fuzzed</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">PVE</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">synthseg_data</span><span class="p">,</span> <span class="n">mixed_labels</span><span class="p">),</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.4</span>
+    <span class="n">PVE</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">synthseg_data</span><span class="p">,</span> <span class="n">mixed_labels</span><span class="p">),</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.6</span>
+    <span class="n">PVE</span><span class="p">[</span><span class="n">bs_exterior</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">PVE</span><span class="p">[</span><span class="n">bs_exterior</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+    <span class="k">return</span> <span class="n">PVE</span>
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2018--, The pyAFQ Contributors.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+  <div class="footer-content">
+    <div class="copyright">
+      Please Cite the following papers:
+    </div>
+    <div class="citation">
+      <a href="https://doi.org/10.1371/journal.pcbi.1013323">
+        Kruper et al. (2025)
+      </a><br>
+      <a href="https://doi.org/10.52294/e6198273-b8e3-4b63-babb-6e6b0da10669">
+        Kruper et al. (2021)
+      </a>
+    </div>
+  </div>
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-156363454-2");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+  </body>
+</html>

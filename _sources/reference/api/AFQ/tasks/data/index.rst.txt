@@ -1,20 +1,27 @@
-:py:mod:`AFQ.tasks.data`
-========================
+AFQ.tasks.data
+==============
 
 .. py:module:: AFQ.tasks.data
 
 
-Module Contents
----------------
-
-
-Functions
-~~~~~~~~~
+Attributes
+----------
 
 .. autoapisummary::
 
+   AFQ.tasks.data.logger
+   AFQ.tasks.data.DIPY_GH
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   AFQ.tasks.data._or_to_text
    AFQ.tasks.data.get_data_gtab
    AFQ.tasks.data.b0
+   AFQ.tasks.data.t1w_over_b0
    AFQ.tasks.data.b0_mask
    AFQ.tasks.data.dti_fit
    AFQ.tasks.data.dti_params
@@ -27,17 +34,13 @@ Functions
    AFQ.tasks.data.msdki_msd
    AFQ.tasks.data.msdki_msk
    AFQ.tasks.data.csd_params
+   AFQ.tasks.data.csd_aodf
+   AFQ.tasks.data.csd_aodf_asi
+   AFQ.tasks.data.csd_aodf_opm
    AFQ.tasks.data.anisotropic_power_map
    AFQ.tasks.data.csd_anisotropic_index
    AFQ.tasks.data.gq
-   AFQ.tasks.data.gq_pmap
-   AFQ.tasks.data.gq_ai
-   AFQ.tasks.data.rumba_model
    AFQ.tasks.data.rumba_params
-   AFQ.tasks.data.rumba_fit
-   AFQ.tasks.data.rumba_f_csf
-   AFQ.tasks.data.rumba_f_gm
-   AFQ.tasks.data.rumba_f_wm
    AFQ.tasks.data.opdt_params
    AFQ.tasks.data.opdt_pmap
    AFQ.tasks.data.opdt_ai
@@ -57,11 +60,15 @@ Functions
    AFQ.tasks.data.dti_ad
    AFQ.tasks.data.dki_kt
    AFQ.tasks.data.dki_lt
+   AFQ.tasks.data.dki_cfa
    AFQ.tasks.data.dki_fa
    AFQ.tasks.data.dki_md
    AFQ.tasks.data.dki_awf
    AFQ.tasks.data.dki_mk
    AFQ.tasks.data.dki_kfa
+   AFQ.tasks.data.dki_cl
+   AFQ.tasks.data.dki_cp
+   AFQ.tasks.data.dki_cs
    AFQ.tasks.data.dki_ga
    AFQ.tasks.data.dki_rd
    AFQ.tasks.data.dki_ad
@@ -72,26 +79,18 @@ Functions
    AFQ.tasks.data.get_data_plan
 
 
-
-Attributes
-~~~~~~~~~~
-
-.. autoapisummary::
-
-   AFQ.tasks.data.logger
-   AFQ.tasks.data.DIPY_GH
-
+Module Contents
+---------------
 
 .. py:data:: logger
-
-   
 
 .. py:data:: DIPY_GH
    :value: 'https://github.com/dipy/dipy/blob/master/dipy/'
 
-   
 
-.. py:function:: get_data_gtab(dwi_data_file, bval_file, bvec_file, min_bval=None, max_bval=None, filter_b=True, b0_threshold=50)
+.. py:function:: _or_to_text(outlier_rejection_method)
+
+.. py:function:: get_data_gtab(dwi_data_file, bval_file, bvec_file, min_bval=-np.inf, max_bval=np.inf, b0_threshold=50)
 
    
    DWI data as an ndarray for selected b values,
@@ -105,20 +104,19 @@ Attributes
        **min_bval** : float, optional
            Minimum b value you want to use
            from the dataset (other than b0), inclusive.
-           If None, there is no minimum limit. Default: None
+           If None, there is no minimum limit.
+           Default: -np.inf
 
        **max_bval** : float, optional
            Maximum b value you want to use
            from the dataset (other than b0), inclusive.
-           If None, there is no maximum limit. Default: None
-
-       **filter_b** : bool, optional
-           Whether to filter the DWI data based on min or max bvals.
-           Default: True
+           If None, there is no maximum limit.
+           Default: np.inf
 
        **b0_threshold** : int, optional
            The value of b under which
-           it is considered to be b0. Default: 50.
+           it is considered to be b0.
+           Default: 50
 
 
 
@@ -152,6 +150,45 @@ Attributes
 
 
 
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: t1w_over_b0(structural_imap, b0, citations, min_b0_for_r1_approximation=0.01)
+
+   
+   full path to a nifti file containing the T1w over mean b0
+   which is a proxy for R1 [Rf2229f7a2e07-1]_
+
+
+   :Parameters:
+
+       **min_b0_for_r1_approximation** : float, optional
+           The minimum value of b0 to consider when doing the division.
+           This is to avoid dividing by small numbers.
+           Default: 1e-2
+
+
+
+
+
+
+
+
+
+
+   .. rubric:: References
+
+   .. [Rf2229f7a2e07-1] Moskovich, S., Shtangel, O., & Mezer, A. (2024).
+            Approximating R1 and R2: A quantitative approach to
+            clinical weighted MRI. Hum. Brain Mapp., 45(18), e70102.
+
+   .. only:: latex
+
+      [Rf2229f7a2e07-1]_
 
 
 
@@ -206,11 +243,11 @@ Attributes
    ..
        !! processed by numpydoc !!
 
-.. py:function:: dti_params(brain_mask, data, gtab, bval_file, bvec_file, b0_threshold=50, robust_tensor_fitting=False)
+.. py:function:: dti_params(brain_mask, data, gtab, bval_file, bvec_file, citations, b0_threshold=50, robust_tensor_fitting=False)
 
    
    full path to a nifti file containing parameters
-   for the DTI fit
+   for the DTI fit, s0 values of DTI fit
 
 
    :Parameters:
@@ -222,7 +259,8 @@ Attributes
 
        **b0_threshold** : int, optional
            The value of b under which
-           it is considered to be b0. Default: 50.
+           it is considered to be b0.
+           Default: 50.
 
 
 
@@ -263,7 +301,7 @@ Attributes
    ..
        !! processed by numpydoc !!
 
-.. py:function:: fwdti_params(brain_mask, data, gtab)
+.. py:function:: fwdti_params(brain_mask, data, gtab, citations)
 
    
    Full path to a nifti file containing parameters
@@ -310,11 +348,11 @@ Attributes
    ..
        !! processed by numpydoc !!
 
-.. py:function:: dki_params(brain_mask, gtab, data)
+.. py:function:: dki_params(brain_mask, gtab, data, citations)
 
    
    full path to a nifti file containing
-   parameters for the DKI fit
+   parameters for the DKI fit, s0 values of DKI fit
 
 
 
@@ -357,11 +395,12 @@ Attributes
    ..
        !! processed by numpydoc !!
 
-.. py:function:: msdki_params(brain_mask, gtab, data)
+.. py:function:: msdki_params(brain_mask, gtab, data, citations)
 
    
    full path to a nifti file containing
-   parameters for the Mean Signal DKI fit
+   parameters for the Mean Signal DKI fit,
+   s0 values of Mean Signal DKI fit
 
 
 
@@ -429,7 +468,7 @@ Attributes
    ..
        !! processed by numpydoc !!
 
-.. py:function:: csd_params(dwi, brain_mask, gtab, data, csd_response=None, csd_sh_order_max=None, csd_lambda_=1, csd_tau=0.1, csd_fa_thr=0.7)
+.. py:function:: csd_params(dwi, brain_mask, gtab, data, citations, csd_response=None, csd_sh_order_max=None, csd_lambda_=1, csd_tau=0.1, csd_fa_thr=0.7)
 
    
    full path to a nifti file containing
@@ -447,13 +486,14 @@ Attributes
            Default: None
 
        **csd_sh_order_max** : int or None, optional.
-           default: infer the number of parameters from the number of data
+           If None, infer the number of parameters from the number of data
            volumes, but no larger than 8.
            Default: None
 
        **csd_lambda_** : float, optional.
            weight given to the constrained-positivity regularization part of
-           the deconvolution equation. Default: 1
+           the deconvolution equation.
+           Default: 1
 
        **csd_tau** : float, optional.
            threshold controlling the amplitude below which the corresponding
@@ -461,11 +501,13 @@ Attributes
            zero. However, to improve the stability of the algorithm, tau is
            set to tau*100 percent of the mean fODF amplitude (here, 10 percent
            by default)
-           (see [R528d7c93b1c5-1]_). Default: 0.1
+           (see [R528d7c93b1c5-1]_).
+           Default: 0.1
 
        **csd_fa_thr** : float, optional.
            The threshold on the FA used to calculate the single shell auto
-           response. Can be useful to reduce for baby subjects. Default: 0.7
+           response. Can be useful to reduce for baby subjects.
+           Default: 0.7
 
 
 
@@ -486,6 +528,109 @@ Attributes
    .. only:: latex
 
       [R528d7c93b1c5-1]_
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: csd_aodf(structural_imap, csd_params, tracking_params, citations)
+
+   
+   full path to a nifti file containing
+   SSST CSD ODFs filtered by unified filtering [1]
+
+
+
+
+
+
+
+
+
+
+
+
+   .. rubric:: References
+
+   [1] Poirier and Descoteaux, 2024, "A Unified Filtering Method for
+       Estimating Asymmetric Orientation Distribution Functions",
+       Neuroimage, https://doi.org/10.1016/j.neuroimage.2024.120516
+
+   .. only:: latex
+
+      
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: csd_aodf_asi(csd_aodf_params, brain_mask)
+
+   
+   full path to a nifti file containing
+   the CSD Asymmetric Index (ASI) [1]
+
+
+
+
+
+
+
+
+
+
+
+
+   .. rubric:: References
+
+   [1] S. Cetin Karayumak, E. Özarslan, and G. Unal,
+       "Asymmetric Orientation Distribution Functions (AODFs)
+       revealing intravoxel geometry in diffusion MRI"
+       Magnetic Resonance Imaging, vol. 49, pp. 145-158, Jun. 2018,
+       doi: https://doi.org/10.1016/j.mri.2018.03.006.
+
+   .. only:: latex
+
+      
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: csd_aodf_opm(csd_aodf_params, brain_mask)
+
+   
+   full path to a nifti file containing
+   the CSD odd-power map [1]
+
+
+
+
+
+
+
+
+
+
+
+
+   .. rubric:: References
+
+   [1] C. Poirier, E. St-Onge, and M. Descoteaux,
+       "Investigating the Occurrence of Asymmetric Patterns in
+       White Matter Fiber Orientation Distribution Functions"
+       [Abstract], In: Proc. Intl. Soc. Mag. Reson. Med. 29 (2021),
+       2021 May 15-20, Vancouver, BC, Abstract number 0865.
+
+   .. only:: latex
+
+      
 
 
 
@@ -541,14 +686,12 @@ Attributes
    ..
        !! processed by numpydoc !!
 
-.. py:function:: gq(base_fname, gtab, dwi_affine, data, gq_sampling_length=1.2)
+.. py:function:: gq(gtab, data, tracking_params, citations, gq_sampling_length=1.2)
 
    
    full path to a nifti file containing
-   parameters for the Generalized Q-Sampling
-   shm_coeff,
-   full path to a nifti file containing isotropic diffusion component,
-   full path to a nifti file containing anisotropic diffusion component
+   ODF for the Generalized Q-Sampling,
+   full path to a nifti file containing isotropic diffusion component
 
 
    :Parameters:
@@ -573,58 +716,16 @@ Attributes
    ..
        !! processed by numpydoc !!
 
-.. py:function:: gq_pmap(gq_params)
+.. py:function:: rumba_params(gtab, data, brain_mask, tracking_params, citations, rumba_wm_response=None, rumba_gm_response=0.0008, rumba_csf_response=0.003, rumba_n_iter=600)
 
    
+   ODF for the RUMBA-SD model,
    full path to a nifti file containing
-   the anisotropic power map from GQ
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:function:: gq_ai(gq_params)
-
-   
+   the CSF volume fraction for each voxel,
    full path to a nifti file containing
-   the anisotropic index from GQ
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:function:: rumba_model(gtab, rumba_wm_response=[0.0017, 0.0002, 0.0002], rumba_gm_response=0.0008, rumba_csf_response=0.003, rumba_n_iter=600)
-
-   
-   fit for RUMBA-SD model as documented on dipy reconstruction options
+   the GM volume fraction for each voxel,
+   full path to a nifti file containing
+   the white matter volume fraction for each voxel
 
 
    :Parameters:
@@ -664,126 +765,7 @@ Attributes
    ..
        !! processed by numpydoc !!
 
-.. py:function:: rumba_params(rumba_model, data, brain_mask)
-
-   
-   Takes the fitted RUMBA-SD model as input and returns
-   the spherical harmonics coefficients (SHM).
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:function:: rumba_fit(rumba_model, rumba_params)
-
-   
-   RUMBA FIT
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:function:: rumba_f_csf(rumba_fit)
-
-   
-   full path to a nifti file containing
-   the CSF volume fraction for each voxel.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:function:: rumba_f_gm(rumba_fit)
-
-   
-   full path to a nifti file containing
-   the GM volume fraction for each voxel.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:function:: rumba_f_wm(rumba_fit)
-
-   
-   full path to a nifti file containing
-   the white matter volume fraction for each voxel.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:function:: opdt_params(base_fname, data, gtab, dwi_affine, brain_mask, opdt_sh_order_max=8)
+.. py:function:: opdt_params(data, gtab, brain_mask, citations, opdt_sh_order_max=8)
 
    
    full path to a nifti file containing
@@ -794,7 +776,7 @@ Attributes
 
    :Parameters:
 
-       **opdt_sh_order** : int
+       **opdt_sh_order_max** : int
            Spherical harmonics order for OPDT model. Must be even.
            Default: 8
 
@@ -862,7 +844,7 @@ Attributes
    ..
        !! processed by numpydoc !!
 
-.. py:function:: csa_params(base_fname, data, gtab, dwi_affine, brain_mask, csa_sh_order_max=8)
+.. py:function:: csa_params(data, gtab, brain_mask, citations, csa_sh_order_max=8)
 
    
    full path to a nifti file containing
@@ -873,7 +855,7 @@ Attributes
 
    :Parameters:
 
-       **csa_sh_order** : int
+       **csa_sh_order_max** : int
            Spherical harmonics order for CSA model. Must be even.
            Default: 8
 
@@ -1041,13 +1023,13 @@ Attributes
    Image of first element in the DTI tensor according to DIPY convention
    i.e. Dxx (rate of diffusion from the left to right side of the brain),
    Image of second element in the DTI tensor according to DIPY convention
-   i.e. Dyy (rate of diffusion from the posterior to anterior part of 
+   i.e. Dyy (rate of diffusion from the posterior to anterior part of
    the brain),
    Image of third element in the DTI tensor according to DIPY convention
    i.e. Dzz (rate of diffusion from the inferior to superior part of the
    brain),
    Image of fourth element in the DTI tensor according to DIPY convention
-   i.e. Dxy (rate of diffusion in the xy plane indicating the 
+   i.e. Dxy (rate of diffusion in the xy plane indicating the
    relationship between the x and y directions),
    Image of fifth element in the DTI tensor according to DIPY convention
    i.e. Dxz (rate of diffusion in the xz plane indicating the
@@ -1283,6 +1265,30 @@ Attributes
    ..
        !! processed by numpydoc !!
 
+.. py:function:: dki_cfa(dki_tf)
+
+   
+   full path to a nifti file containing
+   the DKI color fractional anisotropy
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
 .. py:function:: dki_fa(dki_tf)
 
    
@@ -1331,7 +1337,7 @@ Attributes
    ..
        !! processed by numpydoc !!
 
-.. py:function:: dki_awf(dki_params, sphere='repulsion100', gtol=0.01)
+.. py:function:: dki_awf(dki_params, tracking_params, gtol=0.01)
 
    
    full path to a nifti file containing
@@ -1339,11 +1345,6 @@ Attributes
 
 
    :Parameters:
-
-       **sphere** : Sphere class instance, optional
-           The sphere providing sample directions for the initial
-           search of the maximal value of kurtosis.
-           Default: 'repulsion100'
 
        **gtol** : float, optional
            This input is to refine kurtosis maxima under the precision of
@@ -1421,6 +1422,78 @@ Attributes
    .. only:: latex
 
       [R146e7c91c7e8-Hansen2019]_
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: dki_cl(dki_tf)
+
+   
+   full path to a nifti file containing
+   the DKI linearity file
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: dki_cp(dki_tf)
+
+   
+   full path to a nifti file containing
+   the DKI planarity file
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: dki_cs(dki_tf)
+
+   
+   full path to a nifti file containing
+   the DKI sphericity file
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1548,22 +1621,12 @@ Attributes
    ..
        !! processed by numpydoc !!
 
-.. py:function:: brain_mask(b0, brain_mask_definition=None)
+.. py:function:: brain_mask(structural_imap, b0)
 
    
-   full path to a nifti file containing
-   the brain mask
+   full path to a nifti file containing the brain mask
 
 
-   :Parameters:
-
-       **brain_mask_definition** : instance from `AFQ.definitions.image`, optional
-           This will be used to create
-           the brain mask, which gets applied before registration to a
-           template.
-           If you want no brain mask to be applied, use FullImage.
-           If None, use B0Image()
-           Default: None
 
 
 
@@ -1581,7 +1644,7 @@ Attributes
    ..
        !! processed by numpydoc !!
 
-.. py:function:: get_bundle_dict(brain_mask, b0, bundle_info=None, reg_template_spec='mni_T1', reg_template_space_name='mni')
+.. py:function:: get_bundle_dict(b0, citations, bundle_info=None, reg_template_spec='mni_T1', reg_template_space_name='mni')
 
    
    Dictionary defining the different bundles to be segmented,
@@ -1629,5 +1692,4 @@ Attributes
        !! processed by numpydoc !!
 
 .. py:function:: get_data_plan(kwargs)
-
 

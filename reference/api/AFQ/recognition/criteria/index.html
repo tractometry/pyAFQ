@@ -1,14 +1,14 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../../../../../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.recognition.criteria &#8212; AFQ 2.1 documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>AFQ.recognition.criteria &#8212; AFQ 3.1 documentation</title>
   
   
   
@@ -16,75 +16,73 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link href="../../../../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../../../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
 
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery.css?v=fd6457a4" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/custom.css?v=c6496573" />
   
-  <link href="../../../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../../_static/graphviz.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-rendered-html.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../../_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../../_static/custom.css" />
-  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../../../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../../../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js"></script>
-    <script src="../../../../../_static/jquery.js"></script>
-    <script src="../../../../../_static/underscore.js"></script>
-    <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../../../../../_static/doctools.js"></script>
-    <script src="../../../../../_static/sphinx_highlight.js"></script>
-    <script src="../../../../../_static/design-tabs.js"></script>
+    <script src="../../../../../_static/documentation_options.js?v=b576230a"></script>
+    <script src="../../../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../../../_static/sg-tags.js?v=d80f6fa4"></script>
+    <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/api/AFQ/recognition/criteria/index';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../search.html" />
     <link rel="next" title="AFQ.recognition.curvature" href="../curvature/index.html" />
-    <link rel="prev" title="AFQ.recognition.cleaning" href="../cleaning/index.html" />
+    <link rel="prev" title="AFQ.recognition.clustering" href="../clustering/index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../../../../_static/searchtools.js"></script>
+    <script src="../../../../../_static/language_data.js"></script>
+    <script src="../../../../../searchindex.js"></script>
+  
   </head>
-  
-  
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
-
+  <body data-default-mode="">
   
   
   <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
-
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
   
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../../../../search.html"
       method="get">
@@ -92,7 +90,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -100,15 +97,15 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
 
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
   <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
@@ -134,8 +131,8 @@
       
     
     
-    <img src="../../../../../_static/logo.png" class="logo__image only-light" alt="AFQ 2.1 documentation - Home"/>
-    <script>document.write(`<img src="../../../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.1 documentation - Home"/>`);</script>
+    <img src="../../../../../_static/logo.png" class="logo__image only-light" alt="AFQ 3.1 documentation - Home"/>
+    <img src="../../../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="AFQ 3.1 documentation - Home"/>
   
   
 </a></div>
@@ -153,6 +150,20 @@
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="../../../../../guides_index.html">
     User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../tutorials/tutorial_examples/index.html">
+    Tutorials: Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../howto/howto_examples/index.html">
+    How to examples
   </a>
 </li>
 
@@ -188,29 +199,21 @@
         <div class="navbar-item navbar-persistent--container">
           
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
       
         <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -235,15 +238,11 @@ document.write(`
   
     <div class="navbar-persistent--mobile">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
@@ -262,7 +261,8 @@ document.write(`
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -280,6 +280,20 @@ document.write(`
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="../../../../../guides_index.html">
     User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../tutorials/tutorial_examples/index.html">
+    Tutorials: Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../howto/howto_examples/index.html">
+    How to examples
   </a>
 </li>
 
@@ -316,15 +330,11 @@ document.write(`
         
           <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
         
           <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -355,7 +365,6 @@ document.write(`
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -365,12 +374,13 @@ document.write(`
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
         <div class="sidebar-primary-item">
+
 <nav class="bd-docs-nav bd-links"
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../../tutorials/index.html">Getting started with pyAFQ</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../../tutorials/tutorial_examples/index.html">Tutorials: getting started with the pyAFQ Python library</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../../tutorials/tutorial_examples/index.html">Tutorials: Getting started</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../../../tutorials/tutorial_examples/plot_001_group_afq_api.html">Getting started with pyAFQ - GroupAFQ</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../../tutorials/tutorial_examples/plot_002_participant_afq_api.html">Getting started with pyAFQ - ParticipantAFQ</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../../tutorials/tutorial_examples/plot_003_rerun.html">Re-running pyAFQ</a></li>
@@ -400,16 +410,18 @@ document.write(`
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../../../../howto/howto_examples/index.html">How to examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../../../howto/howto_examples/acoustic_radiations.html">How to add new bundles into pyAFQ (Acoustic Radiations Example)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../../howto/howto_examples/add_custom_bundle.html">How to add new bundles into pyAFQ (SLF 1/2/3 Example)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../howto/howto_examples/afq_callosal.html">Callosal bundles using AFQ API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../howto/howto_examples/afq_fwdti.html">How to use Free water DTI</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../../howto/howto_examples/baby_afq.html">BabyAFQ : tractometry for infant dMRI data</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../../howto/howto_examples/cerebellar_peduncles.html">Delineating cerebellar peduncles</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../../howto/howto_examples/cloudknot_example.html">Using cloudknot to run pyAFQ on AWS batch:</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../../howto/howto_examples/cloudknot_hcp_example.html">AFQ with HCP data</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../../howto/howto_examples/optic_radiations.html">How to add new bundles into pyAFQ(Optic Radiations Example)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../../../howto/howto_examples/plot_afq_callosal.html">Callosal bundles using AFQ API</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../../../howto/howto_examples/plot_recobundles.html">Using RecoBundles for bundle recognition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../howto/howto_examples/optic_tract.html">How to track the Optic Tract and Posterior Optic Nerve in pyAFQ</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../../howto/howto_examples/plot_stages_of_tractometry.html">Understanding the different stages of tractometry with videos</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../../../howto/howto_examples/run_afq_fwdti.html">How to use Free water DTI</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../../../howto/howto_examples/run_pyAFQ_with_GPU.html">Running pyAFQ using the GPU for tractography</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../howto/howto_examples/pyAFQ_with_GPU.html">Running pyAFQ using the GPU for tractography</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../howto/howto_examples/pyafq_2.html">Running pyAFQ 2.x defaults in pyAFQ 3.x</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../howto/howto_examples/recobundles.html">Using RecoBundles for bundle recognition</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../../howto/howto_examples/use_subject_space_rois_from_freesurfer.html">Using Subject Space ROIs from Freesurfer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../../howto/howto_examples/vof_example.html">How to segment out only some bundles</a></li>
 </ul>
@@ -417,27 +429,28 @@ document.write(`
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../../explanations/index.html">Explanations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../../../explanations/tractometry_pipeline.html">AFQ Tractometry Pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../../explanations/bundle_orientation.html">Bundle Orientation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../../explanations/modeling.html">Modeling White Matter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../../explanations/profiling.html">Profiling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../../explanations/recognition.html">Bundle Recognition</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../../explanations/tractography.html">Tractography</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../explanations/whats_new_3.html">What’s new in PyAFQ 3.0</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../../../../index.html">Reference Documentation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="../../../index.html">API Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l3 current active has-children"><a class="reference internal" href="../../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ</span></code></a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="../../api/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.api</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../data/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.data</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../definitions/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.definitions</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../models/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.models</span></code></a></li>
-<li class="toctree-l4 current active"><a class="reference internal" href="../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.recognition</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../tasks/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.tasks</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../tractography/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.tractography</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.utils</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../viz/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.viz</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../registration/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.registration</span></code></a></li>
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="../../index.html">AFQ</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../../api/index.html">AFQ.api</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/index.html">AFQ.data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../definitions/index.html">AFQ.definitions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../models/index.html">AFQ.models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../nn/index.html">AFQ.nn</a></li>
+<li class="toctree-l4 current active"><a class="reference internal" href="../index.html">AFQ.recognition</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../registration/index.html">AFQ.registration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../tasks/index.html">AFQ.tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../tractography/index.html">AFQ.tractography</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../utils/index.html">AFQ.utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../viz/index.html">AFQ.viz</a></li>
 </ul>
 </details></li>
 </ul>
@@ -446,6 +459,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../../../../fibertracts.html">Major Fiber Tracts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../tissue_properties.html">Tissue Properties in pyAFQ</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../methods.html">The pyAFQ API methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../kwargs.html">The pyAFQ API optional arguments</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../viz_backend.html">Visualization Backends</a></li>
 
 <li class="toctree-l2"><a class="reference internal" href="../../../../mapping.html">The pyAFQ Mapping API</a></li>
@@ -459,9 +473,14 @@ document.write(`
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -479,10 +498,6 @@ document.write(`
       
         <div class="header-article-item">
 
-
-
-
-
 <nav aria-label="Breadcrumb" class="d-print-none">
   <ul class="bd-breadcrumbs">
     
@@ -495,12 +510,18 @@ document.write(`
     <li class="breadcrumb-item"><a href="../../../../../guides_index.html" class="nav-link">User Guide</a></li>
     
     
-    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    <li class="breadcrumb-item"><a href="../../../../index.html" class="nav-link">Reference Documentation</a></li>
     
     
-    <li class="breadcrumb-item"><a href="../index.html" class="nav-link"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.recognition</span></code></a></li>
+    <li class="breadcrumb-item"><a href="../../../index.html" class="nav-link">API Reference</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><code...</li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">AFQ</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">AFQ.recognition</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">AFQ.recognition.criteria</span></li>
   </ul>
 </nav>
 </div>
@@ -517,73 +538,19 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <div class="section" id="module-AFQ.recognition.criteria">
-<span id="afq-recognition-criteria"></span><h1><a class="reference internal" href="#module-AFQ.recognition.criteria" title="AFQ.recognition.criteria"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.recognition.criteria</span></code></a><a class="headerlink" href="#module-AFQ.recognition.criteria" title="Permalink to this heading">#</a></h1>
-<div class="section" id="module-contents">
-<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">#</a></h2>
-<div class="section" id="functions">
-<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">#</a></h3>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
+  <section id="module-AFQ.recognition.criteria">
+<span id="afq-recognition-criteria"></span><h1>AFQ.recognition.criteria<a class="headerlink" href="#module-AFQ.recognition.criteria" title="Link to this heading">#</a></h1>
+<section id="attributes">
+<h2>Attributes<a class="headerlink" href="#attributes" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AFQ.recognition.criteria.prob_map" title="AFQ.recognition.criteria.prob_map"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prob_map</span></code></a>(b_sls, bundle_def, preproc_imap, ...)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AFQ.recognition.criteria.criteria_order_chunk_local" title="AFQ.recognition.criteria.criteria_order_chunk_local"><code class="xref py py-obj docutils literal notranslate"><span class="pre">criteria_order_chunk_local</span></code></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AFQ.recognition.criteria.cross_midline" title="AFQ.recognition.criteria.cross_midline"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cross_midline</span></code></a>(b_sls, bundle_def, preproc_imap, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#AFQ.recognition.criteria.criteria_order_pre_other_bundles" title="AFQ.recognition.criteria.criteria_order_pre_other_bundles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">criteria_order_pre_other_bundles</span></code></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AFQ.recognition.criteria.start" title="AFQ.recognition.criteria.start"><code class="xref py py-obj docutils literal notranslate"><span class="pre">start</span></code></a>(b_sls, bundle_def, preproc_imap, **kwargs)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AFQ.recognition.criteria.end" title="AFQ.recognition.criteria.end"><code class="xref py py-obj docutils literal notranslate"><span class="pre">end</span></code></a>(b_sls, bundle_def, preproc_imap, **kwargs)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AFQ.recognition.criteria.length" title="AFQ.recognition.criteria.length"><code class="xref py py-obj docutils literal notranslate"><span class="pre">length</span></code></a>(b_sls, bundle_def, preproc_imap, **kwargs)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AFQ.recognition.criteria.primary_axis" title="AFQ.recognition.criteria.primary_axis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">primary_axis</span></code></a>(b_sls, bundle_def, img, **kwargs)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AFQ.recognition.criteria.include" title="AFQ.recognition.criteria.include"><code class="xref py py-obj docutils literal notranslate"><span class="pre">include</span></code></a>(b_sls, bundle_def, preproc_imap, max_includes, ...)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AFQ.recognition.criteria.curvature" title="AFQ.recognition.criteria.curvature"><code class="xref py py-obj docutils literal notranslate"><span class="pre">curvature</span></code></a>(b_sls, bundle_def, mapping, img, ...)</p></td>
-<td><p>Filters streamlines by how well they match</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AFQ.recognition.criteria.exclude" title="AFQ.recognition.criteria.exclude"><code class="xref py py-obj docutils literal notranslate"><span class="pre">exclude</span></code></a>(b_sls, bundle_def, preproc_imap, **kwargs)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AFQ.recognition.criteria.recobundles" title="AFQ.recognition.criteria.recobundles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">recobundles</span></code></a>(b_sls, mapping, bundle_def, reg_template, ...)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AFQ.recognition.criteria.qb_thresh" title="AFQ.recognition.criteria.qb_thresh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">qb_thresh</span></code></a>(b_sls, bundle_def, preproc_imap, clip_edges, ...)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AFQ.recognition.criteria.clean_by_other_bundle" title="AFQ.recognition.criteria.clean_by_other_bundle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clean_by_other_bundle</span></code></a>(b_sls, bundle_def, img, ...)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AFQ.recognition.criteria.mahalanobis" title="AFQ.recognition.criteria.mahalanobis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mahalanobis</span></code></a>(b_sls, bundle_def, clip_edges, ...)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AFQ.recognition.criteria.run_bundle_rec_plan" title="AFQ.recognition.criteria.run_bundle_rec_plan"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_bundle_rec_plan</span></code></a>(bundle_dict, tg, mapping, img, ...)</p></td>
-<td><p></p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="section" id="attributes">
-<h3>Attributes<a class="headerlink" href="#attributes" title="Permalink to this heading">#</a></h3>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AFQ.recognition.criteria.bundle_criterion_order" title="AFQ.recognition.criteria.bundle_criterion_order"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bundle_criterion_order</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AFQ.recognition.criteria.criteria_order_post_other_bundles" title="AFQ.recognition.criteria.criteria_order_post_other_bundles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">criteria_order_post_other_bundles</span></code></a></p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#AFQ.recognition.criteria.valid_noncriterion" title="AFQ.recognition.criteria.valid_noncriterion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">valid_noncriterion</span></code></a></p></td>
@@ -595,96 +562,215 @@ document.write(`
 </tbody>
 </table>
 </div>
+</section>
+<section id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AFQ.recognition.criteria.prob_map" title="AFQ.recognition.criteria.prob_map"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prob_map</span></code></a>(b_sls, bundle_def, preproc_plan, ...)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#AFQ.recognition.criteria.cross_midline" title="AFQ.recognition.criteria.cross_midline"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cross_midline</span></code></a>(b_sls, bundle_def, preproc_plan, **kwargs)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AFQ.recognition.criteria.start" title="AFQ.recognition.criteria.start"><code class="xref py py-obj docutils literal notranslate"><span class="pre">start</span></code></a>(b_sls, bundle_def, preproc_plan, **kwargs)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#AFQ.recognition.criteria.end" title="AFQ.recognition.criteria.end"><code class="xref py py-obj docutils literal notranslate"><span class="pre">end</span></code></a>(b_sls, bundle_def, preproc_plan, **kwargs)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AFQ.recognition.criteria.length" title="AFQ.recognition.criteria.length"><code class="xref py py-obj docutils literal notranslate"><span class="pre">length</span></code></a>(b_sls, bundle_def, preproc_plan, **kwargs)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#AFQ.recognition.criteria.endpoint_dists" title="AFQ.recognition.criteria.endpoint_dists"><code class="xref py py-obj docutils literal notranslate"><span class="pre">endpoint_dists</span></code></a>(b_sls, bundle_def, preproc_plan, **kwargs)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AFQ.recognition.criteria.primary_axis" title="AFQ.recognition.criteria.primary_axis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">primary_axis</span></code></a>(b_sls, bundle_def, **kwargs)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#AFQ.recognition.criteria.include" title="AFQ.recognition.criteria.include"><code class="xref py py-obj docutils literal notranslate"><span class="pre">include</span></code></a>(b_sls, bundle_def, **kwargs)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AFQ.recognition.criteria.curvature" title="AFQ.recognition.criteria.curvature"><code class="xref py py-obj docutils literal notranslate"><span class="pre">curvature</span></code></a>(b_sls, bundle_def, mapping, img, ...)</p></td>
+<td><p>Filters streamlines by how well they match</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#AFQ.recognition.criteria.exclude" title="AFQ.recognition.criteria.exclude"><code class="xref py py-obj docutils literal notranslate"><span class="pre">exclude</span></code></a>(b_sls, bundle_def, **kwargs)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AFQ.recognition.criteria.recobundles" title="AFQ.recognition.criteria.recobundles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">recobundles</span></code></a>(b_sls, mapping, bundle_def, reg_template, ...)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#AFQ.recognition.criteria.qb_thresh" title="AFQ.recognition.criteria.qb_thresh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">qb_thresh</span></code></a>(b_sls, bundle_def, clip_edges, **kwargs)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AFQ.recognition.criteria.clean_by_other_bundle" title="AFQ.recognition.criteria.clean_by_other_bundle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clean_by_other_bundle</span></code></a>(b_sls, bundle_def, img, ...)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#AFQ.recognition.criteria.orient_mahal" title="AFQ.recognition.criteria.orient_mahal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">orient_mahal</span></code></a>(b_sls, bundle_def, **kwargs)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AFQ.recognition.criteria.isolation_forest" title="AFQ.recognition.criteria.isolation_forest"><code class="xref py py-obj docutils literal notranslate"><span class="pre">isolation_forest</span></code></a>(b_sls, bundle_def, rng, **kwargs)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#AFQ.recognition.criteria.mahalanobis" title="AFQ.recognition.criteria.mahalanobis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mahalanobis</span></code></a>(b_sls, bundle_def, clip_edges, ...)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AFQ.recognition.criteria._prepare_bundle_def" title="AFQ.recognition.criteria._prepare_bundle_def"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_prepare_bundle_def</span></code></a>(bundle_dict, bundle_name, mapping, img)</p></td>
+<td><p>Warp ROIs and apply distance-transform conversion</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#AFQ.recognition.criteria._validate_criteria" title="AFQ.recognition.criteria._validate_criteria"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_validate_criteria</span></code></a>(bundle_def, bundle_name, ...)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AFQ.recognition.criteria._run_chunk_local" title="AFQ.recognition.criteria._run_chunk_local"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_run_chunk_local</span></code></a>(bundle_def, chunk_streamlines, ...)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#AFQ.recognition.criteria._run_global_phase" title="AFQ.recognition.criteria._run_global_phase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_run_global_phase</span></code></a>(bundle_def, bundle_name, b_sls, ...)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AFQ.recognition.criteria.recognize_bundles" title="AFQ.recognition.criteria.recognize_bundles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">recognize_bundles</span></code></a>(tg, bundle_dict, mapping, img, ...)</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading">#</a></h2>
 <dl class="py data">
-<dt class="sig sig-object py" id="AFQ.recognition.criteria.bundle_criterion_order">
-<span class="sig-prename descclassname"><span class="pre">AFQ.recognition.criteria.</span></span><span class="sig-name descname"><span class="pre">bundle_criterion_order</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['prob_map',</span> <span class="pre">'cross_midline',</span> <span class="pre">'start',</span> <span class="pre">'end',</span> <span class="pre">'length',</span> <span class="pre">'primary_axis',</span> <span class="pre">'include',</span> <span class="pre">'exclude',...</span></em><a class="reference internal" href="../../../../../_modules/AFQ/recognition/criteria.html#bundle_criterion_order"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.recognition.criteria.bundle_criterion_order" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="AFQ.recognition.criteria.criteria_order_chunk_local">
+<span class="sig-prename descclassname"><span class="pre">AFQ.recognition.criteria.</span></span><span class="sig-name descname"><span class="pre">criteria_order_chunk_local</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['length',</span> <span class="pre">'endpoint_dists',</span> <span class="pre">'cross_midline',</span> <span class="pre">'start',</span> <span class="pre">'end',</span> <span class="pre">'prob_map',</span> <span class="pre">'primary_axis',...</span></span><a class="reference internal" href="../../../../../_modules/AFQ/recognition/criteria.html#criteria_order_chunk_local"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.recognition.criteria.criteria_order_chunk_local" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="AFQ.recognition.criteria.criteria_order_pre_other_bundles">
+<span class="sig-prename descclassname"><span class="pre">AFQ.recognition.criteria.</span></span><span class="sig-name descname"><span class="pre">criteria_order_pre_other_bundles</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['length',</span> <span class="pre">'endpoint_dists',</span> <span class="pre">'cross_midline',</span> <span class="pre">'start',</span> <span class="pre">'end',</span> <span class="pre">'prob_map',</span> <span class="pre">'primary_axis',...</span></span><a class="reference internal" href="../../../../../_modules/AFQ/recognition/criteria.html#criteria_order_pre_other_bundles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.recognition.criteria.criteria_order_pre_other_bundles" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="AFQ.recognition.criteria.criteria_order_post_other_bundles">
+<span class="sig-prename descclassname"><span class="pre">AFQ.recognition.criteria.</span></span><span class="sig-name descname"><span class="pre">criteria_order_post_other_bundles</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['orient_mahal',</span> <span class="pre">'isolation_forest',</span> <span class="pre">'qb_thresh']</span></span><a class="reference internal" href="../../../../../_modules/AFQ/recognition/criteria.html#criteria_order_post_other_bundles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.recognition.criteria.criteria_order_post_other_bundles" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py data">
 <dt class="sig sig-object py" id="AFQ.recognition.criteria.valid_noncriterion">
-<span class="sig-prename descclassname"><span class="pre">AFQ.recognition.criteria.</span></span><span class="sig-name descname"><span class="pre">valid_noncriterion</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['space',</span> <span class="pre">'mahal',</span> <span class="pre">'primary_axis_percentage',</span> <span class="pre">'inc_addtol',</span> <span class="pre">'exc_addtol']</span></em><a class="reference internal" href="../../../../../_modules/AFQ/recognition/criteria.html#valid_noncriterion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.recognition.criteria.valid_noncriterion" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">AFQ.recognition.criteria.</span></span><span class="sig-name descname"><span class="pre">valid_noncriterion</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['space',</span> <span class="pre">'mahal',</span> <span class="pre">'inc_addtol',</span> <span class="pre">'exc_addtol',</span> <span class="pre">'exact_endpoints',</span> <span class="pre">'ORG_spectral_subbundles',...</span></span><a class="reference internal" href="../../../../../_modules/AFQ/recognition/criteria.html#valid_noncriterion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.recognition.criteria.valid_noncriterion" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py data">
 <dt class="sig sig-object py" id="AFQ.recognition.criteria.logger">
-<span class="sig-prename descclassname"><span class="pre">AFQ.recognition.criteria.</span></span><span class="sig-name descname"><span class="pre">logger</span></span><a class="reference internal" href="../../../../../_modules/AFQ/recognition/criteria.html#logger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.recognition.criteria.logger" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">AFQ.recognition.criteria.</span></span><span class="sig-name descname"><span class="pre">logger</span></span><a class="reference internal" href="../../../../../_modules/AFQ/recognition/criteria.html#logger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.recognition.criteria.logger" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="AFQ.recognition.criteria.prob_map">
-<span class="sig-prename descclassname"><span class="pre">AFQ.recognition.criteria.</span></span><span class="sig-name descname"><span class="pre">prob_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b_sls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preproc_imap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prob_threshold</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/recognition/criteria.html#prob_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.recognition.criteria.prob_map" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">AFQ.recognition.criteria.</span></span><span class="sig-name descname"><span class="pre">prob_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b_sls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preproc_plan</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prob_threshold</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/recognition/criteria.html#prob_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.recognition.criteria.prob_map" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="AFQ.recognition.criteria.cross_midline">
-<span class="sig-prename descclassname"><span class="pre">AFQ.recognition.criteria.</span></span><span class="sig-name descname"><span class="pre">cross_midline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b_sls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preproc_imap</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/recognition/criteria.html#cross_midline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.recognition.criteria.cross_midline" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">AFQ.recognition.criteria.</span></span><span class="sig-name descname"><span class="pre">cross_midline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b_sls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preproc_plan</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/recognition/criteria.html#cross_midline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.recognition.criteria.cross_midline" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="AFQ.recognition.criteria.start">
-<span class="sig-prename descclassname"><span class="pre">AFQ.recognition.criteria.</span></span><span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b_sls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preproc_imap</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/recognition/criteria.html#start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.recognition.criteria.start" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">AFQ.recognition.criteria.</span></span><span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b_sls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preproc_plan</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/recognition/criteria.html#start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.recognition.criteria.start" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="AFQ.recognition.criteria.end">
-<span class="sig-prename descclassname"><span class="pre">AFQ.recognition.criteria.</span></span><span class="sig-name descname"><span class="pre">end</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b_sls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preproc_imap</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/recognition/criteria.html#end"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.recognition.criteria.end" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">AFQ.recognition.criteria.</span></span><span class="sig-name descname"><span class="pre">end</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b_sls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preproc_plan</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/recognition/criteria.html#end"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.recognition.criteria.end" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="AFQ.recognition.criteria.length">
-<span class="sig-prename descclassname"><span class="pre">AFQ.recognition.criteria.</span></span><span class="sig-name descname"><span class="pre">length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b_sls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preproc_imap</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/recognition/criteria.html#length"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.recognition.criteria.length" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">AFQ.recognition.criteria.</span></span><span class="sig-name descname"><span class="pre">length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b_sls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preproc_plan</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/recognition/criteria.html#length"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.recognition.criteria.length" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="AFQ.recognition.criteria.endpoint_dists">
+<span class="sig-prename descclassname"><span class="pre">AFQ.recognition.criteria.</span></span><span class="sig-name descname"><span class="pre">endpoint_dists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b_sls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preproc_plan</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/recognition/criteria.html#endpoint_dists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.recognition.criteria.endpoint_dists" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="AFQ.recognition.criteria.primary_axis">
-<span class="sig-prename descclassname"><span class="pre">AFQ.recognition.criteria.</span></span><span class="sig-name descname"><span class="pre">primary_axis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b_sls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/recognition/criteria.html#primary_axis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.recognition.criteria.primary_axis" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">AFQ.recognition.criteria.</span></span><span class="sig-name descname"><span class="pre">primary_axis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b_sls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle_def</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/recognition/criteria.html#primary_axis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.recognition.criteria.primary_axis" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="AFQ.recognition.criteria.include">
-<span class="sig-prename descclassname"><span class="pre">AFQ.recognition.criteria.</span></span><span class="sig-name descname"><span class="pre">include</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b_sls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preproc_imap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_includes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parallel_segmentation</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/recognition/criteria.html#include"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.recognition.criteria.include" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">AFQ.recognition.criteria.</span></span><span class="sig-name descname"><span class="pre">include</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b_sls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle_def</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/recognition/criteria.html#include"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.recognition.criteria.include" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="AFQ.recognition.criteria.curvature">
-<span class="sig-prename descclassname"><span class="pre">AFQ.recognition.criteria.</span></span><span class="sig-name descname"><span class="pre">curvature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b_sls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapping</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_intermediates</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/recognition/criteria.html#curvature"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.recognition.criteria.curvature" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">AFQ.recognition.criteria.</span></span><span class="sig-name descname"><span class="pre">curvature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b_sls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapping</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_intermediates</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/recognition/criteria.html#curvature"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.recognition.criteria.curvature" title="Link to this definition">#</a></dt>
 <dd><p>Filters streamlines by how well they match
 a curve in orientation and shape but not scale</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="AFQ.recognition.criteria.exclude">
-<span class="sig-prename descclassname"><span class="pre">AFQ.recognition.criteria.</span></span><span class="sig-name descname"><span class="pre">exclude</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b_sls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preproc_imap</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/recognition/criteria.html#exclude"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.recognition.criteria.exclude" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">AFQ.recognition.criteria.</span></span><span class="sig-name descname"><span class="pre">exclude</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b_sls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle_def</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/recognition/criteria.html#exclude"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.recognition.criteria.exclude" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="AFQ.recognition.criteria.recobundles">
-<span class="sig-prename descclassname"><span class="pre">AFQ.recognition.criteria.</span></span><span class="sig-name descname"><span class="pre">recobundles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b_sls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapping</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reg_template</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">refine_reco</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_intermediates</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rb_recognize_params</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/recognition/criteria.html#recobundles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.recognition.criteria.recobundles" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">AFQ.recognition.criteria.</span></span><span class="sig-name descname"><span class="pre">recobundles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b_sls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapping</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reg_template</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">refine_reco</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_intermediates</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rb_recognize_params</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/recognition/criteria.html#recobundles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.recognition.criteria.recobundles" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="AFQ.recognition.criteria.qb_thresh">
-<span class="sig-prename descclassname"><span class="pre">AFQ.recognition.criteria.</span></span><span class="sig-name descname"><span class="pre">qb_thresh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b_sls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preproc_imap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clip_edges</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/recognition/criteria.html#qb_thresh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.recognition.criteria.qb_thresh" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">AFQ.recognition.criteria.</span></span><span class="sig-name descname"><span class="pre">qb_thresh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b_sls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clip_edges</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/recognition/criteria.html#qb_thresh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.recognition.criteria.qb_thresh" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="AFQ.recognition.criteria.clean_by_other_bundle">
-<span class="sig-prename descclassname"><span class="pre">AFQ.recognition.criteria.</span></span><span class="sig-name descname"><span class="pre">clean_by_other_bundle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b_sls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preproc_imap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">other_bundle_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">other_bundle_sls</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/recognition/criteria.html#clean_by_other_bundle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.recognition.criteria.clean_by_other_bundle" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">AFQ.recognition.criteria.</span></span><span class="sig-name descname"><span class="pre">clean_by_other_bundle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b_sls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">other_bundle_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">other_bundle_sls</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/recognition/criteria.html#clean_by_other_bundle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.recognition.criteria.clean_by_other_bundle" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="AFQ.recognition.criteria.orient_mahal">
+<span class="sig-prename descclassname"><span class="pre">AFQ.recognition.criteria.</span></span><span class="sig-name descname"><span class="pre">orient_mahal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b_sls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle_def</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/recognition/criteria.html#orient_mahal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.recognition.criteria.orient_mahal" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="AFQ.recognition.criteria.isolation_forest">
+<span class="sig-prename descclassname"><span class="pre">AFQ.recognition.criteria.</span></span><span class="sig-name descname"><span class="pre">isolation_forest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b_sls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/recognition/criteria.html#isolation_forest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.recognition.criteria.isolation_forest" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="AFQ.recognition.criteria.mahalanobis">
-<span class="sig-prename descclassname"><span class="pre">AFQ.recognition.criteria.</span></span><span class="sig-name descname"><span class="pre">mahalanobis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b_sls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clip_edges</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cleaning_params</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/recognition/criteria.html#mahalanobis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.recognition.criteria.mahalanobis" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">AFQ.recognition.criteria.</span></span><span class="sig-name descname"><span class="pre">mahalanobis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b_sls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clip_edges</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cleaning_params</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/recognition/criteria.html#mahalanobis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.recognition.criteria.mahalanobis" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="AFQ.recognition.criteria.run_bundle_rec_plan">
-<span class="sig-prename descclassname"><span class="pre">AFQ.recognition.criteria.</span></span><span class="sig-name descname"><span class="pre">run_bundle_rec_plan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bundle_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapping</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reg_template</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preproc_imap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle_idx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle_to_flip</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle_roi_closest</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle_decisions</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">segmentation_params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/recognition/criteria.html#run_bundle_rec_plan"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.recognition.criteria.run_bundle_rec_plan" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="AFQ.recognition.criteria._prepare_bundle_def">
+<span class="sig-prename descclassname"><span class="pre">AFQ.recognition.criteria.</span></span><span class="sig-name descname"><span class="pre">_prepare_bundle_def</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bundle_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapping</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/recognition/criteria.html#_prepare_bundle_def"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.recognition.criteria._prepare_bundle_def" title="Link to this definition">#</a></dt>
+<dd><p>Warp ROIs and apply distance-transform conversion</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="AFQ.recognition.criteria._validate_criteria">
+<span class="sig-prename descclassname"><span class="pre">AFQ.recognition.criteria.</span></span><span class="sig-name descname"><span class="pre">_validate_criteria</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bundle_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recognized_bundles_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/recognition/criteria.html#_validate_criteria"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.recognition.criteria._validate_criteria" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
-</div>
-</div>
-</div>
+<dl class="py function">
+<dt class="sig sig-object py" id="AFQ.recognition.criteria._run_chunk_local">
+<span class="sig-prename descclassname"><span class="pre">AFQ.recognition.criteria.</span></span><span class="sig-name descname"><span class="pre">_run_chunk_local</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bundle_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunk_streamlines</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preproc_plan</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_intermediates</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vox_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dist_to_atlas</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">segmentation_params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/recognition/criteria.html#_run_chunk_local"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.recognition.criteria._run_chunk_local" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="AFQ.recognition.criteria._run_global_phase">
+<span class="sig-prename descclassname"><span class="pre">AFQ.recognition.criteria.</span></span><span class="sig-name descname"><span class="pre">_run_global_phase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bundle_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b_sls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fgarray_for_candidates</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">candidate_global_idx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapping</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reg_template</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preproc_scalars</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recognized_bundles_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vox_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dist_to_atlas</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_subbundle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">segmentation_params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/recognition/criteria.html#_run_global_phase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.recognition.criteria._run_global_phase" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="AFQ.recognition.criteria.recognize_bundles">
+<span class="sig-prename descclassname"><span class="pre">AFQ.recognition.criteria.</span></span><span class="sig-name descname"><span class="pre">recognize_bundles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapping</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reg_template</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunk_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dist_to_waypoint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dist_to_atlas</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_intermediates</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">segmentation_params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/recognition/criteria.html#recognize_bundles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.recognition.criteria.recognize_bundles" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</section>
+</section>
 
 
                 </article>
@@ -697,12 +783,12 @@ a curve in orientation and shape but not scale</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../cleaning/index.html"
+       href="../clustering/index.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.recognition.cleaning</span></code></p>
+        <p class="prev-next-title">AFQ.recognition.clustering</p>
       </div>
     </a>
     <a class="right-next"
@@ -710,7 +796,7 @@ a curve in orientation and shape but not scale</p>
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.recognition.curvature</span></code></p>
+        <p class="prev-next-title">AFQ.recognition.curvature</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -721,7 +807,8 @@ a curve in orientation and shape but not scale</p>
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
   <div class="sidebar-secondary-item">
@@ -730,30 +817,37 @@ a curve in orientation and shape but not scale</p>
     class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> On this page
   </div>
-  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
-    <ul class="visible nav section-nav flex-column">
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attributes">Attributes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#attributes">Attributes</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#AFQ.recognition.criteria.bundle_criterion_order"><code class="docutils literal notranslate"><span class="pre">bundle_criterion_order</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#AFQ.recognition.criteria.valid_noncriterion"><code class="docutils literal notranslate"><span class="pre">valid_noncriterion</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#AFQ.recognition.criteria.logger"><code class="docutils literal notranslate"><span class="pre">logger</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#AFQ.recognition.criteria.prob_map"><code class="docutils literal notranslate"><span class="pre">prob_map()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#AFQ.recognition.criteria.cross_midline"><code class="docutils literal notranslate"><span class="pre">cross_midline()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#AFQ.recognition.criteria.start"><code class="docutils literal notranslate"><span class="pre">start()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#AFQ.recognition.criteria.end"><code class="docutils literal notranslate"><span class="pre">end()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#AFQ.recognition.criteria.length"><code class="docutils literal notranslate"><span class="pre">length()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#AFQ.recognition.criteria.primary_axis"><code class="docutils literal notranslate"><span class="pre">primary_axis()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#AFQ.recognition.criteria.include"><code class="docutils literal notranslate"><span class="pre">include()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#AFQ.recognition.criteria.curvature"><code class="docutils literal notranslate"><span class="pre">curvature()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#AFQ.recognition.criteria.exclude"><code class="docutils literal notranslate"><span class="pre">exclude()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#AFQ.recognition.criteria.recobundles"><code class="docutils literal notranslate"><span class="pre">recobundles()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#AFQ.recognition.criteria.qb_thresh"><code class="docutils literal notranslate"><span class="pre">qb_thresh()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#AFQ.recognition.criteria.clean_by_other_bundle"><code class="docutils literal notranslate"><span class="pre">clean_by_other_bundle()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#AFQ.recognition.criteria.mahalanobis"><code class="docutils literal notranslate"><span class="pre">mahalanobis()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#AFQ.recognition.criteria.run_bundle_rec_plan"><code class="docutils literal notranslate"><span class="pre">run_bundle_rec_plan()</span></code></a></li>
-</ul>
-</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#AFQ.recognition.criteria.criteria_order_chunk_local"><code class="docutils literal notranslate"><span class="pre">criteria_order_chunk_local</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#AFQ.recognition.criteria.criteria_order_pre_other_bundles"><code class="docutils literal notranslate"><span class="pre">criteria_order_pre_other_bundles</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#AFQ.recognition.criteria.criteria_order_post_other_bundles"><code class="docutils literal notranslate"><span class="pre">criteria_order_post_other_bundles</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#AFQ.recognition.criteria.valid_noncriterion"><code class="docutils literal notranslate"><span class="pre">valid_noncriterion</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#AFQ.recognition.criteria.logger"><code class="docutils literal notranslate"><span class="pre">logger</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#AFQ.recognition.criteria.prob_map"><code class="docutils literal notranslate"><span class="pre">prob_map()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#AFQ.recognition.criteria.cross_midline"><code class="docutils literal notranslate"><span class="pre">cross_midline()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#AFQ.recognition.criteria.start"><code class="docutils literal notranslate"><span class="pre">start()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#AFQ.recognition.criteria.end"><code class="docutils literal notranslate"><span class="pre">end()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#AFQ.recognition.criteria.length"><code class="docutils literal notranslate"><span class="pre">length()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#AFQ.recognition.criteria.endpoint_dists"><code class="docutils literal notranslate"><span class="pre">endpoint_dists()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#AFQ.recognition.criteria.primary_axis"><code class="docutils literal notranslate"><span class="pre">primary_axis()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#AFQ.recognition.criteria.include"><code class="docutils literal notranslate"><span class="pre">include()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#AFQ.recognition.criteria.curvature"><code class="docutils literal notranslate"><span class="pre">curvature()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#AFQ.recognition.criteria.exclude"><code class="docutils literal notranslate"><span class="pre">exclude()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#AFQ.recognition.criteria.recobundles"><code class="docutils literal notranslate"><span class="pre">recobundles()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#AFQ.recognition.criteria.qb_thresh"><code class="docutils literal notranslate"><span class="pre">qb_thresh()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#AFQ.recognition.criteria.clean_by_other_bundle"><code class="docutils literal notranslate"><span class="pre">clean_by_other_bundle()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#AFQ.recognition.criteria.orient_mahal"><code class="docutils literal notranslate"><span class="pre">orient_mahal()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#AFQ.recognition.criteria.isolation_forest"><code class="docutils literal notranslate"><span class="pre">isolation_forest()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#AFQ.recognition.criteria.mahalanobis"><code class="docutils literal notranslate"><span class="pre">mahalanobis()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#AFQ.recognition.criteria._prepare_bundle_def"><code class="docutils literal notranslate"><span class="pre">_prepare_bundle_def()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#AFQ.recognition.criteria._validate_criteria"><code class="docutils literal notranslate"><span class="pre">_validate_criteria()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#AFQ.recognition.criteria._run_chunk_local"><code class="docutils literal notranslate"><span class="pre">_run_chunk_local()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#AFQ.recognition.criteria._run_global_phase"><code class="docutils literal notranslate"><span class="pre">_run_global_phase()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#AFQ.recognition.criteria.recognize_bundles"><code class="docutils literal notranslate"><span class="pre">recognize_bundles()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -797,8 +891,8 @@ a curve in orientation and shape but not scale</p>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
 
 
   <footer class="bd-footer">
@@ -819,7 +913,7 @@ a curve in orientation and shape but not scale</p>
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
     <br/>
   </p>
 </div>
@@ -831,16 +925,20 @@ a curve in orientation and shape but not scale</p>
     <div class="footer-items__end">
       
         <div class="footer-item"><div class="footer">
-    <div class="footer-content">
-      <div class="copyright">
-        Please Cite the following paper:
-      </div>
-      <div class="citation">
-        <a href="https://doi.org/10.52294/e6198273-b8e3-4b63-babb-6e6b0da10669">Kruper et al. (2021)</a>
-      </div>
+  <div class="footer-content">
+    <div class="copyright">
+      Please Cite the following papers:
+    </div>
+    <div class="citation">
+      <a href="https://doi.org/10.1371/journal.pcbi.1013323">
+        Kruper et al. (2025)
+      </a><br>
+      <a href="https://doi.org/10.52294/e6198273-b8e3-4b63-babb-6e6b0da10669">
+        Kruper et al. (2021)
+      </a>
     </div>
   </div>
-  </div>
+</div></div>
       
     </div>
   

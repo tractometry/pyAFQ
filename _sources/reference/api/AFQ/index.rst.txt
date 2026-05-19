@@ -1,33 +1,34 @@
-:py:mod:`AFQ`
-=============
+AFQ
+===
 
 .. py:module:: AFQ
 
 
-Subpackages
------------
-.. toctree::
-   :titlesonly:
-   :maxdepth: 3
-
-   api/index.rst
-   data/index.rst
-   definitions/index.rst
-   models/index.rst
-   recognition/index.rst
-   tasks/index.rst
-   tractography/index.rst
-   utils/index.rst
-   viz/index.rst
-
-
 Submodules
 ----------
+
 .. toctree::
-   :titlesonly:
    :maxdepth: 1
 
-   registration/index.rst
+   /reference/api/AFQ/api/index
+   /reference/api/AFQ/data/index
+   /reference/api/AFQ/definitions/index
+   /reference/api/AFQ/models/index
+   /reference/api/AFQ/nn/index
+   /reference/api/AFQ/recognition/index
+   /reference/api/AFQ/registration/index
+   /reference/api/AFQ/tasks/index
+   /reference/api/AFQ/tractography/index
+   /reference/api/AFQ/utils/index
+   /reference/api/AFQ/viz/index
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   AFQ._ga_id
 
 
 Package Contents
@@ -36,5 +37,4 @@ Package Contents
 .. py:data:: _ga_id
    :value: 'UA-156363454-3'
 
-   
 

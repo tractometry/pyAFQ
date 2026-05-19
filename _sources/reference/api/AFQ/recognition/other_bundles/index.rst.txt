@@ -1,64 +1,79 @@
-:py:mod:`AFQ.recognition.other_bundles`
-=======================================
+AFQ.recognition.other_bundles
+=============================
 
 .. py:module:: AFQ.recognition.other_bundles
 
 
-Module Contents
----------------
-
-
-Functions
-~~~~~~~~~
-
-.. autoapisummary::
-
-   AFQ.recognition.other_bundles.clean_by_other_density_map
-   AFQ.recognition.other_bundles.clean_relative_to_other_core
-
-
-
 Attributes
-~~~~~~~~~~
+----------
 
 .. autoapisummary::
 
    AFQ.recognition.other_bundles.logger
 
 
+Functions
+---------
+
+.. autoapisummary::
+
+   AFQ.recognition.other_bundles.clean_by_overlap
+   AFQ.recognition.other_bundles.clean_relative_to_other_core
+
+
+Module Contents
+---------------
+
 .. py:data:: logger
 
-   
-
-.. py:function:: clean_by_other_density_map(this_bundle_sls, other_bundle_sls, node_thresh, img)
+.. py:function:: clean_by_overlap(this_bundle_sls, other_bundle_sls, overlap, img, remove=False, project=None, other_bundle_min_density=0.05)
 
    
-   Cleans a set of streamlines by removing those with significant overlap with 
-   another set of streamlines.
+   Cleans a set of streamlines by only keeping (or removing) those with
+   significant overlap with another set of streamlines.
 
 
    :Parameters:
 
        **this_bundle_sls** : array-like
            A list or array of streamlines to be cleaned.
+           Assumed to be in RASMM space.
 
        **other_bundle_sls** : array-like
            A reference list or array of streamlines to determine overlapping regions.
 
-       **node_thresh** : int
-           The maximum number of nodes allowed to overlap between `this_bundle_sls`
-           and `other_bundle_sls`. Streamlines with overlaps beyond this threshold 
+       **overlap** : int
+           The minimum number of nodes allowed to overlap between `this_bundle_sls`
+           and `other_bundle_sls`. Streamlines with overlaps beyond this threshold
            are removed.
 
-       **img** : nibabel.Nifti1Image or ndarray
-           A reference 3D image that defines the spatial dimensions for the density 
+       **img** : nibabel.Nifti1Image
+           A reference 3D image that defines the spatial dimensions for the density
            map.
+
+       **remove** : bool, optional
+           If True, streamlines that overlap in less than `overlap` nodes are
+           removed. If False, streamlines that overlap in more than `overlap` nodes
+           are removed.
+           Default: False.
+
+       **project** : {'A/P', 'I/S', 'L/R', None}, optional
+           If specified, the overlap calculation is projected along the given axis
+           before cleaning. For example, 'A/P' projects the streamlines along the
+           anterior-posterior axis.
+           Default: None.
+
+       **other_bundle_min_density** : float, optional
+           A threshold to binarize the density map of `other_bundle_sls`. Voxels
+           with density values above this threshold (as a fraction of the maximum
+           density) are considered occupied.
+           Default: 0.05.
 
    :Returns:
 
        **cleaned_idx** : ndarray of bool
-           An array of boolean values indicating which streamlines from 
-           `this_bundle_sls` pass the overlap threshold (True for streamlines to 
+           An array of boolean values indicating which streamlines from
+           `this_bundle_sls` pass the overlap threshold (True for streamlines to
            keep, False for streamlines to discard).
 
 
@@ -70,16 +85,16 @@ Attributes
 
    .. rubric:: Notes
 
-   This function computes a density map from `other_bundle_sls` to represent 
+   This function computes a density map from `other_bundle_sls` to represent
    the spatial occupancy of the streamlines. It then calculates the probability
-   of each streamline in `this_bundle_sls` overlapping with this map. 
-   Streamlines that overlap in more than `node_thresh` nodes are flagged for 
-   removal.
+   of each streamline in `this_bundle_sls` overlapping with this map.
+   Streamlines that overlap in less than `overlap` nodes are flagged for
+   removal (or more, if remove is True).
 
 
    .. rubric:: Examples
 
-   >>> clean_idx = clean_by_other_density_map(bundle1, bundle2, 5, img)
+   >>> clean_idx = clean_by_overlap(bundle1, bundle2, 5, img, True)
    >>> cleaned_bundle = [s for i, s in enumerate(bundle1) if clean_idx[i]]
 
 
@@ -87,34 +102,46 @@ Attributes
    ..
        !! processed by numpydoc !!
 
-.. py:function:: clean_relative_to_other_core(core, this_fgarray, other_fgarray, affine)
+.. py:function:: clean_relative_to_other_core(core, this_fgarray, other_fgarray, consideration)
 
    
-   Removes streamlines from a set that lie on the opposite side of a specified 
+   Removes streamlines from a set that lie on the opposite side of a specified
    core axis compared to another set of streamlines.
 
 
    :Parameters:
 
        **core** : {'anterior', 'posterior', 'superior', 'inferior', 'right', 'left'}
-           The anatomical axis used to define the core direction. This determines 
-           the side of the core from which streamlines in `this_fgarray` are 
+           The anatomical axis used to define the core direction. This determines
+           the side of the core from which streamlines in `this_fgarray` are
            retained.
 
        **this_fgarray** : ndarray
            An array of streamlines to be cleaned.
+           Assumed to be in RASMM space.
 
        **other_fgarray** : ndarray
            An array of reference streamlines to define the core.
+           Assumed to be in RASMM space.
 
-       **affine** : ndarray
-           The affine transformation matrix.
+       **consideration** : float or string, optional
+           If float, the distance threshold (in voxels) for considering a
+           streamline's position relative to the core. All points on
+           the streamline within distance from the core are considered
+           when determining if the streamline lies on the correct side.
+           If no points are within consideration distance, the closest point
+           on the streamline to the core is considered.
+           If string, must be one of 'entire' or 'closest'.
+           If 'entire', the entire streamline must lie on the correct
+           side of the core to be retained.
+           If 'closest', only the closest point on the streamline to
+           the core is considered.
 
    :Returns:
 
        **cleaned_idx_core** : ndarray of bool
            An array of boolean values indicating which streamlines in `this_fgarray`
-           lie on the correct side of the core (True for streamlines to keep, False 
+           lie on the correct side of the core (True for streamlines to keep, False
            for streamlines to discard).
 
 
@@ -126,20 +153,20 @@ Attributes
 
    .. rubric:: Notes
 
-   This function first calculates the median streamline of `other_fgarray`, 
-   which acts as the core line. It then determines whether each streamline in 
+   This function first calculates the median streamline of `other_fgarray`,
+   which acts as the core line. It then determines whether each streamline in
    `this_fgarray` is on the specified side of this core, based on the specified
-   anatomical axis (`core`). Streamlines on the opposite side are flagged for 
+   anatomical axis (`core`). Streamlines on the opposite side are flagged for
    removal.
 
 
    .. rubric:: Examples
 
-   >>> cleaned_core_idx = clean_relative_to_other_core('anterior', 
-   ...                                                 streamlines1, 
-   ...                                                 streamlines2, 
+   >>> cleaned_core_idx = clean_relative_to_other_core('anterior',
+   ...                                                 streamlines1,
+   ...                                                 streamlines2,
    ...                                                 np.eye(4))
-   >>> cleaned_streamlines = [s for i, s in enumerate(streamlines1) 
+   >>> cleaned_streamlines = [s for i, s in enumerate(streamlines1)
    ...                        if cleaned_core_idx[i]]
 
 

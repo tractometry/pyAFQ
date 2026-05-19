@@ -1,14 +1,14 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Computation times &#8212; AFQ 2.1 documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Computation times &#8212; AFQ 3.1 documentation</title>
   
   
   
@@ -16,73 +16,71 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
 
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=fd6457a4" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=c6496573" />
   
-  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
-  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/jquery.js"></script>
-    <script src="../../_static/underscore.js"></script>
-    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/sphinx_highlight.js"></script>
-    <script src="../../_static/design-tabs.js"></script>
+    <script src="../../_static/documentation_options.js?v=b576230a"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/sg-tags.js?v=d80f6fa4"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'howto/howto_examples/sg_execution_times';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
   </head>
-  
-  
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
-
+  <body data-default-mode="">
   
   
   <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
-
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
   
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../search.html"
       method="get">
@@ -90,7 +88,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -98,15 +95,15 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
 
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
   <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
@@ -132,8 +129,8 @@
       
     
     
-    <img src="../../_static/logo.png" class="logo__image only-light" alt="AFQ 2.1 documentation - Home"/>
-    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.1 documentation - Home"/>`);</script>
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="AFQ 3.1 documentation - Home"/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="AFQ 3.1 documentation - Home"/>
   
   
 </a></div>
@@ -151,6 +148,20 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../guides_index.html">
     User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../tutorials/tutorial_examples/index.html">
+    Tutorials: Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="index.html">
+    How to examples
   </a>
 </li>
 
@@ -186,29 +197,21 @@
         <div class="navbar-item navbar-persistent--container">
           
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
       
         <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -233,15 +236,11 @@ document.write(`
   
     <div class="navbar-persistent--mobile">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
@@ -262,7 +261,8 @@ document.write(`
       
         
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -280,6 +280,20 @@ document.write(`
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../guides_index.html">
     User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../tutorials/tutorial_examples/index.html">
+    Tutorials: Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="index.html">
+    How to examples
   </a>
 </li>
 
@@ -316,15 +330,11 @@ document.write(`
         
           <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
         
           <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -355,7 +365,6 @@ document.write(`
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -368,9 +377,14 @@ document.write(`
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -388,8 +402,6 @@ document.write(`
       
         <div class="header-article-item">
 
-
-
 <nav aria-label="Breadcrumb" class="d-print-none">
   <ul class="bd-breadcrumbs">
     
@@ -398,7 +410,7 @@ document.write(`
         <i class="fa-solid fa-home"></i>
       </a>
     </li>
-    <li class="breadcrumb-item active" aria-current="page">Computation times</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Computation times</span></li>
   </ul>
 </nav>
 </div>
@@ -415,9 +427,9 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <div class="section" id="computation-times">
-<span id="sphx-glr-howto-howto-examples-sg-execution-times"></span><h1>Computation times<a class="headerlink" href="#computation-times" title="Permalink to this heading">#</a></h1>
-<p><strong>50:28.503</strong> total execution time for 14 files <strong>from howto/howto_examples</strong>:</p>
+  <section id="computation-times">
+<span id="sphx-glr-howto-howto-examples-sg-execution-times"></span><h1>Computation times<a class="headerlink" href="#computation-times" title="Link to this heading">#</a></h1>
+<p><strong>29:16.028</strong> total execution time for 16 files <strong>from howto/howto_examples</strong>:</p>
 <div class="docutils container">
 <style scoped>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" />
@@ -431,11 +443,6 @@ $(document).ready( function () {
     $('table.sg-datatable').DataTable({order: [[1, 'desc']]});
 } );
 </script><div class="pst-scrollable-table-container"><table class="table table-striped sg-datatable">
-<colgroup>
-<col style="width: 33%" />
-<col style="width: 33%" />
-<col style="width: 33%" />
-</colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Example</p></th>
 <th class="head"><p>Time</p></th>
@@ -443,59 +450,67 @@ $(document).ready( function () {
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="plot_stages_of_tractometry.html#sphx-glr-howto-howto-examples-plot-stages-of-tractometry-py"><span class="std std-ref">Understanding the different stages of tractometry with videos</span></a> (<code class="docutils literal notranslate"><span class="pre">plot_stages_of_tractometry.py</span></code>)</p></td>
-<td><p>25:59.970</p></td>
-<td><p>4658.8</p></td>
+<tr class="row-even"><td><p><span class="xref std std-ref">sphx_glr_howto_howto_examples_plot_stages_of_tractometry.py</span> (<code class="docutils literal notranslate"><span class="pre">plot_stages_of_tractometry.py</span></code>)</p></td>
+<td><p>29:16.028</p></td>
+<td><p>7032.2</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="plot_recobundles.html#sphx-glr-howto-howto-examples-plot-recobundles-py"><span class="std std-ref">Using RecoBundles for bundle recognition</span></a> (<code class="docutils literal notranslate"><span class="pre">plot_recobundles.py</span></code>)</p></td>
-<td><p>13:31.401</p></td>
-<td><p>2757.7</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="plot_afq_callosal.html#sphx-glr-howto-howto-examples-plot-afq-callosal-py"><span class="std std-ref">Callosal bundles using AFQ API</span></a> (<code class="docutils literal notranslate"><span class="pre">plot_afq_callosal.py</span></code>)</p></td>
-<td><p>10:57.133</p></td>
-<td><p>2857.3</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="acoustic_radiations.html#sphx-glr-howto-howto-examples-acoustic-radiations-py"><span class="std std-ref">How to add new bundles into pyAFQ (Acoustic Radiations Example)</span></a> (<code class="docutils literal notranslate"><span class="pre">acoustic_radiations.py</span></code>)</p></td>
+<tr class="row-odd"><td><p><span class="xref std std-ref">sphx_glr_howto_howto_examples_acoustic_radiations.py</span> (<code class="docutils literal notranslate"><span class="pre">acoustic_radiations.py</span></code>)</p></td>
 <td><p>00:00.000</p></td>
 <td><p>0.0</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="add_custom_bundle.html#sphx-glr-howto-howto-examples-add-custom-bundle-py"><span class="std std-ref">How to add new bundles into pyAFQ (SLF 1/2/3 Example)</span></a> (<code class="docutils literal notranslate"><span class="pre">add_custom_bundle.py</span></code>)</p></td>
+<tr class="row-even"><td><p><span class="xref std std-ref">sphx_glr_howto_howto_examples_add_custom_bundle.py</span> (<code class="docutils literal notranslate"><span class="pre">add_custom_bundle.py</span></code>)</p></td>
 <td><p>00:00.000</p></td>
 <td><p>0.0</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="baby_afq.html#sphx-glr-howto-howto-examples-baby-afq-py"><span class="std std-ref">BabyAFQ : tractometry for infant dMRI data</span></a> (<code class="docutils literal notranslate"><span class="pre">baby_afq.py</span></code>)</p></td>
+<tr class="row-odd"><td><p><span class="xref std std-ref">sphx_glr_howto_howto_examples_afq_callosal.py</span> (<code class="docutils literal notranslate"><span class="pre">afq_callosal.py</span></code>)</p></td>
 <td><p>00:00.000</p></td>
 <td><p>0.0</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="cerebellar_peduncles.html#sphx-glr-howto-howto-examples-cerebellar-peduncles-py"><span class="std std-ref">Delineating cerebellar peduncles</span></a> (<code class="docutils literal notranslate"><span class="pre">cerebellar_peduncles.py</span></code>)</p></td>
+<tr class="row-even"><td><p><span class="xref std std-ref">sphx_glr_howto_howto_examples_afq_fwdti.py</span> (<code class="docutils literal notranslate"><span class="pre">afq_fwdti.py</span></code>)</p></td>
 <td><p>00:00.000</p></td>
 <td><p>0.0</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="cloudknot_example.html#sphx-glr-howto-howto-examples-cloudknot-example-py"><span class="std std-ref">Using cloudknot to run pyAFQ on AWS batch:</span></a> (<code class="docutils literal notranslate"><span class="pre">cloudknot_example.py</span></code>)</p></td>
+<tr class="row-odd"><td><p><span class="xref std std-ref">sphx_glr_howto_howto_examples_baby_afq.py</span> (<code class="docutils literal notranslate"><span class="pre">baby_afq.py</span></code>)</p></td>
 <td><p>00:00.000</p></td>
 <td><p>0.0</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="cloudknot_hcp_example.html#sphx-glr-howto-howto-examples-cloudknot-hcp-example-py"><span class="std std-ref">AFQ with HCP data</span></a> (<code class="docutils literal notranslate"><span class="pre">cloudknot_hcp_example.py</span></code>)</p></td>
+<tr class="row-even"><td><p><span class="xref std std-ref">sphx_glr_howto_howto_examples_cerebellar_peduncles.py</span> (<code class="docutils literal notranslate"><span class="pre">cerebellar_peduncles.py</span></code>)</p></td>
 <td><p>00:00.000</p></td>
 <td><p>0.0</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="optic_radiations.html#sphx-glr-howto-howto-examples-optic-radiations-py"><span class="std std-ref">How to add new bundles into pyAFQ(Optic Radiations Example)</span></a> (<code class="docutils literal notranslate"><span class="pre">optic_radiations.py</span></code>)</p></td>
+<tr class="row-odd"><td><p><span class="xref std std-ref">sphx_glr_howto_howto_examples_cloudknot_example.py</span> (<code class="docutils literal notranslate"><span class="pre">cloudknot_example.py</span></code>)</p></td>
 <td><p>00:00.000</p></td>
 <td><p>0.0</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="run_afq_fwdti.html#sphx-glr-howto-howto-examples-run-afq-fwdti-py"><span class="std std-ref">How to use Free water DTI</span></a> (<code class="docutils literal notranslate"><span class="pre">run_afq_fwdti.py</span></code>)</p></td>
+<tr class="row-even"><td><p><span class="xref std std-ref">sphx_glr_howto_howto_examples_cloudknot_hcp_example.py</span> (<code class="docutils literal notranslate"><span class="pre">cloudknot_hcp_example.py</span></code>)</p></td>
 <td><p>00:00.000</p></td>
 <td><p>0.0</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="run_pyAFQ_with_GPU.html#sphx-glr-howto-howto-examples-run-pyafq-with-gpu-py"><span class="std std-ref">Running pyAFQ using the GPU for tractography</span></a> (<code class="docutils literal notranslate"><span class="pre">run_pyAFQ_with_GPU.py</span></code>)</p></td>
+<tr class="row-odd"><td><p><span class="xref std std-ref">sphx_glr_howto_howto_examples_optic_radiations.py</span> (<code class="docutils literal notranslate"><span class="pre">optic_radiations.py</span></code>)</p></td>
 <td><p>00:00.000</p></td>
 <td><p>0.0</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="use_subject_space_rois_from_freesurfer.html#sphx-glr-howto-howto-examples-use-subject-space-rois-from-freesurfer-py"><span class="std std-ref">Using Subject Space ROIs from Freesurfer</span></a> (<code class="docutils literal notranslate"><span class="pre">use_subject_space_rois_from_freesurfer.py</span></code>)</p></td>
+<tr class="row-even"><td><p><span class="xref std std-ref">sphx_glr_howto_howto_examples_optic_tract.py</span> (<code class="docutils literal notranslate"><span class="pre">optic_tract.py</span></code>)</p></td>
 <td><p>00:00.000</p></td>
 <td><p>0.0</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="vof_example.html#sphx-glr-howto-howto-examples-vof-example-py"><span class="std std-ref">How to segment out only some bundles</span></a> (<code class="docutils literal notranslate"><span class="pre">vof_example.py</span></code>)</p></td>
+<tr class="row-odd"><td><p><span class="xref std std-ref">sphx_glr_howto_howto_examples_pyAFQ_with_GPU.py</span> (<code class="docutils literal notranslate"><span class="pre">pyAFQ_with_GPU.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="xref std std-ref">sphx_glr_howto_howto_examples_pyafq_2.py</span> (<code class="docutils literal notranslate"><span class="pre">pyafq_2.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="xref std std-ref">sphx_glr_howto_howto_examples_recobundles.py</span> (<code class="docutils literal notranslate"><span class="pre">recobundles.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="xref std std-ref">sphx_glr_howto_howto_examples_use_subject_space_rois_from_freesurfer.py</span> (<code class="docutils literal notranslate"><span class="pre">use_subject_space_rois_from_freesurfer.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="xref std std-ref">sphx_glr_howto_howto_examples_vof_example.py</span> (<code class="docutils literal notranslate"><span class="pre">vof_example.py</span></code>)</p></td>
 <td><p>00:00.000</p></td>
 <td><p>0.0</p></td>
 </tr>
@@ -503,7 +518,7 @@ $(document).ready( function () {
 </table>
 </div>
 </div>
-</div>
+</section>
 
 
                 </article>
@@ -522,7 +537,8 @@ $(document).ready( function () {
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
   <div class="sidebar-secondary-item">
@@ -563,8 +579,8 @@ $(document).ready( function () {
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
 
 
   <footer class="bd-footer">
@@ -585,7 +601,7 @@ $(document).ready( function () {
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
     <br/>
   </p>
 </div>
@@ -597,16 +613,20 @@ $(document).ready( function () {
     <div class="footer-items__end">
       
         <div class="footer-item"><div class="footer">
-    <div class="footer-content">
-      <div class="copyright">
-        Please Cite the following paper:
-      </div>
-      <div class="citation">
-        <a href="https://doi.org/10.52294/e6198273-b8e3-4b63-babb-6e6b0da10669">Kruper et al. (2021)</a>
-      </div>
+  <div class="footer-content">
+    <div class="copyright">
+      Please Cite the following papers:
+    </div>
+    <div class="citation">
+      <a href="https://doi.org/10.1371/journal.pcbi.1013323">
+        Kruper et al. (2025)
+      </a><br>
+      <a href="https://doi.org/10.52294/e6198273-b8e3-4b63-babb-6e6b0da10669">
+        Kruper et al. (2021)
+      </a>
     </div>
   </div>
-  </div>
+</div></div>
       
     </div>
   

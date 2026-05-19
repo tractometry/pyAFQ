@@ -1,14 +1,13 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../../../" >
 
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.viz.fury_backend &#8212; AFQ 2.1 documentation</title>
+    <title>AFQ.viz.fury_backend &#8212; AFQ 3.1 documentation</title>
   
   
   
@@ -16,73 +15,71 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
 
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=fd6457a4" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=c6496573" />
   
-  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css" />
-  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/jquery.js"></script>
-    <script src="../../../_static/underscore.js"></script>
-    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx_highlight.js"></script>
-    <script src="../../../_static/design-tabs.js"></script>
+    <script src="../../../_static/documentation_options.js?v=b576230a"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/sg-tags.js?v=d80f6fa4"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/AFQ/viz/fury_backend';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../../_static/searchtools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script src="../../../searchindex.js"></script>
+  
   </head>
-  
-  
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
-
+  <body data-default-mode="">
   
   
   <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
-
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
   
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../../search.html"
       method="get">
@@ -90,7 +87,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -98,15 +94,15 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
 
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
   <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
@@ -132,8 +128,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 2.1 documentation - Home"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.1 documentation - Home"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 3.1 documentation - Home"/>
+    <img src="../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="AFQ 3.1 documentation - Home"/>
   
   
 </a></div>
@@ -151,6 +147,20 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../../guides_index.html">
     User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../tutorials/tutorial_examples/index.html">
+    Tutorials: Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../howto/howto_examples/index.html">
+    How to examples
   </a>
 </li>
 
@@ -186,29 +196,21 @@
         <div class="navbar-item navbar-persistent--container">
           
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
       
         <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -233,15 +235,11 @@ document.write(`
   
     <div class="navbar-persistent--mobile">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
@@ -258,7 +256,8 @@ document.write(`
       
         
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -276,6 +275,20 @@ document.write(`
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../../guides_index.html">
     User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../tutorials/tutorial_examples/index.html">
+    Tutorials: Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../howto/howto_examples/index.html">
+    How to examples
   </a>
 </li>
 
@@ -312,15 +325,11 @@ document.write(`
         
           <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
         
           <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -351,7 +360,6 @@ document.write(`
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -364,9 +372,14 @@ document.write(`
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -384,8 +397,6 @@ document.write(`
       
         <div class="header-article-item">
 
-
-
 <nav aria-label="Breadcrumb" class="d-print-none">
   <ul class="bd-breadcrumbs">
     
@@ -400,7 +411,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../../AFQ.html" class="nav-link">AFQ</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">AFQ.viz.fury_backend</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">AFQ.viz.fury_backend</span></li>
   </ul>
 </nav>
 </div>
@@ -418,52 +429,71 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for AFQ.viz.fury_backend</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">op</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">math</span><span class="w"> </span><span class="kn">import</span> <span class="n">radians</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-
-<span class="kn">import</span><span class="w"> </span><span class="nn">AFQ.viz.utils</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">vut</span>
-
 <span class="kn">from</span><span class="w"> </span><span class="nn">dipy.tracking.streamline</span><span class="w"> </span><span class="kn">import</span> <span class="n">set_number_of_points</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">AFQ.viz.utils</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">vut</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ._fixes</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_gif</span>
+
 <span class="k">try</span><span class="p">:</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">dipy.viz</span><span class="w"> </span><span class="kn">import</span> <span class="n">window</span><span class="p">,</span> <span class="n">actor</span><span class="p">,</span> <span class="n">ui</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">fury</span><span class="w"> </span><span class="kn">import</span> <span class="n">actor</span><span class="p">,</span> <span class="n">window</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">fury.colormap</span><span class="w"> </span><span class="kn">import</span> <span class="n">line_colors</span>
-    <span class="kn">import</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">display</span>
-<span class="k">except</span> <span class="p">(</span><span class="ne">ImportError</span><span class="p">,</span> <span class="ne">ModuleNotFoundError</span><span class="p">):</span>
-    <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="n">vut</span><span class="o">.</span><span class="n">viz_import_msg_error</span><span class="p">(</span><span class="s2">&quot;fury&quot;</span><span class="p">))</span>
+<span class="k">except</span> <span class="p">(</span><span class="ne">ImportError</span><span class="p">,</span> <span class="ne">ModuleNotFoundError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="n">vut</span><span class="o">.</span><span class="n">viz_import_msg_error</span><span class="p">(</span><span class="s2">&quot;fury&quot;</span><span class="p">))</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
-<div class="viewcode-block" id="viz_logger"><a class="viewcode-back" href="../../../reference/api/AFQ/viz/fury_backend/index.html#AFQ.viz.fury_backend.viz_logger">[docs]</a><span class="n">viz_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;AFQ&quot;</span><span class="p">)</span></div>
+<div class="viewcode-block" id="viz_logger">
+<a class="viewcode-back" href="../../../reference/api/AFQ/viz/fury_backend/index.html#AFQ.viz.fury_backend.viz_logger">[docs]</a>
+<span class="n">viz_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;AFQ&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="_inline_interact"><a class="viewcode-back" href="../../../reference/api/AFQ/viz/fury_backend/index.html#AFQ.viz.fury_backend._inline_interact">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">_inline_interact</span><span class="p">(</span><span class="n">scene</span><span class="p">,</span> <span class="n">inline</span><span class="p">,</span> <span class="n">interact</span><span class="p">):</span>
+
+<div class="viewcode-block" id="_inline_interact">
+<a class="viewcode-back" href="../../../reference/api/AFQ/viz/fury_backend/index.html#AFQ.viz.fury_backend._inline_interact">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">_inline_interact</span><span class="p">(</span><span class="n">scene</span><span class="p">,</span> <span class="n">inline</span><span class="p">,</span> <span class="n">interact</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Helper function to reuse across viz functions</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">interact</span><span class="p">:</span>
         <span class="n">viz_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Showing interactive scene...&quot;</span><span class="p">)</span>
-        <span class="n">window</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">scene</span><span class="p">)</span>
+        <span class="n">show_m</span> <span class="o">=</span> <span class="n">window</span><span class="o">.</span><span class="n">ShowManager</span><span class="p">(</span>
+            <span class="n">scene</span><span class="o">=</span><span class="n">scene</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">1200</span><span class="p">,</span> <span class="mi">1200</span><span class="p">),</span> <span class="n">window_type</span><span class="o">=</span><span class="s2">&quot;default&quot;</span>
+        <span class="p">)</span>
+        <span class="n">show_m</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 
     <span class="k">if</span> <span class="n">inline</span><span class="p">:</span>
         <span class="n">viz_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Showing inline scene...&quot;</span><span class="p">)</span>
-        <span class="n">tdir</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">gettempdir</span><span class="p">()</span>
-        <span class="n">fname</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tdir</span><span class="p">,</span> <span class="s2">&quot;fig.png&quot;</span><span class="p">)</span>
-        <span class="n">window</span><span class="o">.</span><span class="n">snapshot</span><span class="p">(</span><span class="n">scene</span><span class="p">,</span> <span class="n">fname</span><span class="o">=</span><span class="n">fname</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">1200</span><span class="p">,</span> <span class="mi">1200</span><span class="p">))</span>
-        <span class="n">display</span><span class="o">.</span><span class="n">display_png</span><span class="p">(</span><span class="n">display</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">fname</span><span class="p">))</span>
+        <span class="n">show_m</span> <span class="o">=</span> <span class="n">window</span><span class="o">.</span><span class="n">ShowManager</span><span class="p">(</span>
+            <span class="n">scene</span><span class="o">=</span><span class="n">scene</span><span class="p">,</span>
+            <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">1200</span><span class="p">,</span> <span class="mi">1200</span><span class="p">),</span>
+            <span class="n">window_type</span><span class="o">=</span><span class="s2">&quot;jupyter&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">show_m</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 
     <span class="k">return</span> <span class="n">scene</span></div>
 
 
-<div class="viewcode-block" id="visualize_bundles"><a class="viewcode-back" href="../../../reference/api/AFQ/viz/fury_backend/index.html#AFQ.viz.fury_backend.visualize_bundles">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">visualize_bundles</span><span class="p">(</span><span class="n">seg_sft</span><span class="p">,</span> <span class="n">n_points</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                      <span class="n">bundle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                      <span class="n">color_by_direction</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                      <span class="n">opacity</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-                      <span class="n">line_width</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span>
-                      <span class="n">flip_axes</span><span class="o">=</span><span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span>
-                      <span class="n">figure</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">background</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">interact</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                      <span class="n">inline</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="visualize_bundles">
+<a class="viewcode-back" href="../../../reference/api/AFQ/viz/fury_backend/index.html#AFQ.viz.fury_backend.visualize_bundles">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">visualize_bundles</span><span class="p">(</span>
+    <span class="n">seg_sft</span><span class="p">,</span>
+    <span class="n">img</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">n_points</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">bundle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">colors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">color_by_direction</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">opacity</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">line_width</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span>
+    <span class="n">flip_axes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">figure</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">background</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="n">interact</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">inline</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Visualize bundles in 3D using VTK.</span>
 <span class="sd">    Parameters not described below are extras to conform fury and plotly APIs.</span>
@@ -473,6 +503,10 @@ document.write(`
 <span class="sd">    seg_sft : SegmentedSFT, str</span>
 <span class="sd">        A SegmentedSFT containing streamline information</span>
 <span class="sd">        or a path to a segmented trk file.</span>
+
+<span class="sd">    img : Nifti1Image, optional</span>
+<span class="sd">        Image to register streamlines to.</span>
+<span class="sd">        Default: None</span>
 
 <span class="sd">    n_points : int or None</span>
 <span class="sd">        n_points to resample streamlines to before plotting. If None, no</span>
@@ -516,13 +550,16 @@ document.write(`
 <span class="sd">    Fury Scene object</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="k">if</span> <span class="n">flip_axes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">flip_axes</span> <span class="o">=</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">figure</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">figure</span> <span class="o">=</span> <span class="n">window</span><span class="o">.</span><span class="n">Scene</span><span class="p">()</span>
 
-    <span class="n">figure</span><span class="o">.</span><span class="n">SetBackground</span><span class="p">(</span><span class="n">background</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">background</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">background</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+    <span class="n">figure</span><span class="o">.</span><span class="n">background</span> <span class="o">=</span> <span class="p">(</span><span class="n">background</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">background</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">background</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
 
-    <span class="k">for</span> <span class="p">(</span><span class="n">sls</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">dimensions</span><span class="p">)</span> <span class="ow">in</span> <span class="n">vut</span><span class="o">.</span><span class="n">tract_generator</span><span class="p">(</span>
-            <span class="n">seg_sft</span><span class="p">,</span> <span class="n">bundle</span><span class="p">,</span> <span class="n">colors</span><span class="p">,</span> <span class="n">n_points</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">sls</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">dimensions</span> <span class="ow">in</span> <span class="n">vut</span><span class="o">.</span><span class="n">tract_generator</span><span class="p">(</span>
+        <span class="n">seg_sft</span><span class="p">,</span> <span class="n">bundle</span><span class="p">,</span> <span class="n">colors</span><span class="p">,</span> <span class="n">n_points</span><span class="p">,</span> <span class="n">img</span>
+    <span class="p">):</span>
         <span class="n">sls</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sls</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;all_bundles&quot;</span><span class="p">:</span>
             <span class="n">color</span> <span class="o">=</span> <span class="n">line_colors</span><span class="p">(</span><span class="n">sls</span><span class="p">)</span>
@@ -535,77 +572,85 @@ document.write(`
                 <span class="n">sl</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">dimensions</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">sl</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="n">color_by_direction</span><span class="p">:</span>
-            <span class="n">sl_actor</span> <span class="o">=</span> <span class="n">actor</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">sls</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="n">opacity</span><span class="p">)</span>
+            <span class="n">sl_actor</span> <span class="o">=</span> <span class="n">actor</span><span class="o">.</span><span class="n">streamlines</span><span class="p">(</span><span class="n">sls</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="n">opacity</span><span class="p">,</span> <span class="n">thickness</span><span class="o">=</span><span class="n">line_width</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">sl_actor</span> <span class="o">=</span> <span class="n">actor</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">sls</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="n">opacity</span><span class="p">)</span>
+            <span class="n">sl_actor</span> <span class="o">=</span> <span class="n">actor</span><span class="o">.</span><span class="n">streamlines</span><span class="p">(</span>
+                <span class="n">sls</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="n">opacity</span><span class="p">,</span> <span class="n">thickness</span><span class="o">=</span><span class="n">line_width</span>
+            <span class="p">)</span>
         <span class="n">figure</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">sl_actor</span><span class="p">)</span>
-        <span class="n">sl_actor</span><span class="o">.</span><span class="n">GetProperty</span><span class="p">()</span><span class="o">.</span><span class="n">SetRenderLinesAsTubes</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">sl_actor</span><span class="o">.</span><span class="n">GetProperty</span><span class="p">()</span><span class="o">.</span><span class="n">SetLineWidth</span><span class="p">(</span><span class="n">line_width</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">_inline_interact</span><span class="p">(</span><span class="n">figure</span><span class="p">,</span> <span class="n">inline</span><span class="p">,</span> <span class="n">interact</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="scene_rotate_forward"><a class="viewcode-back" href="../../../reference/api/AFQ/viz/fury_backend/index.html#AFQ.viz.fury_backend.scene_rotate_forward">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">scene_rotate_forward</span><span class="p">(</span><span class="n">scene</span><span class="p">):</span>
-    <span class="n">scene</span><span class="o">.</span><span class="n">elevation</span><span class="p">(</span><span class="mi">90</span><span class="p">)</span>
-    <span class="n">scene</span><span class="o">.</span><span class="n">set_camera</span><span class="p">(</span><span class="n">view_up</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
-    <span class="n">scene</span><span class="o">.</span><span class="n">reset_camera</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">scene</span></div>
+
+<div class="viewcode-block" id="scene_rotate_forward">
+<a class="viewcode-back" href="../../../reference/api/AFQ/viz/fury_backend/index.html#AFQ.viz.fury_backend.scene_rotate_forward">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">scene_rotate_forward</span><span class="p">(</span><span class="n">show_m</span><span class="p">,</span> <span class="n">scene</span><span class="p">):</span>
+    <span class="n">window</span><span class="o">.</span><span class="n">update_camera</span><span class="p">(</span><span class="n">show_m</span><span class="o">.</span><span class="n">screens</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">camera</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">scene</span><span class="p">)</span>
+    <span class="n">show_m</span><span class="o">.</span><span class="n">screens</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">rotate</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="n">radians</span><span class="p">(</span><span class="o">-</span><span class="mi">90</span><span class="p">)),</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">show_m</span><span class="o">.</span><span class="n">render</span><span class="p">()</span>
+    <span class="n">show_m</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="create_gif"><a class="viewcode-back" href="../../../reference/api/AFQ/viz/fury_backend/index.html#AFQ.viz.fury_backend.create_gif">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">create_gif</span><span class="p">(</span><span class="n">figure</span><span class="p">,</span>
-               <span class="n">file_name</span><span class="p">,</span>
-               <span class="n">n_frames</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span>
-               <span class="n">zoom</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-               <span class="n">z_offset</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
-               <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span> <span class="mi">600</span><span class="p">),</span>
-               <span class="n">rotate_forward</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+<div class="viewcode-block" id="create_gif">
+<a class="viewcode-back" href="../../../reference/api/AFQ/viz/fury_backend/index.html#AFQ.viz.fury_backend.create_gif">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_gif</span><span class="p">(</span>
+    <span class="n">figure</span><span class="p">,</span>
+    <span class="n">file_name</span><span class="p">,</span>
+    <span class="n">n_frames</span><span class="o">=</span><span class="mi">36</span><span class="p">,</span>
+    <span class="n">az_ang</span><span class="o">=-</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span> <span class="mi">600</span><span class="p">),</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convert a Fury Scene object into a gif</span>
 
+<span class="sd">    Make a video from a Fury Show Manager.</span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    figure: Fury Scene object</span>
-<span class="sd">        Scene to be converted to a gif</span>
+<span class="sd">    figure : Fury Scene object</span>
+<span class="sd">        The Fury Scene object to render.</span>
 
-<span class="sd">    file_name: str</span>
-<span class="sd">        File to save gif to.</span>
+<span class="sd">    file_name : str</span>
+<span class="sd">        The name of the output file.</span>
 
-<span class="sd">    n_frames: int, optional</span>
-<span class="sd">        Number of frames in gif.</span>
-<span class="sd">        Will be evenly distributed throughout the rotation.</span>
-<span class="sd">        Default: 60</span>
+<span class="sd">    n_frames : int</span>
+<span class="sd">        The number of frames to render.</span>
+<span class="sd">        Default: 36</span>
 
-<span class="sd">    zoom: int, optional</span>
-<span class="sd">        How much to magnify the figure in the fig.</span>
-<span class="sd">        Default: 1</span>
+<span class="sd">    az_ang : float</span>
+<span class="sd">        The angle to rotate the camera around the</span>
+<span class="sd">        z-axis for each frame, in degrees.</span>
+<span class="sd">        Default: -10</span>
 
-<span class="sd">    size: tuple, optional</span>
-<span class="sd">        Size of the gif.</span>
+<span class="sd">    size : tuple</span>
+<span class="sd">        The size of the output gif, in pixels.</span>
 <span class="sd">        Default: (600, 600)</span>
-
-<span class="sd">    rotate_forward: bool, optional</span>
-<span class="sd">        Whether to rotate the figure forward before converting to a gif.</span>
-<span class="sd">        Generally necessary for fury scenes.</span>
-<span class="sd">        Default: True</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">rotate_forward</span><span class="p">:</span>
-        <span class="n">figure</span> <span class="o">=</span> <span class="n">scene_rotate_forward</span><span class="p">(</span><span class="n">figure</span><span class="p">)</span>
-
-    <span class="n">tdir</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">gettempdir</span><span class="p">()</span>
-    <span class="n">window</span><span class="o">.</span><span class="n">record</span><span class="p">(</span><span class="n">figure</span><span class="p">,</span> <span class="n">az_ang</span><span class="o">=</span><span class="mf">360.0</span> <span class="o">/</span> <span class="n">n_frames</span><span class="p">,</span> <span class="n">n_frames</span><span class="o">=</span><span class="n">n_frames</span><span class="p">,</span>
-                  <span class="n">path_numbering</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">out_path</span><span class="o">=</span><span class="n">tdir</span> <span class="o">+</span> <span class="s1">&#39;/tgif&#39;</span><span class="p">,</span>
-                  <span class="n">magnification</span><span class="o">=</span><span class="n">zoom</span><span class="p">,</span>
-                  <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span>
-
-    <span class="n">vut</span><span class="o">.</span><span class="n">gif_from_pngs</span><span class="p">(</span><span class="n">tdir</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">n_frames</span><span class="p">,</span>
-                      <span class="n">png_fname</span><span class="o">=</span><span class="s2">&quot;tgif&quot;</span><span class="p">,</span> <span class="n">add_zeros</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+    <span class="n">show_m</span> <span class="o">=</span> <span class="n">window</span><span class="o">.</span><span class="n">ShowManager</span><span class="p">(</span>
+        <span class="n">scene</span><span class="o">=</span><span class="n">figure</span><span class="p">,</span>
+        <span class="n">window_type</span><span class="o">=</span><span class="s2">&quot;offscreen&quot;</span><span class="p">,</span>
+        <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">scene_rotate_forward</span><span class="p">(</span><span class="n">show_m</span><span class="p">,</span> <span class="n">figure</span><span class="p">)</span>
+    <span class="n">make_gif</span><span class="p">(</span><span class="n">show_m</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">n_frames</span><span class="o">=</span><span class="n">n_frames</span><span class="p">,</span> <span class="n">az_ang</span><span class="o">=</span><span class="n">az_ang</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="visualize_roi"><a class="viewcode-back" href="../../../reference/api/AFQ/viz/fury_backend/index.html#AFQ.viz.fury_backend.visualize_roi">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">visualize_roi</span><span class="p">(</span><span class="n">roi</span><span class="p">,</span> <span class="n">affine_or_mapping</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">static_img</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                  <span class="n">roi_affine</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">static_affine</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reg_template</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                  <span class="n">name</span><span class="o">=</span><span class="s1">&#39;ROI&#39;</span><span class="p">,</span> <span class="n">figure</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span>
-                  <span class="n">flip_axes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                  <span class="n">opacity</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">inline</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">interact</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+<div class="viewcode-block" id="visualize_roi">
+<a class="viewcode-back" href="../../../reference/api/AFQ/viz/fury_backend/index.html#AFQ.viz.fury_backend.visualize_roi">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">visualize_roi</span><span class="p">(</span>
+    <span class="n">roi</span><span class="p">,</span>
+    <span class="n">resample_to</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;ROI&quot;</span><span class="p">,</span>
+    <span class="n">figure</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">flip_axes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">opacity</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">inline</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">interact</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Render a region of interest into a VTK viz as a volume</span>
 
@@ -614,22 +659,8 @@ document.write(`
 <span class="sd">    roi : str or Nifti1Image</span>
 <span class="sd">        The ROI information</span>
 
-<span class="sd">    affine_or_mapping : ndarray, Nifti1Image, or str, optional</span>
-<span class="sd">       An affine transformation or mapping to apply to the ROIs before</span>
-<span class="sd">       visualization. Default: no transform.</span>
-
-<span class="sd">    static_img: str or Nifti1Image, optional</span>
-<span class="sd">        Template to resample roi to.</span>
-<span class="sd">        Default: None</span>
-
-<span class="sd">    roi_affine: ndarray, optional</span>
-<span class="sd">        Default: None</span>
-
-<span class="sd">    static_affine: ndarray, optional</span>
-<span class="sd">        Default: None</span>
-
-<span class="sd">    reg_template: str or Nifti1Image, optional</span>
-<span class="sd">        Template to use for registration.</span>
+<span class="sd">    resample_to : Nifti1Image, optional</span>
+<span class="sd">        If not None, the ROI will be resampled to the space of this image.</span>
 <span class="sd">        Default: None</span>
 
 <span class="sd">    name: str, optional</span>
@@ -663,8 +694,9 @@ document.write(`
 <span class="sd">    -------</span>
 <span class="sd">    Fury Scene object</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">roi</span> <span class="o">=</span> <span class="n">vut</span><span class="o">.</span><span class="n">prepare_roi</span><span class="p">(</span><span class="n">roi</span><span class="p">,</span> <span class="n">affine_or_mapping</span><span class="p">,</span> <span class="n">static_img</span><span class="p">,</span>
-                          <span class="n">roi_affine</span><span class="p">,</span> <span class="n">static_affine</span><span class="p">,</span> <span class="n">reg_template</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">color</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+    <span class="n">roi</span> <span class="o">=</span> <span class="n">vut</span><span class="o">.</span><span class="n">prepare_roi</span><span class="p">(</span><span class="n">roi</span><span class="p">,</span> <span class="n">resample_to</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">flip</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">flip_axes</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">flip</span><span class="p">:</span>
             <span class="n">roi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">roi</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">i</span><span class="p">)</span>
@@ -677,9 +709,20 @@ document.write(`
     <span class="k">return</span> <span class="n">_inline_interact</span><span class="p">(</span><span class="n">figure</span><span class="p">,</span> <span class="n">inline</span><span class="p">,</span> <span class="n">interact</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="visualize_volume"><a class="viewcode-back" href="../../../reference/api/AFQ/viz/fury_backend/index.html#AFQ.viz.fury_backend.visualize_volume">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">visualize_volume</span><span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">figure</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                     <span class="n">flip_axes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                     <span class="n">opacity</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">inline</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">interact</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+<div class="viewcode-block" id="visualize_volume">
+<a class="viewcode-back" href="../../../reference/api/AFQ/viz/fury_backend/index.html#AFQ.viz.fury_backend.visualize_volume">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">visualize_volume</span><span class="p">(</span>
+    <span class="n">volume</span><span class="p">,</span>
+    <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">z</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">figure</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">flip_axes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">opacity</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span>
+    <span class="n">inline</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">interact</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Visualize a volume</span>
 
@@ -717,168 +760,49 @@ document.write(`
         <span class="n">figure</span> <span class="o">=</span> <span class="n">window</span><span class="o">.</span><span class="n">Scene</span><span class="p">()</span>
 
     <span class="n">shape</span> <span class="o">=</span> <span class="n">volume</span><span class="o">.</span><span class="n">shape</span>
-    <span class="n">image_actor_z</span> <span class="o">=</span> <span class="n">actor</span><span class="o">.</span><span class="n">slicer</span><span class="p">(</span><span class="n">volume</span><span class="p">)</span>
-    <span class="n">slicer_opacity</span> <span class="o">=</span> <span class="n">opacity</span>
-    <span class="n">image_actor_z</span><span class="o">.</span><span class="n">opacity</span><span class="p">(</span><span class="n">slicer_opacity</span><span class="p">)</span>
-
-    <span class="n">image_actor_x</span> <span class="o">=</span> <span class="n">image_actor_z</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span>
-    <span class="n">image_actor_x</span><span class="o">.</span><span class="n">display_extent</span><span class="p">(</span><span class="n">x</span><span class="p">,</span>
-                                 <span class="n">x</span><span class="p">,</span>
-                                 <span class="mi">0</span><span class="p">,</span>
-                                 <span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
-                                 <span class="mi">0</span><span class="p">,</span>
-                                 <span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-
-    <span class="n">image_actor_y</span> <span class="o">=</span> <span class="n">image_actor_z</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-
+        <span class="n">x</span> <span class="o">=</span> <span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span>
     <span class="k">if</span> <span class="n">y</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">y</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span>
-    <span class="n">image_actor_y</span><span class="o">.</span><span class="n">display_extent</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span>
-                                 <span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
-                                 <span class="n">y</span><span class="p">,</span>
-                                 <span class="n">y</span><span class="p">,</span>
-                                 <span class="mi">0</span><span class="p">,</span>
-                                 <span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-
-    <span class="n">figure</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">image_actor_z</span><span class="p">)</span>
-    <span class="n">figure</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">image_actor_x</span><span class="p">)</span>
-    <span class="n">figure</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">image_actor_y</span><span class="p">)</span>
-
-    <span class="n">show_m</span> <span class="o">=</span> <span class="n">window</span><span class="o">.</span><span class="n">ShowManager</span><span class="p">(</span><span class="n">figure</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">1200</span><span class="p">,</span> <span class="mi">900</span><span class="p">))</span>
-    <span class="n">show_m</span><span class="o">.</span><span class="n">initialize</span><span class="p">()</span>
-
-    <span class="k">if</span> <span class="n">interact</span><span class="p">:</span>
-        <span class="n">line_slider_z</span> <span class="o">=</span> <span class="n">ui</span><span class="o">.</span><span class="n">LineSlider2D</span><span class="p">(</span><span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                                        <span class="n">max_value</span><span class="o">=</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
-                                        <span class="n">initial_value</span><span class="o">=</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
-                                        <span class="n">text_template</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{value:.0f}</span><span class="s2">&quot;</span><span class="p">,</span>
-                                        <span class="n">length</span><span class="o">=</span><span class="mi">140</span><span class="p">)</span>
-
-        <span class="n">line_slider_x</span> <span class="o">=</span> <span class="n">ui</span><span class="o">.</span><span class="n">LineSlider2D</span><span class="p">(</span><span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                                        <span class="n">max_value</span><span class="o">=</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
-                                        <span class="n">initial_value</span><span class="o">=</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
-                                        <span class="n">text_template</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{value:.0f}</span><span class="s2">&quot;</span><span class="p">,</span>
-                                        <span class="n">length</span><span class="o">=</span><span class="mi">140</span><span class="p">)</span>
-
-        <span class="n">line_slider_y</span> <span class="o">=</span> <span class="n">ui</span><span class="o">.</span><span class="n">LineSlider2D</span><span class="p">(</span><span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                                        <span class="n">max_value</span><span class="o">=</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
-                                        <span class="n">initial_value</span><span class="o">=</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
-                                        <span class="n">text_template</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{value:.0f}</span><span class="s2">&quot;</span><span class="p">,</span>
-                                        <span class="n">length</span><span class="o">=</span><span class="mi">140</span><span class="p">)</span>
-
-        <span class="n">opacity_slider</span> <span class="o">=</span> <span class="n">ui</span><span class="o">.</span><span class="n">LineSlider2D</span><span class="p">(</span><span class="n">min_value</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-                                         <span class="n">max_value</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-                                         <span class="n">initial_value</span><span class="o">=</span><span class="n">slicer_opacity</span><span class="p">,</span>
-                                         <span class="n">length</span><span class="o">=</span><span class="mi">140</span><span class="p">)</span>
-
-        <span class="k">def</span><span class="w"> </span><span class="nf">change_slice_z</span><span class="p">(</span><span class="n">slider</span><span class="p">):</span>
-            <span class="n">z</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">slider</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
-            <span class="n">image_actor_z</span><span class="o">.</span><span class="n">display_extent</span><span class="p">(</span>
-                <span class="mi">0</span><span class="p">,</span> <span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
-
-        <span class="k">def</span><span class="w"> </span><span class="nf">change_slice_x</span><span class="p">(</span><span class="n">slider</span><span class="p">):</span>
-            <span class="n">x</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">slider</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
-            <span class="n">image_actor_x</span><span class="o">.</span><span class="n">display_extent</span><span class="p">(</span>
-                <span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-
-        <span class="k">def</span><span class="w"> </span><span class="nf">change_slice_y</span><span class="p">(</span><span class="n">slider</span><span class="p">):</span>
-            <span class="n">y</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">slider</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
-            <span class="n">image_actor_y</span><span class="o">.</span><span class="n">display_extent</span><span class="p">(</span>
-                <span class="mi">0</span><span class="p">,</span> <span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-
-        <span class="k">def</span><span class="w"> </span><span class="nf">change_opacity</span><span class="p">(</span><span class="n">slider</span><span class="p">):</span>
-            <span class="n">slicer_opacity</span> <span class="o">=</span> <span class="n">slider</span><span class="o">.</span><span class="n">value</span>
-            <span class="n">image_actor_z</span><span class="o">.</span><span class="n">opacity</span><span class="p">(</span><span class="n">slicer_opacity</span><span class="p">)</span>
-            <span class="n">image_actor_x</span><span class="o">.</span><span class="n">opacity</span><span class="p">(</span><span class="n">slicer_opacity</span><span class="p">)</span>
-            <span class="n">image_actor_y</span><span class="o">.</span><span class="n">opacity</span><span class="p">(</span><span class="n">slicer_opacity</span><span class="p">)</span>
-
-        <span class="n">line_slider_z</span><span class="o">.</span><span class="n">on_change</span> <span class="o">=</span> <span class="n">change_slice_z</span>
-        <span class="n">line_slider_x</span><span class="o">.</span><span class="n">on_change</span> <span class="o">=</span> <span class="n">change_slice_x</span>
-        <span class="n">line_slider_y</span><span class="o">.</span><span class="n">on_change</span> <span class="o">=</span> <span class="n">change_slice_y</span>
-        <span class="n">opacity_slider</span><span class="o">.</span><span class="n">on_change</span> <span class="o">=</span> <span class="n">change_opacity</span>
-
-        <span class="k">def</span><span class="w"> </span><span class="nf">build_label</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
-            <span class="n">label</span> <span class="o">=</span> <span class="n">ui</span><span class="o">.</span><span class="n">TextBlock2D</span><span class="p">()</span>
-            <span class="n">label</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">text</span>
-            <span class="n">label</span><span class="o">.</span><span class="n">font_size</span> <span class="o">=</span> <span class="mi">18</span>
-            <span class="n">label</span><span class="o">.</span><span class="n">font_family</span> <span class="o">=</span> <span class="s1">&#39;Arial&#39;</span>
-            <span class="n">label</span><span class="o">.</span><span class="n">justification</span> <span class="o">=</span> <span class="s1">&#39;left&#39;</span>
-            <span class="n">label</span><span class="o">.</span><span class="n">bold</span> <span class="o">=</span> <span class="kc">False</span>
-            <span class="n">label</span><span class="o">.</span><span class="n">italic</span> <span class="o">=</span> <span class="kc">False</span>
-            <span class="n">label</span><span class="o">.</span><span class="n">shadow</span> <span class="o">=</span> <span class="kc">False</span>
-            <span class="n">label</span><span class="o">.</span><span class="n">background</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-            <span class="n">label</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-
-            <span class="k">return</span> <span class="n">label</span>
-
-        <span class="n">line_slider_label_z</span> <span class="o">=</span> <span class="n">build_label</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;Z Slice&quot;</span><span class="p">)</span>
-        <span class="n">line_slider_label_x</span> <span class="o">=</span> <span class="n">build_label</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;X Slice&quot;</span><span class="p">)</span>
-        <span class="n">line_slider_label_y</span> <span class="o">=</span> <span class="n">build_label</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;Y Slice&quot;</span><span class="p">)</span>
-        <span class="n">opacity_slider_label</span> <span class="o">=</span> <span class="n">build_label</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;Opacity&quot;</span><span class="p">)</span>
-
-        <span class="n">panel</span> <span class="o">=</span> <span class="n">ui</span><span class="o">.</span><span class="n">Panel2D</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">200</span><span class="p">),</span>
-                           <span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-                           <span class="n">opacity</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
-                           <span class="n">align</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">)</span>
-        <span class="n">panel</span><span class="o">.</span><span class="n">center</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1030</span><span class="p">,</span> <span class="mi">120</span><span class="p">)</span>
-
-        <span class="n">panel</span><span class="o">.</span><span class="n">add_element</span><span class="p">(</span><span class="n">line_slider_label_x</span><span class="p">,</span> <span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">))</span>
-        <span class="n">panel</span><span class="o">.</span><span class="n">add_element</span><span class="p">(</span><span class="n">line_slider_x</span><span class="p">,</span> <span class="p">(</span><span class="mf">0.38</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">))</span>
-        <span class="n">panel</span><span class="o">.</span><span class="n">add_element</span><span class="p">(</span><span class="n">line_slider_label_y</span><span class="p">,</span> <span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.55</span><span class="p">))</span>
-        <span class="n">panel</span><span class="o">.</span><span class="n">add_element</span><span class="p">(</span><span class="n">line_slider_y</span><span class="p">,</span> <span class="p">(</span><span class="mf">0.38</span><span class="p">,</span> <span class="mf">0.55</span><span class="p">))</span>
-        <span class="n">panel</span><span class="o">.</span><span class="n">add_element</span><span class="p">(</span><span class="n">line_slider_label_z</span><span class="p">,</span> <span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.35</span><span class="p">))</span>
-        <span class="n">panel</span><span class="o">.</span><span class="n">add_element</span><span class="p">(</span><span class="n">line_slider_z</span><span class="p">,</span> <span class="p">(</span><span class="mf">0.38</span><span class="p">,</span> <span class="mf">0.35</span><span class="p">))</span>
-        <span class="n">panel</span><span class="o">.</span><span class="n">add_element</span><span class="p">(</span><span class="n">opacity_slider_label</span><span class="p">,</span> <span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">))</span>
-        <span class="n">panel</span><span class="o">.</span><span class="n">add_element</span><span class="p">(</span><span class="n">opacity_slider</span><span class="p">,</span> <span class="p">(</span><span class="mf">0.38</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">))</span>
-
-        <span class="n">show_m</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">panel</span><span class="p">)</span>
-
-        <span class="k">global</span> <span class="n">size</span>
-        <span class="n">size</span> <span class="o">=</span> <span class="n">figure</span><span class="o">.</span><span class="n">GetSize</span><span class="p">()</span>
-
-        <span class="k">def</span><span class="w"> </span><span class="nf">win_callback</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-            <span class="k">global</span> <span class="n">size</span>
-            <span class="k">if</span> <span class="n">size</span> <span class="o">!=</span> <span class="n">obj</span><span class="o">.</span><span class="n">GetSize</span><span class="p">():</span>
-                <span class="n">size_old</span> <span class="o">=</span> <span class="n">size</span>
-                <span class="n">size</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">GetSize</span><span class="p">()</span>
-                <span class="n">size_change</span> <span class="o">=</span> <span class="p">[</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">size_old</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">]</span>
-                <span class="n">panel</span><span class="o">.</span><span class="n">re_align</span><span class="p">(</span><span class="n">size_change</span><span class="p">)</span>
-
-    <span class="n">show_m</span><span class="o">.</span><span class="n">initialize</span><span class="p">()</span>
-
-    <span class="n">figure</span><span class="o">.</span><span class="n">zoom</span><span class="p">(</span><span class="mf">1.5</span><span class="p">)</span>
-    <span class="n">figure</span><span class="o">.</span><span class="n">reset_clipping_range</span><span class="p">()</span>
-
-    <span class="k">if</span> <span class="n">interact</span><span class="p">:</span>
-        <span class="n">show_m</span><span class="o">.</span><span class="n">add_window_callback</span><span class="p">(</span><span class="n">win_callback</span><span class="p">)</span>
-        <span class="n">show_m</span><span class="o">.</span><span class="n">render</span><span class="p">()</span>
-        <span class="n">show_m</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="k">if</span> <span class="n">z</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="n">slicer_actor</span> <span class="o">=</span> <span class="n">actor</span><span class="o">.</span><span class="n">data_slicer</span><span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="n">opacity</span><span class="p">,</span> <span class="n">initial_slices</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">))</span>
+    <span class="n">figure</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">slicer_actor</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">_inline_interact</span><span class="p">(</span><span class="n">figure</span><span class="p">,</span> <span class="n">inline</span><span class="p">,</span> <span class="n">interact</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="_draw_core"><a class="viewcode-back" href="../../../reference/api/AFQ/viz/fury_backend/index.html#AFQ.viz.fury_backend._draw_core">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">_draw_core</span><span class="p">(</span><span class="n">sls</span><span class="p">,</span> <span class="n">n_points</span><span class="p">,</span> <span class="n">figure</span><span class="p">,</span> <span class="n">bundle_name</span><span class="p">,</span> <span class="n">indiv_profile</span><span class="p">,</span>
-               <span class="n">labelled_points</span><span class="p">,</span> <span class="n">dimensions</span><span class="p">,</span> <span class="n">flip_axes</span><span class="p">):</span>
+
+<div class="viewcode-block" id="_draw_core">
+<a class="viewcode-back" href="../../../reference/api/AFQ/viz/fury_backend/index.html#AFQ.viz.fury_backend._draw_core">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">_draw_core</span><span class="p">(</span>
+    <span class="n">sls</span><span class="p">,</span>
+    <span class="n">n_points</span><span class="p">,</span>
+    <span class="n">figure</span><span class="p">,</span>
+    <span class="n">bundle_name</span><span class="p">,</span>
+    <span class="n">indiv_profile</span><span class="p">,</span>
+    <span class="n">labelled_points</span><span class="p">,</span>
+    <span class="n">dimensions</span><span class="p">,</span>
+    <span class="n">flip_axes</span><span class="p">,</span>
+<span class="p">):</span>
     <span class="n">fgarray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">set_number_of_points</span><span class="p">(</span><span class="n">sls</span><span class="p">,</span> <span class="n">n_points</span><span class="p">))</span>
     <span class="n">fgarray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">fgarray</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
-    <span class="n">colormap</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span>
-        <span class="p">[</span><span class="mf">0.265625</span><span class="p">,</span> <span class="mf">0.00390625</span><span class="p">,</span> <span class="mf">0.328125</span><span class="p">],</span>
-        <span class="p">[</span><span class="mf">0.28125</span><span class="p">,</span> <span class="mf">0.15625</span><span class="p">,</span> <span class="mf">0.46875</span><span class="p">],</span>
-        <span class="p">[</span><span class="mf">0.2421875</span><span class="p">,</span> <span class="mf">0.28515625</span><span class="p">,</span> <span class="mf">0.53515625</span><span class="p">],</span>
-        <span class="p">[</span><span class="mf">0.19140625</span><span class="p">,</span> <span class="mf">0.40625</span><span class="p">,</span> <span class="mf">0.5546875</span><span class="p">],</span>
-        <span class="p">[</span><span class="mf">0.1484375</span><span class="p">,</span> <span class="mf">0.5078125</span><span class="p">,</span> <span class="mf">0.5546875</span><span class="p">],</span>
-        <span class="p">[</span><span class="mf">0.12109375</span><span class="p">,</span> <span class="mf">0.6171875</span><span class="p">,</span> <span class="mf">0.53515625</span><span class="p">],</span>
-        <span class="p">[</span><span class="mf">0.20703125</span><span class="p">,</span> <span class="mf">0.71484375</span><span class="p">,</span> <span class="mf">0.47265625</span><span class="p">],</span>
-        <span class="p">[</span><span class="mf">0.4296875</span><span class="p">,</span> <span class="mf">0.8046875</span><span class="p">,</span> <span class="mf">0.34375</span><span class="p">],</span>
-        <span class="p">[</span><span class="mf">0.70703125</span><span class="p">,</span> <span class="mf">0.8671875</span><span class="p">,</span> <span class="mf">0.16796875</span><span class="p">],</span>
-        <span class="p">[</span><span class="mf">0.98828125</span><span class="p">,</span> <span class="mf">0.90234375</span><span class="p">,</span> <span class="mf">0.14453125</span><span class="p">]])</span>
-    <span class="n">xp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span>
-        <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">indiv_profile</span><span class="p">),</span>
-        <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">indiv_profile</span><span class="p">),</span>
-        <span class="n">num</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">colormap</span><span class="p">))</span>
+    <span class="n">colormap</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="p">[</span><span class="mf">0.265625</span><span class="p">,</span> <span class="mf">0.00390625</span><span class="p">,</span> <span class="mf">0.328125</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">0.28125</span><span class="p">,</span> <span class="mf">0.15625</span><span class="p">,</span> <span class="mf">0.46875</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">0.2421875</span><span class="p">,</span> <span class="mf">0.28515625</span><span class="p">,</span> <span class="mf">0.53515625</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">0.19140625</span><span class="p">,</span> <span class="mf">0.40625</span><span class="p">,</span> <span class="mf">0.5546875</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">0.1484375</span><span class="p">,</span> <span class="mf">0.5078125</span><span class="p">,</span> <span class="mf">0.5546875</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">0.12109375</span><span class="p">,</span> <span class="mf">0.6171875</span><span class="p">,</span> <span class="mf">0.53515625</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">0.20703125</span><span class="p">,</span> <span class="mf">0.71484375</span><span class="p">,</span> <span class="mf">0.47265625</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">0.4296875</span><span class="p">,</span> <span class="mf">0.8046875</span><span class="p">,</span> <span class="mf">0.34375</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">0.70703125</span><span class="p">,</span> <span class="mf">0.8671875</span><span class="p">,</span> <span class="mf">0.16796875</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">0.98828125</span><span class="p">,</span> <span class="mf">0.90234375</span><span class="p">,</span> <span class="mf">0.14453125</span><span class="p">],</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">xp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">indiv_profile</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">indiv_profile</span><span class="p">),</span> <span class="n">num</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">colormap</span><span class="p">))</span>
     <span class="n">line_color</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">n_points</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
         <span class="n">line_color</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">indiv_profile</span><span class="p">,</span> <span class="n">xp</span><span class="p">,</span> <span class="n">colormap</span><span class="p">[:,</span> <span class="n">i</span><span class="p">])</span>
@@ -905,20 +829,26 @@ document.write(`
     <span class="k">if</span> <span class="n">flip_axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span>
         <span class="n">fgarray</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">dimensions</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">fgarray</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span>
 
-    <span class="n">sl_actor</span> <span class="o">=</span> <span class="n">actor</span><span class="o">.</span><span class="n">line</span><span class="p">([</span><span class="n">fgarray</span><span class="p">],</span> <span class="n">line_color</span><span class="p">)</span>
+    <span class="n">sl_actor</span> <span class="o">=</span> <span class="n">actor</span><span class="o">.</span><span class="n">streamlines</span><span class="p">([</span><span class="n">fgarray</span><span class="p">],</span> <span class="n">colors</span><span class="o">=</span><span class="n">line_color</span><span class="p">,</span> <span class="n">thickness</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
     <span class="n">figure</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">sl_actor</span><span class="p">)</span>
-    <span class="n">sl_actor</span><span class="o">.</span><span class="n">GetProperty</span><span class="p">()</span><span class="o">.</span><span class="n">SetRenderLinesAsTubes</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">sl_actor</span><span class="o">.</span><span class="n">GetProperty</span><span class="p">()</span><span class="o">.</span><span class="n">SetLineWidth</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">line_color_untouched</span></div>
 
 
-<div class="viewcode-block" id="single_bundle_viz"><a class="viewcode-back" href="../../../reference/api/AFQ/viz/fury_backend/index.html#AFQ.viz.fury_backend.single_bundle_viz">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">single_bundle_viz</span><span class="p">(</span><span class="n">indiv_profile</span><span class="p">,</span> <span class="n">seg_sft</span><span class="p">,</span>
-                      <span class="n">bundle</span><span class="p">,</span> <span class="n">scalar_name</span><span class="p">,</span>
-                      <span class="n">flip_axes</span><span class="o">=</span><span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span>
-                      <span class="n">labelled_nodes</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
-                      <span class="n">figure</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                      <span class="n">include_profile</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+<div class="viewcode-block" id="single_bundle_viz">
+<a class="viewcode-back" href="../../../reference/api/AFQ/viz/fury_backend/index.html#AFQ.viz.fury_backend.single_bundle_viz">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">single_bundle_viz</span><span class="p">(</span>
+    <span class="n">indiv_profile</span><span class="p">,</span>
+    <span class="n">seg_sft</span><span class="p">,</span>
+    <span class="n">bundle</span><span class="p">,</span>
+    <span class="n">scalar_name</span><span class="p">,</span>
+    <span class="n">img</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">flip_axes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">labelled_nodes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">figure</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">include_profile</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Visualize a single bundle in 3D with core bundle and associated profile</span>
 
@@ -937,6 +867,10 @@ document.write(`
 
 <span class="sd">    scalar_name : str</span>
 <span class="sd">        The name of the scalar being used.</span>
+
+<span class="sd">    img : Nifti1Image, optional</span>
+<span class="sd">        Image to register streamlines to.</span>
+<span class="sd">        Default: None</span>
 
 <span class="sd">    flip_axes : ndarray</span>
 <span class="sd">        Which axes to flip, to orient the image as RAS, which is how we</span>
@@ -959,19 +893,32 @@ document.write(`
 <span class="sd">    -------</span>
 <span class="sd">    Fury Figure object</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">labelled_nodes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">labelled_nodes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">flip_axes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">flip_axes</span> <span class="o">=</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">figure</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">figure</span> <span class="o">=</span> <span class="n">window</span><span class="o">.</span><span class="n">Scene</span><span class="p">()</span>
-        <span class="n">figure</span><span class="o">.</span><span class="n">SetBackground</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">figure</span><span class="o">.</span><span class="n">background</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
     <span class="n">n_points</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">indiv_profile</span><span class="p">)</span>
-    <span class="n">sls</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">bundle_name</span><span class="p">,</span> <span class="n">dimensions</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">vut</span><span class="o">.</span><span class="n">tract_generator</span><span class="p">(</span>
-        <span class="n">seg_sft</span><span class="p">,</span> <span class="n">bundle</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">n_points</span><span class="p">))</span>
+    <span class="n">sls</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">bundle_name</span><span class="p">,</span> <span class="n">dimensions</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span>
+        <span class="n">vut</span><span class="o">.</span><span class="n">tract_generator</span><span class="p">(</span><span class="n">seg_sft</span><span class="p">,</span> <span class="n">bundle</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">n_points</span><span class="p">,</span> <span class="n">img</span><span class="p">)</span>
+    <span class="p">)</span>
 
     <span class="n">_draw_core</span><span class="p">(</span>
-        <span class="n">sls</span><span class="p">,</span> <span class="n">n_points</span><span class="p">,</span> <span class="n">figure</span><span class="p">,</span> <span class="n">bundle_name</span><span class="p">,</span> <span class="n">indiv_profile</span><span class="p">,</span>
-        <span class="n">labelled_nodes</span><span class="p">,</span> <span class="n">dimensions</span><span class="p">,</span> <span class="n">flip_axes</span><span class="p">)</span>
+        <span class="n">sls</span><span class="p">,</span>
+        <span class="n">n_points</span><span class="p">,</span>
+        <span class="n">figure</span><span class="p">,</span>
+        <span class="n">bundle_name</span><span class="p">,</span>
+        <span class="n">indiv_profile</span><span class="p">,</span>
+        <span class="n">labelled_nodes</span><span class="p">,</span>
+        <span class="n">dimensions</span><span class="p">,</span>
+        <span class="n">flip_axes</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">figure</span></div>
+
 </pre></div>
 
                 </article>
@@ -1001,8 +948,8 @@ document.write(`
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
 
 
   <footer class="bd-footer">
@@ -1023,7 +970,7 @@ document.write(`
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
     <br/>
   </p>
 </div>
@@ -1035,16 +982,20 @@ document.write(`
     <div class="footer-items__end">
       
         <div class="footer-item"><div class="footer">
-    <div class="footer-content">
-      <div class="copyright">
-        Please Cite the following paper:
-      </div>
-      <div class="citation">
-        <a href="https://doi.org/10.52294/e6198273-b8e3-4b63-babb-6e6b0da10669">Kruper et al. (2021)</a>
-      </div>
+  <div class="footer-content">
+    <div class="copyright">
+      Please Cite the following papers:
+    </div>
+    <div class="citation">
+      <a href="https://doi.org/10.1371/journal.pcbi.1013323">
+        Kruper et al. (2025)
+      </a><br>
+      <a href="https://doi.org/10.52294/e6198273-b8e3-4b63-babb-6e6b0da10669">
+        Kruper et al. (2021)
+      </a>
     </div>
   </div>
-  </div>
+</div></div>
       
     </div>
   

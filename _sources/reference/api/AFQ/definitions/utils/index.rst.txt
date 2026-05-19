@@ -1,23 +1,19 @@
-:py:mod:`AFQ.definitions.utils`
-===============================
+AFQ.definitions.utils
+=====================
 
 .. py:module:: AFQ.definitions.utils
 
 
-Module Contents
----------------
-
 Classes
-~~~~~~~
+-------
 
 .. autoapisummary::
 
    AFQ.definitions.utils.Definition
 
 
-
 Functions
-~~~~~~~~~
+---------
 
 .. autoapisummary::
 
@@ -25,11 +21,13 @@ Functions
    AFQ.definitions.utils.find_file
 
 
+Module Contents
+---------------
 
 .. py:class:: Definition
 
-
    Bases: :py:obj:`object`
+
 
    
    All Definitions should inherit this.
@@ -58,6 +56,7 @@ Functions
 
    ..
        !! processed by numpydoc !!
+
    .. py:method:: find_path(bids_layout, from_path, subject, session, required=True)
 
 
@@ -89,7 +88,6 @@ Functions
 
 
 .. py:function:: name_from_path(path)
-
 
 .. py:function:: find_file(bids_layout, path, filters, suffix, session, subject, extension='.nii.gz', required=True)
 

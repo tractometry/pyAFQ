@@ -1,0 +1,50 @@
+AFQ.nn.brainchop
+================
+
+.. py:module:: AFQ.nn.brainchop
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   AFQ.nn.brainchop.run_brainchop
+
+
+Module Contents
+---------------
+
+.. py:function:: run_brainchop(ort, t1_img, model_name, onnx_kwargs)
+
+   
+   Run the Brainchop command line interface with the provided arguments.
+
+
+
+
+
+
+
+
+
+
+
+
+   .. rubric:: References
+
+   [1] Masoud, M., Hu, F., & Plis, S. (2023). Brainchop: In-browser MRI
+       volumetric segmentation and rendering. Journal of Open Source
+       Software, 8(83), 5098.
+       https://doi.org/10.21105/joss.05098
+
+   .. only:: latex
+
+      
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+

@@ -1,46 +1,68 @@
-:py:mod:`AFQ.recognition.utils`
-===============================
+AFQ.recognition.utils
+=====================
 
 .. py:module:: AFQ.recognition.utils
 
 
-Module Contents
----------------
+Attributes
+----------
+
+.. autoapisummary::
+
+   AFQ.recognition.utils.axes_dict
+
 
 Classes
-~~~~~~~
+-------
 
 .. autoapisummary::
 
    AFQ.recognition.utils.SlsBeingRecognized
 
 
-
 Functions
-~~~~~~~~~
+---------
 
 .. autoapisummary::
 
+   AFQ.recognition.utils.manual_orient_sls
+   AFQ.recognition.utils.tolerance_mm_to_vox
    AFQ.recognition.utils.flip_sls
    AFQ.recognition.utils.cut_sls_by_closest
-   AFQ.recognition.utils.read_tg
    AFQ.recognition.utils.orient_by_streamline
-   AFQ.recognition.utils.move_streamlines
    AFQ.recognition.utils.resample_tg
 
 
+Module Contents
+---------------
 
-Attributes
-~~~~~~~~~~
+.. py:data:: axes_dict
 
-.. autoapisummary::
-
-   AFQ.recognition.utils.logger
-
-
-.. py:data:: logger
+.. py:function:: manual_orient_sls(fgarray)
 
    
+   Helper function to manually orient streamlines by their endpoints,
+   according to LPI+ pyAFQ standard assuming streamlines are in RASMM
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: tolerance_mm_to_vox(img, dist_to_waypoint, input_dist_to_atlas)
 
 .. py:function:: flip_sls(select_sl, idx_to_flip, in_place=False)
 
@@ -103,45 +125,41 @@ Attributes
    ..
        !! processed by numpydoc !!
 
-.. py:function:: read_tg(tg, nb_streamlines=None)
-
-
 .. py:function:: orient_by_streamline(sls, template_sl)
-
-
-.. py:function:: move_streamlines(tg, to, mapping, img, save_intermediates=None)
-
-   
-   Move streamlines to or from template space.
-
-   to : str
-       Either "template" or "subject".
-   mapping : ConformedMapping
-       Mapping to use to move streamlines.
-   img : Nifti1Image
-       Space to move streamlines to.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
 
 .. py:function:: resample_tg(tg, n_points)
 
+.. py:class:: SlsBeingRecognized(sls, save_intermediates, b_name, ref, n_roi)
 
-.. py:class:: SlsBeingRecognized(sls, logger, save_intermediates, b_name, ref, n_roi)
+   .. py:attribute:: oriented_yet
+      :value: False
+
+
+
+   .. py:attribute:: selected_fiber_idxs
+
+
+   .. py:attribute:: sls_flipped
+
+
+   .. py:attribute:: start_time
+      :value: -1
+
+
+
+   .. py:attribute:: save_intermediates
+
+
+   .. py:attribute:: b_name
+
+
+   .. py:attribute:: ref_sls
+
+
+   .. py:attribute:: ref
+
+
+   .. py:attribute:: n_roi
 
 
    .. py:method:: initiate_selection(clean_name)
@@ -160,6 +178,16 @@ Attributes
 
 
    .. py:method:: __len__()
+
+
+   .. py:method:: copy(new_name, n_roi)
+
+
+   .. py:method:: export_selected(chunk_offset)
+
+
+   .. py:method:: from_selected(survivor_dicts, full_streamlines, save_intermediates, b_name, ref, n_roi)
+      :classmethod:
 
 
 

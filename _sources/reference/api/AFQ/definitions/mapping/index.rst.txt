@@ -1,30 +1,28 @@
-:py:mod:`AFQ.definitions.mapping`
-=================================
+AFQ.definitions.mapping
+=======================
 
 .. py:module:: AFQ.definitions.mapping
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   AFQ.definitions.mapping.FnirtMap
+   AFQ.definitions.mapping.SynMap
+   AFQ.definitions.mapping.SlrMap
+   AFQ.definitions.mapping.AffMap
+   AFQ.definitions.mapping.IdentityMap
 
 
 Module Contents
 ---------------
 
-Classes
-~~~~~~~
-
-.. autoapisummary::
-
-   AFQ.definitions.mapping.FnirtMap
-   AFQ.definitions.mapping.IdentityMap
-   AFQ.definitions.mapping.SynMap
-   AFQ.definitions.mapping.SlrMap
-   AFQ.definitions.mapping.AffMap
-
-
-
-
-.. py:class:: FnirtMap(warp_path=None, space_path=None, warp_suffix=None, space_suffix=None, warp_filters={}, space_filters={})
-
+.. py:class:: FnirtMap(warp_path=None, space_path=None, warp_suffix=None, space_suffix=None, warp_filters=None, space_filters=None)
 
    Bases: :py:obj:`AFQ.definitions.utils.Definition`
+
 
    
    Use an existing FNIRT map. Expects a warp file
@@ -88,51 +86,17 @@ Classes
 
    ..
        !! processed by numpydoc !!
+
    .. py:method:: find_path(bids_layout, from_path, subject, session, required=True)
 
 
    .. py:method:: get_for_subses(base_fname, dwi, dwi_data_file, reg_subject, reg_template, tmpl_name)
 
 
-
-.. py:class:: IdentityMap
-
-
-   Bases: :py:obj:`AFQ.definitions.utils.Definition`
-
-   
-   Does not perform any transformations from MNI to subject where
-   pyAFQ normally would.
-
-
-
-
-
-
-
-
-
-
-
-
-
-   .. rubric:: Examples
-
-   my_example_mapping = IdentityMap()
-   api.GroupAFQ(mapping=my_example_mapping)
-
-
-
-   ..
-       !! processed by numpydoc !!
-   .. py:method:: get_for_subses(base_fname, dwi, dwi_data_file, reg_subject, reg_template, tmpl_name)
-
-
-
-.. py:class:: SynMap(use_prealign=True, affine_kwargs={}, syn_kwargs={})
-
+.. py:class:: SynMap(use_prealign=True, affine_kwargs=None, syn_kwargs=None)
 
    Bases: :py:obj:`GeneratedMapMixin`, :py:obj:`AFQ.definitions.utils.Definition`
+
 
    
    Calculate a Syn registration for each subject/session
@@ -181,14 +145,29 @@ Classes
 
    ..
        !! processed by numpydoc !!
-   .. py:method:: gen_mapping(base_fname, sub_space, tmpl_name, reg_subject, reg_template, subject_sls, template_sls, reg_prealign)
+
+   .. py:attribute:: use_prealign
+      :value: True
 
 
 
-.. py:class:: SlrMap(slr_kwargs={})
+   .. py:attribute:: affine_kwargs
+      :value: None
 
 
-   Bases: :py:obj:`GeneratedMapMixin`, :py:obj:`AFQ.definitions.utils.Definition`
+
+   .. py:attribute:: syn_kwargs
+      :value: None
+
+
+
+   .. py:method:: get_for_subses(base_fname, dwi, dwi_data_file, reg_subject, reg_template, tmpl_name, subject_sls=None, template_sls=None)
+
+
+.. py:class:: SlrMap(slr_kwargs=None)
+
+   Bases: :py:obj:`AffineMapMixin`, :py:obj:`AFQ.definitions.utils.Definition`
+
 
    
    Calculate a SLR registration for each subject/session
@@ -213,7 +192,7 @@ Classes
    .. rubric:: Notes
 
    Use this class to tell pyAFQ to use
-   Streamline-based Linear Registration (SLR) 
+   Streamline-based Linear Registration (SLR)
    for registration. Note that the reg_template and reg_subject
    parameters passed to :class:`AFQ.api.group.GroupAFQ` should
    be streamlines when using this registration.
@@ -227,14 +206,19 @@ Classes
 
    ..
        !! processed by numpydoc !!
-   .. py:method:: gen_mapping(base_fname, sub_space, tmpl_name, reg_template, reg_subject, subject_sls, template_sls, reg_prealign)
+
+   .. py:attribute:: slr_kwargs
+      :value: None
 
 
 
-.. py:class:: AffMap(affine_kwargs={})
+   .. py:method:: gen_mapping(reg_subject, reg_template, subject_sls, template_sls)
 
 
-   Bases: :py:obj:`GeneratedMapMixin`, :py:obj:`AFQ.definitions.utils.Definition`
+.. py:class:: AffMap(affine_kwargs=None)
+
+   Bases: :py:obj:`AffineMapMixin`, :py:obj:`AFQ.definitions.utils.Definition`
+
 
    
    Calculate an affine registration for each subject/session
@@ -269,7 +253,46 @@ Classes
 
    ..
        !! processed by numpydoc !!
-   .. py:method:: gen_mapping(base_fname, sub_space, tmpl_name, reg_subject, reg_template, subject_sls, template_sls, reg_prealign)
 
+   .. py:attribute:: affine_kwargs
+      :value: None
+
+
+
+   .. py:method:: gen_mapping(reg_subject, reg_template, subject_sls, template_sls)
+
+
+.. py:class:: IdentityMap
+
+   Bases: :py:obj:`AffineMapMixin`, :py:obj:`AFQ.definitions.utils.Definition`
+
+
+   
+   Does not perform any transformations from MNI to subject where
+   pyAFQ normally would.
+
+
+
+
+
+
+
+
+
+
+
+
+
+   .. rubric:: Examples
+
+   my_example_mapping = IdentityMap()
+   api.GroupAFQ(mapping=my_example_mapping)
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+   .. py:method:: gen_mapping(reg_subject, reg_template, subject_sls, template_sls)
 
 

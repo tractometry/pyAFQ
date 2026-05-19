@@ -1,22 +1,24 @@
-:py:mod:`AFQ.recognition`
-=========================
+AFQ.recognition
+===============
 
 .. py:module:: AFQ.recognition
 
 
 Submodules
 ----------
+
 .. toctree::
-   :titlesonly:
    :maxdepth: 1
 
-   cleaning/index.rst
-   criteria/index.rst
-   curvature/index.rst
-   other_bundles/index.rst
-   preprocess/index.rst
-   recognize/index.rst
-   roi/index.rst
-   utils/index.rst
+   /reference/api/AFQ/recognition/cleaning/index
+   /reference/api/AFQ/recognition/clustering/index
+   /reference/api/AFQ/recognition/criteria/index
+   /reference/api/AFQ/recognition/curvature/index
+   /reference/api/AFQ/recognition/other_bundles/index
+   /reference/api/AFQ/recognition/preprocess/index
+   /reference/api/AFQ/recognition/recognize/index
+   /reference/api/AFQ/recognition/roi/index
+   /reference/api/AFQ/recognition/sparse_decisions/index
+   /reference/api/AFQ/recognition/utils/index
 
 

@@ -1,38 +1,33 @@
-:py:mod:`AFQ.utils.volume`
-==========================
+AFQ.utils.volume
+================
 
 .. py:module:: AFQ.utils.volume
 
 
-Module Contents
----------------
-
-
-Functions
-~~~~~~~~~
-
-.. autoapisummary::
-
-   AFQ.utils.volume.transform_inverse_roi
-   AFQ.utils.volume.patch_up_roi
-   AFQ.utils.volume.density_map
-   AFQ.utils.volume.dice_coeff
-
-
-
 Attributes
-~~~~~~~~~~
+----------
 
 .. autoapisummary::
 
    AFQ.utils.volume.logger
 
 
+Functions
+---------
+
+.. autoapisummary::
+
+   AFQ.utils.volume.transform_roi
+   AFQ.utils.volume.density_map
+   AFQ.utils.volume.dice_coeff
+
+
+Module Contents
+---------------
+
 .. py:data:: logger
 
-   
-
-.. py:function:: transform_inverse_roi(roi, mapping, bundle_name='ROI')
+.. py:function:: transform_roi(roi, mapping, is_boolean)
 
    
    After being non-linearly transformed, ROIs tend to have holes in them.
@@ -49,46 +44,8 @@ Attributes
        **mapping** : DiffeomorphicMap object
            A mapping between DWI space and a template.
 
-       **bundle_name** : str, optional
-           Name of bundle, which may be useful for error messages.
-           Default: None
-
-   :Returns:
-
-       ROI after dilation and hole-filling
-           ..
-
-
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:function:: patch_up_roi(roi, bundle_name='ROI')
-
-   
-   After being non-linearly transformed, ROIs tend to have holes in them.
-   We perform a couple of computational geometry operations on the ROI to
-   fix that up.
-
-
-   :Parameters:
-
-       **roi** : 3D binary array
-           The ROI after it has been transformed.
-
-       **bundle_name** : str, optional
-           Name of bundle, which may be useful for error messages.
-           Default: None
+       **is_boolean** : bool
+           Whether the ROI is boolean or not.
 
    :Returns:
 

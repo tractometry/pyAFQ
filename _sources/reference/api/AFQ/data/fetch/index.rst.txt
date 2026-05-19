@@ -1,15 +1,26 @@
-:py:mod:`AFQ.data.fetch`
-========================
+AFQ.data.fetch
+==============
 
 .. py:module:: AFQ.data.fetch
 
 
-Module Contents
----------------
+Attributes
+----------
+
+.. autoapisummary::
+
+   AFQ.data.fetch.fetch_callosum_templates
+   AFQ.data.fetch.fetch_synthseg_models
+   AFQ.data.fetch.fetch_multiaxial_models
+   AFQ.data.fetch.fetch_brainchop_models
+   AFQ.data.fetch.fetch_templates
+   AFQ.data.fetch.fetch_or_templates
+   AFQ.data.fetch.fetch_stanford_hardi_tractography
+   AFQ.data.fetch.fetch_stanford_hardi_lv1
 
 
 Functions
-~~~~~~~~~
+---------
 
 .. autoapisummary::
 
@@ -20,22 +31,10 @@ Functions
    AFQ.data.fetch.organize_stanford_data
 
 
-
-Attributes
-~~~~~~~~~~
-
-.. autoapisummary::
-
-   AFQ.data.fetch.fetch_callosum_templates
-   AFQ.data.fetch.fetch_templates
-   AFQ.data.fetch.fetch_or_templates
-   AFQ.data.fetch.fetch_stanford_hardi_tractography
-   AFQ.data.fetch.fetch_stanford_hardi_lv1
-
+Module Contents
+---------------
 
 .. py:data:: fetch_callosum_templates
-
-   
 
 .. py:function:: read_callosum_templates(as_img=True, resample_to=False)
 
@@ -77,9 +76,13 @@ Attributes
    ..
        !! processed by numpydoc !!
 
-.. py:data:: fetch_templates
+.. py:data:: fetch_synthseg_models
 
-   
+.. py:data:: fetch_multiaxial_models
+
+.. py:data:: fetch_brainchop_models
+
+.. py:data:: fetch_templates
 
 .. py:function:: read_templates(as_img=True, resample_to=False)
 
@@ -123,8 +126,6 @@ Attributes
 
 .. py:data:: fetch_or_templates
 
-   
-
 .. py:function:: read_or_templates(as_img=True, resample_to=False)
 
    
@@ -166,8 +167,6 @@ Attributes
        !! processed by numpydoc !!
 
 .. py:data:: fetch_stanford_hardi_tractography
-
-   
 
 .. py:function:: read_stanford_hardi_tractography()
 
@@ -245,6 +244,4 @@ Attributes
        !! processed by numpydoc !!
 
 .. py:data:: fetch_stanford_hardi_lv1
-
-   
 

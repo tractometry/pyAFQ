@@ -1,24 +1,21 @@
-:py:mod:`AFQ.tractography.tractography`
-=======================================
+AFQ.tractography.tractography
+=============================
 
 .. py:module:: AFQ.tractography.tractography
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   AFQ.tractography.tractography.track
 
 
 Module Contents
 ---------------
 
-
-Functions
-~~~~~~~~~
-
-.. autoapisummary::
-
-   AFQ.tractography.tractography.track
-   AFQ.tractography.tractography._tracking
-
-
-
-.. py:function:: track(params_file, directions='prob', max_angle=30.0, sphere=None, seed_mask=None, seed_threshold=0.5, thresholds_as_percentages=False, n_seeds=1, random_seeds=False, rng_seed=None, stop_mask=None, stop_threshold=0.5, step_size=0.5, minlen=50, maxlen=250, odf_model='CSD', basis_type='descoteaux07', legacy=True, tracker='local', trx=False)
+.. py:function:: track(params_file, pve, n_threads, directions='prob', max_angle=30.0, sphere='repulsion724', seed_mask=None, seed_threshold=0.5, gm_threshold=0.4, thresholds_as_percentages=False, n_seeds=10000000.0, random_seeds=True, rng_seed=None, step_size=0.5, minlen=20, maxlen=500, odf_model='CSD_AODF', basis_type='descoteaux07', legacy=True, trx=True, jit_backend='numba', jit_chunk_size=None)
 
    
    Tractography
@@ -30,17 +27,28 @@ Functions
            Full path to a nifti file containing CSD spherical harmonic
            coefficients, or nibabel img with model params.
 
+       **pve** : str, nibabel img
+           Full path to a nifti file containing tissue probability maps,
+           or nibabel img with tissue probability maps. This should be of the
+           order (pve_csf, pve_gm, pve_wm).
+
+       **n_threads** : int
+           The number of threads to use in tracking.
+           If 0 or -1, uses all available threads.
+
        **directions** : str
            How tracking directions are determined.
-           One of: {"det" | "prob"}
+           One of: {"det" | "prob" | "pft"}
+           pft refers to Particle Filtering Tracking ([R2bb8bf7259c4-Girard2014]_).
            Default: "prob"
 
        **max_angle** : float, optional.
            The maximum turning angle in each step. Default: 30
 
-       **sphere** : Sphere object, optional.
-           The discretization of direction getting. default:
-           dipy.data.default_sphere.
+       **sphere** : str or DIPY Sphere
+           The discretization of the ODF. Can be a DIPY Sphere or
+           a string name of a DIPY Sphere.
+           Default: "repulsion724"
 
        **seed_mask** : array, optional.
            Float or binary mask describing the ROI within which we seed for
@@ -51,43 +59,29 @@ Functions
            A value of the seed_mask above which tracking is seeded.
            Default to 0.
 
+       **gm_threshold** : float, optional.
+           A value of the pve_gm_data above which we consider a voxel to be GM
+           for the purposes of ACT stopping criterion. Default: 0.4.
+
        **n_seeds** : int or 2D array, optional.
            The seeding density: if this is an int, it is is how many seeds in each
            voxel on each dimension (for example, 2 => [2, 2, 2]). If this is a 2D
-           array, these are the coordinates of the seeds. Unless random_seeds is
-           set to True, in which case this is the total number of random seeds
-           to generate within the mask. Default: 1
+           array, these are the coordinates of the seeds in RASMM.
+           Unless random_seeds is set to True,
+           in which case this is the total number of random seeds
+           to generate within the mask. Default: 1e7
 
        **random_seeds** : bool
            Whether to generate a total of n_seeds random seeds in the mask.
-           Default: False.
+           Default: True
 
        **rng_seed** : int
            random seed used to generate random seeds if random_seeds is
            set to True. Default: None
 
-       **stop_mask** : array or str, optional.
-           If array: A float or binary mask that determines a stopping criterion
-           (e.g. FA).
-           If tuple: it contains a sequence that is interpreted as:
-           (pve_wm, pve_gm, pve_csf), each item of which is either a string
-           (full path) or a nibabel img to be used in particle filtering
-           tractography.
-           A tuple is required if tracker is set to "pft".
-           Defaults to no stopping (all ones).
-
-       **stop_threshold** : float or tuple, optional.
-           If float, this a value of the stop_mask below which tracking is
-           terminated (and stop_mask has to be an array).
-           If str, "CMC" for Continuous Map Criterion [R2bb8bf7259c4-Girard2014]_.
-                   "ACT" for Anatomically-constrained tractography [R2bb8bf7259c4-Smith2012]_.
-           A string is required if the tracker is set to "pft".
-           Defaults to 0 (this means that if no stop_mask is passed,
-           we will stop only at the edge of the image).
-
        **thresholds_as_percentages** : bool, optional
-           Interpret seed_threshold and stop_threshold as percentages of the
-           total non-nan voxels in the seed and stop mask to include
+           Interpret seed_threshold as percentages of the
+           total non-nan voxels in the seed mask to include
            (between 0 and 100), instead of as a threshold on the
            values themselves.
            Default: False
@@ -96,35 +90,41 @@ Functions
            The size of a step (in mm) of tractography. Default: 0.5
 
        **minlen: int, optional**
-           The miminal length (mm) in a streamline. Default: 20
+           The minimal length (mm) in a streamline. Default: 20
 
        **maxlen: int, optional**
-           The miminal length (mm) in a streamline. Default: 250
+           The maximum length (mm) in a streamline. Default: 250
 
        **odf_model** : str or Definition, optional
            Can be either a string or Definition. If a string, it must be one of
-           {"DTI", "CSD", "DKI", "GQ", "RUMBA"}. If a Definition, we assume
-           it is a definition of a file containing Spherical Harmonics
-           coefficients.
-           Defaults to use "CSD"
+           {"DTI", "CSD", "DKI", "GQ", "RUMBA", "MSMT_AODF", "CSD_AODF", "MSMTCSD"}.
+           If a Definition, we assume it is a definition of a file containing
+           Spherical Harmonics coefficients.
+           Defaults to use "CSD_AODF"
 
        **basis_type** : str, optional
-           The spherical harmonic basis type used to represent the coefficients. 
-           One of {"descoteaux07", "tournier07"}. Deafult: "descoteaux07"
+           The spherical harmonic basis type used to represent the coefficients.
+           One of {"descoteaux07", "tournier07"}. Default: "descoteaux07"
 
        **legacy** : bool, optional
-           Whether to use the legacy implementation of the direction getter.
+           Whether the legacy SH basis definition should be used.
            See Dipy documentation for more details. Default: True
-
-       **tracker** : str, optional
-           Which strategy to use in tracking. This can be the standard local
-           tracking ("local") or Particle Filtering Tracking ([R2bb8bf7259c4-Girard2014]_).
-           One of {"local", "pft"}. Default: "local"
 
        **trx** : bool, optional
            Whether to return the streamlines compatible with input to TRX file
            (i.e., as a LazyTractogram class instance).
-           Default: False
+           Default: True
+
+       **jit_backend** : str, optional
+           If directions is "prob" or "ptt", the JIT backend to use.
+           One of {"auto", "cuda", "metal", "webgpu", or "numba"}.
+           Default: "numba"
+
+       **jit_chunk_size** : int, optional
+           If directions is "prob" or "ptt", the chunk size to use
+           for JIT tracking. If None, chooses 25000 for numba backend
+           and 5000 for other backends.
+           Default: None
 
    :Returns:
 
@@ -153,29 +153,6 @@ Functions
    .. only:: latex
 
       [R2bb8bf7259c4-Girard2014]_, [R2bb8bf7259c4-Smith2012]_
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:function:: _tracking(tracker, seeds, dg, stopping_criterion, params_img, step_size=0.5, minlen=40, maxlen=200, random_seed=None, trx=False)
-
-   
-   Helper function
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -1,0 +1,47 @@
+AFQ.models.wmgm_interface
+=========================
+
+.. py:module:: AFQ.models.wmgm_interface
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   AFQ.models.wmgm_interface.fit_wm_gm_interface
+
+
+Module Contents
+---------------
+
+.. py:function:: fit_wm_gm_interface(PVE_img, dwiref_img)
+
+   
+   Compute the white matter/gray matter interface from a PVE image.
+
+
+   :Parameters:
+
+       **PVE_img** : Nifti1Image
+           PVE image containing CSF, GM, and WM segmentations from T1
+
+       **dwiref_img** : Nifti1Image
+           Reference image to find boundary in that space.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+

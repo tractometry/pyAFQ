@@ -1,14 +1,14 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>How to segment out only some bundles &#8212; AFQ 2.1 documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>How to segment out only some bundles &#8212; AFQ 3.1 documentation</title>
   
   
   
@@ -16,75 +16,73 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
 
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=fd6457a4" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=c6496573" />
   
-  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
-  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/jquery.js"></script>
-    <script src="../../_static/underscore.js"></script>
-    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/sphinx_highlight.js"></script>
-    <script src="../../_static/design-tabs.js"></script>
+    <script src="../../_static/documentation_options.js?v=b576230a"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/sg-tags.js?v=d80f6fa4"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'howto/howto_examples/vof_example';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Explanations" href="../../explanations/index.html" />
     <link rel="prev" title="Using Subject Space ROIs from Freesurfer" href="use_subject_space_rois_from_freesurfer.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
   </head>
-  
-  
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
-
+  <body data-default-mode="">
   
   
   <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
-
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
   
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../search.html"
       method="get">
@@ -92,7 +90,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -100,15 +97,15 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
 
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
   <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
@@ -134,8 +131,8 @@
       
     
     
-    <img src="../../_static/logo.png" class="logo__image only-light" alt="AFQ 2.1 documentation - Home"/>
-    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.1 documentation - Home"/>`);</script>
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="AFQ 3.1 documentation - Home"/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="AFQ 3.1 documentation - Home"/>
   
   
 </a></div>
@@ -150,9 +147,23 @@
 <nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-<li class="nav-item current active">
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../../guides_index.html">
     User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../tutorials/tutorial_examples/index.html">
+    Tutorials: Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    How to examples
   </a>
 </li>
 
@@ -188,29 +199,21 @@
         <div class="navbar-item navbar-persistent--container">
           
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
       
         <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -235,15 +238,11 @@ document.write(`
   
     <div class="navbar-persistent--mobile">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
@@ -262,7 +261,8 @@ document.write(`
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -277,9 +277,23 @@ document.write(`
 <nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-<li class="nav-item current active">
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../../guides_index.html">
     User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../tutorials/tutorial_examples/index.html">
+    Tutorials: Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    How to examples
   </a>
 </li>
 
@@ -316,15 +330,11 @@ document.write(`
         
           <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
         
           <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -355,7 +365,6 @@ document.write(`
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -365,93 +374,27 @@ document.write(`
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
         <div class="sidebar-primary-item">
+
 <nav class="bd-docs-nav bd-links"
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../tutorials/index.html">Getting started with pyAFQ</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../tutorials/tutorial_examples/index.html">Tutorials: getting started with the pyAFQ Python library</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../tutorials/tutorial_examples/plot_001_group_afq_api.html">Getting started with pyAFQ - GroupAFQ</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../tutorials/tutorial_examples/plot_002_participant_afq_api.html">Getting started with pyAFQ - ParticipantAFQ</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../tutorials/tutorial_examples/plot_003_rerun.html">Re-running pyAFQ</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../tutorials/tutorial_examples/plot_004_export.html">Exporting pyAFQ Results</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../tutorials/tutorial_examples/plot_005_viz.html">Visualizing AFQ derivatives</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../tutorials/tutorial_examples/plot_006_bids_layout.html">How pyAFQ uses BIDS</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../tutorials/tutorial_examples/plot_007_rois.html">Plotting Default Regions of Interest (ROIs) to Understand the Tracts</a></li>
-</ul>
-</details></li>
-</ul>
-</details></li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html">How To</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="../installation_guide.html">How to install <code class="docutils literal notranslate"><span class="pre">pyAFQ</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../getting_help.html">How to get help using pyAFQ</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cite.html">How to cite our work</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../data.html">Organizing your data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../rerun.html">Re-running pyAFQ</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../scalars.html">How to add custom tissue properties from another pipeline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../converter.html">Tractography from other pipelines</a></li>
-
-<li class="toctree-l2"><a class="reference internal" href="../docker.html">The pyAFQ docker image</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../singularity.html">The pyAFQ singularity image</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../image.html">The pyAFQ Image API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tractography_params.html">Tractography Parameters</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../segmentation_params.html">Segmentation Parameters</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cleaning_params.html">Cleaning Parameters</a></li>
-<li class="toctree-l2 current active has-children"><a class="reference internal" href="index.html">How to examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="acoustic_radiations.html">How to add new bundles into pyAFQ (Acoustic Radiations Example)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="add_custom_bundle.html">How to add new bundles into pyAFQ (SLF 1/2/3 Example)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="baby_afq.html">BabyAFQ : tractometry for infant dMRI data</a></li>
-<li class="toctree-l3"><a class="reference internal" href="cerebellar_peduncles.html">Delineating cerebellar peduncles</a></li>
-<li class="toctree-l3"><a class="reference internal" href="cloudknot_example.html">Using cloudknot to run pyAFQ on AWS batch:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="cloudknot_hcp_example.html">AFQ with HCP data</a></li>
-<li class="toctree-l3"><a class="reference internal" href="optic_radiations.html">How to add new bundles into pyAFQ(Optic Radiations Example)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plot_afq_callosal.html">Callosal bundles using AFQ API</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plot_recobundles.html">Using RecoBundles for bundle recognition</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plot_stages_of_tractometry.html">Understanding the different stages of tractometry with videos</a></li>
-<li class="toctree-l3"><a class="reference internal" href="run_afq_fwdti.html">How to use Free water DTI</a></li>
-<li class="toctree-l3"><a class="reference internal" href="run_pyAFQ_with_GPU.html">Running pyAFQ using the GPU for tractography</a></li>
-<li class="toctree-l3"><a class="reference internal" href="use_subject_space_rois_from_freesurfer.html">Using Subject Space ROIs from Freesurfer</a></li>
-<li class="toctree-l3 current active"><a class="current reference internal" href="#">How to segment out only some bundles</a></li>
-</ul>
-</details></li>
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../explanations/index.html">Explanations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../explanations/tractometry_pipeline.html">AFQ Tractometry Pipeline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../explanations/bundle_orientation.html">Bundle Orientation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../explanations/modeling.html">Modeling White Matter</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../explanations/profiling.html">Profiling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../explanations/recognition.html">Bundle Recognition</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../explanations/tractography.html">Tractography</a></li>
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../reference/index.html">Reference Documentation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../reference/api/index.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../../reference/api/AFQ/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ</span></code></a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/api/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.api</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/data/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.data</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/definitions/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.definitions</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/models/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.models</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/recognition/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.recognition</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/tasks/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.tasks</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/tractography/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.tractography</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.utils</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/viz/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.viz</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/registration/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.registration</span></code></a></li>
-</ul>
-</details></li>
-</ul>
-</details></li>
-<li class="toctree-l2"><a class="reference internal" href="../../reference/bundledict.html">Defining Custom Bundle Dictionaries</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../reference/fibertracts.html">Major Fiber Tracts</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../reference/tissue_properties.html">Tissue Properties in pyAFQ</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../reference/methods.html">The pyAFQ API methods</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../reference/viz_backend.html">Visualization Backends</a></li>
-
-<li class="toctree-l2"><a class="reference internal" href="../../reference/mapping.html">The pyAFQ Mapping API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../reference/config.html">The pyAFQ configuration file</a></li>
-</ul>
-</details></li>
+<li class="toctree-l1"><a class="reference internal" href="acoustic_radiations.html">How to add new bundles into pyAFQ (Acoustic Radiations Example)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="add_custom_bundle.html">How to add new bundles into pyAFQ (SLF 1/2/3 Example)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="afq_callosal.html">Callosal bundles using AFQ API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="afq_fwdti.html">How to use Free water DTI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="baby_afq.html">BabyAFQ : tractometry for infant dMRI data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cerebellar_peduncles.html">Delineating cerebellar peduncles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cloudknot_example.html">Using cloudknot to run pyAFQ on AWS batch:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cloudknot_hcp_example.html">AFQ with HCP data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optic_radiations.html">How to add new bundles into pyAFQ(Optic Radiations Example)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optic_tract.html">How to track the Optic Tract and Posterior Optic Nerve in pyAFQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plot_stages_of_tractometry.html">Understanding the different stages of tractometry with videos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyAFQ_with_GPU.html">Running pyAFQ using the GPU for tractography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyafq_2.html">Running pyAFQ 2.x defaults in pyAFQ 3.x</a></li>
+<li class="toctree-l1"><a class="reference internal" href="recobundles.html">Using RecoBundles for bundle recognition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="use_subject_space_rois_from_freesurfer.html">Using Subject Space ROIs from Freesurfer</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">How to segment out only some bundles</a></li>
 </ul>
 </div>
 </nav></div>
@@ -459,9 +402,14 @@ document.write(`
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -479,10 +427,6 @@ document.write(`
       
         <div class="header-article-item">
 
-
-
-
-
 <nav aria-label="Breadcrumb" class="d-print-none">
   <ul class="bd-breadcrumbs">
     
@@ -495,12 +439,12 @@ document.write(`
     <li class="breadcrumb-item"><a href="../../guides_index.html" class="nav-link">User Guide</a></li>
     
     
-    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">How To</a></li>
     
     
     <li class="breadcrumb-item"><a href="index.html" class="nav-link">How to examples</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">How to...</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">How to segment out only some bundles</span></li>
   </ul>
 </nav>
 </div>
@@ -517,19 +461,16 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <div class="sphx-glr-download-link-note admonition note">
-<p class="admonition-title">Note</p>
-<p><a class="reference internal" href="#sphx-glr-download-howto-howto-examples-vof-example-py"><span class="std std-ref">Go to the end</span></a>
-to download the full example code.</p>
-</div>
-<div class="sphx-glr-example-title section" id="how-to-segment-out-only-some-bundles">
-<span id="sphx-glr-howto-howto-examples-vof-example-py"></span><h1>How to segment out only some bundles<a class="headerlink" href="#how-to-segment-out-only-some-bundles" title="Permalink to this heading">#</a></h1>
+  <section id="how-to-segment-out-only-some-bundles">
+<h1>How to segment out only some bundles<a class="headerlink" href="#how-to-segment-out-only-some-bundles" title="Link to this heading">#</a></h1>
 <p>The pyAFQ software can be configured to find all of its default set of white
 matter pathways, or bundles. Alternatively, it can be configured to find only
 some bundles. This example shows how to track and recognize only certain
 bundles that you are interested in, though note that ARC, pARC and VOF are all
 also part of the set of bundles that are segmented per default.</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">AFQ.api.bundle_dict</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">abd</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">AFQ.api.bundle_dict</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">abd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">AFQ.data.fetch</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">afd</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.api.group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GroupAFQ</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.definitions.image</span><span class="w"> </span><span class="kn">import</span> <span class="n">RoiImage</span>
@@ -543,13 +484,14 @@ also part of the set of bundles that are segmented per default.</p>
     <span class="s2">&quot;Left Arcuate&quot;</span><span class="p">,</span> <span class="s2">&quot;Right Arcuate&quot;</span><span class="p">,</span>
     <span class="s2">&quot;Left Posterior Arcuate&quot;</span><span class="p">,</span> <span class="s2">&quot;Right Posterior Arcuate&quot;</span><span class="p">,</span>
     <span class="s2">&quot;Left Vertical Occipital&quot;</span><span class="p">,</span> <span class="s2">&quot;Right Vertical Occipital&quot;</span><span class="p">]</span>
-<span class="n">bundle_dict</span> <span class="o">=</span> <span class="n">abd</span><span class="o">.</span><span class="n">default18_bd</span><span class="p">()[</span><span class="n">bundle_names</span><span class="p">]</span>
+<span class="n">bundle_dict</span> <span class="o">=</span> <span class="n">abd</span><span class="o">.</span><span class="n">default_bd</span><span class="p">()[</span><span class="n">bundle_names</span><span class="p">]</span>
 
 
 <span class="n">myafq</span> <span class="o">=</span> <span class="n">GroupAFQ</span><span class="p">(</span>
     <a href="https://docs.python.org/3/library/os.path.html#os.path.join" title="os.path.join" class="sphx-glr-backref-module-os-path sphx-glr-backref-type-py-function"><span class="n">op</span><span class="o">.</span><span class="n">join</span></a><span class="p">(</span><span class="n">afd</span><span class="o">.</span><span class="n">afq_home</span><span class="p">,</span> <span class="s1">&#39;stanford_hardi&#39;</span><span class="p">),</span>
     <span class="n">bundle_info</span><span class="o">=</span><span class="n">bundle_dict</span><span class="p">,</span>
-    <span class="n">preproc_pipeline</span><span class="o">=</span><span class="s1">&#39;vistasoft&#39;</span><span class="p">,</span>
+    <span class="n">dwi_preproc_pipeline</span><span class="o">=</span><span class="s1">&#39;vistasoft&#39;</span><span class="p">,</span>
+    <span class="n">t1_preproc_pipeline</span><span class="o">=</span><span class="s1">&#39;freesurfer&#39;</span><span class="p">,</span>
     <span class="n">tracking_params</span><span class="o">=</span><span class="p">{</span>
         <span class="s2">&quot;n_seeds&quot;</span><span class="p">:</span> <span class="mi">50000</span><span class="p">,</span>
         <span class="s2">&quot;random_seeds&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
@@ -567,20 +509,567 @@ also part of the set of bundles that are segmented per default.</p>
 <span class="n">myafq</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;all_bundles_figure&quot;</span><span class="p">)[</span><span class="s2">&quot;01&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 </div>
-<p><strong>Estimated memory usage:</strong>  0 MB</p>
-<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-howto-howto-examples-vof-example-py">
-<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
-<p><a class="reference download internal" download="" href="../../_downloads/0dfd2198d16c83cb531bb480c88ae64f/vof_example.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">vof_example.ipynb</span></code></a></p>
 </div>
-<div class="sphx-glr-download sphx-glr-download-python docutils container">
-<p><a class="reference download internal" download="" href="../../_downloads/a6f4d474f8c8aa79481fb53f875f46f3/vof_example.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">vof_example.py</span></code></a></p>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-05-19 01:02:59,739	INFO util.py:154 -- Missing packages: [&#39;ipywidgets&#39;]. Run `pip install -U ipywidgets`, then restart the notebook server for rich notebook output.
+</pre></div>
 </div>
-<div class="sphx-glr-download sphx-glr-download-zip docutils container">
-<p><a class="reference download internal" download="" href="../../_downloads/725c0a89e277d3c29271d3f4dc813dde/vof_example.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">vof_example.zip</span></code></a></p>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:bidsschematools:No schema path specified, defaulting to the bundled schema, `/opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/bidsschematools/data/schema.json`.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:Using the following files for subject 01 and session 01:
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:  DWI: /home/runner/AFQ_data/stanford_hardi/derivatives/vistasoft/sub-01/ses-01/dwi/sub-01_ses-01_dwi.nii.gz
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:  BVAL: /home/runner/AFQ_data/stanford_hardi/derivatives/vistasoft/sub-01/ses-01/dwi/sub-01_ses-01_dwi.bval
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:  BVEC: /home/runner/AFQ_data/stanford_hardi/derivatives/vistasoft/sub-01/ses-01/dwi/sub-01_ses-01_dwi.bvec
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:  T1: /home/runner/AFQ_data/stanford_hardi/derivatives/freesurfer/sub-01/ses-01/anat/sub-01_ses-01_T1w.nii.gz
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING:AFQ:It is recommended to provide CSF/GM/WM segmentations using PVEImage or PVEImages in AFQ.definitions.image. Otherwise, SynthSeg2 will be used
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:Calculating _desc-bundles_tractography...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:Calculating _desc-seed_mask.nii.gz...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-05-19 01:03:07.250668081 [W:onnxruntime:Default, device_discovery.cc:133 GetPciBusId] Skipping pci_bus_id for PCI path at &quot;/sys/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0004:00/MSFT1000:00/5620e0c7-8062-4dce-aeb7-520c7ef76171&quot; because filename &quot;5620e0c7-8062-4dce-aeb7-520c7ef76171&quot; did not match expected pattern of [0-9a-f]+:[0-9a-f]+:[0-9a-f]+[.][0-9a-f]+
+INFO:AFQ:Calculating affine pre-alignment...
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">31</span>
+<span class="g g-Whitespace">     </span><span class="mi">27</span>     <span class="p">}</span>
+<span class="g g-Whitespace">     </span><span class="mi">28</span> <span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">29</span> 
+<span class="g g-Whitespace">     </span><span class="mi">30</span> <span class="k">for</span> <span class="n">b_name</span> <span class="ow">in</span> <span class="n">bundle_names</span><span class="p">:</span>
+<span class="ne">---&gt; </span><span class="mi">31</span>     <span class="n">b_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">aus</span><span class="o">.</span><span class="n">SegmentedSFT</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="n">myafq</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;bundles&quot;</span><span class="p">)[</span>
+<span class="g g-Whitespace">     </span><span class="mi">32</span>         <span class="s2">&quot;01&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">get_bundle</span><span class="p">(</span><span class="n">b_name</span><span class="p">))</span>
+<span class="g g-Whitespace">     </span><span class="mi">33</span> 
+<span class="g g-Whitespace">     </span><span class="mi">34</span>     <span class="k">if</span> <span class="n">b_len</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/AFQ/api/group.py:647,</span> in <span class="ni">GroupAFQ.export</span><span class="nt">(self, attr_name, collapse)</span>
+<span class="g g-Whitespace">    </span><span class="mi">645</span>         <span class="n">to_calc_list</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">subject</span><span class="p">,</span> <span class="n">session</span><span class="p">))</span>
+<span class="g g-Whitespace">    </span><span class="mi">646</span>     <span class="k">else</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">647</span>         <span class="n">results</span><span class="p">[</span><span class="n">subject</span><span class="p">][</span><span class="n">session</span><span class="p">]</span> <span class="o">=</span> <span class="n">val_from_plan</span><span class="p">(</span><span class="n">plans_dict</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">649</span> <span class="c1"># if some need to be calculated, do those in parallel</span>
+<span class="g g-Whitespace">    </span><span class="mi">650</span> <span class="k">if</span> <span class="n">to_calc_list</span><span class="p">:</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/AFQ/api/utils.py:146,</span> in <span class="ni">val_from_plan</span><span class="nt">(plan, attr_name)</span>
+<span class="g g-Whitespace">    </span><span class="mi">144</span> <span class="k">def</span><span class="w"> </span><span class="nf">val_from_plan</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">145</span>     <span class="k">try</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">146</span>         <span class="k">return</span> <span class="n">plan</span><span class="p">[</span><span class="n">attr_name</span><span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">147</span>     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">148</span>         <span class="n">current_err</span> <span class="o">=</span> <span class="n">err</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/pcollections/_lazy.py:381,</span> in <span class="ni">ldict.__getitem__</span><span class="nt">(self, key)</span>
+<span class="g g-Whitespace">    </span><span class="mi">379</span> <span class="n">v</span> <span class="o">=</span> <span class="n">pdict</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">380</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">lazy</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">381</span>     <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">382</span> <span class="k">return</span> <span class="n">v</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/pcollections/_lazy.py:143,</span> in <span class="ni">lazy.__call__</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">141</span>     <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+<span class="g g-Whitespace">    </span><span class="mi">142</span> <span class="k">else</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">143</span>     <span class="n">val</span> <span class="o">=</span> <span class="n">part</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">144</span>     <span class="c1"># We&#39;ve successfully calculated the value; set the members</span>
+<span class="g g-Whitespace">    </span><span class="mi">145</span>     <span class="c1"># appropriately.</span>
+<span class="g g-Whitespace">    </span><span class="mi">146</span>     <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/immlib/workflow/_core.py:855,</span> in <span class="ni">plan._source_lookup</span><span class="nt">(inputtup, calctup, src)</span>
+<span class="g g-Whitespace">    </span><span class="mi">853</span>     <span class="p">(</span><span class="n">cidx</span><span class="p">,</span> <span class="n">oidx</span><span class="p">)</span> <span class="o">=</span> <span class="n">src</span>
+<span class="g g-Whitespace">    </span><span class="mi">854</span>     <span class="n">lazycalc</span> <span class="o">=</span> <span class="n">calctup</span><span class="p">[</span><span class="n">cidx</span><span class="p">]</span>
+<span class="ne">--&gt; </span><span class="mi">855</span>     <span class="n">val</span> <span class="o">=</span> <span class="n">lazycalc</span><span class="p">()[</span><span class="n">oidx</span><span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">856</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">857</span>     <span class="n">val</span> <span class="o">=</span> <span class="n">inputtup</span><span class="p">[</span><span class="n">src</span><span class="p">]()</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/pcollections/_lazy.py:143,</span> in <span class="ni">lazy.__call__</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">141</span>     <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+<span class="g g-Whitespace">    </span><span class="mi">142</span> <span class="k">else</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">143</span>     <span class="n">val</span> <span class="o">=</span> <span class="n">part</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">144</span>     <span class="c1"># We&#39;ve successfully calculated the value; set the members</span>
+<span class="g g-Whitespace">    </span><span class="mi">145</span>     <span class="c1"># appropriately.</span>
+<span class="g g-Whitespace">    </span><span class="mi">146</span>     <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/immlib/workflow/_core.py:884,</span> in <span class="ni">plan._make_calctup.&lt;locals&gt;.&lt;lambda&gt;</span><span class="nt">(c, args)</span>
+<span class="g g-Whitespace">    </span><span class="mi">881</span> <span class="c1"># We take advantage of Python&#39;s weak closures here:</span>
+<span class="g g-Whitespace">    </span><span class="mi">882</span> <span class="n">calctup</span> <span class="o">=</span> <span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">883</span> <span class="n">calctup</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span>
+<span class="ne">--&gt; </span><span class="mi">884</span>     <span class="n">lazy</span><span class="p">(</span><span class="k">lambda</span> <span class="n">c</span><span class="p">,</span><span class="n">args</span><span class="p">:</span> <span class="n">f</span><span class="p">(</span><span class="n">inputtup</span><span class="p">,</span> <span class="n">calctup</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span> <span class="n">c</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+<span class="nn">    885     for (c,args)</span> in <span class="ni">zip</span><span class="nt">(calcdata.calcs, calcdata.args))</span>
+<span class="g g-Whitespace">    </span><span class="mi">886</span> <span class="k">return</span> <span class="n">calctup</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/immlib/workflow/_core.py:873,</span> in <span class="ni">plan._call_calc</span><span class="nt">(inputtup, calctup, c, args)</span>
+<span class="g g-Whitespace">    </span><span class="mi">871</span>     <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">872</span>         <span class="n">kwargs</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">arg</span>
+<span class="ne">--&gt; </span><span class="mi">873</span> <span class="n">r</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">eager_call</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">874</span> <span class="k">if</span> <span class="n">is_amap</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">875</span>     <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">outputs</span><span class="p">))</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/immlib/workflow/_core.py:448,</span> in <span class="ni">calc.eager_call</span><span class="nt">(self, *args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">432</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;Eagerly calls the given calculation using the arguments.</span>
+<span class="g g-Whitespace">    </span><span class="mi">433</span><span class="sd"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">434</span><span class="sd"> ``c.eager_call(...)`` returns the result of calling the calculation</span>
+<span class="sd">   (...)    444 calc.eager_mapcall, calc.lazy_call, calc.lazy_mapcall</span>
+<span class="g g-Whitespace">    </span><span class="mi">445</span><span class="sd"> &quot;&quot;&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">446</span> <span class="c1"># Now we just pass these arguments along (the function itself has been</span>
+<span class="g g-Whitespace">    </span><span class="mi">447</span> <span class="c1"># given the caching code via decorators already).</span>
+<span class="ne">--&gt; </span><span class="mi">448</span> <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">449</span> <span class="c1"># Now interpret the result.</span>
+<span class="g g-Whitespace">    </span><span class="mi">450</span> <span class="n">outs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">outputs</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/AFQ/tasks/decorators.py:104,</span> in <span class="ni">as_file.&lt;locals&gt;._as_file.&lt;locals&gt;.wrapper_as_file</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">101</span> <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Calculating </span><span class="si">{</span><span class="n">calculation_name</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">103</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">104</span>     <span class="n">results</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">106</span>     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">output_specs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">107</span>         <span class="n">results</span> <span class="o">=</span> <span class="p">[</span><span class="n">results</span><span class="p">]</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/AFQ/tasks/segmentation.py:56,</span> in <span class="ni">segment</span><span class="nt">(structural_imap, data_imap, mapping_imap, tractography_imap, segmentation_params)</span>
+<span class="g g-Whitespace">     </span><span class="mi">54</span> <span class="n">bundle_dict</span> <span class="o">=</span> <span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;bundle_dict&quot;</span><span class="p">]</span>
+<span class="g g-Whitespace">     </span><span class="mi">55</span> <span class="n">reg_template</span> <span class="o">=</span> <span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;reg_template&quot;</span><span class="p">]</span>
+<span class="ne">---&gt; </span><span class="mi">56</span> <span class="n">streamlines</span> <span class="o">=</span> <span class="n">tractography_imap</span><span class="p">[</span><span class="s2">&quot;streamlines&quot;</span><span class="p">]</span>
+<span class="g g-Whitespace">     </span><span class="mi">57</span> <span class="k">if</span> <span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">58</span>     <span class="n">streamlines</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.trk&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">59</span>     <span class="ow">or</span> <span class="n">streamlines</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.tck&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">60</span>     <span class="ow">or</span> <span class="n">streamlines</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.vtk&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">61</span> <span class="p">):</span>
+<span class="g g-Whitespace">     </span><span class="mi">62</span>     <span class="n">tg</span> <span class="o">=</span> <span class="n">load_tractogram</span><span class="p">(</span><span class="n">streamlines</span><span class="p">,</span> <span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;dwi&quot;</span><span class="p">],</span> <span class="n">bbox_valid_check</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/pcollections/_lazy.py:381,</span> in <span class="ni">ldict.__getitem__</span><span class="nt">(self, key)</span>
+<span class="g g-Whitespace">    </span><span class="mi">379</span> <span class="n">v</span> <span class="o">=</span> <span class="n">pdict</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">380</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">lazy</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">381</span>     <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">382</span> <span class="k">return</span> <span class="n">v</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/pcollections/_lazy.py:143,</span> in <span class="ni">lazy.__call__</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">141</span>     <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+<span class="g g-Whitespace">    </span><span class="mi">142</span> <span class="k">else</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">143</span>     <span class="n">val</span> <span class="o">=</span> <span class="n">part</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">144</span>     <span class="c1"># We&#39;ve successfully calculated the value; set the members</span>
+<span class="g g-Whitespace">    </span><span class="mi">145</span>     <span class="c1"># appropriately.</span>
+<span class="g g-Whitespace">    </span><span class="mi">146</span>     <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/immlib/workflow/_core.py:855,</span> in <span class="ni">plan._source_lookup</span><span class="nt">(inputtup, calctup, src)</span>
+<span class="g g-Whitespace">    </span><span class="mi">853</span>     <span class="p">(</span><span class="n">cidx</span><span class="p">,</span> <span class="n">oidx</span><span class="p">)</span> <span class="o">=</span> <span class="n">src</span>
+<span class="g g-Whitespace">    </span><span class="mi">854</span>     <span class="n">lazycalc</span> <span class="o">=</span> <span class="n">calctup</span><span class="p">[</span><span class="n">cidx</span><span class="p">]</span>
+<span class="ne">--&gt; </span><span class="mi">855</span>     <span class="n">val</span> <span class="o">=</span> <span class="n">lazycalc</span><span class="p">()[</span><span class="n">oidx</span><span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">856</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">857</span>     <span class="n">val</span> <span class="o">=</span> <span class="n">inputtup</span><span class="p">[</span><span class="n">src</span><span class="p">]()</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/pcollections/_lazy.py:143,</span> in <span class="ni">lazy.__call__</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">141</span>     <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+<span class="g g-Whitespace">    </span><span class="mi">142</span> <span class="k">else</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">143</span>     <span class="n">val</span> <span class="o">=</span> <span class="n">part</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">144</span>     <span class="c1"># We&#39;ve successfully calculated the value; set the members</span>
+<span class="g g-Whitespace">    </span><span class="mi">145</span>     <span class="c1"># appropriately.</span>
+<span class="g g-Whitespace">    </span><span class="mi">146</span>     <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/immlib/workflow/_core.py:884,</span> in <span class="ni">plan._make_calctup.&lt;locals&gt;.&lt;lambda&gt;</span><span class="nt">(c, args)</span>
+<span class="g g-Whitespace">    </span><span class="mi">881</span> <span class="c1"># We take advantage of Python&#39;s weak closures here:</span>
+<span class="g g-Whitespace">    </span><span class="mi">882</span> <span class="n">calctup</span> <span class="o">=</span> <span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">883</span> <span class="n">calctup</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span>
+<span class="ne">--&gt; </span><span class="mi">884</span>     <span class="n">lazy</span><span class="p">(</span><span class="k">lambda</span> <span class="n">c</span><span class="p">,</span><span class="n">args</span><span class="p">:</span> <span class="n">f</span><span class="p">(</span><span class="n">inputtup</span><span class="p">,</span> <span class="n">calctup</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span> <span class="n">c</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+<span class="nn">    885     for (c,args)</span> in <span class="ni">zip</span><span class="nt">(calcdata.calcs, calcdata.args))</span>
+<span class="g g-Whitespace">    </span><span class="mi">886</span> <span class="k">return</span> <span class="n">calctup</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/immlib/workflow/_core.py:868,</span> in <span class="ni">plan._call_calc</span><span class="nt">(inputtup, calctup, c, args)</span>
+<span class="g g-Whitespace">    </span><span class="mi">866</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="g g-Whitespace">    </span><span class="mi">867</span> <span class="n">c</span> <span class="o">=</span> <span class="n">to_calc</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">868</span> <span class="k">for</span> <span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">arg</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">signature</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">argvals</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">869</span>     <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="n">p</span><span class="o">.</span><span class="n">POSITIONAL_ONLY</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">870</span>         <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">[</span><span class="n">arg</span><span class="p">]</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/immlib/workflow/_core.py:855,</span> in <span class="ni">plan._source_lookup</span><span class="nt">(inputtup, calctup, src)</span>
+<span class="g g-Whitespace">    </span><span class="mi">853</span>     <span class="p">(</span><span class="n">cidx</span><span class="p">,</span> <span class="n">oidx</span><span class="p">)</span> <span class="o">=</span> <span class="n">src</span>
+<span class="g g-Whitespace">    </span><span class="mi">854</span>     <span class="n">lazycalc</span> <span class="o">=</span> <span class="n">calctup</span><span class="p">[</span><span class="n">cidx</span><span class="p">]</span>
+<span class="ne">--&gt; </span><span class="mi">855</span>     <span class="n">val</span> <span class="o">=</span> <span class="n">lazycalc</span><span class="p">()[</span><span class="n">oidx</span><span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">856</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">857</span>     <span class="n">val</span> <span class="o">=</span> <span class="n">inputtup</span><span class="p">[</span><span class="n">src</span><span class="p">]()</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/pcollections/_lazy.py:143,</span> in <span class="ni">lazy.__call__</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">141</span>     <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+<span class="g g-Whitespace">    </span><span class="mi">142</span> <span class="k">else</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">143</span>     <span class="n">val</span> <span class="o">=</span> <span class="n">part</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">144</span>     <span class="c1"># We&#39;ve successfully calculated the value; set the members</span>
+<span class="g g-Whitespace">    </span><span class="mi">145</span>     <span class="c1"># appropriately.</span>
+<span class="g g-Whitespace">    </span><span class="mi">146</span>     <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/immlib/workflow/_core.py:884,</span> in <span class="ni">plan._make_calctup.&lt;locals&gt;.&lt;lambda&gt;</span><span class="nt">(c, args)</span>
+<span class="g g-Whitespace">    </span><span class="mi">881</span> <span class="c1"># We take advantage of Python&#39;s weak closures here:</span>
+<span class="g g-Whitespace">    </span><span class="mi">882</span> <span class="n">calctup</span> <span class="o">=</span> <span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">883</span> <span class="n">calctup</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span>
+<span class="ne">--&gt; </span><span class="mi">884</span>     <span class="n">lazy</span><span class="p">(</span><span class="k">lambda</span> <span class="n">c</span><span class="p">,</span><span class="n">args</span><span class="p">:</span> <span class="n">f</span><span class="p">(</span><span class="n">inputtup</span><span class="p">,</span> <span class="n">calctup</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span> <span class="n">c</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+<span class="nn">    885     for (c,args)</span> in <span class="ni">zip</span><span class="nt">(calcdata.calcs, calcdata.args))</span>
+<span class="g g-Whitespace">    </span><span class="mi">886</span> <span class="k">return</span> <span class="n">calctup</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/immlib/workflow/_core.py:873,</span> in <span class="ni">plan._call_calc</span><span class="nt">(inputtup, calctup, c, args)</span>
+<span class="g g-Whitespace">    </span><span class="mi">871</span>     <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">872</span>         <span class="n">kwargs</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">arg</span>
+<span class="ne">--&gt; </span><span class="mi">873</span> <span class="n">r</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">eager_call</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">874</span> <span class="k">if</span> <span class="n">is_amap</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">875</span>     <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">outputs</span><span class="p">))</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/immlib/workflow/_core.py:448,</span> in <span class="ni">calc.eager_call</span><span class="nt">(self, *args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">432</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;Eagerly calls the given calculation using the arguments.</span>
+<span class="g g-Whitespace">    </span><span class="mi">433</span><span class="sd"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">434</span><span class="sd"> ``c.eager_call(...)`` returns the result of calling the calculation</span>
+<span class="sd">   (...)    444 calc.eager_mapcall, calc.lazy_call, calc.lazy_mapcall</span>
+<span class="g g-Whitespace">    </span><span class="mi">445</span><span class="sd"> &quot;&quot;&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">446</span> <span class="c1"># Now we just pass these arguments along (the function itself has been</span>
+<span class="g g-Whitespace">    </span><span class="mi">447</span> <span class="c1"># given the caching code via decorators already).</span>
+<span class="ne">--&gt; </span><span class="mi">448</span> <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">449</span> <span class="c1"># Now interpret the result.</span>
+<span class="g g-Whitespace">    </span><span class="mi">450</span> <span class="n">outs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">outputs</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/AFQ/tasks/decorators.py:104,</span> in <span class="ni">as_file.&lt;locals&gt;._as_file.&lt;locals&gt;.wrapper_as_file</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">101</span> <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Calculating </span><span class="si">{</span><span class="n">calculation_name</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">103</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">104</span>     <span class="n">results</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">106</span>     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">output_specs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">107</span>         <span class="n">results</span> <span class="o">=</span> <span class="p">[</span><span class="n">results</span><span class="p">]</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/AFQ/definitions/image.py:402,</span> in <span class="ni">RoiImage.get_image_getter.&lt;locals&gt;._image_getter_helper</span><span class="nt">(mapping_imap, data_imap, structural_imap, tissue_imap, segmentation_params)</span>
+<span class="g g-Whitespace">    </span><span class="mi">398</span>     <span class="n">bundle_dict</span> <span class="o">=</span> <span class="n">bundle_dict</span>
+<span class="g g-Whitespace">    </span><span class="mi">400</span> <span class="k">for</span> <span class="n">bundle_name</span> <span class="ow">in</span> <span class="n">bundle_dict</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">401</span>     <span class="n">bundle_entry</span> <span class="o">=</span> <span class="n">bundle_dict</span><span class="o">.</span><span class="n">transform_rois</span><span class="p">(</span>
+<span class="ne">--&gt; </span><span class="mi">402</span>         <span class="n">bundle_name</span><span class="p">,</span> <span class="n">mapping_imap</span><span class="p">[</span><span class="s2">&quot;mapping&quot;</span><span class="p">],</span> <span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;dwi&quot;</span><span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">403</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">404</span>     <span class="n">rois</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="g g-Whitespace">    </span><span class="mi">405</span>     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_endpoints</span><span class="p">:</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/pcollections/_lazy.py:381,</span> in <span class="ni">ldict.__getitem__</span><span class="nt">(self, key)</span>
+<span class="g g-Whitespace">    </span><span class="mi">379</span> <span class="n">v</span> <span class="o">=</span> <span class="n">pdict</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">380</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">lazy</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">381</span>     <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">382</span> <span class="k">return</span> <span class="n">v</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/pcollections/_lazy.py:143,</span> in <span class="ni">lazy.__call__</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">141</span>     <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+<span class="g g-Whitespace">    </span><span class="mi">142</span> <span class="k">else</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">143</span>     <span class="n">val</span> <span class="o">=</span> <span class="n">part</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">144</span>     <span class="c1"># We&#39;ve successfully calculated the value; set the members</span>
+<span class="g g-Whitespace">    </span><span class="mi">145</span>     <span class="c1"># appropriately.</span>
+<span class="g g-Whitespace">    </span><span class="mi">146</span>     <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/immlib/workflow/_core.py:855,</span> in <span class="ni">plan._source_lookup</span><span class="nt">(inputtup, calctup, src)</span>
+<span class="g g-Whitespace">    </span><span class="mi">853</span>     <span class="p">(</span><span class="n">cidx</span><span class="p">,</span> <span class="n">oidx</span><span class="p">)</span> <span class="o">=</span> <span class="n">src</span>
+<span class="g g-Whitespace">    </span><span class="mi">854</span>     <span class="n">lazycalc</span> <span class="o">=</span> <span class="n">calctup</span><span class="p">[</span><span class="n">cidx</span><span class="p">]</span>
+<span class="ne">--&gt; </span><span class="mi">855</span>     <span class="n">val</span> <span class="o">=</span> <span class="n">lazycalc</span><span class="p">()[</span><span class="n">oidx</span><span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">856</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">857</span>     <span class="n">val</span> <span class="o">=</span> <span class="n">inputtup</span><span class="p">[</span><span class="n">src</span><span class="p">]()</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/pcollections/_lazy.py:143,</span> in <span class="ni">lazy.__call__</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">141</span>     <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+<span class="g g-Whitespace">    </span><span class="mi">142</span> <span class="k">else</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">143</span>     <span class="n">val</span> <span class="o">=</span> <span class="n">part</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">144</span>     <span class="c1"># We&#39;ve successfully calculated the value; set the members</span>
+<span class="g g-Whitespace">    </span><span class="mi">145</span>     <span class="c1"># appropriately.</span>
+<span class="g g-Whitespace">    </span><span class="mi">146</span>     <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/immlib/workflow/_core.py:884,</span> in <span class="ni">plan._make_calctup.&lt;locals&gt;.&lt;lambda&gt;</span><span class="nt">(c, args)</span>
+<span class="g g-Whitespace">    </span><span class="mi">881</span> <span class="c1"># We take advantage of Python&#39;s weak closures here:</span>
+<span class="g g-Whitespace">    </span><span class="mi">882</span> <span class="n">calctup</span> <span class="o">=</span> <span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">883</span> <span class="n">calctup</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span>
+<span class="ne">--&gt; </span><span class="mi">884</span>     <span class="n">lazy</span><span class="p">(</span><span class="k">lambda</span> <span class="n">c</span><span class="p">,</span><span class="n">args</span><span class="p">:</span> <span class="n">f</span><span class="p">(</span><span class="n">inputtup</span><span class="p">,</span> <span class="n">calctup</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span> <span class="n">c</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+<span class="nn">    885     for (c,args)</span> in <span class="ni">zip</span><span class="nt">(calcdata.calcs, calcdata.args))</span>
+<span class="g g-Whitespace">    </span><span class="mi">886</span> <span class="k">return</span> <span class="n">calctup</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/immlib/workflow/_core.py:873,</span> in <span class="ni">plan._call_calc</span><span class="nt">(inputtup, calctup, c, args)</span>
+<span class="g g-Whitespace">    </span><span class="mi">871</span>     <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">872</span>         <span class="n">kwargs</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">arg</span>
+<span class="ne">--&gt; </span><span class="mi">873</span> <span class="n">r</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">eager_call</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">874</span> <span class="k">if</span> <span class="n">is_amap</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">875</span>     <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">outputs</span><span class="p">))</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/immlib/workflow/_core.py:448,</span> in <span class="ni">calc.eager_call</span><span class="nt">(self, *args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">432</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;Eagerly calls the given calculation using the arguments.</span>
+<span class="g g-Whitespace">    </span><span class="mi">433</span><span class="sd"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">434</span><span class="sd"> ``c.eager_call(...)`` returns the result of calling the calculation</span>
+<span class="sd">   (...)    444 calc.eager_mapcall, calc.lazy_call, calc.lazy_mapcall</span>
+<span class="g g-Whitespace">    </span><span class="mi">445</span><span class="sd"> &quot;&quot;&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">446</span> <span class="c1"># Now we just pass these arguments along (the function itself has been</span>
+<span class="g g-Whitespace">    </span><span class="mi">447</span> <span class="c1"># given the caching code via decorators already).</span>
+<span class="ne">--&gt; </span><span class="mi">448</span> <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">449</span> <span class="c1"># Now interpret the result.</span>
+<span class="g g-Whitespace">    </span><span class="mi">450</span> <span class="n">outs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">outputs</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/AFQ/tasks/mapping.py:132,</span> in <span class="ni">mapping</span><span class="nt">(base_fname, dwi_data_file, reg_subject, data_imap, mapping_definition)</span>
+<span class="g g-Whitespace">    </span><span class="mi">128</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mapping_definition</span><span class="p">,</span> <span class="n">Definition</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">129</span>     <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">130</span>         <span class="s2">&quot;mapping must be a mapping defined&quot;</span> <span class="o">+</span> <span class="s2">&quot; in `AFQ.definitions.mapping`&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">131</span>     <span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">132</span> <span class="k">return</span> <span class="n">mapping_definition</span><span class="o">.</span><span class="n">get_for_subses</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">133</span>     <span class="n">base_fname</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">134</span>     <span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;dwi&quot;</span><span class="p">],</span>
+<span class="g g-Whitespace">    </span><span class="mi">135</span>     <span class="n">dwi_data_file</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">136</span>     <span class="n">reg_subject</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">137</span>     <span class="n">reg_template</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">138</span>     <span class="n">tmpl_name</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">139</span> <span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/AFQ/definitions/mapping.py:339,</span> in <span class="ni">SynMap.get_for_subses</span><span class="nt">(self, base_fname, dwi, dwi_data_file, reg_subject, reg_template, tmpl_name, subject_sls, template_sls)</span>
+<span class="g g-Whitespace">    </span><span class="mi">337</span> <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">338</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_prealign</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">339</span>     <span class="n">reg_prealign</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prealign</span><span class="p">(</span><span class="n">reg_subject</span><span class="p">,</span> <span class="n">reg_template</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">340</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">341</span>     <span class="n">reg_prealign</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/AFQ/definitions/mapping.py:216,</span> in <span class="ni">GeneratedMapMixin.prealign</span><span class="nt">(self, reg_subject, reg_template)</span>
+<span class="g g-Whitespace">    </span><span class="mi">214</span> <span class="k">def</span><span class="w"> </span><span class="nf">prealign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reg_subject</span><span class="p">,</span> <span class="n">reg_template</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">215</span>     <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Calculating affine pre-alignment...&quot;</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">216</span>     <span class="n">_</span><span class="p">,</span> <span class="n">aff</span> <span class="o">=</span> <span class="n">affine_registration</span><span class="p">(</span><span class="n">reg_subject</span><span class="p">,</span> <span class="n">reg_template</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">affine_kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">217</span>     <span class="k">return</span> <span class="n">aff</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/dipy/testing/decorators.py:201,</span> in <span class="ni">warning_for_keywords.&lt;locals&gt;.decorator.&lt;locals&gt;.wrapper</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">194</span> <span class="c1"># Check if the current version is within the warning range</span>
+<span class="g g-Whitespace">    </span><span class="mi">195</span> <span class="k">if</span> <span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">196</span>     <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">from_version</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">197</span>     <span class="o">&lt;=</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">current_version</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">198</span>     <span class="o">&lt;=</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">until_version</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">199</span> <span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">200</span>     <span class="c1"># Convert positional to keyword arguments and issue a warning</span>
+<span class="ne">--&gt; </span><span class="mi">201</span>     <span class="k">return</span> <span class="n">convert_positional_to_keyword</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">203</span> <span class="c1"># If the version is greater than the until_version,</span>
+<span class="g g-Whitespace">    </span><span class="mi">204</span> <span class="c1"># pass the arguments as they are</span>
+<span class="g g-Whitespace">    </span><span class="mi">205</span> <span class="k">elif</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">current_version</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">until_version</span><span class="p">):</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/dipy/testing/decorators.py:192,</span> in <span class="ni">warning_for_keywords.&lt;locals&gt;.decorator.&lt;locals&gt;.wrapper.&lt;locals&gt;.convert_positional_to_keyword</span><span class="nt">(func, args, kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">182</span>         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">183</span>             <span class="sa">f</span><span class="s2">&quot;Pass </span><span class="si">{</span><span class="n">positionally_passed_kwonly_args</span><span class="si">}</span><span class="s2"> as keyword args. &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">184</span>             <span class="sa">f</span><span class="s2">&quot;From version </span><span class="si">{</span><span class="n">until_version</span><span class="si">}</span><span class="s2"> passing these as positional &quot;</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>    <span class="mi">187</span>             <span class="n">stacklevel</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">188</span>         <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">190</span>     <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">positional_args</span><span class="p">,</span> <span class="o">**</span><span class="n">corrected_kwargs</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">192</span> <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/dipy/align/_public.py:599,</span> in <span class="ni">affine_registration</span><span class="nt">(moving, static, moving_affine, static_affine, pipeline, starting_affine, metric, level_iters, sigmas, factors, ret_metric, moving_mask, static_mask, optimizer_options, **metric_kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">597</span>     <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">598</span>         <span class="n">transform</span> <span class="o">=</span> <span class="n">_METHOD_DICT</span><span class="p">[</span><span class="n">func</span><span class="p">][</span><span class="mi">1</span><span class="p">]()</span>
+<span class="ne">--&gt; </span><span class="mi">599</span>         <span class="n">xform</span><span class="p">,</span> <span class="n">xopt</span><span class="p">,</span> <span class="n">fopt</span> <span class="o">=</span> <span class="n">affreg</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">600</span>             <span class="n">static</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">601</span>             <span class="n">moving</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">602</span>             <span class="n">transform</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">603</span>             <span class="kc">None</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">604</span>             <span class="n">static_grid2world</span><span class="o">=</span><span class="n">static_affine</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">605</span>             <span class="n">moving_grid2world</span><span class="o">=</span><span class="n">moving_affine</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">606</span>             <span class="n">starting_affine</span><span class="o">=</span><span class="n">starting_affine</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">607</span>             <span class="n">ret_metric</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">608</span>             <span class="n">static_mask</span><span class="o">=</span><span class="n">static_mask</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">609</span>             <span class="n">moving_mask</span><span class="o">=</span><span class="n">moving_mask</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">610</span>         <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">611</span>         <span class="n">starting_affine</span> <span class="o">=</span> <span class="n">xform</span><span class="o">.</span><span class="n">affine</span>
+<span class="g g-Whitespace">    </span><span class="mi">613</span> <span class="c1"># Copy the final affine into a final variable</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/dipy/testing/decorators.py:201,</span> in <span class="ni">warning_for_keywords.&lt;locals&gt;.decorator.&lt;locals&gt;.wrapper</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">194</span> <span class="c1"># Check if the current version is within the warning range</span>
+<span class="g g-Whitespace">    </span><span class="mi">195</span> <span class="k">if</span> <span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">196</span>     <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">from_version</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">197</span>     <span class="o">&lt;=</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">current_version</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">198</span>     <span class="o">&lt;=</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">until_version</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">199</span> <span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">200</span>     <span class="c1"># Convert positional to keyword arguments and issue a warning</span>
+<span class="ne">--&gt; </span><span class="mi">201</span>     <span class="k">return</span> <span class="n">convert_positional_to_keyword</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">203</span> <span class="c1"># If the version is greater than the until_version,</span>
+<span class="g g-Whitespace">    </span><span class="mi">204</span> <span class="c1"># pass the arguments as they are</span>
+<span class="g g-Whitespace">    </span><span class="mi">205</span> <span class="k">elif</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">current_version</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">until_version</span><span class="p">):</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/dipy/testing/decorators.py:192,</span> in <span class="ni">warning_for_keywords.&lt;locals&gt;.decorator.&lt;locals&gt;.wrapper.&lt;locals&gt;.convert_positional_to_keyword</span><span class="nt">(func, args, kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">182</span>         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">183</span>             <span class="sa">f</span><span class="s2">&quot;Pass </span><span class="si">{</span><span class="n">positionally_passed_kwonly_args</span><span class="si">}</span><span class="s2"> as keyword args. &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">184</span>             <span class="sa">f</span><span class="s2">&quot;From version </span><span class="si">{</span><span class="n">until_version</span><span class="si">}</span><span class="s2"> passing these as positional &quot;</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>    <span class="mi">187</span>             <span class="n">stacklevel</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">188</span>         <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">190</span>     <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">positional_args</span><span class="p">,</span> <span class="o">**</span><span class="n">corrected_kwargs</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">192</span> <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/dipy/align/imaffine.py:1331,</span> in <span class="ni">AffineRegistration.optimize</span><span class="nt">(***failed resolving arguments***)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1328</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1329</span>     <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;maxiter&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">max_iter</span>
+<span class="ne">-&gt; </span><span class="mi">1331</span> <span class="n">opt</span> <span class="o">=</span> <span class="n">Optimizer</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1332</span>     <span class="bp">self</span><span class="o">.</span><span class="n">metric</span><span class="o">.</span><span class="n">distance_and_gradient</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1333</span>     <span class="bp">self</span><span class="o">.</span><span class="n">params0</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1334</span>     <span class="n">method</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">method</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1335</span>     <span class="n">jac</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1336</span>     <span class="n">options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1337</span> <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1338</span> <span class="n">params</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">xopt</span>
+<span class="g g-Whitespace">   </span><span class="mi">1340</span> <span class="c1"># Update starting_affine matrix with optimal parameters</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/dipy/testing/decorators.py:201,</span> in <span class="ni">warning_for_keywords.&lt;locals&gt;.decorator.&lt;locals&gt;.wrapper</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">194</span> <span class="c1"># Check if the current version is within the warning range</span>
+<span class="g g-Whitespace">    </span><span class="mi">195</span> <span class="k">if</span> <span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">196</span>     <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">from_version</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">197</span>     <span class="o">&lt;=</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">current_version</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">198</span>     <span class="o">&lt;=</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">until_version</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">199</span> <span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">200</span>     <span class="c1"># Convert positional to keyword arguments and issue a warning</span>
+<span class="ne">--&gt; </span><span class="mi">201</span>     <span class="k">return</span> <span class="n">convert_positional_to_keyword</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">203</span> <span class="c1"># If the version is greater than the until_version,</span>
+<span class="g g-Whitespace">    </span><span class="mi">204</span> <span class="c1"># pass the arguments as they are</span>
+<span class="g g-Whitespace">    </span><span class="mi">205</span> <span class="k">elif</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">current_version</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">until_version</span><span class="p">):</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/dipy/testing/decorators.py:192,</span> in <span class="ni">warning_for_keywords.&lt;locals&gt;.decorator.&lt;locals&gt;.wrapper.&lt;locals&gt;.convert_positional_to_keyword</span><span class="nt">(func, args, kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">182</span>         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">183</span>             <span class="sa">f</span><span class="s2">&quot;Pass </span><span class="si">{</span><span class="n">positionally_passed_kwonly_args</span><span class="si">}</span><span class="s2"> as keyword args. &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">184</span>             <span class="sa">f</span><span class="s2">&quot;From version </span><span class="si">{</span><span class="n">until_version</span><span class="si">}</span><span class="s2"> passing these as positional &quot;</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>    <span class="mi">187</span>             <span class="n">stacklevel</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">188</span>         <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">190</span>     <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">positional_args</span><span class="p">,</span> <span class="o">**</span><span class="n">corrected_kwargs</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">192</span> <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/dipy/core/optimize.py:164,</span> in <span class="ni">Optimizer.__init__</span><span class="nt">(self, fun, x0, args, method, jac, hess, hessp, bounds, constraints, tol, callback, options, evolution)</span>
+<span class="g g-Whitespace">    </span><span class="mi">148</span>     <span class="n">res</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">149</span>         <span class="n">fun</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">150</span>         <span class="n">x0</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>    <span class="mi">160</span>         <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">161</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">163</span> <span class="k">else</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">164</span>     <span class="n">res</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">165</span>         <span class="n">fun</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">166</span>         <span class="n">x0</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">167</span>         <span class="n">args</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">168</span>         <span class="n">method</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">169</span>         <span class="n">jac</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">170</span>         <span class="n">hess</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">171</span>         <span class="n">hessp</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">172</span>         <span class="n">bounds</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">173</span>         <span class="n">constraints</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">174</span>         <span class="n">tol</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">175</span>         <span class="n">callback</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">176</span>         <span class="n">options</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">177</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">179</span> <span class="bp">self</span><span class="o">.</span><span class="n">res</span> <span class="o">=</span> <span class="n">res</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/scipy/optimize/_minimize.py:784,</span> in <span class="ni">minimize</span><span class="nt">(fun, x0, args, method, jac, hess, hessp, bounds, constraints, tol, callback, options)</span>
+<span class="g g-Whitespace">    </span><span class="mi">781</span>     <span class="n">res</span> <span class="o">=</span> <span class="n">_minimize_newtoncg</span><span class="p">(</span><span class="n">fun</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">jac</span><span class="p">,</span> <span class="n">hess</span><span class="p">,</span> <span class="n">hessp</span><span class="p">,</span> <span class="n">callback</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">782</span>                              <span class="o">**</span><span class="n">options</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">783</span> <span class="k">elif</span> <span class="n">meth</span> <span class="o">==</span> <span class="s1">&#39;l-bfgs-b&#39;</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">784</span>     <span class="n">res</span> <span class="o">=</span> <span class="n">_minimize_lbfgsb</span><span class="p">(</span><span class="n">fun</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">jac</span><span class="p">,</span> <span class="n">bounds</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">785</span>                            <span class="n">callback</span><span class="o">=</span><span class="n">callback</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">786</span> <span class="k">elif</span> <span class="n">meth</span> <span class="o">==</span> <span class="s1">&#39;tnc&#39;</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">787</span>     <span class="n">res</span> <span class="o">=</span> <span class="n">_minimize_tnc</span><span class="p">(</span><span class="n">fun</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">jac</span><span class="p">,</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="n">callback</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">788</span>                         <span class="o">**</span><span class="n">options</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/scipy/optimize/_lbfgsb_py.py:469,</span> in <span class="ni">_minimize_lbfgsb</span><span class="nt">(fun, x0, args, jac, bounds, disp, maxcor, ftol, gtol, eps, maxfun, maxiter, iprint, callback, maxls, finite_diff_rel_step, workers, **unknown_options)</span>
+<span class="g g-Whitespace">    </span><span class="mi">461</span> <span class="n">_lbfgsb</span><span class="o">.</span><span class="n">setulb</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">low_bnd</span><span class="p">,</span> <span class="n">upper_bnd</span><span class="p">,</span> <span class="n">nbd</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">factr</span><span class="p">,</span> <span class="n">pgtol</span><span class="p">,</span> <span class="n">wa</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">462</span>                <span class="n">iwa</span><span class="p">,</span> <span class="n">task</span><span class="p">,</span> <span class="n">lsave</span><span class="p">,</span> <span class="n">isave</span><span class="p">,</span> <span class="n">dsave</span><span class="p">,</span> <span class="n">maxls</span><span class="p">,</span> <span class="n">ln_task</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">464</span> <span class="k">if</span> <span class="n">task</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">465</span>     <span class="c1"># The minimization routine wants f and g at the current x.</span>
+<span class="g g-Whitespace">    </span><span class="mi">466</span>     <span class="c1"># Note that interruptions due to maxfun are postponed</span>
+<span class="g g-Whitespace">    </span><span class="mi">467</span>     <span class="c1"># until the completion of the current minimization iteration.</span>
+<span class="g g-Whitespace">    </span><span class="mi">468</span>     <span class="c1"># Overwrite f and g:</span>
+<span class="ne">--&gt; </span><span class="mi">469</span>     <span class="n">f</span><span class="p">,</span> <span class="n">g</span> <span class="o">=</span> <span class="n">func_and_grad</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">470</span> <span class="k">elif</span> <span class="n">task</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">471</span>     <span class="c1"># new iteration</span>
+<span class="g g-Whitespace">    </span><span class="mi">472</span>     <span class="n">n_iterations</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/scipy/optimize/_differentiable_functions.py:412,</span> in <span class="ni">ScalarFunction.fun_and_grad</span><span class="nt">(self, x)</span>
+<span class="g g-Whitespace">    </span><span class="mi">410</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">411</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_update_x</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">412</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_fun</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">413</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_grad</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">414</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">g</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/scipy/optimize/_differentiable_functions.py:362,</span> in <span class="ni">ScalarFunction._update_fun</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">360</span> <span class="k">def</span><span class="w"> </span><span class="nf">_update_fun</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">361</span>     <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">f_updated</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">362</span>         <span class="n">fx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wrapped_fun</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">363</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_nfev</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="g g-Whitespace">    </span><span class="mi">364</span>         <span class="k">if</span> <span class="n">fx</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lowest_f</span><span class="p">:</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/scipy/_lib/_util.py:603,</span> in <span class="ni">_ScalarFunctionWrapper.__call__</span><span class="nt">(self, x)</span>
+<span class="g g-Whitespace">    </span><span class="mi">600</span> <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">601</span>     <span class="c1"># Send a copy because the user may overwrite it.</span>
+<span class="g g-Whitespace">    </span><span class="mi">602</span>     <span class="c1"># The user of this class might want `x` to remain unchanged.</span>
+<span class="ne">--&gt; </span><span class="mi">603</span>     <span class="n">fx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">604</span>     <span class="bp">self</span><span class="o">.</span><span class="n">nfev</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="g g-Whitespace">    </span><span class="mi">606</span>     <span class="c1"># Make sure the function returns a true scalar</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/scipy/optimize/_optimize.py:80,</span> in <span class="ni">MemoizeJac.__call__</span><span class="nt">(self, x, *args)</span>
+<span class="g g-Whitespace">     </span><span class="mi">78</span> <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+<span class="g g-Whitespace">     </span><span class="mi">79</span><span class="w">     </span><span class="sd">&quot;&quot;&quot; returns the function value &quot;&quot;&quot;</span>
+<span class="ne">---&gt; </span><span class="mi">80</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_compute_if_needed</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">81</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/scipy/optimize/_optimize.py:74,</span> in <span class="ni">MemoizeJac._compute_if_needed</span><span class="nt">(self, x, *args)</span>
+<span class="g g-Whitespace">     </span><span class="mi">72</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">x</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">jac</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">73</span>     <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="ne">---&gt; </span><span class="mi">74</span>     <span class="n">fg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fun</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">75</span>     <span class="bp">self</span><span class="o">.</span><span class="n">jac</span> <span class="o">=</span> <span class="n">fg</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="g g-Whitespace">     </span><span class="mi">76</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">=</span> <span class="n">fg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/dipy/align/imaffine.py:888,</span> in <span class="ni">MutualInformationMetric.distance_and_gradient</span><span class="nt">(self, params)</span>
+<span class="g g-Whitespace">    </span><span class="mi">868</span><span class="w"> </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Numeric value of the metric and its gradient at given parameters.</span>
+<span class="g g-Whitespace">    </span><span class="mi">869</span><span class="sd"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">870</span><span class="sd"> Parameters</span>
+<span class="sd">   (...)    885 </span>
+<span class="g g-Whitespace">    </span><span class="mi">886</span><span class="sd"> &quot;&quot;&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">887</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">888</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_update_mutual_information</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">update_gradient</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">889</span> <span class="k">except</span> <span class="p">(</span><span class="n">AffineInversionError</span><span class="p">,</span> <span class="n">AffineInvalidValuesError</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">890</span>     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="mi">0</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">metric_grad</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/dipy/testing/decorators.py:201,</span> in <span class="ni">warning_for_keywords.&lt;locals&gt;.decorator.&lt;locals&gt;.wrapper</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">194</span> <span class="c1"># Check if the current version is within the warning range</span>
+<span class="g g-Whitespace">    </span><span class="mi">195</span> <span class="k">if</span> <span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">196</span>     <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">from_version</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">197</span>     <span class="o">&lt;=</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">current_version</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">198</span>     <span class="o">&lt;=</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">until_version</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">199</span> <span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">200</span>     <span class="c1"># Convert positional to keyword arguments and issue a warning</span>
+<span class="ne">--&gt; </span><span class="mi">201</span>     <span class="k">return</span> <span class="n">convert_positional_to_keyword</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">203</span> <span class="c1"># If the version is greater than the until_version,</span>
+<span class="g g-Whitespace">    </span><span class="mi">204</span> <span class="c1"># pass the arguments as they are</span>
+<span class="g g-Whitespace">    </span><span class="mi">205</span> <span class="k">elif</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">current_version</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">until_version</span><span class="p">):</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/dipy/testing/decorators.py:192,</span> in <span class="ni">warning_for_keywords.&lt;locals&gt;.decorator.&lt;locals&gt;.wrapper.&lt;locals&gt;.convert_positional_to_keyword</span><span class="nt">(func, args, kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">182</span>         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">183</span>             <span class="sa">f</span><span class="s2">&quot;Pass </span><span class="si">{</span><span class="n">positionally_passed_kwonly_args</span><span class="si">}</span><span class="s2"> as keyword args. &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">184</span>             <span class="sa">f</span><span class="s2">&quot;From version </span><span class="si">{</span><span class="n">until_version</span><span class="si">}</span><span class="s2"> passing these as positional &quot;</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>    <span class="mi">187</span>             <span class="n">stacklevel</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">188</span>         <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">190</span>     <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">positional_args</span><span class="p">,</span> <span class="o">**</span><span class="n">corrected_kwargs</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">192</span> <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/dipy/align/imaffine.py:769,</span> in <span class="ni">MutualInformationMetric._update_mutual_information</span><span class="nt">(self, params, update_gradient)</span>
+<span class="g g-Whitespace">    </span><span class="mi">765</span> <span class="bp">self</span><span class="o">.</span><span class="n">affine_map</span><span class="o">.</span><span class="n">set_affine</span><span class="p">(</span><span class="n">current_affine</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">767</span> <span class="c1"># Update the histogram with the current joint intensities</span>
+<span class="g g-Whitespace">    </span><span class="mi">768</span> <span class="n">static_values</span><span class="p">,</span> <span class="n">moving_values</span><span class="p">,</span> <span class="n">static_mask_values</span><span class="p">,</span> <span class="n">moving_mask_values</span> <span class="o">=</span> <span class="p">(</span>
+<span class="ne">--&gt; </span><span class="mi">769</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_update_histogram</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">770</span> <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">772</span> <span class="n">H</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">histogram</span>  <span class="c1"># Shortcut to `self.histogram`</span>
+<span class="g g-Whitespace">    </span><span class="mi">773</span> <span class="n">grad</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Buffer to write the MI gradient into (if needed)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/dipy/align/imaffine.py:718,</span> in <span class="ni">MutualInformationMetric._update_histogram</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">713</span>     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">moving_mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">714</span>         <span class="n">moving_mask_values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">affine_map</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">715</span>             <span class="bp">self</span><span class="o">.</span><span class="n">moving_mask</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">716</span>         <span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">718</span>     <span class="bp">self</span><span class="o">.</span><span class="n">histogram</span><span class="o">.</span><span class="n">update_pdfs_dense</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">719</span>         <span class="n">static_values</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">720</span>         <span class="n">moving_values</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">721</span>         <span class="n">smask</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">static_mask</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">722</span>         <span class="n">mmask</span><span class="o">=</span><span class="n">moving_mask_values</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">723</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">724</span> <span class="k">else</span><span class="p">:</span>  <span class="c1"># Sparse case</span>
+<span class="g g-Whitespace">    </span><span class="mi">725</span>     <span class="n">sp_to_moving</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">moving_world2grid</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">affine_map</span><span class="o">.</span><span class="n">affine</span><span class="p">)</span>
+
+<span class="ne">KeyboardInterrupt</span>: 
+</pre></div>
 </div>
 </div>
-<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
 </div>
+</section>
 
 
                 </article>
@@ -617,14 +1106,15 @@ also part of the set of bundles that are segmented per default.</p>
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
   <div class="sidebar-secondary-item">
 
   
   <div class="tocsection editthispage">
-    <a href="https://github.com/tractometry/pyAFQ/edit/master/docs/source/howto/howto_examples/vof_example.rst">
+    <a href="https://github.com/tractometry/pyAFQ/edit/master/docs/source/howto/howto_examples/vof_example.ipynb">
       <i class="fa-solid fa-pencil"></i>
       
       
@@ -639,7 +1129,7 @@ also part of the set of bundles that are segmented per default.</p>
   <div class="sidebar-secondary-item">
 
   <div class="tocsection sourcelink">
-    <a href="../../_sources/howto/howto_examples/vof_example.rst.txt">
+    <a href="../../_sources/howto/howto_examples/vof_example.ipynb.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>
@@ -658,8 +1148,8 @@ also part of the set of bundles that are segmented per default.</p>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
 
 
   <footer class="bd-footer">
@@ -680,7 +1170,7 @@ also part of the set of bundles that are segmented per default.</p>
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
     <br/>
   </p>
 </div>
@@ -692,16 +1182,20 @@ also part of the set of bundles that are segmented per default.</p>
     <div class="footer-items__end">
       
         <div class="footer-item"><div class="footer">
-    <div class="footer-content">
-      <div class="copyright">
-        Please Cite the following paper:
-      </div>
-      <div class="citation">
-        <a href="https://doi.org/10.52294/e6198273-b8e3-4b63-babb-6e6b0da10669">Kruper et al. (2021)</a>
-      </div>
+  <div class="footer-content">
+    <div class="copyright">
+      Please Cite the following papers:
+    </div>
+    <div class="citation">
+      <a href="https://doi.org/10.1371/journal.pcbi.1013323">
+        Kruper et al. (2025)
+      </a><br>
+      <a href="https://doi.org/10.52294/e6198273-b8e3-4b63-babb-6e6b0da10669">
+        Kruper et al. (2021)
+      </a>
     </div>
   </div>
-  </div>
+</div></div>
       
     </div>
   

@@ -1,89 +1,34 @@
-:py:mod:`AFQ.recognition.preprocess`
-====================================
+AFQ.recognition.preprocess
+==========================
 
 .. py:module:: AFQ.recognition.preprocess
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   AFQ.recognition.preprocess.PreprocPlan
 
 
 Module Contents
 ---------------
 
+.. py:class:: PreprocPlan(tg)
 
-Functions
-~~~~~~~~~
-
-.. autoapisummary::
-
-   AFQ.recognition.preprocess.tolerance_mm_to_vox
-   AFQ.recognition.preprocess.fgarray
-   AFQ.recognition.preprocess.crosses
-   AFQ.recognition.preprocess.get_preproc_plan
+   .. py:attribute:: tg
 
 
-
-Attributes
-~~~~~~~~~~
-
-.. autoapisummary::
-
-   AFQ.recognition.preprocess.logger
+   .. py:property:: fgarray
 
 
-.. py:data:: logger
-
-   
-
-.. py:function:: tolerance_mm_to_vox(img, dist_to_waypoint, input_dist_to_atlas)
+   .. py:property:: crosses
 
 
-.. py:function:: fgarray(tg)
-
-   
-   Streamlines resampled to 20 points.
+   .. py:property:: lengths
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:function:: crosses(fgarray, img)
-
-   
-   Classify the streamlines by whether they cross the midline.
-   Creates a crosses attribute which is an array of booleans. Each boolean
-   corresponds to a streamline, and is whether or not that streamline
-   crosses the midline.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:function:: get_preproc_plan(img, tg, dist_to_waypoint, dist_to_atlas)
+   .. py:property:: endpoint_dists
 
 

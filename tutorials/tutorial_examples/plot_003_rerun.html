@@ -1,14 +1,14 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Re-running pyAFQ &#8212; AFQ 2.1 documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Re-running pyAFQ &#8212; AFQ 3.1 documentation</title>
   
   
   
@@ -16,75 +16,73 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
 
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=fd6457a4" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=c6496573" />
   
-  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
-  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/jquery.js"></script>
-    <script src="../../_static/underscore.js"></script>
-    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/sphinx_highlight.js"></script>
-    <script src="../../_static/design-tabs.js"></script>
+    <script src="../../_static/documentation_options.js?v=b576230a"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/sg-tags.js?v=d80f6fa4"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/tutorial_examples/plot_003_rerun';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Exporting pyAFQ Results" href="plot_004_export.html" />
     <link rel="prev" title="Getting started with pyAFQ - ParticipantAFQ" href="plot_002_participant_afq_api.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
   </head>
-  
-  
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
-
+  <body data-default-mode="">
   
   
   <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
-
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
   
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../search.html"
       method="get">
@@ -92,7 +90,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -100,15 +97,15 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
 
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
   <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
@@ -134,8 +131,8 @@
       
     
     
-    <img src="../../_static/logo.png" class="logo__image only-light" alt="AFQ 2.1 documentation - Home"/>
-    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.1 documentation - Home"/>`);</script>
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="AFQ 3.1 documentation - Home"/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="AFQ 3.1 documentation - Home"/>
   
   
 </a></div>
@@ -153,6 +150,20 @@
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="../../guides_index.html">
     User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="index.html">
+    Tutorials: Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../howto/howto_examples/index.html">
+    How to examples
   </a>
 </li>
 
@@ -188,29 +199,21 @@
         <div class="navbar-item navbar-persistent--container">
           
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
       
         <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -235,15 +238,11 @@ document.write(`
   
     <div class="navbar-persistent--mobile">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
@@ -262,7 +261,8 @@ document.write(`
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -280,6 +280,20 @@ document.write(`
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="../../guides_index.html">
     User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="index.html">
+    Tutorials: Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../howto/howto_examples/index.html">
+    How to examples
   </a>
 </li>
 
@@ -316,15 +330,11 @@ document.write(`
         
           <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
         
           <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -355,7 +365,6 @@ document.write(`
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -365,12 +374,13 @@ document.write(`
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
         <div class="sidebar-primary-item">
+
 <nav class="bd-docs-nav bd-links"
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html">Getting started with pyAFQ</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2 current active has-children"><a class="reference internal" href="index.html">Tutorials: getting started with the pyAFQ Python library</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="index.html">Tutorials: Getting started</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="plot_001_group_afq_api.html">Getting started with pyAFQ - GroupAFQ</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plot_002_participant_afq_api.html">Getting started with pyAFQ - ParticipantAFQ</a></li>
 <li class="toctree-l3 current active"><a class="current reference internal" href="#">Re-running pyAFQ</a></li>
@@ -400,16 +410,18 @@ document.write(`
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../howto/howto_examples/index.html">How to examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/acoustic_radiations.html">How to add new bundles into pyAFQ (Acoustic Radiations Example)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/add_custom_bundle.html">How to add new bundles into pyAFQ (SLF 1/2/3 Example)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/afq_callosal.html">Callosal bundles using AFQ API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/afq_fwdti.html">How to use Free water DTI</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/baby_afq.html">BabyAFQ : tractometry for infant dMRI data</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/cerebellar_peduncles.html">Delineating cerebellar peduncles</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/cloudknot_example.html">Using cloudknot to run pyAFQ on AWS batch:</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/cloudknot_hcp_example.html">AFQ with HCP data</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/optic_radiations.html">How to add new bundles into pyAFQ(Optic Radiations Example)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/plot_afq_callosal.html">Callosal bundles using AFQ API</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/plot_recobundles.html">Using RecoBundles for bundle recognition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/optic_tract.html">How to track the Optic Tract and Posterior Optic Nerve in pyAFQ</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/plot_stages_of_tractometry.html">Understanding the different stages of tractometry with videos</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/run_afq_fwdti.html">How to use Free water DTI</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/run_pyAFQ_with_GPU.html">Running pyAFQ using the GPU for tractography</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/pyAFQ_with_GPU.html">Running pyAFQ using the GPU for tractography</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/pyafq_2.html">Running pyAFQ 2.x defaults in pyAFQ 3.x</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/recobundles.html">Using RecoBundles for bundle recognition</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/use_subject_space_rois_from_freesurfer.html">Using Subject Space ROIs from Freesurfer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/vof_example.html">How to segment out only some bundles</a></li>
 </ul>
@@ -417,27 +429,28 @@ document.write(`
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../explanations/index.html">Explanations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../explanations/tractometry_pipeline.html">AFQ Tractometry Pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../explanations/bundle_orientation.html">Bundle Orientation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../explanations/modeling.html">Modeling White Matter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../explanations/profiling.html">Profiling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../explanations/recognition.html">Bundle Recognition</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../explanations/tractography.html">Tractography</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../explanations/whats_new_3.html">What’s new in PyAFQ 3.0</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../reference/index.html">Reference Documentation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../reference/api/index.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../../reference/api/AFQ/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ</span></code></a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/api/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.api</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/data/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.data</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/definitions/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.definitions</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/models/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.models</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/recognition/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.recognition</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/tasks/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.tasks</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/tractography/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.tractography</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.utils</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/viz/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.viz</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/registration/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.registration</span></code></a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../reference/api/AFQ/index.html">AFQ</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/api/index.html">AFQ.api</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/data/index.html">AFQ.data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/definitions/index.html">AFQ.definitions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/models/index.html">AFQ.models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/nn/index.html">AFQ.nn</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/recognition/index.html">AFQ.recognition</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/registration/index.html">AFQ.registration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/tasks/index.html">AFQ.tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/tractography/index.html">AFQ.tractography</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/utils/index.html">AFQ.utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/viz/index.html">AFQ.viz</a></li>
 </ul>
 </details></li>
 </ul>
@@ -446,6 +459,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../../reference/fibertracts.html">Major Fiber Tracts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../reference/tissue_properties.html">Tissue Properties in pyAFQ</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../reference/methods.html">The pyAFQ API methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../reference/kwargs.html">The pyAFQ API optional arguments</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../reference/viz_backend.html">Visualization Backends</a></li>
 
 <li class="toctree-l2"><a class="reference internal" href="../../reference/mapping.html">The pyAFQ Mapping API</a></li>
@@ -459,9 +473,14 @@ document.write(`
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -479,10 +498,6 @@ document.write(`
       
         <div class="header-article-item">
 
-
-
-
-
 <nav aria-label="Breadcrumb" class="d-print-none">
   <ul class="bd-breadcrumbs">
     
@@ -495,12 +510,12 @@ document.write(`
     <li class="breadcrumb-item"><a href="../../guides_index.html" class="nav-link">User Guide</a></li>
     
     
-    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Getting started with pyAFQ</a></li>
     
     
-    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Tutorials: getting started with the pyAFQ Python library</a></li>
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Tutorials: Getting started</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">Re-running pyAFQ</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Re-running pyAFQ</span></li>
   </ul>
 </nav>
 </div>
@@ -517,13 +532,8 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <div class="sphx-glr-download-link-note admonition note">
-<p class="admonition-title">Note</p>
-<p><a class="reference internal" href="#sphx-glr-download-tutorials-tutorial-examples-plot-003-rerun-py"><span class="std std-ref">Go to the end</span></a>
-to download the full example code.</p>
-</div>
-<div class="sphx-glr-example-title section" id="re-running-pyafq">
-<span id="sphx-glr-tutorials-tutorial-examples-plot-003-rerun-py"></span><h1>Re-running pyAFQ<a class="headerlink" href="#re-running-pyafq" title="Permalink to this heading">#</a></h1>
+  <section id="re-running-pyafq">
+<h1>Re-running pyAFQ<a class="headerlink" href="#re-running-pyafq" title="Link to this heading">#</a></h1>
 <p>Sometimes you want to change arguments and re-run pyAFQ. This could be to
 try different parameters, to run on changed data, or re-run after updating
 parameters due to an error.</p>
@@ -533,29 +543,50 @@ old parameters.</p>
 <p>To solve this, use the myafq.clobber() or myafq.cmd_outputs() methods. They
 are the same methods. They will delete previous derivatives so you can
 re-run your pipeline.</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.api.group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GroupAFQ</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.api.group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GroupAFQ</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">AFQ.data.fetch</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">afd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">AFQ.definitions.image</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">afm</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">op</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-05-19 01:04:56,539	INFO util.py:154 -- Missing packages: [&#39;ipywidgets&#39;]. Run `pip install -U ipywidgets`, then restart the notebook server for rich notebook output.
+</pre></div>
+</div>
+</div>
+</div>
 <p>We start with some example data. The data we will use here is
-generated from the
-<a class="reference external" href="https://purl.stanford.edu/ng782rw8378">Stanford HARDI dataset</a>.
+generated from HBN
 We then setup our myafq object which we will use to demonstrate
 the clobber method.</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">afd</span><span class="o">.</span><span class="n">organize_stanford_data</span><span class="p">()</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">afd</span><span class="o">.</span><span class="n">fetch_hbn_preproc</span><span class="p">([</span><span class="s2">&quot;NDARAA948VFH&quot;</span><span class="p">])</span>
 
-<a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tracking_params</span></a> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">n_seeds</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+<span class="n">tracking_params</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">n_seeds</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
                        <span class="n">random_seeds</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                        <span class="n">rng_seed</span><span class="o">=</span><span class="mi">2022</span><span class="p">,</span>
-                       <span class="n">trx</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                       <span class="n">num_chunks</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                       <span class="n">trx</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">pve</span> <span class="o">=</span> <span class="n">afm</span><span class="o">.</span><span class="n">PVEImages</span><span class="p">(</span>
+    <span class="n">afm</span><span class="o">.</span><span class="n">ImageFile</span><span class="p">(</span>
+        <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;probseg&quot;</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;scope&quot;</span><span class="p">:</span> <span class="s2">&quot;qsiprep&quot;</span><span class="p">,</span> <span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="s2">&quot;CSF&quot;</span><span class="p">}),</span>
+    <span class="n">afm</span><span class="o">.</span><span class="n">ImageFile</span><span class="p">(</span>
+        <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;probseg&quot;</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;scope&quot;</span><span class="p">:</span> <span class="s2">&quot;qsiprep&quot;</span><span class="p">,</span> <span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="s2">&quot;GM&quot;</span><span class="p">}),</span>
+    <span class="n">afm</span><span class="o">.</span><span class="n">ImageFile</span><span class="p">(</span>
+        <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;probseg&quot;</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;scope&quot;</span><span class="p">:</span> <span class="s2">&quot;qsiprep&quot;</span><span class="p">,</span> <span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="s2">&quot;WM&quot;</span><span class="p">}))</span>
 
 <span class="n">myafq</span> <span class="o">=</span> <span class="n">GroupAFQ</span><span class="p">(</span>
-    <span class="n">bids_path</span><span class="o">=</span><a href="https://docs.python.org/3/library/os.path.html#os.path.join" title="os.path.join" class="sphx-glr-backref-module-os-path sphx-glr-backref-type-py-function"><span class="n">op</span><span class="o">.</span><span class="n">join</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">afd</span><span class="o">.</span><span class="n">afq_home</span></a><span class="p">,</span> <span class="s1">&#39;stanford_hardi&#39;</span><span class="p">),</span>
-    <span class="n">preproc_pipeline</span><span class="o">=</span><span class="s1">&#39;vistasoft&#39;</span><span class="p">,</span>
-    <a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tracking_params</span></a><span class="o">=</span><a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tracking_params</span></a><span class="p">)</span>
+    <span class="n">bids_path</span><span class="o">=</span><a href="https://docs.python.org/3/library/os.path.html#os.path.join" title="os.path.join" class="sphx-glr-backref-module-os-path sphx-glr-backref-type-py-function"><span class="n">op</span><span class="o">.</span><span class="n">join</span></a><span class="p">(</span><span class="n">afd</span><span class="o">.</span><span class="n">afq_home</span><span class="p">,</span> <span class="s1">&#39;HBN&#39;</span><span class="p">),</span>
+    <span class="n">dwi_preproc_pipeline</span><span class="o">=</span><span class="s1">&#39;qsiprep&#39;</span><span class="p">,</span>
+    <span class="n">t1_preproc_pipeline</span><span class="o">=</span><span class="s1">&#39;qsiprep&#39;</span><span class="p">,</span>
+    <span class="n">participant_labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;NDARAA948VFH&#39;</span><span class="p">],</span>
+    <span class="n">pve</span><span class="o">=</span><span class="n">pve</span><span class="p">,</span>
+    <span class="n">tracking_params</span><span class="o">=</span><span class="n">tracking_params</span><span class="p">)</span>
 
 <span class="c1">###################</span>
 <span class="c1"># Delete Everything</span>
@@ -578,54 +609,104 @@ the clobber method.</p>
 <span class="n">myafq</span><span class="o">.</span><span class="n">cmd_outputs</span><span class="p">()</span>
 
 <span class="n">myafq</span> <span class="o">=</span> <span class="n">GroupAFQ</span><span class="p">(</span>
-    <span class="n">bids_path</span><span class="o">=</span><a href="https://docs.python.org/3/library/os.path.html#os.path.join" title="os.path.join" class="sphx-glr-backref-module-os-path sphx-glr-backref-type-py-function"><span class="n">op</span><span class="o">.</span><span class="n">join</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">afd</span><span class="o">.</span><span class="n">afq_home</span></a><span class="p">,</span> <span class="s1">&#39;stanford_hardi&#39;</span><span class="p">),</span>
-    <span class="n">preproc_pipeline</span><span class="o">=</span><span class="s1">&#39;vistasoft&#39;</span><span class="p">,</span>
+    <span class="n">bids_path</span><span class="o">=</span><a href="https://docs.python.org/3/library/os.path.html#os.path.join" title="os.path.join" class="sphx-glr-backref-module-os-path sphx-glr-backref-type-py-function"><span class="n">op</span><span class="o">.</span><span class="n">join</span></a><span class="p">(</span><span class="n">afd</span><span class="o">.</span><span class="n">afq_home</span><span class="p">,</span> <span class="s1">&#39;HBN&#39;</span><span class="p">),</span>
+    <span class="n">dwi_preproc_pipeline</span><span class="o">=</span><span class="s1">&#39;qsiprep&#39;</span><span class="p">,</span>
+    <span class="n">t1_preproc_pipeline</span><span class="o">=</span><span class="s1">&#39;qsiprep&#39;</span><span class="p">,</span>
+    <span class="n">participant_labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;NDARAA948VFH&#39;</span><span class="p">],</span>
     <span class="n">b0_threshold</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-    <a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tracking_params</span></a><span class="o">=</span><a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tracking_params</span></a><span class="p">)</span>
+    <span class="n">tracking_params</span><span class="o">=</span><span class="n">tracking_params</span><span class="p">,</span>
+    <span class="n">pve</span><span class="o">=</span><span class="n">pve</span><span class="p">)</span>
 
 <span class="n">myafq</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;b0&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>{&#39;01&#39;: &#39;/home/runner/AFQ_data/stanford_hardi/derivatives/afq/sub-01/ses-01/dwi/sub-01_ses-01_b0ref.nii.gz&#39;}
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:bidsschematools:No schema path specified, defaulting to the bundled schema, `/opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/bidsschematools/data/schema.json`.
 </pre></div>
 </div>
-<div class="section" id="delete-some-things">
-<h2>Delete Some Things<a class="headerlink" href="#delete-some-things" title="Permalink to this heading">#</a></h2>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:Using the following files for subject NDARAA948VFH and session HBNsiteRU:
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:  DWI: /home/runner/AFQ_data/HBN/derivatives/qsiprep/sub-NDARAA948VFH/ses-HBNsiteRU/dwi/sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi.nii.gz
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:  BVAL: /home/runner/AFQ_data/HBN/derivatives/qsiprep/sub-NDARAA948VFH/ses-HBNsiteRU/dwi/sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi.bval
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:  BVEC: /home/runner/AFQ_data/HBN/derivatives/qsiprep/sub-NDARAA948VFH/ses-HBNsiteRU/dwi/sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi.bvec
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:  T1: /home/runner/AFQ_data/HBN/derivatives/qsiprep/sub-NDARAA948VFH/anat/sub-NDARAA948VFH_desc-preproc_T1w.nii.gz
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:Using the following files for subject NDARAA948VFH and session HBNsiteRU:
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:  DWI: /home/runner/AFQ_data/HBN/derivatives/qsiprep/sub-NDARAA948VFH/ses-HBNsiteRU/dwi/sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi.nii.gz
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:  BVAL: /home/runner/AFQ_data/HBN/derivatives/qsiprep/sub-NDARAA948VFH/ses-HBNsiteRU/dwi/sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi.bval
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:  BVEC: /home/runner/AFQ_data/HBN/derivatives/qsiprep/sub-NDARAA948VFH/ses-HBNsiteRU/dwi/sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi.bvec
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:  T1: /home/runner/AFQ_data/HBN/derivatives/qsiprep/sub-NDARAA948VFH/anat/sub-NDARAA948VFH_desc-preproc_T1w.nii.gz
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:Calculating _b0ref.nii.gz...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:_b0ref.nii.gz completed. Saving to /home/runner/AFQ_data/HBN/derivatives/afq/sub-NDARAA948VFH/ses-HBNsiteRU/dwi/sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_b0ref.nii.gz
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;NDARAA948VFH&#39;: &#39;/home/runner/AFQ_data/HBN/derivatives/afq/sub-NDARAA948VFH/ses-HBNsiteRU/dwi/sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_b0ref.nii.gz&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+<section id="delete-some-things">
+<h2>Delete Some Things<a class="headerlink" href="#delete-some-things" title="Link to this heading">#</a></h2>
 <p>To delete only specific types of derivatives while preserving others,
-use the <code class="docutils literal notranslate"><span class="pre">dependent_on</span></code> parameter:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Delete only tractography-dependent files</span>
-<span class="n">myafq</span><span class="o">.</span><span class="n">cmd_outputs</span><span class="p">(</span><span class="n">dependent_on</span><span class="o">=</span><span class="s2">&quot;track&quot;</span><span class="p">)</span>
+use the <code class="docutils literal notranslate"><span class="pre">dependent_on</span></code> parameter::</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Delete only tractography-dependent files
+myafq.cmd_outputs(dependent_on=&quot;track&quot;)
 
-<span class="c1"># Delete only bundle recognition-dependent files</span>
-<span class="n">myafq</span><span class="o">.</span><span class="n">cmd_outputs</span><span class="p">(</span><span class="n">dependent_on</span><span class="o">=</span><span class="s2">&quot;recog&quot;</span><span class="p">)</span>
+# Delete only bundle recognition-dependent files
+myafq.cmd_outputs(dependent_on=&quot;recog&quot;)
 
-<span class="c1"># Delete only profiling-dependent files</span>
-<span class="n">myafq</span><span class="o">.</span><span class="n">cmd_outputs</span><span class="p">(</span><span class="n">dependent_on</span><span class="o">=</span><span class="s2">&quot;prof&quot;</span><span class="p">)</span>
+# Delete only profiling-dependent files
+myafq.cmd_outputs(dependent_on=&quot;prof&quot;)
 </pre></div>
 </div>
-<p>You can also specify exceptions - files to preserve:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Delete all outputs except the tractography</span>
-<span class="n">myafq</span><span class="o">.</span><span class="n">cmd_outputs</span><span class="p">(</span><span class="n">exceptions</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;streamlines&quot;</span><span class="p">])</span>
+<p>You can also specify exceptions - files to preserve::</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Delete all outputs except the tractography
+myafq.cmd_outputs(exceptions=[&quot;streamlines&quot;])
 </pre></div>
 </div>
 <p>Here, we will change the tractography parameters, but we want to keep all
 derivatives not dependent on tractography. Typically, this means keeping
 The mapping from MNI space and fitted models, but deleting recognized
 bundles and tract profiles.</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">myafq</span><span class="o">.</span><span class="n">clobber</span><span class="p">(</span><span class="n">dependent_on</span><span class="o">=</span><span class="s2">&quot;track&quot;</span><span class="p">)</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">myafq</span><span class="o">.</span><span class="n">clobber</span><span class="p">(</span><span class="n">dependent_on</span><span class="o">=</span><span class="s2">&quot;track&quot;</span><span class="p">)</span>
 
-<a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tracking_params</span></a> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">n_seeds</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+<span class="n">tracking_params</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">n_seeds</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
                        <span class="n">random_seeds</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                        <span class="n">max_angle</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span>
                        <span class="n">rng_seed</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
-                       <span class="n">trx</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                       <span class="n">num_chunks</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                       <span class="n">trx</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="n">myafq</span> <span class="o">=</span> <span class="n">GroupAFQ</span><span class="p">(</span>
-    <span class="n">bids_path</span><span class="o">=</span><a href="https://docs.python.org/3/library/os.path.html#os.path.join" title="os.path.join" class="sphx-glr-backref-module-os-path sphx-glr-backref-type-py-function"><span class="n">op</span><span class="o">.</span><span class="n">join</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">afd</span><span class="o">.</span><span class="n">afq_home</span></a><span class="p">,</span> <span class="s1">&#39;stanford_hardi&#39;</span><span class="p">),</span>
-    <span class="n">preproc_pipeline</span><span class="o">=</span><span class="s1">&#39;vistasoft&#39;</span><span class="p">,</span>
+    <span class="n">bids_path</span><span class="o">=</span><a href="https://docs.python.org/3/library/os.path.html#os.path.join" title="os.path.join" class="sphx-glr-backref-module-os-path sphx-glr-backref-type-py-function"><span class="n">op</span><span class="o">.</span><span class="n">join</span></a><span class="p">(</span><span class="n">afd</span><span class="o">.</span><span class="n">afq_home</span><span class="p">,</span> <span class="s1">&#39;HBN&#39;</span><span class="p">),</span>
+    <span class="n">dwi_preproc_pipeline</span><span class="o">=</span><span class="s1">&#39;qsiprep&#39;</span><span class="p">,</span>
+    <span class="n">t1_preproc_pipeline</span><span class="o">=</span><span class="s1">&#39;qsiprep&#39;</span><span class="p">,</span>
+    <span class="n">participant_labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;NDARAA948VFH&#39;</span><span class="p">],</span>
     <span class="n">b0_threshold</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-    <a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tracking_params</span></a><span class="o">=</span><a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tracking_params</span></a><span class="p">)</span>
+    <span class="n">tracking_params</span><span class="o">=</span><span class="n">tracking_params</span><span class="p">,</span>
+    <span class="n">pve</span><span class="o">=</span><span class="n">pve</span><span class="p">)</span>
 
 <span class="n">myafq</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;streamlines&quot;</span><span class="p">)</span>
 
@@ -645,11 +726,11 @@ bundles and tract profiles.</p>
 <span class="c1">#       for &quot;cp&quot; and &quot;rm&quot; operations.</span>
 
 <span class="c1"># Create backup directory</span>
-<a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">backup_dir</span></a> <span class="o">=</span> <a href="https://docs.python.org/3/library/os.path.html#os.path.join" title="os.path.join" class="sphx-glr-backref-module-os-path sphx-glr-backref-type-py-function"><span class="n">op</span><span class="o">.</span><span class="n">join</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">afd</span><span class="o">.</span><span class="n">afq_home</span></a><span class="p">,</span> <span class="s2">&quot;stanford_hardi_backup&quot;</span><span class="p">)</span>
-<a href="https://docs.python.org/3/library/os.html#os.makedirs" title="os.makedirs" class="sphx-glr-backref-module-os sphx-glr-backref-type-py-function"><span class="n">os</span><span class="o">.</span><span class="n">makedirs</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">backup_dir</span></a><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">backup_dir</span> <span class="o">=</span> <a href="https://docs.python.org/3/library/os.path.html#os.path.join" title="os.path.join" class="sphx-glr-backref-module-os-path sphx-glr-backref-type-py-function"><span class="n">op</span><span class="o">.</span><span class="n">join</span></a><span class="p">(</span><span class="n">afd</span><span class="o">.</span><span class="n">afq_home</span><span class="p">,</span> <span class="s2">&quot;HBN_backup&quot;</span><span class="p">)</span>
+<a href="https://docs.python.org/3/library/os.html#os.makedirs" title="os.makedirs" class="sphx-glr-backref-module-os sphx-glr-backref-type-py-function"><span class="n">os</span><span class="o">.</span><span class="n">makedirs</span></a><span class="p">(</span><span class="n">backup_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="c1"># Move the outupts of AFQ to this directory</span>
-<span class="n">myafq</span><span class="o">.</span><span class="n">cmd_outputs</span><span class="p">(</span><span class="n">cmd</span><span class="o">=</span><span class="s2">&quot;mv&quot;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">backup_dir</span></a><span class="p">)</span>
+<span class="n">myafq</span><span class="o">.</span><span class="n">cmd_outputs</span><span class="p">(</span><span class="n">cmd</span><span class="o">=</span><span class="s2">&quot;mv&quot;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="n">backup_dir</span><span class="p">)</span>
 
 <span class="c1">##############</span>
 <span class="c1"># How It Works</span>
@@ -664,41 +745,76 @@ bundles and tract profiles.</p>
 <span class="c1"># We plan to automate this process in the future.</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>(TractActor pid=5540)
-0it [00:00, ?it/s]
-(TractActor pid=5541)
-1it [00:00,  1.27it/s]
-(TractActor pid=5540)
-1it [00:02,  2.46s/it]
-(TractActor pid=5527)
-15it [00:00, 148.95it/s]
-(TractActor pid=5541)
-17it [00:00, 25.61it/s]
-(TractActor pid=5540)
-19it [00:02, 10.27it/s]
-28it [00:02, 10.74it/s]
-(TractActor pid=5527)
-28it [00:00, 137.17it/s]
-(TractActor pid=5541)
-28it [00:00, 28.43it/s]
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:Using the following files for subject NDARAA948VFH and session HBNsiteRU:
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (1 minutes 42.065 seconds)</p>
-<p><strong>Estimated memory usage:</strong>  662 MB</p>
-<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-tutorials-tutorial-examples-plot-003-rerun-py">
-<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
-<p><a class="reference download internal" download="" href="../../_downloads/c064ab36d83f0073f671721019c1c158/plot_003_rerun.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_003_rerun.ipynb</span></code></a></p>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:  DWI: /home/runner/AFQ_data/HBN/derivatives/qsiprep/sub-NDARAA948VFH/ses-HBNsiteRU/dwi/sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi.nii.gz
+</pre></div>
 </div>
-<div class="sphx-glr-download sphx-glr-download-python docutils container">
-<p><a class="reference download internal" download="" href="../../_downloads/81e4d5da5ce476bc290e8b79237984a5/plot_003_rerun.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_003_rerun.py</span></code></a></p>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:  BVAL: /home/runner/AFQ_data/HBN/derivatives/qsiprep/sub-NDARAA948VFH/ses-HBNsiteRU/dwi/sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi.bval
+</pre></div>
 </div>
-<div class="sphx-glr-download sphx-glr-download-zip docutils container">
-<p><a class="reference download internal" download="" href="../../_downloads/9a44617968a8782894f9028d868281ff/plot_003_rerun.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">plot_003_rerun.zip</span></code></a></p>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:  BVEC: /home/runner/AFQ_data/HBN/derivatives/qsiprep/sub-NDARAA948VFH/ses-HBNsiteRU/dwi/sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi.bvec
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:  T1: /home/runner/AFQ_data/HBN/derivatives/qsiprep/sub-NDARAA948VFH/anat/sub-NDARAA948VFH_desc-preproc_T1w.nii.gz
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:Calculating _desc-seed_mask.nii.gz...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:Calculating _desc-csf_probseg.nii.gz...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:_desc-csf_probseg.nii.gz completed. Saving to /home/runner/AFQ_data/HBN/derivatives/afq/sub-NDARAA948VFH/ses-HBNsiteRU/dwi/models/sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_desc-csf_probseg.nii.gz
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:Calculating _desc-gm_probseg.nii.gz...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:_desc-gm_probseg.nii.gz completed. Saving to /home/runner/AFQ_data/HBN/derivatives/afq/sub-NDARAA948VFH/ses-HBNsiteRU/dwi/models/sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_desc-gm_probseg.nii.gz
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:Calculating _desc-wm_probseg.nii.gz...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:_desc-wm_probseg.nii.gz completed. Saving to /home/runner/AFQ_data/HBN/derivatives/afq/sub-NDARAA948VFH/ses-HBNsiteRU/dwi/models/sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_desc-wm_probseg.nii.gz
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:Calculating _desc-pve_probseg.nii.gz...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:_desc-pve_probseg.nii.gz completed. Saving to /home/runner/AFQ_data/HBN/derivatives/afq/sub-NDARAA948VFH/ses-HBNsiteRU/dwi/sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_desc-pve_probseg.nii.gz
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:Calculating _desc-wmgmi_mask.nii.gz...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:_desc-wmgmi_mask.nii.gz completed. Saving to /home/runner/AFQ_data/HBN/derivatives/afq/sub-NDARAA948VFH/ses-HBNsiteRU/dwi/sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_desc-wmgmi_mask.nii.gz
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:_desc-seed_mask.nii.gz completed. Saving to /home/runner/AFQ_data/HBN/derivatives/afq/sub-NDARAA948VFH/ses-HBNsiteRU/dwi/tractography/sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_desc-seed_mask.nii.gz
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:Calculating _tractography...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:Calculating _desc-brain_mask.nii.gz...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-05-19 01:05:16.013155413 [W:onnxruntime:Default, device_discovery.cc:133 GetPciBusId] Skipping pci_bus_id for PCI path at &quot;/sys/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0004:00/MSFT1000:00/5620e0c7-8062-4dce-aeb7-520c7ef76171&quot; because filename &quot;5620e0c7-8062-4dce-aeb7-520c7ef76171&quot; did not match expected pattern of [0-9a-f]+:[0-9a-f]+:[0-9a-f]+[.][0-9a-f]+
+INFO:AFQ:Calculating _desc-T1w_mask.nii.gz...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:Running mindgrab...
+</pre></div>
 </div>
 </div>
-<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
 </div>
-</div>
+</section>
+</section>
 
 
                 </article>
@@ -735,7 +851,8 @@ bundles and tract profiles.</p>
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
   <div class="sidebar-secondary-item">
@@ -744,8 +861,8 @@ bundles and tract profiles.</p>
     class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> On this page
   </div>
-  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
-    <ul class="visible nav section-nav flex-column">
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#delete-some-things">Delete Some Things</a></li>
 </ul>
   </nav></div>
@@ -754,7 +871,7 @@ bundles and tract profiles.</p>
 
   
   <div class="tocsection editthispage">
-    <a href="https://github.com/tractometry/pyAFQ/edit/master/docs/source/tutorials/tutorial_examples/plot_003_rerun.rst">
+    <a href="https://github.com/tractometry/pyAFQ/edit/master/docs/source/tutorials/tutorial_examples/plot_003_rerun.ipynb">
       <i class="fa-solid fa-pencil"></i>
       
       
@@ -769,7 +886,7 @@ bundles and tract profiles.</p>
   <div class="sidebar-secondary-item">
 
   <div class="tocsection sourcelink">
-    <a href="../../_sources/tutorials/tutorial_examples/plot_003_rerun.rst.txt">
+    <a href="../../_sources/tutorials/tutorial_examples/plot_003_rerun.ipynb.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>
@@ -788,8 +905,8 @@ bundles and tract profiles.</p>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
 
 
   <footer class="bd-footer">
@@ -810,7 +927,7 @@ bundles and tract profiles.</p>
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
     <br/>
   </p>
 </div>
@@ -822,16 +939,20 @@ bundles and tract profiles.</p>
     <div class="footer-items__end">
       
         <div class="footer-item"><div class="footer">
-    <div class="footer-content">
-      <div class="copyright">
-        Please Cite the following paper:
-      </div>
-      <div class="citation">
-        <a href="https://doi.org/10.52294/e6198273-b8e3-4b63-babb-6e6b0da10669">Kruper et al. (2021)</a>
-      </div>
+  <div class="footer-content">
+    <div class="copyright">
+      Please Cite the following papers:
+    </div>
+    <div class="citation">
+      <a href="https://doi.org/10.1371/journal.pcbi.1013323">
+        Kruper et al. (2025)
+      </a><br>
+      <a href="https://doi.org/10.52294/e6198273-b8e3-4b63-babb-6e6b0da10669">
+        Kruper et al. (2021)
+      </a>
     </div>
   </div>
-  </div>
+</div></div>
       
     </div>
   

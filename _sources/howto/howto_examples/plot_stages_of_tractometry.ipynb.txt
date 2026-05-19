@@ -1,0 +1,266 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "\n# Understanding the different stages of tractometry with videos\n\nTwo-dimensional figures of anatomical data are somewhat limited, because of the\ncomplex three-dimensional configuration of the brain. Therefored, dynamic\nvideos of anatomical data are useful for exploring the data, as well as for\ncreating dynamic presentations of the results. This example visualizes various\nstages of tractometry, from preprocessed diffusion data to the final tract\nprofiles. We will use the [Fury](https://fury.gl/) software library to\nvisualize individual frames of the results of each stage, and then create\nvideos of each stage of the process using the Python Image Library (PIL, also\nknown as pillow).\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Imports\n\n\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "collapsed": false
+      },
+      "outputs": [],
+      "source": [
+        "import os.path as op\nimport nibabel as nib\nimport numpy as np\nfrom math import radians\n\nfrom dipy.io.streamline import load_trk\nfrom dipy.tracking.streamline import (transform_streamlines,\n                                      set_number_of_points,\n                                      values_from_volume)\nfrom dipy.core.gradients import gradient_table\nfrom dipy.align import resample\nfrom dipy.stats.analysis import afq_profile\n\nfrom fury import actor, window\nfrom fury.colormap import create_colormap\nfrom matplotlib.cm import tab20\n\nimport AFQ.data.fetch as afd\nfrom AFQ.viz.utils import gen_color_dict\nfrom AFQ._fixes import make_gif"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Get data from HBN POD2\nWe get the same data that is used in the visualization tutorials.\n\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "collapsed": false
+      },
+      "outputs": [],
+      "source": [
+        "afd.fetch_hbn_preproc([\"NDARAA948VFH\"])\nstudy_path = afd.fetch_hbn_afq([\"NDARAA948VFH\"])[1]"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Visualize the processed dMRI data\nThe HBN POD2 dataset was processed using the ``qsiprep`` pipeline. The\nresults from this processing are stored within a sub-folder of the\nderivatives folder within the study folder.\nHere, we will start by visualizing the diffusion data. We read in the\ndiffusion data, as well as the gradient table, using the `nibabel` library.\nWe then extract the b0, b1000, and b2000 volumes from the diffusion data.\nWe will use the `actor.data_slicer` function from `fury` to visualize these. This\nfunction takes a 3D volume as input and returns a `slicer` actor, which can\nthen be added to a `window.Scene` object. We create a helper function that\nwill create a slicer actor for a given volume and a given slice along the x,\ny, or z dimension. We then call this function three times, once for each of\nthe b0, b1000, and b2000 volumes, and add the resulting slicer actors to a\nscene. We set the camera on the scene to a view that we like, and then we\nrecord the scene into png files and subsequently gif animations. We do this\nfor each of the three volumes.\n\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "collapsed": false
+      },
+      "outputs": [],
+      "source": [
+        "deriv_path = op.join(\n    study_path, \"derivatives\")\n\nqsiprep_path = op.join(\n    deriv_path,\n    'qsiprep',\n    'sub-NDARAA948VFH',\n    'ses-HBNsiteRU')\n\ndmri_img = nib.load(op.join(\n    qsiprep_path,\n    'dwi',\n    'sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi.nii.gz'))\n\ngtab = gradient_table(\n    bvecs=op.join(qsiprep_path, \"dwi\",\n                  \"sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi.bvec\"),\n    bvals=op.join(qsiprep_path, \"dwi\",\n                  \"sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi.bval\"))\n\ndmri_data = dmri_img.get_fdata()\n\ndmri_b0 = dmri_data[..., 0]\ndmri_b1000 = dmri_data[..., 1]\ndmri_b2000 = dmri_data[..., 65]\n\n\ndef slice_volume(data, x=None, y=None, z=None):\n    if x is None:\n        x = data.shape[0] // 2\n    if y is None:\n        y = data.shape[1] // 2\n    if z is None:\n        z = data.shape[2] // 2\n    slicer_actor = actor.data_slicer(\n        data,\n        initial_slices=(x, y, z))\n    return slicer_actor\n\n\nslicer_b0 = slice_volume(\n    dmri_b0,\n    z=dmri_b0.shape[-1] // 3)\nslicer_b1000 = slice_volume(\n    dmri_b1000,\n    z=dmri_b1000.shape[-1] // 3)\nslicer_b2000 = slice_volume(\n    dmri_b2000,\n    z=dmri_b2000.shape[-1] // 3)\n\nfor bval, slicer in zip([0, 1000, 2000],\n                         [slicer_b0, slicer_b1000, slicer_b2000]):\n    scene = window.Scene()\n    scene.add(slicer)\n    scene.background = (1, 1, 1)\n\n    show_m = window.ShowManager(\n        scene=scene, window_type=\"offscreen\",\n        size=(2400, 2400)\n    )\n    window.update_camera(show_m.screens[0].camera, None, slicer)\n    show_m.screens[0].controller.rotate((0, radians(-90)), None)\n    make_gif(show_m, f'b{bval}.gif')"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Visualizing whole-brain tractography\nOne of the first steps of the pyAFQ pipeline is to generate whole-brain\ntractography. We will visualize the results of this step. We start by reading\nin the FA image, which is used as a reference for the tractography. We then\nload the whole brain tractography, and transform the coordinates of the\nstreamlines into the coordinate frame of the T1-weighted data.\n\nIf you are interested in learning more about the different steps of the\ntractometry pipeline, you can reference DIPY examples. Here are some\nrelevant links:\n\nFor an example of fitting FA, see:\nhttps://docs.dipy.org/1.11.0/examples_built/reconstruction/reconst_dti.html\nFor an example of running tractography, see:\nhttps://docs.dipy.org/1.11.0/examples_built/fiber_tracking/tracking_probabilistic.html\n\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "collapsed": false
+      },
+      "outputs": [],
+      "source": [
+        "afq_path = op.join(\n    deriv_path,\n    'afq',\n    'sub-NDARAA948VFH',\n    'ses-HBNsiteRU')\n\nfa_img = nib.load(op.join(afq_path,\n                          'sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi_model-DKI_FA.nii.gz'))\n\n\nsft_whole_brain = load_trk(op.join(afq_path,\n                                   'sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi_space-RASMM_model-CSD_desc-prob-afq_tractography.trk'), fa_img)\n\n\nt1w_img = nib.load(op.join(deriv_path,\n                           'qsiprep/sub-NDARAA948VFH/anat/sub-NDARAA948VFH_desc-preproc_T1w.nii.gz'))\nt1w = t1w_img.get_fdata()\nsft_whole_brain.to_rasmm()\nwhole_brain_t1w = transform_streamlines(\n    sft_whole_brain.streamlines,\n    np.linalg.inv(t1w_img.affine))"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Visualize the streamlines\nThe streamlines are visualized in the context of the T1-weighted data.\n\n\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "collapsed": false
+      },
+      "outputs": [],
+      "source": [
+        "whole_brain_actor = actor.streamlines(whole_brain_t1w, thickness=2)\nslicer = slice_volume(t1w, y=t1w.shape[1] // 2 - 5, z=t1w.shape[-1] // 3)\n\ndef rotate_to_anterior(show_m):\n    window.update_camera(show_m.screens[0].camera, None, slicer)\n    show_m.screens[0].controller.rotate((0, radians(-90)), None)\n\n\nscene = window.Scene()\n\nscene.add(whole_brain_actor)\nscene.add(slicer)\n\nscene.background = (1, 1, 1)\nshow_m = window.ShowManager(\n    scene=scene, window_type=\"offscreen\",\n    size=(2400, 2400)\n)\nrotate_to_anterior(show_m)\nmake_gif(show_m, \"whole_brain.gif\")"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Whole brain with waypoints\nWe can also generate a gif video with the whole brain tractography and the\nwaypoints that are used to define the bundles. We will use the same scene as\nbefore, but we will add the waypoints as contours to the scene.\n\nTo get these waypoints in subject space, we had to register to MNI.\nOnce again, there is a helpful DIPY example for details:\nhttps://docs.dipy.org/1.11.0/examples_built/registration/syn_registration_3d.html\n\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "collapsed": false
+      },
+      "outputs": [],
+      "source": [
+        "scene.clear()\nwhole_brain_actor = actor.streamlines(whole_brain_t1w, thickness=2)\n\nscene.add(whole_brain_actor)\nscene.add(slicer)\n\nscene.background = (1, 1, 1)\n\nwaypoint1 = nib.load(\n    op.join(\n        afq_path,\n        \"ROIs\", \"sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi_desc-ROI-ARC_L-1-include.nii.gz\"))\n\nwaypoint2 = nib.load(\n    op.join(\n        afq_path,\n        \"ROIs\", \"sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi_desc-ROI-ARC_L-2-include.nii.gz\"))\n\nwaypoint1_xform = resample(waypoint1, t1w_img)\nwaypoint2_xform = resample(waypoint2, t1w_img)\nwaypoint1_data = waypoint1_xform.get_fdata() > 0\nwaypoint2_data = waypoint2_xform.get_fdata() > 0\n\nsurface_color = tab20.colors[0]\n\nwaypoint1_actor = actor.contour_from_roi(waypoint1_data,\n                                         color=surface_color,\n                                         opacity=0.5)\n\nwaypoint2_actor = actor.contour_from_roi(waypoint2_data,\n                                         color=surface_color,\n                                         opacity=0.5)\n\nscene.add(waypoint1_actor)\nscene.add(waypoint2_actor)\n\nshow_m = window.ShowManager(\n    scene=scene, window_type=\"offscreen\",\n    size=(2400, 2400)\n)\nrotate_to_anterior(show_m)\nmake_gif(show_m, \"whole_brain_with_waypoints.gif\")\n\nbundle_path = op.join(afq_path,\n                      'bundles')"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Define the bundles\nThe bundles are defined by the waypoints that we just visualized. Here\nwe organize some names of bundles we want to visualize.\nIn current pyAFQ, only the formal names are used. But for this example,\nwe will use derivatives from previous versions of pyAFQ, where names\nwere abbreviated. We have standardized colors for each bundle,\nprovided by `gen_color_dict`, which we will use for visualization.\n\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "collapsed": false
+      },
+      "outputs": [],
+      "source": [
+        "bundles = [\n    \"ARC_R\",\n    \"ATR_R\",\n    \"CST_R\",\n    \"IFO_R\",\n    \"ILF_R\",\n    \"SLF_R\",\n    \"UNC_R\",\n    \"CGC_R\",\n    \"Orbital\", \"AntFrontal\", \"SupFrontal\", \"Motor\",\n    \"SupParietal\", \"PostParietal\", \"Temporal\", \"Occipital\",\n    \"CGC_L\",\n    \"UNC_L\",\n    \"SLF_L\",\n    \"ILF_L\",\n    \"IFO_L\",\n    \"CST_L\",\n    \"ATR_L\",\n    \"ARC_L\",\n]\n\nformal_bundles = [\n    \"Right Arcuate\",\n    \"Right Anterior Thalamic\",\n    \"Right Corticospinal\",\n    \"Right Inferior Fronto-Occipital\",\n    \"Right Inferior Longitudinal\",\n    \"Right Superior Longitudinal\",\n    \"Right Uncinate\",\n    \"Right Cingulum Cingulate\",\n    \"Callosum Orbital\",\n    \"Callosum Anterior Frontal\",\n    \"Callosum Superior Frontal\",\n    \"Callosum Motor\",\n    \"Callosum Superior Parietal\",\n    \"Callosum Posterior Parietal\",\n    \"Callosum Temporal\",\n    \"Callosum Occipital\",\n    \"Left Cingulum Cingulate\",\n    \"Left Uncinate\",\n    \"Left Superior Longitudinal\",\n    \"Left Inferior Longitudinal\",\n    \"Left Inferior Fronto-Occipital\",\n    \"Left Corticospinal\",\n    \"Left Anterior Thalamic\",\n    \"Left Arcuate\",\n]\n\ncolor_dict = gen_color_dict(formal_bundles)"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Visualize the arcuate bundle\nNow visualize only the arcuate bundle that is selected with these waypoints.\n\n\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "collapsed": false
+      },
+      "outputs": [],
+      "source": [
+        "fa_img = nib.load(op.join(afq_path,\n                          'sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi_model-DKI_FA.nii.gz'))\nfa = fa_img.get_fdata()\nsft_arc = load_trk(op.join(bundle_path,\n                           'sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi_space-RASMM_model-CSD_desc-prob-afq-ARC_L_tractography.trk'), fa_img)\n\nsft_arc.to_rasmm()\narc_t1w = transform_streamlines(sft_arc.streamlines,\n                                np.linalg.inv(t1w_img.affine))\n\narc_actor = actor.streamlines(arc_t1w, thickness=8, colors=color_dict['Left Arcuate'])\nscene.clear()\n\nscene.add(arc_actor)\nscene.add(slicer)\n\nscene.add(waypoint1_actor)\nscene.add(waypoint2_actor)\n\nshow_m = window.ShowManager(\n    scene=scene, window_type=\"offscreen\",\n    size=(2400, 2400)\n)\nrotate_to_anterior(show_m)\nmake_gif(show_m, \"arc1.gif\")"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Clean bundle\nThe next step in processing would be to clean the bundle by removing\nstreamlines that are outliers. We will visualize the cleaned bundle.\n\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "collapsed": false
+      },
+      "outputs": [],
+      "source": [
+        "scene.clear()\n\nscene.add(arc_actor)\nscene.add(slicer)\n\nshow_m = window.ShowManager(\n    scene=scene, window_type=\"offscreen\",\n    size=(2400, 2400)\n)\nrotate_to_anterior(show_m)\nmake_gif(show_m, \"arc2.gif\")\n\nclean_bundles_path = op.join(afq_path,\n                             'clean_bundles')\n\nsft_arc = load_trk(op.join(clean_bundles_path,\n                           'sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi_space-RASMM_model-CSD_desc-prob-afq-ARC_L_tractography.trk'), fa_img)\n\nsft_arc.to_rasmm()\narc_t1w = transform_streamlines(sft_arc.streamlines,\n                                np.linalg.inv(t1w_img.affine))\n\narc_actor = actor.streamlines(arc_t1w, thickness=8, colors=tab20.colors[18])\nscene.clear()\n\nscene.add(arc_actor)\nscene.add(slicer)\n\nshow_m = window.ShowManager(\n    scene=scene, window_type=\"offscreen\",\n    size=(2400, 2400)\n)\nrotate_to_anterior(show_m)\nmake_gif(show_m, \"arc3.gif\")"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Show the values of tissue properties along the bundle\nWe can also visualize the values of tissue properties along the bundle. Here\nwe will visualize the fractional anisotropy (FA) along the arcuate bundle.\nThis is done by using a colormap to color the streamlines according to the\nvalues of the tissue property, with `fury.colormap.create_colormap`.\n\nThere is a DIPY example with more details here:\nhttps://docs.dipy.org/1.11.0/examples_built/streamline_analysis/afq_tract_profiles.html\n\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "collapsed": false
+      },
+      "outputs": [],
+      "source": [
+        "scene.clear()\n\nfa_in_t1 = resample(fa_img, t1w_img).get_fdata()\nfa_profiles = values_from_volume(fa_in_t1, arc_t1w, np.eye(4))\nfor ii in range(len(arc_t1w)):\n    colors = create_colormap(np.asarray(fa_profiles[ii]), name=\"blues\", auto=False)\n    arc_actor = actor.streamlines(\n        arc_t1w[ii], thickness=8,\n        colors=colors)\n    scene.add(arc_actor)\n\nscene.add(slicer)\n\nshow_m = window.ShowManager(\n    scene=scene, window_type=\"offscreen\",\n    size=(2400, 2400)\n)\nrotate_to_anterior(show_m)\nmake_gif(show_m, \"arc4.gif\")"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Core of the bundle and tract profile\nFinally, we can visualize the core of the bundle and the tract profile. The\ncore of the bundle is the median of the streamlines, and the tract profile is\nthe values of the tissue property along the core of the bundle.\n\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "collapsed": false
+      },
+      "outputs": [],
+      "source": [
+        "core_arc = np.median(np.asarray(set_number_of_points(arc_t1w, 20)), axis=0)\n\nsft_arc.to_vox()\narc_profile = afq_profile(fa, sft_arc.streamlines, affine=np.eye(4),\n                          n_points=20)\n\ncore_arc_actor = actor.streamlines(\n    [core_arc],\n    thickness=40,\n    colors=create_colormap(arc_profile, name='viridis')\n)\n\narc_actor = actor.streamlines(\n    arc_t1w,\n    thickness=1,\n    opacity=0.2)  # better to visualize the core\n\nscene.clear()\n\nscene.add(slicer)\nscene.add(arc_actor)\nscene.add(core_arc_actor)\n\nshow_m = window.ShowManager(\n    scene=scene, window_type=\"offscreen\",\n    size=(2400, 2400)\n)\nrotate_to_anterior(show_m)\nmake_gif(show_m, \"arc5.gif\")"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Core of all bundles and their tract profiles\nSame as before, but for all bundles.\n\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "collapsed": false
+      },
+      "outputs": [],
+      "source": [
+        "scene.clear()\nscene.add(slicer)\n\nfor ii, bundle in enumerate(bundles):\n    sft = load_trk(op.join(clean_bundles_path,\n                           f'sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi_space-RASMM_model-CSD_desc-prob-afq-{bundle}_tractography.trk'), fa_img)\n\n    sft.to_rasmm()\n    bundle_t1w = transform_streamlines(sft.streamlines,\n                                       np.linalg.inv(t1w_img.affine))\n\n    bundle_actor = actor.streamlines(\n        bundle_t1w,\n        thickness=8,\n        colors=color_dict[formal_bundles[ii]]\n    )\n    scene.add(bundle_actor)\n\nshow_m = window.ShowManager(\n    scene=scene, window_type=\"offscreen\",\n    size=(2400, 2400)\n)\nrotate_to_anterior(show_m)\nmake_gif(show_m, \"all_bundles.gif\")\n\nscene.clear()\n\nscene.add(slicer)\n\ntract_profiles = []\nfor bundle in bundles:\n    sft = load_trk(op.join(clean_bundles_path,\n                           f'sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi_space-RASMM_model-CSD_desc-prob-afq-{bundle}_tractography.trk'), fa_img)\n    sft.to_rasmm()\n    bundle_t1w = transform_streamlines(sft.streamlines,\n                                       np.linalg.inv(t1w_img.affine))\n\n    core_bundle = np.median(np.asarray(\n        set_number_of_points(bundle_t1w, 20)), axis=0)\n    sft.to_vox()\n    tract_profiles.append(\n        afq_profile(fa, sft.streamlines, affine=np.eye(4),\n                    n_points=20))\n\n    core_actor = actor.streamlines(\n        [core_bundle],\n        thickness=40,\n        colors=create_colormap(tract_profiles[-1], name='viridis')\n    )\n\n    scene.add(core_actor)\n\nshow_m = window.ShowManager(\n    scene=scene, window_type=\"offscreen\",\n    size=(2400, 2400)\n)\nrotate_to_anterior(show_m)\nmake_gif(show_m, \"all_tract_profiles.gif\")"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Tract profiles as a table\nFinally, we can visualize the tract profiles as a table. This is done by\nplotting the tract profiles for each bundle as a line plot, with the x-axis\nrepresenting the position along the bundle, and the y-axis representing the\nvalue of the tissue property. We will use the `matplotlib` library to create\nthis plot.\n\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "collapsed": false
+      },
+      "outputs": [],
+      "source": [
+        "import matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nfor ii, bundle in enumerate(bundles):\n    ax.plot(np.arange(ii * 20, (ii + 1) * 20),\n            tract_profiles[ii],\n            color=color_dict[formal_bundles[ii]],\n            linewidth=3)\nax.set_xticks(np.arange(0, 20 * len(bundles), 20))\nax.set_xticklabels(bundles, rotation=45, ha='right')\nfig.set_size_inches(10, 5)\nplt.subplots_adjust(bottom=0.2)\nfig.savefig(\"tract_profiles_table.png\")"
+      ]
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "display_name": "Python 3",
+      "language": "python",
+      "name": "python3"
+    },
+    "language_info": {
+      "codemirror_mode": {
+        "name": "ipython",
+        "version": 3
+      },
+      "file_extension": ".py",
+      "mimetype": "text/x-python",
+      "name": "python",
+      "nbconvert_exporter": "python",
+      "pygments_lexer": "ipython3",
+      "version": "3.13.13"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 0
+}

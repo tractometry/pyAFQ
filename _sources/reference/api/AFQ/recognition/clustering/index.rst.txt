@@ -1,0 +1,120 @@
+AFQ.recognition.clustering
+==========================
+
+.. py:module:: AFQ.recognition.clustering
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   AFQ.recognition.clustering._compute_mean_euclidean_matrix
+   AFQ.recognition.clustering._distance_to_similarity
+   AFQ.recognition.clustering._rectangular_similarity_matrix
+   AFQ.recognition.clustering.spectral_atlas_label
+   AFQ.recognition.clustering.subcluster_by_atlas
+
+
+Module Contents
+---------------
+
+.. py:function:: _compute_mean_euclidean_matrix(group_n, group_m)
+
+.. py:function:: _distance_to_similarity(distance, sigmasq)
+
+.. py:function:: _rectangular_similarity_matrix(fgarray_sub, fgarray_atlas, sigma)
+
+.. py:function:: spectral_atlas_label(sub_fgarray, atlas_fgarray, atlas_data=None, sigma_multiplier=1.0, cluster_indices=None)
+
+   
+   Use an existing atlas to label a new streamlines.
+
+
+   :Parameters:
+
+       **sub_fgarray** : ndarray
+           Resampled fiber group to be labeled.
+
+       **atlas_fgarray** : ndarray
+           Resampled atlas to use for labelling.
+
+       **atlas_data** : dict, optional
+           Precomputed atlas data formatted as a dictionary of arrays and floats.
+           See `afd.read_org800_templates` as a reference.
+
+       **sigma_multiplier** : float, optional
+           Multiplier for the sigma value used in computing the similarity
+           matrix. Default is 1.0.
+
+       **cluster_indices** : list of int, optional
+           If provided, only these cluster indices from the atlas will be used
+           for labeling. Default is None, which uses all clusters.
+
+   :Returns:
+
+       tuple of (ndarray, ndarray)
+           Cluster indices for all the fibers and their embedding
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: subcluster_by_atlas(sub_trk, mapping, dwi_ref, cluster_indices, atlas_data=None, n_points=20, batch_size=int(50000.0))
+
+   
+   Use an existing atlas to label a new set of streamlines, and return the
+   cluster indices for each streamline.
+
+
+   :Parameters:
+
+       **sub_trk** : StatefulTractogram
+           streamlines to be labeled.
+
+       **mapping** : DIPY or pyAFQ mapping
+           Mapping to use to move streamlines.
+
+       **dwi_ref** : Nifti1Image
+           Image defining reference for where the atlas streamlines move to.
+
+       **cluster_indices** : list of int
+           Cluster indices from the atlas to use for labeling.
+
+       **atlas_data** : dict, optional
+           Precomputed atlas data formatted as a dictionary of arrays and floats.
+           See `afd.read_org800_templates` as a reference.
+
+       **n_points** : int, optional
+           Number of points to resample streamlines to for labeling. Default is 20.
+
+       **batch_size** : int, optional
+           Number of streamlines to process in a batch. Default is 50,000.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+

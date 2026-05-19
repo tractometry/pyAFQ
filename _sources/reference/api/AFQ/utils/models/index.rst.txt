@@ -1,21 +1,19 @@
-:py:mod:`AFQ.utils.models`
-==========================
+AFQ.utils.models
+================
 
 .. py:module:: AFQ.utils.models
 
 
-Module Contents
----------------
-
-
 Functions
-~~~~~~~~~
+---------
 
 .. autoapisummary::
 
    AFQ.utils.models.prepare_data
 
 
+Module Contents
+---------------
 
 .. py:function:: prepare_data(data_files, bval_files, bvec_files, mask=None, b0_threshold=50)
 

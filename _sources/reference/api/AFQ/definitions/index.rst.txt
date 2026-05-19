@@ -1,17 +1,17 @@
-:py:mod:`AFQ.definitions`
-=========================
+AFQ.definitions
+===============
 
 .. py:module:: AFQ.definitions
 
 
 Submodules
 ----------
+
 .. toctree::
-   :titlesonly:
    :maxdepth: 1
 
-   image/index.rst
-   mapping/index.rst
-   utils/index.rst
+   /reference/api/AFQ/definitions/image/index
+   /reference/api/AFQ/definitions/mapping/index
+   /reference/api/AFQ/definitions/utils/index
 
 

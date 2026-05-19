@@ -1,14 +1,14 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>How pyAFQ uses BIDS &#8212; AFQ 2.1 documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>How pyAFQ uses BIDS &#8212; AFQ 3.1 documentation</title>
   
   
   
@@ -16,75 +16,73 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
 
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=fd6457a4" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=c6496573" />
   
-  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
-  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/jquery.js"></script>
-    <script src="../../_static/underscore.js"></script>
-    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/sphinx_highlight.js"></script>
-    <script src="../../_static/design-tabs.js"></script>
+    <script src="../../_static/documentation_options.js?v=b576230a"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/sg-tags.js?v=d80f6fa4"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/tutorial_examples/plot_006_bids_layout';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Plotting Default Regions of Interest (ROIs) to Understand the Tracts" href="plot_007_rois.html" />
     <link rel="prev" title="Visualizing AFQ derivatives" href="plot_005_viz.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
   </head>
-  
-  
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
-
+  <body data-default-mode="">
   
   
   <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
-
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
   
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../search.html"
       method="get">
@@ -92,7 +90,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -100,15 +97,15 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
 
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
   <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
@@ -134,8 +131,8 @@
       
     
     
-    <img src="../../_static/logo.png" class="logo__image only-light" alt="AFQ 2.1 documentation - Home"/>
-    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.1 documentation - Home"/>`);</script>
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="AFQ 3.1 documentation - Home"/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="AFQ 3.1 documentation - Home"/>
   
   
 </a></div>
@@ -153,6 +150,20 @@
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="../../guides_index.html">
     User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="index.html">
+    Tutorials: Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../howto/howto_examples/index.html">
+    How to examples
   </a>
 </li>
 
@@ -188,29 +199,21 @@
         <div class="navbar-item navbar-persistent--container">
           
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
       
         <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -235,15 +238,11 @@ document.write(`
   
     <div class="navbar-persistent--mobile">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
@@ -262,7 +261,8 @@ document.write(`
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -280,6 +280,20 @@ document.write(`
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="../../guides_index.html">
     User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="index.html">
+    Tutorials: Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../howto/howto_examples/index.html">
+    How to examples
   </a>
 </li>
 
@@ -316,15 +330,11 @@ document.write(`
         
           <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
         
           <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -355,7 +365,6 @@ document.write(`
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -365,12 +374,13 @@ document.write(`
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
         <div class="sidebar-primary-item">
+
 <nav class="bd-docs-nav bd-links"
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html">Getting started with pyAFQ</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2 current active has-children"><a class="reference internal" href="index.html">Tutorials: getting started with the pyAFQ Python library</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="index.html">Tutorials: Getting started</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="plot_001_group_afq_api.html">Getting started with pyAFQ - GroupAFQ</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plot_002_participant_afq_api.html">Getting started with pyAFQ - ParticipantAFQ</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plot_003_rerun.html">Re-running pyAFQ</a></li>
@@ -400,16 +410,18 @@ document.write(`
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../howto/howto_examples/index.html">How to examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/acoustic_radiations.html">How to add new bundles into pyAFQ (Acoustic Radiations Example)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/add_custom_bundle.html">How to add new bundles into pyAFQ (SLF 1/2/3 Example)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/afq_callosal.html">Callosal bundles using AFQ API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/afq_fwdti.html">How to use Free water DTI</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/baby_afq.html">BabyAFQ : tractometry for infant dMRI data</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/cerebellar_peduncles.html">Delineating cerebellar peduncles</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/cloudknot_example.html">Using cloudknot to run pyAFQ on AWS batch:</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/cloudknot_hcp_example.html">AFQ with HCP data</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/optic_radiations.html">How to add new bundles into pyAFQ(Optic Radiations Example)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/plot_afq_callosal.html">Callosal bundles using AFQ API</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/plot_recobundles.html">Using RecoBundles for bundle recognition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/optic_tract.html">How to track the Optic Tract and Posterior Optic Nerve in pyAFQ</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/plot_stages_of_tractometry.html">Understanding the different stages of tractometry with videos</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/run_afq_fwdti.html">How to use Free water DTI</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/run_pyAFQ_with_GPU.html">Running pyAFQ using the GPU for tractography</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/pyAFQ_with_GPU.html">Running pyAFQ using the GPU for tractography</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/pyafq_2.html">Running pyAFQ 2.x defaults in pyAFQ 3.x</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/recobundles.html">Using RecoBundles for bundle recognition</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/use_subject_space_rois_from_freesurfer.html">Using Subject Space ROIs from Freesurfer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../howto/howto_examples/vof_example.html">How to segment out only some bundles</a></li>
 </ul>
@@ -417,27 +429,28 @@ document.write(`
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../explanations/index.html">Explanations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../explanations/tractometry_pipeline.html">AFQ Tractometry Pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../explanations/bundle_orientation.html">Bundle Orientation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../explanations/modeling.html">Modeling White Matter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../explanations/profiling.html">Profiling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../explanations/recognition.html">Bundle Recognition</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../explanations/tractography.html">Tractography</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../explanations/whats_new_3.html">What’s new in PyAFQ 3.0</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../reference/index.html">Reference Documentation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../reference/api/index.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../../reference/api/AFQ/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ</span></code></a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/api/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.api</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/data/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.data</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/definitions/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.definitions</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/models/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.models</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/recognition/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.recognition</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/tasks/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.tasks</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/tractography/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.tractography</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.utils</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/viz/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.viz</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/registration/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.registration</span></code></a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../reference/api/AFQ/index.html">AFQ</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/api/index.html">AFQ.api</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/data/index.html">AFQ.data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/definitions/index.html">AFQ.definitions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/models/index.html">AFQ.models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/nn/index.html">AFQ.nn</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/recognition/index.html">AFQ.recognition</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/registration/index.html">AFQ.registration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/tasks/index.html">AFQ.tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/tractography/index.html">AFQ.tractography</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/utils/index.html">AFQ.utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/viz/index.html">AFQ.viz</a></li>
 </ul>
 </details></li>
 </ul>
@@ -446,6 +459,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../../reference/fibertracts.html">Major Fiber Tracts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../reference/tissue_properties.html">Tissue Properties in pyAFQ</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../reference/methods.html">The pyAFQ API methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../reference/kwargs.html">The pyAFQ API optional arguments</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../reference/viz_backend.html">Visualization Backends</a></li>
 
 <li class="toctree-l2"><a class="reference internal" href="../../reference/mapping.html">The pyAFQ Mapping API</a></li>
@@ -459,9 +473,14 @@ document.write(`
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -479,10 +498,6 @@ document.write(`
       
         <div class="header-article-item">
 
-
-
-
-
 <nav aria-label="Breadcrumb" class="d-print-none">
   <ul class="bd-breadcrumbs">
     
@@ -495,12 +510,12 @@ document.write(`
     <li class="breadcrumb-item"><a href="../../guides_index.html" class="nav-link">User Guide</a></li>
     
     
-    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Getting started with pyAFQ</a></li>
     
     
-    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Tutorials: getting started with the pyAFQ Python library</a></li>
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Tutorials: Getting started</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">How pyAFQ uses BIDS</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">How pyAFQ uses BIDS</span></li>
   </ul>
 </nav>
 </div>
@@ -517,92 +532,88 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <div class="sphx-glr-download-link-note admonition note">
-<p class="admonition-title">Note</p>
-<p><a class="reference internal" href="#sphx-glr-download-tutorials-tutorial-examples-plot-006-bids-layout-py"><span class="std std-ref">Go to the end</span></a>
-to download the full example code.</p>
-</div>
-<div class="sphx-glr-example-title section" id="how-pyafq-uses-bids">
-<span id="sphx-glr-tutorials-tutorial-examples-plot-006-bids-layout-py"></span><h1>How pyAFQ uses BIDS<a class="headerlink" href="#how-pyafq-uses-bids" title="Permalink to this heading">#</a></h1>
+  <section id="how-pyafq-uses-bids">
+<h1>How pyAFQ uses BIDS<a class="headerlink" href="#how-pyafq-uses-bids" title="Link to this heading">#</a></h1>
 <p>The pyAFQ API relies heavily on the
 <a class="reference external" href="https://bids-specification.readthedocs.io/en/stable/">Brain Imaging Data Standard (BIDS)</a>,
 a widely used standard for organizing and describing neuroimaging data. This
 means that the software assumes that its inputs are organized according to the
 BIDS specification and its outputs conform where possible with BIDS.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Derivatives of processing diffusion MRI are not currently fully
-described in the existing BIDS specification, but describing these
-is part of an ongoing effort. Wherever possible, we conform with
-the draft implementation of the BIDS DWI derivatives available
-<a class="reference external" href="https://bids-specification.readthedocs.io/en/wip-derivatives/05-derivatives/05-diffusion-derivatives.html">here</a></p>
-</div>
+<div class="alert alert-info"><h4>Note</h4><p>Derivatives of processing diffusion MRI are not currently fully
+    described in the existing BIDS specification, but describing these
+    is part of an ongoing effort. Wherever possible, we conform with
+    the draft implementation of the BIDS DWI derivatives available
+    [here](https://bids-specification.readthedocs.io/en/wip-derivatives/05-derivatives/05-diffusion-derivatives.html)</p></div>
 <p>In this example, we will explore the use of BIDS in pyAFQ and see
 how BIDS allows us to extend and provide flexibility to the users
 of the software.</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">op</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">AFQ.api.bundle_dict</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">abd</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.api.group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GroupAFQ</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">AFQ.data.fetch</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">afd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">AFQ.definitions.image</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">afm</span>
 </pre></div>
 </div>
-<dl class="simple">
-<dt>To interact with and query BIDS datasets, we use</dt><dd><p><a class="reference external" href="https://bids-standard.github.io/pybids/">pyBIDS</a>, which we import here:</p>
-</dd>
-</dl>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">bids</span>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-05-19 01:06:53,862	INFO util.py:154 -- Missing packages: [&#39;ipywidgets&#39;]. Run `pip install -U ipywidgets`, then restart the notebook server for rich notebook output.
+</pre></div>
+</div>
+</div>
+</div>
+<p>To interact with and query BIDS datasets, we use
+<a class="reference external" href="https://bids-standard.github.io/pybids/">pyBIDS</a>, which we import here:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">bids</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">bids.layout</span><span class="w"> </span><span class="kn">import</span> <span class="n">BIDSLayout</span>
 </pre></div>
+</div>
+</div>
 </div>
 <p>We start with some example data. The data we will use here is
 generated from the
 <a class="reference external" href="https://purl.stanford.edu/ng782rw8378">Stanford HARDI dataset</a>.
 The call below fetches
-this dataset and organized it within the <cite>~/AFQ_data</cite> folder in the BIDS
+this dataset and organized it within the <code class="docutils literal notranslate"><span class="pre">~/AFQ_data</span></code> folder in the BIDS
 format.</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">afd</span><span class="o">.</span><span class="n">organize_stanford_data</span><span class="p">(</span><span class="n">clear_previous_afq</span><span class="o">=</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">afd</span><span class="o">.</span><span class="n">organize_stanford_data</span><span class="p">(</span><span class="n">clear_previous_afq</span><span class="o">=</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+</div>
 <p>After doing that, we should have a folder that looks like this:</p>
-<div class="line-block">
-<div class="line">stanford_hardi</div>
-<div class="line">├── dataset_description.json</div>
-<div class="line">└── derivatives</div>
-<div class="line-block">
-<div class="line">├── freesurfer</div>
-<div class="line">│   ├── dataset_description.json</div>
-<div class="line">│   └── sub-01</div>
-<div class="line">│       └── ses-01</div>
-<div class="line">│           └── anat</div>
-<div class="line">│               ├── sub-01_ses-01_T1w.nii.gz</div>
-<div class="line">│               └── sub-01_ses-01_seg.nii.gz</div>
-<div class="line">└── vistasoft</div>
-<div class="line-block">
-<div class="line">├── dataset_description.json</div>
-<div class="line">└── sub-01</div>
-<div class="line-block">
-<div class="line">└── ses-01</div>
-<div class="line-block">
-<div class="line">└── dwi</div>
-<div class="line-block">
-<div class="line">├── sub-01_ses-01_dwi.bvals</div>
-<div class="line">├── sub-01_ses-01_dwi.bvecs</div>
-<div class="line">└── sub-01_ses-01_dwi.nii.gz</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<p>The top level directory (<cite>stanford_hardi</cite>) is our overall BIDS dataset folder.
+<p>| stanford_hardi
+| ├── dataset_description.json
+| └── derivatives
+|     ├── freesurfer
+|     │   ├── dataset_description.json
+|     │   └── sub-01
+|     │       └── ses-01
+|     │           └── anat
+|     │               ├── sub-01_ses-01_T1w.nii.gz
+|     │               └── sub-01_ses-01_seg.nii.gz
+|     └── vistasoft
+|         ├── dataset_description.json
+|         └── sub-01
+|             └── ses-01
+|                 └── dwi
+|                     ├── sub-01_ses-01_dwi.bvals
+|                     ├── sub-01_ses-01_dwi.bvecs
+|                     └── sub-01_ses-01_dwi.nii.gz</p>
+<p>The top level directory (<code class="docutils literal notranslate"><span class="pre">stanford_hardi</span></code>) is our overall BIDS dataset folder.
 In many cases, this folder will include folders with raw data for each subject
 in the dataset. In this case, we do not include the raw data folders and only
 have the outputs of pipelines that were used to preprocess the data (e.g.,
 correct the data for subject motion, eddy currents, and so forth).
 In general, only the preprocessed diffusion data is required for pyAFQ to run.
-See the <a class="reference internal" href="../../howto/data.html"><span class="doc">“Organizing your data”</span></a> section of the
+See the :doc:<code class="docutils literal notranslate"><span class="pre">&quot;Organizing</span> <span class="pre">your</span> <span class="pre">data&quot;</span> <span class="pre">&lt;/howto/data&gt;</span></code> section of the
 documentation for more details.
 In this case, one folder contains derivative of the Freesurfer software and
 another folder contains the DWI data that has been preprocessed with the
@@ -616,14 +627,30 @@ these reconstructions in the pyAFQ segmentation and tractometry pipeline
 We fetch this data and add it as a separate pipeline
 The following code will download a previously-created tractography and
 organize it by adding it to the BIDS dataset folder and renaming them to be
-BIDS-compliant (e.g., <cite>sub-01_ses_01_dwi_tractography.trk</cite>).</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">afd</span><span class="o">.</span><span class="n">fetch_stanford_hardi_tractography</span><span class="p">()</span>
+BIDS-compliant (e.g., <code class="docutils literal notranslate"><span class="pre">sub-01_ses_01_dwi_tractography.trk</span></code>).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">afd</span><span class="o">.</span><span class="n">fetch_stanford_hardi_tractography</span><span class="p">()</span>
 
-<a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">bids_path</span></a> <span class="o">=</span> <a href="https://docs.python.org/3/library/os.path.html#os.path.join" title="os.path.join" class="sphx-glr-backref-module-os-path sphx-glr-backref-type-py-function"><span class="n">op</span><span class="o">.</span><span class="n">join</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/os.path.html#os.path.expanduser" title="os.path.expanduser" class="sphx-glr-backref-module-os-path sphx-glr-backref-type-py-function"><span class="n">op</span><span class="o">.</span><span class="n">expanduser</span></a><span class="p">(</span><span class="s1">&#39;~&#39;</span><span class="p">),</span> <span class="s1">&#39;AFQ_data&#39;</span><span class="p">,</span> <span class="s1">&#39;stanford_hardi&#39;</span><span class="p">)</span>
-<a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tractography_path</span></a> <span class="o">=</span> <a href="https://docs.python.org/3/library/os.path.html#os.path.join" title="os.path.join" class="sphx-glr-backref-module-os-path sphx-glr-backref-type-py-function"><span class="n">op</span><span class="o">.</span><span class="n">join</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">bids_path</span></a><span class="p">,</span> <span class="s1">&#39;derivatives&#39;</span><span class="p">,</span> <span class="s1">&#39;my_tractography&#39;</span><span class="p">)</span>
-<a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">sub_path</span></a> <span class="o">=</span> <a href="https://docs.python.org/3/library/os.path.html#os.path.join" title="os.path.join" class="sphx-glr-backref-module-os-path sphx-glr-backref-type-py-function"><span class="n">op</span><span class="o">.</span><span class="n">join</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tractography_path</span></a><span class="p">,</span> <span class="s1">&#39;sub-01&#39;</span><span class="p">,</span> <span class="s1">&#39;ses-01&#39;</span><span class="p">,</span> <span class="s1">&#39;dwi&#39;</span><span class="p">)</span>
+<span class="n">bids_path</span> <span class="o">=</span> <a href="https://docs.python.org/3/library/os.path.html#os.path.join" title="os.path.join" class="sphx-glr-backref-module-os-path sphx-glr-backref-type-py-function"><span class="n">op</span><span class="o">.</span><span class="n">join</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/os.path.html#os.path.expanduser" title="os.path.expanduser" class="sphx-glr-backref-module-os-path sphx-glr-backref-type-py-function"><span class="n">op</span><span class="o">.</span><span class="n">expanduser</span></a><span class="p">(</span><span class="s1">&#39;~&#39;</span><span class="p">),</span> <span class="s1">&#39;AFQ_data&#39;</span><span class="p">,</span> <span class="s1">&#39;stanford_hardi&#39;</span><span class="p">)</span>
+<span class="n">tractography_path</span> <span class="o">=</span> <a href="https://docs.python.org/3/library/os.path.html#os.path.join" title="os.path.join" class="sphx-glr-backref-module-os-path sphx-glr-backref-type-py-function"><span class="n">op</span><span class="o">.</span><span class="n">join</span></a><span class="p">(</span><span class="n">bids_path</span><span class="p">,</span> <span class="s1">&#39;derivatives&#39;</span><span class="p">,</span> <span class="s1">&#39;my_tractography&#39;</span><span class="p">)</span>
+<span class="n">sub_path</span> <span class="o">=</span> <a href="https://docs.python.org/3/library/os.path.html#os.path.join" title="os.path.join" class="sphx-glr-backref-module-os-path sphx-glr-backref-type-py-function"><span class="n">op</span><span class="o">.</span><span class="n">join</span></a><span class="p">(</span><span class="n">tractography_path</span><span class="p">,</span> <span class="s1">&#39;sub-01&#39;</span><span class="p">,</span> <span class="s1">&#39;ses-01&#39;</span><span class="p">,</span> <span class="s1">&#39;dwi&#39;</span><span class="p">)</span>
 
-<a href="https://docs.python.org/3/library/os.html#os.makedirs" title="os.makedirs" class="sphx-glr-backref-module-os sphx-glr-backref-type-py-function"><span class="n">os</span><span class="o">.</span><span class="n">makedirs</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">sub_path</span></a><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">seg_file</span> <span class="o">=</span> <a href="https://docs.python.org/3/library/os.path.html#os.path.join" title="os.path.join" class="sphx-glr-backref-module-os-path sphx-glr-backref-type-py-function"><span class="n">op</span><span class="o">.</span><span class="n">join</span></a><span class="p">(</span><span class="n">afd</span><span class="o">.</span><span class="n">afq_home</span><span class="p">,</span> <span class="s2">&quot;stanford_hardi&quot;</span><span class="p">,</span> <span class="s2">&quot;derivatives&quot;</span><span class="p">,</span>
+                   <span class="s2">&quot;freesurfer&quot;</span><span class="p">,</span> <span class="s2">&quot;sub-01&quot;</span><span class="p">,</span> <span class="s2">&quot;ses-01&quot;</span><span class="p">,</span> <span class="s2">&quot;anat&quot;</span><span class="p">,</span>
+                   <span class="s2">&quot;sub-01_ses-01_seg.nii.gz&quot;</span><span class="p">)</span>
+<span class="n">pve</span> <span class="o">=</span> <span class="n">afm</span><span class="o">.</span><span class="n">PVEImages</span><span class="p">(</span>
+    <span class="n">afm</span><span class="o">.</span><span class="n">LabelledImageFile</span><span class="p">(</span>
+        <span class="n">path</span><span class="o">=</span><span class="n">seg_file</span><span class="p">,</span>
+        <span class="n">inclusive_labels</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+    <span class="n">afm</span><span class="o">.</span><span class="n">LabelledImageFile</span><span class="p">(</span>
+        <span class="n">path</span><span class="o">=</span><span class="n">seg_file</span><span class="p">,</span>
+        <span class="n">exclusive_labels</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">combine</span><span class="o">=</span><span class="s2">&quot;and&quot;</span><span class="p">),</span>
+    <span class="n">afm</span><span class="o">.</span><span class="n">LabelledImageFile</span><span class="p">(</span>
+        <span class="n">path</span><span class="o">=</span><span class="n">seg_file</span><span class="p">,</span>
+        <span class="n">inclusive_labels</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]))</span>
+
+<a href="https://docs.python.org/3/library/os.html#os.makedirs" title="os.makedirs" class="sphx-glr-backref-module-os sphx-glr-backref-type-py-function"><span class="n">os</span><span class="o">.</span><span class="n">makedirs</span></a><span class="p">(</span><span class="n">sub_path</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <a href="https://docs.python.org/3/library/os.html#os.rename" title="os.rename" class="sphx-glr-backref-module-os sphx-glr-backref-type-py-function"><span class="n">os</span><span class="o">.</span><span class="n">rename</span></a><span class="p">(</span>
     <a href="https://docs.python.org/3/library/os.path.html#os.path.join" title="os.path.join" class="sphx-glr-backref-module-os-path sphx-glr-backref-type-py-function"><span class="n">op</span><span class="o">.</span><span class="n">join</span></a><span class="p">(</span>
         <a href="https://docs.python.org/3/library/os.path.html#os.path.expanduser" title="os.path.expanduser" class="sphx-glr-backref-module-os-path sphx-glr-backref-type-py-function"><span class="n">op</span><span class="o">.</span><span class="n">expanduser</span></a><span class="p">(</span><span class="s1">&#39;~&#39;</span><span class="p">),</span>
@@ -631,199 +658,432 @@ BIDS-compliant (e.g., <cite>sub-01_ses_01_dwi_tractography.trk</cite>).</p>
         <span class="s1">&#39;stanford_hardi_tractography&#39;</span><span class="p">,</span>
         <span class="s1">&#39;full_segmented_cleaned_tractography.trk&#39;</span><span class="p">),</span>
     <a href="https://docs.python.org/3/library/os.path.html#os.path.join" title="os.path.join" class="sphx-glr-backref-module-os-path sphx-glr-backref-type-py-function"><span class="n">op</span><span class="o">.</span><span class="n">join</span></a><span class="p">(</span>
-        <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">sub_path</span></a><span class="p">,</span>
+        <span class="n">sub_path</span><span class="p">,</span>
         <span class="s1">&#39;sub-01_ses-01-dwi_tractography.trk&#39;</span><span class="p">))</span>
 
 <span class="n">afd</span><span class="o">.</span><span class="n">to_bids_description</span><span class="p">(</span>
-    <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tractography_path</span></a><span class="p">,</span>
+    <span class="n">tractography_path</span><span class="p">,</span>
     <span class="o">**</span><span class="p">{</span><span class="s2">&quot;Name&quot;</span><span class="p">:</span> <span class="s2">&quot;my_tractography&quot;</span><span class="p">,</span>
        <span class="s2">&quot;PipelineDescription&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;Name&quot;</span><span class="p">:</span> <span class="s2">&quot;my_tractography&quot;</span><span class="p">},</span>
        <span class="s2">&quot;GeneratedBy&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="s2">&quot;Name&quot;</span><span class="p">:</span> <span class="s2">&quot;my_tractography&quot;</span><span class="p">}]})</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/11337 MB [00:00]
-  0%|          | 5/11337 MB [00:00]
-  0%|          | 10/11337 MB [00:00]
-  0%|          | 16/11337 MB [00:00]
-  0%|          | 24/11337 MB [00:00]
-  0%|          | 32/11337 MB [00:00]
-  0%|          | 41/11337 MB [00:00]
-  0%|          | 50/11337 MB [00:00]
-  1%|          | 61/11337 MB [00:01]
-  1%|          | 73/11337 MB [00:01]
-  1%|          | 85/11337 MB [00:01]
-  1%|          | 100/11337 MB [00:01]
-  1%|          | 116/11337 MB [00:01]
-  1%|          | 133/11337 MB [00:01]
-  1%|▏         | 152/11337 MB [00:01]
-  2%|▏         | 174/11337 MB [00:02]
-  2%|▏         | 197/11337 MB [00:02]
-  2%|▏         | 223/11337 MB [00:02]
-  2%|▏         | 250/11337 MB [00:02]
-  2%|▏         | 282/11337 MB [00:02]
-  3%|▎         | 316/11337 MB [00:02]
-  3%|▎         | 354/11337 MB [00:02]
-  3%|▎         | 396/11337 MB [00:02]
-  4%|▍         | 442/11337 MB [00:03]
-  4%|▍         | 493/11337 MB [00:03]
-  5%|▍         | 549/11337 MB [00:03]
-  5%|▌         | 611/11337 MB [00:03]
-  6%|▌         | 679/11337 MB [00:03]
-  7%|▋         | 754/11337 MB [00:03]
-  7%|▋         | 837/11337 MB [00:03]
-  8%|▊         | 928/11337 MB [00:04]
-  9%|▉         | 1029/11337 MB [00:04]
- 10%|█         | 1140/11337 MB [00:04]
- 11%|█         | 1263/11337 MB [00:04]
- 12%|█▏        | 1398/11337 MB [00:04]
- 14%|█▎        | 1547/11337 MB [00:04]
- 15%|█▌        | 1711/11337 MB [00:04]
- 17%|█▋        | 1892/11337 MB [00:04]
- 18%|█▊        | 2091/11337 MB [00:05]
- 20%|██        | 2311/11337 MB [00:05]
- 23%|██▎       | 2554/11337 MB [00:05]
- 25%|██▍       | 2821/11337 MB [00:05]
- 27%|██▋       | 3116/11337 MB [00:05]
- 30%|███       | 3441/11337 MB [00:05]
- 33%|███▎      | 3795/11337 MB [00:05]
- 36%|███▌      | 4089/11337 MB [00:05]
- 38%|███▊      | 4361/11337 MB [00:06]
- 42%|████▏     | 4811/11337 MB [00:06]
- 46%|████▌     | 5229/11337 MB [00:06]
- 50%|█████     | 5710/11337 MB [00:06]
- 55%|█████▍    | 6194/11337 MB [00:06]
- 58%|█████▊    | 6587/11337 MB [00:06]
- 61%|██████    | 6928/11337 MB [00:06]
- 65%|██████▍   | 7324/11337 MB [00:06]
- 68%|██████▊   | 7654/11337 MB [00:07]
- 71%|███████   | 8061/11337 MB [00:07]
- 75%|███████▍  | 8468/11337 MB [00:07]
- 79%|███████▉  | 8960/11337 MB [00:07]
- 83%|████████▎ | 9446/11337 MB [00:07]
- 88%|████████▊ | 9931/11337 MB [00:07]
- 91%|█████████▏| 10371/11337 MB [00:07]
- 95%|█████████▍| 10741/11337 MB [00:08]
- 98%|█████████▊| 11142/11337 MB [00:08]
-100%|██████████| 11337/11337 MB [00:08]
-
-  0%|          | 0/14 MB [00:00]
- 36%|███▌      | 5/14 MB [00:00]
-100%|██████████| 14/14 MB [00:00]
-
-  0%|          | 0/1037 MB [00:00]
-  0%|          | 5/1037 MB [00:00]
-  2%|▏         | 21/1037 MB [00:00]
-  8%|▊         | 82/1037 MB [00:00]
- 32%|███▏      | 329/1037 MB [00:00]
- 76%|███████▌  | 785/1037 MB [00:00]
-100%|██████████| 1037/1037 MB [00:00]
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/11337 MB [00:00]
 </pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 2/11337 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 5/11337 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 9/11337 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 13/11337 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 22/11337 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 29/11337 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 44/11337 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 55/11337 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1%|          | 84/11337 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1%|          | 114/11337 MB [00:01]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1%|▏         | 170/11337 MB [00:01]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  2%|▏         | 227/11337 MB [00:01]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  3%|▎         | 332/11337 MB [00:01]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  4%|▍         | 443/11337 MB [00:01]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  6%|▌         | 646/11337 MB [00:01]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  8%|▊         | 858/11337 MB [00:01]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  9%|▉         | 1077/11337 MB [00:01]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 12%|█▏        | 1323/11337 MB [00:01]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 14%|█▍        | 1564/11337 MB [00:01]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 16%|█▌        | 1809/11337 MB [00:02]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 18%|█▊        | 2056/11337 MB [00:02]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 20%|██        | 2299/11337 MB [00:02]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 22%|██▏       | 2541/11337 MB [00:02]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 25%|██▍       | 2782/11337 MB [00:02]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 27%|██▋       | 3026/11337 MB [00:02]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 29%|██▉       | 3268/11337 MB [00:02]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 31%|███       | 3510/11337 MB [00:02]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 33%|███▎      | 3752/11337 MB [00:02]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 35%|███▌      | 3998/11337 MB [00:03]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 37%|███▋      | 4245/11337 MB [00:03]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 40%|███▉      | 4491/11337 MB [00:03]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 42%|████▏     | 4734/11337 MB [00:03]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 44%|████▍     | 4979/11337 MB [00:03]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 46%|████▌     | 5226/11337 MB [00:03]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 48%|████▊     | 5473/11337 MB [00:03]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 50%|█████     | 5717/11337 MB [00:03]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 53%|█████▎    | 5963/11337 MB [00:03]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 55%|█████▍    | 6208/11337 MB [00:04]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 57%|█████▋    | 6451/11337 MB [00:04]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 59%|█████▉    | 6692/11337 MB [00:04]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 61%|██████    | 6938/11337 MB [00:04]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 63%|██████▎   | 7184/11337 MB [00:04]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 66%|██████▌   | 7431/11337 MB [00:04]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 68%|██████▊   | 7671/11337 MB [00:04]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 70%|██████▉   | 7916/11337 MB [00:04]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 72%|███████▏  | 8161/11337 MB [00:04]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 74%|███████▍  | 8407/11337 MB [00:04]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 76%|███████▋  | 8650/11337 MB [00:05]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 78%|███████▊  | 8895/11337 MB [00:05]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 81%|████████  | 9142/11337 MB [00:05]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 83%|████████▎ | 9388/11337 MB [00:05]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 85%|████████▍ | 9635/11337 MB [00:05]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 87%|████████▋ | 9879/11337 MB [00:05]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 89%|████████▉ | 10124/11337 MB [00:05]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 91%|█████████▏| 10368/11337 MB [00:05]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 94%|█████████▎| 10613/11337 MB [00:05]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 96%|█████████▌| 10855/11337 MB [00:06]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 98%|█████████▊| 11097/11337 MB [00:06]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 11337/11337 MB [00:06]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/14 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 14%|█▍        | 2/14 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 29%|██▊       | 4/14 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 50%|█████     | 7/14 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 71%|███████▏  | 10/14 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 14/14 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/1037 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 2/1037 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 4/1037 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1%|          | 7/1037 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1%|          | 11/1037 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1%|▏         | 15/1037 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  2%|▏         | 23/1037 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  3%|▎         | 30/1037 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  4%|▍         | 39/1037 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  5%|▌         | 54/1037 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  6%|▋         | 66/1037 MB [00:01]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  8%|▊         | 86/1037 MB [00:01]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 11%|█         | 111/1037 MB [00:01]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 13%|█▎        | 133/1037 MB [00:01]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 17%|█▋        | 178/1037 MB [00:01]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 20%|█▉        | 206/1037 MB [00:01]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 29%|██▊       | 296/1037 MB [00:01]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 36%|███▋      | 377/1037 MB [00:01]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 50%|████▉     | 517/1037 MB [00:01]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 64%|██████▍   | 668/1037 MB [00:01]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 88%|████████▊ | 916/1037 MB [00:02]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 1037/1037 MB [00:02]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
 </div>
 <p>After we do that, our dataset folder should look like this:</p>
-<div class="line-block">
-<div class="line">stanford_hardi</div>
-<div class="line">├── dataset_description.json</div>
-<div class="line">└── derivatives</div>
-<div class="line-block">
-<div class="line">├── freesurfer</div>
-<div class="line">│   ├── dataset_description.json</div>
-<div class="line">│   └── sub-01</div>
-<div class="line">│       └── ses-01</div>
-<div class="line">│           └── anat</div>
-<div class="line">│               ├── sub-01_ses-01_T1w.nii.gz</div>
-<div class="line">│               └── sub-01_ses-01_seg.nii.gz</div>
-<div class="line">├── my_tractography</div>
-<div class="line">|   ├── dataset_description.json</div>
-<div class="line">│   └── sub-01</div>
-<div class="line">│       └── ses-01</div>
-<div class="line">│           └── dwi</div>
-<div class="line">│               └── sub-01_ses-01-dwi_tractography.trk</div>
-<div class="line">└── vistasoft</div>
-<div class="line-block">
-<div class="line">├── dataset_description.json</div>
-<div class="line">└── sub-01</div>
-<div class="line-block">
-<div class="line">└── ses-01</div>
-<div class="line-block">
-<div class="line">└── dwi</div>
-<div class="line-block">
-<div class="line">├── sub-01_ses-01_dwi.bvals</div>
-<div class="line">├── sub-01_ses-01_dwi.bvecs</div>
-<div class="line">└── sub-01_ses-01_dwi.nii.gz</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
+<p>| stanford_hardi
+| ├── dataset_description.json
+| └── derivatives
+|     ├── freesurfer
+|     │   ├── dataset_description.json
+|     │   └── sub-01
+|     │       └── ses-01
+|     │           └── anat
+|     │               ├── sub-01_ses-01_T1w.nii.gz
+|     │               └── sub-01_ses-01_seg.nii.gz
+|     ├── my_tractography
+|     |   ├── dataset_description.json
+|     │   └── sub-01
+|     │       └── ses-01
+|     │           └── dwi
+|     │               └── sub-01_ses-01-dwi_tractography.trk
+|     └── vistasoft
+|         ├── dataset_description.json
+|         └── sub-01
+|             └── ses-01
+|                 └── dwi
+|                     ├── sub-01_ses-01_dwi.bvals
+|                     ├── sub-01_ses-01_dwi.bvecs
+|                     └── sub-01_ses-01_dwi.nii.gz</p>
 <p>To explore the layout of these derivatives, we will initialize a
-<code class="xref py py-class docutils literal notranslate"><span class="pre">BIDSLayout</span></code> class instance to help us see what is in this dataset</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">layout</span> <span class="o">=</span> <span class="n">bids</span><span class="o">.</span><span class="n">BIDSLayout</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">bids_path</span></a><span class="p">,</span> <span class="n">derivatives</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+:class:<code class="docutils literal notranslate"><span class="pre">BIDSLayout</span></code> class instance to help us see what is in this dataset</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">layout</span> <span class="o">=</span> <span class="n">bids</span><span class="o">.</span><span class="n">BIDSLayout</span><span class="p">(</span><span class="n">bids_path</span><span class="p">,</span> <span class="n">derivatives</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
+</div>
+</div>
 </div>
 <p>Because there is no raw data in this BIDS layout (only derivatives),
 pybids will report that there are no subjects and sessions:</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">layout</span><span class="p">)</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">layout</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>BIDS Layout: ...runner/AFQ_data/stanford_hardi | Subjects: 0 | Sessions: 0 | Runs: 0
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>BIDS Layout: ...runner/AFQ_data/stanford_hardi | Subjects: 0 | Sessions: 0 | Runs: 0
 </pre></div>
+</div>
+</div>
 </div>
 <p>But a query on the derivatives will reveal the different derivatives that
 are stored here:</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">layout</span><span class="o">.</span><span class="n">derivatives</span><span class="p">)</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">layout</span><span class="o">.</span><span class="n">derivatives</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>{&#39;derivatives/my_tractography&#39;: BIDS Layout: ...di/derivatives/my_tractography | Subjects: 1 | Sessions: 1 | Runs: 0, &#39;derivatives/recobundles&#39;: BIDS Layout: ..._hardi/derivatives/recobundles | Subjects: 1 | Sessions: 1 | Runs: 0, &#39;derivatives/freesurfer&#39;: BIDS Layout: ...d_hardi/derivatives/freesurfer | Subjects: 1 | Sessions: 1 | Runs: 0, &#39;derivatives/vistasoft&#39;: BIDS Layout: ...rd_hardi/derivatives/vistasoft | Subjects: 1 | Sessions: 1 | Runs: 0}
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;derivatives/recobundles&#39;: BIDS Layout: ..._hardi/derivatives/recobundles | Subjects: 1 | Sessions: 1 | Runs: 0, &#39;derivatives/my_tractography&#39;: BIDS Layout: ...di/derivatives/my_tractography | Subjects: 1 | Sessions: 1 | Runs: 0, &#39;derivatives/vistasoft&#39;: BIDS Layout: ...rd_hardi/derivatives/vistasoft | Subjects: 1 | Sessions: 1 | Runs: 0, &#39;derivatives/freesurfer&#39;: BIDS Layout: ...d_hardi/derivatives/freesurfer | Subjects: 1 | Sessions: 1 | Runs: 0}
 </pre></div>
 </div>
-<p>We can use a <code class="xref py py-class docutils literal notranslate"><span class="pre">bids.BIDSValidator</span></code> object to make sure that the
+</div>
+</div>
+<p>We can use a :class:<code class="docutils literal notranslate"><span class="pre">bids.BIDSValidator</span></code> object to make sure that the
 files within our data set are BIDS-compliant. For example, we can
 extract the tractography derivatives part of our layout using:</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">my_tractography</span> <span class="o">=</span> <span class="n">layout</span><span class="o">.</span><span class="n">derivatives</span><span class="p">[</span><span class="s2">&quot;my_tractography&quot;</span><span class="p">]</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_tractography</span> <span class="o">=</span> <span class="n">layout</span><span class="o">.</span><span class="n">derivatives</span><span class="p">[</span><span class="s2">&quot;my_tractography&quot;</span><span class="p">]</span>
 </pre></div>
+</div>
+</div>
 </div>
 <p>This variable is also a BIDS layout object. This object has a <code class="docutils literal notranslate"><span class="pre">get</span></code>
 method, which allows us to query and find specific items within the
 layout. For example, we can ask for files that have a suffix consistent
 with tractography results:</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tractography_files</span></a> <span class="o">=</span> <span class="n">my_tractography</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;tractography&#39;</span><span class="p">)</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tractography_files</span> <span class="o">=</span> <span class="n">my_tractography</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;tractography&#39;</span><span class="p">)</span>
 </pre></div>
+</div>
+</div>
 </div>
 <p>Or ask for files that have a <code class="docutils literal notranslate"><span class="pre">.trk</span></code> extension:</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tractography_files</span></a> <span class="o">=</span> <span class="n">my_tractography</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">extension</span><span class="o">=</span><span class="s1">&#39;.trk&#39;</span><span class="p">)</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tractography_files</span> <span class="o">=</span> <span class="n">my_tractography</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">extension</span><span class="o">=</span><span class="s1">&#39;.trk&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+</div>
 <p>In this case, both of these would produce the same result.</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">tractography_file</span> <span class="o">=</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tractography_files</span></a><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tractography_file</span> <span class="o">=</span> <span class="n">tractography_files</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">tractography_file</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;BIDSFile filename=&#39;/home/runner/AFQ_data/stanford_hardi/derivatives/my_tractography/sub-01/ses-01/dwi/sub-01_ses-01-dwi_tractography.trk&#39;&gt;
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;BIDSFile filename=&#39;/home/runner/AFQ_data/stanford_hardi/derivatives/my_tractography/sub-01/ses-01/dwi/sub-01_ses-01-dwi_tractography.trk&#39;&gt;
 </pre></div>
+</div>
+</div>
 </div>
 <p>We can also get some more structured information about this file:</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">tractography_file</span><span class="o">.</span><span class="n">get_entities</span><span class="p">())</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">tractography_file</span><span class="o">.</span><span class="n">get_entities</span><span class="p">())</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>{&#39;datatype&#39;: &#39;dwi&#39;, &#39;extension&#39;: &#39;.trk&#39;, &#39;session&#39;: &#39;01&#39;, &#39;subject&#39;: &#39;01&#39;, &#39;suffix&#39;: &#39;tractography&#39;}
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;subject&#39;: &#39;01&#39;, &#39;session&#39;: &#39;01&#39;, &#39;suffix&#39;: &#39;tractography&#39;, &#39;extension&#39;: &#39;.trk&#39;, &#39;datatype&#39;: &#39;dwi&#39;}
 </pre></div>
 </div>
-<p>We can use a <code class="xref py py-class docutils literal notranslate"><span class="pre">bids.BIDSValidator</span></code> class instance to validate that
+</div>
+</div>
+<p>We can use a :class:<code class="docutils literal notranslate"><span class="pre">bids.BIDSValidator</span></code> class instance to validate that
 this file is compliant with the specification. Note that the validator
 requires that the filename be provided relative to the root of the BIDS
 dataset, so we have to split the string that contains the full path
 of the tractography to extract only the part that is relative to the
 root of the entire BIDS <code class="docutils literal notranslate"><span class="pre">layout</span></code> object:</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tractography_full_path</span></a> <span class="o">=</span> <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tractography_file</span><span class="o">.</span><span class="n">path</span></a>
-<a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tractography_relative_path</span></a> <span class="o">=</span> <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tractography_full_path</span></a><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">layout</span><span class="o">.</span><span class="n">root</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tractography_full_path</span> <span class="o">=</span> <span class="n">tractography_file</span><span class="o">.</span><span class="n">path</span>
+<span class="n">tractography_relative_path</span> <span class="o">=</span> <span class="n">tractography_full_path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">layout</span><span class="o">.</span><span class="n">root</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
 <span class="n">validator</span> <span class="o">=</span> <span class="n">bids</span><span class="o">.</span><span class="n">BIDSValidator</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">validator</span><span class="o">.</span><span class="n">is_bids</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tractography_relative_path</span></a><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">validator</span><span class="o">.</span><span class="n">is_bids</span><span class="p">(</span><span class="n">tractography_relative_path</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>True
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
 </pre></div>
+</div>
+</div>
 </div>
 <p>Next, we specify the information we need to define the bundles that we are
 interested in segmenting. In this case, we are going to use a list of
@@ -832,75 +1092,100 @@ which we already have clear definitions of the information
 needed to segment them (e.g., waypoint ROIs and probability maps).
 For an example that includes custom definition of bundle info, see the
 <a class="reference external" href="http://tractometry.org/pyAFQ/auto_examples/plot_callosal_tract_profile.html">plot_callosal_tract_profile example</a>.</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">bundle_info</span> <span class="o">=</span> <span class="n">abd</span><span class="o">.</span><span class="n">default18_bd</span><span class="p">()[</span>
-    <span class="s2">&quot;Left Superior Longitudinal&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;Right Superior Longitudinal&quot;</span><span class="p">,</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bundle_info</span> <span class="o">=</span> <span class="n">abd</span><span class="o">.</span><span class="n">default_bd</span><span class="p">()[</span>
+    <span class="s2">&quot;Left Inferior Longitudinal&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Right Inferior Longitudinal&quot;</span><span class="p">,</span>
     <span class="s2">&quot;Left Arcuate&quot;</span><span class="p">,</span>
     <span class="s2">&quot;Right Arcuate&quot;</span><span class="p">,</span>
     <span class="s2">&quot;Left Corticospinal&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;Right Corticospinal&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;Forceps Minor&quot;</span><span class="p">]</span>
+    <span class="s2">&quot;Right Corticospinal&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
+</div>
+</div>
 <p>Now, we can define our GroupAFQ object, pointing to the derivatives of the
-<cite>‘my_tractography’</cite> pipeline as inputs. This is done by setting the
-<cite>import_tract</cite> key-word argument. We pass the
-<cite>bundle_info</cite> defined above. We also point to the preprocessed
-data that is in a <cite>‘dmriprep’</cite> pipeline. Note that the pipeline name
+<code class="docutils literal notranslate"><span class="pre">'my_tractography'</span></code> pipeline as inputs. This is done by setting the
+<code class="docutils literal notranslate"><span class="pre">import_tract</span></code> key-word argument. We pass the
+<code class="docutils literal notranslate"><span class="pre">bundle_info</span></code> defined above. We also point to the preprocessed
+data that is in a <code class="docutils literal notranslate"><span class="pre">'dmriprep'</span></code> pipeline. Note that the pipeline name
 is not necessarily the name of the folder it is in; the pipeline name is
-defined in each pipeline’s <cite>dataset_description.json</cite>. These data were
+defined in each pipeline’s <code class="docutils literal notranslate"><span class="pre">dataset_description.json</span></code>. These data were
 preprocessed with ‘vistasoft’, so this is the pipeline we’ll point to
-If we were using <cite>‘qsiprep’</cite>, this is where we would pass that
+If we were using <code class="docutils literal notranslate"><span class="pre">'qsiprep'</span></code>, this is where we would pass that
 string instead. If we did that, AFQ would look for a derivatives
-folder called <cite>‘stanford_hardi/derivatives/qsiprep’</cite> and find the
+folder called <code class="docutils literal notranslate"><span class="pre">'stanford_hardi/derivatives/qsiprep'</span></code> and find the
 preprocessed DWI data within it. Finally, to speed things up
 a bit, we also sub-sample the provided tractography. This is
 done by defining the segmentation_params dictionary input.
 To sub-sample to 10,000 streamlines, we define
-<cite>‘nb_streamlines’ = 10000</cite>.</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">my_afq</span> <span class="o">=</span> <span class="n">GroupAFQ</span><span class="p">(</span>
-    <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">bids_path</span></a><span class="p">,</span>
-    <span class="n">preproc_pipeline</span><span class="o">=</span><span class="s1">&#39;vistasoft&#39;</span><span class="p">,</span>
+<code class="docutils literal notranslate"><span class="pre">'nb_streamlines'</span> <span class="pre">=</span> <span class="pre">10000</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_afq</span> <span class="o">=</span> <span class="n">GroupAFQ</span><span class="p">(</span>
+    <span class="n">bids_path</span><span class="p">,</span>
+    <span class="n">dwi_preproc_pipeline</span><span class="o">=</span><span class="s1">&#39;vistasoft&#39;</span><span class="p">,</span>
+    <span class="n">t1_preproc_pipeline</span><span class="o">=</span><span class="s1">&#39;freesurfer&#39;</span><span class="p">,</span>
     <span class="n">bundle_info</span><span class="o">=</span><span class="n">bundle_info</span><span class="p">,</span>
     <span class="n">import_tract</span><span class="o">=</span><span class="p">{</span>
         <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;tractography&quot;</span><span class="p">,</span>
         <span class="s2">&quot;scope&quot;</span><span class="p">:</span> <span class="s2">&quot;my_tractography&quot;</span>
     <span class="p">},</span>
+    <span class="n">pve</span><span class="o">=</span><span class="n">pve</span><span class="p">,</span>
     <span class="n">segmentation_params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;nb_streamlines&#39;</span><span class="p">:</span> <span class="mi">10000</span><span class="p">})</span>
 </pre></div>
 </div>
-<p>Finally, to run the segmentation and extract tract profiles, we call
-The <cite>export_all</cite> method. This creates all of the derivative outputs of
-AFQ within the ‘stanford_hardi/derivatives/afq’ folder.</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">my_afq</span><span class="o">.</span><span class="n">export_all</span><span class="p">()</span>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:Using the following files for subject 01 and session 01:
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Optimizing level 2 [max iter: 10000]
-Optimizing level 1 [max iter: 1000]
-Optimizing level 0 [max iter: 100]
-Optimizing level 2 [max iter: 10000]
-Optimizing level 1 [max iter: 1000]
-Optimizing level 0 [max iter: 100]
-Optimizing level 2 [max iter: 10000]
-Optimizing level 1 [max iter: 1000]
-Optimizing level 0 [max iter: 100]
-/opt/hostedtoolcache/Python/3.12.11/x64/lib/python3.12/site-packages/AFQ/tasks/segmentation.py:61: UserWarning:
-
-Pass [&#39;to_space&#39;] as keyword args. From version 2.0.0 passing these as positional arguments will result in an error.
-
-
-  0%|          | 0/7 [00:00&lt;?, ?it/s]
- 71%|███████▏  | 5/7 [00:00&lt;00:00, 44.73it/s]
-100%|██████████| 7/7 [00:00&lt;00:00, 45.07it/s]
-
-  0%|          | 0/7 [00:00&lt;?, ?it/s]
- 71%|███████▏  | 5/7 [00:00&lt;00:00, 45.40it/s]
-100%|██████████| 7/7 [00:00&lt;00:00, 45.79it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:  DWI: /home/runner/AFQ_data/stanford_hardi/derivatives/vistasoft/sub-01/ses-01/dwi/sub-01_ses-01_dwi.nii.gz
 </pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:  BVAL: /home/runner/AFQ_data/stanford_hardi/derivatives/vistasoft/sub-01/ses-01/dwi/sub-01_ses-01_dwi.bval
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:  BVEC: /home/runner/AFQ_data/stanford_hardi/derivatives/vistasoft/sub-01/ses-01/dwi/sub-01_ses-01_dwi.bvec
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:  T1: /home/runner/AFQ_data/stanford_hardi/derivatives/freesurfer/sub-01/ses-01/anat/sub-01_ses-01_T1w.nii.gz
+</pre></div>
+</div>
+</div>
+</div>
+<p>Finally, to run the segmentation and extract tract profiles, we call
+The <code class="docutils literal notranslate"><span class="pre">export_all</span></code> method. This creates all of the derivative outputs of
+AFQ within the ‘stanford_hardi/derivatives/afq’ folder.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_afq</span><span class="o">.</span><span class="n">export_all</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:Calculating _b0ref.nii.gz...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:_b0ref.nii.gz completed. Saving to /home/runner/AFQ_data/stanford_hardi/derivatives/afq/sub-01/ses-01/dwi/sub-01_ses-01_b0ref.nii.gz
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:Calculating _desc-brain_mask.nii.gz...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-05-19 01:07:16.470411082 [W:onnxruntime:Default, device_discovery.cc:133 GetPciBusId] Skipping pci_bus_id for PCI path at &quot;/sys/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0004:00/MSFT1000:00/5620e0c7-8062-4dce-aeb7-520c7ef76171&quot; because filename &quot;5620e0c7-8062-4dce-aeb7-520c7ef76171&quot; did not match expected pattern of [0-9a-f]+:[0-9a-f]+:[0-9a-f]+[.][0-9a-f]+
+INFO:AFQ:Calculating _desc-T1w_mask.nii.gz...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:Running mindgrab...
+</pre></div>
+</div>
+</div>
 </div>
 <p>A few common issues that can hinder BIDS from working properly are:</p>
 <ol class="arabic simple">
-<li><p>Faulty <cite>dataset_description.json</cite> file. You need to make sure that the
+<li><p>Faulty <code class="docutils literal notranslate"><span class="pre">dataset_description.json</span></code> file. You need to make sure that the
 file contains the right names for the pipeline. See above for an example
 of that.</p></li>
 <li><p>File naming convention doesn’t uniquely identify file with bids filters.</p></li>
@@ -908,31 +1193,18 @@ of that.</p></li>
 <p>The outputs of AFQ are also BIDS compatible. Here we demonstrate how
 to load the afq entities and show all files with the key-value pair
 desc-bundles</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">layout</span> <span class="o">=</span> <span class="n">BIDSLayout</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">bids_path</span></a><span class="p">)</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">layout</span> <span class="o">=</span> <span class="n">BIDSLayout</span><span class="p">(</span><span class="n">bids_path</span><span class="p">)</span>
 <span class="n">layout</span><span class="o">.</span><span class="n">add_derivatives</span><span class="p">(</span>
-    <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">bids_path</span></a><span class="si">}</span><span class="s1">/derivatives/afq&#39;</span><span class="p">,</span>
+    <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">bids_path</span><span class="si">}</span><span class="s1">/derivatives/afq&#39;</span><span class="p">,</span>
     <span class="n">config</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;bids&#39;</span><span class="p">,</span> <span class="s1">&#39;derivatives&#39;</span><span class="p">])</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">layout</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s2">&quot;bundles&quot;</span><span class="p">,</span> <span class="n">return_type</span><span class="o">=</span><span class="s2">&quot;filename&quot;</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[&#39;/home/runner/AFQ_data/stanford_hardi/derivatives/afq/sub-01/ses-01/dwi/sub-01_ses-01_desc-bundles_tractography.json&#39;, &#39;/home/runner/AFQ_data/stanford_hardi/derivatives/afq/sub-01/ses-01/dwi/sub-01_ses-01_desc-bundles_tractography.trk&#39;]
-</pre></div>
-</div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (10 minutes 58.197 seconds)</p>
-<p><strong>Estimated memory usage:</strong>  1848 MB</p>
-<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-tutorials-tutorial-examples-plot-006-bids-layout-py">
-<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
-<p><a class="reference download internal" download="" href="../../_downloads/208a28a6015d1ea9262d20c9e7ae2113/plot_006_bids_layout.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_006_bids_layout.ipynb</span></code></a></p>
-</div>
-<div class="sphx-glr-download sphx-glr-download-python docutils container">
-<p><a class="reference download internal" download="" href="../../_downloads/836612208c756b592223aa579db29a8f/plot_006_bids_layout.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_006_bids_layout.py</span></code></a></p>
-</div>
-<div class="sphx-glr-download sphx-glr-download-zip docutils container">
-<p><a class="reference download internal" download="" href="../../_downloads/c40b93698c8b330b570323d4e1149284/plot_006_bids_layout.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">plot_006_bids_layout.zip</span></code></a></p>
 </div>
 </div>
-<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
-</div>
+</section>
 
 
                 </article>
@@ -969,14 +1241,15 @@ desc-bundles</p>
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
   <div class="sidebar-secondary-item">
 
   
   <div class="tocsection editthispage">
-    <a href="https://github.com/tractometry/pyAFQ/edit/master/docs/source/tutorials/tutorial_examples/plot_006_bids_layout.rst">
+    <a href="https://github.com/tractometry/pyAFQ/edit/master/docs/source/tutorials/tutorial_examples/plot_006_bids_layout.ipynb">
       <i class="fa-solid fa-pencil"></i>
       
       
@@ -991,7 +1264,7 @@ desc-bundles</p>
   <div class="sidebar-secondary-item">
 
   <div class="tocsection sourcelink">
-    <a href="../../_sources/tutorials/tutorial_examples/plot_006_bids_layout.rst.txt">
+    <a href="../../_sources/tutorials/tutorial_examples/plot_006_bids_layout.ipynb.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>
@@ -1010,8 +1283,8 @@ desc-bundles</p>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
 
 
   <footer class="bd-footer">
@@ -1032,7 +1305,7 @@ desc-bundles</p>
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
     <br/>
   </p>
 </div>
@@ -1044,16 +1317,20 @@ desc-bundles</p>
     <div class="footer-items__end">
       
         <div class="footer-item"><div class="footer">
-    <div class="footer-content">
-      <div class="copyright">
-        Please Cite the following paper:
-      </div>
-      <div class="citation">
-        <a href="https://doi.org/10.52294/e6198273-b8e3-4b63-babb-6e6b0da10669">Kruper et al. (2021)</a>
-      </div>
+  <div class="footer-content">
+    <div class="copyright">
+      Please Cite the following papers:
+    </div>
+    <div class="citation">
+      <a href="https://doi.org/10.1371/journal.pcbi.1013323">
+        Kruper et al. (2025)
+      </a><br>
+      <a href="https://doi.org/10.52294/e6198273-b8e3-4b63-babb-6e6b0da10669">
+        Kruper et al. (2021)
+      </a>
     </div>
   </div>
-  </div>
+</div></div>
       
     </div>
   

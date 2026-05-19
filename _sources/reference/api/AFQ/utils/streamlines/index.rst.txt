@@ -1,47 +1,57 @@
-:py:mod:`AFQ.utils.streamlines`
-===============================
+AFQ.utils.streamlines
+=====================
 
 .. py:module:: AFQ.utils.streamlines
 
 
-Module Contents
----------------
-
-Classes
-~~~~~~~
-
-.. autoapisummary::
-
-   AFQ.utils.streamlines.SegmentedSFT
-
-
-
-Functions
-~~~~~~~~~
-
-.. autoapisummary::
-
-   AFQ.utils.streamlines.split_streamline
-
-
-
 Attributes
-~~~~~~~~~~
+----------
 
 .. autoapisummary::
 
    AFQ.utils.streamlines.has_trx
 
 
+Classes
+-------
+
+.. autoapisummary::
+
+   AFQ.utils.streamlines.SegmentedSFT
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   AFQ.utils.streamlines.split_streamline
+   AFQ.utils.streamlines.move_streamlines
+
+
+Module Contents
+---------------
+
 .. py:data:: has_trx
    :value: True
 
-   
 
-.. py:class:: SegmentedSFT(bundles, space, sidecar_info={})
+.. py:class:: SegmentedSFT(bundles, sidecar_info=None)
+
+   .. py:attribute:: bundle_names
+      :value: []
 
 
-   .. py:method:: get_sft_and_sidecar()
+
+   .. py:attribute:: bundle_idxs
+
+
+   .. py:attribute:: sidecar_info
+      :value: None
+
+
+
+   .. py:attribute:: sft
 
 
    .. py:method:: get_bundle(b_name)
@@ -71,6 +81,45 @@ Attributes
 
        **split_idx** : int
            Where is the streamline being split
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: move_streamlines(tg, to, mapping, img, to_space=None, save_intermediates=None)
+
+   
+   Move streamlines to or from template space.
+
+   to : str
+       Either "template" or "subject". This determines
+       whether we will use the forward or backwards displacement field.
+   mapping : DIPY or pyAFQ mapping
+       Mapping to use to move streamlines.
+   img : Nifti1Image
+       Image defining reference for where the streamlines move to.
+   to_space : Space or None
+       If not None, space to move streamlines to after moving them to the
+       template or subject space. If None, streamlines will be moved back to
+       their original space.
+       Default: None.
+   save_intermediates : str or None
+       If not None, path to save intermediate tractogram after moving to template
+       or subject space.
+       Default: None.
+
 
 
 

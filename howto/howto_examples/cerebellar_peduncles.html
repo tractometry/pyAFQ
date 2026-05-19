@@ -1,14 +1,14 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Delineating cerebellar peduncles &#8212; AFQ 2.1 documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Delineating cerebellar peduncles &#8212; AFQ 3.1 documentation</title>
   
   
   
@@ -16,75 +16,73 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
 
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=fd6457a4" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=c6496573" />
   
-  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
-  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/jquery.js"></script>
-    <script src="../../_static/underscore.js"></script>
-    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/sphinx_highlight.js"></script>
-    <script src="../../_static/design-tabs.js"></script>
+    <script src="../../_static/documentation_options.js?v=b576230a"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/sg-tags.js?v=d80f6fa4"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'howto/howto_examples/cerebellar_peduncles';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Using cloudknot to run pyAFQ on AWS batch:" href="cloudknot_example.html" />
     <link rel="prev" title="BabyAFQ : tractometry for infant dMRI data" href="baby_afq.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
   </head>
-  
-  
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
-
+  <body data-default-mode="">
   
   
   <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
-
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
   
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../search.html"
       method="get">
@@ -92,7 +90,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -100,15 +97,15 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
 
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
   <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
@@ -134,8 +131,8 @@
       
     
     
-    <img src="../../_static/logo.png" class="logo__image only-light" alt="AFQ 2.1 documentation - Home"/>
-    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.1 documentation - Home"/>`);</script>
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="AFQ 3.1 documentation - Home"/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="AFQ 3.1 documentation - Home"/>
   
   
 </a></div>
@@ -150,9 +147,23 @@
 <nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-<li class="nav-item current active">
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../../guides_index.html">
     User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../tutorials/tutorial_examples/index.html">
+    Tutorials: Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    How to examples
   </a>
 </li>
 
@@ -188,29 +199,21 @@
         <div class="navbar-item navbar-persistent--container">
           
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
       
         <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -235,15 +238,11 @@ document.write(`
   
     <div class="navbar-persistent--mobile">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
@@ -262,7 +261,8 @@ document.write(`
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -277,9 +277,23 @@ document.write(`
 <nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-<li class="nav-item current active">
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../../guides_index.html">
     User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../tutorials/tutorial_examples/index.html">
+    Tutorials: Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    How to examples
   </a>
 </li>
 
@@ -316,15 +330,11 @@ document.write(`
         
           <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
         
           <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -355,7 +365,6 @@ document.write(`
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -365,93 +374,27 @@ document.write(`
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
         <div class="sidebar-primary-item">
+
 <nav class="bd-docs-nav bd-links"
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../tutorials/index.html">Getting started with pyAFQ</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../tutorials/tutorial_examples/index.html">Tutorials: getting started with the pyAFQ Python library</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../tutorials/tutorial_examples/plot_001_group_afq_api.html">Getting started with pyAFQ - GroupAFQ</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../tutorials/tutorial_examples/plot_002_participant_afq_api.html">Getting started with pyAFQ - ParticipantAFQ</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../tutorials/tutorial_examples/plot_003_rerun.html">Re-running pyAFQ</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../tutorials/tutorial_examples/plot_004_export.html">Exporting pyAFQ Results</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../tutorials/tutorial_examples/plot_005_viz.html">Visualizing AFQ derivatives</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../tutorials/tutorial_examples/plot_006_bids_layout.html">How pyAFQ uses BIDS</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../tutorials/tutorial_examples/plot_007_rois.html">Plotting Default Regions of Interest (ROIs) to Understand the Tracts</a></li>
-</ul>
-</details></li>
-</ul>
-</details></li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html">How To</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="../installation_guide.html">How to install <code class="docutils literal notranslate"><span class="pre">pyAFQ</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../getting_help.html">How to get help using pyAFQ</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cite.html">How to cite our work</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../data.html">Organizing your data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../rerun.html">Re-running pyAFQ</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../scalars.html">How to add custom tissue properties from another pipeline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../converter.html">Tractography from other pipelines</a></li>
-
-<li class="toctree-l2"><a class="reference internal" href="../docker.html">The pyAFQ docker image</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../singularity.html">The pyAFQ singularity image</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../image.html">The pyAFQ Image API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tractography_params.html">Tractography Parameters</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../segmentation_params.html">Segmentation Parameters</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cleaning_params.html">Cleaning Parameters</a></li>
-<li class="toctree-l2 current active has-children"><a class="reference internal" href="index.html">How to examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="acoustic_radiations.html">How to add new bundles into pyAFQ (Acoustic Radiations Example)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="add_custom_bundle.html">How to add new bundles into pyAFQ (SLF 1/2/3 Example)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="baby_afq.html">BabyAFQ : tractometry for infant dMRI data</a></li>
-<li class="toctree-l3 current active"><a class="current reference internal" href="#">Delineating cerebellar peduncles</a></li>
-<li class="toctree-l3"><a class="reference internal" href="cloudknot_example.html">Using cloudknot to run pyAFQ on AWS batch:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="cloudknot_hcp_example.html">AFQ with HCP data</a></li>
-<li class="toctree-l3"><a class="reference internal" href="optic_radiations.html">How to add new bundles into pyAFQ(Optic Radiations Example)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plot_afq_callosal.html">Callosal bundles using AFQ API</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plot_recobundles.html">Using RecoBundles for bundle recognition</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plot_stages_of_tractometry.html">Understanding the different stages of tractometry with videos</a></li>
-<li class="toctree-l3"><a class="reference internal" href="run_afq_fwdti.html">How to use Free water DTI</a></li>
-<li class="toctree-l3"><a class="reference internal" href="run_pyAFQ_with_GPU.html">Running pyAFQ using the GPU for tractography</a></li>
-<li class="toctree-l3"><a class="reference internal" href="use_subject_space_rois_from_freesurfer.html">Using Subject Space ROIs from Freesurfer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="vof_example.html">How to segment out only some bundles</a></li>
-</ul>
-</details></li>
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../explanations/index.html">Explanations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../explanations/tractometry_pipeline.html">AFQ Tractometry Pipeline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../explanations/bundle_orientation.html">Bundle Orientation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../explanations/modeling.html">Modeling White Matter</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../explanations/profiling.html">Profiling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../explanations/recognition.html">Bundle Recognition</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../explanations/tractography.html">Tractography</a></li>
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../reference/index.html">Reference Documentation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../reference/api/index.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../../reference/api/AFQ/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ</span></code></a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/api/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.api</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/data/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.data</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/definitions/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.definitions</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/models/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.models</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/recognition/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.recognition</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/tasks/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.tasks</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/tractography/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.tractography</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.utils</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/viz/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.viz</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/registration/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.registration</span></code></a></li>
-</ul>
-</details></li>
-</ul>
-</details></li>
-<li class="toctree-l2"><a class="reference internal" href="../../reference/bundledict.html">Defining Custom Bundle Dictionaries</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../reference/fibertracts.html">Major Fiber Tracts</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../reference/tissue_properties.html">Tissue Properties in pyAFQ</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../reference/methods.html">The pyAFQ API methods</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../reference/viz_backend.html">Visualization Backends</a></li>
-
-<li class="toctree-l2"><a class="reference internal" href="../../reference/mapping.html">The pyAFQ Mapping API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../reference/config.html">The pyAFQ configuration file</a></li>
-</ul>
-</details></li>
+<li class="toctree-l1"><a class="reference internal" href="acoustic_radiations.html">How to add new bundles into pyAFQ (Acoustic Radiations Example)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="add_custom_bundle.html">How to add new bundles into pyAFQ (SLF 1/2/3 Example)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="afq_callosal.html">Callosal bundles using AFQ API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="afq_fwdti.html">How to use Free water DTI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="baby_afq.html">BabyAFQ : tractometry for infant dMRI data</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Delineating cerebellar peduncles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cloudknot_example.html">Using cloudknot to run pyAFQ on AWS batch:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cloudknot_hcp_example.html">AFQ with HCP data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optic_radiations.html">How to add new bundles into pyAFQ(Optic Radiations Example)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optic_tract.html">How to track the Optic Tract and Posterior Optic Nerve in pyAFQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plot_stages_of_tractometry.html">Understanding the different stages of tractometry with videos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyAFQ_with_GPU.html">Running pyAFQ using the GPU for tractography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyafq_2.html">Running pyAFQ 2.x defaults in pyAFQ 3.x</a></li>
+<li class="toctree-l1"><a class="reference internal" href="recobundles.html">Using RecoBundles for bundle recognition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="use_subject_space_rois_from_freesurfer.html">Using Subject Space ROIs from Freesurfer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vof_example.html">How to segment out only some bundles</a></li>
 </ul>
 </div>
 </nav></div>
@@ -459,9 +402,14 @@ document.write(`
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -479,10 +427,6 @@ document.write(`
       
         <div class="header-article-item">
 
-
-
-
-
 <nav aria-label="Breadcrumb" class="d-print-none">
   <ul class="bd-breadcrumbs">
     
@@ -495,12 +439,12 @@ document.write(`
     <li class="breadcrumb-item"><a href="../../guides_index.html" class="nav-link">User Guide</a></li>
     
     
-    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">How To</a></li>
     
     
     <li class="breadcrumb-item"><a href="index.html" class="nav-link">How to examples</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">Delineating...</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Delineating cerebellar peduncles</span></li>
   </ul>
 </nav>
 </div>
@@ -517,19 +461,16 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <div class="sphx-glr-download-link-note admonition note">
-<p class="admonition-title">Note</p>
-<p><a class="reference internal" href="#sphx-glr-download-howto-howto-examples-cerebellar-peduncles-py"><span class="std std-ref">Go to the end</span></a>
-to download the full example code.</p>
-</div>
-<div class="sphx-glr-example-title section" id="delineating-cerebellar-peduncles">
-<span id="sphx-glr-howto-howto-examples-cerebellar-peduncles-py"></span><h1>Delineating cerebellar peduncles<a class="headerlink" href="#delineating-cerebellar-peduncles" title="Permalink to this heading">#</a></h1>
+  <section id="delineating-cerebellar-peduncles">
+<h1>Delineating cerebellar peduncles<a class="headerlink" href="#delineating-cerebellar-peduncles" title="Link to this heading">#</a></h1>
 <p>The cerebellar peduncles are white matter tracts that connect the cerebellum to
 the brainstem and cortex. In this example, we show how to delineate the
 cerebellar peduncles using a subject from the Healthy Brain Network dataset.</p>
 <p>This how-to will focus on the definition of the Cerebellar Peduncles (CP) based
-on <a href="#id2"><span class="problematic" id="id1">[1]_</span></a>, [2].</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">AFQ.data.fetch</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">afd</span>
+on [1]_, [2].</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">AFQ.data.fetch</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">afd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">AFQ.api.bundle_dict</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">abd</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.api.group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GroupAFQ</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.definitions.image</span><span class="w"> </span><span class="kn">import</span> <span class="n">RoiImage</span><span class="p">,</span> <span class="n">ImageFile</span>
@@ -566,18 +507,6 @@ on <a href="#id2"><span class="problematic" id="id1">[1]_</span></a>, [2].</p>
 
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">The bundle dict has been defined, and now we are ready to run the AFQ pipeline.</span>
-<span class="sd">In this case, we are using data that has been preprocessed with QSIprep, so</span>
-<span class="sd">we have a brain mask that was generated from the T1w data of this subject.</span>
-<span class="sd">&quot;&quot;&quot;</span>
-
-<span class="n">brain_mask_definition</span> <span class="o">=</span> <span class="n">ImageFile</span><span class="p">(</span>
-    <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;mask&quot;</span><span class="p">,</span>
-    <span class="n">filters</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;desc&#39;</span><span class="p">:</span> <span class="s1">&#39;brain&#39;</span><span class="p">,</span>
-             <span class="s1">&#39;space&#39;</span><span class="p">:</span> <span class="s1">&#39;T1w&#39;</span><span class="p">,</span>
-             <span class="s1">&#39;scope&#39;</span><span class="p">:</span> <span class="s1">&#39;qsiprep&#39;</span><span class="p">})</span>
-
-
-<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Next, we define a GroupAFQ object. In this case, the tracking parameters</span>
 <span class="sd">focus specifically on the CP, by using the ``RoiImage`` class to define the</span>
 <span class="sd">seed region. We seed extensively in the ROIs that define the CPs.</span>
@@ -586,8 +515,7 @@ on <a href="#id2"><span class="problematic" id="id1">[1]_</span></a>, [2].</p>
 <span class="n">cp_afq</span> <span class="o">=</span> <span class="n">GroupAFQ</span><span class="p">(</span>
     <span class="n">name</span><span class="o">=</span><span class="s2">&quot;cp_afq&quot;</span><span class="p">,</span>
     <span class="n">bids_path</span><span class="o">=</span><span class="n">bids_path</span><span class="p">,</span>
-    <span class="n">preproc_pipeline</span><span class="o">=</span><span class="s2">&quot;qsiprep&quot;</span><span class="p">,</span>
-    <span class="n">brain_mask_definition</span><span class="o">=</span><span class="n">brain_mask_definition</span><span class="p">,</span>
+    <span class="n">dwi_preproc_pipeline</span><span class="o">=</span><span class="s2">&quot;qsiprep&quot;</span><span class="p">,</span>
     <span class="n">tracking_params</span><span class="o">=</span><span class="p">{</span>
         <span class="s2">&quot;n_seeds&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
         <span class="s2">&quot;directions&quot;</span><span class="p">:</span> <span class="s2">&quot;prob&quot;</span><span class="p">,</span>
@@ -618,20 +546,214 @@ on <a href="#id2"><span class="problematic" id="id1">[1]_</span></a>, [2].</p>
 <span class="sd">&quot;&quot;&quot;</span>
 </pre></div>
 </div>
-<p><strong>Estimated memory usage:</strong>  0 MB</p>
-<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-howto-howto-examples-cerebellar-peduncles-py">
-<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
-<p><a class="reference download internal" download="" href="../../_downloads/7883a8030e04d504ce3f5629764bd7c3/cerebellar_peduncles.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">cerebellar_peduncles.ipynb</span></code></a></p>
 </div>
-<div class="sphx-glr-download sphx-glr-download-python docutils container">
-<p><a class="reference download internal" download="" href="../../_downloads/6a903e95deb3754cc368d6f219487437/cerebellar_peduncles.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">cerebellar_peduncles.py</span></code></a></p>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/tqdm/auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
+  from .autonotebook import tqdm as notebook_tqdm
+</pre></div>
 </div>
-<div class="sphx-glr-download sphx-glr-download-zip docutils container">
-<p><a class="reference download internal" download="" href="../../_downloads/d5a23e8bccf185aad674ff173d64f9bb/cerebellar_peduncles.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">cerebellar_peduncles.zip</span></code></a></p>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-05-19 00:58:07,137	INFO util.py:154 -- Missing packages: [&#39;ipywidgets&#39;]. Run `pip install -U ipywidgets`, then restart the notebook server for rich notebook output.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/1 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 1/1 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/1 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 1/1 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/2 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 2/2 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/1 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 1/1 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/1 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 1/1 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/2 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 2/2 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/1 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 1/1 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/2 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 2/2 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/1 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 1/1 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/1 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 1/1 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/2 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 2/2 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/1 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 1/1 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">20</span>
+<span class="g g-Whitespace">     </span><span class="mi">16</span> <span class="n">The</span> <span class="nb">next</span> <span class="n">line</span> <span class="n">downloads</span> <span class="n">the</span> <span class="n">cerebellar</span> <span class="n">peduncle</span> <span class="n">templates</span> <span class="kn">from</span><span class="w"> </span><span class="err">`</span><span class="n">Figshare</span> <span class="o">&lt;</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">figshare</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">articles</span><span class="o">/</span><span class="n">dataset</span><span class="o">/</span><span class="n">Regions_of_interest_for_automated_fiber_quantification_of_cerebellar_bundles</span><span class="o">/</span><span class="mi">23201630</span><span class="o">&gt;</span><span class="err">`</span><span class="n">_</span><span class="o">.</span>
+<span class="g g-Whitespace">     </span><span class="mi">17</span><span class="w"> </span>
+<span class="g g-Whitespace">     </span><span class="mi">18</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">     </span><span class="mi">19</span><span class="sd"> </span>
+<span class="ne">---&gt; </span><span class="mi">20</span><span class="sd"> cp_rois = afd.read_cp_templates()</span>
+<span class="g g-Whitespace">     </span><span class="mi">21</span><span class="sd"> </span>
+<span class="g g-Whitespace">     </span><span class="mi">22</span><span class="sd"> </span>
+<span class="g g-Whitespace">     </span><span class="mi">23</span><span class="sd"> &quot;&quot;&quot;</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/AFQ/data/fetch.py:1405,</span> in <span class="ni">read_cp_templates</span><span class="nt">(as_img, resample_to)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1402</span> <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;loading or templates&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1403</span> <span class="n">tic</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
+<span class="ne">-&gt; </span><span class="mi">1405</span> <span class="n">template_dict</span> <span class="o">=</span> <span class="n">_fetcher_to_template</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1406</span>     <span class="n">fetch_cp_templates</span><span class="p">,</span> <span class="n">as_img</span><span class="o">=</span><span class="n">as_img</span><span class="p">,</span> <span class="n">resample_to</span><span class="o">=</span><span class="n">resample_to</span>
+<span class="g g-Whitespace">   </span><span class="mi">1407</span> <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1409</span> <span class="n">toc</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
+<span class="g g-Whitespace">   </span><span class="mi">1410</span> <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cerebellar peduncles templates loaded in </span><span class="si">{</span><span class="n">toc</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">tic</span><span class="si">:</span><span class="s2">0.4f</span><span class="si">}</span><span class="s2"> seconds&quot;</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/AFQ/data/fetch.py:118,</span> in <span class="ni">_fetcher_to_template</span><span class="nt">(fetcher, as_img, resample_to)</span>
+<span class="g g-Whitespace">    </span><span class="mi">116</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">resample_to</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">117</span>     <span class="n">resample_to</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">resample_to</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">118</span> <span class="n">files</span><span class="p">,</span> <span class="n">folder</span> <span class="o">=</span> <span class="n">fetcher</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">119</span> <span class="n">template_dict</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="g g-Whitespace">    </span><span class="mi">120</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/AFQ/data/fetch.py:100,</span> in <span class="ni">_make_reusable_fetcher.&lt;locals&gt;.fetcher</span><span class="nt">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">98</span>     <span class="k">return</span> <span class="n">files</span><span class="p">,</span> <span class="n">folder</span>
+<span class="g g-Whitespace">     </span><span class="mi">99</span> <span class="k">else</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">100</span>     <span class="k">return</span> <span class="n">_make_fetcher</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">101</span>         <span class="n">name</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">102</span>         <span class="n">folder</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">103</span>         <span class="n">baseurl</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">104</span>         <span class="n">remote_fnames</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">105</span>         <span class="n">local_fnames</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">106</span>         <span class="n">doc</span><span class="o">=</span><span class="n">doc</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">107</span>         <span class="o">**</span><span class="n">make_fetcher_kwargs</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">108</span>     <span class="p">)()</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/dipy/data/fetcher.py:494,</span> in <span class="ni">_make_fetcher.&lt;locals&gt;.fetcher</span><span class="nt">(include_optional)</span>
+<span class="g g-Whitespace">    </span><span class="mi">491</span>         <span class="k">continue</span>
+<span class="g g-Whitespace">    </span><span class="mi">492</span>     <span class="n">files</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span> <span class="o">=</span> <span class="p">(</span><span class="n">baseurl</span> <span class="o">+</span> <span class="n">f</span><span class="p">,</span> <span class="n">md5_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">if</span> <span class="n">md5_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">494</span> <span class="n">fetch_data</span><span class="p">(</span><span class="n">files</span><span class="p">,</span> <span class="n">folder</span><span class="p">,</span> <span class="n">data_size</span><span class="o">=</span><span class="n">data_size</span><span class="p">,</span> <span class="n">use_headers</span><span class="o">=</span><span class="n">use_headers</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">496</span> <span class="k">if</span> <span class="n">msg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">497</span>     <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/dipy/testing/decorators.py:201,</span> in <span class="ni">warning_for_keywords.&lt;locals&gt;.decorator.&lt;locals&gt;.wrapper</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">194</span> <span class="c1"># Check if the current version is within the warning range</span>
+<span class="g g-Whitespace">    </span><span class="mi">195</span> <span class="k">if</span> <span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">196</span>     <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">from_version</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">197</span>     <span class="o">&lt;=</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">current_version</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">198</span>     <span class="o">&lt;=</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">until_version</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">199</span> <span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">200</span>     <span class="c1"># Convert positional to keyword arguments and issue a warning</span>
+<span class="ne">--&gt; </span><span class="mi">201</span>     <span class="k">return</span> <span class="n">convert_positional_to_keyword</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">203</span> <span class="c1"># If the version is greater than the until_version,</span>
+<span class="g g-Whitespace">    </span><span class="mi">204</span> <span class="c1"># pass the arguments as they are</span>
+<span class="g g-Whitespace">    </span><span class="mi">205</span> <span class="k">elif</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">current_version</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">until_version</span><span class="p">):</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/dipy/testing/decorators.py:192,</span> in <span class="ni">warning_for_keywords.&lt;locals&gt;.decorator.&lt;locals&gt;.wrapper.&lt;locals&gt;.convert_positional_to_keyword</span><span class="nt">(func, args, kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">182</span>         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">183</span>             <span class="sa">f</span><span class="s2">&quot;Pass </span><span class="si">{</span><span class="n">positionally_passed_kwonly_args</span><span class="si">}</span><span class="s2"> as keyword args. &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">184</span>             <span class="sa">f</span><span class="s2">&quot;From version </span><span class="si">{</span><span class="n">until_version</span><span class="si">}</span><span class="s2"> passing these as positional &quot;</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>    <span class="mi">187</span>             <span class="n">stacklevel</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">188</span>         <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">190</span>     <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">positional_args</span><span class="p">,</span> <span class="o">**</span><span class="n">corrected_kwargs</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">192</span> <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/dipy/data/fetcher.py:397,</span> in <span class="ni">fetch_data</span><span class="nt">(files, folder, data_size, use_headers, raise_on_error)</span>
+<span class="g g-Whitespace">    </span><span class="mi">395</span> <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;From: </span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">396</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">397</span>     <span class="n">_get_file_data</span><span class="p">(</span><span class="n">fullpath</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">use_headers</span><span class="o">=</span><span class="n">use_headers</span><span class="p">,</span> <span class="n">stored_md5</span><span class="o">=</span><span class="n">md5</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">398</span>     <span class="n">successful_downloads</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="g g-Whitespace">    </span><span class="mi">399</span> <span class="k">except</span> <span class="p">(</span><span class="n">FetcherError</span><span class="p">,</span> <span class="ne">Exception</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/dipy/data/fetcher.py:233,</span> in <span class="ni">_get_file_data</span><span class="nt">(fname, url, use_headers, timeout, max_retries, stored_md5)</span>
+<span class="g g-Whitespace">    </span><span class="mi">230</span>     <span class="n">use_headers</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="g g-Whitespace">    </span><span class="mi">232</span> <span class="k">if</span> <span class="n">is_figshare</span> <span class="ow">or</span> <span class="n">is_zenodo</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">233</span>     <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">))</span>
+<span class="g g-Whitespace">    </span><span class="mi">235</span> <span class="n">last_exception</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="g g-Whitespace">    </span><span class="mi">236</span> <span class="k">for</span> <span class="n">attempt</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_retries</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">237</span>     <span class="c1"># Alternate between original URL and mirror on retries</span>
+
+<span class="ne">KeyboardInterrupt</span>: 
+</pre></div>
 </div>
 </div>
-<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
 </div>
+</section>
 
 
                 </article>
@@ -668,14 +790,15 @@ on <a href="#id2"><span class="problematic" id="id1">[1]_</span></a>, [2].</p>
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
   <div class="sidebar-secondary-item">
 
   
   <div class="tocsection editthispage">
-    <a href="https://github.com/tractometry/pyAFQ/edit/master/docs/source/howto/howto_examples/cerebellar_peduncles.rst">
+    <a href="https://github.com/tractometry/pyAFQ/edit/master/docs/source/howto/howto_examples/cerebellar_peduncles.ipynb">
       <i class="fa-solid fa-pencil"></i>
       
       
@@ -690,7 +813,7 @@ on <a href="#id2"><span class="problematic" id="id1">[1]_</span></a>, [2].</p>
   <div class="sidebar-secondary-item">
 
   <div class="tocsection sourcelink">
-    <a href="../../_sources/howto/howto_examples/cerebellar_peduncles.rst.txt">
+    <a href="../../_sources/howto/howto_examples/cerebellar_peduncles.ipynb.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>
@@ -709,8 +832,8 @@ on <a href="#id2"><span class="problematic" id="id1">[1]_</span></a>, [2].</p>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
 
 
   <footer class="bd-footer">
@@ -731,7 +854,7 @@ on <a href="#id2"><span class="problematic" id="id1">[1]_</span></a>, [2].</p>
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
     <br/>
   </p>
 </div>
@@ -743,16 +866,20 @@ on <a href="#id2"><span class="problematic" id="id1">[1]_</span></a>, [2].</p>
     <div class="footer-items__end">
       
         <div class="footer-item"><div class="footer">
-    <div class="footer-content">
-      <div class="copyright">
-        Please Cite the following paper:
-      </div>
-      <div class="citation">
-        <a href="https://doi.org/10.52294/e6198273-b8e3-4b63-babb-6e6b0da10669">Kruper et al. (2021)</a>
-      </div>
+  <div class="footer-content">
+    <div class="copyright">
+      Please Cite the following papers:
+    </div>
+    <div class="citation">
+      <a href="https://doi.org/10.1371/journal.pcbi.1013323">
+        Kruper et al. (2025)
+      </a><br>
+      <a href="https://doi.org/10.52294/e6198273-b8e3-4b63-babb-6e6b0da10669">
+        Kruper et al. (2021)
+      </a>
     </div>
   </div>
-  </div>
+</div></div>
       
     </div>
   

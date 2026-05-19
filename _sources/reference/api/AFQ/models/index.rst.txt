@@ -1,19 +1,22 @@
-:py:mod:`AFQ.models`
-====================
+AFQ.models
+==========
 
 .. py:module:: AFQ.models
 
 
 Submodules
 ----------
+
 .. toctree::
-   :titlesonly:
    :maxdepth: 1
 
-   QBallTP/index.rst
-   csd/index.rst
-   dki/index.rst
-   dti/index.rst
-   fwdti/index.rst
+   /reference/api/AFQ/models/QBallTP/index
+   /reference/api/AFQ/models/asym_filtering/index
+   /reference/api/AFQ/models/csd/index
+   /reference/api/AFQ/models/dki/index
+   /reference/api/AFQ/models/dti/index
+   /reference/api/AFQ/models/fwdti/index
+   /reference/api/AFQ/models/msmt/index
+   /reference/api/AFQ/models/wmgm_interface/index
 
 

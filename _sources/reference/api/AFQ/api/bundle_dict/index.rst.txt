@@ -1,42 +1,37 @@
-:py:mod:`AFQ.api.bundle_dict`
-=============================
+AFQ.api.bundle_dict
+===================
 
 .. py:module:: AFQ.api.bundle_dict
 
 
-Module Contents
----------------
-
 Classes
-~~~~~~~
+-------
 
 .. autoapisummary::
 
    AFQ.api.bundle_dict.BundleDict
 
 
-
 Functions
-~~~~~~~~~
+---------
 
 .. autoapisummary::
 
-   AFQ.api.bundle_dict.default18_bd
+   AFQ.api.bundle_dict.default_bd
    AFQ.api.bundle_dict.baby_bd
    AFQ.api.bundle_dict.callosal_bd
    AFQ.api.bundle_dict.reco_bd
    AFQ.api.bundle_dict.cerebellar_bd
 
 
+Module Contents
+---------------
 
-.. py:function:: default18_bd()
-
+.. py:function:: default_bd()
 
 .. py:function:: baby_bd()
 
-
 .. py:function:: callosal_bd()
-
 
 .. py:function:: reco_bd(n_bundles)
 
@@ -64,11 +59,10 @@ Functions
 
 .. py:function:: cerebellar_bd()
 
-
-.. py:class:: BundleDict(bundle_info, resample_to=None, resample_subject_to=False, keep_in_memory=False)
-
+.. py:class:: BundleDict(bundle_info, resample_to=None, resample_subject_to=False, keep_in_memory=False, citations=None, criteria_for_all=None)
 
    Bases: :py:obj:`collections.abc.MutableMapping`
+
 
    
    Create a bundle dictionary, needed for the segmentation.
@@ -94,7 +88,7 @@ Functions
            If there are bundles in bundle_info with the 'space' attribute
            set to 'subject', their images (all ROIs and probability maps)
            will be resampled to the affine and shape of this image.
-           If None, resamples to DWI. Be careful if you use this,
+           If True, resamples to DWI. Be careful if you use this,
            that this is the correct choice.
            If False, no resampling will be done.
            Default: False
@@ -105,6 +99,18 @@ Functions
            into memory on demand and no references to ROIs are kept, other
            than their paths. The default 18 bundles use ~6GB when all loaded.
            Default: False
+
+       **citations: set, optional**
+           A set of citations (in BibTeX format) relevant to the
+           bundle definitions provided.
+           Default: None
+
+       **criteria_for_all: dict, optional**
+           A dictionary of criteria that should be applied to all bundles.
+           For example, you might want to set cleaning parameters
+           for all bundles. Applied immediately after instantiation and
+           does not affect newly added bundles.
+           Default: None
 
 
 
@@ -154,10 +160,39 @@ Functions
 
    ..
        !! processed by numpydoc !!
+
+   .. py:attribute:: resample_to
+      :value: None
+
+
+
+   .. py:attribute:: resample_subject_to
+      :value: False
+
+
+
+   .. py:attribute:: keep_in_memory
+      :value: False
+
+
+
+   .. py:attribute:: citations
+      :value: None
+
+
+
+   .. py:attribute:: _dict
+
+
+   .. py:attribute:: bundle_names
+      :value: []
+
+
+
+   .. py:attribute:: logger
+
+
    .. py:method:: __print__()
-
-
-   .. py:method:: update_max_includes(new_max)
 
 
    .. py:method:: _use_bids_info(roi_or_sl, bids_layout, bids_path, subject, session)
@@ -186,7 +221,32 @@ Functions
       ..
           !! processed by numpydoc !!
 
+
    .. py:method:: get_b_info(b_name)
+
+
+   .. py:method:: relax_cleaning(delta_distance=1, delta_length=1)
+
+      
+      This can be useful for PTT
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
 
 
    .. py:method:: __getitem__(key)
@@ -234,6 +294,7 @@ Functions
       ..
           !! processed by numpydoc !!
 
+
    .. py:method:: apply_to_rois(b_name, *args, **kwargs)
 
       
@@ -260,6 +321,7 @@ Functions
 
       ..
           !! processed by numpydoc !!
+
 
    .. py:method:: _cond_load_bundle(b_name, dry_run=False)
 
@@ -290,13 +352,14 @@ Functions
       ..
           !! processed by numpydoc !!
 
+
    .. py:method:: is_bundle_in_template(bundle_name)
 
 
-   .. py:method:: _roi_transform_helper(roi_or_sl, mapping, new_affine, bundle_name)
+   .. py:method:: _roi_transform_helper(roi_or_sl, mapping, new_img)
 
 
-   .. py:method:: transform_rois(bundle_name, mapping, new_affine, base_fname=None, to_space='subject', apply_to_recobundles=False)
+   .. py:method:: transform_rois(bundle_name, mapping, new_img, base_fname=None, to_space='subject', apply_to_recobundles=False)
 
       
       Get the bundle definition with transformed ROIs
@@ -315,8 +378,8 @@ Functions
           **mapping** : DiffeomorphicMap object
               A mapping between DWI space and a template.
 
-          **new_affine** : array
-              Affine of space transformed into.
+          **new_img** : Nifti1Image
+              Image of space transformed into.
 
           **base_fname** : str, optional
               Base file path to construct file path from. Additional BIDS
@@ -362,7 +425,7 @@ Functions
       ..
           !! processed by numpydoc !!
 
-   .. py:method:: __add__(other)
 
+   .. py:method:: __add__(other)
 
 

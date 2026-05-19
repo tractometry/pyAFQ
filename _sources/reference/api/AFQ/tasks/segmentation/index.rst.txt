@@ -1,15 +1,20 @@
-:py:mod:`AFQ.tasks.segmentation`
-================================
+AFQ.tasks.segmentation
+======================
 
 .. py:module:: AFQ.tasks.segmentation
 
 
-Module Contents
----------------
+Attributes
+----------
+
+.. autoapisummary::
+
+   AFQ.tasks.segmentation.has_trx
+   AFQ.tasks.segmentation.logger
 
 
 Functions
-~~~~~~~~~
+---------
 
 .. autoapisummary::
 
@@ -23,26 +28,16 @@ Functions
    AFQ.tasks.segmentation.get_segmentation_plan
 
 
-
-Attributes
-~~~~~~~~~~
-
-.. autoapisummary::
-
-   AFQ.tasks.segmentation.has_trx
-   AFQ.tasks.segmentation.logger
-
+Module Contents
+---------------
 
 .. py:data:: has_trx
    :value: True
 
-   
 
 .. py:data:: logger
 
-   
-
-.. py:function:: segment(data_imap, mapping_imap, tractography_imap, segmentation_params)
+.. py:function:: segment(structural_imap, data_imap, mapping_imap, tractography_imap, segmentation_params)
 
    
    full path to a trk/trx file containing containing
@@ -53,7 +48,7 @@ Attributes
 
        **segmentation_params** : dict, optional
            The parameters for segmentation.
-           Default: use the default behavior of the seg.Segmentation object.
+           Defaults to using the default behavior of the seg.Segmentation object.
 
 
 
@@ -121,7 +116,7 @@ Attributes
 .. py:function:: export_bundle_lengths(bundles)
 
    
-   full path to a JSON file containing median bundle lengths
+   full path to a CSV file containing median + min + max bundle lengths
 
 
 
@@ -203,10 +198,10 @@ Attributes
    ..
        !! processed by numpydoc !!
 
-.. py:function:: get_scalar_dict(data_imap, mapping_imap, scalars=['dti_fa', 'dti_md'])
+.. py:function:: get_scalar_dict(structural_imap, data_imap, tissue_imap, mapping_imap, t1_file, scalars=None)
 
    
-   dicionary mapping scalar names
+   dictionary mapping scalar names
    to their respective file paths
 
 
@@ -215,10 +210,13 @@ Attributes
        **scalars** : list of strings and/or scalar definitions, optional
            List of scalars to use.
            Can be any of: "dti_fa", "dti_md", "dki_fa", "dki_md", "dki_awf",
-           "dki_mk". Can also be a scalar from AFQ.definitions.image.
-           Defaults for single shell data to ["dti_fa", "dti_md"],
-           and for multi-shell data to ["dki_fa", "dki_md"].
-           Default: ['dti_fa', 'dti_md']
+           "dki_mk", or other scalars found in AFQ.tasks.data.
+           Can also be a scalar from AFQ.definitions.image.
+           Finally, can also be "t1w".
+           Defaults for single shell data to ["dti_fa", "dti_md", "t1w"],
+           and for multi-shell data to ["dki_fa", "dki_md", "dki_kfa",
+           "dki_mk", "t1w"].
+           Default: ['dti_fa', 'dti_md', 't1w']
 
 
 
@@ -237,5 +235,4 @@ Attributes
        !! processed by numpydoc !!
 
 .. py:function:: get_segmentation_plan(kwargs)
-
 

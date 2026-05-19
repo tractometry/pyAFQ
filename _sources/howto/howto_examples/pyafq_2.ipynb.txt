@@ -1,0 +1,133 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "\n\n# Running pyAFQ 2.x defaults in pyAFQ 3.x\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "collapsed": false
+      },
+      "outputs": [],
+      "source": [
+        "from AFQ.api.group import GroupAFQ\nimport AFQ.data.fetch as afd\nimport AFQ.definitions.image as afm\nimport AFQ.api.bundle_dict as abd\n\nimport os.path as op\n\nafd.organize_stanford_data()"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Tractography parameters in the old way\nIn pyAFQ 2.x, we used CSD with no asymmetric filtering,\nand seeded streamlines throughout the white matter instead of\non the white matter / gray matter interface.\n\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "collapsed": false
+      },
+      "outputs": [],
+      "source": [
+        "tracking_params = dict(\n    odf_model=\"csd\",\n    n_seeds=1,\n    random_seeds=False,\n    minlen=50,\n    directions=\"prob\",\n    seed_mask=afm.ScalarImage(\"dti_fa\"),\n    seed_threshold=0.2\n)"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Partial Volume Estimate in the old way\nIn pyAFQ 2.x, we did not use PVE and instead thresholded\non fractional anisotropy (FA) maps to create\nseed and stopping masks. Here, we recreate\nthe PVE images using the FA maps.\nNote there the CSF map is not used in this case.\nAdditionally, in pyAFQ 2.x, the brain mask was calculated\nusing median OTSU. Here, we import it from the Freesurfer segmentation instead.\n\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "collapsed": false
+      },
+      "outputs": [],
+      "source": [
+        "pve = afm.PVEImages(\n    afm.ThresholdedScalarImage(\n        \"dti_fa\",\n        upper_bound=0.0),\n    afm.ThresholdedScalarImage(\n        \"dti_fa\",\n        upper_bound=0.2),\n    afm.ThresholdedScalarImage(\n        \"dti_fa\",\n        lower_bound=0.2))\n\nbm_def = afm.LabelledImageFile(\n    suffix=\"seg\", filters={\"scope\": \"freesurfer\"},\n    exclusive_labels=[0])"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## VOF / pAF / CST in the old way\nIn pyAFQ 2.x, the vertical occipital fasciculus (VOF)\nand posterior arcuate fasciculus (pAF) were defined differently.\nThe pAF in 3.0 has an increased restriction that it cannot overlap with\nthe arcuate by more than 30%. The VOF has several changes:\n1. one endpoint ROI instead of both, but there is a minimum length\n   requirement to of 25mm to compensate;\n2. The allowed overlap with the pAF has been reduced;\n3. it must be lateral to the inferior fronto-occipital fasciculus\n   instead of the inferior longitudinal fasciculus;\n4. cleaning has been changed: there is now mahalanobis cleaning on\n   orientation, and isolation forest cleaning instead of mahalanobis for \n   distance.\nAdditionally, in the new version, the inferior endpoints of the\ncorticospinal tracts (CST) were removed, and the superior longitudinal\nfasciculus (SLF) was broken into three sub-bundles.\n\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "collapsed": false
+      },
+      "outputs": [],
+      "source": [
+        "templates = afd.read_templates(as_img=False)\nold_vof_paf_cst_slf_definitions = abd.BundleDict({\n        'Left Corticospinal': {\n            'cross_midline': False,\n            'include': [templates['CST_roi2_L'],\n                        templates['CST_roi1_L']],\n            'exclude': [],\n            'space': 'template',\n            'prob_map': templates['CST_L_prob_map'],\n            'end': templates['CST_L_start'],\n            'start': templates['CST_L_end']},\n        'Right Corticospinal': {\n            'cross_midline': False,\n            'include': [templates['CST_roi2_R'],\n                        templates['CST_roi1_R']],\n            'exclude': [],\n            'space': 'template',\n            'prob_map': templates['CST_R_prob_map'],\n            'end': templates['CST_R_start'],\n            'start': templates['CST_R_end']},\n        \"Left Superior Longitudinal\": {\n            \"cross_midline\": False,\n            \"include\": [templates[\"SLF_roi1_L\"], templates[\"SLF_roi2_L\"]],\n            \"exclude\": [templates[\"SLFt_roi2_L\"]],\n            \"space\": \"template\",\n            \"prob_map\": templates[\"SLF_L_prob_map\"],\n            \"start\": templates[\"SLF_L_start\"],\n            \"end\": templates[\"SLF_L_end\"]},\n        \"Right Superior Longitudinal\": {\n            \"cross_midline\": False,\n            \"include\": [templates[\"SLF_roi1_R\"], templates[\"SLF_roi2_R\"]],\n            \"exclude\": [templates[\"SLFt_roi2_R\"]],\n            \"space\": \"template\",\n            \"prob_map\": templates[\"SLF_R_prob_map\"],\n            \"start\": templates[\"SLF_R_start\"],\n            \"end\": templates[\"SLF_R_end\"]},\n        'Left Posterior Arcuate': {'cross_midline': False,\n                                   'include': [templates['SLFt_roi2_L']],\n                                   'exclude': [templates['SLF_roi1_L']],\n                                   'space': 'template',\n                                   'start': templates['pARC_L_start'],\n                                   'primary_axis': 'I/S',\n                                   'primary_axis_percentage': 40},\n        'Right Posterior Arcuate': {'cross_midline': False,\n                                    'include': [templates['SLFt_roi2_R']],\n                                    'exclude': [templates['SLF_roi1_R']],\n                                    'space': 'template',\n                                    'start': templates['pARC_R_start'],\n                                    'primary_axis': 'I/S',\n                                    'primary_axis_percentage': 40},\n        'Left Vertical Occipital': {'cross_midline': False,\n                                    'space': 'template',\n                                    'start': templates['VOF_L_start'],\n                                    'end': templates['VOF_L_end'],\n                                    'inc_addtol': [4, 0],\n                                    'Left Arcuate': {\n                                        'node_thresh': 20},\n                                    'Left Posterior Arcuate': {\n                                        'node_thresh': 1,\n                                        'core': 'Anterior'},\n                                    'Left Inferior Longitudinal': {\n                                        'core': 'Right'},\n                                    'primary_axis': 'I/S',\n                                    'primary_axis_percentage': 40},\n        'Right Vertical Occipital': {'cross_midline': False,\n                                     'space': 'template',\n                                     'start': templates['VOF_R_start'],\n                                     'end': templates['VOF_R_end'],\n                                     'inc_addtol': [4, 0],\n                                     'Right Arcuate': {\n                                         'node_thresh': 20},\n                                     'Right Posterior Arcuate': {\n                                         'node_thresh': 1,\n                                         'core': 'Anterior'},\n                                     'Right Inferior Longitudinal': {\n                                         'core': 'Left'},\n                                     'primary_axis': 'I/S',\n                                     'primary_axis_percentage': 40}})"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Callosal bundles in the old way\nIn pyAFQ 2.x, the callosal bundles were cleaned using mahalnobis\ninstead of isolation forest.\n\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "collapsed": false
+      },
+      "outputs": [],
+      "source": [
+        "callosal_templates =\\\n    afd.read_callosum_templates(as_img=False)\ncallosal_bd = abd.BundleDict({\n    'Callosum Anterior Frontal': {\n        'cross_midline': True,\n        'include': [callosal_templates['R_AntFrontal'],\n                    callosal_templates['Callosum_midsag'],\n                    callosal_templates['L_AntFrontal']],\n        'exclude': [],\n        'space': 'template'},\n    'Callosum Motor': {\n        'cross_midline': True,\n        'include': [callosal_templates['R_Motor'],\n                    callosal_templates['Callosum_midsag'],\n                    callosal_templates['L_Motor']],\n        'exclude': [],\n        'space': 'template'},\n    'Callosum Occipital': {\n        'cross_midline': True,\n        'include': [callosal_templates['R_Occipital'],\n                    callosal_templates['Callosum_midsag'],\n                    callosal_templates['L_Occipital']],\n        'exclude': [],\n        'space': 'template'},\n    'Callosum Orbital': {\n        'cross_midline': True,\n        'include': [callosal_templates['R_Orbital'],\n                    callosal_templates['Callosum_midsag'],\n                    callosal_templates['L_Orbital']],\n        'exclude': [],\n        'space': 'template'},\n    'Callosum Posterior Parietal': {\n        'cross_midline': True,\n        'include': [callosal_templates['R_PostParietal'],\n                    callosal_templates['Callosum_midsag'],\n                    callosal_templates['L_PostParietal']],\n        'exclude': [],\n        'space': 'template'},\n    'Callosum Superior Frontal': {\n        'cross_midline': True,\n        'include': [callosal_templates['R_SupFrontal'],\n                    callosal_templates['Callosum_midsag'],\n                    callosal_templates['L_SupFrontal']],\n        'exclude': [],\n        'space': 'template'},\n    'Callosum Superior Parietal': {\n        'cross_midline': True,\n        'include': [callosal_templates['R_SupParietal'],\n                    callosal_templates['Callosum_midsag'],\n                    callosal_templates['L_SupParietal']],\n        'exclude': [],\n        'space': 'template'},\n    'Callosum Temporal': {\n        'cross_midline': True,\n        'include': [callosal_templates['R_Temporal'],\n                    callosal_templates['Callosum_midsag'],\n                    callosal_templates['L_Temporal']],\n        'exclude': [],\n        'space': 'template'}})\n\n\nbundle_info = abd.default_bd() + \\\n    old_vof_paf_cst_slf_definitions + \\\n    callosal_bd"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Run GroupAFQ with these parameters\nFinally, we can run GroupAFQ with the 2.0 parameters.\nIn sum, we changed:\nTractography parameters to use CSD and seed throughout\nthe white matter;\nPVE images to use FA thresholding;\nBundle definitions for VOF, pAF, and CST to use the old definitions;\nCallosal bundles to use mahalanobis cleaning.\n\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "collapsed": false
+      },
+      "outputs": [],
+      "source": [
+        "myafq = GroupAFQ(\n    bids_path=op.join(afd.afq_home, 'stanford_hardi'),\n    dwi_preproc_pipeline='vistasoft',\n    t1_preproc_pipeline='freesurfer',\n    tracking_params=tracking_params,\n    brain_mask_definition=bm_def,\n    pve=pve,\n    bundle_info=bundle_info)\n\nmyafq.export_all()"
+      ]
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "display_name": "Python 3",
+      "language": "python",
+      "name": "python3"
+    },
+    "language_info": {
+      "codemirror_mode": {
+        "name": "ipython",
+        "version": 3
+      },
+      "file_extension": ".py",
+      "mimetype": "text/x-python",
+      "name": "python",
+      "nbconvert_exporter": "python",
+      "pygments_lexer": "ipython3",
+      "version": "3.13.13"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 0
+}

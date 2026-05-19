@@ -1,21 +1,19 @@
-:py:mod:`AFQ.models.csd`
-========================
+AFQ.models.csd
+==============
 
 .. py:module:: AFQ.models.csd
 
 
-Module Contents
----------------
-
-
 Functions
-~~~~~~~~~
+---------
 
 .. autoapisummary::
 
    AFQ.models.csd.fit_csd
 
 
+Module Contents
+---------------
 
 .. py:function:: fit_csd(data_files, bval_files, bvec_files, mask=None, response=None, b0_threshold=50, sh_order_max=None, lambda_=1, tau=0.1, out_dir=None)
 

@@ -21,11 +21,7 @@ backend. Currently, there are three choices:
    our current setup in Plotly, Fury can generate GIFs quickly. To use this
    backend, install pyAFQ with the optional fury requirements:
       pip install pyAFQ[fury]
-   And install `libGL <https://dri.freedesktop.org/wiki/libGL/>`_. If running
-   fury on a headless environment, additionally install and use
-   `Xvfb <https://www.x.org/releases/X11R7.6/doc/man/man1/Xvfb.1.xhtml>`_.
-   Xvfb is used automatically in the api.GroupAFQ object if the virtual_frame_buffer
-   argument is set to True.
+   And install `libGL <https://dri.freedesktop.org/wiki/libGL/>`_.
 
 By default, plotly_no_gif is used. Fury requires additional
 installations and does not make interactive figures, and Plotly takes a
@@ -35,12 +31,18 @@ significant amount of time to generate rotating GIFs.
 Fury Dockerfile for Cloudknot
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 If using the fury visualization backend while running pyAFQ on cloudknot, you
-must provide a base image with the fury requiements installed.
+must provide a base image with the fury requirements installed.
 Below is an example dockerfile that can be used to build that base image:: 
 
    # Use official python base image
-   FROM python:3.9
+   FROM python:3.13
    # Install libgl
    RUN apt-get update
-   RUN apt-get install -y libgl1-mesa-glx
-   RUN apt-get install -y xvfb
+   RUN apt-get install -y \
+              libgl1 \
+              libglx-mesa0 \
+              libegl1 \
+              libgl1-mesa-dri \
+              libvulkan1 \
+              mesa-vulkan-drivers \
+              vulkan-tools

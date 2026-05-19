@@ -1,0 +1,607 @@
+AFQ.nn.synthseg
+===============
+
+.. py:module:: AFQ.nn.synthseg
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   AFQ.nn.synthseg.SynthSegLabels
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   AFQ.nn.synthseg.run_synthseg
+
+
+Module Contents
+---------------
+
+.. py:class:: SynthSegLabels
+
+   Bases: :py:obj:`enum.IntEnum`
+
+
+   
+   Enum where members are also (and must be) ints
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+   .. py:attribute:: BACKGROUND
+      :value: 0
+
+
+
+   .. py:attribute:: LEFT_CEREBRAL_WHITE_MATTER
+      :value: 1
+
+
+
+   .. py:attribute:: LEFT_CEREBRAL_CORTEX
+      :value: 2
+
+
+
+   .. py:attribute:: LEFT_LATERAL_VENTRICLE
+      :value: 3
+
+
+
+   .. py:attribute:: LEFT_INFERIOR_LATERAL_VENTRICLE
+      :value: 4
+
+
+
+   .. py:attribute:: LEFT_CEREBELLUM_WHITE_MATTER
+      :value: 5
+
+
+
+   .. py:attribute:: LEFT_CEREBELLUM_CORTEX
+      :value: 6
+
+
+
+   .. py:attribute:: LEFT_THALAMUS
+      :value: 7
+
+
+
+   .. py:attribute:: LEFT_CAUDATE
+      :value: 8
+
+
+
+   .. py:attribute:: LEFT_PUTAMEN
+      :value: 9
+
+
+
+   .. py:attribute:: LEFT_PALLIDUM
+      :value: 10
+
+
+
+   .. py:attribute:: THIRD_VENTRICLE
+      :value: 11
+
+
+
+   .. py:attribute:: FOURTH_VENTRICLE
+      :value: 12
+
+
+
+   .. py:attribute:: BRAIN_STEM
+      :value: 13
+
+
+
+   .. py:attribute:: LEFT_HIPPOCAMPUS
+      :value: 14
+
+
+
+   .. py:attribute:: LEFT_AMYGDALA
+      :value: 15
+
+
+
+   .. py:attribute:: CSF
+      :value: 16
+
+
+
+   .. py:attribute:: LEFT_ACCUMBENS_AREA
+      :value: 17
+
+
+
+   .. py:attribute:: LEFT_VENTRAL_DC
+      :value: 18
+
+
+
+   .. py:attribute:: RIGHT_CEREBRAL_WHITE_MATTER
+      :value: 19
+
+
+
+   .. py:attribute:: RIGHT_CEREBRAL_CORTEX
+      :value: 20
+
+
+
+   .. py:attribute:: RIGHT_LATERAL_VENTRICLE
+      :value: 21
+
+
+
+   .. py:attribute:: RIGHT_INFERIOR_LATERAL_VENTRICLE
+      :value: 22
+
+
+
+   .. py:attribute:: RIGHT_CEREBELLUM_WHITE_MATTER
+      :value: 23
+
+
+
+   .. py:attribute:: RIGHT_CEREBELLUM_CORTEX
+      :value: 24
+
+
+
+   .. py:attribute:: RIGHT_THALAMUS
+      :value: 25
+
+
+
+   .. py:attribute:: RIGHT_CAUDATE
+      :value: 26
+
+
+
+   .. py:attribute:: RIGHT_PUTAMEN
+      :value: 27
+
+
+
+   .. py:attribute:: RIGHT_PALLIDUM
+      :value: 28
+
+
+
+   .. py:attribute:: RIGHT_HIPPOCAMPUS
+      :value: 29
+
+
+
+   .. py:attribute:: RIGHT_AMYGDALA
+      :value: 30
+
+
+
+   .. py:attribute:: RIGHT_ACCUMBENS_AREA
+      :value: 31
+
+
+
+   .. py:attribute:: RIGHT_VENTRAL_DC
+      :value: 32
+
+
+
+   .. py:attribute:: BACKGROUND_PARC
+      :value: 33
+
+
+
+   .. py:attribute:: CTX_LH_BANKSSTS
+      :value: 34
+
+
+
+   .. py:attribute:: CTX_LH_CAUDALANTERIORCINGULATE
+      :value: 35
+
+
+
+   .. py:attribute:: CTX_LH_CAUDALMIDDLEFRONTAL
+      :value: 36
+
+
+
+   .. py:attribute:: CTX_LH_CUNEUS
+      :value: 37
+
+
+
+   .. py:attribute:: CTX_LH_ENTORHINAL
+      :value: 38
+
+
+
+   .. py:attribute:: CTX_LH_FUSIFORM
+      :value: 39
+
+
+
+   .. py:attribute:: CTX_LH_INFERIORPARIETAL
+      :value: 40
+
+
+
+   .. py:attribute:: CTX_LH_INFERIORTEMPORAL
+      :value: 41
+
+
+
+   .. py:attribute:: CTX_LH_ISTHMUSCINGULATE
+      :value: 42
+
+
+
+   .. py:attribute:: CTX_LH_LATERALOCCIPITAL
+      :value: 43
+
+
+
+   .. py:attribute:: CTX_LH_LATERALORBITOFRONTAL
+      :value: 44
+
+
+
+   .. py:attribute:: CTX_LH_LINGUAL
+      :value: 45
+
+
+
+   .. py:attribute:: CTX_LH_MEDIALORBITOFRONTAL
+      :value: 46
+
+
+
+   .. py:attribute:: CTX_LH_MIDDLETEMPORAL
+      :value: 47
+
+
+
+   .. py:attribute:: CTX_LH_PARAHIPPOCAMPAL
+      :value: 48
+
+
+
+   .. py:attribute:: CTX_LH_PARACENTRAL
+      :value: 49
+
+
+
+   .. py:attribute:: CTX_LH_PARSOPERCULARIS
+      :value: 50
+
+
+
+   .. py:attribute:: CTX_LH_PARSORBITALIS
+      :value: 51
+
+
+
+   .. py:attribute:: CTX_LH_PARSTRIANGULARIS
+      :value: 52
+
+
+
+   .. py:attribute:: CTX_LH_PERICALCARINE
+      :value: 53
+
+
+
+   .. py:attribute:: CTX_LH_POSTCENTRAL
+      :value: 54
+
+
+
+   .. py:attribute:: CTX_LH_POSTERIORCINGULATE
+      :value: 55
+
+
+
+   .. py:attribute:: CTX_LH_PRECENTRAL
+      :value: 56
+
+
+
+   .. py:attribute:: CTX_LH_PRECUNEUS
+      :value: 57
+
+
+
+   .. py:attribute:: CTX_LH_ROSTRALANTERIORCINGULATE
+      :value: 58
+
+
+
+   .. py:attribute:: CTX_LH_ROSTRALMIDDLEFRONTAL
+      :value: 59
+
+
+
+   .. py:attribute:: CTX_LH_SUPERIORFRONTAL
+      :value: 60
+
+
+
+   .. py:attribute:: CTX_LH_SUPERIORPARIETAL
+      :value: 61
+
+
+
+   .. py:attribute:: CTX_LH_SUPERIORTEMPORAL
+      :value: 62
+
+
+
+   .. py:attribute:: CTX_LH_SUPRAMARGINAL
+      :value: 63
+
+
+
+   .. py:attribute:: CTX_LH_FRONTALPOLE
+      :value: 64
+
+
+
+   .. py:attribute:: CTX_LH_TEMPORALPOLE
+      :value: 65
+
+
+
+   .. py:attribute:: CTX_LH_TRANSVERSETEMPORAL
+      :value: 66
+
+
+
+   .. py:attribute:: CTX_LH_INSULA
+      :value: 67
+
+
+
+   .. py:attribute:: CTX_RH_BANKSSTS
+      :value: 68
+
+
+
+   .. py:attribute:: CTX_RH_CAUDALANTERIORCINGULATE
+      :value: 69
+
+
+
+   .. py:attribute:: CTX_RH_CAUDALMIDDLEFRONTAL
+      :value: 70
+
+
+
+   .. py:attribute:: CTX_RH_CUNEUS
+      :value: 71
+
+
+
+   .. py:attribute:: CTX_RH_ENTORHINAL
+      :value: 72
+
+
+
+   .. py:attribute:: CTX_RH_FUSIFORM
+      :value: 73
+
+
+
+   .. py:attribute:: CTX_RH_INFERIORPARIETAL
+      :value: 74
+
+
+
+   .. py:attribute:: CTX_RH_INFERIORTEMPORAL
+      :value: 75
+
+
+
+   .. py:attribute:: CTX_RH_ISTHMUSCINGULATE
+      :value: 76
+
+
+
+   .. py:attribute:: CTX_RH_LATERALOCCIPITAL
+      :value: 77
+
+
+
+   .. py:attribute:: CTX_RH_LATERALORBITOFRONTAL
+      :value: 78
+
+
+
+   .. py:attribute:: CTX_RH_LINGUAL
+      :value: 79
+
+
+
+   .. py:attribute:: CTX_RH_MEDIALORBITOFRONTAL
+      :value: 80
+
+
+
+   .. py:attribute:: CTX_RH_MIDDLETEMPORAL
+      :value: 81
+
+
+
+   .. py:attribute:: CTX_RH_PARAHIPPOCAMPAL
+      :value: 82
+
+
+
+   .. py:attribute:: CTX_RH_PARACENTRAL
+      :value: 83
+
+
+
+   .. py:attribute:: CTX_RH_PARSOPERCULARIS
+      :value: 84
+
+
+
+   .. py:attribute:: CTX_RH_PARSORBITALIS
+      :value: 85
+
+
+
+   .. py:attribute:: CTX_RH_PARSTRIANGULARIS
+      :value: 86
+
+
+
+   .. py:attribute:: CTX_RH_PERICALCARINE
+      :value: 87
+
+
+
+   .. py:attribute:: CTX_RH_POSTCENTRAL
+      :value: 88
+
+
+
+   .. py:attribute:: CTX_RH_POSTERIORCINGULATE
+      :value: 89
+
+
+
+   .. py:attribute:: CTX_RH_PRECENTRAL
+      :value: 90
+
+
+
+   .. py:attribute:: CTX_RH_PRECUNEUS
+      :value: 91
+
+
+
+   .. py:attribute:: CTX_RH_ROSTRALANTERIORCINGULATE
+      :value: 92
+
+
+
+   .. py:attribute:: CTX_RH_ROSTRALMIDDLEFRONTAL
+      :value: 93
+
+
+
+   .. py:attribute:: CTX_RH_SUPERIORFRONTAL
+      :value: 94
+
+
+
+   .. py:attribute:: CTX_RH_SUPERIORPARIETAL
+      :value: 95
+
+
+
+   .. py:attribute:: CTX_RH_SUPERIORTEMPORAL
+      :value: 96
+
+
+
+   .. py:attribute:: CTX_RH_SUPRAMARGINAL
+      :value: 97
+
+
+
+   .. py:attribute:: CTX_RH_FRONTALPOLE
+      :value: 98
+
+
+
+   .. py:attribute:: CTX_RH_TEMPORALPOLE
+      :value: 99
+
+
+
+   .. py:attribute:: CTX_RH_TRANSVERSETEMPORAL
+      :value: 100
+
+
+
+   .. py:attribute:: CTX_RH_INSULA
+      :value: 101
+
+
+
+   .. py:attribute:: LEFT_HYPOTHALAMUS
+      :value: 102
+
+
+
+   .. py:attribute:: RIGHT_HYPOTHALAMUS
+      :value: 103
+
+
+
+.. py:function:: run_synthseg(ort, t1_img, model_name, onnx_kwargs, parc_cortex=False, parc_hypothalamus=False)
+
+   
+   Run the Synthseg Model
+
+
+
+
+
+
+
+
+
+
+
+
+   .. rubric:: References
+
+   [1] Billot, Benjamin, et al. "Robust machine learning segmentation
+       for large-scale analysis of heterogeneous clinical brain MRI
+       datasets." Proceedings of the National Academy of Sciences 120.9
+       (2023): e2216399120.
+   [2] Billot, Benjamin, et al. "SynthSeg: Segmentation of brain MRI scans
+       of any contrast and resolution without retraining." Medical image
+       analysis 86 (2023): 102789.
+
+   .. only:: latex
+
+      
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+

@@ -1,7 +1,18 @@
-:py:mod:`AFQ.api.utils`
-=======================
+AFQ.api.utils
+=============
 
 .. py:module:: AFQ.api.utils
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   AFQ.api.utils.methods_descriptors
+   AFQ.api.utils.kwargs_descriptors
+   AFQ.api.utils.AFQclass_doc
+   AFQ.api.utils.AFQclass_doc
 
 
 Module Contents
@@ -9,18 +20,42 @@ Module Contents
 
 .. py:data:: methods_descriptors
 
-   
-
 .. py:data:: kwargs_descriptors
 
-   
+.. py:data:: AFQclass_doc
+   :value: Multiline-String
+
+   .. raw:: html
+
+      <details><summary>Show Value</summary>
+
+   .. code-block:: python
+
+      """Here are the arguments you can pass to kwargs, to customize the tractometry pipeline. They are organized into 5 sections.
+      """
+
+   .. raw:: html
+
+      </details>
+
+
 
 .. py:data:: AFQclass_doc
-   :value: 'Here are the arguments you can pass to kwargs, to customize the tractometry pipeline. They are...'
+   :value: Multiline-String
 
-   
+   .. raw:: html
 
-.. py:data:: AFQclass_doc
+      <details><summary>Show Value</summary>
 
-   
+   .. code-block:: python
+
+      """Here are the arguments you can pass to kwargs, to customize the tractometry pipeline. They are organized into 5 sections.
+      
+      """
+
+   .. raw:: html
+
+      </details>
+
+
 

@@ -1,0 +1,233 @@
+AFQ.models.asym_filtering
+=========================
+
+.. py:module:: AFQ.models.asym_filtering
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   AFQ.models.asym_filtering.unified_filtering
+   AFQ.models.asym_filtering.compute_asymmetry_index
+   AFQ.models.asym_filtering.compute_odd_power_map
+   AFQ.models.asym_filtering.compute_nufid_asym
+
+
+Module Contents
+---------------
+
+.. py:function:: unified_filtering(sh_data, sphere, sh_basis='descoteaux07', is_legacy=True, sigma_spatial=1.0, sigma_align=0.8, sigma_angle=None, rel_sigma_range=0.2, n_threads=None, low_mem=False)
+
+   
+   Unified asymmetric filtering as described in [1].
+
+
+   :Parameters:
+
+       **sh_data: ndarray**
+           SH coefficients image.
+
+       **sphere: str or DIPY sphere**
+           Name of the DIPY sphere to use for SH to SF projection.
+
+       **sh_basis: str**
+           SH basis definition used for input and output SH image.
+           One of 'descoteaux07' or 'tournier07'.
+           Default: 'descoteaux07'.
+
+       **is_legacy: bool**
+           Whether the legacy SH basis definition should be used.
+           Default: False.
+
+       **sigma_spatial: float or None**
+           Standard deviation of spatial filter. Can be None to replace
+           by mean filter, in what case win_hwidth must be given.
+
+       **sigma_align: float or None**
+           Standard deviation of alignment filter. `None` disables
+           alignment filtering.
+
+       **sigma_angle: float or None**
+           Standard deviation of the angle filter. `None` disables
+           angle filtering.
+
+       **rel_sigma_range: float or None**
+           Standard deviation of the range filter, relative to the
+           range of SF amplitudes. `None` disables range filtering.
+
+       **n_threads: int or None**
+           Number of threads to use for numba. If None, uses
+           the number of available threads.
+           Default: None.
+
+       **low_mem: bool**
+           Whether to use the low-memory version of the filtering.
+           It will be between 50% and 100% slower.
+           Default: False.
+
+
+
+
+
+
+
+
+
+
+   .. rubric:: References
+
+   [1] Poirier and Descoteaux, 2024, "A Unified Filtering Method for
+       Estimating Asymmetric Orientation Distribution Functions",
+       Neuroimage, https://doi.org/10.1016/j.neuroimage.2024.120516
+
+   .. only:: latex
+
+      
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: compute_asymmetry_index(sh_coeffs, mask)
+
+   
+   Compute asymmetry index (ASI) [1] from
+   asymmetric ODF volume expressed in full SH basis.
+
+
+   :Parameters:
+
+       **sh_coeffs: ndarray (x, y, z, ncoeffs)**
+           Input spherical harmonics coefficients.
+
+       **mask: ndarray (x, y, z), bool**
+           Mask inside which ASI should be computed.
+
+   :Returns:
+
+       asi_map: ndarray (x, y, z)
+           Asymmetry index map.
+
+
+
+
+
+
+
+
+
+   .. rubric:: References
+
+   [1] S. Cetin Karayumak, E. Özarslan, and G. Unal,
+       "Asymmetric Orientation Distribution Functions (AODFs)
+       revealing intravoxel geometry in diffusion MRI"
+       Magnetic Resonance Imaging, vol. 49, pp. 145-158, Jun. 2018,
+       doi: https://doi.org/10.1016/j.mri.2018.03.006.
+
+   .. only:: latex
+
+      
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: compute_odd_power_map(sh_coeffs, mask)
+
+   
+   Compute odd-power map [1] from
+   asymmetric ODF volume expressed in full SH basis.
+
+
+   :Parameters:
+
+       **sh_coeffs: ndarray (x, y, z, ncoeffs)**
+           Input spherical harmonics coefficients.
+
+       **mask: ndarray (x, y, z), bool**
+           Mask inside which odd-power map should be computed.
+
+   :Returns:
+
+       odd_power_map: ndarray (x, y, z)
+           Odd-power map.
+
+
+
+
+
+
+
+
+
+   .. rubric:: References
+
+   [1] C. Poirier, E. St-Onge, and M. Descoteaux,
+       "Investigating the Occurrence of Asymmetric Patterns in
+       White Matter Fiber Orientation Distribution Functions"
+       [Abstract], In: Proc. Intl. Soc. Mag. Reson. Med. 29 (2021),
+       2021 May 15-20, Vancouver, BC, Abstract number 0865.
+
+   .. only:: latex
+
+      
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: compute_nufid_asym(sh_coeffs, sphere, csf, mask)
+
+   
+   Number of fiber directions (nufid) map [1].
+
+
+   :Parameters:
+
+       **sh_coeffs: ndarray (x, y, z, ncoeffs)**
+           Input spherical harmonics coefficients.
+
+       **sphere: DIPY sphere**
+           Sphere for SH to SF projection.
+
+       **csf: ndarray (x, y, z)**
+           CSF probability map, used to guess the absolute threshold.
+
+       **mask: ndarray (x, y, z), bool**
+           Mask inside which ASI should be computed.
+
+
+
+
+
+
+
+
+
+
+   .. rubric:: References
+
+   [1] C. Poirier and M. Descoteaux,
+       "Filtering Methods for Asymmetric ODFs:
+       Where and How Asymmetry Occurs in the White Matter."
+       bioRxiv. 2022 Jan 1; 2022.12.18.520881.
+       doi: https://doi.org/10.1101/2022.12.18.520881
+
+   .. only:: latex
+
+      
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+

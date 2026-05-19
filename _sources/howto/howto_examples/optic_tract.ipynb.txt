@@ -1,0 +1,140 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "\n# How to track the Optic Tract and Posterior Optic Nerve in pyAFQ\n\npyAFQ is designed to be customizable and extensible, even to\nrelatively small bundles. This example will be based on the work \nof Kruper et al. [1]_. Here, part of the trick is that most preprocessing\npipelines will cut off a portion or all of the optic nerve. So, we\nonly attempt to track the most posterior portion of the optic nerve,\nthe optic tract, and the optic chiasm. In addition, we will use our own\ncustom PVE maps from the T1-weighted image to help with segmentation.\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "collapsed": false
+      },
+      "outputs": [],
+      "source": [
+        "import plotly\nimport os.path as op\n\nimport AFQ.api.bundle_dict as abd\nfrom AFQ.api.group import GroupAFQ\n\nimport AFQ.data.fetch as afd\nfrom AFQ.definitions.image import RoiImage\nimport AFQ.definitions.image as afm"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Get dMRI data\nWe will analyze one subject from the Healthy Brain Network Processed Open\nDiffusion Derivatives dataset (HBN-POD2) [2]_, [3]_. We'll use a fetcher to\nget preprocessed dMRI data for one of the >2,000 subjects in that study. The\ndata gets organized into a BIDS-compatible format in the `~/AFQ_data/HBN`\nfolder:\n\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "collapsed": false
+      },
+      "outputs": [],
+      "source": [
+        "study_dir = afd.fetch_hbn_preproc([\"NDARAA948VFH\"])[1]"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Define Optic Tract and Optic Nerve `BundleDict` object\nThe `BundleDict` object holds information about the ROIs used to define the\noptic tract and optic nerve bundles. In this case, there is also a curvature\ncriterion applied to the optic tract bundles to help separate them from\nother nearby bundles. Additionally, qb_thresh is set to 6 to use a clustering\napproach to cleaning as opposed to our standard Mahalanobis distance approach.\n\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "collapsed": false
+      },
+      "outputs": [],
+      "source": [
+        "oton_rois = afd.read_oton_templates(as_img=False)\n\notoc_bd = abd.BundleDict({\n        \"Left Optic\": {\n            \"include\": [\n                oton_rois[\"left_OT_1\"],\n                oton_rois[\"left_OT_0\"],\n                oton_rois[\"left_ON_0\"],\n            ],\n            \"curvature\": {\"path\": oton_rois[\"left_OTOC_curve\"], \"thresh\": 20, \"cut\": True},\n            \"qb_thresh\": 6\n        },\n        \"Right Optic\": {\n            \"include\": [\n                oton_rois[\"right_OT_1\"],\n                oton_rois[\"right_OT_0\"],\n                oton_rois[\"right_ON_0\"],\n            ],\n            \"curvature\": {\"path\": oton_rois[\"right_OTOC_curve\"], \"thresh\": 20, \"cut\": True},\n            \"qb_thresh\": 6\n        },\n        \"Left Optic Cross\": {\n            \"include\": [\n                oton_rois[\"left_OT_1\"],\n                oton_rois[\"left_OT_0\"],\n                oton_rois[\"right_ON_0\"],\n            ],\n            \"qb_thresh\": 6\n        },\n        \"Right Optic Cross\": {\n            \"include\": [\n                oton_rois[\"right_OT_1\"],\n                oton_rois[\"right_OT_0\"],\n                oton_rois[\"left_ON_0\"],\n            ],\n            \"qb_thresh\": 6\n        },\n})"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Tractography and segmentation parameters\nHere, we define some custom parameters for tractography and segmentation.\nFor tractography, we use a higher max_angle to account for the\nsharp turn the optic tract makes around the midbrain. Additionally, we seed\ndensely around the ROIs.\nFor segmentation, we use more lenient cleaning parameters to account for\nthe small size of these bundles. \n\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "collapsed": false
+      },
+      "outputs": [],
+      "source": [
+        "tractography_params = {\n    \"seed_mask\": RoiImage(),\n    \"n_seeds\": 20,\n    \"random_seeds\": False,\n    \"max_angle\": 60,\n    \"trx\": True,\n}\n\nsegmentation_params = {\n    \"cleaning_params\": {\n        \"distance_threshold\": 2,\n        \"length_threshold\": 3,\n    }\n}"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Define PVE images for segmentation\nFinally, we define the PVE images that will be used to guide tracking.\nFor these bundles in particular, this is the trickiest part. Portions of\nthe optic nerve often have low FA, fall outside of the brain mask, or are\nsimply misclassified as gray matter or CSF. In this case, we threshold\non the T1-weighted image using manually set thresholds. We only divide it into\ngray and white matter and accept all streamlines (we do not attempt to filter\nout streamlines terminating in the CSF; these are normally handled in the bundle\nrecognition and cleaning steps). In your case, this can also be done manually,\nor done using DIPY's Markov Random Field (MRF;\nhttps://docs.dipy.org/stable/examples_built/segmentation/tissue_classification.html).\nJust remember to either use the unmasked T1 (as we do here) or ensure that\nthe brain mask includes the optic nerve.\n\nIn the event that tractography fails,\nyou can also check pyAFQ's outputs to see the PVE images and white matter gray\nmatter interface (wmgmi) that pyAFQ used for tractography. You can then adjust\npyAFQ parameters, delete these files, and re-run accordingly.\n\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "collapsed": false
+      },
+      "outputs": [],
+      "source": [
+        "pve = afm.PVEImages(\n    afm.ThresholdedScalarImage(\n        \"t1_file\",\n        upper_bound=0),\n    afm.ThresholdedScalarImage(\n        \"t1_file\",\n        upper_bound=180),\n    afm.ThresholdedScalarImage(\n        \"t1_file\",\n        lower_bound=180))"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Define GroupAFQ object\nFinally, we define the `GroupAFQ` object and export all the results.\n\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "collapsed": false
+      },
+      "outputs": [],
+      "source": [
+        "my_afq = GroupAFQ(\n    bids_path=study_dir,\n    dwi_preproc_pipeline=\"qsiprep\",\n    participant_labels=[\"NDARAA948VFH\"],\n    output_dir=op.join(study_dir, \"derivatives\", \"afq_otoc\"),\n    pve=pve,\n    tracking_params=tractography_params,\n    segmentation_params=segmentation_params,\n    bundle_info=otoc_bd)\n\nmy_afq.export_all()\n\nbundle_html = my_afq.export(\"all_bundles_figure\")\nplotly.io.show(bundle_html[\"NDARAA948VFH\"])"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## References\n.. [1] Kruper, John, and Ariel Rokem. \"Automatic fast and reliable\n    recognition of a small brain white matter bundle.\" International\n    Workshop on Computational Diffusion MRI. Cham: Springer Nature\n    Switzerland, 2023.\n\n.. [2] Alexander LM, Escalera J, Ai L, et al. An open resource for\n    transdiagnostic research in pediatric mental health and learning\n    disorders. Sci Data. 2017;4:170181.\n\n.. [3] Richie-Halford A, Cieslak M, Ai L, et al. An analysis-ready and quality\n    controlled resource for pediatric brain white-matter research. Scientific\n    Data. 2022;9(1):1-27.\n\n"
+      ]
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "display_name": "Python 3",
+      "language": "python",
+      "name": "python3"
+    },
+    "language_info": {
+      "codemirror_mode": {
+        "name": "ipython",
+        "version": 3
+      },
+      "file_extension": ".py",
+      "mimetype": "text/x-python",
+      "name": "python",
+      "nbconvert_exporter": "python",
+      "pygments_lexer": "ipython3",
+      "version": "3.13.13"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 0
+}

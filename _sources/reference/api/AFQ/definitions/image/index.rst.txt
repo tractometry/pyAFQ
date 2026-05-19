@@ -1,41 +1,39 @@
-:py:mod:`AFQ.definitions.image`
-===============================
+AFQ.definitions.image
+=====================
 
 .. py:module:: AFQ.definitions.image
 
 
-Module Contents
----------------
-
 Classes
-~~~~~~~
+-------
 
 .. autoapisummary::
 
    AFQ.definitions.image.ImageFile
    AFQ.definitions.image.FullImage
    AFQ.definitions.image.RoiImage
-   AFQ.definitions.image.GQImage
-   AFQ.definitions.image.B0Image
    AFQ.definitions.image.LabelledImageFile
    AFQ.definitions.image.ThresholdedImageFile
    AFQ.definitions.image.ScalarImage
    AFQ.definitions.image.ThresholdedScalarImage
+   AFQ.definitions.image.PVEImage
+   AFQ.definitions.image.PVEImages
    AFQ.definitions.image.TemplateImage
 
 
+Module Contents
+---------------
 
-
-.. py:class:: ImageFile(path=None, suffix=None, filters={}, resample=True)
-
+.. py:class:: ImageFile(path=None, suffix=None, filters=None, resample=True)
 
    Bases: :py:obj:`ImageDefinition`
+
 
    
    Define an image based on a file.
    Does not apply any labels or thresholds;
    Generates image with floating point data.
-   Useful for seed and stop images, where threshold can be applied
+   Useful for seed images, where threshold can be applied
    after interpolation (see example).
 
 
@@ -80,13 +78,16 @@ Classes
 
    ..
        !! processed by numpydoc !!
+
+   .. py:attribute:: resample
+      :value: True
+
+
+
    .. py:method:: find_path(bids_layout, from_path, subject, session, required=True)
 
 
    .. py:method:: get_path_data_affine(dwi_path)
-
-
-   .. py:method:: apply_conditions(image_data_orig, image_file)
 
 
    .. py:method:: get_name()
@@ -95,11 +96,10 @@ Classes
    .. py:method:: get_image_getter(task_name)
 
 
-
 .. py:class:: FullImage
 
-
    Bases: :py:obj:`ImageDefinition`
+
 
    
    Define an image which covers a full volume.
@@ -124,17 +124,17 @@ Classes
 
    ..
        !! processed by numpydoc !!
+
    .. py:method:: get_name()
 
 
    .. py:method:: get_image_getter(task_name)
 
 
-
-.. py:class:: RoiImage(use_waypoints=True, use_presegment=False, use_endpoints=False, tissue_property=None, tissue_property_n_voxel=None, tissue_property_threshold=None)
-
+.. py:class:: RoiImage(use_waypoints=True, use_presegment=False, use_endpoints=False, only_wmgmi=False, only_wm=False, dilate=True, tissue_property=None, tissue_property_n_voxel=None, tissue_property_threshold=None)
 
    Bases: :py:obj:`ImageDefinition`
+
 
    
    Define an image which is all include ROIs or'd together.
@@ -153,6 +153,16 @@ Classes
            Whether to use the endpoints ("start" and "end") to generate
            the image.
 
+       **only_wmgmi** : bool
+           Whether to only include portion of ROIs in the WM-GM interface.
+
+       **only_wm** : bool
+           Whether to only include portion of ROIs in the white matter.
+
+       **dilate** : bool
+           Whether to dilate the ROIs before combining them, according to the
+           tolerance that will be used during bundle recognition.
+
        **tissue_property** : str or None
            Tissue property from `scalars` to multiply the ROI image with.
            Can be useful to limit seed mask to the core white matter.
@@ -160,7 +170,7 @@ Classes
            Default: None
 
        **tissue_property_n_voxel** : int or None
-           Threshold `tissue_property` to a boolean mask with 
+           Threshold `tissue_property` to a boolean mask with
            tissue_property_n_voxel number of voxels set to True.
            Default: None
 
@@ -197,96 +207,62 @@ Classes
 
    ..
        !! processed by numpydoc !!
+
+   .. py:attribute:: use_waypoints
+      :value: True
+
+
+
+   .. py:attribute:: use_presegment
+      :value: False
+
+
+
+   .. py:attribute:: use_endpoints
+      :value: False
+
+
+
+   .. py:attribute:: only_wmgmi
+      :value: False
+
+
+
+   .. py:attribute:: only_wm
+      :value: False
+
+
+
+   .. py:attribute:: dilate
+      :value: True
+
+
+
+   .. py:attribute:: tissue_property
+      :value: None
+
+
+
+   .. py:attribute:: tissue_property_n_voxel
+      :value: None
+
+
+
+   .. py:attribute:: tissue_property_threshold
+      :value: None
+
+
+
    .. py:method:: get_name()
 
 
    .. py:method:: get_image_getter(task_name)
 
 
-
-.. py:class:: GQImage
-
-
-   Bases: :py:obj:`ImageDefinition`
-
-   
-   Threshold the anisotropic diffusion component of the 
-   Generalized Q-Sampling Model to generate a brain mask
-   which will include the eyes, optic nerve, and cerebrum
-   but will exclude most or all of the skull.
-
-
-
-
-
-
-
-
-
-
-
-
-
-   .. rubric:: Examples
-
-   api.GroupAFQ(brain_mask_definition=GQImage())
-
-
-
-   ..
-       !! processed by numpydoc !!
-   .. py:method:: get_name()
-
-
-   .. py:method:: get_image_getter(task_name)
-
-
-
-.. py:class:: B0Image(median_otsu_kwargs={})
-
-
-   Bases: :py:obj:`ImageDefinition`
-
-   
-   Define an image using b0 and dipy's median_otsu.
-
-
-   :Parameters:
-
-       **median_otsu_kwargs: dict, optional**
-           Optional arguments to pass into dipy's median_otsu.
-           Default: {}
-
-
-
-
-
-
-
-
-
-
-
-   .. rubric:: Examples
-
-   brain_image_definition = B0Image()
-   api.GroupAFQ(brain_image_definition=brain_image_definition)
-
-
-
-   ..
-       !! processed by numpydoc !!
-   .. py:method:: get_name()
-
-
-   .. py:method:: get_image_getter(task_name)
-
-
-
-.. py:class:: LabelledImageFile(path=None, suffix=None, filters={}, inclusive_labels=None, exclusive_labels=None, combine='or')
-
+.. py:class:: LabelledImageFile(path=None, suffix=None, filters=None, inclusive_labels=None, exclusive_labels=None, combine='or')
 
    Bases: :py:obj:`ImageFile`, :py:obj:`CombineImageMixin`
+
 
    
    Define an image based on labels in a file.
@@ -347,19 +323,29 @@ Classes
 
    ..
        !! processed by numpydoc !!
+
+   .. py:attribute:: inclusive_labels
+      :value: None
+
+
+
+   .. py:attribute:: exclusive_labels
+      :value: None
+
+
+
    .. py:method:: apply_conditions(image_data_orig, image_file)
 
 
+.. py:class:: ThresholdedImageFile(path=None, suffix=None, filters=None, lower_bound=None, upper_bound=None, as_percentage=False, combine='and')
 
-.. py:class:: ThresholdedImageFile(path=None, suffix=None, filters={}, lower_bound=None, upper_bound=None, as_percentage=False, combine='and')
+   Bases: :py:obj:`ThresholdMixin`, :py:obj:`ImageFile`
 
-
-   Bases: :py:obj:`ImageFile`, :py:obj:`CombineImageMixin`
 
    
    Define an image based on thresholding a file.
-   Note that this should not be used to directly make a seed image
-   or a stop image. In those cases, consider thresholding after
+   Note that this should not be used to directly make a seed image.
+   In those cases, consider thresholding after
    interpolation, as in the example for ImageFile.
 
 
@@ -422,20 +408,17 @@ Classes
 
    ..
        !! processed by numpydoc !!
-   .. py:method:: apply_conditions(image_data_orig, image_file)
-
-
 
 .. py:class:: ScalarImage(scalar)
 
-
    Bases: :py:obj:`ImageDefinition`
+
 
    
    Define an image based on a scalar.
    Does not apply any labels or thresholds;
    Generates image with floating point data.
-   Useful for seed and stop images, where threshold can be applied
+   Useful for seed images, where threshold can be applied
    after interpolation (see example).
 
 
@@ -467,22 +450,25 @@ Classes
 
    ..
        !! processed by numpydoc !!
+
+   .. py:attribute:: scalar
+
+
    .. py:method:: get_name()
 
 
    .. py:method:: get_image_getter(task_name)
 
 
+.. py:class:: ThresholdedScalarImage(scalar, lower_bound=None, upper_bound=None, as_percentage=False, combine='and')
 
-.. py:class:: ThresholdedScalarImage(scalar, lower_bound=None, upper_bound=None, combine='and')
+   Bases: :py:obj:`ThresholdMixin`, :py:obj:`ScalarImage`
 
-
-   Bases: :py:obj:`ThresholdedImageFile`, :py:obj:`ScalarImage`
 
    
    Define an image based on thresholding a scalar image.
-   Note that this should not be used to directly make a seed image
-   or a stop image. In those cases, consider thresholding after
+   Note that this should not be used to directly make a seed image.
+   In those cases, consider thresholding after
    interpolation, as in the example for ScalarImage.
 
 
@@ -501,6 +487,12 @@ Classes
            Upper bound to generate boolean image from data in the file.
            If None, no upper bound is applied.
            Default: None.
+
+       **as_percentage** : bool, optional
+           Interpret lower_bound and upper_bound as percentages of the
+           total non-nan voxels in the image to include (between 0 and 100),
+           instead of as a threshold on the values themselves.
+           Default: False
 
        **combine** : str, optional
            How to combine the boolean images generated by lower_bound
@@ -530,10 +522,138 @@ Classes
    ..
        !! processed by numpydoc !!
 
-.. py:class:: TemplateImage(path)
+   .. py:attribute:: scalar
 
+
+.. py:class:: PVEImage(pve_order=None, path=None, suffix=None, filters=None, resample=True)
 
    Bases: :py:obj:`ImageDefinition`
+
+
+   
+   Define an CSF/GM/WM PVE image from a single file.
+
+
+   :Parameters:
+
+       **pve_order** : str
+           Order of PVEs in file. Should be a list of three strings,
+           each of "csf", "gm", or "wm", indicating which volume
+           in the file corresponds to which tissue type.
+
+       **path** : str, optional
+           path to file to get image from. Use this or suffix.
+           Default: None
+
+       **suffix** : str, optional
+           suffix to pass to bids_layout.get() to identify the file.
+           Default: None
+
+       **filters** : str, optional
+           Additional filters to pass to bids_layout.get() to identify
+           the file.
+           Default: {}
+
+       **resample** : bool, optional
+           Whether to resample the image to the DWI data.
+           Default: True
+
+       **Examples**
+           ..
+
+       **--------**
+           ..
+
+       **pve = PVEImage(**
+           pve_order=["csf", "gm", "wm"],
+           suffix="pve")
+
+       **api.GroupAFQ(..., pve=pve)**
+           ..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+   .. py:attribute:: pve_order
+      :value: None
+
+
+
+   .. py:method:: get_image_getter(task_name)
+
+
+.. py:class:: PVEImages(CSF_probseg, GM_probseg, WM_probseg)
+
+   Bases: :py:obj:`ImageDefinition`
+
+
+   
+   Define a CSF/GM/WM PVE image from three separate files.
+
+
+   :Parameters:
+
+       **CSF_probseg** : ImageFile
+           Corticospinal fluid segmentation file.
+
+       **GM_probseg** : ImageFile
+           Gray matter segmentation file.
+
+       **WM_probseg** : ImageFile
+           White matter segmentation file.
+
+
+
+
+
+
+
+
+
+
+
+   .. rubric:: Examples
+
+   pve = PVEImages(
+       afm.ImageFile(suffix="CSFprobseg"),
+       afm.ImageFile(suffix="GMprobseg"),
+       afm.ImageFile(suffix="WMprobseg"))
+   api.GroupAFQ(..., pve=pve)
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+   .. py:attribute:: probsegs
+
+
+   .. py:method:: find_path(bids_layout, from_path, subject, session, required=True)
+
+
+   .. py:method:: get_name()
+
+
+   .. py:method:: get_image_getter(task_name)
+
+
+.. py:class:: TemplateImage(path)
+
+   Bases: :py:obj:`ImageDefinition`
+
 
    
    Define a scalar based on a template.
@@ -565,10 +685,13 @@ Classes
 
    ..
        !! processed by numpydoc !!
+
+   .. py:attribute:: path
+
+
    .. py:method:: get_name()
 
 
    .. py:method:: get_image_getter(task_name)
-
 
 

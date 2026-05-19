@@ -1,30 +1,28 @@
-:py:mod:`AFQ.tasks.utils`
-=========================
+AFQ.tasks.utils
+===============
 
 .. py:module:: AFQ.tasks.utils
 
 
-Module Contents
----------------
-
-
 Functions
-~~~~~~~~~
+---------
 
 .. autoapisummary::
 
+   AFQ.tasks.utils.get_tp
    AFQ.tasks.utils.get_base_fname
    AFQ.tasks.utils.get_fname
    AFQ.tasks.utils.with_name
 
 
+Module Contents
+---------------
+
+.. py:function:: get_tp(tp_name, structural_imap, data_imap, tissue_imap)
 
 .. py:function:: get_base_fname(output_dir, dwi_data_file)
 
-
 .. py:function:: get_fname(base_fname, suffix, subfolder=None)
 
-
 .. py:function:: with_name(task_list)
-
 

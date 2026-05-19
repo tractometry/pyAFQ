@@ -1,14 +1,13 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../../../" >
 
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.tractography.tractography &#8212; AFQ 2.1 documentation</title>
+    <title>AFQ.tractography.tractography &#8212; AFQ 3.1 documentation</title>
   
   
   
@@ -16,73 +15,71 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
 
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=fd6457a4" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=c6496573" />
   
-  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css" />
-  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/jquery.js"></script>
-    <script src="../../../_static/underscore.js"></script>
-    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx_highlight.js"></script>
-    <script src="../../../_static/design-tabs.js"></script>
+    <script src="../../../_static/documentation_options.js?v=b576230a"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/sg-tags.js?v=d80f6fa4"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/AFQ/tractography/tractography';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../../_static/searchtools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script src="../../../searchindex.js"></script>
+  
   </head>
-  
-  
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
-
+  <body data-default-mode="">
   
   
   <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
-
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
   
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../../search.html"
       method="get">
@@ -90,7 +87,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -98,15 +94,15 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
 
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
   <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
@@ -132,8 +128,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 2.1 documentation - Home"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.1 documentation - Home"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 3.1 documentation - Home"/>
+    <img src="../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="AFQ 3.1 documentation - Home"/>
   
   
 </a></div>
@@ -151,6 +147,20 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../../guides_index.html">
     User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../tutorials/tutorial_examples/index.html">
+    Tutorials: Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../howto/howto_examples/index.html">
+    How to examples
   </a>
 </li>
 
@@ -186,29 +196,21 @@
         <div class="navbar-item navbar-persistent--container">
           
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
       
         <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -233,15 +235,11 @@ document.write(`
   
     <div class="navbar-persistent--mobile">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
@@ -258,7 +256,8 @@ document.write(`
       
         
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -276,6 +275,20 @@ document.write(`
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../../guides_index.html">
     User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../tutorials/tutorial_examples/index.html">
+    Tutorials: Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../howto/howto_examples/index.html">
+    How to examples
   </a>
 </li>
 
@@ -312,15 +325,11 @@ document.write(`
         
           <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
         
           <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -351,7 +360,6 @@ document.write(`
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -364,9 +372,14 @@ document.write(`
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -384,8 +397,6 @@ document.write(`
       
         <div class="header-article-item">
 
-
-
 <nav aria-label="Breadcrumb" class="d-print-none">
   <ul class="bd-breadcrumbs">
     
@@ -400,7 +411,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../../AFQ.html" class="nav-link">AFQ</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">AFQ.tractogr...</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">AFQ.tractography.tractography</span></li>
   </ul>
 </nav>
 </div>
@@ -418,35 +429,58 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for AFQ.tractography.tractography</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">nibabel</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nib</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">tqdm</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">math</span><span class="w"> </span><span class="kn">import</span> <span class="n">radians</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">time</span><span class="w"> </span><span class="kn">import</span> <span class="n">time</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">dipy.data</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dpd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">nibabel</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numba</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">dipy.align</span><span class="w"> </span><span class="kn">import</span> <span class="n">resample</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">dipy.direction</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span><span class="n">DeterministicMaximumDirectionGetter</span><span class="p">,</span>
-                            <span class="n">ProbabilisticDirectionGetter</span><span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">dipy.io.stateful_tractogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">StatefulTractogram</span><span class="p">,</span> <span class="n">Space</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">dipy.tracking.stopping_criterion</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span><span class="n">ThresholdStoppingCriterion</span><span class="p">,</span>
-                                              <span class="n">CmcStoppingCriterion</span><span class="p">,</span>
-                                              <span class="n">ActStoppingCriterion</span><span class="p">)</span>
-
+<span class="kn">from</span><span class="w"> </span><span class="nn">dipy.core.sphere</span><span class="w"> </span><span class="kn">import</span> <span class="n">HemiSphere</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dipy.io.stateful_tractogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">Space</span><span class="p">,</span> <span class="n">StatefulTractogram</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dipy.reconst</span><span class="w"> </span><span class="kn">import</span> <span class="n">shm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dipy.reconst.dti</span><span class="w"> </span><span class="kn">import</span> <span class="n">decompose_tensor</span><span class="p">,</span> <span class="n">from_lower_triangular</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dipy.tracking.stopping_criterion</span><span class="w"> </span><span class="kn">import</span> <span class="n">ActStoppingCriterion</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dipy.tracking.tracker</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">deterministic_tracking</span><span class="p">,</span>
+    <span class="n">pft_tracking</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">nibabel.streamlines.tractogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">LazyTractogram</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">skimage.segmentation</span><span class="w"> </span><span class="kn">import</span> <span class="n">find_boundaries</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tqdm</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">dipy.tracking.local_tracking</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span><span class="n">LocalTracking</span><span class="p">,</span>
-                                          <span class="n">ParticleFilteringTracking</span><span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">AFQ._fixes</span><span class="w"> </span><span class="kn">import</span> <span class="n">tensor_odf</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.tractography.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">gen_seeds</span><span class="p">,</span> <span class="n">get_percentile_threshold</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.tractography.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">gen_seeds</span>
 
 
-<div class="viewcode-block" id="track"><a class="viewcode-back" href="../../../reference/api/AFQ/tractography/tractography/index.html#AFQ.tractography.tractography.track">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">track</span><span class="p">(</span><span class="n">params_file</span><span class="p">,</span> <span class="n">directions</span><span class="o">=</span><span class="s2">&quot;prob&quot;</span><span class="p">,</span> <span class="n">max_angle</span><span class="o">=</span><span class="mf">30.</span><span class="p">,</span> <span class="n">sphere</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-          <span class="n">seed_mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">seed_threshold</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">thresholds_as_percentages</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-          <span class="n">n_seeds</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">random_seeds</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">rng_seed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">stop_mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-          <span class="n">stop_threshold</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">step_size</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">minlen</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">maxlen</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span>
-          <span class="n">odf_model</span><span class="o">=</span><span class="s2">&quot;CSD&quot;</span><span class="p">,</span> <span class="n">basis_type</span><span class="o">=</span><span class="s2">&quot;descoteaux07&quot;</span><span class="p">,</span> <span class="n">legacy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-          <span class="n">tracker</span><span class="o">=</span><span class="s2">&quot;local&quot;</span><span class="p">,</span> <span class="n">trx</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="track">
+<a class="viewcode-back" href="../../../reference/api/AFQ/tractography/tractography/index.html#AFQ.tractography.tractography.track">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">track</span><span class="p">(</span>
+    <span class="n">params_file</span><span class="p">,</span>
+    <span class="n">pve</span><span class="p">,</span>
+    <span class="n">n_threads</span><span class="p">,</span>
+    <span class="n">directions</span><span class="o">=</span><span class="s2">&quot;prob&quot;</span><span class="p">,</span>
+    <span class="n">max_angle</span><span class="o">=</span><span class="mf">30.0</span><span class="p">,</span>
+    <span class="n">sphere</span><span class="o">=</span><span class="s2">&quot;repulsion724&quot;</span><span class="p">,</span>
+    <span class="n">seed_mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">seed_threshold</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">gm_threshold</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span>
+    <span class="n">thresholds_as_percentages</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">n_seeds</span><span class="o">=</span><span class="mf">1e7</span><span class="p">,</span>
+    <span class="n">random_seeds</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">rng_seed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">step_size</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">minlen</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+    <span class="n">maxlen</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+    <span class="n">odf_model</span><span class="o">=</span><span class="s2">&quot;CSD_AODF&quot;</span><span class="p">,</span>
+    <span class="n">basis_type</span><span class="o">=</span><span class="s2">&quot;descoteaux07&quot;</span><span class="p">,</span>
+    <span class="n">legacy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">trx</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">jit_backend</span><span class="o">=</span><span class="s2">&quot;numba&quot;</span><span class="p">,</span>
+    <span class="n">jit_chunk_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Tractography</span>
 
@@ -455,15 +489,24 @@ document.write(`
 <span class="sd">    params_file : str, nibabel img.</span>
 <span class="sd">        Full path to a nifti file containing CSD spherical harmonic</span>
 <span class="sd">        coefficients, or nibabel img with model params.</span>
+<span class="sd">    pve : str, nibabel img</span>
+<span class="sd">        Full path to a nifti file containing tissue probability maps,</span>
+<span class="sd">        or nibabel img with tissue probability maps. This should be of the</span>
+<span class="sd">        order (pve_csf, pve_gm, pve_wm).</span>
+<span class="sd">    n_threads : int</span>
+<span class="sd">        The number of threads to use in tracking.</span>
+<span class="sd">        If 0 or -1, uses all available threads.</span>
 <span class="sd">    directions : str</span>
 <span class="sd">        How tracking directions are determined.</span>
-<span class="sd">        One of: {&quot;det&quot; | &quot;prob&quot;}</span>
+<span class="sd">        One of: {&quot;det&quot; | &quot;prob&quot; | &quot;pft&quot;}</span>
+<span class="sd">        pft refers to Particle Filtering Tracking ([Girard2014]_).</span>
 <span class="sd">        Default: &quot;prob&quot;</span>
 <span class="sd">    max_angle : float, optional.</span>
 <span class="sd">        The maximum turning angle in each step. Default: 30</span>
-<span class="sd">    sphere : Sphere object, optional.</span>
-<span class="sd">        The discretization of direction getting. default:</span>
-<span class="sd">        dipy.data.default_sphere.</span>
+<span class="sd">    sphere : str or DIPY Sphere</span>
+<span class="sd">        The discretization of the ODF. Can be a DIPY Sphere or</span>
+<span class="sd">        a string name of a DIPY Sphere.</span>
+<span class="sd">        Default: &quot;repulsion724&quot;</span>
 <span class="sd">    seed_mask : array, optional.</span>
 <span class="sd">        Float or binary mask describing the ROI within which we seed for</span>
 <span class="sd">        tracking.</span>
@@ -471,67 +514,59 @@ document.write(`
 <span class="sd">    seed_threshold : float, optional.</span>
 <span class="sd">        A value of the seed_mask above which tracking is seeded.</span>
 <span class="sd">        Default to 0.</span>
+<span class="sd">    gm_threshold : float, optional.</span>
+<span class="sd">        A value of the pve_gm_data above which we consider a voxel to be GM</span>
+<span class="sd">        for the purposes of ACT stopping criterion. Default: 0.4.</span>
 <span class="sd">    n_seeds : int or 2D array, optional.</span>
 <span class="sd">        The seeding density: if this is an int, it is is how many seeds in each</span>
 <span class="sd">        voxel on each dimension (for example, 2 =&gt; [2, 2, 2]). If this is a 2D</span>
-<span class="sd">        array, these are the coordinates of the seeds. Unless random_seeds is</span>
-<span class="sd">        set to True, in which case this is the total number of random seeds</span>
-<span class="sd">        to generate within the mask. Default: 1</span>
+<span class="sd">        array, these are the coordinates of the seeds in RASMM.</span>
+<span class="sd">        Unless random_seeds is set to True,</span>
+<span class="sd">        in which case this is the total number of random seeds</span>
+<span class="sd">        to generate within the mask. Default: 1e7</span>
 <span class="sd">    random_seeds : bool</span>
 <span class="sd">        Whether to generate a total of n_seeds random seeds in the mask.</span>
-<span class="sd">        Default: False.</span>
+<span class="sd">        Default: True</span>
 <span class="sd">    rng_seed : int</span>
 <span class="sd">        random seed used to generate random seeds if random_seeds is</span>
 <span class="sd">        set to True. Default: None</span>
-<span class="sd">    stop_mask : array or str, optional.</span>
-<span class="sd">        If array: A float or binary mask that determines a stopping criterion</span>
-<span class="sd">        (e.g. FA).</span>
-<span class="sd">        If tuple: it contains a sequence that is interpreted as:</span>
-<span class="sd">        (pve_wm, pve_gm, pve_csf), each item of which is either a string</span>
-<span class="sd">        (full path) or a nibabel img to be used in particle filtering</span>
-<span class="sd">        tractography.</span>
-<span class="sd">        A tuple is required if tracker is set to &quot;pft&quot;.</span>
-<span class="sd">        Defaults to no stopping (all ones).</span>
-<span class="sd">    stop_threshold : float or tuple, optional.</span>
-<span class="sd">        If float, this a value of the stop_mask below which tracking is</span>
-<span class="sd">        terminated (and stop_mask has to be an array).</span>
-<span class="sd">        If str, &quot;CMC&quot; for Continuous Map Criterion [Girard2014]_.</span>
-<span class="sd">                &quot;ACT&quot; for Anatomically-constrained tractography [Smith2012]_.</span>
-<span class="sd">        A string is required if the tracker is set to &quot;pft&quot;.</span>
-<span class="sd">        Defaults to 0 (this means that if no stop_mask is passed,</span>
-<span class="sd">        we will stop only at the edge of the image).</span>
 <span class="sd">    thresholds_as_percentages : bool, optional</span>
-<span class="sd">        Interpret seed_threshold and stop_threshold as percentages of the</span>
-<span class="sd">        total non-nan voxels in the seed and stop mask to include</span>
+<span class="sd">        Interpret seed_threshold as percentages of the</span>
+<span class="sd">        total non-nan voxels in the seed mask to include</span>
 <span class="sd">        (between 0 and 100), instead of as a threshold on the</span>
 <span class="sd">        values themselves.</span>
 <span class="sd">        Default: False</span>
 <span class="sd">    step_size : float, optional.</span>
 <span class="sd">        The size of a step (in mm) of tractography. Default: 0.5</span>
 <span class="sd">    minlen: int, optional</span>
-<span class="sd">        The miminal length (mm) in a streamline. Default: 20</span>
+<span class="sd">        The minimal length (mm) in a streamline. Default: 20</span>
 <span class="sd">    maxlen: int, optional</span>
-<span class="sd">        The miminal length (mm) in a streamline. Default: 250</span>
+<span class="sd">        The maximum length (mm) in a streamline. Default: 250</span>
 <span class="sd">    odf_model : str or Definition, optional</span>
 <span class="sd">        Can be either a string or Definition. If a string, it must be one of</span>
-<span class="sd">        {&quot;DTI&quot;, &quot;CSD&quot;, &quot;DKI&quot;, &quot;GQ&quot;, &quot;RUMBA&quot;}. If a Definition, we assume</span>
-<span class="sd">        it is a definition of a file containing Spherical Harmonics</span>
-<span class="sd">        coefficients.</span>
-<span class="sd">        Defaults to use &quot;CSD&quot;</span>
+<span class="sd">        {&quot;DTI&quot;, &quot;CSD&quot;, &quot;DKI&quot;, &quot;GQ&quot;, &quot;RUMBA&quot;, &quot;MSMT_AODF&quot;, &quot;CSD_AODF&quot;, &quot;MSMTCSD&quot;}.</span>
+<span class="sd">        If a Definition, we assume it is a definition of a file containing</span>
+<span class="sd">        Spherical Harmonics coefficients.</span>
+<span class="sd">        Defaults to use &quot;CSD_AODF&quot;</span>
 <span class="sd">    basis_type : str, optional</span>
-<span class="sd">        The spherical harmonic basis type used to represent the coefficients. </span>
-<span class="sd">        One of {&quot;descoteaux07&quot;, &quot;tournier07&quot;}. Deafult: &quot;descoteaux07&quot;</span>
+<span class="sd">        The spherical harmonic basis type used to represent the coefficients.</span>
+<span class="sd">        One of {&quot;descoteaux07&quot;, &quot;tournier07&quot;}. Default: &quot;descoteaux07&quot;</span>
 <span class="sd">    legacy : bool, optional</span>
-<span class="sd">        Whether to use the legacy implementation of the direction getter.</span>
+<span class="sd">        Whether the legacy SH basis definition should be used.</span>
 <span class="sd">        See Dipy documentation for more details. Default: True</span>
-<span class="sd">    tracker : str, optional</span>
-<span class="sd">        Which strategy to use in tracking. This can be the standard local</span>
-<span class="sd">        tracking (&quot;local&quot;) or Particle Filtering Tracking ([Girard2014]_).</span>
-<span class="sd">        One of {&quot;local&quot;, &quot;pft&quot;}. Default: &quot;local&quot;</span>
 <span class="sd">    trx : bool, optional</span>
 <span class="sd">        Whether to return the streamlines compatible with input to TRX file</span>
 <span class="sd">        (i.e., as a LazyTractogram class instance).</span>
-<span class="sd">        Default: False</span>
+<span class="sd">        Default: True</span>
+<span class="sd">    jit_backend : str, optional</span>
+<span class="sd">        If directions is &quot;prob&quot; or &quot;ptt&quot;, the JIT backend to use.</span>
+<span class="sd">        One of {&quot;auto&quot;, &quot;cuda&quot;, &quot;metal&quot;, &quot;webgpu&quot;, or &quot;numba&quot;}.</span>
+<span class="sd">        Default: &quot;numba&quot;</span>
+<span class="sd">    jit_chunk_size : int, optional</span>
+<span class="sd">        If directions is &quot;prob&quot; or &quot;ptt&quot;, the chunk size to use</span>
+<span class="sd">        for JIT tracking. If None, chooses 25000 for numba backend</span>
+<span class="sd">        and 5000 for other backends.</span>
+<span class="sd">        Default: None</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -548,7 +583,7 @@ document.write(`
 <span class="sd">        information. Neuroimage. 2012 Sep;62(3):1924-38.</span>
 <span class="sd">        doi: 10.1016/j.neuroimage.2012.06.005. Epub 2012 Jun 13.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;AFQ&#39;</span><span class="p">)</span>
+    <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;AFQ&quot;</span><span class="p">)</span>
 
     <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Loading Image...&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">params_file</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
@@ -556,150 +591,251 @@ document.write(`
     <span class="k">else</span><span class="p">:</span>
         <span class="n">params_img</span> <span class="o">=</span> <span class="n">params_file</span>
 
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pve</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">pve_img</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">pve</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pve</span><span class="p">,</span> <span class="n">nib</span><span class="o">.</span><span class="n">Nifti1Image</span><span class="p">):</span>
+        <span class="n">pve_img</span> <span class="o">=</span> <span class="n">pve</span>
+    <span class="n">pve_data</span> <span class="o">=</span> <span class="n">pve_img</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
+
     <span class="n">model_params</span> <span class="o">=</span> <span class="n">params_img</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">odf_model</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">odf_model</span> <span class="o">=</span> <span class="n">odf_model</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
     <span class="n">directions</span> <span class="o">=</span> <span class="n">directions</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 
-    <span class="c1"># We need to calculate the size of a voxel, so we can transform</span>
-    <span class="c1"># from mm to voxel units:</span>
-    <span class="n">minlen</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">minlen</span> <span class="o">/</span> <span class="n">step_size</span><span class="p">)</span>
-    <span class="n">maxlen</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">maxlen</span> <span class="o">/</span> <span class="n">step_size</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">n_threads</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">n_threads</span> <span class="o">=</span> <span class="mi">0</span>
 
     <span class="k">if</span> <span class="n">seed_mask</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">seed_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">params_img</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span>
 
-    <span class="n">seeds</span> <span class="o">=</span> <span class="n">gen_seeds</span><span class="p">(</span>
-        <span class="n">seed_mask</span><span class="p">,</span> <span class="n">seed_threshold</span><span class="p">,</span>
-        <span class="n">n_seeds</span><span class="p">,</span> <span class="n">thresholds_as_percentages</span><span class="p">,</span>
-        <span class="n">random_seeds</span><span class="p">,</span> <span class="n">rng_seed</span><span class="p">,</span> <span class="n">params_img</span><span class="o">.</span><span class="n">affine</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sphere</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">sphere</span> <span class="o">=</span> <span class="n">dpd</span><span class="o">.</span><span class="n">get_sphere</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">sphere</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">sphere</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">sphere</span> <span class="o">=</span> <span class="n">dpd</span><span class="o">.</span><span class="n">default_sphere</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">pve_data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">4</span> <span class="ow">or</span> <span class="n">pve_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+            <span class="s2">&quot;For pve, expected pve_data with shape [x, y, z, 3]. &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Instead, got </span><span class="si">{</span><span class="n">pve_data</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">.&quot;</span>
+        <span class="p">)</span>
 
-    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Getting Directions...&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">directions</span> <span class="o">==</span> <span class="s2">&quot;det&quot;</span><span class="p">:</span>
-        <span class="n">dg</span> <span class="o">=</span> <span class="n">DeterministicMaximumDirectionGetter</span>
-    <span class="k">elif</span> <span class="n">directions</span> <span class="o">==</span> <span class="s2">&quot;prob&quot;</span><span class="p">:</span>
-        <span class="n">dg</span> <span class="o">=</span> <span class="n">ProbabilisticDirectionGetter</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unrecognized direction &#39;</span><span class="si">{</span><span class="n">directions</span><span class="si">}</span><span class="s2">&#39;.&quot;</span><span class="p">)</span>
+    <span class="n">pve_csf_data</span> <span class="o">=</span> <span class="n">pve_data</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">pve_gm_data</span> <span class="o">=</span> <span class="n">pve_data</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">pve_wm_data</span> <span class="o">=</span> <span class="n">pve_data</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
 
-    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using basis type: </span><span class="si">{</span><span class="n">basis_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using legacy DG: </span><span class="si">{</span><span class="n">legacy</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">pve_csf_data</span> <span class="o">=</span> <span class="n">resample</span><span class="p">(</span>
+        <span class="n">pve_csf_data</span><span class="p">,</span>
+        <span class="n">model_params</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="n">moving_affine</span><span class="o">=</span><span class="n">pve_img</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span>
+        <span class="n">static_affine</span><span class="o">=</span><span class="n">params_img</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
+    <span class="n">pve_gm_data</span> <span class="o">=</span> <span class="n">resample</span><span class="p">(</span>
+        <span class="n">pve_gm_data</span><span class="p">,</span>
+        <span class="n">model_params</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="n">moving_affine</span><span class="o">=</span><span class="n">pve_img</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span>
+        <span class="n">static_affine</span><span class="o">=</span><span class="n">params_img</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
+    <span class="n">pve_wm_data</span> <span class="o">=</span> <span class="n">resample</span><span class="p">(</span>
+        <span class="n">pve_wm_data</span><span class="p">,</span>
+        <span class="n">model_params</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="n">moving_affine</span><span class="o">=</span><span class="n">pve_img</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span>
+        <span class="n">static_affine</span><span class="o">=</span><span class="n">params_img</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
+
+    <span class="c1"># here we treat wm that borders the edge of the brain mask as gm</span>
+    <span class="c1"># this is so that streamlines that hit the end of the</span>
+    <span class="c1"># (presumably masked) fodf are treated as valid</span>
+    <span class="c1"># (think brain stem)</span>
+    <span class="n">brain_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">model_params</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+    <span class="n">edge</span> <span class="o">=</span> <span class="n">find_boundaries</span><span class="p">(</span><span class="n">brain_mask</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;inner&quot;</span><span class="p">)</span>
+    <span class="n">pve_gm_data</span><span class="p">[</span><span class="n">edge</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">pve_wm_data</span><span class="p">[</span><span class="n">edge</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">pve_csf_data</span><span class="p">[</span><span class="n">edge</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+    <span class="c1"># We relax ACT stopping criterion here to allow streamlines closer</span>
+    <span class="c1"># to the WM/GM boundary.</span>
+    <span class="n">pve_gm_data</span> <span class="o">*=</span> <span class="mf">0.5</span> <span class="o">/</span> <span class="n">gm_threshold</span>
+
+    <span class="n">stopping_criterion</span> <span class="o">=</span> <span class="n">ActStoppingCriterion</span><span class="o">.</span><span class="n">from_pve</span><span class="p">(</span>
+        <span class="n">pve_wm_data</span><span class="p">,</span> <span class="n">pve_gm_data</span><span class="p">,</span> <span class="n">pve_csf_data</span>
+    <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">odf_model</span> <span class="o">==</span> <span class="s2">&quot;DTI&quot;</span> <span class="ow">or</span> <span class="n">odf_model</span> <span class="o">==</span> <span class="s2">&quot;DKI&quot;</span><span class="p">:</span>
-        <span class="n">evals</span> <span class="o">=</span> <span class="n">model_params</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span>
-        <span class="n">evecs</span> <span class="o">=</span> <span class="n">model_params</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span><span class="mi">12</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">params_img</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+        <span class="n">evals</span><span class="p">,</span> <span class="n">evecs</span> <span class="o">=</span> <span class="n">decompose_tensor</span><span class="p">(</span><span class="n">from_lower_triangular</span><span class="p">(</span><span class="n">model_params</span><span class="p">))</span>
         <span class="n">odf</span> <span class="o">=</span> <span class="n">tensor_odf</span><span class="p">(</span><span class="n">evals</span><span class="p">,</span> <span class="n">evecs</span><span class="p">,</span> <span class="n">sphere</span><span class="p">)</span>
-        <span class="n">dg</span> <span class="o">=</span> <span class="n">dg</span><span class="o">.</span><span class="n">from_pmf</span><span class="p">(</span><span class="n">odf</span><span class="p">,</span> <span class="n">max_angle</span><span class="o">=</span><span class="n">max_angle</span><span class="p">,</span> <span class="n">sphere</span><span class="o">=</span><span class="n">sphere</span><span class="p">)</span>
+        <span class="n">model_params</span> <span class="o">=</span> <span class="n">shm</span><span class="o">.</span><span class="n">sf_to_sh</span><span class="p">(</span>
+            <span class="n">odf</span><span class="p">,</span> <span class="n">sphere</span><span class="p">,</span> <span class="n">basis_type</span><span class="o">=</span><span class="n">basis_type</span><span class="p">,</span> <span class="n">legacy</span><span class="o">=</span><span class="n">legacy</span><span class="p">,</span> <span class="n">full_basis</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+
+    <span class="n">tracking_kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="n">directions</span> <span class="o">==</span> <span class="s2">&quot;pft&quot;</span> <span class="ow">and</span> <span class="p">(</span><span class="n">odf_model</span> <span class="o">==</span> <span class="s2">&quot;DTI&quot;</span> <span class="ow">or</span> <span class="n">odf_model</span> <span class="o">==</span> <span class="s2">&quot;DKI&quot;</span><span class="p">):</span>
+        <span class="n">tracking_kwargs</span><span class="p">[</span><span class="s2">&quot;sf&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">odf</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">dg</span> <span class="o">=</span> <span class="n">dg</span><span class="o">.</span><span class="n">from_shcoeff</span><span class="p">(</span><span class="n">model_params</span><span class="p">,</span> <span class="n">max_angle</span><span class="o">=</span><span class="n">max_angle</span><span class="p">,</span> <span class="n">sphere</span><span class="o">=</span><span class="n">sphere</span><span class="p">,</span>
-                             <span class="n">basis_type</span><span class="o">=</span><span class="n">basis_type</span><span class="p">,</span> <span class="n">legacy</span><span class="o">=</span><span class="n">legacy</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">tracker</span> <span class="o">==</span> <span class="s2">&quot;local&quot;</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">stop_mask</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">stop_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">params_img</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span>
-
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">stop_mask</span><span class="p">))</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">:</span>
-            <span class="n">stopping_criterion</span> <span class="o">=</span> <span class="n">ThresholdStoppingCriterion</span><span class="p">(</span><span class="n">stop_mask</span><span class="p">,</span>
-                                                            <span class="mf">0.5</span><span class="p">)</span>
+        <span class="n">sym_order</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">3.0</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="mf">8.0</span> <span class="o">*</span> <span class="n">model_params</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">3</span><span class="p">]))</span> <span class="o">/</span> <span class="mf">2.0</span>
+        <span class="k">if</span> <span class="n">sym_order</span><span class="o">.</span><span class="n">is_integer</span><span class="p">():</span>
+            <span class="n">sh_order_max</span> <span class="o">=</span> <span class="n">sym_order</span>
+            <span class="n">full_basis</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">thresholds_as_percentages</span><span class="p">:</span>
-                <span class="n">stop_threshold</span> <span class="o">=</span> <span class="n">get_percentile_threshold</span><span class="p">(</span>
-                    <span class="n">stop_mask</span><span class="p">,</span> <span class="n">stop_threshold</span><span class="p">)</span>
-            <span class="n">stop_mask_copy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">stop_mask</span><span class="p">)</span>
-            <span class="n">stop_thresh_copy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">stop_threshold</span><span class="p">)</span>
-            <span class="n">stopping_criterion</span> <span class="o">=</span> <span class="n">ThresholdStoppingCriterion</span><span class="p">(</span><span class="n">stop_mask_copy</span><span class="p">,</span>
-                                                            <span class="n">stop_thresh_copy</span><span class="p">)</span>
+            <span class="n">full_order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">model_params</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span> <span class="o">-</span> <span class="mf">1.0</span>
+            <span class="n">sh_order_max</span> <span class="o">=</span> <span class="n">full_order</span>
+            <span class="n">full_basis</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">pmf</span> <span class="o">=</span> <span class="n">shm</span><span class="o">.</span><span class="n">sh_to_sf</span><span class="p">(</span>
+            <span class="n">model_params</span><span class="p">,</span> <span class="n">sphere</span><span class="p">,</span> <span class="n">sh_order_max</span><span class="o">=</span><span class="n">sh_order_max</span><span class="p">,</span> <span class="n">full_basis</span><span class="o">=</span><span class="n">full_basis</span>
+        <span class="p">)</span>
+        <span class="n">pmf</span><span class="p">[</span><span class="n">pmf</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">tracking_kwargs</span><span class="p">[</span><span class="s2">&quot;sf&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pmf</span>
 
-        <span class="n">my_tracker</span> <span class="o">=</span> <span class="n">LocalTracking</span>
-
-    <span class="k">elif</span> <span class="n">tracker</span> <span class="o">==</span> <span class="s2">&quot;pft&quot;</span><span class="p">:</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">stop_threshold</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
-                <span class="s2">&quot;You are using PFT tracking, but did not provide a string &quot;</span><span class="p">,</span>
-                <span class="s2">&quot;&#39;stop_threshold&#39; input. &quot;</span><span class="p">,</span>
-                <span class="s2">&quot;Possible inputs are: &#39;CMC&#39; or &#39;ACT&#39;&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">stop_mask</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">stop_mask</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
-                <span class="s2">&quot;You are using PFT tracking, but did not provide a length &quot;</span>
-                <span class="s2">&quot;3 iterable for `stop_mask`. &quot;</span>
-                <span class="s2">&quot;Expected a (pve_wm, pve_gm, pve_csf) tuple.&quot;</span><span class="p">)</span>
-        <span class="n">pves</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">pve_imgs</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">ii</span><span class="p">,</span> <span class="n">pve</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">stop_mask</span><span class="p">):</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pve</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-                <span class="n">img</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">pve</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">img</span> <span class="o">=</span> <span class="n">pve</span>
-            <span class="n">pve_imgs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
-            <span class="n">pves</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pve_imgs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">())</span>
-
-        <span class="n">pve_wm_img</span><span class="p">,</span> <span class="n">pve_gm_img</span><span class="p">,</span> <span class="n">pve_csf_img</span> <span class="o">=</span> <span class="n">pve_imgs</span>
-        <span class="n">pve_wm_data</span><span class="p">,</span> <span class="n">pve_gm_data</span><span class="p">,</span> <span class="n">pve_csf_data</span> <span class="o">=</span> <span class="n">pves</span>
-        <span class="n">pve_wm_data</span> <span class="o">=</span> <span class="n">resample</span><span class="p">(</span>
-            <span class="n">pve_wm_data</span><span class="p">,</span> <span class="n">model_params</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-            <span class="n">moving_affine</span><span class="o">=</span><span class="n">pve_wm_img</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span>
-            <span class="n">static_affine</span><span class="o">=</span><span class="n">params_img</span><span class="o">.</span><span class="n">affine</span><span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
-        <span class="n">pve_gm_data</span> <span class="o">=</span> <span class="n">resample</span><span class="p">(</span>
-            <span class="n">pve_gm_data</span><span class="p">,</span> <span class="n">model_params</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-            <span class="n">moving_affine</span><span class="o">=</span><span class="n">pve_gm_img</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span>
-            <span class="n">static_affine</span><span class="o">=</span><span class="n">params_img</span><span class="o">.</span><span class="n">affine</span><span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
-        <span class="n">pve_csf_data</span> <span class="o">=</span> <span class="n">resample</span><span class="p">(</span>
-            <span class="n">pve_csf_data</span><span class="p">,</span> <span class="n">model_params</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-            <span class="n">moving_affine</span><span class="o">=</span><span class="n">pve_csf_img</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span>
-            <span class="n">static_affine</span><span class="o">=</span><span class="n">params_img</span><span class="o">.</span><span class="n">affine</span><span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
-
-        <span class="n">my_tracker</span> <span class="o">=</span> <span class="n">ParticleFilteringTracking</span>
-        <span class="k">if</span> <span class="n">stop_threshold</span> <span class="o">==</span> <span class="s2">&quot;CMC&quot;</span><span class="p">:</span>
-            <span class="n">stopping_criterion</span> <span class="o">=</span> <span class="n">CmcStoppingCriterion</span><span class="o">.</span><span class="n">from_pve</span><span class="p">(</span>
-                <span class="n">pve_wm_data</span><span class="p">,</span>
-                <span class="n">pve_gm_data</span><span class="p">,</span>
-                <span class="n">pve_csf_data</span><span class="p">,</span>
-                <span class="n">step_size</span><span class="o">=</span><span class="n">step_size</span><span class="p">,</span>
-                <span class="n">average_voxel_size</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span>
-                    <span class="n">params_img</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">get_zooms</span><span class="p">()[:</span><span class="mi">3</span><span class="p">]))</span>
-        <span class="k">elif</span> <span class="n">stop_threshold</span> <span class="o">==</span> <span class="s2">&quot;ACT&quot;</span><span class="p">:</span>
-            <span class="n">stopping_criterion</span> <span class="o">=</span> <span class="n">ActStoppingCriterion</span><span class="o">.</span><span class="n">from_pve</span><span class="p">(</span>
-                <span class="n">pve_wm_data</span><span class="p">,</span>
-                <span class="n">pve_gm_data</span><span class="p">,</span>
-                <span class="n">pve_csf_data</span><span class="p">)</span>
-
-    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;Tracking with </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">seeds</span><span class="p">)</span><span class="si">}</span><span class="s2"> seeds, 2 directions per seed...&quot;</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">_tracking</span><span class="p">(</span><span class="n">my_tracker</span><span class="p">,</span> <span class="n">seeds</span><span class="p">,</span> <span class="n">dg</span><span class="p">,</span> <span class="n">stopping_criterion</span><span class="p">,</span> <span class="n">params_img</span><span class="p">,</span>
-                     <span class="n">step_size</span><span class="o">=</span><span class="n">step_size</span><span class="p">,</span> <span class="n">minlen</span><span class="o">=</span><span class="n">minlen</span><span class="p">,</span>
-                     <span class="n">maxlen</span><span class="o">=</span><span class="n">maxlen</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng_seed</span><span class="p">,</span>
-                     <span class="n">trx</span><span class="o">=</span><span class="n">trx</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="_tracking"><a class="viewcode-back" href="../../../reference/api/AFQ/tractography/tractography/index.html#AFQ.tractography.tractography._tracking">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">_tracking</span><span class="p">(</span><span class="n">tracker</span><span class="p">,</span> <span class="n">seeds</span><span class="p">,</span> <span class="n">dg</span><span class="p">,</span> <span class="n">stopping_criterion</span><span class="p">,</span> <span class="n">params_img</span><span class="p">,</span>
-              <span class="n">step_size</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">minlen</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">maxlen</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
-              <span class="n">random_seed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">trx</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Helper function</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">seeds</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="n">seeds</span> <span class="o">=</span> <span class="n">seeds</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
-
-    <span class="n">tracker</span> <span class="o">=</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">tracker</span><span class="p">(</span>
-        <span class="n">dg</span><span class="p">,</span>
-        <span class="n">stopping_criterion</span><span class="p">,</span>
-        <span class="n">seeds</span><span class="p">,</span>
-        <span class="n">params_img</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span>
-        <span class="n">step_size</span><span class="o">=</span><span class="n">step_size</span><span class="p">,</span>
-        <span class="n">minlen</span><span class="o">=</span><span class="n">minlen</span><span class="p">,</span>
-        <span class="n">maxlen</span><span class="o">=</span><span class="n">maxlen</span><span class="p">,</span>
-        <span class="n">return_all</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">random_seed</span><span class="o">=</span><span class="n">random_seed</span><span class="p">))</span>
-
-    <span class="k">if</span> <span class="n">trx</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">LazyTractogram</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">tracker</span><span class="p">,</span>
-                              <span class="n">affine_to_rasmm</span><span class="o">=</span><span class="n">params_img</span><span class="o">.</span><span class="n">affine</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">rng_seed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">tracking_kwargs</span><span class="p">[</span><span class="s2">&quot;random_seed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">rng_seed</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">StatefulTractogram</span><span class="p">(</span><span class="n">tracker</span><span class="p">,</span> <span class="n">params_img</span><span class="p">,</span> <span class="n">Space</span><span class="o">.</span><span class="n">RASMM</span><span class="p">)</span></div>
+        <span class="n">tracking_kwargs</span><span class="p">[</span><span class="s2">&quot;random_seed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="mi">31</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">seeds</span> <span class="o">=</span> <span class="n">gen_seeds</span><span class="p">(</span>
+        <span class="n">seed_mask</span><span class="p">,</span>
+        <span class="n">seed_threshold</span><span class="p">,</span>
+        <span class="n">n_seeds</span><span class="p">,</span>
+        <span class="n">thresholds_as_percentages</span><span class="p">,</span>
+        <span class="n">random_seeds</span><span class="p">,</span>
+        <span class="n">rng_seed</span><span class="p">,</span>
+        <span class="n">params_img</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">directions</span> <span class="o">==</span> <span class="s2">&quot;prob&quot;</span> <span class="ow">or</span> <span class="n">directions</span> <span class="o">==</span> <span class="s2">&quot;ptt&quot;</span><span class="p">:</span>
+        <span class="n">jit_backend</span> <span class="o">=</span> <span class="n">jit_backend</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">jit_backend</span> <span class="o">==</span> <span class="s2">&quot;auto&quot;</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">cuslines</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+                <span class="n">ProbDirectionGetter</span><span class="p">,</span>
+                <span class="n">PttDirectionGetter</span><span class="p">,</span>
+                <span class="n">Tracker</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">jit_backend</span> <span class="o">==</span> <span class="s2">&quot;cuda&quot;</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">cuslines.cuda_python</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+                <span class="n">GPUTracker</span> <span class="k">as</span> <span class="n">Tracker</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">cuslines.cuda_python</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+                <span class="n">ProbDirectionGetter</span><span class="p">,</span>
+                <span class="n">PttDirectionGetter</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">jit_backend</span> <span class="o">==</span> <span class="s2">&quot;metal&quot;</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">cuslines.metal</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+                <span class="n">MetalGPUTracker</span> <span class="k">as</span> <span class="n">Tracker</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">cuslines.metal</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+                <span class="n">MetalProbDirectionGetter</span> <span class="k">as</span> <span class="n">ProbDirectionGetter</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">cuslines.metal</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+                <span class="n">MetalPttDirectionGetter</span> <span class="k">as</span> <span class="n">PttDirectionGetter</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">jit_backend</span> <span class="o">==</span> <span class="s2">&quot;webgpu&quot;</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">cuslines.webgpu</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+                <span class="n">WebGPUProbDirectionGetter</span> <span class="k">as</span> <span class="n">ProbDirectionGetter</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">cuslines.webgpu</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+                <span class="n">WebGPUPttDirectionGetter</span> <span class="k">as</span> <span class="n">PttDirectionGetter</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">cuslines.webgpu</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+                <span class="n">WebGPUTracker</span> <span class="k">as</span> <span class="n">Tracker</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">jit_backend</span> <span class="o">==</span> <span class="s2">&quot;numba&quot;</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">cuslines.numba</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+                <span class="n">CPUProbDirectionGetter</span> <span class="k">as</span> <span class="n">ProbDirectionGetter</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">cuslines.numba</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+                <span class="n">CPUPttDirectionGetter</span> <span class="k">as</span> <span class="n">PttDirectionGetter</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">cuslines.numba</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+                <span class="n">CPUTracker</span> <span class="k">as</span> <span class="n">Tracker</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;jit_backend must be one of &#39;auto&#39;, &#39;cuda&#39;, &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;&#39;metal&#39;, &#39;numba&#39;, or &#39;webgpu&#39;, not </span><span class="si">{</span><span class="n">jit_backend</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">directions</span> <span class="o">==</span> <span class="s2">&quot;ptt&quot;</span><span class="p">:</span>
+            <span class="n">dg</span> <span class="o">=</span> <span class="n">PttDirectionGetter</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">dg</span> <span class="o">=</span> <span class="n">ProbDirectionGetter</span><span class="p">()</span>
+
+        <span class="n">inv_affine</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">params_img</span><span class="o">.</span><span class="n">affine</span><span class="p">)</span>
+        <span class="n">seeds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">seeds</span><span class="p">,</span> <span class="n">inv_affine</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+        <span class="n">seeds</span> <span class="o">+=</span> <span class="n">inv_affine</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+
+        <span class="n">minlen</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">minlen</span> <span class="o">/</span> <span class="n">step_size</span><span class="p">)</span>
+        <span class="n">maxlen</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">maxlen</span> <span class="o">/</span> <span class="n">step_size</span><span class="p">)</span>
+
+        <span class="n">R</span> <span class="o">=</span> <span class="n">params_img</span><span class="o">.</span><span class="n">affine</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+        <span class="n">vox_dim</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cholesky</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">R</span><span class="p">))))</span>
+        <span class="n">step_size</span> <span class="o">=</span> <span class="n">step_size</span> <span class="o">/</span> <span class="n">vox_dim</span>
+
+        <span class="k">if</span> <span class="n">jit_chunk_size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">jit_backend</span> <span class="o">==</span> <span class="s2">&quot;numba&quot;</span><span class="p">:</span>
+                <span class="n">jit_chunk_size</span> <span class="o">=</span> <span class="mi">25000</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">jit_chunk_size</span> <span class="o">=</span> <span class="mi">5000</span>
+
+        <span class="k">if</span> <span class="n">n_threads</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">old_numba_n_threads</span> <span class="o">=</span> <span class="n">numba</span><span class="o">.</span><span class="n">get_num_threads</span><span class="p">()</span>
+            <span class="n">numba</span><span class="o">.</span><span class="n">set_num_threads</span><span class="p">(</span><span class="n">n_threads</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="n">Tracker</span><span class="p">(</span>
+            <span class="n">dg</span><span class="p">,</span>
+            <span class="n">tracking_kwargs</span><span class="p">[</span><span class="s2">&quot;sf&quot;</span><span class="p">],</span>
+            <span class="n">pve_wm_data</span><span class="p">,</span>
+            <span class="n">gm_threshold</span><span class="p">,</span>
+            <span class="n">sphere</span><span class="o">.</span><span class="n">vertices</span><span class="p">,</span>
+            <span class="n">sphere</span><span class="o">.</span><span class="n">edges</span><span class="p">,</span>
+            <span class="n">sphere_symm</span><span class="o">=</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">sphere</span><span class="p">,</span> <span class="n">HemiSphere</span><span class="p">),</span>
+            <span class="n">max_angle</span><span class="o">=</span><span class="n">radians</span><span class="p">(</span><span class="n">max_angle</span><span class="p">),</span>
+            <span class="n">step_size</span><span class="o">=</span><span class="n">step_size</span><span class="p">,</span>
+            <span class="n">min_pts</span><span class="o">=</span><span class="n">minlen</span><span class="p">,</span>
+            <span class="n">max_pts</span><span class="o">=</span><span class="n">maxlen</span><span class="p">,</span>
+            <span class="n">rng_seed</span><span class="o">=</span><span class="n">tracking_kwargs</span><span class="p">[</span><span class="s2">&quot;random_seed&quot;</span><span class="p">],</span>
+            <span class="n">chunk_size</span><span class="o">=</span><span class="n">jit_chunk_size</span><span class="p">,</span>
+        <span class="p">)</span> <span class="k">as</span> <span class="n">jit_tracker</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">trx</span><span class="p">:</span>
+                <span class="n">res</span> <span class="o">=</span> <span class="n">jit_tracker</span><span class="o">.</span><span class="n">generate_trx</span><span class="p">(</span><span class="n">seeds</span><span class="p">,</span> <span class="n">params_img</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">res</span> <span class="o">=</span> <span class="n">jit_tracker</span><span class="o">.</span><span class="n">generate_sft</span><span class="p">(</span><span class="n">seeds</span><span class="p">,</span> <span class="n">params_img</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">n_threads</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">numba</span><span class="o">.</span><span class="n">set_num_threads</span><span class="p">(</span><span class="n">old_numba_n_threads</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">res</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">directions</span> <span class="o">==</span> <span class="s2">&quot;det&quot;</span><span class="p">:</span>
+            <span class="n">tracker</span> <span class="o">=</span> <span class="n">deterministic_tracking</span>
+        <span class="k">elif</span> <span class="n">directions</span> <span class="o">==</span> <span class="s2">&quot;pft&quot;</span><span class="p">:</span>
+            <span class="n">tracker</span> <span class="o">=</span> <span class="n">pft_tracking</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unrecognized direction &#39;</span><span class="si">{</span><span class="n">directions</span><span class="si">}</span><span class="s2">&#39;.&quot;</span><span class="p">)</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Note there will be a long initial delay as seeds are initialized&quot;</span><span class="p">)</span>
+
+        <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+        <span class="n">tracker</span> <span class="o">=</span> <span class="n">tqdm</span><span class="p">(</span>
+            <span class="n">tracker</span><span class="p">(</span>
+                <span class="n">seeds</span><span class="p">,</span>
+                <span class="n">stopping_criterion</span><span class="p">,</span>
+                <span class="n">params_img</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span>
+                <span class="n">max_angle</span><span class="o">=</span><span class="n">max_angle</span><span class="p">,</span>
+                <span class="n">sphere</span><span class="o">=</span><span class="n">sphere</span><span class="p">,</span>
+                <span class="n">basis_type</span><span class="o">=</span><span class="n">basis_type</span><span class="p">,</span>
+                <span class="n">legacy</span><span class="o">=</span><span class="n">legacy</span><span class="p">,</span>
+                <span class="n">step_size</span><span class="o">=</span><span class="n">step_size</span><span class="p">,</span>
+                <span class="n">min_len</span><span class="o">=</span><span class="n">minlen</span><span class="p">,</span>
+                <span class="n">max_len</span><span class="o">=</span><span class="n">maxlen</span><span class="p">,</span>
+                <span class="n">return_all</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">nbr_threads</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">n_threads</span><span class="p">),</span>
+                <span class="o">**</span><span class="n">tracking_kwargs</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">seeds</span><span class="p">),</span>
+            <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Tracking, note that the total is an overestimate...&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">((</span><span class="sa">f</span><span class="s2">&quot;Seed initialization took </span><span class="si">{</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start_time</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> seconds.&quot;</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">trx</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">LazyTractogram</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">tracker</span><span class="p">,</span> <span class="n">affine_to_rasmm</span><span class="o">=</span><span class="n">params_img</span><span class="o">.</span><span class="n">affine</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">StatefulTractogram</span><span class="p">(</span><span class="n">tracker</span><span class="p">,</span> <span class="n">params_img</span><span class="p">,</span> <span class="n">Space</span><span class="o">.</span><span class="n">RASMM</span><span class="p">)</span></div>
+
 </pre></div>
 
                 </article>
@@ -729,8 +865,8 @@ document.write(`
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
 
 
   <footer class="bd-footer">
@@ -751,7 +887,7 @@ document.write(`
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
     <br/>
   </p>
 </div>
@@ -763,16 +899,20 @@ document.write(`
     <div class="footer-items__end">
       
         <div class="footer-item"><div class="footer">
-    <div class="footer-content">
-      <div class="copyright">
-        Please Cite the following paper:
-      </div>
-      <div class="citation">
-        <a href="https://doi.org/10.52294/e6198273-b8e3-4b63-babb-6e6b0da10669">Kruper et al. (2021)</a>
-      </div>
+  <div class="footer-content">
+    <div class="copyright">
+      Please Cite the following papers:
+    </div>
+    <div class="citation">
+      <a href="https://doi.org/10.1371/journal.pcbi.1013323">
+        Kruper et al. (2025)
+      </a><br>
+      <a href="https://doi.org/10.52294/e6198273-b8e3-4b63-babb-6e6b0da10669">
+        Kruper et al. (2021)
+      </a>
     </div>
   </div>
-  </div>
+</div></div>
       
     </div>
   

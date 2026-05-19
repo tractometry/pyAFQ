@@ -1,15 +1,11 @@
-:py:mod:`AFQ.models.dti`
-========================
+AFQ.models.dti
+==============
 
 .. py:module:: AFQ.models.dti
 
 
-Module Contents
----------------
-
-
 Functions
-~~~~~~~~~
+---------
 
 .. autoapisummary::
 
@@ -17,6 +13,8 @@ Functions
    AFQ.models.dti.predict
 
 
+Module Contents
+---------------
 
 .. py:function:: fit_dti(data_files, bval_files, bvec_files, mask=None, out_dir=None, file_prefix=None, b0_threshold=50)
 

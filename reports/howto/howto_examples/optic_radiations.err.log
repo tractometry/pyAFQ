@@ -1,0 +1,130 @@
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+    ~~~~~~~~~^
+        nb,
+        ^^^
+    ...<4 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    )
+    ^
+  File "/opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/nbclient/client.py", line 1323, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/jupyter_core/utils/__init__.py", line 165, in wrapped
+    return loop.run_until_complete(inner)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/asyncio/base_events.py", line 725, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "/opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/nbclient/client.py", line 709, in async_execute
+    await self.async_execute_cell(
+        cell, index, execution_count=self.code_cells_executed + 1
+    )
+  File "/opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/nbclient/client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/nbclient/client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+my_afq = GroupAFQ(
+    bids_path=study_dir,
+    dwi_preproc_pipeline="qsiprep",
+    participant_labels=["NDARAA948VFH"],
+    output_dir=op.join(study_dir, "derivatives", "afq_or"),
+    tracking_params={"n_seeds": 4,
+                     "directions": "prob",
+                     "odf_model": "CSD",
+                     "seed_mask": RoiImage()},
+    bundle_info=bundles)
+
+my_afq.export_all()
+------------------
+
+----- stderr -----
+INFO:bidsschematools:No schema path specified, defaulting to the bundled schema, `/opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/bidsschematools/data/schema.json`.
+----- stderr -----
+INFO:AFQ:Using the following files for subject NDARAA948VFH and session HBNsiteRU:
+----- stderr -----
+INFO:AFQ:  DWI: /home/runner/AFQ_data/HBN/derivatives/qsiprep/sub-NDARAA948VFH/ses-HBNsiteRU/dwi/sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi.nii.gz
+----- stderr -----
+INFO:AFQ:  BVAL: /home/runner/AFQ_data/HBN/derivatives/qsiprep/sub-NDARAA948VFH/ses-HBNsiteRU/dwi/sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi.bval
+----- stderr -----
+INFO:AFQ:  BVEC: /home/runner/AFQ_data/HBN/derivatives/qsiprep/sub-NDARAA948VFH/ses-HBNsiteRU/dwi/sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi.bvec
+----- stderr -----
+INFO:AFQ:  T1: /home/runner/AFQ_data/HBN/derivatives/qsiprep/sub-NDARAA948VFH/anat/sub-NDARAA948VFH_desc-preproc_T1w.nii.gz
+----- stderr -----
+WARNING:AFQ:It is recommended to provide CSF/GM/WM segmentations using PVEImage or PVEImages in AFQ.definitions.image. Otherwise, SynthSeg2 will be used
+------------------
+
+[31m---------------------------------------------------------------------------[39m
+[31mValueError[39m                                Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[4][39m[32m, line 1[39m
+[32m----> [39m[32m1[39m my_afq = GroupAFQ(
+[32m      2[39m     bids_path=study_dir,
+[32m      3[39m     dwi_preproc_pipeline=[33m"qsiprep"[39m,
+[32m      4[39m     participant_labels=[[33m"NDARAA948VFH"[39m],
+
+[36mFile [39m[32m/opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/AFQ/api/group.py:432[39m, in [36mGroupAFQ.__init__[39m[34m(self, bids_path, bids_filters, dwi_preproc_pipeline, t1_preproc_pipeline, participant_labels, output_dir, parallel_params, bids_layout_kwargs, logging_level, **kwargs)[39m
+[32m    422[39m [38;5;28mself[39m.valid_ses_list.append([38;5;28mstr[39m(session))
+[32m    424[39m this_pAFQ_inputs = _ParticipantAFQInputs(
+[32m    425[39m     dwi_data_file,
+[32m    426[39m     bval_file,
+[32m   (...)[39m[32m    430[39m     this_kwargs,
+[32m    431[39m )
+[32m--> [39m[32m432[39m this_pAFQ = [30;43mParticipantAFQ[39;49m[30;43m([39;49m
+[32m    433[39m [30;43m    [39;49m[30;43mthis_pAFQ_inputs[39;49m[30;43m.[39;49m[30;43mdwi_data_file[39;49m[30;43m,[39;49m
+[32m    434[39m [30;43m    [39;49m[30;43mthis_pAFQ_inputs[39;49m[30;43m.[39;49m[30;43mbval_file[39;49m[30;43m,[39;49m
+[32m    435[39m [30;43m    [39;49m[30;43mthis_pAFQ_inputs[39;49m[30;43m.[39;49m[30;43mbvec_file[39;49m[30;43m,[39;49m
+[32m    436[39m [30;43m    [39;49m[30;43mthis_pAFQ_inputs[39;49m[30;43m.[39;49m[30;43mt1_file[39;49m[30;43m,[39;49m
+[32m    437[39m [30;43m    [39;49m[30;43mthis_pAFQ_inputs[39;49m[30;43m.[39;49m[30;43mresults_dir[39;49m[30;43m,[39;49m
+[32m    438[39m [30;43m    [39;49m[30;43m*[39;49m[30;43m*[39;49m[30;43mthis_pAFQ_inputs[39;49m[30;43m.[39;49m[30;43mkwargs[39;49m[30;43m,[39;49m
+[32m    439[39m [30;43m[39;49m[30;43m)[39;49m
+[32m    440[39m [38;5;28mself[39m.plans_dict[subject][[38;5;28mstr[39m(session)] = this_pAFQ.plans_dict
+[32m    441[39m [38;5;28mself[39m.pAFQ_list.append(this_pAFQ)
+
+[36mFile [39m[32m/opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/AFQ/api/participant.py:129[39m, in [36mParticipantAFQ.__init__[39m[34m(self, dwi_data_file, bval_file, bvec_file, t1_file, output_dir, logging_level, **kwargs)[39m
+[32m    117[39m [38;5;28mself[39m.og_kwargs = kwargs.copy()
+[32m    119[39m [38;5;28mself[39m.kwargs = [38;5;28mdict[39m(
+[32m    120[39m     dwi_data_file=dwi_data_file,
+[32m    121[39m     bval_file=bval_file,
+[32m   (...)[39m[32m    127[39m     **kwargs,
+[32m    128[39m )
+[32m--> [39m[32m129[39m [30;43mself[39;49m[30;43m.[39;49m[30;43mmake_workflow[39;49m[30;43m([39;49m[30;43m)[39;49m
+
+[36mFile [39m[32m/opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/AFQ/api/participant.py:151[39m, in [36mParticipantAFQ.make_workflow[39m[34m(self)[39m
+[32m    136[39m     plans = {  [38;5;66;03m# if using SLR map, do tractography first[39;00m
+[32m    137[39m         [33m"[39m[33mstructural[39m[33m"[39m: get_structural_plan([38;5;28mself[39m.kwargs),
+[32m    138[39m         [33m"[39m[33mdata[39m[33m"[39m: get_data_plan([38;5;28mself[39m.kwargs),
+[32m   (...)[39m[32m    143[39m         [33m"[39m[33mviz[39m[33m"[39m: get_viz_plan([38;5;28mself[39m.kwargs),
+[32m    144[39m     }
+[32m    145[39m [38;5;28;01melse[39;00m:
+[32m    146[39m     plans = {  [38;5;66;03m# Otherwise, do mapping first[39;00m
+[32m    147[39m         [33m"[39m[33mstructural[39m[33m"[39m: get_structural_plan([38;5;28mself[39m.kwargs),
+[32m    148[39m         [33m"[39m[33mdata[39m[33m"[39m: get_data_plan([38;5;28mself[39m.kwargs),
+[32m    149[39m         [33m"[39m[33mtissue[39m[33m"[39m: get_tissue_plan([38;5;28mself[39m.kwargs),
+[32m    150[39m         [33m"[39m[33mmapping[39m[33m"[39m: get_mapping_plan([38;5;28mself[39m.kwargs),
+[32m--> [39m[32m151[39m         [33m"[39m[33mtractography[39m[33m"[39m: [30;43mget_tractography_plan[39;49m[30;43m([39;49m[30;43mself[39;49m[30;43m.[39;49m[30;43mkwargs[39;49m[30;43m)[39;49m,
+[32m    152[39m         [33m"[39m[33msegmentation[39m[33m"[39m: get_segmentation_plan([38;5;28mself[39m.kwargs),
+[32m    153[39m         [33m"[39m[33mviz[39m[33m"[39m: get_viz_plan([38;5;28mself[39m.kwargs),
+[32m    154[39m     }
+[32m    156[39m [38;5;66;03m# Fill in defaults not already set[39;00m
+[32m    157[39m [38;5;28;01mfor[39;00m _, kwargs_in_section [38;5;129;01min[39;00m kwargs_descriptors.items():
+
+[36mFile [39m[32m/opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/AFQ/tasks/tractography.py:246[39m, in [36mget_tractography_plan[39m[34m(kwargs)[39m
+[32m    240[39m n_seeds = kwargs[[33m"[39m[33mtracking_params[39m[33m"[39m][[33m"[39m[33mn_seeds[39m[33m"[39m]
+[32m    241[39m [38;5;28;01mif[39;00m (
+[32m    242[39m     kwargs[[33m"[39m[33mtracking_params[39m[33m"[39m][[33m"[39m[33mrandom_seeds[39m[33m"[39m]
+[32m    243[39m     [38;5;129;01mand[39;00m [38;5;28misinstance[39m(n_seeds, [38;5;28mint[39m)
+[32m    244[39m     [38;5;129;01mand[39;00m n_seeds <= [32m20[39m
+[32m    245[39m ):
+[32m--> [39m[32m246[39m     [38;5;28;01mraise[39;00m [38;5;167;01mValueError[39;00m(
+[32m    247[39m         [33m"[39m[33mUsing random seeds with a low number of seeds is not recommended.[39m[33m"[39m
+[32m    248[39m         [33m"[39m[33m Please increase n_seeds or set random_seeds to False.[39m[33m"[39m
+[32m    249[39m         [33m"[39m[33m A recommended number of seeds when using random seeds is 1e7.[39m[33m"[39m
+[32m    250[39m     )
+[32m    252[39m [38;5;28;01mreturn[39;00m immlib.plan(**tractography_tasks)
+
+[31mValueError[39m: Using random seeds with a low number of seeds is not recommended. Please increase n_seeds or set random_seeds to False. A recommended number of seeds when using random seeds is 1e7.
+

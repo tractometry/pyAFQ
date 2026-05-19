@@ -1,21 +1,22 @@
-:py:mod:`AFQ.utils.stats`
-=========================
+AFQ.utils.stats
+===============
 
 .. py:module:: AFQ.utils.stats
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   AFQ.utils.stats.chunk_indices
+   AFQ.utils.stats.contrast_index
 
 
 Module Contents
 ---------------
 
-
-Functions
-~~~~~~~~~
-
-.. autoapisummary::
-
-   AFQ.utils.stats.contrast_index
-
-
+.. py:function:: chunk_indices(indices, num_batches)
 
 .. py:function:: contrast_index(x1, x2, double=True)
 

@@ -1,15 +1,11 @@
-:py:mod:`AFQ.recognition.curvature`
-===================================
+AFQ.recognition.curvature
+=========================
 
 .. py:module:: AFQ.recognition.curvature
 
 
-Module Contents
----------------
-
-
 Functions
-~~~~~~~~~
+---------
 
 .. autoapisummary::
 
@@ -17,6 +13,8 @@ Functions
    AFQ.recognition.curvature.sl_curve_dist
 
 
+Module Contents
+---------------
 
 .. py:function:: sl_curve(sl, n_points)
 
@@ -28,7 +26,7 @@ Functions
    :Parameters:
 
        **sl** : 2d array-like
-           Streamline to calcualte displacements for.
+           Streamline to calculate displacements for.
 
        **n_points** : int
            Number of points to resample the streamline to

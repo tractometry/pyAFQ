@@ -1,15 +1,11 @@
-:py:mod:`AFQ.tasks.decorators`
-==============================
+AFQ.tasks.decorators
+====================
 
 .. py:module:: AFQ.tasks.decorators
 
 
-Module Contents
----------------
-
-
 Functions
-~~~~~~~~~
+---------
 
 .. autoapisummary::
 
@@ -18,12 +14,17 @@ Functions
    AFQ.tasks.decorators.as_img
 
 
+Module Contents
+---------------
 
-.. py:function:: as_file(suffix, include_track=False, include_seg=False, subfolder=None)
+.. py:function:: as_file(suffix, subfolder=None)
 
    
-   return img and meta as saved file path, with json,
-   and only run if not already found
+   Decorator to save function outputs (img and meta) as files.
+   'suffix' can be:
+       - A string (suffix)
+       - A list of strings (suffixes)
+       - A list of tuples [(suffix, subfolder), ...]
 
 
 
@@ -69,7 +70,8 @@ Functions
 .. py:function:: as_img(func)
 
    
-   return data, meta as nibabel image, meta with timing
+   Decorator to convert function output (ndarray, meta) into (Nifti1Image, meta).
+   Supports functions returning a single tuple or a list of tuples.
 
 
 

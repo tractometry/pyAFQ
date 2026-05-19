@@ -1,15 +1,23 @@
-:py:mod:`AFQ.recognition.criteria`
-==================================
+AFQ.recognition.criteria
+========================
 
 .. py:module:: AFQ.recognition.criteria
 
 
-Module Contents
----------------
+Attributes
+----------
+
+.. autoapisummary::
+
+   AFQ.recognition.criteria.criteria_order_chunk_local
+   AFQ.recognition.criteria.criteria_order_pre_other_bundles
+   AFQ.recognition.criteria.criteria_order_post_other_bundles
+   AFQ.recognition.criteria.valid_noncriterion
+   AFQ.recognition.criteria.logger
 
 
 Functions
-~~~~~~~~~
+---------
 
 .. autoapisummary::
 
@@ -18,6 +26,7 @@ Functions
    AFQ.recognition.criteria.start
    AFQ.recognition.criteria.end
    AFQ.recognition.criteria.length
+   AFQ.recognition.criteria.endpoint_dists
    AFQ.recognition.criteria.primary_axis
    AFQ.recognition.criteria.include
    AFQ.recognition.criteria.curvature
@@ -25,55 +34,52 @@ Functions
    AFQ.recognition.criteria.recobundles
    AFQ.recognition.criteria.qb_thresh
    AFQ.recognition.criteria.clean_by_other_bundle
+   AFQ.recognition.criteria.orient_mahal
+   AFQ.recognition.criteria.isolation_forest
    AFQ.recognition.criteria.mahalanobis
-   AFQ.recognition.criteria.run_bundle_rec_plan
+   AFQ.recognition.criteria._prepare_bundle_def
+   AFQ.recognition.criteria._validate_criteria
+   AFQ.recognition.criteria._run_chunk_local
+   AFQ.recognition.criteria._run_global_phase
+   AFQ.recognition.criteria.recognize_bundles
 
 
+Module Contents
+---------------
 
-Attributes
-~~~~~~~~~~
-
-.. autoapisummary::
-
-   AFQ.recognition.criteria.bundle_criterion_order
-   AFQ.recognition.criteria.valid_noncriterion
-   AFQ.recognition.criteria.logger
+.. py:data:: criteria_order_chunk_local
+   :value: ['length', 'endpoint_dists', 'cross_midline', 'start', 'end', 'prob_map', 'primary_axis',...
 
 
-.. py:data:: bundle_criterion_order
-   :value: ['prob_map', 'cross_midline', 'start', 'end', 'length', 'primary_axis', 'include', 'exclude',...
+.. py:data:: criteria_order_pre_other_bundles
+   :value: ['length', 'endpoint_dists', 'cross_midline', 'start', 'end', 'prob_map', 'primary_axis',...
 
-   
+
+.. py:data:: criteria_order_post_other_bundles
+   :value: ['orient_mahal', 'isolation_forest', 'qb_thresh']
+
 
 .. py:data:: valid_noncriterion
-   :value: ['space', 'mahal', 'primary_axis_percentage', 'inc_addtol', 'exc_addtol']
+   :value: ['space', 'mahal', 'inc_addtol', 'exc_addtol', 'exact_endpoints', 'ORG_spectral_subbundles',...
 
-   
 
 .. py:data:: logger
 
-   
+.. py:function:: prob_map(b_sls, bundle_def, preproc_plan, prob_threshold, img, **kwargs)
 
-.. py:function:: prob_map(b_sls, bundle_def, preproc_imap, prob_threshold, **kwargs)
+.. py:function:: cross_midline(b_sls, bundle_def, preproc_plan, **kwargs)
 
+.. py:function:: start(b_sls, bundle_def, preproc_plan, **kwargs)
 
-.. py:function:: cross_midline(b_sls, bundle_def, preproc_imap, **kwargs)
+.. py:function:: end(b_sls, bundle_def, preproc_plan, **kwargs)
 
+.. py:function:: length(b_sls, bundle_def, preproc_plan, **kwargs)
 
-.. py:function:: start(b_sls, bundle_def, preproc_imap, **kwargs)
+.. py:function:: endpoint_dists(b_sls, bundle_def, preproc_plan, **kwargs)
 
+.. py:function:: primary_axis(b_sls, bundle_def, **kwargs)
 
-.. py:function:: end(b_sls, bundle_def, preproc_imap, **kwargs)
-
-
-.. py:function:: length(b_sls, bundle_def, preproc_imap, **kwargs)
-
-
-.. py:function:: primary_axis(b_sls, bundle_def, img, **kwargs)
-
-
-.. py:function:: include(b_sls, bundle_def, preproc_imap, max_includes, parallel_segmentation, **kwargs)
-
+.. py:function:: include(b_sls, bundle_def, **kwargs)
 
 .. py:function:: curvature(b_sls, bundle_def, mapping, img, save_intermediates, **kwargs)
 
@@ -99,21 +105,48 @@ Attributes
    ..
        !! processed by numpydoc !!
 
-.. py:function:: exclude(b_sls, bundle_def, preproc_imap, **kwargs)
-
+.. py:function:: exclude(b_sls, bundle_def, **kwargs)
 
 .. py:function:: recobundles(b_sls, mapping, bundle_def, reg_template, img, refine_reco, save_intermediates, rng, rb_recognize_params, **kwargs)
 
+.. py:function:: qb_thresh(b_sls, bundle_def, clip_edges, **kwargs)
 
-.. py:function:: qb_thresh(b_sls, bundle_def, preproc_imap, clip_edges, **kwargs)
+.. py:function:: clean_by_other_bundle(b_sls, bundle_def, img, other_bundle_name, other_bundle_sls, **kwargs)
 
+.. py:function:: orient_mahal(b_sls, bundle_def, **kwargs)
 
-.. py:function:: clean_by_other_bundle(b_sls, bundle_def, img, preproc_imap, other_bundle_name, other_bundle_sls, **kwargs)
-
+.. py:function:: isolation_forest(b_sls, bundle_def, rng, **kwargs)
 
 .. py:function:: mahalanobis(b_sls, bundle_def, clip_edges, cleaning_params, **kwargs)
 
+.. py:function:: _prepare_bundle_def(bundle_dict, bundle_name, mapping, img)
 
-.. py:function:: run_bundle_rec_plan(bundle_dict, tg, mapping, img, reg_template, preproc_imap, bundle_name, bundle_idx, bundle_to_flip, bundle_roi_closest, bundle_decisions, **segmentation_params)
+   
+   Warp ROIs and apply distance-transform conversion
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: _validate_criteria(bundle_def, bundle_name, bundle_dict, recognized_bundles_dict)
+
+.. py:function:: _run_chunk_local(bundle_def, chunk_streamlines, bundle_name, img, preproc_plan, save_intermediates, vox_dim, tol, dist_to_atlas, **segmentation_params)
+
+.. py:function:: _run_global_phase(bundle_def, bundle_name, b_sls, fgarray_for_candidates, candidate_global_idx, mapping, img, reg_template, preproc_scalars, recognized_bundles_dict, vox_dim, tol, dist_to_atlas, is_subbundle=False, **segmentation_params)
+
+.. py:function:: recognize_bundles(tg, bundle_dict, mapping, img, reg_template, chunk_size, dist_to_waypoint, dist_to_atlas, save_intermediates, **segmentation_params)
 

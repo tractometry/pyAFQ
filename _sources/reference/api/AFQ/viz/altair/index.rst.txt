@@ -1,15 +1,11 @@
-:py:mod:`AFQ.viz.altair`
-========================
+AFQ.viz.altair
+==============
 
 .. py:module:: AFQ.viz.altair
 
 
-Module Contents
----------------
-
-
 Functions
-~~~~~~~~~
+---------
 
 .. autoapisummary::
 
@@ -18,6 +14,8 @@ Functions
    AFQ.viz.altair.altair_df_to_chart
 
 
+Module Contents
+---------------
 
 .. py:function:: altair_color_dict(names_to_include=None)
 
@@ -43,7 +41,7 @@ Functions
    ..
        !! processed by numpydoc !!
 
-.. py:function:: combined_profiles_df_to_altair_df(profiles, tissue_properties=['dti_fa', 'dti_md'])
+.. py:function:: combined_profiles_df_to_altair_df(profiles, tissue_properties=None)
 
    
    Given a profiles dataframe that is combined
@@ -67,7 +65,7 @@ Functions
    ..
        !! processed by numpydoc !!
 
-.. py:function:: altair_df_to_chart(profiles, position_domain=(20, 80), column_count=1, font_size=20, line_size=10, row_label_angle=90, bundle_list=None, legend_line_size=5, alt_x_kwargs={}, alt_y_kwargs={}, **kwargs)
+.. py:function:: altair_df_to_chart(profiles, position_domain=(20, 80), column_count=1, font_size=20, line_size=10, row_label_angle=90, bundle_list=None, legend_line_size=5, alt_x_kwargs=None, alt_y_kwargs=None, **kwargs)
 
    
    Given a dataframe formatted for Altair, probably from

@@ -1,0 +1,46 @@
+AFQ.nn.utils
+============
+
+.. py:module:: AFQ.nn.utils
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   AFQ.nn.utils.crop_to_nonzero
+   AFQ.nn.utils.prepare_t1_for_nn
+   AFQ.nn.utils.resample_output
+
+
+Module Contents
+---------------
+
+.. py:function:: crop_to_nonzero(img)
+
+   
+   Crops the image to the bounding box of non-zero voxels.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: prepare_t1_for_nn(t1_img)
+
+.. py:function:: resample_output(output, conformed_affine, t1_img)
+

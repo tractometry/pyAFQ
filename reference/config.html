@@ -1,14 +1,14 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>The pyAFQ configuration file &#8212; AFQ 2.1 documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>The pyAFQ configuration file &#8212; AFQ 3.1 documentation</title>
   
   
   
@@ -16,75 +16,73 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
 
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=fd6457a4" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=c6496573" />
   
-  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
-  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/sphinx_highlight.js"></script>
-    <script src="../_static/design-tabs.js"></script>
+    <script src="../_static/documentation_options.js?v=b576230a"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/sg-tags.js?v=d80f6fa4"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/config';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Developing pyAFQ" href="../developing/index.html" />
     <link rel="prev" title="The pyAFQ Mapping API" href="mapping.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
   </head>
-  
-  
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
-
+  <body data-default-mode="">
   
   
   <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
-
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
   
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../search.html"
       method="get">
@@ -92,7 +90,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -100,15 +97,15 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
 
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
   <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
@@ -134,8 +131,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="AFQ 2.1 documentation - Home"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.1 documentation - Home"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="AFQ 3.1 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="AFQ 3.1 documentation - Home"/>
   
   
 </a></div>
@@ -153,6 +150,20 @@
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="../guides_index.html">
     User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/tutorial_examples/index.html">
+    Tutorials: Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../howto/howto_examples/index.html">
+    How to examples
   </a>
 </li>
 
@@ -188,29 +199,21 @@
         <div class="navbar-item navbar-persistent--container">
           
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
       
         <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -235,15 +238,11 @@ document.write(`
   
     <div class="navbar-persistent--mobile">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
@@ -262,7 +261,8 @@ document.write(`
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -280,6 +280,20 @@ document.write(`
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="../guides_index.html">
     User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/tutorial_examples/index.html">
+    Tutorials: Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../howto/howto_examples/index.html">
+    How to examples
   </a>
 </li>
 
@@ -316,15 +330,11 @@ document.write(`
         
           <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
         
           <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -355,7 +365,6 @@ document.write(`
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -365,12 +374,13 @@ document.write(`
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
         <div class="sidebar-primary-item">
+
 <nav class="bd-docs-nav bd-links"
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../tutorials/index.html">Getting started with pyAFQ</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../tutorials/tutorial_examples/index.html">Tutorials: getting started with the pyAFQ Python library</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../tutorials/tutorial_examples/index.html">Tutorials: Getting started</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../tutorials/tutorial_examples/plot_001_group_afq_api.html">Getting started with pyAFQ - GroupAFQ</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../tutorials/tutorial_examples/plot_002_participant_afq_api.html">Getting started with pyAFQ - ParticipantAFQ</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../tutorials/tutorial_examples/plot_003_rerun.html">Re-running pyAFQ</a></li>
@@ -400,16 +410,18 @@ document.write(`
 <li class="toctree-l2 has-children"><a class="reference internal" href="../howto/howto_examples/index.html">How to examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../howto/howto_examples/acoustic_radiations.html">How to add new bundles into pyAFQ (Acoustic Radiations Example)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../howto/howto_examples/add_custom_bundle.html">How to add new bundles into pyAFQ (SLF 1/2/3 Example)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/howto_examples/afq_callosal.html">Callosal bundles using AFQ API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/howto_examples/afq_fwdti.html">How to use Free water DTI</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../howto/howto_examples/baby_afq.html">BabyAFQ : tractometry for infant dMRI data</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../howto/howto_examples/cerebellar_peduncles.html">Delineating cerebellar peduncles</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../howto/howto_examples/cloudknot_example.html">Using cloudknot to run pyAFQ on AWS batch:</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../howto/howto_examples/cloudknot_hcp_example.html">AFQ with HCP data</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../howto/howto_examples/optic_radiations.html">How to add new bundles into pyAFQ(Optic Radiations Example)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../howto/howto_examples/plot_afq_callosal.html">Callosal bundles using AFQ API</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../howto/howto_examples/plot_recobundles.html">Using RecoBundles for bundle recognition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/howto_examples/optic_tract.html">How to track the Optic Tract and Posterior Optic Nerve in pyAFQ</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../howto/howto_examples/plot_stages_of_tractometry.html">Understanding the different stages of tractometry with videos</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../howto/howto_examples/run_afq_fwdti.html">How to use Free water DTI</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../howto/howto_examples/run_pyAFQ_with_GPU.html">Running pyAFQ using the GPU for tractography</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/howto_examples/pyAFQ_with_GPU.html">Running pyAFQ using the GPU for tractography</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/howto_examples/pyafq_2.html">Running pyAFQ 2.x defaults in pyAFQ 3.x</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/howto_examples/recobundles.html">Using RecoBundles for bundle recognition</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../howto/howto_examples/use_subject_space_rois_from_freesurfer.html">Using Subject Space ROIs from Freesurfer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../howto/howto_examples/vof_example.html">How to segment out only some bundles</a></li>
 </ul>
@@ -417,27 +429,28 @@ document.write(`
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../explanations/index.html">Explanations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../explanations/tractometry_pipeline.html">AFQ Tractometry Pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../explanations/bundle_orientation.html">Bundle Orientation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../explanations/modeling.html">Modeling White Matter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../explanations/profiling.html">Profiling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../explanations/recognition.html">Bundle Recognition</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../explanations/tractography.html">Tractography</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../explanations/whats_new_3.html">What’s new in PyAFQ 3.0</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Reference Documentation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2 has-children"><a class="reference internal" href="api/index.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="api/AFQ/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ</span></code></a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/AFQ/api/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.api</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/AFQ/data/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.data</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/AFQ/definitions/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.definitions</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/AFQ/models/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.models</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/AFQ/recognition/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.recognition</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/AFQ/tasks/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.tasks</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/AFQ/tractography/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.tractography</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/AFQ/utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.utils</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/AFQ/viz/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.viz</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/AFQ/registration/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">AFQ.registration</span></code></a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/AFQ/index.html">AFQ</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/AFQ/api/index.html">AFQ.api</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/AFQ/data/index.html">AFQ.data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/AFQ/definitions/index.html">AFQ.definitions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/AFQ/models/index.html">AFQ.models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/AFQ/nn/index.html">AFQ.nn</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/AFQ/recognition/index.html">AFQ.recognition</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/AFQ/registration/index.html">AFQ.registration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/AFQ/tasks/index.html">AFQ.tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/AFQ/tractography/index.html">AFQ.tractography</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/AFQ/utils/index.html">AFQ.utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/AFQ/viz/index.html">AFQ.viz</a></li>
 </ul>
 </details></li>
 </ul>
@@ -446,6 +459,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="fibertracts.html">Major Fiber Tracts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tissue_properties.html">Tissue Properties in pyAFQ</a></li>
 <li class="toctree-l2"><a class="reference internal" href="methods.html">The pyAFQ API methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kwargs.html">The pyAFQ API optional arguments</a></li>
 <li class="toctree-l2"><a class="reference internal" href="viz_backend.html">Visualization Backends</a></li>
 
 <li class="toctree-l2"><a class="reference internal" href="mapping.html">The pyAFQ Mapping API</a></li>
@@ -459,9 +473,14 @@ document.write(`
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -479,8 +498,6 @@ document.write(`
       
         <div class="header-article-item">
 
-
-
 <nav aria-label="Breadcrumb" class="d-print-none">
   <ul class="bd-breadcrumbs">
     
@@ -495,7 +512,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="index.html" class="nav-link">Reference Documentation</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">The pyAFQ...</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">The pyAFQ configuration file</span></li>
   </ul>
 </nav>
 </div>
@@ -512,8 +529,8 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <div class="section" id="the-pyafq-configuration-file">
-<h1>The pyAFQ configuration file<a class="headerlink" href="#the-pyafq-configuration-file" title="Permalink to this heading">#</a></h1>
+  <section id="the-pyafq-configuration-file">
+<h1>The pyAFQ configuration file<a class="headerlink" href="#the-pyafq-configuration-file" title="Link to this heading">#</a></h1>
 <p>This file should be a <a class="reference external" href="https://github.com/toml-lang/toml">toml</a> file. At
 minimum, the file should contain the BIDS path:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">files</span><span class="p">]</span>
@@ -539,7 +556,10 @@ See an example configuration file below:</p>
 <span class="n">bids_filters</span> <span class="o">=</span> <span class="s2">&quot;{&#39;suffix&#39;: &#39;dwi&#39;}&quot;</span>
 
 <span class="c1"># The name of the pipeline used to preprocess the DWI data. Default: &quot;all&quot;.</span>
-<span class="n">preproc_pipeline</span> <span class="o">=</span> <span class="s2">&quot;all&quot;</span>
+<span class="n">dwi_preproc_pipeline</span> <span class="o">=</span> <span class="s2">&quot;all&quot;</span>
+
+<span class="c1"># The name of the pipeline used to preprocess the T1w data. If None, defaults to the same as dwi_preproc_pipeline. Default: None</span>
+<span class="n">t1_preproc_pipeline</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
 <span class="c1"># List of participant labels (subject IDs) to perform processing on. If None, all subjects are used. Default: None</span>
 <span class="n">participant_labels</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
@@ -553,6 +573,9 @@ See an example configuration file below:</p>
 <span class="c1"># Additional arguments to give to BIDSLayout from pybids. For large datasets, try: {&quot;validate&quot;: False, &quot;index_metadata&quot;: False} Default: {}</span>
 <span class="n">bids_layout_kwargs</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span>
 
+<span class="c1"># The logging level to use for this class. Default: logging.INFO</span>
+<span class="n">logging_level</span> <span class="o">=</span> <span class="s2">&quot;logging.INFO&quot;</span>
+
 <span class="c1"># You can set additional parameters for any step of the process. See :ref:`usage/kwargs` for more details.</span>
 <span class="n">kwargs</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
@@ -561,14 +584,20 @@ See an example configuration file below:</p>
 <span class="c1"># Full path to a nifti file containing CSD spherical harmonic coefficients, or nibabel img with model params.</span>
 <span class="n">params_file</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
-<span class="c1"># How tracking directions are determined. One of: {&quot;det&quot; | &quot;prob&quot;} Default: &quot;prob&quot;</span>
+<span class="c1"># Full path to a nifti file containing tissue probability maps, or nibabel img with tissue probability maps. This should be of the order (pve_csf, pve_gm, pve_wm).</span>
+<span class="n">pve</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+<span class="c1"># The number of threads to use in tracking. If 0 or -1, uses all available threads.</span>
+<span class="n">n_threads</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+<span class="c1"># How tracking directions are determined. One of: {&quot;det&quot; | &quot;prob&quot; | &quot;pft&quot;} pft refers to Particle Filtering Tracking ([Girard2014]_). Default: &quot;prob&quot;</span>
 <span class="n">directions</span> <span class="o">=</span> <span class="s2">&quot;prob&quot;</span>
 
 <span class="c1"># The maximum turning angle in each step. Default: 30</span>
 <span class="n">max_angle</span> <span class="o">=</span> <span class="mi">30</span>
 
-<span class="c1"># The discretization of direction getting. default: dipy.data.default_sphere.</span>
-<span class="n">sphere</span> <span class="o">=</span> <span class="s2">&quot;dipy.data.default_sphere&quot;</span>
+<span class="c1"># The discretization of the ODF. Can be a DIPY Sphere or a string name of a DIPY Sphere. Default: &quot;repulsion724&quot;</span>
+<span class="n">sphere</span> <span class="o">=</span> <span class="s2">&quot;repulsion724&quot;</span>
 
 <span class="c1"># Float or binary mask describing the ROI within which we seed for tracking. Default to the entire volume (all ones).</span>
 <span class="n">seed_mask</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
@@ -576,47 +605,47 @@ See an example configuration file below:</p>
 <span class="c1"># A value of the seed_mask above which tracking is seeded. Default to 0.</span>
 <span class="n">seed_threshold</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
-<span class="c1"># The seeding density: if this is an int, it is is how many seeds in each voxel on each dimension (for example, 2 =&gt; [2, 2, 2]). If this is a 2D array, these are the coordinates of the seeds. Unless random_seeds is set to True, in which case this is the total number of random seeds to generate within the mask. Default: 1</span>
-<span class="n">n_seeds</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="c1"># A value of the pve_gm_data above which we consider a voxel to be GM for the purposes of ACT stopping criterion. Default: 0.4.</span>
+<span class="n">gm_threshold</span> <span class="o">=</span> <span class="mf">0.4</span>
 
-<span class="c1"># Whether to generate a total of n_seeds random seeds in the mask. Default: False.</span>
-<span class="n">random_seeds</span> <span class="o">=</span> <span class="n">false</span>
+<span class="c1"># The seeding density: if this is an int, it is is how many seeds in each voxel on each dimension (for example, 2 =&gt; [2, 2, 2]). If this is a 2D array, these are the coordinates of the seeds in RASMM. Unless random_seeds is set to True, in which case this is the total number of random seeds to generate within the mask. Default: 1e7</span>
+<span class="n">n_seeds</span> <span class="o">=</span> <span class="mf">10000000.0</span>
+
+<span class="c1"># Whether to generate a total of n_seeds random seeds in the mask. Default: True</span>
+<span class="n">random_seeds</span> <span class="o">=</span> <span class="n">true</span>
 
 <span class="c1"># random seed used to generate random seeds if random_seeds is set to True. Default: None</span>
 <span class="n">rng_seed</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
-<span class="c1"># If array: A float or binary mask that determines a stopping criterion (e.g. FA). If tuple: it contains a sequence that is interpreted as: (pve_wm, pve_gm, pve_csf), each item of which is either a string (full path) or a nibabel img to be used in particle filtering tractography. A tuple is required if tracker is set to &quot;pft&quot;. Defaults to no stopping (all ones).</span>
-<span class="n">stop_mask</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-
-<span class="c1"># If float, this a value of the stop_mask below which tracking is terminated (and stop_mask has to be an array). If str, &quot;CMC&quot; for Continuous Map Criterion [Girard2014]_. &quot;ACT&quot; for Anatomically-constrained tractography [Smith2012]_. A string is required if the tracker is set to &quot;pft&quot;. Defaults to 0 (this means that if no stop_mask is passed, we will stop only at the edge of the image).</span>
-<span class="n">stop_threshold</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-
-<span class="c1"># Interpret seed_threshold and stop_threshold as percentages of the total non-nan voxels in the seed and stop mask to include (between 0 and 100), instead of as a threshold on the values themselves. Default: False</span>
+<span class="c1"># Interpret seed_threshold as percentages of the total non-nan voxels in the seed mask to include (between 0 and 100), instead of as a threshold on the values themselves. Default: False</span>
 <span class="n">thresholds_as_percentages</span> <span class="o">=</span> <span class="n">false</span>
 
 <span class="c1"># The size of a step (in mm) of tractography. Default: 0.5</span>
 <span class="n">step_size</span> <span class="o">=</span> <span class="mf">0.5</span>
 
-<span class="c1"># The miminal length (mm) in a streamline. Default: 20</span>
+<span class="c1"># The minimal length (mm) in a streamline. Default: 20</span>
 <span class="n">minlen</span> <span class="o">=</span> <span class="mi">20</span>
 
-<span class="c1"># The miminal length (mm) in a streamline. Default: 250</span>
+<span class="c1"># The maximum length (mm) in a streamline. Default: 250</span>
 <span class="n">maxlen</span> <span class="o">=</span> <span class="mi">250</span>
 
-<span class="c1"># Can be either a string or Definition. If a string, it must be one of {&quot;DTI&quot;, &quot;CSD&quot;, &quot;DKI&quot;, &quot;GQ&quot;, &quot;RUMBA&quot;}. If a Definition, we assume it is a definition of a file containing Spherical Harmonics coefficients. Defaults to use &quot;CSD&quot;</span>
+<span class="c1"># Can be either a string or Definition. If a string, it must be one of {&quot;DTI&quot;, &quot;CSD&quot;, &quot;DKI&quot;, &quot;GQ&quot;, &quot;RUMBA&quot;, &quot;MSMT_AODF&quot;, &quot;CSD_AODF&quot;, &quot;MSMTCSD&quot;}. If a Definition, we assume it is a definition of a file containing Spherical Harmonics coefficients. Defaults to use &quot;CSD_AODF&quot;</span>
 <span class="n">odf_model</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
-<span class="c1"># The spherical harmonic basis type used to represent the coefficients. One of {&quot;descoteaux07&quot;, &quot;tournier07&quot;}. Deafult: &quot;descoteaux07&quot;</span>
-<span class="n">basis_type</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+<span class="c1"># The spherical harmonic basis type used to represent the coefficients. One of {&quot;descoteaux07&quot;, &quot;tournier07&quot;}. Default: &quot;descoteaux07&quot;</span>
+<span class="n">basis_type</span> <span class="o">=</span> <span class="s2">&quot;descoteaux07&quot;</span>
 
-<span class="c1"># Whether to use the legacy implementation of the direction getter. See Dipy documentation for more details. Default: True</span>
+<span class="c1"># Whether the legacy SH basis definition should be used. See Dipy documentation for more details. Default: True</span>
 <span class="n">legacy</span> <span class="o">=</span> <span class="n">true</span>
 
-<span class="c1"># Which strategy to use in tracking. This can be the standard local tracking (&quot;local&quot;) or Particle Filtering Tracking ([Girard2014]_). One of {&quot;local&quot;, &quot;pft&quot;}. Default: &quot;local&quot;</span>
-<span class="n">tracker</span> <span class="o">=</span> <span class="s2">&quot;local&quot;</span>
+<span class="c1"># Whether to return the streamlines compatible with input to TRX file (i.e., as a LazyTractogram class instance). Default: True</span>
+<span class="n">trx</span> <span class="o">=</span> <span class="n">true</span>
 
-<span class="c1"># Whether to return the streamlines compatible with input to TRX file (i.e., as a LazyTractogram class instance). Default: False</span>
-<span class="n">trx</span> <span class="o">=</span> <span class="n">false</span>
+<span class="c1"># If directions is &quot;prob&quot; or &quot;ptt&quot;, the JIT backend to use. One of {&quot;auto&quot;, &quot;cuda&quot;, &quot;metal&quot;, &quot;webgpu&quot;, or &quot;numba&quot;}. Default: &quot;numba&quot;</span>
+<span class="n">jit_backend</span> <span class="o">=</span> <span class="s2">&quot;numba&quot;</span>
+
+<span class="c1"># If directions is &quot;prob&quot; or &quot;ptt&quot;, the chunk size to use for JIT tracking. If None, chooses 25000 for numba backend and 5000 for other backends. Default: None</span>
+<span class="n">jit_chunk_size</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
 <span class="p">[</span><span class="n">SEGMENTATION_PARAMS</span><span class="p">]</span>
 
@@ -635,17 +664,14 @@ See an example configuration file below:</p>
 <span class="c1"># Template image for registration.</span>
 <span class="n">reg_template</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
-<span class="c1"># Resample streamlines to nb_points number of points. If False, no resampling is done. Default: False</span>
+<span class="c1"># Resample streamlines to nb_points number of points. If False, no resampling is done. Can only be done on a StatefulTractogram. Default: False</span>
 <span class="n">nb_points</span> <span class="o">=</span> <span class="n">false</span>
 
-<span class="c1"># Subsample streamlines to nb_streamlines. If False, no subsampling is don. Default: False</span>
+<span class="c1"># Subsample streamlines to nb_streamlines. Can only be done on a StatefulTractogram. If False, no subsampling is done. Default: False</span>
 <span class="n">nb_streamlines</span> <span class="o">=</span> <span class="n">false</span>
 
 <span class="c1"># Whether to clip the streamlines to be only in between the ROIs. Default: False</span>
 <span class="n">clip_edges</span> <span class="o">=</span> <span class="n">false</span>
-
-<span class="c1"># How to parallelize segmentation across processes when performing waypoint ROI segmentation. Set to {&quot;engine&quot;: &quot;serial&quot;} to not perform parallelization. Some engines may cause errors, depending on the system. See ``dipy.utils.parallel.paramap`` for details. Default: {&quot;engine&quot;: &quot;serial&quot;}</span>
-<span class="n">parallel_segmentation</span> <span class="o">=</span> <span class="s2">&quot;{&#39;engine&#39;: &#39;serial&#39;}&quot;</span>
 
 <span class="c1"># RecoBundles parameters for the recognize function. Default: dict(model_clust_thr=1.25, reduction_thr=25, pruning_thr=12)</span>
 <span class="n">rb_recognize_params</span> <span class="o">=</span> <span class="s2">&quot;{&#39;model_clust_thr&#39;: 1.25, &#39;reduction_thr&#39;: 25, &#39;pruning_thr&#39;: 12}&quot;</span>
@@ -674,8 +700,11 @@ See an example configuration file below:</p>
 <span class="c1"># The full path to a folder into which intermediate products are saved. Default: None, means no saving of intermediates.</span>
 <span class="n">save_intermediates</span> <span class="o">=</span> <span class="s2">&quot;None, means no saving of intermediates&quot;</span>
 
-<span class="c1"># Cleaning params to pass to seg.clean_bundle. This will override the default parameters of that method. However, this can be overriden by setting the cleaning parameters in the bundle_dict. Default: {}.</span>
+<span class="c1"># Cleaning params to pass to seg.clean_bundle. This will override the default parameters of that method. However, this can be overridden by setting the cleaning parameters in the bundle_dict. Default: {}.</span>
 <span class="n">cleaning_params</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span>
+
+<span class="c1"># Number of streamlines to preprocess at a time. The full tractogram is processed in chunks of this size to keep peak memory bounded. Per-chunk surviving candidates are merged before the global per-bundle filtering steps run. Default: 1e6.</span>
+<span class="n">chunk_size</span> <span class="o">=</span> <span class="mf">1000000.0</span>
 
 <span class="p">[</span><span class="n">CLEANING_PARAMS</span><span class="p">]</span>
 
@@ -688,8 +717,8 @@ See an example configuration file below:</p>
 <span class="c1"># Number of rounds of cleaning based on the Mahalanobis distance from the mean of extracted bundles. Default: 5</span>
 <span class="n">clean_rounds</span> <span class="o">=</span> <span class="mi">5</span>
 
-<span class="c1"># Threshold of cleaning based on the Mahalanobis distance (the units are standard deviations). Default: 3.</span>
-<span class="n">distance_threshold</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="c1"># Threshold of cleaning based on the Mahalanobis distance (the units are standard deviations). Default: 4.</span>
+<span class="n">distance_threshold</span> <span class="o">=</span> <span class="mi">4</span>
 
 <span class="c1"># Threshold for cleaning based on length (in standard deviations). Length of any streamline should not be *more* than this number of stdevs from the mean length.</span>
 <span class="n">length_threshold</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
@@ -700,22 +729,45 @@ See an example configuration file below:</p>
 <span class="c1"># The statistic of each node relative to which the Mahalanobis is calculated. Default: `np.mean` (but can also use median, etc.)</span>
 <span class="n">stat</span> <span class="o">=</span> <span class="s2">&quot;`np.mean` (but can also use median, etc.)&quot;</span>
 
+<span class="c1"># If non-zero, only the core of the bundle is used for cleaning. The core is defined as the middle 60% of each streamline, thus our default is 0.6. This means streamlines are allowed to deviate in the starting and ending 20% of the bundle. This is useful for allowing more diverse endpoints. Default: 0.6</span>
+<span class="n">core_only</span> <span class="o">=</span> <span class="mf">0.6</span>
+
 <span class="c1"># Whether to return indices in the original streamlines. Default: False.</span>
 <span class="n">return_idx</span> <span class="o">=</span> <span class="n">false</span>
 
+<span class="c1"># Specifies which streamlines to remove based on their length. Options are &quot;long&quot; (remove long streamlines), &quot;short&quot; (remove short streamlines), or &quot;both&quot; (remove both long and short streamlines). Default: &quot;long&quot;</span>
+<span class="n">remove_lengths</span> <span class="o">=</span> <span class="s2">&quot;long&quot;</span>
+
+<span class="p">[</span><span class="n">STRUCTURAL</span><span class="p">]</span>
+
+<span class="c1"># The number of threads to use for Numba and DIPY tracking. If None, uses the number of available CPUs minus one. Default: None</span>
+<span class="n">numba_n_threads</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+<span class="c1"># Whether to use low-memory versions of algorithms where available. Default: False</span>
+<span class="n">low_memory</span> <span class="o">=</span> <span class="n">false</span>
+
+<span class="c1"># The execution provider to use for onnx models. By default this is set to CPUExecutionProvider which should work on all systems. If you have a compatible GPU and the appropriate onnxruntime installed you can set this to &quot;CUDAExecutionProvider&quot; or &quot;OpenVINOExecutionProvider&quot; for potentially faster inference. Default: &quot;CPUExecutionProvider&quot;</span>
+<span class="n">onnx_execution_provider</span> <span class="o">=</span> <span class="s2">&quot;CPUExecutionProvider&quot;</span>
+
+<span class="c1"># The number of inter threads to use for onnx models. Increasing will increase memory usage significantly. Default: 1</span>
+<span class="n">onnx_inter_threads</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="c1"># This will be used to create the brain mask, which gets applied before registration to a template. If you want no brain mask to be applied, use FullImage. If None, use Brainchop Mindgrab model. Default: None</span>
+<span class="n">brain_mask_definition</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
 <span class="p">[</span><span class="n">DATA</span><span class="p">]</span>
 
-<span class="c1"># Minimum b value you want to use from the dataset (other than b0), inclusive. If None, there is no minimum limit. Default: None</span>
-<span class="n">min_bval</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+<span class="c1"># Minimum b value you want to use from the dataset (other than b0), inclusive. If None, there is no minimum limit. Default: -np.inf</span>
+<span class="n">min_bval</span> <span class="o">=</span> <span class="o">-</span><span class="n">inf</span>
 
-<span class="c1"># Maximum b value you want to use from the dataset (other than b0), inclusive. If None, there is no maximum limit. Default: None</span>
-<span class="n">max_bval</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-
-<span class="c1"># Whether to filter the DWI data based on min or max bvals. Default: True</span>
-<span class="n">filter_b</span> <span class="o">=</span> <span class="n">true</span>
+<span class="c1"># Maximum b value you want to use from the dataset (other than b0), inclusive. If None, there is no maximum limit. Default: np.inf</span>
+<span class="n">max_bval</span> <span class="o">=</span> <span class="n">inf</span>
 
 <span class="c1"># The value of b under which it is considered to be b0. Default: 50.</span>
 <span class="n">b0_threshold</span> <span class="o">=</span> <span class="mi">50</span>
+
+<span class="c1"># The minimum value of b0 to consider when doing the division. This is to avoid dividing by small numbers. Default: 1e-2</span>
+<span class="n">min_b0_for_r1_approximation</span> <span class="o">=</span> <span class="mf">0.01</span>
 
 <span class="c1"># Whether to use robust_tensor_fitting when doing dti. Only applies to dti. Default: False</span>
 <span class="n">robust_tensor_fitting</span> <span class="o">=</span> <span class="n">false</span>
@@ -723,8 +775,8 @@ See an example configuration file below:</p>
 <span class="c1"># The response function to be used by CSD, as a tuple with two elements. The first is the eigen-values as an (3,) ndarray and the second is the signal value for the response function without diffusion-weighting (i.e. S0). If not provided, auto_response will be used to calculate these values. Default: None</span>
 <span class="n">csd_response</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
-<span class="c1"># default: infer the number of parameters from the number of data volumes, but no larger than 8. Default: None</span>
-<span class="n">csd_sh_order_max</span> <span class="o">=</span> <span class="s2">&quot;infer the number of parameters from the number of data&quot;</span>
+<span class="c1"># If None, infer the number of parameters from the number of data volumes, but no larger than 8. Default: None</span>
+<span class="n">csd_sh_order_max</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
 <span class="c1"># weight given to the constrained-positivity regularization part of the deconvolution equation. Default: 1</span>
 <span class="n">csd_lambda_</span> <span class="o">=</span> <span class="mi">1</span>
@@ -739,7 +791,7 @@ See an example configuration file below:</p>
 <span class="n">gq_sampling_length</span> <span class="o">=</span> <span class="mf">1.2</span>
 
 <span class="c1"># Able to take response[0] from auto_response_ssst. default: array([0.0017, 0.0002, 0.0002])</span>
-<span class="n">rumba_wm_response</span> <span class="o">=</span> <span class="s2">&quot;array([0.0017, 0.0002, 0.0002])&quot;</span>
+<span class="n">rumba_wm_response</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
 <span class="c1"># Mean diffusivity for GM compartment. If None, then grey matter volume fraction is not computed. Default: 0.8e-3</span>
 <span class="n">rumba_gm_response</span> <span class="o">=</span> <span class="mf">0.0008</span>
@@ -751,19 +803,13 @@ See an example configuration file below:</p>
 <span class="n">rumba_n_iter</span> <span class="o">=</span> <span class="mi">600</span>
 
 <span class="c1"># Spherical harmonics order for OPDT model. Must be even. Default: 8</span>
-<span class="n">opdt_sh_order</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="n">opdt_sh_order_max</span> <span class="o">=</span> <span class="mi">8</span>
 
 <span class="c1"># Spherical harmonics order for CSA model. Must be even. Default: 8</span>
-<span class="n">csa_sh_order</span> <span class="o">=</span> <span class="mi">8</span>
-
-<span class="c1"># The sphere providing sample directions for the initial search of the maximal value of kurtosis. Default: &#39;repulsion100&#39;</span>
-<span class="n">sphere</span> <span class="o">=</span> <span class="s2">&quot;repulsion100&quot;</span>
+<span class="n">csa_sh_order_max</span> <span class="o">=</span> <span class="mi">8</span>
 
 <span class="c1"># This input is to refine kurtosis maxima under the precision of the directions sampled on the sphere class instance. The gradient of the convergence procedure must be less than gtol before successful termination. If gtol is None, fiber direction is directly taken from the initial sampled directions of the given sphere object. Default: 1e-2</span>
 <span class="n">gtol</span> <span class="o">=</span> <span class="mf">0.01</span>
-
-<span class="c1"># This will be used to create the brain mask, which gets applied before registration to a template. If you want no brain mask to be applied, use FullImage. If None, use B0Image() Default: None</span>
-<span class="n">brain_mask_definition</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
 <span class="c1"># A dictionary or BundleDict for use in segmentation. See `Defining Custom Bundle Dictionaries` in the `usage` section of pyAFQ&#39;s documentation for details. If None, will get all appropriate bundles for the chosen segmentation algorithm. Default: None</span>
 <span class="n">bundle_info</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
@@ -774,13 +820,24 @@ See an example configuration file below:</p>
 <span class="c1"># Name to use in file names for the template space. Default: &quot;mni&quot;</span>
 <span class="n">reg_template_space_name</span> <span class="o">=</span> <span class="s2">&quot;mni&quot;</span>
 
+<span class="p">[</span><span class="n">TISSUE</span><span class="p">]</span>
+
+<span class="c1"># Method to use for PVE estimation. Can be a string defining a built-in method from neural networks, or a Definition object to import the PVE. Importing a PVE from software like Freesurfer or FSL FAST is recommended if they are available. The built-in methods are &quot;synthseg&quot; or &quot;multiaxial+brainchop&quot;. &quot;synthseg&quot; uses SynthSeg2 [1] to get the PVE. &quot;multiaxial+brainchop&quot; uses MultiAxial [2] and BrainChop [3] segmentations to get the PVE. Note this requires downloading the pre-trained multi-axial model which is licensed with Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. Default: &quot;synthseg&quot;</span>
+<span class="n">pve</span> <span class="o">=</span> <span class="s2">&quot;synthseg&quot;</span>
+
+<span class="c1"># Spherical harmonic order to use for the MSMT CSD fit. Default: 8</span>
+<span class="n">msmt_sh_order</span> <span class="o">=</span> <span class="mi">8</span>
+
+<span class="c1"># The threshold on the FA used to calculate the multi shell auto response. Can be useful to reduce for baby subjects. Default: 0.7</span>
+<span class="n">msmt_fa_thr</span> <span class="o">=</span> <span class="mf">0.7</span>
+
 <span class="p">[</span><span class="n">MAPPING</span><span class="p">]</span>
 
 <span class="c1"># This defines how to either create a mapping from each subject space to template space or load a mapping from another software. If creating a map, will register reg_subject and reg_template. If None, use SynMap() Default: None</span>
 <span class="n">mapping_definition</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
-<span class="c1"># The source image data to be registered. Can either be a Nifti1Image, an ImageFile, or str. if &quot;b0&quot;, &quot;dti_fa_subject&quot;, &quot;subject_sls&quot;, or &quot;power_map,&quot; image data will be loaded automatically. If &quot;subject_sls&quot; is used, slr registration will be used and reg_template should be &quot;hcp_atlas&quot;. Default: &quot;power_map&quot;</span>
-<span class="n">reg_subject_spec</span> <span class="o">=</span> <span class="s2">&quot;power_map&quot;</span>
+<span class="c1"># The source image data to be registered. Can either be a Nifti1Image, an ImageFile, or str. if &quot;b0&quot;, &quot;dti_fa_subject&quot;, &quot;subject_sls&quot;, &quot;t1w&quot;, or &quot;power_map,&quot; image data will be loaded automatically. If &quot;subject_sls&quot; is used, slr registration will be used and reg_template should be &quot;hcp_atlas&quot;. Default: &quot;t1w&quot;</span>
+<span class="n">reg_subject_spec</span> <span class="o">=</span> <span class="s2">&quot;t1w&quot;</span>
 
 <span class="p">[</span><span class="n">SEGMENTATION</span><span class="p">]</span>
 
@@ -790,42 +847,33 @@ See an example configuration file below:</p>
 <span class="c1"># Number of points to resample each streamline to before calculating the tract-profiles. Default: 100</span>
 <span class="n">n_points_profile</span> <span class="o">=</span> <span class="mi">100</span>
 
-<span class="c1"># List of scalars to use. Can be any of: &quot;dti_fa&quot;, &quot;dti_md&quot;, &quot;dki_fa&quot;, &quot;dki_md&quot;, &quot;dki_awf&quot;, &quot;dki_mk&quot;. Can also be a scalar from AFQ.definitions.image. Defaults for single shell data to [&quot;dti_fa&quot;, &quot;dti_md&quot;], and for multi-shell data to [&quot;dki_fa&quot;, &quot;dki_md&quot;]. Default: [&#39;dti_fa&#39;, &#39;dti_md&#39;]</span>
-<span class="n">scalars</span> <span class="o">=</span> <span class="s2">&quot;[&#39;dti_fa&#39;, &#39;dti_md&#39;]&quot;</span>
+<span class="c1"># List of scalars to use. Can be any of: &quot;dti_fa&quot;, &quot;dti_md&quot;, &quot;dki_fa&quot;, &quot;dki_md&quot;, &quot;dki_awf&quot;, &quot;dki_mk&quot;, or other scalars found in AFQ.tasks.data. Can also be a scalar from AFQ.definitions.image. Finally, can also be &quot;t1w&quot;. Defaults for single shell data to [&quot;dti_fa&quot;, &quot;dti_md&quot;, &quot;t1w&quot;], and for multi-shell data to [&quot;dki_fa&quot;, &quot;dki_md&quot;, &quot;dki_kfa&quot;, &quot;dki_mk&quot;, &quot;t1w&quot;]. Default: [&#39;dti_fa&#39;, &#39;dti_md&#39;, &#39;t1w&#39;]</span>
+<span class="n">scalars</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
 <span class="p">[</span><span class="n">TRACTOGRAPHY</span><span class="p">]</span>
 
 <span class="c1"># BIDS filters for inputing a user made tractography file, or a path to the tractography file. If None, DIPY is used to generate the tractography. Default: None</span>
 <span class="n">import_tract</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
-<span class="c1"># Number of GPUs to use in tractography. If non-0, this algorithm is used for tractography, https://github.com/dipy/GPUStreamlines PTT, Prob can be used with any SHM model. Bootstrapped can be done with CSA/OPDT. Default: 0</span>
-<span class="n">tractography_ngpus</span> <span class="o">=</span> <span class="mi">0</span>
-
-<span class="c1"># Chunk size for GPU tracking. Default: 100000</span>
-<span class="n">chunk_size</span> <span class="o">=</span> <span class="mi">100000</span>
-
 <span class="p">[</span><span class="n">VIZ</span><span class="p">]</span>
 
 <span class="c1"># Of the form (lower bound, upper bound). Shading based on shade_by_volume will only differentiate values within these bounds. If lower bound is None, will default to 0. If upper bound is None, will default to the maximum value in shade_by_volume. Default: [None, None]</span>
-<span class="n">sbv_lims_bundles</span> <span class="o">=</span> <span class="s2">&quot;[None, None]&quot;</span>
+<span class="n">sbv_lims_bundles</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
 <span class="c1"># Opacity of volume slices. Default: 0.3</span>
-<span class="n">volume_opacity_bundles</span> <span class="o">=</span> <span class="mf">0.3</span>
+<span class="n">volume_opacity_bundles</span> <span class="o">=</span> <span class="mf">0.5</span>
 
 <span class="c1"># n_points to resample streamlines to before plotting. If None, no resampling is done. Default: 40</span>
 <span class="n">n_points_bundles</span> <span class="o">=</span> <span class="mi">40</span>
 
 <span class="c1"># Of the form (lower bound, upper bound). Shading based on shade_by_volume will only differentiate values within these bounds. If lower bound is None, will default to 0. If upper bound is None, will default to the maximum value in shade_by_volume. Default: [None, None]</span>
-<span class="n">sbv_lims_indiv</span> <span class="o">=</span> <span class="s2">&quot;[None, None]&quot;</span>
+<span class="n">sbv_lims_indiv</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
 <span class="c1"># Opacity of volume slices. Default: 0.3</span>
-<span class="n">volume_opacity_indiv</span> <span class="o">=</span> <span class="mf">0.3</span>
+<span class="n">volume_opacity_indiv</span> <span class="o">=</span> <span class="mf">0.5</span>
 
 <span class="c1"># n_points to resample streamlines to before plotting. If None, no resampling is done. Default: 40</span>
 <span class="n">n_points_indiv</span> <span class="o">=</span> <span class="mi">40</span>
-
-<span class="c1"># Whether to use a virtual fram buffer. This is neccessary if generating GIFs in a headless environment. Default: False</span>
-<span class="n">virtual_frame_buffer</span> <span class="o">=</span> <span class="n">false</span>
 
 <span class="c1"># Which visualization backend to use. See Visualization Backends page in documentation for details https://tractometry.org/pyAFQ/reference/viz_backend.html One of {&quot;fury&quot;, &quot;plotly&quot;, &quot;plotly_no_gif&quot;}. Default: &quot;plotly_no_gif&quot;</span>
 <span class="n">viz_backend_spec</span> <span class="o">=</span> <span class="s2">&quot;plotly_no_gif&quot;</span>
@@ -835,7 +883,7 @@ See an example configuration file below:</p>
 results. Note that the <cite>title</cite> variable and <cite>[metadata]</cite> section are both for
 users to enter any title/metadata they would like and pyAFQ will generally
 ignore them.</p>
-</div>
+</section>
 
 
                 </article>
@@ -872,7 +920,8 @@ ignore them.</p>
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
   <div class="sidebar-secondary-item">
@@ -913,8 +962,8 @@ ignore them.</p>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
 
 
   <footer class="bd-footer">
@@ -935,7 +984,7 @@ ignore them.</p>
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
     <br/>
   </p>
 </div>
@@ -947,16 +996,20 @@ ignore them.</p>
     <div class="footer-items__end">
       
         <div class="footer-item"><div class="footer">
-    <div class="footer-content">
-      <div class="copyright">
-        Please Cite the following paper:
-      </div>
-      <div class="citation">
-        <a href="https://doi.org/10.52294/e6198273-b8e3-4b63-babb-6e6b0da10669">Kruper et al. (2021)</a>
-      </div>
+  <div class="footer-content">
+    <div class="copyright">
+      Please Cite the following papers:
+    </div>
+    <div class="citation">
+      <a href="https://doi.org/10.1371/journal.pcbi.1013323">
+        Kruper et al. (2025)
+      </a><br>
+      <a href="https://doi.org/10.52294/e6198273-b8e3-4b63-babb-6e6b0da10669">
+        Kruper et al. (2021)
+      </a>
     </div>
   </div>
-  </div>
+</div></div>
       
     </div>
   

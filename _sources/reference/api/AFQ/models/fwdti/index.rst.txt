@@ -1,21 +1,19 @@
-:py:mod:`AFQ.models.fwdti`
-==========================
+AFQ.models.fwdti
+================
 
 .. py:module:: AFQ.models.fwdti
 
 
-Module Contents
----------------
-
-
 Functions
-~~~~~~~~~
+---------
 
 .. autoapisummary::
 
    AFQ.models.fwdti.fit_fwdti
 
 
+Module Contents
+---------------
 
 .. py:function:: fit_fwdti(data_files, bval_files, bvec_files, mask=None, out_dir=None, b0_threshold=50)
 

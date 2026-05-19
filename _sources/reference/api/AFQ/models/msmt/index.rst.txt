@@ -1,0 +1,6 @@
+AFQ.models.msmt
+===============
+
+.. py:module:: AFQ.models.msmt
+
+

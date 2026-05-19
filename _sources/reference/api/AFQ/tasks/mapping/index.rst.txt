@@ -1,15 +1,19 @@
-:py:mod:`AFQ.tasks.mapping`
-===========================
+AFQ.tasks.mapping
+=================
 
 .. py:module:: AFQ.tasks.mapping
 
 
-Module Contents
----------------
+Attributes
+----------
+
+.. autoapisummary::
+
+   AFQ.tasks.mapping.logger
 
 
 Functions
-~~~~~~~~~
+---------
 
 .. autoapisummary::
 
@@ -22,18 +26,10 @@ Functions
    AFQ.tasks.mapping.get_mapping_plan
 
 
-
-Attributes
-~~~~~~~~~~
-
-.. autoapisummary::
-
-   AFQ.tasks.mapping.logger
-
+Module Contents
+---------------
 
 .. py:data:: logger
-
-   
 
 .. py:function:: export_registered_b0(base_fname, data_imap, mapping)
 
@@ -139,7 +135,7 @@ Attributes
    ..
        !! processed by numpydoc !!
 
-.. py:function:: sls_mapping(base_fname, dwi_data_file, reg_subject, data_imap, tractography_imap, mapping_definition=None)
+.. py:function:: sls_mapping(base_fname, dwi_data_file, reg_subject, data_imap, tractography_imap, citations, mapping_definition=None)
 
    
    mapping from subject to template space.
@@ -171,7 +167,7 @@ Attributes
    ..
        !! processed by numpydoc !!
 
-.. py:function:: get_reg_subject(data_imap, reg_subject_spec='power_map')
+.. py:function:: get_reg_subject(structural_imap, data_imap, tissue_imap, reg_subject_spec='t1w')
 
    
    Nifti1Image which represents this subject
@@ -180,14 +176,14 @@ Attributes
 
    :Parameters:
 
-       **reg_subject_spec** : str, instance of `AFQ.definitions.ImageDefinition`, optional  # noqa
+       **reg_subject_spec** : str, instance of `AFQ.definitions.ImageDefinition`, optional
            The source image data to be registered.
            Can either be a Nifti1Image, an ImageFile, or str.
-           if "b0", "dti_fa_subject", "subject_sls", or "power_map,"
+           if "b0", "dti_fa_subject", "subject_sls", "t1w", or "power_map,"
            image data will be loaded automatically.
            If "subject_sls" is used, slr registration will be used
            and reg_template should be "hcp_atlas".
-           Default: "power_map"
+           Default: "t1w"
 
 
 
@@ -206,5 +202,4 @@ Attributes
        !! processed by numpydoc !!
 
 .. py:function:: get_mapping_plan(kwargs, use_sls=False)
-
 

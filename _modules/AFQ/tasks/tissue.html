@@ -1,0 +1,1060 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AFQ.tasks.tissue &#8212; AFQ 3.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=fd6457a4" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=c6496573" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../../_static/documentation_options.js?v=b576230a"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/sg-tags.js?v=d80f6fa4"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/AFQ/tasks/tissue';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../../_static/searchtools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script src="../../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 3.1 documentation - Home"/>
+    <img src="../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="AFQ 3.1 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../guides_index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../tutorials/tutorial_examples/index.html">
+    Tutorials: Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../howto/howto_examples/index.html">
+    How to examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../developing/index.html">
+    Developing pyAFQ
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../bib.html">
+    Bibliography
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../reference/api/index.html">
+    API Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/tractometry/pyAFQ" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../guides_index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../tutorials/tutorial_examples/index.html">
+    Tutorials: Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../howto/howto_examples/index.html">
+    How to examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../developing/index.html">
+    Developing pyAFQ
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../bib.html">
+    Bibliography
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../reference/api/index.html">
+    API Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/tractometry/pyAFQ" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../AFQ.html" class="nav-link">AFQ</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">AFQ.tasks.tissue</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for AFQ.tasks.tissue</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">immlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">nibabel</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dipy.align</span><span class="w"> </span><span class="kn">import</span> <span class="n">resample</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dipy.core.gradients</span><span class="w"> </span><span class="kn">import</span> <span class="n">unique_bvals_tolerance</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dipy.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_sphere</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dipy.reconst.mcsd</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">mask_for_response_msmt</span><span class="p">,</span>
+    <span class="n">multi_shell_fiber_response</span><span class="p">,</span>
+    <span class="n">response_from_mask_msmt</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.definitions.image</span><span class="w"> </span><span class="kn">import</span> <span class="n">PVEImage</span><span class="p">,</span> <span class="n">PVEImages</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.models.asym_filtering</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">compute_asymmetry_index</span><span class="p">,</span>
+    <span class="n">compute_nufid_asym</span><span class="p">,</span>
+    <span class="n">compute_odd_power_map</span><span class="p">,</span>
+    <span class="n">unified_filtering</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.models.msmt</span><span class="w"> </span><span class="kn">import</span> <span class="n">MultiShellDeconvModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.models.QBallTP</span><span class="w"> </span><span class="kn">import</span> <span class="n">anisotropic_power</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.models.wmgm_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">fit_wm_gm_interface</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.nn.brainchop</span><span class="w"> </span><span class="kn">import</span> <span class="n">pve_from_subcortex</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.nn.multiaxial</span><span class="w"> </span><span class="kn">import</span> <span class="n">extract_pve</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.nn.synthseg</span><span class="w"> </span><span class="kn">import</span> <span class="n">pve_from_synthseg</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.tasks.decorators</span><span class="w"> </span><span class="kn">import</span> <span class="n">as_file</span><span class="p">,</span> <span class="n">as_fit_deriv</span><span class="p">,</span> <span class="n">as_img</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.tasks.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">with_name</span>
+
+<div class="viewcode-block" id="logger">
+<a class="viewcode-back" href="../../../reference/api/AFQ/tasks/tissue/index.html#AFQ.tasks.tissue.logger">[docs]</a>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;AFQ&quot;</span><span class="p">)</span></div>
+
+
+
+<span class="nd">@immlib</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;wm_gm_interface&quot;</span><span class="p">)</span>
+<span class="nd">@as_file</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;_desc-wmgmi_mask.nii.gz&quot;</span><span class="p">)</span>
+<div class="viewcode-block" id="wm_gm_interface">
+<a class="viewcode-back" href="../../../reference/api/AFQ/tasks/tissue/index.html#AFQ.tasks.tissue.wm_gm_interface">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">wm_gm_interface</span><span class="p">(</span><span class="n">pve_internal</span><span class="p">,</span> <span class="n">data_imap</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    full path to a nifti file containing the white</span>
+<span class="sd">    matter/gray matter interface</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">PVE_img</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">pve_internal</span><span class="p">)</span>
+    <span class="n">b0_img</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;b0&quot;</span><span class="p">])</span>
+
+    <span class="n">wmgmi_img</span> <span class="o">=</span> <span class="n">fit_wm_gm_interface</span><span class="p">(</span><span class="n">PVE_img</span><span class="p">,</span> <span class="n">b0_img</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">wmgmi_img</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">FromPVE</span><span class="o">=</span><span class="n">pve_internal</span><span class="p">)</span></div>
+
+
+
+<span class="nd">@immlib</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;pve_internal&quot;</span><span class="p">)</span>
+<span class="nd">@as_file</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;_desc-pve_probseg.nii.gz&quot;</span><span class="p">)</span>
+<div class="viewcode-block" id="pve_internal">
+<a class="viewcode-back" href="../../../reference/api/AFQ/tasks/tissue/index.html#AFQ.tasks.tissue.pve_internal">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">pve_internal</span><span class="p">(</span><span class="n">structural_imap</span><span class="p">,</span> <span class="n">pve</span><span class="o">=</span><span class="s2">&quot;synthseg&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    WM+GM+CSF segmentation</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pve : str or PVEImage, optional</span>
+<span class="sd">        Method to use for PVE estimation.</span>
+<span class="sd">        Can be a string defining a built-in method from neural networks,</span>
+<span class="sd">        or a Definition object to import the PVE.</span>
+<span class="sd">        Importing a PVE from software like Freesurfer or FSL FAST is</span>
+<span class="sd">        recommended if they are available.</span>
+<span class="sd">        The built-in methods are &quot;synthseg&quot; or &quot;multiaxial+brainchop&quot;.</span>
+<span class="sd">        &quot;synthseg&quot; uses SynthSeg2 [1] to get the PVE.</span>
+<span class="sd">        &quot;multiaxial+brainchop&quot; uses MultiAxial [2] and BrainChop [3]</span>
+<span class="sd">        segmentations to get the PVE. Note this requires downloading</span>
+<span class="sd">        the pre-trained multi-axial model which is licensed with</span>
+<span class="sd">        Creative Commons Attribution-NonCommercial-ShareAlike 4.0</span>
+<span class="sd">        International.</span>
+<span class="sd">        Default: &quot;synthseg&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pve</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">pve</span> <span class="o">==</span> <span class="s2">&quot;synthseg&quot;</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="s2">&quot;Using SynthSeg2 for PVE estimation. &quot;</span>
+                    <span class="s2">&quot;This may use considerable memory resources. &quot;</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+
+            <span class="n">synthseg_seg</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">structural_imap</span><span class="p">[</span><span class="s2">&quot;synthseg_model&quot;</span><span class="p">])</span>
+            <span class="n">PVE</span> <span class="o">=</span> <span class="n">pve_from_synthseg</span><span class="p">(</span><span class="n">synthseg_seg</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">())</span>
+
+            <span class="k">return</span> <span class="n">nib</span><span class="o">.</span><span class="n">Nifti1Image</span><span class="p">(</span><span class="n">PVE</span><span class="p">,</span> <span class="n">synthseg_seg</span><span class="o">.</span><span class="n">affine</span><span class="p">),</span> <span class="nb">dict</span><span class="p">(</span>
+                <span class="n">SynthsegParcellation</span><span class="o">=</span><span class="n">structural_imap</span><span class="p">[</span><span class="s2">&quot;synthseg_model&quot;</span><span class="p">],</span>
+                <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;csf&quot;</span><span class="p">,</span> <span class="s2">&quot;gm&quot;</span><span class="p">,</span> <span class="s2">&quot;wm&quot;</span><span class="p">],</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">pve</span> <span class="o">==</span> <span class="s2">&quot;multiaxial+brainchop&quot;</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="s2">&quot;Using MultiAxial+BrainChop for PVE estimation. &quot;</span>
+                    <span class="s2">&quot;MultiAxial requires downloading &quot;</span>
+                    <span class="s2">&quot;the pre-trained multi-axial model which is licensed with &quot;</span>
+                    <span class="s2">&quot;Creative Commons Attribution-NonCommercial-ShareAlike 4.0 &quot;</span>
+                    <span class="s2">&quot;International.&quot;</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">t1_subcortex_img</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">structural_imap</span><span class="p">[</span><span class="s2">&quot;t1_subcortex&quot;</span><span class="p">])</span>
+            <span class="n">mx_model_img</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">structural_imap</span><span class="p">[</span><span class="s2">&quot;mx_model&quot;</span><span class="p">])</span>
+
+            <span class="n">PVE_brainchop</span> <span class="o">=</span> <span class="n">pve_from_subcortex</span><span class="p">(</span><span class="n">t1_subcortex_img</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">())</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">float32</span>
+            <span class="p">)</span>
+            <span class="n">PVE_multiaxial</span> <span class="o">=</span> <span class="n">extract_pve</span><span class="p">(</span><span class="n">mx_model_img</span><span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+            <span class="c1"># Use predictions from both to get final estimates</span>
+            <span class="n">PVE</span> <span class="o">=</span> <span class="p">(</span><span class="n">PVE_brainchop</span> <span class="o">+</span> <span class="n">PVE_multiaxial</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+
+            <span class="k">return</span> <span class="n">nib</span><span class="o">.</span><span class="n">Nifti1Image</span><span class="p">(</span><span class="n">PVE</span><span class="p">,</span> <span class="n">t1_subcortex_img</span><span class="o">.</span><span class="n">affine</span><span class="p">),</span> <span class="nb">dict</span><span class="p">(</span>
+                <span class="n">SubCortexParcellation</span><span class="o">=</span><span class="n">structural_imap</span><span class="p">[</span><span class="s2">&quot;t1_subcortex&quot;</span><span class="p">],</span>
+                <span class="n">MultiAxialSegmentation</span><span class="o">=</span><span class="n">structural_imap</span><span class="p">[</span><span class="s2">&quot;mx_model&quot;</span><span class="p">],</span>
+                <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;csf&quot;</span><span class="p">,</span> <span class="s2">&quot;gm&quot;</span><span class="p">,</span> <span class="s2">&quot;wm&quot;</span><span class="p">],</span>
+            <span class="p">)</span>
+
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+        <span class="s2">&quot;pve must be a PVEImage, PVEImages, &#39;synthseg&#39;, or &#39;multiaxial+brainchop&#39;&quot;</span>
+    <span class="p">)</span></div>
+
+
+
+<span class="nd">@immlib</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;msmtcsd_params&quot;</span><span class="p">,</span> <span class="s2">&quot;msmtcsd_gm&quot;</span><span class="p">,</span> <span class="s2">&quot;msmtcsd_csf&quot;</span><span class="p">)</span>
+<span class="nd">@as_file</span><span class="p">(</span>
+    <span class="n">suffix</span><span class="o">=</span><span class="p">[</span>
+        <span class="s2">&quot;_model-msmtcsd_param-wm_dwimap.nii.gz&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;_model-msmtcsd_param-gm_dwimap.nii.gz&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;_model-msmtcsd_param-csf_dwimap.nii.gz&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="n">subfolder</span><span class="o">=</span><span class="s2">&quot;models&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="nd">@as_img</span>
+<div class="viewcode-block" id="msmt_params">
+<a class="viewcode-back" href="../../../reference/api/AFQ/tasks/tissue/index.html#AFQ.tasks.tissue.msmt_params">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">msmt_params</span><span class="p">(</span>
+    <span class="n">structural_imap</span><span class="p">,</span>
+    <span class="n">data_imap</span><span class="p">,</span>
+    <span class="n">pve_internal</span><span class="p">,</span>
+    <span class="n">citations</span><span class="p">,</span>
+    <span class="n">msmt_sh_order</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+    <span class="n">msmt_fa_thr</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    full path to a nifti file containing</span>
+<span class="sd">    parameters for the MSMT CSD white matter fit,</span>
+<span class="sd">    full path to a nifti file containing</span>
+<span class="sd">    parameters for the MSMT CSD gray matter fit,</span>
+<span class="sd">    full path to a nifti file containing</span>
+<span class="sd">    parameters for the MSMT CSD cerebrospinal fluid fit</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    msmt_sh_order : int, optional.</span>
+<span class="sd">        Spherical harmonic order to use for the MSMT CSD fit.</span>
+<span class="sd">        Default: 8</span>
+<span class="sd">    msmt_fa_thr : float, optional.</span>
+<span class="sd">        The threshold on the FA used to calculate the multi shell auto</span>
+<span class="sd">        response. Can be useful to reduce for baby subjects.</span>
+<span class="sd">        Default: 0.7</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [1] B. Jeurissen, J.-D. Tournier, T. Dhollander, A. Connelly,</span>
+<span class="sd">            and J. Sijbers. Multi-tissue constrained spherical</span>
+<span class="sd">            deconvolution for improved analysis of multi-shell diffusion</span>
+<span class="sd">            MRI data. NeuroImage, 103 (2014), pp. 411–426</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">citations</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;jeurissen2014multi&quot;</span><span class="p">)</span>
+
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;brain_mask&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
+
+    <span class="n">pve_img</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">pve_internal</span><span class="p">)</span>
+    <span class="n">pve_data</span> <span class="o">=</span> <span class="n">pve_img</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
+    <span class="n">csf</span> <span class="o">=</span> <span class="n">resample</span><span class="p">(</span>
+        <span class="n">moving</span><span class="o">=</span><span class="n">pve_data</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="n">static</span><span class="o">=</span><span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="n">moving_affine</span><span class="o">=</span><span class="n">pve_img</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span>
+        <span class="n">static_affine</span><span class="o">=</span><span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;dwi_affine&quot;</span><span class="p">],</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
+    <span class="n">gm</span> <span class="o">=</span> <span class="n">resample</span><span class="p">(</span>
+        <span class="n">moving</span><span class="o">=</span><span class="n">pve_data</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+        <span class="n">static</span><span class="o">=</span><span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="n">moving_affine</span><span class="o">=</span><span class="n">pve_img</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span>
+        <span class="n">static_affine</span><span class="o">=</span><span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;dwi_affine&quot;</span><span class="p">],</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
+    <span class="n">wm</span> <span class="o">=</span> <span class="n">resample</span><span class="p">(</span>
+        <span class="n">moving</span><span class="o">=</span><span class="n">pve_data</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+        <span class="n">static</span><span class="o">=</span><span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="n">moving_affine</span><span class="o">=</span><span class="n">pve_img</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span>
+        <span class="n">static_affine</span><span class="o">=</span><span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;dwi_affine&quot;</span><span class="p">],</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
+
+    <span class="n">mask_wm</span><span class="p">,</span> <span class="n">mask_gm</span><span class="p">,</span> <span class="n">mask_csf</span> <span class="o">=</span> <span class="n">mask_for_response_msmt</span><span class="p">(</span>
+        <span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;gtab&quot;</span><span class="p">],</span>
+        <span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">],</span>
+        <span class="n">roi_radii</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="n">wm_fa_thr</span><span class="o">=</span><span class="n">msmt_fa_thr</span><span class="p">,</span>
+        <span class="n">gm_fa_thr</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
+        <span class="n">csf_fa_thr</span><span class="o">=</span><span class="mf">0.15</span><span class="p">,</span>
+        <span class="n">gm_md_thr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span>
+        <span class="n">csf_md_thr</span><span class="o">=</span><span class="mf">0.0032</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">mask_wm</span> <span class="o">*=</span> <span class="n">wm</span> <span class="o">&gt;</span> <span class="mf">0.5</span>
+    <span class="n">mask_gm</span> <span class="o">*=</span> <span class="n">gm</span> <span class="o">&gt;</span> <span class="mf">0.5</span>
+    <span class="n">mask_csf</span> <span class="o">*=</span> <span class="n">csf</span> <span class="o">&gt;</span> <span class="mf">0.5</span>
+    <span class="n">response_wm</span><span class="p">,</span> <span class="n">response_gm</span><span class="p">,</span> <span class="n">response_csf</span> <span class="o">=</span> <span class="n">response_from_mask_msmt</span><span class="p">(</span>
+        <span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;gtab&quot;</span><span class="p">],</span> <span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">],</span> <span class="n">mask_wm</span><span class="p">,</span> <span class="n">mask_gm</span><span class="p">,</span> <span class="n">mask_csf</span>
+    <span class="p">)</span>
+    <span class="n">ubvals</span> <span class="o">=</span> <span class="n">unique_bvals_tolerance</span><span class="p">(</span><span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;gtab&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">bvals</span><span class="p">)</span>
+    <span class="n">response_mcsd</span> <span class="o">=</span> <span class="n">multi_shell_fiber_response</span><span class="p">(</span>
+        <span class="n">msmt_sh_order</span><span class="p">,</span> <span class="n">ubvals</span><span class="p">,</span> <span class="n">response_wm</span><span class="p">,</span> <span class="n">response_gm</span><span class="p">,</span> <span class="n">response_csf</span>
+    <span class="p">)</span>
+
+    <span class="n">mcsd_model</span> <span class="o">=</span> <span class="n">MultiShellDeconvModel</span><span class="p">(</span><span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;gtab&quot;</span><span class="p">],</span> <span class="n">response_mcsd</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Fitting Multi-Shell CSD model...&quot;</span><span class="p">)</span>
+    <span class="n">mcsd_fit</span> <span class="o">=</span> <span class="n">mcsd_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">],</span> <span class="n">mask</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_meta</span><span class="p">(</span><span class="n">desc</span><span class="p">,</span> <span class="n">sh_order</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span>
+            <span class="n">Model</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+                <span class="n">Description</span><span class="o">=</span><span class="p">(</span>
+                    <span class="s2">&quot;Multi-Shell Multi-Tissue (MSMT) &quot;</span>
+                    <span class="s2">&quot;Constrained Spherical Deconvolution (CSD)&quot;</span>
+                <span class="p">),</span>
+                <span class="n">URL</span><span class="o">=</span><span class="s2">&quot;https://mrtrix.readthedocs.io/en/latest/constrained_spherical_deconvolution/multi_shell_multi_tissue_csd.html&quot;</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">Description</span><span class="o">=</span><span class="n">desc</span><span class="p">,</span>
+            <span class="n">NonNegativity</span><span class="o">=</span><span class="s2">&quot;constrained&quot;</span><span class="p">,</span>
+            <span class="n">OrientationEncoding</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+                <span class="n">EncodingAxis</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                <span class="n">Reference</span><span class="o">=</span><span class="s2">&quot;xyz&quot;</span><span class="p">,</span>
+                <span class="n">SphericalHarmonicBasis</span><span class="o">=</span><span class="s2">&quot;descoteaux&quot;</span><span class="p">,</span>
+                <span class="n">SphericalHarmonicDegree</span><span class="o">=</span><span class="n">sh_order</span><span class="p">,</span>
+                <span class="n">Type</span><span class="o">=</span><span class="s2">&quot;sh&quot;</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">ResponseFunction</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">Coefficients</span><span class="o">=</span><span class="n">response</span><span class="p">,</span> <span class="n">Type</span><span class="o">=</span><span class="s2">&quot;eigen&quot;</span><span class="p">),</span>
+        <span class="p">)</span>
+
+    <span class="n">meta_wm</span> <span class="o">=</span> <span class="n">_get_meta</span><span class="p">(</span>
+        <span class="s2">&quot;White matter&quot;</span><span class="p">,</span>
+        <span class="n">msmt_sh_order</span><span class="p">,</span>
+        <span class="n">response_wm</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+    <span class="p">)</span>
+    <span class="n">meta_wm</span><span class="p">[</span><span class="s2">&quot;ParameterURL&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;http://www.sciencedirect.com/science/article/pii/S1053811911012092&quot;</span>
+    <span class="p">)</span>
+
+    <span class="n">meta_gm</span> <span class="o">=</span> <span class="n">_get_meta</span><span class="p">(</span>
+        <span class="s2">&quot;Gray matter&quot;</span><span class="p">,</span>
+        <span class="mi">0</span><span class="p">,</span>
+        <span class="n">response_gm</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+    <span class="p">)</span>
+
+    <span class="n">meta_csf</span> <span class="o">=</span> <span class="n">_get_meta</span><span class="p">(</span>
+        <span class="s2">&quot;Cerebro-spinal fluid&quot;</span><span class="p">,</span>
+        <span class="mi">0</span><span class="p">,</span>
+        <span class="n">response_csf</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="p">(</span><span class="n">mcsd_fit</span><span class="o">.</span><span class="n">shm_coeff</span><span class="p">,</span> <span class="n">meta_wm</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">mcsd_fit</span><span class="o">.</span><span class="n">volume_fractions</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">meta_gm</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">mcsd_fit</span><span class="o">.</span><span class="n">volume_fractions</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">meta_csf</span><span class="p">),</span>
+    <span class="p">]</span></div>
+
+
+
+<span class="nd">@immlib</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;msmt_apm&quot;</span><span class="p">)</span>
+<span class="nd">@as_file</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;_model-msmtcsd_param-apm_dwimap.nii.gz&quot;</span><span class="p">,</span> <span class="n">subfolder</span><span class="o">=</span><span class="s2">&quot;models&quot;</span><span class="p">)</span>
+<span class="nd">@as_fit_deriv</span><span class="p">(</span><span class="s2">&quot;MSMTCSD&quot;</span><span class="p">)</span>
+<div class="viewcode-block" id="msmt_apm">
+<a class="viewcode-back" href="../../../reference/api/AFQ/tasks/tissue/index.html#AFQ.tasks.tissue.msmt_apm">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">msmt_apm</span><span class="p">(</span><span class="n">msmtcsd_params</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    full path to a nifti file containing</span>
+<span class="sd">    the anisotropic power map</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sh_coeff</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">msmtcsd_params</span><span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
+    <span class="n">pmap</span> <span class="o">=</span> <span class="n">anisotropic_power</span><span class="p">(</span><span class="n">sh_coeff</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pmap</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;Description&quot;</span><span class="p">:</span> <span class="s2">&quot;Anisotropic Power Map&quot;</span><span class="p">}</span></div>
+
+
+
+<span class="nd">@immlib</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;msmt_aodf_params&quot;</span><span class="p">)</span>
+<span class="nd">@as_file</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;_model-msmtcsd_param-aodf_dwimap.nii.gz&quot;</span><span class="p">,</span> <span class="n">subfolder</span><span class="o">=</span><span class="s2">&quot;models&quot;</span><span class="p">)</span>
+<span class="nd">@as_img</span>
+<div class="viewcode-block" id="msmt_aodf">
+<a class="viewcode-back" href="../../../reference/api/AFQ/tasks/tissue/index.html#AFQ.tasks.tissue.msmt_aodf">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">msmt_aodf</span><span class="p">(</span><span class="n">msmtcsd_params</span><span class="p">,</span> <span class="n">structural_imap</span><span class="p">,</span> <span class="n">tracking_params</span><span class="p">,</span> <span class="n">citations</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    full path to a nifti file containing</span>
+<span class="sd">    MSMT CSD ODFs filtered by unified filtering [1]</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    [1] Poirier and Descoteaux, 2024, &quot;A Unified Filtering Method for</span>
+<span class="sd">        Estimating Asymmetric Orientation Distribution Functions&quot;,</span>
+<span class="sd">        Neuroimage, https://doi.org/10.1016/j.neuroimage.2024.120516</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">citations</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;poirier2024unified&quot;</span><span class="p">)</span>
+    <span class="n">citations</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;renauld2026tractography&quot;</span><span class="p">)</span>
+
+    <span class="n">sh_coeff</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">msmtcsd_params</span><span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Applying unified filtering to generate asymmetric MSMT CSD ODFs...&quot;</span><span class="p">)</span>
+    <span class="n">aodf</span> <span class="o">=</span> <span class="n">unified_filtering</span><span class="p">(</span>
+        <span class="n">sh_coeff</span><span class="p">,</span>
+        <span class="n">get_sphere</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">tracking_params</span><span class="p">[</span><span class="s2">&quot;sphere&quot;</span><span class="p">]),</span>
+        <span class="n">n_threads</span><span class="o">=</span><span class="n">structural_imap</span><span class="p">[</span><span class="s2">&quot;n_threads&quot;</span><span class="p">],</span>
+        <span class="n">low_mem</span><span class="o">=</span><span class="n">structural_imap</span><span class="p">[</span><span class="s2">&quot;low_mem&quot;</span><span class="p">],</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">aodf</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">Model</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+            <span class="n">Description</span><span class="o">=</span><span class="p">(</span>
+                <span class="s2">&quot;ODFs for Asymmetric MSMT Constrained &quot;</span>
+                <span class="s2">&quot;Spherical Deconvolution (aMSMTCSD)&quot;</span>
+            <span class="p">),</span>
+            <span class="n">URL</span><span class="o">=</span><span class="s2">&quot;https://doi.org/10.1016/j.neuroimage.2024.120516&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">Description</span><span class="o">=</span><span class="s2">&quot;White matter&quot;</span><span class="p">,</span>
+        <span class="n">OrientationEncoding</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+            <span class="n">EncodingAxis</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+            <span class="n">Reference</span><span class="o">=</span><span class="s2">&quot;xyz&quot;</span><span class="p">,</span>
+            <span class="n">AntipodalSymmetry</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">Type</span><span class="o">=</span><span class="s2">&quot;odf&quot;</span><span class="p">,</span>
+            <span class="n">Sphere</span><span class="o">=</span><span class="n">tracking_params</span><span class="p">[</span><span class="s2">&quot;sphere&quot;</span><span class="p">],</span>
+        <span class="p">),</span>
+        <span class="n">Source</span><span class="o">=</span><span class="n">msmtcsd_params</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+
+<span class="nd">@immlib</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;msmt_aodf_asi&quot;</span><span class="p">)</span>
+<span class="nd">@as_file</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;_model-msmtcsd_param-asi_dwimap.nii.gz&quot;</span><span class="p">,</span> <span class="n">subfolder</span><span class="o">=</span><span class="s2">&quot;models&quot;</span><span class="p">)</span>
+<span class="nd">@as_fit_deriv</span><span class="p">(</span><span class="s2">&quot;MSMT_AODF&quot;</span><span class="p">)</span>
+<div class="viewcode-block" id="msmt_aodf_asi">
+<a class="viewcode-back" href="../../../reference/api/AFQ/tasks/tissue/index.html#AFQ.tasks.tissue.msmt_aodf_asi">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">msmt_aodf_asi</span><span class="p">(</span><span class="n">msmt_aodf_params</span><span class="p">,</span> <span class="n">data_imap</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    full path to a nifti file containing</span>
+<span class="sd">    the MSMT CSD Asymmetric Index (ASI) [1]</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    [1] S. Cetin Karayumak, E. Özarslan, and G. Unal,</span>
+<span class="sd">        &quot;Asymmetric Orientation Distribution Functions (AODFs)</span>
+<span class="sd">        revealing intravoxel geometry in diffusion MRI&quot;</span>
+<span class="sd">        Magnetic Resonance Imaging, vol. 49, pp. 145-158, Jun. 2018,</span>
+<span class="sd">        doi: https://doi.org/10.1016/j.mri.2018.03.006.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">aodf</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">msmt_aodf_params</span><span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
+    <span class="n">brain_mask</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;brain_mask&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+    <span class="n">asi</span> <span class="o">=</span> <span class="n">compute_asymmetry_index</span><span class="p">(</span><span class="n">aodf</span><span class="p">,</span> <span class="n">brain_mask</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">asi</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;Description&quot;</span><span class="p">:</span> <span class="s2">&quot;Asymmetry Index&quot;</span><span class="p">}</span></div>
+
+
+
+<span class="nd">@immlib</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;msmt_aodf_opm&quot;</span><span class="p">)</span>
+<span class="nd">@as_file</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;_model-msmtcsd_param-opm_dwimap.nii.gz&quot;</span><span class="p">,</span> <span class="n">subfolder</span><span class="o">=</span><span class="s2">&quot;models&quot;</span><span class="p">)</span>
+<span class="nd">@as_fit_deriv</span><span class="p">(</span><span class="s2">&quot;MSMT_AODF&quot;</span><span class="p">)</span>
+<div class="viewcode-block" id="msmt_aodf_opm">
+<a class="viewcode-back" href="../../../reference/api/AFQ/tasks/tissue/index.html#AFQ.tasks.tissue.msmt_aodf_opm">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">msmt_aodf_opm</span><span class="p">(</span><span class="n">msmt_aodf_params</span><span class="p">,</span> <span class="n">data_imap</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    full path to a nifti file containing</span>
+<span class="sd">    the MSMT CSD odd-power map [1]</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    [1] C. Poirier, E. St-Onge, and M. Descoteaux,</span>
+<span class="sd">        &quot;Investigating the Occurrence of Asymmetric Patterns in</span>
+<span class="sd">        White Matter Fiber Orientation Distribution Functions&quot;</span>
+<span class="sd">        [Abstract], In: Proc. Intl. Soc. Mag. Reson. Med. 29 (2021),</span>
+<span class="sd">        2021 May 15-20, Vancouver, BC, Abstract number 0865.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">aodf</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">msmt_aodf_params</span><span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
+    <span class="n">brain_mask</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;brain_mask&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+    <span class="n">opm</span> <span class="o">=</span> <span class="n">compute_odd_power_map</span><span class="p">(</span><span class="n">aodf</span><span class="p">,</span> <span class="n">brain_mask</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">opm</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;Description&quot;</span><span class="p">:</span> <span class="s2">&quot;Odd Power Map&quot;</span><span class="p">}</span></div>
+
+
+
+<span class="nd">@immlib</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;msmt_aodf_nufid&quot;</span><span class="p">)</span>
+<span class="nd">@as_file</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;_model-msmtcsd_param-nufid_dwimap.nii.gz&quot;</span><span class="p">,</span> <span class="n">subfolder</span><span class="o">=</span><span class="s2">&quot;models&quot;</span><span class="p">)</span>
+<span class="nd">@as_fit_deriv</span><span class="p">(</span><span class="s2">&quot;MSMT_AODF&quot;</span><span class="p">)</span>
+<div class="viewcode-block" id="msmt_aodf_nufid">
+<a class="viewcode-back" href="../../../reference/api/AFQ/tasks/tissue/index.html#AFQ.tasks.tissue.msmt_aodf_nufid">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">msmt_aodf_nufid</span><span class="p">(</span><span class="n">msmt_aodf_params</span><span class="p">,</span> <span class="n">data_imap</span><span class="p">,</span> <span class="n">tracking_params</span><span class="p">,</span> <span class="n">pve_internal</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    full path to a nifti file containing</span>
+<span class="sd">    the MSMT CSD Number of fiber directions (nufid) map [1]</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    [1] C. Poirier and M. Descoteaux,</span>
+<span class="sd">        &quot;Filtering Methods for Asymmetric ODFs:</span>
+<span class="sd">        Where and How Asymmetry Occurs in the White Matter.&quot;</span>
+<span class="sd">        bioRxiv. 2022 Jan 1; 2022.12.18.520881.</span>
+<span class="sd">        doi: https://doi.org/10.1101/2022.12.18.520881</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pve_img</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">pve_internal</span><span class="p">)</span>
+    <span class="n">pve_data</span> <span class="o">=</span> <span class="n">pve_img</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
+
+    <span class="n">aodf_img</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">msmt_aodf_params</span><span class="p">)</span>
+    <span class="n">aodf</span> <span class="o">=</span> <span class="n">aodf_img</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
+
+    <span class="n">csf</span> <span class="o">=</span> <span class="n">resample</span><span class="p">(</span>
+        <span class="n">moving</span><span class="o">=</span><span class="n">pve_data</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="n">static</span><span class="o">=</span><span class="n">aodf</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="n">moving_affine</span><span class="o">=</span><span class="n">pve_img</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span>
+        <span class="n">static_affine</span><span class="o">=</span><span class="n">aodf_img</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
+
+    <span class="n">brain_mask</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;brain_mask&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Number of fiber directions (nufid) map from AODF...&quot;</span><span class="p">)</span>
+    <span class="n">nufid</span> <span class="o">=</span> <span class="n">compute_nufid_asym</span><span class="p">(</span>
+        <span class="n">aodf</span><span class="p">,</span> <span class="n">get_sphere</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">tracking_params</span><span class="p">[</span><span class="s2">&quot;sphere&quot;</span><span class="p">]),</span> <span class="n">csf</span><span class="p">,</span> <span class="n">brain_mask</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">nufid</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;Description&quot;</span><span class="p">:</span> <span class="s2">&quot;Number of Fiber Directions&quot;</span><span class="p">}</span></div>
+
+
+
+<span class="nd">@immlib</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;csd_aodf_nufid&quot;</span><span class="p">)</span>
+<span class="nd">@as_file</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;_model-csd_param-nufid_dwimap.nii.gz&quot;</span><span class="p">,</span> <span class="n">subfolder</span><span class="o">=</span><span class="s2">&quot;models&quot;</span><span class="p">)</span>
+<span class="nd">@as_img</span>
+<div class="viewcode-block" id="csd_aodf_nufid">
+<a class="viewcode-back" href="../../../reference/api/AFQ/tasks/tissue/index.html#AFQ.tasks.tissue.csd_aodf_nufid">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">csd_aodf_nufid</span><span class="p">(</span><span class="n">data_imap</span><span class="p">,</span> <span class="n">pve_internal</span><span class="p">,</span> <span class="n">tracking_params</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    full path to a nifti file containing</span>
+<span class="sd">    the CSD Number of fiber directions (nufid) map [1]</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    [1] C. Poirier and M. Descoteaux,</span>
+<span class="sd">        &quot;Filtering Methods for Asymmetric ODFs:</span>
+<span class="sd">        Where and How Asymmetry Occurs in the White Matter.&quot;</span>
+<span class="sd">        bioRxiv. 2022 Jan 1; 2022.12.18.520881.</span>
+<span class="sd">        doi: https://doi.org/10.1101/2022.12.18.520881</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pve_img</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">pve_internal</span><span class="p">)</span>
+    <span class="n">pve_data</span> <span class="o">=</span> <span class="n">pve_img</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
+
+    <span class="n">aodf_img</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;csd_aodf_params&quot;</span><span class="p">])</span>
+    <span class="n">aodf</span> <span class="o">=</span> <span class="n">aodf_img</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
+
+    <span class="n">csf</span> <span class="o">=</span> <span class="n">resample</span><span class="p">(</span>
+        <span class="n">moving</span><span class="o">=</span><span class="n">pve_data</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="n">static</span><span class="o">=</span><span class="n">aodf</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="n">moving_affine</span><span class="o">=</span><span class="n">pve_img</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span>
+        <span class="n">static_affine</span><span class="o">=</span><span class="n">aodf_img</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
+
+    <span class="n">brain_mask</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;brain_mask&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Number of fiber directions (nufid) map from AODF...&quot;</span><span class="p">)</span>
+    <span class="n">nufid</span> <span class="o">=</span> <span class="n">compute_nufid_asym</span><span class="p">(</span>
+        <span class="n">aodf</span><span class="p">,</span> <span class="n">get_sphere</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">tracking_params</span><span class="p">[</span><span class="s2">&quot;sphere&quot;</span><span class="p">]),</span> <span class="n">csf</span><span class="p">,</span> <span class="n">brain_mask</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">nufid</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">Model</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+            <span class="n">Description</span><span class="o">=</span><span class="p">(</span>
+                <span class="s2">&quot;ODFs for Asymmetric Constrained Spherical Deconvolution (aCSD)&quot;</span>
+            <span class="p">),</span>
+            <span class="n">URL</span><span class="o">=</span><span class="s2">&quot;https://doi.org/10.1016/j.neuroimage.2024.120516&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">Source</span><span class="o">=</span><span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;csd_aodf_params&quot;</span><span class="p">],</span>
+        <span class="n">Description</span><span class="o">=</span><span class="s2">&quot;Number of Fiber Directions&quot;</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="get_tissue_plan">
+<a class="viewcode-back" href="../../../reference/api/AFQ/tasks/tissue/index.html#AFQ.tasks.tissue.get_tissue_plan">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_tissue_plan</span><span class="p">(</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">tissue_tasks</span> <span class="o">=</span> <span class="n">with_name</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="n">pve_internal</span><span class="p">,</span>
+            <span class="n">wm_gm_interface</span><span class="p">,</span>
+            <span class="n">msmt_params</span><span class="p">,</span>
+            <span class="n">msmt_apm</span><span class="p">,</span>
+            <span class="n">msmt_aodf</span><span class="p">,</span>
+            <span class="n">msmt_aodf_asi</span><span class="p">,</span>
+            <span class="n">msmt_aodf_opm</span><span class="p">,</span>
+            <span class="n">msmt_aodf_nufid</span><span class="p">,</span>
+            <span class="n">csd_aodf_nufid</span><span class="p">,</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="n">pve</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;pve&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pve</span><span class="p">,</span> <span class="n">PVEImages</span><span class="p">):</span>
+        <span class="n">probseg_func</span> <span class="o">=</span> <span class="n">pve</span><span class="o">.</span><span class="n">get_image_getter</span><span class="p">(</span><span class="s2">&quot;tissue&quot;</span><span class="p">)</span>
+        <span class="n">tissue_tasks</span><span class="p">[</span><span class="s2">&quot;csf_res&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">immlib</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;pve_csf&quot;</span><span class="p">)(</span>
+            <span class="n">as_file</span><span class="p">(</span><span class="s2">&quot;_desc-csf_probseg.nii.gz&quot;</span><span class="p">,</span> <span class="n">subfolder</span><span class="o">=</span><span class="s2">&quot;models&quot;</span><span class="p">)(</span>
+                <span class="n">pve</span><span class="o">.</span><span class="n">probseg_funcs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">tissue_tasks</span><span class="p">[</span><span class="s2">&quot;gm_res&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">immlib</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;pve_gm&quot;</span><span class="p">)(</span>
+            <span class="n">as_file</span><span class="p">(</span><span class="s2">&quot;_desc-gm_probseg.nii.gz&quot;</span><span class="p">,</span> <span class="n">subfolder</span><span class="o">=</span><span class="s2">&quot;models&quot;</span><span class="p">)(</span><span class="n">pve</span><span class="o">.</span><span class="n">probseg_funcs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="p">)</span>
+        <span class="n">tissue_tasks</span><span class="p">[</span><span class="s2">&quot;wm_res&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">immlib</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;pve_wm&quot;</span><span class="p">)(</span>
+            <span class="n">as_file</span><span class="p">(</span><span class="s2">&quot;_desc-wm_probseg.nii.gz&quot;</span><span class="p">,</span> <span class="n">subfolder</span><span class="o">=</span><span class="s2">&quot;models&quot;</span><span class="p">)(</span><span class="n">pve</span><span class="o">.</span><span class="n">probseg_funcs</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="p">)</span>
+        <span class="n">tissue_tasks</span><span class="p">[</span><span class="s2">&quot;pve_internal_res&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">immlib</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;pve_internal&quot;</span><span class="p">)(</span>
+            <span class="n">as_file</span><span class="p">(</span><span class="s2">&quot;_desc-pve_probseg.nii.gz&quot;</span><span class="p">)(</span><span class="n">probseg_func</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pve</span><span class="p">,</span> <span class="n">PVEImage</span><span class="p">):</span>
+        <span class="n">tissue_tasks</span><span class="p">[</span><span class="s2">&quot;pve_internal_res&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">immlib</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;pve_internal&quot;</span><span class="p">)(</span>
+            <span class="n">as_file</span><span class="p">(</span><span class="s2">&quot;_desc-pve_probseg.nii.gz&quot;</span><span class="p">)(</span><span class="n">pve</span><span class="o">.</span><span class="n">get_image_getter</span><span class="p">(</span><span class="s2">&quot;tissue&quot;</span><span class="p">))</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+            <span class="s2">&quot;It is recommended to provide CSF/GM/WM &quot;</span>
+            <span class="s2">&quot;segmentations using PVEImage or PVEImages &quot;</span>
+            <span class="s2">&quot;in AFQ.definitions.image. Otherwise, &quot;</span>
+            <span class="s2">&quot;SynthSeg2 will be used&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">immlib</span><span class="o">.</span><span class="n">plan</span><span class="p">(</span><span class="o">**</span><span class="n">tissue_tasks</span><span class="p">)</span></div>
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2018--, The pyAFQ Contributors.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+  <div class="footer-content">
+    <div class="copyright">
+      Please Cite the following papers:
+    </div>
+    <div class="citation">
+      <a href="https://doi.org/10.1371/journal.pcbi.1013323">
+        Kruper et al. (2025)
+      </a><br>
+      <a href="https://doi.org/10.52294/e6198273-b8e3-4b63-babb-6e6b0da10669">
+        Kruper et al. (2021)
+      </a>
+    </div>
+  </div>
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-156363454-2");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+  </body>
+</html>

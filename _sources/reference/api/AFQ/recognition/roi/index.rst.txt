@@ -1,55 +1,26 @@
-:py:mod:`AFQ.recognition.roi`
-=============================
+AFQ.recognition.roi
+===================
 
 .. py:module:: AFQ.recognition.roi
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   AFQ.recognition.roi._interp_arr_with_affine
+   AFQ.recognition.roi.check_sls_with_inclusion
+   AFQ.recognition.roi.check_sl_with_exclusion
+   AFQ.recognition.roi.clean_by_endpoints
 
 
 Module Contents
 ---------------
 
-
-Functions
-~~~~~~~~~
-
-.. autoapisummary::
-
-   AFQ.recognition.roi._interp3d
-   AFQ.recognition.roi.check_sls_with_inclusion
-   AFQ.recognition.roi.check_sl_with_inclusion
-   AFQ.recognition.roi.check_sl_with_exclusion
-   AFQ.recognition.roi.clean_by_endpoints
-
-
-
-.. py:function:: _interp3d(roi, sl)
-
+.. py:function:: _interp_arr_with_affine(roi, arr, affine)
 
 .. py:function:: check_sls_with_inclusion(sls, include_rois, include_roi_tols)
-
-
-.. py:function:: check_sl_with_inclusion(sl, include_rois, include_roi_tols)
-
-   
-   Helper function to check that a streamline is close to a list of
-   inclusion ROIS.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
 
 .. py:function:: check_sl_with_exclusion(sl, exclude_rois, exclude_roi_tols)
 
@@ -75,7 +46,7 @@ Functions
    ..
        !! processed by numpydoc !!
 
-.. py:function:: clean_by_endpoints(streamlines, target, target_idx, tol=0, flip_sls=None, accepted_idxs=None)
+.. py:function:: clean_by_endpoints(fgarray, target, target_idx, tol=0, flip_sls=None)
 
    
    Clean a collection of streamlines based on an endpoint ROI.
@@ -83,11 +54,11 @@ Functions
    close to the targets.
    Parameters
    ----------
-   streamlines : sequence of N by 3 arrays
-       Where N is number of nodes in the array, the collection of
-       streamlines to filter down to.
+   fgarray : ndarray of shape (N, M, 3)
+       Where N is number of streamlines, M is number of nodes.
+       Assumed to be in RASMM space.
    target: Nifti1Image
-       Nifti1Image containing a boolean representation of the ROI.
+       Nifti1Image containing a distance transform of the ROI.
    target_idx: int.
        Index within each streamline to check if within the target region.
        Typically 0 for startpoint ROIs or -1 for endpoint ROIs.
@@ -98,9 +69,6 @@ Functions
        the endpoint is exactly in the coordinate of the target ROI.
    flip_sls : 1d array, optional
        Length is len(streamlines), whether to flip the streamline.
-   accepted_idxs : 1d array, optional
-       Boolean array, where entries correspond to eachs streamline,
-       and streamlines that pass cleaning will be set to 1.
    Yields
    -------
    boolean array of streamlines that survive cleaning.

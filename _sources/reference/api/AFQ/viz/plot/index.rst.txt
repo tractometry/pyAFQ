@@ -1,15 +1,11 @@
-:py:mod:`AFQ.viz.plot`
-======================
+AFQ.viz.plot
+============
 
 .. py:module:: AFQ.viz.plot
 
 
-Module Contents
----------------
-
-
 Functions
-~~~~~~~~~
+---------
 
 .. autoapisummary::
 
@@ -17,6 +13,8 @@ Functions
    AFQ.viz.plot.visualize_gif_inline
 
 
+Module Contents
+---------------
 
 .. py:function:: visualize_tract_profiles(tract_profiles, scalar='dti_fa', ylim=None, n_boot=1000, file_name=None, positions=vut.POSITIONS)
 
@@ -72,7 +70,7 @@ Functions
 .. py:function:: visualize_gif_inline(fname, use_s3fs=False)
 
    
-   Display a gif inline, possible from s3fs 
+   Display a gif inline, possible from s3fs
 
 
 

@@ -1,0 +1,129 @@
+AFQ.nn.multiaxial
+=================
+
+.. py:module:: AFQ.nn.multiaxial
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   AFQ.nn.multiaxial.multiaxial
+   AFQ.nn.multiaxial.run_multiaxial
+   AFQ.nn.multiaxial.extract_brain_mask
+
+
+Module Contents
+---------------
+
+.. py:function:: multiaxial(ort, img, model_sagittal, model_axial, model_coronal, consensus_model, onnx_kwargs)
+
+   
+   Perform multiaxial segmentation using three ONNX models
+   and a consensus model [1].
+
+
+   :Parameters:
+
+       **img** : ndarray
+           3D T1 image to segment.
+
+       **model_sagittal** : str
+           Path to sagittal ONNX model.
+
+       **model_axial** : str
+           Path to axial ONNX model.
+
+       **model_coronal** : str
+           Path to coronal ONNX model.
+
+       **consensus_model** : str
+           Path to consensus ONNX model.
+
+       **onnx_kwargs** : dict
+           ONNX kwargs to use for inference.
+
+   :Returns:
+
+       **pred** : ndarray
+           Segmentation labels for each coordinate.
+
+
+
+
+
+
+
+
+
+   .. rubric:: References
+
+   [1] Birnbaum, Andrew M., et al. "Full-head segmentation of MRI
+   with abnormal brain anatomy: model and data release." Journal of
+   Medical Imaging 12.5 (2025): 054001-054001.
+
+   .. only:: latex
+
+      
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: run_multiaxial(ort, t1_img, onnx_kwargs)
+
+   
+   Run the multiaxial model.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: extract_brain_mask(predictions)
+
+   
+   Extract brain mask from multiaxial predictions.
+
+
+   :Parameters:
+
+       **predictions** : Nifti1Image
+           Multiaxial segmentation predictions.
+
+   :Returns:
+
+       **bm_data** : ndarray
+           Brain mask data.
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+

@@ -12,6 +12,10 @@ about the variety of pyAFQ functionality that is available.
 .. toctree::
     :maxdepth: 2
 
+.. raw:: html
+
+  <div id='sg-tag-list' class='sphx-glr-tag-list'></div>
+
 
 .. raw:: html
 
@@ -28,7 +32,7 @@ about the variety of pyAFQ functionality that is available.
   .. image:: /howto/howto_examples/images/thumb/sphx_glr_acoustic_radiations_thumb.png
     :alt:
 
-  :ref:`sphx_glr_howto_howto_examples_acoustic_radiations.py`
+  :doc:`/howto/howto_examples/acoustic_radiations`
 
 .. raw:: html
 
@@ -45,11 +49,45 @@ about the variety of pyAFQ functionality that is available.
   .. image:: /howto/howto_examples/images/thumb/sphx_glr_add_custom_bundle_thumb.png
     :alt:
 
-  :ref:`sphx_glr_howto_howto_examples_add_custom_bundle.py`
+  :doc:`/howto/howto_examples/add_custom_bundle`
 
 .. raw:: html
 
       <div class="sphx-glr-thumbnail-title">How to add new bundles into pyAFQ (SLF 1/2/3 Example)</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Callosal bundles using AFQ API">
+
+.. only:: html
+
+  .. image:: /howto/howto_examples/images/thumb/sphx_glr_afq_callosal_thumb.png
+    :alt:
+
+  :doc:`/howto/howto_examples/afq_callosal`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Callosal bundles using AFQ API</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="The free-water DTI model [1, 2]_ fits a two compartment model to dMRI data with more than one non-zero shell. One compartment is a spherical compartment with the diffusivity of water, which accounts for free water in the tissue. The other compartment is the standard diffusion tensor.">
+
+.. only:: html
+
+  .. image:: /howto/howto_examples/images/thumb/sphx_glr_afq_fwdti_thumb.png
+    :alt:
+
+  :doc:`/howto/howto_examples/afq_fwdti`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">How to use Free water DTI</div>
     </div>
 
 
@@ -62,7 +100,7 @@ about the variety of pyAFQ functionality that is available.
   .. image:: /howto/howto_examples/images/thumb/sphx_glr_baby_afq_thumb.png
     :alt:
 
-  :ref:`sphx_glr_howto_howto_examples_baby_afq.py`
+  :doc:`/howto/howto_examples/baby_afq`
 
 .. raw:: html
 
@@ -79,7 +117,7 @@ about the variety of pyAFQ functionality that is available.
   .. image:: /howto/howto_examples/images/thumb/sphx_glr_cerebellar_peduncles_thumb.png
     :alt:
 
-  :ref:`sphx_glr_howto_howto_examples_cerebellar_peduncles.py`
+  :doc:`/howto/howto_examples/cerebellar_peduncles`
 
 .. raw:: html
 
@@ -96,7 +134,7 @@ about the variety of pyAFQ functionality that is available.
   .. image:: /howto/howto_examples/images/thumb/sphx_glr_cloudknot_example_thumb.png
     :alt:
 
-  :ref:`sphx_glr_howto_howto_examples_cloudknot_example.py`
+  :doc:`/howto/howto_examples/cloudknot_example`
 
 .. raw:: html
 
@@ -113,7 +151,7 @@ about the variety of pyAFQ functionality that is available.
   .. image:: /howto/howto_examples/images/thumb/sphx_glr_cloudknot_hcp_example_thumb.png
     :alt:
 
-  :ref:`sphx_glr_howto_howto_examples_cloudknot_hcp_example.py`
+  :doc:`/howto/howto_examples/cloudknot_hcp_example`
 
 .. raw:: html
 
@@ -130,7 +168,7 @@ about the variety of pyAFQ functionality that is available.
   .. image:: /howto/howto_examples/images/thumb/sphx_glr_optic_radiations_thumb.png
     :alt:
 
-  :ref:`sphx_glr_howto_howto_examples_optic_radiations.py`
+  :doc:`/howto/howto_examples/optic_radiations`
 
 .. raw:: html
 
@@ -140,35 +178,18 @@ about the variety of pyAFQ functionality that is available.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Callosal bundles using AFQ API">
+    <div class="sphx-glr-thumbcontainer" tooltip="pyAFQ is designed to be customizable and extensible, even to relatively small bundles. This example will be based on the work  of Kruper et al. [1]_. Here, part of the trick is that most preprocessing pipelines will cut off a portion or all of the optic nerve. So, we only attempt to track the most posterior portion of the optic nerve, the optic tract, and the optic chiasm. In addition, we will use our own custom PVE maps from the T1-weighted image to help with segmentation.">
 
 .. only:: html
 
-  .. image:: /howto/howto_examples/images/thumb/sphx_glr_plot_afq_callosal_thumb.png
+  .. image:: /howto/howto_examples/images/thumb/sphx_glr_optic_tract_thumb.png
     :alt:
 
-  :ref:`sphx_glr_howto_howto_examples_plot_afq_callosal.py`
+  :doc:`/howto/howto_examples/optic_tract`
 
 .. raw:: html
 
-      <div class="sphx-glr-thumbnail-title">Callosal bundles using AFQ API</div>
-    </div>
-
-
-.. raw:: html
-
-    <div class="sphx-glr-thumbcontainer" tooltip="For bundle recognition, pyAFQ defaults to use the waypoint ROI approach described in [Yeatman2012]_. However, as an alternative approach, pyAFQ also supports using the RecoBundles algorithm [Garyfallidis2017]_, which uses an atlas of bundles in streamlines. This example shows how to use RecoBundles for bundle recognition.">
-
-.. only:: html
-
-  .. image:: /howto/howto_examples/images/thumb/sphx_glr_plot_recobundles_thumb.png
-    :alt:
-
-  :ref:`sphx_glr_howto_howto_examples_plot_recobundles.py`
-
-.. raw:: html
-
-      <div class="sphx-glr-thumbnail-title">Using RecoBundles for bundle recognition</div>
+      <div class="sphx-glr-thumbnail-title">How to track the Optic Tract and Posterior Optic Nerve in pyAFQ</div>
     </div>
 
 
@@ -181,7 +202,7 @@ about the variety of pyAFQ functionality that is available.
   .. image:: /howto/howto_examples/images/thumb/sphx_glr_plot_stages_of_tractometry_thumb.png
     :alt:
 
-  :ref:`sphx_glr_howto_howto_examples_plot_stages_of_tractometry.py`
+  :doc:`/howto/howto_examples/plot_stages_of_tractometry`
 
 .. raw:: html
 
@@ -191,35 +212,52 @@ about the variety of pyAFQ functionality that is available.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="The free-water DTI model [1, 2]_ fits a two compartment model to dMRI data with more than one non-zero shell. One compartment is a spherical compartment with the diffusivity of water, which accounts for free water in the tissue. The other compartment is the standard diffusion tensor.">
+    <div class="sphx-glr-thumbcontainer" tooltip="Running pyAFQ using the GPU for tractography">
 
 .. only:: html
 
-  .. image:: /howto/howto_examples/images/thumb/sphx_glr_run_afq_fwdti_thumb.png
+  .. image:: /howto/howto_examples/images/thumb/sphx_glr_pyAFQ_with_GPU_thumb.png
     :alt:
 
-  :ref:`sphx_glr_howto_howto_examples_run_afq_fwdti.py`
+  :doc:`/howto/howto_examples/pyAFQ_with_GPU`
 
 .. raw:: html
 
-      <div class="sphx-glr-thumbnail-title">How to use Free water DTI</div>
+      <div class="sphx-glr-thumbnail-title">Running pyAFQ using the GPU for tractography</div>
     </div>
 
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Running pyAFQ using the GPU for tractography">
+    <div class="sphx-glr-thumbcontainer" tooltip="Running pyAFQ 2.x defaults in pyAFQ 3.x">
 
 .. only:: html
 
-  .. image:: /howto/howto_examples/images/thumb/sphx_glr_run_pyAFQ_with_GPU_thumb.png
+  .. image:: /howto/howto_examples/images/thumb/sphx_glr_pyafq_2_thumb.png
     :alt:
 
-  :ref:`sphx_glr_howto_howto_examples_run_pyAFQ_with_GPU.py`
+  :doc:`/howto/howto_examples/pyafq_2`
 
 .. raw:: html
 
-      <div class="sphx-glr-thumbnail-title">Running pyAFQ using the GPU for tractography</div>
+      <div class="sphx-glr-thumbnail-title">Running pyAFQ 2.x defaults in pyAFQ 3.x</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="For bundle recognition, pyAFQ defaults to use the waypoint ROI approach described in [Yeatman2012]_. However, as an alternative approach, pyAFQ also supports using the RecoBundles algorithm [Garyfallidis2017]_, which uses an atlas of bundles in streamlines. This example shows how to use RecoBundles for bundle recognition.">
+
+.. only:: html
+
+  .. image:: /howto/howto_examples/images/thumb/sphx_glr_recobundles_thumb.png
+    :alt:
+
+  :doc:`/howto/howto_examples/recobundles`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Using RecoBundles for bundle recognition</div>
     </div>
 
 
@@ -232,7 +270,7 @@ about the variety of pyAFQ functionality that is available.
   .. image:: /howto/howto_examples/images/thumb/sphx_glr_use_subject_space_rois_from_freesurfer_thumb.png
     :alt:
 
-  :ref:`sphx_glr_howto_howto_examples_use_subject_space_rois_from_freesurfer.py`
+  :doc:`/howto/howto_examples/use_subject_space_rois_from_freesurfer`
 
 .. raw:: html
 
@@ -249,7 +287,7 @@ about the variety of pyAFQ functionality that is available.
   .. image:: /howto/howto_examples/images/thumb/sphx_glr_vof_example_thumb.png
     :alt:
 
-  :ref:`sphx_glr_howto_howto_examples_vof_example.py`
+  :doc:`/howto/howto_examples/vof_example`
 
 .. raw:: html
 
@@ -269,16 +307,18 @@ about the variety of pyAFQ functionality that is available.
 
    /howto/howto_examples/acoustic_radiations
    /howto/howto_examples/add_custom_bundle
+   /howto/howto_examples/afq_callosal
+   /howto/howto_examples/afq_fwdti
    /howto/howto_examples/baby_afq
    /howto/howto_examples/cerebellar_peduncles
    /howto/howto_examples/cloudknot_example
    /howto/howto_examples/cloudknot_hcp_example
    /howto/howto_examples/optic_radiations
-   /howto/howto_examples/plot_afq_callosal
-   /howto/howto_examples/plot_recobundles
+   /howto/howto_examples/optic_tract
    /howto/howto_examples/plot_stages_of_tractometry
-   /howto/howto_examples/run_afq_fwdti
-   /howto/howto_examples/run_pyAFQ_with_GPU
+   /howto/howto_examples/pyAFQ_with_GPU
+   /howto/howto_examples/pyafq_2
+   /howto/howto_examples/recobundles
    /howto/howto_examples/use_subject_space_rois_from_freesurfer
    /howto/howto_examples/vof_example
 

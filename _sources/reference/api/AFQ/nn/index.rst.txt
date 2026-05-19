@@ -1,0 +1,18 @@
+AFQ.nn
+======
+
+.. py:module:: AFQ.nn
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /reference/api/AFQ/nn/brainchop/index
+   /reference/api/AFQ/nn/multiaxial/index
+   /reference/api/AFQ/nn/synthseg/index
+   /reference/api/AFQ/nn/utils/index
+
+

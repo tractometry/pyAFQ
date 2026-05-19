@@ -1,15 +1,11 @@
-:py:mod:`AFQ.utils.path`
-========================
+AFQ.utils.path
+==============
 
 .. py:module:: AFQ.utils.path
 
 
-Module Contents
----------------
-
-
 Functions
-~~~~~~~~~
+---------
 
 .. autoapisummary::
 
@@ -20,6 +16,8 @@ Functions
    AFQ.utils.path.apply_cmd_to_afq_derivs
 
 
+Module Contents
+---------------
 
 .. py:function:: write_json(fname, data)
 
@@ -88,10 +86,7 @@ Functions
 
 .. py:function:: drop_extension(path)
 
-
 .. py:function:: space_from_fname(dwi_fname)
 
-
-.. py:function:: apply_cmd_to_afq_derivs(derivs_dir, base_fname, cmd='rm', exception_file_names=[], suffix='', dependent_on=None)
-
+.. py:function:: apply_cmd_to_afq_derivs(derivs_dir, base_fname, cmd='rm', exception_file_names=None, suffix='', dependent_on=None, up_to=None)
 

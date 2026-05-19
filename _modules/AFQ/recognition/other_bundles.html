@@ -1,14 +1,13 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../../../" >
 
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.recognition.other_bundles &#8212; AFQ 2.1 documentation</title>
+    <title>AFQ.recognition.other_bundles &#8212; AFQ 3.1 documentation</title>
   
   
   
@@ -16,73 +15,71 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
 
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=fd6457a4" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=c6496573" />
   
-  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css" />
-  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/jquery.js"></script>
-    <script src="../../../_static/underscore.js"></script>
-    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx_highlight.js"></script>
-    <script src="../../../_static/design-tabs.js"></script>
+    <script src="../../../_static/documentation_options.js?v=b576230a"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/sg-tags.js?v=d80f6fa4"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/AFQ/recognition/other_bundles';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../../_static/searchtools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script src="../../../searchindex.js"></script>
+  
   </head>
-  
-  
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
-
+  <body data-default-mode="">
   
   
   <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
-
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
   
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../../search.html"
       method="get">
@@ -90,7 +87,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -98,15 +94,15 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
 
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
   <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
@@ -132,8 +128,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 2.1 documentation - Home"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.1 documentation - Home"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 3.1 documentation - Home"/>
+    <img src="../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="AFQ 3.1 documentation - Home"/>
   
   
 </a></div>
@@ -151,6 +147,20 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../../guides_index.html">
     User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../tutorials/tutorial_examples/index.html">
+    Tutorials: Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../howto/howto_examples/index.html">
+    How to examples
   </a>
 </li>
 
@@ -186,29 +196,21 @@
         <div class="navbar-item navbar-persistent--container">
           
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
       
         <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -233,15 +235,11 @@ document.write(`
   
     <div class="navbar-persistent--mobile">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
@@ -258,7 +256,8 @@ document.write(`
       
         
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -276,6 +275,20 @@ document.write(`
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../../guides_index.html">
     User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../tutorials/tutorial_examples/index.html">
+    Tutorials: Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../howto/howto_examples/index.html">
+    How to examples
   </a>
 </li>
 
@@ -312,15 +325,11 @@ document.write(`
         
           <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
         
           <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -351,7 +360,6 @@ document.write(`
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -364,9 +372,14 @@ document.write(`
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -384,8 +397,6 @@ document.write(`
       
         <div class="header-article-item">
 
-
-
 <nav aria-label="Breadcrumb" class="d-print-none">
   <ul class="bd-breadcrumbs">
     
@@ -400,7 +411,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../../AFQ.html" class="nav-link">AFQ</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">AFQ.recognit...</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">AFQ.recognition.other_bundles</span></li>
   </ul>
 </nav>
 </div>
@@ -418,107 +429,186 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for AFQ.recognition.other_bundles</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">nibabel</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nib</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">dipy.tracking.utils</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dtu</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">dipy.tracking.streamline</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dts</span>
-
+<span class="kn">import</span><span class="w"> </span><span class="nn">dipy.tracking.utils</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dtu</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">nibabel</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.spatial.distance</span><span class="w"> </span><span class="kn">import</span> <span class="n">cdist</span>
-<div class="viewcode-block" id="logger"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/other_bundles/index.html#AFQ.recognition.other_bundles.logger">[docs]</a><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;AFQ&#39;</span><span class="p">)</span></div>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">AFQ.recognition.utils</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">abu</span>
+
+<div class="viewcode-block" id="logger">
+<a class="viewcode-back" href="../../../reference/api/AFQ/recognition/other_bundles/index.html#AFQ.recognition.other_bundles.logger">[docs]</a>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;AFQ&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="clean_by_other_density_map"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/other_bundles/index.html#AFQ.recognition.other_bundles.clean_by_other_density_map">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">clean_by_other_density_map</span><span class="p">(</span><span class="n">this_bundle_sls</span><span class="p">,</span> <span class="n">other_bundle_sls</span><span class="p">,</span>
-                               <span class="n">node_thresh</span><span class="p">,</span> <span class="n">img</span><span class="p">):</span>
+
+<div class="viewcode-block" id="clean_by_overlap">
+<a class="viewcode-back" href="../../../reference/api/AFQ/recognition/other_bundles/index.html#AFQ.recognition.other_bundles.clean_by_overlap">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">clean_by_overlap</span><span class="p">(</span>
+    <span class="n">this_bundle_sls</span><span class="p">,</span>
+    <span class="n">other_bundle_sls</span><span class="p">,</span>
+    <span class="n">overlap</span><span class="p">,</span>
+    <span class="n">img</span><span class="p">,</span>
+    <span class="n">remove</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">project</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">other_bundle_min_density</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Cleans a set of streamlines by removing those with significant overlap with </span>
-<span class="sd">    another set of streamlines.</span>
+<span class="sd">    Cleans a set of streamlines by only keeping (or removing) those with</span>
+<span class="sd">    significant overlap with another set of streamlines.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    this_bundle_sls : array-like</span>
 <span class="sd">        A list or array of streamlines to be cleaned.</span>
+<span class="sd">        Assumed to be in RASMM space.</span>
 <span class="sd">    other_bundle_sls : array-like</span>
 <span class="sd">        A reference list or array of streamlines to determine overlapping regions.</span>
-<span class="sd">    node_thresh : int</span>
-<span class="sd">        The maximum number of nodes allowed to overlap between `this_bundle_sls`</span>
-<span class="sd">        and `other_bundle_sls`. Streamlines with overlaps beyond this threshold </span>
+<span class="sd">    overlap : int</span>
+<span class="sd">        The minimum number of nodes allowed to overlap between `this_bundle_sls`</span>
+<span class="sd">        and `other_bundle_sls`. Streamlines with overlaps beyond this threshold</span>
 <span class="sd">        are removed.</span>
-<span class="sd">    img : nibabel.Nifti1Image or ndarray</span>
-<span class="sd">        A reference 3D image that defines the spatial dimensions for the density </span>
+<span class="sd">    img : nibabel.Nifti1Image</span>
+<span class="sd">        A reference 3D image that defines the spatial dimensions for the density</span>
 <span class="sd">        map.</span>
+<span class="sd">    remove : bool, optional</span>
+<span class="sd">        If True, streamlines that overlap in less than `overlap` nodes are</span>
+<span class="sd">        removed. If False, streamlines that overlap in more than `overlap` nodes</span>
+<span class="sd">        are removed.</span>
+<span class="sd">        Default: False.</span>
+<span class="sd">    project : {&#39;A/P&#39;, &#39;I/S&#39;, &#39;L/R&#39;, None}, optional</span>
+<span class="sd">        If specified, the overlap calculation is projected along the given axis</span>
+<span class="sd">        before cleaning. For example, &#39;A/P&#39; projects the streamlines along the</span>
+<span class="sd">        anterior-posterior axis.</span>
+<span class="sd">        Default: None.</span>
+<span class="sd">    other_bundle_min_density : float, optional</span>
+<span class="sd">        A threshold to binarize the density map of `other_bundle_sls`. Voxels</span>
+<span class="sd">        with density values above this threshold (as a fraction of the maximum</span>
+<span class="sd">        density) are considered occupied.</span>
+<span class="sd">        Default: 0.05.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    cleaned_idx : ndarray of bool</span>
-<span class="sd">        An array of boolean values indicating which streamlines from </span>
-<span class="sd">        `this_bundle_sls` pass the overlap threshold (True for streamlines to </span>
+<span class="sd">        An array of boolean values indicating which streamlines from</span>
+<span class="sd">        `this_bundle_sls` pass the overlap threshold (True for streamlines to</span>
 <span class="sd">        keep, False for streamlines to discard).</span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
-<span class="sd">    This function computes a density map from `other_bundle_sls` to represent </span>
+<span class="sd">    This function computes a density map from `other_bundle_sls` to represent</span>
 <span class="sd">    the spatial occupancy of the streamlines. It then calculates the probability</span>
-<span class="sd">    of each streamline in `this_bundle_sls` overlapping with this map. </span>
-<span class="sd">    Streamlines that overlap in more than `node_thresh` nodes are flagged for </span>
-<span class="sd">    removal.</span>
+<span class="sd">    of each streamline in `this_bundle_sls` overlapping with this map.</span>
+<span class="sd">    Streamlines that overlap in less than `overlap` nodes are flagged for</span>
+<span class="sd">    removal (or more, if remove is True).</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; clean_idx = clean_by_other_density_map(bundle1, bundle2, 5, img)</span>
+<span class="sd">    &gt;&gt;&gt; clean_idx = clean_by_overlap(bundle1, bundle2, 5, img, True)</span>
 <span class="sd">    &gt;&gt;&gt; cleaned_bundle = [s for i, s in enumerate(bundle1) if clean_idx[i]]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">other_bundle_density_map</span> <span class="o">=</span> <span class="n">dtu</span><span class="o">.</span><span class="n">density_map</span><span class="p">(</span>
-        <span class="n">other_bundle_sls</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span>
+        <span class="n">other_bundle_sls</span><span class="p">,</span> <span class="n">img</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">remove</span><span class="p">:</span>
+        <span class="n">max_val</span> <span class="o">=</span> <span class="n">other_bundle_density_map</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">max_val</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">other_bundle_density_map</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">other_bundle_density_map</span> <span class="o">/</span> <span class="n">max_val</span>
+            <span class="p">)</span> <span class="o">&gt;</span> <span class="n">other_bundle_min_density</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">other_bundle_density_map</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span>
+                <span class="n">other_bundle_density_map</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span>
+            <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">project</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">orientation</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">orientations</span><span class="o">.</span><span class="n">aff2axcodes</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">affine</span><span class="p">)</span>
+        <span class="n">core_axis</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span>
+            <span class="n">idx</span> <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">orientation</span><span class="p">)</span> <span class="k">if</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">project</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+        <span class="p">)</span>
+
+        <span class="n">projection</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">other_bundle_density_map</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">core_axis</span><span class="p">)</span>
+
+        <span class="n">other_bundle_density_map</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">broadcast_to</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">projection</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">core_axis</span><span class="p">),</span> <span class="n">other_bundle_density_map</span><span class="o">.</span><span class="n">shape</span>
+        <span class="p">)</span>
+
     <span class="n">fiber_probabilities</span> <span class="o">=</span> <span class="n">dts</span><span class="o">.</span><span class="n">values_from_volume</span><span class="p">(</span>
-        <span class="n">other_bundle_density_map</span><span class="p">,</span> <span class="n">this_bundle_sls</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+        <span class="n">other_bundle_density_map</span><span class="p">,</span> <span class="n">this_bundle_sls</span><span class="p">,</span> <span class="n">img</span><span class="o">.</span><span class="n">affine</span>
+    <span class="p">)</span>
     <span class="n">cleaned_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">this_bundle_sls</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">ii</span><span class="p">,</span> <span class="n">fp</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">fiber_probabilities</span><span class="p">):</span>
-        <span class="n">cleaned_idx</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">node_thresh</span>
+        <span class="k">if</span> <span class="n">remove</span><span class="p">:</span>
+            <span class="n">cleaned_idx</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">overlap</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cleaned_idx</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">overlap</span>
     <span class="k">return</span> <span class="n">cleaned_idx</span></div>
 
 
-<div class="viewcode-block" id="clean_relative_to_other_core"><a class="viewcode-back" href="../../../reference/api/AFQ/recognition/other_bundles/index.html#AFQ.recognition.other_bundles.clean_relative_to_other_core">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">clean_relative_to_other_core</span><span class="p">(</span><span class="n">core</span><span class="p">,</span> <span class="n">this_fgarray</span><span class="p">,</span> <span class="n">other_fgarray</span><span class="p">,</span> <span class="n">affine</span><span class="p">):</span>
+
+<div class="viewcode-block" id="clean_relative_to_other_core">
+<a class="viewcode-back" href="../../../reference/api/AFQ/recognition/other_bundles/index.html#AFQ.recognition.other_bundles.clean_relative_to_other_core">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">clean_relative_to_other_core</span><span class="p">(</span>
+    <span class="n">core</span><span class="p">,</span>
+    <span class="n">this_fgarray</span><span class="p">,</span>
+    <span class="n">other_fgarray</span><span class="p">,</span>
+    <span class="n">consideration</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Removes streamlines from a set that lie on the opposite side of a specified </span>
+<span class="sd">    Removes streamlines from a set that lie on the opposite side of a specified</span>
 <span class="sd">    core axis compared to another set of streamlines.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    core : {&#39;anterior&#39;, &#39;posterior&#39;, &#39;superior&#39;, &#39;inferior&#39;, &#39;right&#39;, &#39;left&#39;}</span>
-<span class="sd">        The anatomical axis used to define the core direction. This determines </span>
-<span class="sd">        the side of the core from which streamlines in `this_fgarray` are </span>
+<span class="sd">        The anatomical axis used to define the core direction. This determines</span>
+<span class="sd">        the side of the core from which streamlines in `this_fgarray` are</span>
 <span class="sd">        retained.</span>
 <span class="sd">    this_fgarray : ndarray</span>
 <span class="sd">        An array of streamlines to be cleaned.</span>
+<span class="sd">        Assumed to be in RASMM space.</span>
 <span class="sd">    other_fgarray : ndarray</span>
 <span class="sd">        An array of reference streamlines to define the core.</span>
-<span class="sd">    affine : ndarray</span>
-<span class="sd">        The affine transformation matrix.</span>
+<span class="sd">        Assumed to be in RASMM space.</span>
+<span class="sd">    consideration : float or string, optional</span>
+<span class="sd">        If float, the distance threshold (in voxels) for considering a</span>
+<span class="sd">        streamline&#39;s position relative to the core. All points on</span>
+<span class="sd">        the streamline within distance from the core are considered</span>
+<span class="sd">        when determining if the streamline lies on the correct side.</span>
+<span class="sd">        If no points are within consideration distance, the closest point</span>
+<span class="sd">        on the streamline to the core is considered.</span>
+<span class="sd">        If string, must be one of &#39;entire&#39; or &#39;closest&#39;.</span>
+<span class="sd">        If &#39;entire&#39;, the entire streamline must lie on the correct</span>
+<span class="sd">        side of the core to be retained.</span>
+<span class="sd">        If &#39;closest&#39;, only the closest point on the streamline to</span>
+<span class="sd">        the core is considered.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    cleaned_idx_core : ndarray of bool</span>
 <span class="sd">        An array of boolean values indicating which streamlines in `this_fgarray`</span>
-<span class="sd">        lie on the correct side of the core (True for streamlines to keep, False </span>
+<span class="sd">        lie on the correct side of the core (True for streamlines to keep, False</span>
 <span class="sd">        for streamlines to discard).</span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
-<span class="sd">    This function first calculates the median streamline of `other_fgarray`, </span>
-<span class="sd">    which acts as the core line. It then determines whether each streamline in </span>
+<span class="sd">    This function first calculates the median streamline of `other_fgarray`,</span>
+<span class="sd">    which acts as the core line. It then determines whether each streamline in</span>
 <span class="sd">    `this_fgarray` is on the specified side of this core, based on the specified</span>
-<span class="sd">    anatomical axis (`core`). Streamlines on the opposite side are flagged for </span>
+<span class="sd">    anatomical axis (`core`). Streamlines on the opposite side are flagged for</span>
 <span class="sd">    removal.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; cleaned_core_idx = clean_relative_to_other_core(&#39;anterior&#39;, </span>
-<span class="sd">    ...                                                 streamlines1, </span>
-<span class="sd">    ...                                                 streamlines2, </span>
+<span class="sd">    &gt;&gt;&gt; cleaned_core_idx = clean_relative_to_other_core(&#39;anterior&#39;,</span>
+<span class="sd">    ...                                                 streamlines1,</span>
+<span class="sd">    ...                                                 streamlines2,</span>
 <span class="sd">    ...                                                 np.eye(4))</span>
-<span class="sd">    &gt;&gt;&gt; cleaned_streamlines = [s for i, s in enumerate(streamlines1) </span>
+<span class="sd">    &gt;&gt;&gt; cleaned_streamlines = [s for i, s in enumerate(streamlines1)</span>
 <span class="sd">    ...                        if cleaned_core_idx[i]]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">other_fgarray</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -526,51 +616,63 @@ document.write(`
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">this_fgarray</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">)</span>
 
     <span class="c1"># find dimension of core axis</span>
-    <span class="n">orientation</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">orientations</span><span class="o">.</span><span class="n">aff2axcodes</span><span class="p">(</span><span class="n">affine</span><span class="p">)</span>
-    <span class="n">core_axis</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">core_upper</span> <span class="o">=</span> <span class="n">core</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
-    <span class="n">axis_groups</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;L&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;L&#39;</span><span class="p">,</span> <span class="s1">&#39;R&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;R&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;L&#39;</span><span class="p">,</span> <span class="s1">&#39;R&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;P&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;P&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;P&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;I&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;I&#39;</span><span class="p">,</span> <span class="s1">&#39;S&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;S&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;I&#39;</span><span class="p">,</span> <span class="s1">&#39;S&#39;</span><span class="p">),</span>
-    <span class="p">}</span>
+    <span class="n">core_axis</span> <span class="o">=</span> <span class="n">abu</span><span class="o">.</span><span class="n">axes_dict</span><span class="p">[</span><span class="n">core</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
 
     <span class="n">direction_signs</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;L&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-        <span class="s1">&#39;R&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
-        <span class="s1">&#39;P&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-        <span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
-        <span class="s1">&#39;I&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-        <span class="s1">&#39;S&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+        <span class="s2">&quot;L&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">&quot;R&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+        <span class="s2">&quot;P&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">&quot;A&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+        <span class="s2">&quot;I&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">&quot;S&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
     <span class="p">}</span>
 
-    <span class="n">core_axis</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">axis_label</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">orientation</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">core_upper</span> <span class="ow">in</span> <span class="n">axis_groups</span><span class="p">[</span><span class="n">axis_label</span><span class="p">]:</span>
-            <span class="n">core_axis</span> <span class="o">=</span> <span class="n">idx</span>
-            <span class="n">core_direc</span> <span class="o">=</span> <span class="n">direction_signs</span><span class="p">[</span><span class="n">core_upper</span><span class="p">]</span>
-            <span class="k">break</span>
-
-    <span class="k">if</span> <span class="n">affine</span><span class="p">[</span><span class="n">core_axis</span><span class="p">,</span> <span class="n">core_axis</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">core_direc</span> <span class="o">=</span> <span class="o">-</span><span class="n">core_direc</span>
-
-    <span class="k">if</span> <span class="n">core_axis</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid core axis: </span><span class="si">{</span><span class="n">core</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">core_direc</span> <span class="o">=</span> <span class="n">direction_signs</span><span class="p">[</span><span class="n">core</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
 
     <span class="n">core_bundle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">other_fgarray</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">cleaned_idx_core</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">this_fgarray</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">ii</span><span class="p">,</span> <span class="n">sl</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">this_fgarray</span><span class="p">):</span>
-        <span class="n">dist_matrix</span> <span class="o">=</span> <span class="n">cdist</span><span class="p">(</span><span class="n">core_bundle</span><span class="p">,</span> <span class="n">sl</span><span class="p">,</span> <span class="s1">&#39;sqeuclidean&#39;</span><span class="p">)</span>
-        <span class="n">min_dist_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unravel_index</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">dist_matrix</span><span class="p">),</span>
-                                            <span class="n">dist_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_consideration_closest</span><span class="p">(</span><span class="n">sl</span><span class="p">):</span>
+        <span class="n">dist_matrix</span> <span class="o">=</span> <span class="n">cdist</span><span class="p">(</span><span class="n">core_bundle</span><span class="p">,</span> <span class="n">sl</span><span class="p">,</span> <span class="s2">&quot;sqeuclidean&quot;</span><span class="p">)</span>
+        <span class="n">min_dist_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unravel_index</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">dist_matrix</span><span class="p">),</span> <span class="n">dist_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
         <span class="n">closest_core</span> <span class="o">=</span> <span class="n">core_bundle</span><span class="p">[</span><span class="n">min_dist_indices</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">core_axis</span><span class="p">]</span>
         <span class="n">closest_sl</span> <span class="o">=</span> <span class="n">sl</span><span class="p">[</span><span class="n">min_dist_indices</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">core_axis</span><span class="p">]</span>
 
-        <span class="n">cleaned_idx_core</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="n">core_direc</span> <span class="o">*</span> <span class="p">(</span><span class="n">closest_sl</span> <span class="o">-</span> <span class="n">closest_core</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+        <span class="k">return</span> <span class="n">core_direc</span> <span class="o">*</span> <span class="p">(</span><span class="n">closest_sl</span> <span class="o">-</span> <span class="n">closest_core</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+
+    <span class="k">for</span> <span class="n">ii</span><span class="p">,</span> <span class="n">sl</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">this_fgarray</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">consideration</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+            <span class="n">dist_matrix</span> <span class="o">=</span> <span class="n">cdist</span><span class="p">(</span><span class="n">core_bundle</span><span class="p">,</span> <span class="n">sl</span><span class="p">,</span> <span class="s2">&quot;sqeuclidean&quot;</span><span class="p">)</span>
+            <span class="n">closest_core_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">dist_matrix</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+            <span class="n">min_dists_sq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">dist_matrix</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">within_threshold</span> <span class="o">=</span> <span class="n">min_dists_sq</span> <span class="o">&lt;</span> <span class="n">consideration</span><span class="o">**</span><span class="mi">2</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">within_threshold</span><span class="p">):</span>
+                <span class="n">relevant_sl_pts</span> <span class="o">=</span> <span class="n">sl</span><span class="p">[</span><span class="n">within_threshold</span><span class="p">,</span> <span class="n">core_axis</span><span class="p">]</span>
+                <span class="n">relevant_core_pts</span> <span class="o">=</span> <span class="n">core_bundle</span><span class="p">[</span>
+                    <span class="n">closest_core_indices</span><span class="p">[</span><span class="n">within_threshold</span><span class="p">],</span> <span class="n">core_axis</span>
+                <span class="p">]</span>
+
+                <span class="n">cleaned_idx_core</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span>
+                    <span class="n">core_direc</span> <span class="o">*</span> <span class="p">(</span><span class="n">relevant_sl_pts</span> <span class="o">-</span> <span class="n">relevant_core_pts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">cleaned_idx_core</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="n">_consideration_closest</span><span class="p">(</span><span class="n">sl</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">consideration</span> <span class="o">==</span> <span class="s2">&quot;entire&quot;</span><span class="p">:</span>
+            <span class="n">cleaned_idx_core</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span>
+                <span class="n">core_direc</span> <span class="o">*</span> <span class="p">(</span><span class="n">sl</span><span class="p">[:,</span> <span class="n">core_axis</span><span class="p">]</span> <span class="o">-</span> <span class="n">core_bundle</span><span class="p">[:,</span> <span class="n">core_axis</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">consideration</span> <span class="o">==</span> <span class="s2">&quot;closest&quot;</span><span class="p">:</span>
+            <span class="n">cleaned_idx_core</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="n">_consideration_closest</span><span class="p">(</span><span class="n">sl</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Invalid value for consideration. Must be a &quot;</span>
+                <span class="s2">&quot;float or one of &#39;entire&#39; or &#39;closest&#39;. You have provided: &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">consideration</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
     <span class="k">return</span> <span class="n">cleaned_idx_core</span></div>
+
 </pre></div>
 
                 </article>
@@ -600,8 +702,8 @@ document.write(`
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
 
 
   <footer class="bd-footer">
@@ -622,7 +724,7 @@ document.write(`
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
     <br/>
   </p>
 </div>
@@ -634,16 +736,20 @@ document.write(`
     <div class="footer-items__end">
       
         <div class="footer-item"><div class="footer">
-    <div class="footer-content">
-      <div class="copyright">
-        Please Cite the following paper:
-      </div>
-      <div class="citation">
-        <a href="https://doi.org/10.52294/e6198273-b8e3-4b63-babb-6e6b0da10669">Kruper et al. (2021)</a>
-      </div>
+  <div class="footer-content">
+    <div class="copyright">
+      Please Cite the following papers:
+    </div>
+    <div class="citation">
+      <a href="https://doi.org/10.1371/journal.pcbi.1013323">
+        Kruper et al. (2025)
+      </a><br>
+      <a href="https://doi.org/10.52294/e6198273-b8e3-4b63-babb-6e6b0da10669">
+        Kruper et al. (2021)
+      </a>
     </div>
   </div>
-  </div>
+</div></div>
       
     </div>
   

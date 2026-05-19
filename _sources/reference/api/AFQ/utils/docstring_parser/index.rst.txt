@@ -1,21 +1,19 @@
-:py:mod:`AFQ.utils.docstring_parser`
-====================================
+AFQ.utils.docstring_parser
+==========================
 
 .. py:module:: AFQ.utils.docstring_parser
 
 
-Module Contents
----------------
-
-
 Functions
-~~~~~~~~~
+---------
 
 .. autoapisummary::
 
    AFQ.utils.docstring_parser.parse_numpy_docstring
 
 
+Module Contents
+---------------
 
 .. py:function:: parse_numpy_docstring(docstring)
 

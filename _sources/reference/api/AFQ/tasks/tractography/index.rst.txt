@@ -1,180 +1,39 @@
-:py:mod:`AFQ.tasks.tractography`
-================================
+AFQ.tasks.tractography
+======================
 
 .. py:module:: AFQ.tasks.tractography
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   AFQ.tasks.tractography.logger
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   AFQ.tasks.tractography._meta_from_tracking_params
+   AFQ.tasks.tractography._fiber_odf
+   AFQ.tasks.tractography.streamlines
+   AFQ.tasks.tractography.custom_tractography
+   AFQ.tasks.tractography.get_tractography_plan
 
 
 Module Contents
 ---------------
 
-
-Functions
-~~~~~~~~~
-
-.. autoapisummary::
-
-   AFQ.tasks.tractography._meta_from_tracking_params
-   AFQ.tasks.tractography.export_seed_mask
-   AFQ.tasks.tractography.export_seed_mask_thresholded
-   AFQ.tasks.tractography.export_stop_mask
-   AFQ.tasks.tractography.export_stop_mask_thresholded
-   AFQ.tasks.tractography.export_stop_mask_pft
-   AFQ.tasks.tractography.streamlines
-   AFQ.tasks.tractography.fiber_odf
-   AFQ.tasks.tractography.custom_tractography
-   AFQ.tasks.tractography.gpu_tractography
-   AFQ.tasks.tractography.get_tractography_plan
-
-
-
-Attributes
-~~~~~~~~~~
-
-.. autoapisummary::
-
-   AFQ.tasks.tractography.has_ray
-   AFQ.tasks.tractography.has_gputrack
-   AFQ.tasks.tractography.logger
-
-
-.. py:data:: has_ray
-   :value: True
-
-   
-
-.. py:data:: has_gputrack
-   :value: True
-
-   
-
 .. py:data:: logger
 
-   
+.. py:function:: _meta_from_tracking_params(tracking_params, start_time, seed, pve, n_streamlines=0)
 
-.. py:function:: _meta_from_tracking_params(tracking_params, start_time, n_streamlines, seed, stop)
+.. py:function:: _fiber_odf(data_imap, tissue_imap, tracking_params)
 
-
-.. py:function:: export_seed_mask(data_imap, tracking_params)
-
-   
-   full path to a nifti file containing the
-   tractography seed mask
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:function:: export_seed_mask_thresholded(data_imap, seed, tracking_params)
-
-   
-   full path to a nifti file containing the
-   tractography seed mask thresholded
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:function:: export_stop_mask(data_imap, tracking_params)
-
-   
-   full path to a nifti file containing the
-   tractography stop mask
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:function:: export_stop_mask_thresholded(data_imap, stop, tracking_params)
-
-   
-   full path to a nifti file containing the
-   tractography stop mask thresholded
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:function:: export_stop_mask_pft(pve_wm, pve_gm, pve_csf)
-
-   
-   full path to a nifti file containing the
-   tractography stop mask
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:function:: streamlines(data_imap, seed, stop, fodf, tracking_params)
+.. py:function:: streamlines(structural_imap, data_imap, seed, tissue_imap, citations, tracking_params)
 
    
    full path to the complete, unsegmented tractography file
@@ -183,36 +42,11 @@ Attributes
    :Parameters:
 
        **tracking_params** : dict, optional
-           The parameters for tracking. Default: use the default behavior of
+           The parameters for tracking. Defaults to using the default behavior of
            the aft.track function. Seed mask and seed threshold, if not
            specified, are replaced with scalar masks from scalar[0]
-           thresholded to 0.2. The ``seed_mask`` and ``stop_mask`` items of
+           thresholded to 0.2. The ``seed_mask`` items of
            this dict may be ``AFQ.definitions.image.ImageFile`` instances.
-           If ``tracker`` is set to "pft" then ``stop_mask`` should be
-           an instance of ``AFQ.definitions.image.PFTImage``.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:function:: fiber_odf(data_imap, tracking_params)
-
-   
-   Nifti Image containing the fiber orientation distribution function
-
-
 
 
 
@@ -260,42 +94,5 @@ Attributes
    ..
        !! processed by numpydoc !!
 
-.. py:function:: gpu_tractography(data_imap, tracking_params, fodf, seed, stop, tractography_ngpus=0, chunk_size=100000)
-
-   
-   full path to the complete, unsegmented tractography file
-
-
-   :Parameters:
-
-       **tractography_ngpus** : int, optional
-           Number of GPUs to use in tractography. If non-0,
-           this algorithm is used for tractography,
-           https://github.com/dipy/GPUStreamlines
-           PTT, Prob can be used with any SHM model.
-           Bootstrapped can be done with CSA/OPDT.
-           Default: 0
-
-       **chunk_size** : int, optional
-           Chunk size for GPU tracking.
-           Default: 100000
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
 .. py:function:: get_tractography_plan(kwargs)
-
 

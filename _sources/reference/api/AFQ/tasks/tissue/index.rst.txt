@@ -1,0 +1,346 @@
+AFQ.tasks.tissue
+================
+
+.. py:module:: AFQ.tasks.tissue
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   AFQ.tasks.tissue.logger
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   AFQ.tasks.tissue.wm_gm_interface
+   AFQ.tasks.tissue.pve_internal
+   AFQ.tasks.tissue.msmt_params
+   AFQ.tasks.tissue.msmt_apm
+   AFQ.tasks.tissue.msmt_aodf
+   AFQ.tasks.tissue.msmt_aodf_asi
+   AFQ.tasks.tissue.msmt_aodf_opm
+   AFQ.tasks.tissue.msmt_aodf_nufid
+   AFQ.tasks.tissue.csd_aodf_nufid
+   AFQ.tasks.tissue.get_tissue_plan
+
+
+Module Contents
+---------------
+
+.. py:data:: logger
+
+.. py:function:: wm_gm_interface(pve_internal, data_imap)
+
+   
+   full path to a nifti file containing the white
+   matter/gray matter interface
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: pve_internal(structural_imap, pve='synthseg')
+
+   
+   WM+GM+CSF segmentation
+
+
+   :Parameters:
+
+       **pve** : str or PVEImage, optional
+           Method to use for PVE estimation.
+           Can be a string defining a built-in method from neural networks,
+           or a Definition object to import the PVE.
+           Importing a PVE from software like Freesurfer or FSL FAST is
+           recommended if they are available.
+           The built-in methods are "synthseg" or "multiaxial+brainchop".
+           "synthseg" uses SynthSeg2 [1] to get the PVE.
+           "multiaxial+brainchop" uses MultiAxial [2] and BrainChop [3]
+           segmentations to get the PVE. Note this requires downloading
+           the pre-trained multi-axial model which is licensed with
+           Creative Commons Attribution-NonCommercial-ShareAlike 4.0
+           International.
+           Default: "synthseg"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: msmt_params(structural_imap, data_imap, pve_internal, citations, msmt_sh_order=8, msmt_fa_thr=0.7)
+
+   
+   full path to a nifti file containing
+   parameters for the MSMT CSD white matter fit,
+   full path to a nifti file containing
+   parameters for the MSMT CSD gray matter fit,
+   full path to a nifti file containing
+   parameters for the MSMT CSD cerebrospinal fluid fit
+
+
+   :Parameters:
+
+       **msmt_sh_order** : int, optional.
+           Spherical harmonic order to use for the MSMT CSD fit.
+           Default: 8
+
+       **msmt_fa_thr** : float, optional.
+           The threshold on the FA used to calculate the multi shell auto
+           response. Can be useful to reduce for baby subjects.
+           Default: 0.7
+
+
+
+
+
+
+
+
+
+
+   .. rubric:: References
+
+   .. [R4c00067563ac-1] B. Jeurissen, J.-D. Tournier, T. Dhollander, A. Connelly,
+           and J. Sijbers. Multi-tissue constrained spherical
+           deconvolution for improved analysis of multi-shell diffusion
+           MRI data. NeuroImage, 103 (2014), pp. 411–426
+
+   .. only:: latex
+
+      [R4c00067563ac-1]_
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: msmt_apm(msmtcsd_params)
+
+   
+   full path to a nifti file containing
+   the anisotropic power map
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: msmt_aodf(msmtcsd_params, structural_imap, tracking_params, citations)
+
+   
+   full path to a nifti file containing
+   MSMT CSD ODFs filtered by unified filtering [1]
+
+
+
+
+
+
+
+
+
+
+
+
+   .. rubric:: References
+
+   [1] Poirier and Descoteaux, 2024, "A Unified Filtering Method for
+       Estimating Asymmetric Orientation Distribution Functions",
+       Neuroimage, https://doi.org/10.1016/j.neuroimage.2024.120516
+
+   .. only:: latex
+
+      
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: msmt_aodf_asi(msmt_aodf_params, data_imap)
+
+   
+   full path to a nifti file containing
+   the MSMT CSD Asymmetric Index (ASI) [1]
+
+
+
+
+
+
+
+
+
+
+
+
+   .. rubric:: References
+
+   [1] S. Cetin Karayumak, E. Özarslan, and G. Unal,
+       "Asymmetric Orientation Distribution Functions (AODFs)
+       revealing intravoxel geometry in diffusion MRI"
+       Magnetic Resonance Imaging, vol. 49, pp. 145-158, Jun. 2018,
+       doi: https://doi.org/10.1016/j.mri.2018.03.006.
+
+   .. only:: latex
+
+      
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: msmt_aodf_opm(msmt_aodf_params, data_imap)
+
+   
+   full path to a nifti file containing
+   the MSMT CSD odd-power map [1]
+
+
+
+
+
+
+
+
+
+
+
+
+   .. rubric:: References
+
+   [1] C. Poirier, E. St-Onge, and M. Descoteaux,
+       "Investigating the Occurrence of Asymmetric Patterns in
+       White Matter Fiber Orientation Distribution Functions"
+       [Abstract], In: Proc. Intl. Soc. Mag. Reson. Med. 29 (2021),
+       2021 May 15-20, Vancouver, BC, Abstract number 0865.
+
+   .. only:: latex
+
+      
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: msmt_aodf_nufid(msmt_aodf_params, data_imap, tracking_params, pve_internal)
+
+   
+   full path to a nifti file containing
+   the MSMT CSD Number of fiber directions (nufid) map [1]
+
+
+
+
+
+
+
+
+
+
+
+
+   .. rubric:: References
+
+   [1] C. Poirier and M. Descoteaux,
+       "Filtering Methods for Asymmetric ODFs:
+       Where and How Asymmetry Occurs in the White Matter."
+       bioRxiv. 2022 Jan 1; 2022.12.18.520881.
+       doi: https://doi.org/10.1101/2022.12.18.520881
+
+   .. only:: latex
+
+      
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: csd_aodf_nufid(data_imap, pve_internal, tracking_params)
+
+   
+   full path to a nifti file containing
+   the CSD Number of fiber directions (nufid) map [1]
+
+
+
+
+
+
+
+
+
+
+
+
+   .. rubric:: References
+
+   [1] C. Poirier and M. Descoteaux,
+       "Filtering Methods for Asymmetric ODFs:
+       Where and How Asymmetry Occurs in the White Matter."
+       bioRxiv. 2022 Jan 1; 2022.12.18.520881.
+       doi: https://doi.org/10.1101/2022.12.18.520881
+
+   .. only:: latex
+
+      
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: get_tissue_plan(kwargs)
+

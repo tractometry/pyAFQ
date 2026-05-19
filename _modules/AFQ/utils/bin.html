@@ -1,14 +1,13 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../../../" >
 
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.utils.bin &#8212; AFQ 2.1 documentation</title>
+    <title>AFQ.utils.bin &#8212; AFQ 3.1 documentation</title>
   
   
   
@@ -16,73 +15,71 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
 
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=fd6457a4" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=c6496573" />
   
-  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css" />
-  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/jquery.js"></script>
-    <script src="../../../_static/underscore.js"></script>
-    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx_highlight.js"></script>
-    <script src="../../../_static/design-tabs.js"></script>
+    <script src="../../../_static/documentation_options.js?v=b576230a"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/sg-tags.js?v=d80f6fa4"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/AFQ/utils/bin';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../../_static/searchtools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script src="../../../searchindex.js"></script>
+  
   </head>
-  
-  
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
-
+  <body data-default-mode="">
   
   
   <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
-
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
   
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../../search.html"
       method="get">
@@ -90,7 +87,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -98,15 +94,15 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
 
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
   <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
@@ -132,8 +128,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 2.1 documentation - Home"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="AFQ 2.1 documentation - Home"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 3.1 documentation - Home"/>
+    <img src="../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="AFQ 3.1 documentation - Home"/>
   
   
 </a></div>
@@ -151,6 +147,20 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../../guides_index.html">
     User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../tutorials/tutorial_examples/index.html">
+    Tutorials: Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../howto/howto_examples/index.html">
+    How to examples
   </a>
 </li>
 
@@ -186,29 +196,21 @@
         <div class="navbar-item navbar-persistent--container">
           
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
       
         <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -233,15 +235,11 @@ document.write(`
   
     <div class="navbar-persistent--mobile">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
@@ -258,7 +256,8 @@ document.write(`
       
         
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -276,6 +275,20 @@ document.write(`
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../../guides_index.html">
     User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../tutorials/tutorial_examples/index.html">
+    Tutorials: Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../howto/howto_examples/index.html">
+    How to examples
   </a>
 </li>
 
@@ -312,15 +325,11 @@ document.write(`
         
           <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
         
           <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -351,7 +360,6 @@ document.write(`
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -364,9 +372,14 @@ document.write(`
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -384,8 +397,6 @@ document.write(`
       
         <div class="header-article-item">
 
-
-
 <nav aria-label="Breadcrumb" class="d-print-none">
   <ul class="bd-breadcrumbs">
     
@@ -400,7 +411,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../../AFQ.html" class="nav-link">AFQ</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">AFQ.utils.bin</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">AFQ.utils.bin</span></li>
   </ul>
 </nav>
 </div>
@@ -418,88 +429,148 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for AFQ.utils.bin</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">toml</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">platform</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">op</span>
-
+<span class="kn">import</span><span class="w"> </span><span class="nn">platform</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">argparse</span><span class="w"> </span><span class="kn">import</span> <span class="n">ArgumentParser</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.definitions.image</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>  <span class="c1"># interprets masks loaded from toml</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.definitions.mapping</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>  <span class="c1"># interprets mappings loaded from toml</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.api.bundle_dict</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>  <span class="c1"># interprets bundle_dicts loaded from toml</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.definitions.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">Definition</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">toml</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.api.bundle_dict</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>  <span class="c1"># interprets bundle_dicts loaded from toml # noqa F403</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.api.bundle_dict</span><span class="w"> </span><span class="kn">import</span> <span class="n">BundleDict</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.api.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">kwargs_descriptors</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.definitions.image</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>  <span class="c1"># interprets masks loaded from toml # noqa F403</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.definitions.mapping</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>  <span class="c1"># interprets mappings loaded from toml # noqa F403</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.definitions.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">Definition</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.utils.docstring_parser</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse_numpy_docstring</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">nibabel</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nib</span>  <span class="c1"># allows users to input nibabel objects</span>
 
-
-<div class="viewcode-block" id="model_input_parser"><a class="viewcode-back" href="../../../reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.model_input_parser">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">model_input_parser</span><span class="p">(</span><span class="n">usage</span><span class="p">):</span>
+<div class="viewcode-block" id="model_input_parser">
+<a class="viewcode-back" href="../../../reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.model_input_parser">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">model_input_parser</span><span class="p">(</span><span class="n">usage</span><span class="p">):</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">ArgumentParser</span><span class="p">(</span><span class="n">usage</span><span class="p">)</span>
-
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-d&quot;</span><span class="p">,</span> <span class="s2">&quot;--dwi&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;dwi&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;append&quot;</span><span class="p">,</span>
-                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;DWI files (enter one or more)&quot;</span><span class="p">)</span>
-
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-l&quot;</span><span class="p">,</span> <span class="s2">&quot;--bval&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;bval&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;append&quot;</span><span class="p">,</span>
-                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;B-value files (enter one or more)&quot;</span><span class="p">)</span>
-
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-c&quot;</span><span class="p">,</span> <span class="s2">&quot;--bvec&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;bvec&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;append&quot;</span><span class="p">,</span>
-                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;B-vector files (enter one or more)&quot;</span><span class="p">)</span>
-
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-o&quot;</span><span class="p">,</span> <span class="s2">&quot;--out_dir&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;out_dir&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store&quot;</span><span class="p">,</span>
-                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Full path to directory for files to be saved</span>
-<span class="s2">                            (will be created if it doesn&#39;t exist)&quot;)&quot;&quot;&quot;</span><span class="p">)</span>
-
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-m&quot;</span><span class="p">,</span> <span class="s2">&quot;--mask&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;mask&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store&quot;</span><span class="p">,</span>
-                        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Mask file&quot;</span><span class="p">)</span>
-
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-b&#39;</span><span class="p">,</span> <span class="s1">&#39;--b0_threshold&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;b0_threshold&quot;</span><span class="p">,</span>
-                        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;b0 threshold&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">parser</span></div>
-
-
-<div class="viewcode-block" id="model_predict_input_parser"><a class="viewcode-back" href="../../../reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.model_predict_input_parser">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">model_predict_input_parser</span><span class="p">(</span><span class="n">usage</span><span class="p">):</span>
-    <span class="n">parser</span> <span class="o">=</span> <span class="n">ArgumentParser</span><span class="p">(</span><span class="n">usage</span><span class="p">)</span>
-
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-p&quot;</span><span class="p">,</span> <span class="s2">&quot;--params&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;params&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store&quot;</span><span class="p">,</span>
-                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;A file containing model params&quot;</span><span class="p">)</span>
-
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-l&quot;</span><span class="p">,</span> <span class="s2">&quot;--bval&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;bval&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;append&quot;</span><span class="p">,</span>
-                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;B-value files (enter one or more)&quot;</span><span class="p">)</span>
-
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-c&quot;</span><span class="p">,</span> <span class="s2">&quot;--bvec&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;bvec&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;append&quot;</span><span class="p">,</span>
-                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;B-vector files (enter one or more)&quot;</span><span class="p">)</span>
-
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-o&quot;</span><span class="p">,</span> <span class="s2">&quot;--out_dir&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;out_dir&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store&quot;</span><span class="p">,</span>
-                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Full path to directory for files to be saved</span>
-<span class="s2">                            (will be created if it doesn&#39;t exist)&quot;)&quot;&quot;&quot;</span><span class="p">)</span>
 
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-s&quot;</span><span class="p">,</span> <span class="s2">&quot;--S0_file&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;S0_file&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;File containing S0 measurements to use in prediction&quot;</span><span class="p">)</span>
+        <span class="s2">&quot;-d&quot;</span><span class="p">,</span> <span class="s2">&quot;--dwi&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;dwi&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;append&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;DWI files (enter one or more)&quot;</span>
+    <span class="p">)</span>
 
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-b&#39;</span><span class="p">,</span> <span class="s1">&#39;--b0_threshold&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;b0_threshold&quot;</span><span class="p">,</span>
-                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;b0 threshold (default: 0)&quot;</span><span class="p">,</span>
-                        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;-l&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--bval&quot;</span><span class="p">,</span>
+        <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;bval&quot;</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;append&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;B-value files (enter one or more)&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;-c&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--bvec&quot;</span><span class="p">,</span>
+        <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;bvec&quot;</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;append&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;B-vector files (enter one or more)&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;-o&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--out_dir&quot;</span><span class="p">,</span>
+        <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;out_dir&quot;</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Full path to directory for files to be saved</span>
+<span class="s2">                            (will be created if it doesn&#39;t exist)&quot;)&quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;-m&quot;</span><span class="p">,</span> <span class="s2">&quot;--mask&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;mask&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Mask file&quot;</span>
+    <span class="p">)</span>
+
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;-b&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--b0_threshold&quot;</span><span class="p">,</span>
+        <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;b0_threshold&quot;</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;b0 threshold&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="p">)</span>
+
     <span class="k">return</span> <span class="n">parser</span></div>
 
 
-<div class="viewcode-block" id="toml_to_val"><a class="viewcode-back" href="../../../reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.toml_to_val">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">toml_to_val</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+
+<div class="viewcode-block" id="model_predict_input_parser">
+<a class="viewcode-back" href="../../../reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.model_predict_input_parser">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">model_predict_input_parser</span><span class="p">(</span><span class="n">usage</span><span class="p">):</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">ArgumentParser</span><span class="p">(</span><span class="n">usage</span><span class="p">)</span>
+
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;-p&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--params&quot;</span><span class="p">,</span>
+        <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;params&quot;</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;A file containing model params&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;-l&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--bval&quot;</span><span class="p">,</span>
+        <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;bval&quot;</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;append&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;B-value files (enter one or more)&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;-c&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--bvec&quot;</span><span class="p">,</span>
+        <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;bvec&quot;</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;append&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;B-vector files (enter one or more)&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;-o&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--out_dir&quot;</span><span class="p">,</span>
+        <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;out_dir&quot;</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Full path to directory for files to be saved</span>
+<span class="s2">                            (will be created if it doesn&#39;t exist)&quot;)&quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;-s&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--S0_file&quot;</span><span class="p">,</span>
+        <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;S0_file&quot;</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;File containing S0 measurements to use in prediction&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;-b&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--b0_threshold&quot;</span><span class="p">,</span>
+        <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;b0_threshold&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;b0 threshold (default: 0)&quot;</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">parser</span></div>
+
+
+
+<div class="viewcode-block" id="pyafq_str_to_val">
+<a class="viewcode-back" href="../../../reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.pyafq_str_to_val">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">pyafq_str_to_val</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
         <span class="n">ls</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">t</span><span class="p">:</span>
-            <span class="n">ls</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">toml_to_val</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+            <span class="n">ls</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pyafq_str_to_val</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">ls</span>
-    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;[&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;[&quot;</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">eval</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;{&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;{&quot;</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">eval</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>  <span class="c1"># interpret as dictionary</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span>
-            <span class="s2">&quot;Image&quot;</span> <span class="ow">in</span> <span class="n">t</span> <span class="ow">or</span> <span class="s2">&quot;Map&quot;</span> <span class="ow">in</span> <span class="n">t</span> <span class="ow">or</span> <span class="s2">&quot;Dict&quot;</span> <span class="ow">in</span> <span class="n">t</span> <span class="ow">or</span> <span class="s2">&quot;_bd(&quot;</span> <span class="ow">in</span> <span class="n">t</span><span class="p">):</span>
+        <span class="s2">&quot;Image&quot;</span> <span class="ow">in</span> <span class="n">t</span> <span class="ow">or</span> <span class="s2">&quot;Map&quot;</span> <span class="ow">in</span> <span class="n">t</span> <span class="ow">or</span> <span class="s2">&quot;Dict&quot;</span> <span class="ow">in</span> <span class="n">t</span> <span class="ow">or</span> <span class="s2">&quot;_bd(&quot;</span> <span class="ow">in</span> <span class="n">t</span>
+    <span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">definition_or_dict</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
@@ -514,7 +585,10 @@ document.write(`
         <span class="k">return</span> <span class="n">t</span></div>
 
 
-<div class="viewcode-block" id="val_to_toml"><a class="viewcode-back" href="../../../reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.val_to_toml">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">val_to_toml</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+
+<div class="viewcode-block" id="val_to_toml">
+<a class="viewcode-back" href="../../../reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.val_to_toml">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">val_to_toml</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="s1">&#39;&quot;&quot;&#39;</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">Definition</span><span class="p">):</span>
@@ -536,35 +610,47 @@ document.write(`
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span></div>
 
 
-<div class="viewcode-block" id="dict_to_toml"><a class="viewcode-back" href="../../../reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.dict_to_toml">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">dict_to_toml</span><span class="p">(</span><span class="n">dictionary</span><span class="p">):</span>
-    <span class="n">toml</span> <span class="o">=</span> <span class="s1">&#39;# Use </span><span class="se">\&#39;\&#39;</span><span class="s1"> to indicate None</span><span class="se">\n</span><span class="s1"># Wrap dictionaries in quotes</span><span class="se">\n</span><span class="s1">&#39;</span>
-    <span class="n">toml</span> <span class="o">=</span> <span class="n">toml</span> <span class="o">+</span> <span class="s1">&#39;# Wrap definition object instantiations in quotes</span><span class="se">\n\n</span><span class="s1">&#39;</span>
+
+<div class="viewcode-block" id="dict_to_toml">
+<a class="viewcode-back" href="../../../reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.dict_to_toml">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">dict_to_toml</span><span class="p">(</span><span class="n">dictionary</span><span class="p">):</span>
+    <span class="n">toml</span> <span class="o">=</span> <span class="s2">&quot;# Use &#39;&#39; to indicate None</span><span class="se">\n</span><span class="s2"># Wrap dictionaries in quotes</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="n">toml</span> <span class="o">=</span> <span class="n">toml</span> <span class="o">+</span> <span class="s2">&quot;# Wrap definition object instantiations in quotes</span><span class="se">\n\n</span><span class="s2">&quot;</span>
     <span class="k">for</span> <span class="n">section</span><span class="p">,</span> <span class="n">args</span> <span class="ow">in</span> <span class="n">dictionary</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">section</span> <span class="o">==</span> <span class="s2">&quot;AFQ_desc&quot;</span><span class="p">:</span>
-            <span class="n">toml</span> <span class="o">=</span> <span class="s2">&quot;# &quot;</span> <span class="o">+</span> <span class="n">dictionary</span><span class="p">[</span><span class="s2">&quot;AFQ_desc&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2"># &quot;</span><span class="p">)</span>\
-                <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">toml</span>
+            <span class="n">toml</span> <span class="o">=</span> <span class="s2">&quot;# &quot;</span> <span class="o">+</span> <span class="n">dictionary</span><span class="p">[</span><span class="s2">&quot;AFQ_desc&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2"># &quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">toml</span>
             <span class="k">continue</span>
-        <span class="n">toml</span> <span class="o">=</span> <span class="n">toml</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;[</span><span class="si">{</span><span class="n">section</span><span class="si">}</span><span class="s1">]</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">toml</span> <span class="o">=</span> <span class="n">toml</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="n">section</span><span class="si">}</span><span class="s2">]</span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="k">for</span> <span class="n">arg</span><span class="p">,</span> <span class="n">arg_info</span> <span class="ow">in</span> <span class="n">args</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">toml</span> <span class="o">=</span> <span class="n">toml</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+            <span class="n">toml</span> <span class="o">=</span> <span class="n">toml</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arg_info</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-                <span class="k">if</span> <span class="s1">&#39;desc&#39;</span> <span class="ow">in</span> <span class="n">arg_info</span><span class="p">:</span>
-                    <span class="n">toml</span> <span class="o">=</span> <span class="n">toml</span> <span class="o">+</span> <span class="n">arg_info</span><span class="p">[</span><span class="s1">&#39;desc&#39;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="s2">&quot;desc&quot;</span> <span class="ow">in</span> <span class="n">arg_info</span><span class="p">:</span>
+                    <span class="n">toml</span> <span class="o">=</span> <span class="n">toml</span> <span class="o">+</span> <span class="n">arg_info</span><span class="p">[</span><span class="s2">&quot;desc&quot;</span><span class="p">]</span>
                 <span class="n">toml</span> <span class="o">=</span> <span class="n">toml</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">arg</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">val_to_toml</span><span class="p">(</span><span class="n">arg_info</span><span class="p">[</span><span class="s1">&#39;default&#39;</span><span class="p">])</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">toml</span> <span class="o">=</span> <span class="n">toml</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">arg</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">val_to_toml</span><span class="p">(</span><span class="n">arg_info</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="n">toml</span> <span class="o">=</span> <span class="n">toml</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
-    <span class="k">return</span> <span class="n">toml</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span></div>
+        <span class="n">toml</span> <span class="o">=</span> <span class="n">toml</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="k">return</span> <span class="n">toml</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span></div>
+
 
 
 <span class="c1"># these params are handled internally in the qsiprep pipeline,</span>
 <span class="c1"># not shown to the user (mostly BIDS filters stuff)</span>
-<div class="viewcode-block" id="qsi_prep_ignore_params"><a class="viewcode-back" href="../../../reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.qsi_prep_ignore_params">[docs]</a><span class="n">qsi_prep_ignore_params</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">&quot;bids_path&quot;</span><span class="p">,</span> <span class="s2">&quot;bids_filters&quot;</span><span class="p">,</span> <span class="s2">&quot;preproc_pipeline&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;participant_labels&quot;</span><span class="p">,</span> <span class="s2">&quot;output_dir&quot;</span><span class="p">]</span></div>
+<div class="viewcode-block" id="qsi_prep_ignore_params">
+<a class="viewcode-back" href="../../../reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.qsi_prep_ignore_params">[docs]</a>
+<span class="n">qsi_prep_ignore_params</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;bids_path&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;bids_filters&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;dwi_preproc_pipeline&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;participant_labels&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;output_dir&quot;</span><span class="p">,</span>
+<span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="dict_to_json"><a class="viewcode-back" href="../../../reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.dict_to_json">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">dict_to_json</span><span class="p">(</span><span class="n">dictionary</span><span class="p">):</span>
+
+<div class="viewcode-block" id="dict_to_json">
+<a class="viewcode-back" href="../../../reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.dict_to_json">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">dict_to_json</span><span class="p">(</span><span class="n">dictionary</span><span class="p">):</span>
     <span class="n">json</span> <span class="o">=</span> <span class="s2">&quot;                &quot;</span>
     <span class="n">local_ignore</span> <span class="o">=</span> <span class="n">qsi_prep_ignore_params</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">section</span><span class="p">,</span> <span class="n">args</span> <span class="ow">in</span> <span class="n">dictionary</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -575,26 +661,29 @@ document.write(`
                 <span class="k">continue</span>
             <span class="n">local_ignore</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arg_info</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-                <span class="n">json</span> <span class="o">=</span> <span class="n">json</span>\
-                    <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;&quot;</span><span class="si">{</span><span class="n">arg</span><span class="si">}</span><span class="s1">&quot;: </span><span class="si">{</span><span class="n">val_to_toml</span><span class="p">(</span><span class="n">arg_info</span><span class="p">[</span><span class="s2">&quot;default&quot;</span><span class="p">])</span><span class="si">}</span><span class="s1">&#39;</span>
+                <span class="n">json</span> <span class="o">=</span> <span class="n">json</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;&quot;</span><span class="si">{</span><span class="n">arg</span><span class="si">}</span><span class="s1">&quot;: </span><span class="si">{</span><span class="n">val_to_toml</span><span class="p">(</span><span class="n">arg_info</span><span class="p">[</span><span class="s2">&quot;default&quot;</span><span class="p">])</span><span class="si">}</span><span class="s1">&#39;</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">json</span> <span class="o">=</span> <span class="n">json</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;&quot;</span><span class="si">{</span><span class="n">arg</span><span class="si">}</span><span class="s1">&quot;: </span><span class="si">{</span><span class="n">val_to_toml</span><span class="p">(</span><span class="n">arg_info</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span>
-            <span class="n">json</span> <span class="o">=</span> <span class="n">json</span> <span class="o">+</span> <span class="s1">&#39;,</span><span class="se">\n</span><span class="s1">                &#39;</span>
+            <span class="n">json</span> <span class="o">=</span> <span class="n">json</span> <span class="o">+</span> <span class="s2">&quot;,</span><span class="se">\n</span><span class="s2">                &quot;</span>
     <span class="k">return</span> <span class="n">json</span><span class="p">[:</span><span class="o">-</span><span class="mi">18</span><span class="p">]</span>  <span class="c1"># remove trailing ,\n and indent</span></div>
 
 
-<div class="viewcode-block" id="func_dict_to_arg_dict"><a class="viewcode-back" href="../../../reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.func_dict_to_arg_dict">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">func_dict_to_arg_dict</span><span class="p">(</span><span class="n">func_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="func_dict_to_arg_dict">
+<a class="viewcode-back" href="../../../reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.func_dict_to_arg_dict">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">func_dict_to_arg_dict</span><span class="p">(</span><span class="n">func_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">func_dict</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.recognition.recognize</span><span class="w"> </span><span class="kn">import</span> <span class="n">recognize</span>
-        <span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.recognition.cleaning</span><span class="w"> </span><span class="kn">import</span> <span class="n">clean_bundle</span>
         <span class="kn">import</span><span class="w"> </span><span class="nn">AFQ.tractography.tractography</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">aft</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.api.group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GroupAFQ</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.recognition.cleaning</span><span class="w"> </span><span class="kn">import</span> <span class="n">clean_bundle</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.recognition.recognize</span><span class="w"> </span><span class="kn">import</span> <span class="n">recognize</span>
 
         <span class="n">func_dict</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;BIDS&quot;</span><span class="p">:</span> <span class="n">GroupAFQ</span><span class="o">.</span><span class="fm">__init__</span><span class="p">,</span>
             <span class="s2">&quot;Tractography&quot;</span><span class="p">:</span> <span class="n">aft</span><span class="o">.</span><span class="n">track</span><span class="p">,</span>
             <span class="s2">&quot;Segmentation&quot;</span><span class="p">:</span> <span class="n">recognize</span><span class="p">,</span>
-            <span class="s2">&quot;Cleaning&quot;</span><span class="p">:</span> <span class="n">clean_bundle</span><span class="p">}</span>
+            <span class="s2">&quot;Cleaning&quot;</span><span class="p">:</span> <span class="n">clean_bundle</span><span class="p">,</span>
+        <span class="p">}</span>
 
     <span class="n">arg_dict</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">func</span> <span class="ow">in</span> <span class="n">func_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -604,79 +693,90 @@ document.write(`
         <span class="k">for</span> <span class="n">arg</span><span class="p">,</span> <span class="n">info</span> <span class="ow">in</span> <span class="n">docstr_parsed</span><span class="p">[</span><span class="s2">&quot;arguments&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">section</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;_PARAMS&quot;</span>
-                <span class="n">desc</span> <span class="o">=</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;help&#39;</span><span class="p">]</span>
-                <span class="k">if</span> <span class="n">name</span> <span class="o">!=</span> <span class="s2">&quot;BIDS&quot;</span> <span class="ow">and</span> <span class="s1">&#39;positional&#39;</span> <span class="ow">in</span> <span class="n">info</span> <span class="ow">and</span> <span class="n">info</span><span class="p">[</span>
-                        <span class="s1">&#39;positional&#39;</span><span class="p">]:</span>
+                <span class="n">desc</span> <span class="o">=</span> <span class="n">info</span><span class="p">[</span><span class="s2">&quot;help&quot;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">name</span> <span class="o">!=</span> <span class="s2">&quot;BIDS&quot;</span> <span class="ow">and</span> <span class="s2">&quot;positional&quot;</span> <span class="ow">in</span> <span class="n">info</span> <span class="ow">and</span> <span class="n">info</span><span class="p">[</span><span class="s2">&quot;positional&quot;</span><span class="p">]:</span>
                     <span class="k">continue</span>
             <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">IndexError</span><span class="p">)</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">logger</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
                         <span class="s2">&quot;We are missing a valid description for the &quot;</span>
-                        <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> argument </span><span class="si">{</span><span class="n">arg</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                        <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> argument </span><span class="si">{</span><span class="n">arg</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="p">)</span>
                 <span class="k">raise</span> <span class="n">error</span>
             <span class="k">if</span> <span class="n">section</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">arg_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
                 <span class="n">arg_dict</span><span class="p">[</span><span class="n">section</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
             <span class="n">arg_dict</span><span class="p">[</span><span class="n">section</span><span class="p">][</span><span class="n">arg</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-            <span class="k">if</span> <span class="s1">&#39;default&#39;</span> <span class="ow">in</span> <span class="n">info</span><span class="p">:</span>
-                <span class="n">default</span> <span class="o">=</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;default&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="s2">&quot;default&quot;</span> <span class="ow">in</span> <span class="n">info</span><span class="p">:</span>
+                <span class="n">default</span> <span class="o">=</span> <span class="n">info</span><span class="p">[</span><span class="s2">&quot;default&quot;</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">default</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="n">arg_dict</span><span class="p">[</span><span class="n">section</span><span class="p">][</span><span class="n">arg</span><span class="p">][</span><span class="s1">&#39;default&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">default</span>
-            <span class="n">arg_dict</span><span class="p">[</span><span class="n">section</span><span class="p">][</span><span class="n">arg</span><span class="p">][</span><span class="s1">&#39;desc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">desc</span>
+            <span class="n">arg_dict</span><span class="p">[</span><span class="n">section</span><span class="p">][</span><span class="n">arg</span><span class="p">][</span><span class="s2">&quot;default&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">default</span>
+            <span class="n">arg_dict</span><span class="p">[</span><span class="n">section</span><span class="p">][</span><span class="n">arg</span><span class="p">][</span><span class="s2">&quot;desc&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">desc</span>
 
     <span class="k">for</span> <span class="n">section</span><span class="p">,</span> <span class="n">arg_info</span> <span class="ow">in</span> <span class="n">kwargs_descriptors</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="n">section</span> <span class="o">=</span> <span class="n">section</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">section</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">arg_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="n">arg_dict</span><span class="p">[</span><span class="n">section</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">arg</span><span class="p">,</span> <span class="n">info</span> <span class="ow">in</span> <span class="n">arg_info</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">arg</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span>
-                    <span class="s2">&quot;segmentation_params&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;tracking_params&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">arg</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;segmentation_params&quot;</span><span class="p">,</span> <span class="s2">&quot;tracking_params&quot;</span><span class="p">]:</span>
                 <span class="n">arg_dict</span><span class="p">[</span><span class="n">section</span><span class="p">][</span><span class="n">arg</span><span class="p">]</span> <span class="o">=</span> <span class="n">info</span>
 
     <span class="k">for</span> <span class="n">section</span><span class="p">,</span> <span class="n">arg_info</span> <span class="ow">in</span> <span class="n">arg_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">section</span> <span class="o">==</span> <span class="s2">&quot;AFQ_desc&quot;</span><span class="p">:</span>
             <span class="k">continue</span>
-        <span class="k">for</span> <span class="n">arg</span><span class="p">,</span> <span class="n">info</span> <span class="ow">in</span> <span class="n">arg_info</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">desc</span> <span class="o">=</span> <span class="n">arg_dict</span><span class="p">[</span><span class="n">section</span><span class="p">][</span><span class="n">arg</span><span class="p">][</span><span class="s1">&#39;desc&#39;</span><span class="p">]</span>
-            <span class="n">arg_dict</span><span class="p">[</span><span class="n">section</span><span class="p">][</span><span class="n">arg</span><span class="p">][</span><span class="s1">&#39;desc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">arg</span><span class="p">,</span> <span class="n">_info</span> <span class="ow">in</span> <span class="n">arg_info</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">desc</span> <span class="o">=</span> <span class="n">arg_dict</span><span class="p">[</span><span class="n">section</span><span class="p">][</span><span class="n">arg</span><span class="p">][</span><span class="s2">&quot;desc&quot;</span><span class="p">]</span>
+            <span class="n">arg_dict</span><span class="p">[</span><span class="n">section</span><span class="p">][</span><span class="n">arg</span><span class="p">][</span><span class="s2">&quot;desc&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
             <span class="k">for</span> <span class="n">desc_line</span> <span class="ow">in</span> <span class="n">desc</span><span class="o">.</span><span class="n">splitlines</span><span class="p">():</span>
-                <span class="n">f_desc_line</span> <span class="o">=</span> <span class="s1">&#39;# &#39;</span> <span class="o">+</span> <span class="n">desc_line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
-                <span class="n">arg_dict</span><span class="p">[</span><span class="n">section</span><span class="p">][</span><span class="n">arg</span><span class="p">][</span><span class="s1">&#39;desc&#39;</span><span class="p">]</span> <span class="o">=</span> \
-                    <span class="n">arg_dict</span><span class="p">[</span><span class="n">section</span><span class="p">][</span><span class="n">arg</span><span class="p">][</span><span class="s1">&#39;desc&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">f_desc_line</span>
+                <span class="n">f_desc_line</span> <span class="o">=</span> <span class="s2">&quot;# &quot;</span> <span class="o">+</span> <span class="n">desc_line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="n">arg_dict</span><span class="p">[</span><span class="n">section</span><span class="p">][</span><span class="n">arg</span><span class="p">][</span><span class="s2">&quot;desc&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">arg_dict</span><span class="p">[</span><span class="n">section</span><span class="p">][</span><span class="n">arg</span><span class="p">][</span><span class="s2">&quot;desc&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">f_desc_line</span>
+                <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">arg_dict</span></div>
 
 
-<div class="viewcode-block" id="parse_config_run_afq"><a class="viewcode-back" href="../../../reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.parse_config_run_afq">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">parse_config_run_afq</span><span class="p">(</span><span class="n">toml_file</span><span class="p">,</span> <span class="n">default_arg_dict</span><span class="p">,</span> <span class="n">to_call</span><span class="o">=</span><span class="s2">&quot;export_all&quot;</span><span class="p">,</span>
-                         <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                         <span class="n">logger</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                         <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                         <span class="n">dry_run</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                         <span class="n">special_args</span><span class="o">=</span><span class="p">{</span>
-                             <span class="s2">&quot;SEGMENTATION_PARAMS&quot;</span><span class="p">:</span> <span class="s2">&quot;segmentation_params&quot;</span><span class="p">,</span>
-                             <span class="s2">&quot;TRACTOGRAPHY_PARAMS&quot;</span><span class="p">:</span> <span class="s2">&quot;tracking_params&quot;</span><span class="p">}):</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.api.group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GroupAFQ</span>
+
+<div class="viewcode-block" id="parse_config_run_afq">
+<a class="viewcode-back" href="../../../reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.parse_config_run_afq">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">parse_config_run_afq</span><span class="p">(</span>
+    <span class="n">toml_file</span><span class="p">,</span>
+    <span class="n">default_arg_dict</span><span class="p">,</span>
+    <span class="n">to_call</span><span class="o">=</span><span class="s2">&quot;export_all&quot;</span><span class="p">,</span>
+    <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">logger</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">dry_run</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">special_args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">AFQ</span><span class="w"> </span><span class="kn">import</span> <span class="n">__version__</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.api.group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GroupAFQ</span>
+
     <span class="c1"># load configuration file</span>
+    <span class="k">if</span> <span class="n">special_args</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">special_args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;SEGMENTATION_PARAMS&quot;</span><span class="p">:</span> <span class="s2">&quot;segmentation_params&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;TRACTOGRAPHY_PARAMS&quot;</span><span class="p">:</span> <span class="s2">&quot;tracking_params&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">op</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">toml_file</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">FileExistsError</span><span class="p">(</span>
             <span class="s2">&quot;Config file does not exist. &quot;</span>
             <span class="o">+</span> <span class="s2">&quot;If you want to generate this file,&quot;</span>
-            <span class="o">+</span> <span class="s2">&quot; add the argument --generate-config-only&quot;</span><span class="p">)</span>
+            <span class="o">+</span> <span class="s2">&quot; add the argument --generate-config-only&quot;</span>
+        <span class="p">)</span>
     <span class="n">f_arg_dict</span> <span class="o">=</span> <span class="n">toml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">toml_file</span><span class="p">)</span>
 
     <span class="c1"># extract arguments from file</span>
     <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">bids_path</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">bids_path</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
     <span class="k">for</span> <span class="n">section</span><span class="p">,</span> <span class="n">args</span> <span class="ow">in</span> <span class="n">f_arg_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">for</span> <span class="n">arg</span><span class="p">,</span> <span class="n">default</span> <span class="ow">in</span> <span class="n">args</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">section</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">default_arg_dict</span><span class="p">:</span>
                 <span class="n">default_arg_dict</span><span class="p">[</span><span class="n">section</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-            <span class="k">if</span> <span class="n">arg</span> <span class="o">==</span> <span class="s1">&#39;bids_path&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">arg</span> <span class="o">==</span> <span class="s2">&quot;bids_path&quot;</span><span class="p">:</span>
                 <span class="n">bids_path</span> <span class="o">=</span> <span class="n">default</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">val</span> <span class="o">=</span> <span class="n">toml_to_val</span><span class="p">(</span><span class="n">default</span><span class="p">)</span>
+                <span class="n">val</span> <span class="o">=</span> <span class="n">pyafq_str_to_val</span><span class="p">(</span><span class="n">default</span><span class="p">)</span>
                 <span class="n">is_special</span> <span class="o">=</span> <span class="kc">False</span>
                 <span class="k">for</span> <span class="n">toml_key</span><span class="p">,</span> <span class="n">doc_arg</span> <span class="ow">in</span> <span class="n">special_args</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                     <span class="k">if</span> <span class="n">section</span> <span class="o">==</span> <span class="n">toml_key</span><span class="p">:</span>
@@ -688,7 +788,7 @@ document.write(`
                     <span class="n">kwargs</span><span class="p">[</span><span class="n">arg</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
             <span class="k">if</span> <span class="n">arg</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">default_arg_dict</span><span class="p">[</span><span class="n">section</span><span class="p">]:</span>
                 <span class="n">default_arg_dict</span><span class="p">[</span><span class="n">section</span><span class="p">][</span><span class="n">arg</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-            <span class="n">default_arg_dict</span><span class="p">[</span><span class="n">section</span><span class="p">][</span><span class="n">arg</span><span class="p">][</span><span class="s1">&#39;default&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">default</span>
+            <span class="n">default_arg_dict</span><span class="p">[</span><span class="n">section</span><span class="p">][</span><span class="n">arg</span><span class="p">][</span><span class="s2">&quot;default&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">default</span>
 
     <span class="k">if</span> <span class="n">logger</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="p">(</span><span class="n">verbose</span> <span class="ow">or</span> <span class="n">dry_run</span><span class="p">):</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;The following arguments are recognized: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">kwargs</span><span class="p">))</span>
@@ -700,23 +800,24 @@ document.write(`
     <span class="k">if</span> <span class="n">overwrite</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">logger</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Updating configuration file.&quot;</span><span class="p">)</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">toml_file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ff</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">toml_file</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ff</span><span class="p">:</span>
             <span class="n">ff</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dict_to_toml</span><span class="p">(</span><span class="n">default_arg_dict</span><span class="p">))</span>
 
-    <span class="k">if</span> <span class="n">bids_path</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">bids_path</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Config file must provide bids_path&quot;</span><span class="p">)</span>
 
     <span class="c1"># generate metadata file for this run</span>
-    <span class="n">default_arg_dict</span><span class="p">[</span><span class="s1">&#39;pyAFQ&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">default_arg_dict</span><span class="p">[</span><span class="s1">&#39;pyAFQ&#39;</span><span class="p">][</span><span class="s1">&#39;utc_time_started&#39;</span><span class="p">]</span> <span class="o">=</span> \
-        <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(</span><span class="s1">&#39;T&#39;</span><span class="p">)</span>
-    <span class="n">default_arg_dict</span><span class="p">[</span><span class="s1">&#39;pyAFQ&#39;</span><span class="p">][</span><span class="s1">&#39;version&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">__version__</span>
-    <span class="n">default_arg_dict</span><span class="p">[</span><span class="s1">&#39;pyAFQ&#39;</span><span class="p">][</span><span class="s1">&#39;platform&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span>
+    <span class="n">default_arg_dict</span><span class="p">[</span><span class="s2">&quot;pyAFQ&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">default_arg_dict</span><span class="p">[</span><span class="s2">&quot;pyAFQ&quot;</span><span class="p">][</span><span class="s2">&quot;utc_time_started&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(</span>
+        <span class="s2">&quot;T&quot;</span>
+    <span class="p">)</span>
+    <span class="n">default_arg_dict</span><span class="p">[</span><span class="s2">&quot;pyAFQ&quot;</span><span class="p">][</span><span class="s2">&quot;version&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">__version__</span>
+    <span class="n">default_arg_dict</span><span class="p">[</span><span class="s2">&quot;pyAFQ&quot;</span><span class="p">][</span><span class="s2">&quot;platform&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span>
 
     <span class="n">myafq</span> <span class="o">=</span> <span class="n">GroupAFQ</span><span class="p">(</span><span class="n">bids_path</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    <span class="n">afq_metadata_file</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">myafq</span><span class="o">.</span><span class="n">afq_path</span><span class="p">,</span> <span class="s1">&#39;afq_metadata.toml&#39;</span><span class="p">)</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">afq_metadata_file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ff</span><span class="p">:</span>
+    <span class="n">afq_metadata_file</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">myafq</span><span class="o">.</span><span class="n">afq_path</span><span class="p">,</span> <span class="s2">&quot;afq_metadata.toml&quot;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">afq_metadata_file</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ff</span><span class="p">:</span>
         <span class="n">ff</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dict_to_toml</span><span class="p">(</span><span class="n">default_arg_dict</span><span class="p">))</span>
 
     <span class="c1"># call user specified function:</span>
@@ -726,36 +827,42 @@ document.write(`
         <span class="n">myafq</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">to_call</span><span class="p">)</span>
 
     <span class="c1"># If you got this far, you can report on time ended and record that:</span>
-    <span class="n">default_arg_dict</span><span class="p">[</span><span class="s1">&#39;pyAFQ&#39;</span><span class="p">][</span><span class="s1">&#39;utc_time_ended&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(</span><span class="s1">&#39;T&#39;</span><span class="p">)</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">afq_metadata_file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ff</span><span class="p">:</span>
+    <span class="n">default_arg_dict</span><span class="p">[</span><span class="s2">&quot;pyAFQ&quot;</span><span class="p">][</span><span class="s2">&quot;utc_time_ended&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">afq_metadata_file</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ff</span><span class="p">:</span>
         <span class="n">ff</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dict_to_toml</span><span class="p">(</span><span class="n">default_arg_dict</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="generate_config"><a class="viewcode-back" href="../../../reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.generate_config">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">generate_config</span><span class="p">(</span><span class="n">toml_file</span><span class="p">,</span> <span class="n">default_arg_dict</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                    <span class="n">logger</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="generate_config">
+<a class="viewcode-back" href="../../../reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.generate_config">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_config</span><span class="p">(</span><span class="n">toml_file</span><span class="p">,</span> <span class="n">default_arg_dict</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">overwrite</span> <span class="ow">and</span> <span class="n">op</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">toml_file</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">FileExistsError</span><span class="p">(</span>
             <span class="s2">&quot;Config file already exists. &quot;</span>
             <span class="o">+</span> <span class="s2">&quot;If you want to overwrite this file,&quot;</span>
-            <span class="o">+</span> <span class="s2">&quot; add the argument --overwrite-config&quot;</span><span class="p">)</span>
+            <span class="o">+</span> <span class="s2">&quot; add the argument --overwrite-config&quot;</span>
+        <span class="p">)</span>
     <span class="k">if</span> <span class="n">logger</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Generating default configuration file.&quot;</span><span class="p">)</span>
-    <span class="n">toml_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">toml_file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+    <span class="n">toml_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">toml_file</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
     <span class="n">toml_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dict_to_toml</span><span class="p">(</span><span class="n">default_arg_dict</span><span class="p">))</span>
     <span class="n">toml_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="generate_json"><a class="viewcode-back" href="../../../reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.generate_json">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">generate_json</span><span class="p">(</span><span class="n">json_folder</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                  <span class="n">logger</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="generate_json">
+<a class="viewcode-back" href="../../../reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.generate_json">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_json</span><span class="p">(</span><span class="n">json_folder</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="n">json_file_our_trk</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">json_folder</span><span class="p">,</span> <span class="s2">&quot;pyafq.json&quot;</span><span class="p">)</span>
     <span class="n">json_file_their_trk</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">json_folder</span><span class="p">,</span> <span class="s2">&quot;pyafq_input_trk.json&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">overwrite</span> <span class="ow">and</span> <span class="p">(</span>
-            <span class="n">op</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">json_file_our_trk</span><span class="p">)</span> <span class="ow">or</span> <span class="n">op</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">json_file_their_trk</span><span class="p">)):</span>
+        <span class="n">op</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">json_file_our_trk</span><span class="p">)</span> <span class="ow">or</span> <span class="n">op</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">json_file_their_trk</span><span class="p">)</span>
+    <span class="p">):</span>
         <span class="k">raise</span> <span class="ne">FileExistsError</span><span class="p">(</span>
             <span class="s2">&quot;Config file already exists. &quot;</span>
             <span class="o">+</span> <span class="s2">&quot;If you want to overwrite this file,&quot;</span>
-            <span class="o">+</span> <span class="s2">&quot; add the argument --overwrite-config&quot;</span><span class="p">)</span>
+            <span class="o">+</span> <span class="s2">&quot; add the argument --overwrite-config&quot;</span>
+        <span class="p">)</span>
     <span class="k">if</span> <span class="n">logger</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Generating pyAFQ full pipeline QSIprep json file.&quot;</span><span class="p">)</span>
     <span class="n">qsi_spec_intro_our_trk</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;{</span>
@@ -831,28 +938,30 @@ document.write(`
 <span class="s2">        }</span>
 <span class="s2">    ]</span>
 <span class="s2">}&quot;&quot;&quot;</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.recognition.recognize</span><span class="w"> </span><span class="kn">import</span> <span class="n">recognize</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.recognition.cleaning</span><span class="w"> </span><span class="kn">import</span> <span class="n">clean_bundle</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">AFQ.tractography.tractography</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">aft</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.recognition.cleaning</span><span class="w"> </span><span class="kn">import</span> <span class="n">clean_bundle</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.recognition.recognize</span><span class="w"> </span><span class="kn">import</span> <span class="n">recognize</span>
 
     <span class="n">func_dict</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">&quot;Tractography&quot;</span><span class="p">:</span> <span class="n">aft</span><span class="o">.</span><span class="n">track</span><span class="p">,</span>
         <span class="s2">&quot;Segmentation&quot;</span><span class="p">:</span> <span class="n">recognize</span><span class="p">,</span>
-        <span class="s2">&quot;Cleaning&quot;</span><span class="p">:</span> <span class="n">clean_bundle</span><span class="p">}</span>
+        <span class="s2">&quot;Cleaning&quot;</span><span class="p">:</span> <span class="n">clean_bundle</span><span class="p">,</span>
+    <span class="p">}</span>
 
     <span class="n">arg_dict</span> <span class="o">=</span> <span class="n">func_dict_to_arg_dict</span><span class="p">(</span><span class="n">func_dict</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="n">logger</span><span class="p">)</span>
 
-    <span class="n">json_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">json_file_our_trk</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+    <span class="n">json_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">json_file_our_trk</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
     <span class="n">json_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">qsi_spec_intro_our_trk</span><span class="p">)</span>
     <span class="n">json_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dict_to_json</span><span class="p">(</span><span class="n">arg_dict</span><span class="p">))</span>
     <span class="n">json_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">qsi_spec_outro</span><span class="p">)</span>
     <span class="n">json_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
-    <span class="n">json_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">json_file_their_trk</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+    <span class="n">json_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">json_file_their_trk</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
     <span class="n">json_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">qsi_spec_intro_their_trk</span><span class="p">)</span>
     <span class="n">json_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dict_to_json</span><span class="p">(</span><span class="n">arg_dict</span><span class="p">))</span>
     <span class="n">json_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">qsi_spec_outro</span><span class="p">)</span>
     <span class="n">json_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
 </pre></div>
 
                 </article>
@@ -882,8 +991,8 @@ document.write(`
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
 
 
   <footer class="bd-footer">
@@ -904,7 +1013,7 @@ document.write(`
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
     <br/>
   </p>
 </div>
@@ -916,16 +1025,20 @@ document.write(`
     <div class="footer-items__end">
       
         <div class="footer-item"><div class="footer">
-    <div class="footer-content">
-      <div class="copyright">
-        Please Cite the following paper:
-      </div>
-      <div class="citation">
-        <a href="https://doi.org/10.52294/e6198273-b8e3-4b63-babb-6e6b0da10669">Kruper et al. (2021)</a>
-      </div>
+  <div class="footer-content">
+    <div class="copyright">
+      Please Cite the following papers:
+    </div>
+    <div class="citation">
+      <a href="https://doi.org/10.1371/journal.pcbi.1013323">
+        Kruper et al. (2025)
+      </a><br>
+      <a href="https://doi.org/10.52294/e6198273-b8e3-4b63-babb-6e6b0da10669">
+        Kruper et al. (2021)
+      </a>
     </div>
   </div>
-  </div>
+</div></div>
       
     </div>
   

@@ -1,30 +1,128 @@
-:py:mod:`AFQ.api.group`
-=======================
+AFQ.api.group
+=============
 
 .. py:module:: AFQ.api.group
 
 
-Module Contents
----------------
-
 Classes
-~~~~~~~
+-------
 
 .. autoapisummary::
 
    AFQ.api.group.GroupAFQ
 
 
+Module Contents
+---------------
 
-
-.. py:class:: GroupAFQ(bids_path, bids_filters={'suffix': 'dwi'}, preproc_pipeline='all', participant_labels=None, output_dir=None, parallel_params={'engine': 'serial'}, bids_layout_kwargs={}, **kwargs)
-
+.. py:class:: GroupAFQ(bids_path, bids_filters=None, dwi_preproc_pipeline='all', t1_preproc_pipeline=None, participant_labels=None, output_dir=None, parallel_params=None, bids_layout_kwargs=None, logging_level=logging.INFO, **kwargs)
 
    Bases: :py:obj:`object`
 
-   .. py:attribute:: clobber
+
+   .. py:attribute:: logger
+
+
+   .. py:attribute:: parallel_params
+      :value: None
+
+
+
+   .. py:attribute:: plans_dict
+
+
+   .. py:attribute:: subjects
+      :value: []
+
+
+
+   .. py:attribute:: sessions
+      :value: []
+
+
+
+   .. py:attribute:: valid_sub_list
+      :value: []
+
+
+
+   .. py:attribute:: valid_ses_list
+      :value: []
+
+
+
+   .. py:attribute:: pAFQ_list
+      :value: []
+
+
+
+   .. py:attribute:: pAFQ_inputs_list
+      :value: []
+
+
+
+   .. py:attribute:: kwargs
+
+
+   .. py:method:: from_qsiprep(qsi_dir, participant_labels=None, output_dir=None, parallel_params=None, **kwargs)
+      :classmethod:
+
 
       
+      Initialize a GroupAFQ object from a QSIPrep BIDS derivative dataset,
+      given just the path to the BIDS dataset that contains the QSIPrep
+      outputs in its derivatives folder.
+
+
+      :Parameters:
+
+          **qsi_dir** : str
+              The path to the BIDS dataset that contains the QSIPrep
+              outputs in its derivatives folder.
+
+          **participant_labels** : list or None, optional
+              List of participant labels (subject IDs) to perform
+              processing on. If None, all subjects are used.
+              Default: None
+
+          **output_dir** : str or None, optional
+              Path to output directory. If None, outputs are put
+              in a AFQ pipeline folder in the derivatives folder of
+              the BIDS directory. pyAFQ will use existing derivatives
+              from the output directory if they exist, instead of recalculating
+              them (this means you need to clear the output folder if you want
+              to recalculate a derivative).
+              Default: None
+
+          **parallel_params** : dict, optional
+              Parameters to pass to paramap in AFQ.utils.parallel,
+              to parallelize computations across subjects and sessions.
+              Set "n_jobs" to -1 to automatically parallelize as
+              the number of cpus. Here is an example for how to do
+              multiprocessing with 4 cpus:
+              {"n_jobs": 4, "engine": "ray"}
+              Default: {"engine": "serial"}
+
+          **kwargs** : additional optional parameters
+              You can set additional parameters for any step
+              of the process. See :ref:`usage/kwargs` for more details.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
 
    .. py:method:: combine_profiles()
 
@@ -85,14 +183,15 @@ Classes
       ..
           !! processed by numpydoc !!
 
-   .. py:method:: cmd_outputs(cmd='rm', dependent_on=None, exceptions=[], suffix='')
+
+   .. py:method:: cmd_outputs(cmd='rm', dependent_on=None, up_to=None, exceptions=None, suffix='')
 
       
       Perform some command some or all outputs of pyafq.
       This is useful if you change a parameter and need
       to recalculate derivatives that depend on it.
       Some examples: cp, mv, rm .
-      -r will be automtically added when necessary.
+      -r will be automatically added when necessary.
 
 
       :Parameters:
@@ -107,6 +206,16 @@ Classes
               tractography.
               If "recog", perform on all derivatives that depend on the
               bundle recognition.
+              Default: None
+
+          **up_to** : str or None
+              If None, will perform on all derivatives.
+              If "track", will perform on all derivatives up to
+              (but not including) tractography.
+              If "recog", will perform on all derivatives up to
+              (but not including) bundle recognition.
+              If "prof", will perform on all derivatives up to
+              (but not including) bundle profiling.
               Default: None
 
           **exceptions** : list of str
@@ -133,7 +242,11 @@ Classes
       ..
           !! processed by numpydoc !!
 
-   .. py:method:: make_all_participant_montages(images_per_row=2)
+
+   .. py:attribute:: clobber
+
+
+   .. py:method:: make_all_participant_montages(images_per_row=3)
 
       
       Generate montage of all bundles for a all subjects.
@@ -143,7 +256,7 @@ Classes
 
           **images_per_row** : int
               Number of bundle images per row in output file.
-              Default: 2
+              Default: 3
 
       :Returns:
 
@@ -165,6 +278,7 @@ Classes
       ..
           !! processed by numpydoc !!
 
+
    .. py:method:: group_montage(bundle_name, size, view, direc, slice_pos=None)
 
       
@@ -184,13 +298,13 @@ Classes
               Which view to display. Can be one of sagittal, coronal, or axial.
 
           **direc** : str
-              Which direction to views. Can be one of left, right, top, bottom, 
+              Which direction to views. Can be one of left, right, top, bottom,
               front, back
 
           **slice_pos** : float, or None
               If float, indicates the fractional position along the
               perpendicular axis to the slice. Currently only works with plotly.
-              If None, no slice is displayed.
+              If None, no slice is displaid.
 
       :Returns:
 
@@ -211,6 +325,7 @@ Classes
 
       ..
           !! processed by numpydoc !!
+
 
    .. py:method:: combine_bundle(bundle_name)
 
@@ -248,6 +363,7 @@ Classes
       ..
           !! processed by numpydoc !!
 
+
    .. py:method:: upload_to_s3(s3fs, remote_path)
 
       
@@ -270,6 +386,7 @@ Classes
 
       ..
           !! processed by numpydoc !!
+
 
    .. py:method:: export_group_density(boolify=True)
 
@@ -298,6 +415,7 @@ Classes
 
       ..
           !! processed by numpydoc !!
+
 
    .. py:method:: assemble_AFQ_browser(output_path=None, metadata=None, page_title='AFQ Browser', page_subtitle='', page_title_link='', page_subtitle_link='')
 

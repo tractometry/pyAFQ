@@ -18,7 +18,7 @@ To install it, in a shell or command line, issue the following:
 
 .. code::
 
-   pip install pyAFQ
+   pip install 'pyAFQ[nn]'
 
 ****************************************
  How to install the development version
