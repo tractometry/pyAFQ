@@ -121,8 +121,8 @@ COLOR_DICT = OrderedDict(
         "AF_L": tableau_20[18],
         "Right Arcuate": tableau_20[19],
         "AF_R": tableau_20[19],
-        "Left Posterior Arcuate": (0.0, 0.7, 0.1),
-        "Right Posterior Arcuate": (0.0, 0.9, 0.3),
+        "Left Posterior Arcuate": (0.0, 0.7, 0.4),
+        "Right Posterior Arcuate": (0.5, 0.95, 0.7),
         "Left Vertical Occipital": vof_l_base,
         "Right Vertical Occipital": vof_r_base,
         "Left V1V3": vof_l_shades[0],
@@ -141,6 +141,10 @@ COLOR_DICT = OrderedDict(
         "Callosum Posterior Parietal": (0.8, 0.4, 0.47),
         "Callosum Occipital": (0.67, 0.27, 0.6),
         "Callosum Temporal": (0.53, 0.13, 0.33),
+        "Left Optic Radiation": (0.0, 0.15, 0.75),
+        "Right Optic Radiation": (0.3, 0.4, 0.95),
+        "Left Temporo-parietal": (0.65, 0.0, 0.45),
+        "Right Temporo-parietal": (0.85, 0.4, 0.70),
     }
 )
 
