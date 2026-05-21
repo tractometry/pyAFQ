@@ -78,6 +78,12 @@ Major Fiber Tracts
 .. role:: lightneonmagenta
    :class: color-lightneonmagenta
 
+.. role:: posteriorarcuate
+   :class: color-posteriorarcuate
+
+.. role:: lightposteriorarcuate
+   :class: color-lightposteriorarcuate
+
 .. role:: darkgreen
    :class: color-darkgreen
 
@@ -193,12 +199,12 @@ Major Fiber Tracts
      - 
      - 
    * - Left Posterior Arcuate
-     - :red:`Red`
+     - :posteriorarcuate:`Green`
      - 
      - 
      - 
    * - Right Posterior Arcuate
-     - :lightred:`Light Red`
+     - :lightposteriorarcuate:`Light Green`
      - 
      - 
      - 
