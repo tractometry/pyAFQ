@@ -11,14 +11,6 @@ import AFQ.utils.models as ut
 __all__ = ["fit_dki", "predict"]
 
 
-def _fit(gtab, data, mask=None, return_S0_hat=False):
-    dkimodel = dki.DiffusionKurtosisModel(gtab, return_S0_hat=return_S0_hat)
-    return dkimodel.fit(
-        data,
-        mask=mask,
-    )
-
-
 def fit_dki(
     data_files,
     bval_files,

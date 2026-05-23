@@ -2,6 +2,7 @@ import logging
 
 import immlib
 import nibabel as nib
+import numpy as np
 from numba import get_num_threads
 
 from AFQ.definitions.utils import Definition
@@ -90,7 +91,7 @@ def onnx_kwargs(
 
 @immlib.calc("synthseg_model")
 @as_file(suffix="_model-synthseg2_probseg.nii.gz", subfolder="nn")
-def synthseg_model(t1_masked, citations, onnx_kwargs):
+def synthseg_model(t1_file, citations, onnx_kwargs):
     """
     full path to the synthseg2 model segmentations
 
@@ -110,9 +111,9 @@ def synthseg_model(t1_masked, citations, onnx_kwargs):
         "SynthSeg 2.0",
         "Or, provide your own segmentations using PVEImage or PVEImages.",
     )
-    t1_img = nib.load(t1_masked)
+    t1_img = nib.load(t1_file)
     predictions = run_synthseg(ort, t1_img, "synthseg2", onnx_kwargs)
-    return predictions, dict(T1w=t1_masked)
+    return predictions, dict(T1w=t1_file)
 
 
 @immlib.calc("mx_model")
@@ -143,7 +144,7 @@ def mx_model(t1_file, t1w_brain_mask, citations, onnx_kwargs):
 
 @immlib.calc("t1w_brain_mask")
 @as_file(suffix="_desc-T1w_mask.nii.gz")
-def t1w_brain_mask(t1_file, citations, onnx_kwargs, brain_mask_definition=None):
+def t1w_brain_mask(synthseg_model, brain_mask_definition=None):
     """
     full path to a nifti file containing brain mask from T1w image
 
@@ -168,14 +169,10 @@ def t1w_brain_mask(t1_file, citations, onnx_kwargs, brain_mask_definition=None):
     # is handled in get_data_plan
     # This is just the default
 
-    citations.add("fani2025mindgrab")
-
-    ort = check_onnxruntime(
-        "Mindgrab", "Or, provide your own brain mask using brain_mask_definition."
-    )
-    return run_brainchop(ort, nib.load(t1_file), "mindgrab", onnx_kwargs), dict(
-        T1w=t1_file, model="mindgrab"
-    )
+    predictions = nib.load(synthseg_model).get_fdata()
+    brain_mask = (predictions > 0).astype(np.uint8)
+    brain_mask_img = nib.Nifti1Image(brain_mask, nib.load(synthseg_model).affine)
+    return brain_mask_img, dict(SynthsegPredictions=synthseg_model)
 
 
 @immlib.calc("t1_masked")

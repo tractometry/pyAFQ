@@ -1,6 +1,7 @@
 import logging
 
 import dipy.core.gradients as dpg
+import dipy.reconst.dki as dipy_dki
 import dipy.reconst.dki as dpy_dki
 import dipy.reconst.dti as dpy_dti
 import dipy.reconst.fwdti as dpy_fwdti
@@ -27,7 +28,6 @@ from AFQ.models.asym_filtering import (
 )
 from AFQ.models.csd import CsdNanResponseError
 from AFQ.models.csd import _fit as csd_fit_model
-from AFQ.models.dki import _fit as dki_fit_model
 from AFQ.models.dti import _fit as dti_fit_model
 from AFQ.models.dti import noise_from_b0
 from AFQ.models.fwdti import _fit as fwdti_fit_model
@@ -315,7 +315,11 @@ def dki_params(brain_mask, gtab, data, citations):
             )
         )
     mask = nib.load(brain_mask).get_fdata()
-    dkf = dki_fit_model(gtab, data, mask=mask, return_S0_hat=True)
+    dkimodel = dipy_dki.DiffusionKurtosisModel(gtab, return_S0_hat=True)
+    dkf = dkimodel.fit(
+        data,
+        mask=mask,
+    )
     meta = dict(
         Description=(
             "Diffusion Coefficient, encoded as a kurtosis tensor representation"
@@ -408,7 +412,9 @@ def msdki_msd(msdki_tf):
     full path to a nifti file containing
     the MSDKI mean signal diffusivity
     """
-    return msdki_tf.msd, {"Description": "Mean Signal Diffusivity"}
+    msd = msdki_tf.msd
+    msd[msd < 0] = 0
+    return msd, {"Description": "Mean Signal Diffusivity"}
 
 
 @immlib.calc("msdki_msk")
@@ -419,7 +425,10 @@ def msdki_msk(msdki_tf):
     full path to a nifti file containing
     the MSDKI mean signal kurtosis
     """
-    return msdki_tf.msk, {"Description": "Mean Signal Kurtosis"}
+    msk = msdki_tf.msk
+    msk[msk < 0] = 0
+    msk[msk > 10] = 0
+    return msk, {"Description": "Mean Signal Kurtosis"}
 
 
 @immlib.calc("csd_params")
@@ -1480,7 +1489,13 @@ def get_data_plan(kwargs):
     if "scalars" not in kwargs:
         bvals, _ = read_bvals_bvecs(kwargs["bval_file"], kwargs["bvec_file"])
         if len(dpg.unique_bvals_magnitude(bvals)) > 2:
-            kwargs["scalars"] = ["dki_fa", "dki_md", "dki_kfa", "dki_mk", "t1w_over_b0"]
+            kwargs["scalars"] = [
+                "dti_fa",
+                "dti_md",
+                "t1w_over_b0",
+                "msdki_msd",
+                "msdki_msk",
+            ]
         else:
             kwargs["scalars"] = ["dti_fa", "dti_md", "t1w_over_b0"]
     else:
