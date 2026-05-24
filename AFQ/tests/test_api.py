@@ -340,7 +340,7 @@ def test_AFQ_init():
                     dwi_preproc_pipeline="synthetic",
                     participant_labels=participant_labels,
                 )
-                myafq.export("dwi")
+                myafq.export("b0")
 
 
 @pytest.mark.nightly_basic
