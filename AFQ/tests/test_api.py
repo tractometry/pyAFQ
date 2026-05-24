@@ -990,11 +990,19 @@ def test_AFQ_data_waypoint():
         'suffix="seg", filters={"scope": "freesurfer"},'
         "inclusive_labels=[1, 2]))"
     )
+    bm_def_as_str = (
+        "LabelledImageFile(suffix='seg', "
+        "filters={'scope': 'freesurfer'}, "
+        "exclusive_labels=[0])"
+    )
     config = dict(
         BIDS_PARAMS=dict(
             bids_path=bids_path,
             dwi_preproc_pipeline="vistasoft",
             t1_preproc_pipeline="freesurfer",
+        ),
+        STRUCTURAL=dict(
+            brain_mask_definition=bm_def_as_str,
         ),
         DATA=dict(bundle_info=bundle_dict_as_str),
         TISSUE=dict(pve=pve_as_str),
