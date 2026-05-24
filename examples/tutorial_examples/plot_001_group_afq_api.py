@@ -128,13 +128,13 @@ myafq = GroupAFQ(
     tracking_params=tracking_params)
 
 ##########################################################################
-# Calculating DKI FA (Diffusion Kurtosis Imaging Fractional Anisotropy)
+# Calculating DTI FA (Diffusion Tensor Imaging Fractional Anisotropy)
 # ------------------------------------------------------------------
 # The GroupAFQ object has a method called `export`, which allows the user
 # to calculate various derived quantities from the data.
 #
-# For example, FA can be computed using the DKI model, by explicitly
-# calling `myafq.export("dki_fa")`. This triggers the computation of DKI
+# For example, FA can be computed using the DTI model, by explicitly
+# calling `myafq.export("dti_fa")`. This triggers the computation of DTI
 # parameters for all subjects in the dataset, and stores the results in
 # the AFQ derivatives directory. In addition, it calculates the FA
 # from these parameters and stores it in a different file in the same
@@ -142,7 +142,7 @@ myafq = GroupAFQ(
 #
 # .. note::
 #
-#    The AFQ API computes quantities lazily. This means that DKI parameters
+#    The AFQ API computes quantities lazily. This means that DTI parameters
 #    are not computed until they are required. This means that the first
 #    line below is the one that requires time.
 #
@@ -151,7 +151,7 @@ myafq = GroupAFQ(
 # This means that to extract the filename corresponding to the FA of the first
 # subject, we can do:
 
-FA_fname = myafq.export("dki_fa", collapse=False)["NDARAA948VFH"]["HBNsiteRU"]
+FA_fname = myafq.export("dti_fa", collapse=False)["NDARAA948VFH"]["HBNsiteRU"]
 
 # We will then use `nibabel` to load the deriviative file and retrieve the
 # data array.
@@ -240,7 +240,12 @@ fig_files = myafq.export("tract_profile_plots", collapse=False)[
 profiles_df = myafq.combine_profiles()
 altair_df = ava.combined_profiles_df_to_altair_df(
     profiles_df,
-    tissue_properties=['dki_fa', 'dki_md'])
+    tissue_properties=[
+        "dti_fa",
+        "dti_md",
+        "t1w_over_b0",
+        "msdki_msd",
+        "msdki_msk"])
 altair_chart = ava.altair_df_to_chart(altair_df)
 altair_chart.display()
 
