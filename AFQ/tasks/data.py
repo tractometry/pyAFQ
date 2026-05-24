@@ -1,7 +1,6 @@
 import logging
 
 import dipy.core.gradients as dpg
-import dipy.reconst.dki as dipy_dki
 import dipy.reconst.dki as dpy_dki
 import dipy.reconst.dti as dpy_dti
 import dipy.reconst.fwdti as dpy_fwdti
@@ -315,7 +314,7 @@ def dki_params(brain_mask, gtab, data, citations):
             )
         )
     mask = nib.load(brain_mask).get_fdata()
-    dkimodel = dipy_dki.DiffusionKurtosisModel(gtab, return_S0_hat=True)
+    dkimodel = dpy_dki.DiffusionKurtosisModel(gtab, return_S0_hat=True)
     dkf = dkimodel.fit(
         data,
         mask=mask,
@@ -412,7 +411,7 @@ def msdki_msd(msdki_tf):
     full path to a nifti file containing
     the MSDKI mean signal diffusivity
     """
-    msd = msdki_tf.msd
+    msd = msdki_tf.msd.copy()
     msd[msd < 0] = 0
     return msd, {"Description": "Mean Signal Diffusivity"}
 
@@ -425,7 +424,7 @@ def msdki_msk(msdki_tf):
     full path to a nifti file containing
     the MSDKI mean signal kurtosis
     """
-    msk = msdki_tf.msk
+    msk = msdki_tf.msk.copy()
     msk[msk < 0] = 0
     msk[msk > 10] = 0
     return msk, {"Description": "Mean Signal Kurtosis"}
