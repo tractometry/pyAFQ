@@ -60,6 +60,30 @@ Major Fiber Tracts
 .. role:: lightgold
    :class: color-lightgold
 
+.. role:: neonyellow
+   :class: color-neonyellow
+
+.. role:: lightneonyellow
+   :class: color-lightneonyellow
+
+.. role:: neonblue
+   :class: color-neonblue
+
+.. role:: lightneonblue
+   :class: color-lightneonblue
+
+.. role:: neonmagenta
+   :class: color-neonmagenta
+
+.. role:: lightneonmagenta
+   :class: color-lightneonmagenta
+
+.. role:: posteriorarcuate
+   :class: color-posteriorarcuate
+
+.. role:: lightposteriorarcuate
+   :class: color-lightposteriorarcuate
+
 .. role:: darkgreen
    :class: color-darkgreen
 
@@ -145,12 +169,12 @@ Major Fiber Tracts
      - 
      - 
    * - Left Superior Longitudinal
-     - :grey:`Grey`
+     - :neonyellow:`Neon Yellow`
      - 
      - 
      - 
    * - Right Superior Longitudinal
-     - :lightgrey:`Light Grey`
+     - :lightneonyellow:`Light Neon Yellow`
      - 
      - 
      - 
@@ -175,12 +199,12 @@ Major Fiber Tracts
      - 
      - 
    * - Left Posterior Arcuate
-     - :red:`Red`
+     - :posteriorarcuate:`Green`
      - 
      - 
      - 
    * - Right Posterior Arcuate
-     - :lightred:`Light Red`
+     - :lightposteriorarcuate:`Light Green`
      - 
      - 
      - 
@@ -275,12 +299,22 @@ Major Fiber Tracts
      - 
      - 
    * - Left Optic Radiation
-     - 
+     - :neonblue:`Neon Blue`
      - :cite:`Caffarra2021`
      - Optic Radiations
      - `Optic Radiations Example <../howto/howto_examples/optic_radiations.html>`_
    * - Right Optic Radiation
+     - :lightneonblue:`Light Neon Blue`
      - 
+     - 
+     - 
+   * - Left Temporo-parietal
+     - :neonmagenta:`Neon Magenta`
+     - 
+     - 
+     - 
+   * - Right Temporo-parietal
+     - :lightneonmagenta:`Light Neon Magenta`
      - 
      - 
      - 
