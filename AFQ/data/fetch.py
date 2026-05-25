@@ -783,6 +783,8 @@ template_fnames = [
     "VOF_xroi1_R.nii.gz",
     "VOF_xroi2_L.nii.gz",
     "VOF_xroi2_R.nii.gz",
+    "TPSPL_roi1_L.nii.gz",
+    "TPSPL_roi1_R.nii.gz",
 ]
 
 
@@ -903,6 +905,8 @@ template_remote_fnames = [
     "62582596",
     "62582599",
     "62582602",
+    "64928463",
+    "64928466",
 ]
 
 
@@ -1024,6 +1028,7 @@ template_md5_hashes = [
     "0cda34ce714759bad909fcf9051f3d64",
     "6b65a5e178853e993f52b438ffb0f6c6",
     "e36f5adf08eb3efd5849397f0f8ef6a4",
+    "4418a1277ff768a5752368edda2bbcac44db3c4b841bca2e8b56ef4f650fa3d5",
 ]
 
 fetch_templates = _make_reusable_fetcher(
