@@ -1028,7 +1028,8 @@ template_md5_hashes = [
     "0cda34ce714759bad909fcf9051f3d64",
     "6b65a5e178853e993f52b438ffb0f6c6",
     "e36f5adf08eb3efd5849397f0f8ef6a4",
-    "4418a1277ff768a5752368edda2bbcac44db3c4b841bca2e8b56ef4f650fa3d5",
+    "4418a1277ff768a5752368edda2bbcac",
+    "44db3c4b841bca2e8b56ef4f650fa3d5",
 ]
 
 fetch_templates = _make_reusable_fetcher(
