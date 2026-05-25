@@ -139,7 +139,7 @@ def altair_df_to_chart(
         "DTI FA": "",
         "DTI MD": " (µm²/ms)",
         "MSDKI MSD": " (µm²/ms)",
-        "MSDKI MSk": "",
+        "MSDKI MSK": "",
         "T1W OVER B0": "",
     }
 
