@@ -398,14 +398,14 @@ def get_scalar_dict(
         "dki_mk", or other scalars found in AFQ.tasks.data.
         Can also be a scalar from AFQ.definitions.image.
         Finally, can also be "t1w".
-        Defaults for single shell data to ["dti_fa", "dti_md", "t1w"],
-        and for multi-shell data to ["dki_fa", "dki_md", "dki_kfa",
-        "dki_mk", "t1w"].
-        Default: ['dti_fa', 'dti_md', 't1w']
+        Defaults for single shell data to ["dti_fa", "dti_md", "t1w_over_b0"],
+        and for multi-shell data to ["dti_fa", "dti_md", "t1w_over_b0",
+        "msdki_msd", "msdki_msk"].
+        Default: ['dti_fa', 'dti_md', 't1w_over_b0']
     """
-    # Note: some scalars preprocessing done in mapping plan, before this step
+    # Note: some scalars preprocessing done in data plan, before this step
     if scalars is None:
-        scalars = ["dti_fa", "dti_md", "t1w"]
+        scalars = ["dti_fa", "dti_md", "t1w_over_b0"]
     scalar_dict = {}
     for scalar in scalars:
         if isinstance(scalar, str):

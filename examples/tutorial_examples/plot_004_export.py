@@ -100,24 +100,24 @@ myafq.export("help")
 
 
 ##########################################################################
-# Calculating DKI FA (Diffusion Tensor Imaging Fractional Anisotropy)
+# Calculating DTI FA (Diffusion Tensor Imaging Fractional Anisotropy)
 # ------------------------------------------------------------------
-# FA can be computed using the DKI model, by explicitly calling
-# ``myafq.export("dki_fa")``. This triggers the computation of DKI parameters,
+# FA can be computed using the DTI model, by explicitly calling
+# ``myafq.export("dti_fa")``. This triggers the computation of DTI parameters,
 # and stores the results in the AFQ derivatives directory. In addition, it
 # calculates the FA from these parameters and stores it in a different file in
 # the same directory.
 #
 # .. note::
 #
-#    The AFQ API computes quantities lazily. This means that DKI parameters
+#    The AFQ API computes quantities lazily. This means that DTI parameters
 #    are not computed until they are required. This means that the first
 #    line below is the one that requires time.
 #
 # The result of the call to ``export`` is the filename of the corresponding FA
 # files.
 
-FA_fname = myafq.export("dki_fa")
+FA_fname = myafq.export("dti_fa")
 
 
 ##########################################################################

@@ -28,12 +28,6 @@ def _fit(self, data, mask=None):
     for i in range(A.shape[0]):
         A[i] /= np.linalg.norm(A[i])
 
-    A_outer = np.empty((n, n, m), dtype=np.float64)
-    for k in range(m):
-        for i in range(n):
-            for j in range(n):
-                A_outer[i, j, k] = A[k, i] * A[k, j]
-
     Q = R.T @ R
 
     A = csr_matrix(A)
