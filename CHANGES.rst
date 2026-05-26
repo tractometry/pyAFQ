@@ -1,3 +1,14 @@
+3.2 (May 26, 2026)
+==================
+Adds the temporo-parietal as a separate bundle from the
+posterior arcuate fasciculus. Updates default colors
+for some visual bundles for clarity. Adds mean signal DKI
+params as default tissue properties and switches DKI to DTI for default
+tissue properties.
+  * [FIX] More reliable brain masking/FA (#193)
+  * [ENH] Divide pARC (#194)
+  * [ENH] Change some visual bundle colors for pyAFQ (#192)
+
 3.1 (May 18, 2026)
 ==================
 Fixes a bug in VOF recogntion where some very far anterior
