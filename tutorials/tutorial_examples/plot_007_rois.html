@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Plotting Default Regions of Interest (ROIs) to Understand the Tracts &#8212; AFQ 3.1 documentation</title>
+    <title>Plotting Default Regions of Interest (ROIs) to Understand the Tracts &#8212; AFQ 3.2 documentation</title>
   
   
   
@@ -27,8 +27,8 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
@@ -38,15 +38,15 @@
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=c6496573" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=efc0aa2d" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <script defer src="../../_static/scripts/fontawesome.js?digest=0790524f97105ba85085"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=0790524f97105ba85085" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085" />
 
-    <script src="../../_static/documentation_options.js?v=b576230a"></script>
+    <script src="../../_static/documentation_options.js?v=828ea960"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/sg-tags.js?v=d80f6fa4"></script>
@@ -131,8 +131,8 @@
       
     
     
-    <img src="../../_static/logo.png" class="logo__image only-light" alt="AFQ 3.1 documentation - Home"/>
-    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="AFQ 3.1 documentation - Home"/>
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="AFQ 3.2 documentation - Home"/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="AFQ 3.2 documentation - Home"/>
   
   
 </a></div>
@@ -209,11 +209,18 @@
       
         <div class="navbar-item">
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button></div>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
       
         <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -226,8 +233,7 @@
           
           
           
-          <a href="https://github.com/tractometry/pyAFQ" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
-            <span class="sr-only">GitHub</span></a>
+          <a href="https://github.com/tractometry/pyAFQ" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
         </li>
 </ul></div>
       
@@ -330,11 +336,18 @@
         
           <div class="navbar-item">
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button></div>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
         
           <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -347,8 +360,7 @@
           
           
           
-          <a href="https://github.com/tractometry/pyAFQ" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
-            <span class="sr-only">GitHub</span></a>
+          <a href="https://github.com/tractometry/pyAFQ" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
         </li>
 </ul></div>
         
@@ -563,7 +575,7 @@ their defining ROIs.</p>
   from .autonotebook import tqdm as notebook_tqdm
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-05-19 01:07:50,030	INFO util.py:154 -- Missing packages: [&#39;ipywidgets&#39;]. Run `pip install -U ipywidgets`, then restart the notebook server for rich notebook output.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-05-26 23:04:08,856	INFO util.py:154 -- Missing packages: [&#39;ipywidgets&#39;]. Run `pip install -U ipywidgets`, then restart the notebook server for rich notebook output.
 </pre></div>
 </div>
 </div>
@@ -747,9 +759,6 @@ their defining ROIs.</p>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Visualizing ROIs for tract: Left Inferior Fronto-occipital
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Visualizing ROIs for tract: Right Inferior Fronto-occipital
-</pre></div>
-</div>
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
 <span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
@@ -773,48 +782,48 @@ their defining ROIs.</p>
 <span class="nn">File &lt;frozen _collections_abc&gt;:818,</span> in <span class="ni">Mapping.__contains__</span><span class="nt">(self, key)</span>
 <span class="g g-Whitespace">    </span><span class="mi">815</span> <span class="s1">&#39;Could not get source, probably due dynamically evaluated source code.&#39;</span>
 
-<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/AFQ/api/bundle_dict.py:1369,</span> in <span class="ni">BundleDict.__getitem__</span><span class="nt">(self, key)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1367</span> <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">keep_in_memory</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1368</span>     <span class="n">_item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="ne">-&gt; </span><span class="mi">1369</span>     <span class="n">_res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cond_load_bundle</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">dry_run</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1370</span>     <span class="k">if</span> <span class="n">_res</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1371</span>         <span class="n">_item</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">_res</span><span class="p">)</span>
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/AFQ/api/bundle_dict.py:1409,</span> in <span class="ni">BundleDict.__getitem__</span><span class="nt">(self, key)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1407</span> <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">keep_in_memory</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1408</span>     <span class="n">_item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="ne">-&gt; </span><span class="mi">1409</span>     <span class="n">_res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cond_load_bundle</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">dry_run</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1410</span>     <span class="k">if</span> <span class="n">_res</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1411</span>         <span class="n">_item</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">_res</span><span class="p">)</span>
 
-<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/AFQ/api/bundle_dict.py:1457,</span> in <span class="ni">BundleDict._cond_load_bundle</span><span class="nt">(self, b_name, dry_run)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1455</span> <span class="k">else</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1456</span>     <span class="n">resample_to</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resample_subject_to</span>
-<span class="ne">-&gt; </span><span class="mi">1457</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">apply_to_rois</span><span class="p">(</span>
-<span class="g g-Whitespace">   </span><span class="mi">1458</span>     <span class="n">b_name</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1459</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_cond_load</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1460</span>     <span class="n">resample_to</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1461</span>     <span class="n">dry_run</span><span class="o">=</span><span class="n">dry_run</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1462</span>     <span class="n">apply_to_recobundles</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1463</span> <span class="p">)</span>
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/AFQ/api/bundle_dict.py:1497,</span> in <span class="ni">BundleDict._cond_load_bundle</span><span class="nt">(self, b_name, dry_run)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1495</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1496</span>     <span class="n">resample_to</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resample_subject_to</span>
+<span class="ne">-&gt; </span><span class="mi">1497</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">apply_to_rois</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1498</span>     <span class="n">b_name</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1499</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_cond_load</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1500</span>     <span class="n">resample_to</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1501</span>     <span class="n">dry_run</span><span class="o">=</span><span class="n">dry_run</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1502</span>     <span class="n">apply_to_recobundles</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1503</span> <span class="p">)</span>
 
-<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/AFQ/api/bundle_dict.py:1440,</span> in <span class="ni">BundleDict.apply_to_rois</span><span class="nt">(self, b_name, *args, **kwargs)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1431</span> <span class="k">def</span><span class="w"> </span><span class="nf">apply_to_rois</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b_name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="g g-Whitespace">   </span><span class="mi">1432</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="g g-Whitespace">   </span><span class="mi">1433</span><span class="sd">     See: AFQ.api.bundle_dict.apply_to_roi_dict</span>
-<span class="g g-Whitespace">   </span><span class="mi">1434</span><span class="sd"> </span>
-<span class="sd">   (...)   1438         bundle name of bundle whose ROIs will be transformed.</span>
-<span class="g g-Whitespace">   </span><span class="mi">1439</span><span class="sd">     &quot;&quot;&quot;</span>
-<span class="ne">-&gt; </span><span class="mi">1440</span>     <span class="k">return</span> <span class="n">apply_to_roi_dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="p">[</span><span class="n">b_name</span><span class="p">],</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/AFQ/api/bundle_dict.py:1480,</span> in <span class="ni">BundleDict.apply_to_rois</span><span class="nt">(self, b_name, *args, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1471</span> <span class="k">def</span><span class="w"> </span><span class="nf">apply_to_rois</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b_name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">1472</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1473</span><span class="sd">     See: AFQ.api.bundle_dict.apply_to_roi_dict</span>
+<span class="g g-Whitespace">   </span><span class="mi">1474</span><span class="sd"> </span>
+<span class="sd">   (...)   1478         bundle name of bundle whose ROIs will be transformed.</span>
+<span class="g g-Whitespace">   </span><span class="mi">1479</span><span class="sd">     &quot;&quot;&quot;</span>
+<span class="ne">-&gt; </span><span class="mi">1480</span>     <span class="k">return</span> <span class="n">apply_to_roi_dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="p">[</span><span class="n">b_name</span><span class="p">],</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/AFQ/api/bundle_dict.py:1736,</span> in <span class="ni">apply_to_roi_dict</span><span class="nt">(dict_, func, dry_run, apply_to_recobundles, apply_to_prob_map, *args, **kwargs)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1734</span>             <span class="n">changed_rois</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="g g-Whitespace">   </span><span class="mi">1735</span>             <span class="k">for</span> <span class="n">_roi</span> <span class="ow">in</span> <span class="n">dict_</span><span class="p">[</span><span class="n">roi_type</span><span class="p">]:</span>
-<span class="ne">-&gt; </span><span class="mi">1736</span>                 <span class="n">changed_rois</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">func</span><span class="p">(</span><span class="n">_roi</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
-<span class="g g-Whitespace">   </span><span class="mi">1737</span>             <span class="n">return_vals</span><span class="p">[</span><span class="n">roi_type</span><span class="p">]</span> <span class="o">=</span> <span class="n">changed_rois</span>
-<span class="g g-Whitespace">   </span><span class="mi">1738</span> <span class="k">if</span> <span class="n">apply_to_recobundles</span> <span class="ow">and</span> <span class="s2">&quot;recobundles&quot;</span> <span class="ow">in</span> <span class="n">dict_</span><span class="p">:</span>
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/AFQ/api/bundle_dict.py:1776,</span> in <span class="ni">apply_to_roi_dict</span><span class="nt">(dict_, func, dry_run, apply_to_recobundles, apply_to_prob_map, *args, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1774</span>             <span class="n">changed_rois</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="g g-Whitespace">   </span><span class="mi">1775</span>             <span class="k">for</span> <span class="n">_roi</span> <span class="ow">in</span> <span class="n">dict_</span><span class="p">[</span><span class="n">roi_type</span><span class="p">]:</span>
+<span class="ne">-&gt; </span><span class="mi">1776</span>                 <span class="n">changed_rois</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">func</span><span class="p">(</span><span class="n">_roi</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
+<span class="g g-Whitespace">   </span><span class="mi">1777</span>             <span class="n">return_vals</span><span class="p">[</span><span class="n">roi_type</span><span class="p">]</span> <span class="o">=</span> <span class="n">changed_rois</span>
+<span class="g g-Whitespace">   </span><span class="mi">1778</span> <span class="k">if</span> <span class="n">apply_to_recobundles</span> <span class="ow">and</span> <span class="s2">&quot;recobundles&quot;</span> <span class="ow">in</span> <span class="n">dict_</span><span class="p">:</span>
 
-<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/AFQ/api/bundle_dict.py:1312,</span> in <span class="ni">BundleDict._cond_load</span><span class="nt">(self, roi_or_sl, resample_to)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1310</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">roi_or_sl</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-<span class="g g-Whitespace">   </span><span class="mi">1311</span>     <span class="k">if</span> <span class="s2">&quot;.nii&quot;</span> <span class="ow">in</span> <span class="n">roi_or_sl</span><span class="p">:</span>
-<span class="ne">-&gt; </span><span class="mi">1312</span>         <span class="k">return</span> <span class="n">afd</span><span class="o">.</span><span class="n">read_resample_roi</span><span class="p">(</span><span class="n">roi_or_sl</span><span class="p">,</span> <span class="n">resample_to</span><span class="o">=</span><span class="n">resample_to</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1313</span>     <span class="k">else</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1314</span>         <span class="k">return</span> <span class="n">load_tractogram</span><span class="p">(</span>
-<span class="g g-Whitespace">   </span><span class="mi">1315</span>             <span class="n">roi_or_sl</span><span class="p">,</span> <span class="s2">&quot;same&quot;</span><span class="p">,</span> <span class="n">bbox_valid_check</span><span class="o">=</span><span class="kc">False</span>
-<span class="g g-Whitespace">   </span><span class="mi">1316</span>         <span class="p">)</span><span class="o">.</span><span class="n">streamlines</span>
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/AFQ/api/bundle_dict.py:1352,</span> in <span class="ni">BundleDict._cond_load</span><span class="nt">(self, roi_or_sl, resample_to)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1350</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">roi_or_sl</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">1351</span>     <span class="k">if</span> <span class="s2">&quot;.nii&quot;</span> <span class="ow">in</span> <span class="n">roi_or_sl</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1352</span>         <span class="k">return</span> <span class="n">afd</span><span class="o">.</span><span class="n">read_resample_roi</span><span class="p">(</span><span class="n">roi_or_sl</span><span class="p">,</span> <span class="n">resample_to</span><span class="o">=</span><span class="n">resample_to</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1353</span>     <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1354</span>         <span class="k">return</span> <span class="n">load_tractogram</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1355</span>             <span class="n">roi_or_sl</span><span class="p">,</span> <span class="s2">&quot;same&quot;</span><span class="p">,</span> <span class="n">bbox_valid_check</span><span class="o">=</span><span class="kc">False</span>
+<span class="g g-Whitespace">   </span><span class="mi">1356</span>         <span class="p">)</span><span class="o">.</span><span class="n">streamlines</span>
 
 <span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/AFQ/data/fetch.py:655,</span> in <span class="ni">read_resample_roi</span><span class="nt">(roi, resample_to, threshold)</span>
 <span class="g g-Whitespace">    </span><span class="mi">652</span>     <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Resampling skipped as affines already match.&quot;</span><span class="p">)</span>
@@ -1020,8 +1029,8 @@ their defining ROIs.</p>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
-<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=0790524f97105ba85085"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085"></script>
 
 
   <footer class="bd-footer">

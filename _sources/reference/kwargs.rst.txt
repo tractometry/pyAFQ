@@ -30,7 +30,7 @@ onnx_inter_threads: int
 	The number of inter threads to use for onnx models. Increasing will increase memory usage significantly. Default: 1
 
 brain_mask_definition: instance from `AFQ.definitions.image`
-	This will be used to create the brain mask, which gets applied before registration to a template. If you want no brain mask to be applied, use FullImage. If None, use Brainchop Mindgrab model. Default: None
+	This will be used to create the brain mask, which gets applied before registration to a template. If you want no brain mask to be applied, use FullImage. If None, use Synthseg model. Default: None
 
 
 ==========================================================
@@ -136,7 +136,7 @@ n_points_profile: int
 	Number of points to resample each streamline to before calculating the tract-profiles. Default: 100
 
 scalars: list of strings and/or scalar definitions
-	List of scalars to use. Can be any of: "dti_fa", "dti_md", "dki_fa", "dki_md", "dki_awf", "dki_mk", or other scalars found in AFQ.tasks.data. Can also be a scalar from AFQ.definitions.image. Finally, can also be "t1w". Defaults for single shell data to ["dti_fa", "dti_md", "t1w"], and for multi-shell data to ["dki_fa", "dki_md", "dki_kfa", "dki_mk", "t1w"]. Default: ['dti_fa', 'dti_md', 't1w']
+	List of scalars to use. Can be any of: "dti_fa", "dti_md", "dki_fa", "dki_md", "dki_awf", "dki_mk", or other scalars found in AFQ.tasks.data. Can also be a scalar from AFQ.definitions.image. Finally, can also be "t1w". Defaults for single shell data to ["dti_fa", "dti_md", "t1w_over_b0"], and for multi-shell data to ["dti_fa", "dti_md", "t1w_over_b0", "msdki_msd", "msdki_msk"]. Default: ['dti_fa', 'dti_md', 't1w_over_b0']
 
 
 ==========================================================

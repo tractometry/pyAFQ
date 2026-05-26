@@ -49,12 +49,6 @@ nbclient.exceptions.CellTimeoutError: A cell timed out while it was being execut
 The message was: Cell execution timed out.
 Here is a preview of the cell contents:
 -------------------
-FA_fname = myafq.export("dki_fa", collapse=False)["NDARAA948VFH"]["HBNsiteRU"]
-
-# We will then use `nibabel` to load the deriviative file and retrieve the
-# data array.
-
-FA_img = nib.load(FA_fname)
-FA = FA_img.get_fdata()
+myafq.export('profiles')
 -------------------
 

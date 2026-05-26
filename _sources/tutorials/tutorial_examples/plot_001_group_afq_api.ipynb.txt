@@ -112,7 +112,7 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "## Calculating DKI FA (Diffusion Kurtosis Imaging Fractional Anisotropy)\nThe GroupAFQ object has a method called `export`, which allows the user\nto calculate various derived quantities from the data.\n\nFor example, FA can be computed using the DKI model, by explicitly\ncalling `myafq.export(\"dki_fa\")`. This triggers the computation of DKI\nparameters for all subjects in the dataset, and stores the results in\nthe AFQ derivatives directory. In addition, it calculates the FA\nfrom these parameters and stores it in a different file in the same\ndirectory.\n\n<div class=\"alert alert-info\"><h4>Note</h4><p>The AFQ API computes quantities lazily. This means that DKI parameters\n   are not computed until they are required. This means that the first\n   line below is the one that requires time.</p></div>\n\nThe result of the call to `export` is a dictionary, with the subject\nIDs as keys, and the filenames of the corresponding files as values.\nThis means that to extract the filename corresponding to the FA of the first\nsubject, we can do:\n\n"
+        "## Calculating DTI FA (Diffusion Tensor Imaging Fractional Anisotropy)\nThe GroupAFQ object has a method called `export`, which allows the user\nto calculate various derived quantities from the data.\n\nFor example, FA can be computed using the DTI model, by explicitly\ncalling `myafq.export(\"dti_fa\")`. This triggers the computation of DTI\nparameters for all subjects in the dataset, and stores the results in\nthe AFQ derivatives directory. In addition, it calculates the FA\nfrom these parameters and stores it in a different file in the same\ndirectory.\n\n<div class=\"alert alert-info\"><h4>Note</h4><p>The AFQ API computes quantities lazily. This means that DTI parameters\n   are not computed until they are required. This means that the first\n   line below is the one that requires time.</p></div>\n\nThe result of the call to `export` is a dictionary, with the subject\nIDs as keys, and the filenames of the corresponding files as values.\nThis means that to extract the filename corresponding to the FA of the first\nsubject, we can do:\n\n"
       ]
     },
     {
@@ -123,7 +123,7 @@
       },
       "outputs": [],
       "source": [
-        "FA_fname = myafq.export(\"dki_fa\", collapse=False)[\"NDARAA948VFH\"][\"HBNsiteRU\"]\n\n# We will then use `nibabel` to load the deriviative file and retrieve the\n# data array.\n\nFA_img = nib.load(FA_fname)\nFA = FA_img.get_fdata()"
+        "FA_fname = myafq.export(\"dti_fa\", collapse=False)[\"NDARAA948VFH\"][\"HBNsiteRU\"]\n\n# We will then use `nibabel` to load the deriviative file and retrieve the\n# data array.\n\nFA_img = nib.load(FA_fname)\nFA = FA_img.get_fdata()"
       ]
     },
     {
@@ -220,7 +220,7 @@
       },
       "outputs": [],
       "source": [
-        "profiles_df = myafq.combine_profiles()\naltair_df = ava.combined_profiles_df_to_altair_df(\n    profiles_df,\n    tissue_properties=['dki_fa', 'dki_md'])\naltair_chart = ava.altair_df_to_chart(altair_df)\naltair_chart.display()"
+        "profiles_df = myafq.combine_profiles()\naltair_df = ava.combined_profiles_df_to_altair_df(\n    profiles_df,\n    tissue_properties=[\n        \"dti_fa\",\n        \"dti_md\",\n        \"t1w_over_b0\",\n        \"msdki_msd\",\n        \"msdki_msk\"])\naltair_chart = ava.altair_df_to_chart(altair_df)\naltair_chart.display()"
       ]
     },
     {

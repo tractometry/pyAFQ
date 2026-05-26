@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Delineating cerebellar peduncles &#8212; AFQ 3.1 documentation</title>
+    <title>Delineating cerebellar peduncles &#8212; AFQ 3.2 documentation</title>
   
   
   
@@ -27,8 +27,8 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
@@ -38,15 +38,15 @@
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=c6496573" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=efc0aa2d" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <script defer src="../../_static/scripts/fontawesome.js?digest=0790524f97105ba85085"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=0790524f97105ba85085" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085" />
 
-    <script src="../../_static/documentation_options.js?v=b576230a"></script>
+    <script src="../../_static/documentation_options.js?v=828ea960"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/sg-tags.js?v=d80f6fa4"></script>
@@ -131,8 +131,8 @@
       
     
     
-    <img src="../../_static/logo.png" class="logo__image only-light" alt="AFQ 3.1 documentation - Home"/>
-    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="AFQ 3.1 documentation - Home"/>
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="AFQ 3.2 documentation - Home"/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="AFQ 3.2 documentation - Home"/>
   
   
 </a></div>
@@ -209,11 +209,18 @@
       
         <div class="navbar-item">
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button></div>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
       
         <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -226,8 +233,7 @@
           
           
           
-          <a href="https://github.com/tractometry/pyAFQ" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
-            <span class="sr-only">GitHub</span></a>
+          <a href="https://github.com/tractometry/pyAFQ" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
         </li>
 </ul></div>
       
@@ -330,11 +336,18 @@
         
           <div class="navbar-item">
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button></div>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
         
           <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -347,8 +360,7 @@
           
           
           
-          <a href="https://github.com/tractometry/pyAFQ" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
-            <span class="sr-only">GitHub</span></a>
+          <a href="https://github.com/tractometry/pyAFQ" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
         </li>
 </ul></div>
         
@@ -552,7 +564,7 @@ on [1]_, [2].</p>
   from .autonotebook import tqdm as notebook_tqdm
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-05-19 00:58:07,137	INFO util.py:154 -- Missing packages: [&#39;ipywidgets&#39;]. Run `pip install -U ipywidgets`, then restart the notebook server for rich notebook output.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-05-26 22:54:31,864	INFO util.py:154 -- Missing packages: [&#39;ipywidgets&#39;]. Run `pip install -U ipywidgets`, then restart the notebook server for rich notebook output.
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/1 MB [00:00]
@@ -658,6 +670,24 @@ on [1]_, [2].</p>
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 1/1 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/1 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 1/1 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/2 MB [00:00]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 2/2 MB [00:00]
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
@@ -665,88 +695,224 @@ on [1]_, [2].</p>
 </div>
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">20</span>
-<span class="g g-Whitespace">     </span><span class="mi">16</span> <span class="n">The</span> <span class="nb">next</span> <span class="n">line</span> <span class="n">downloads</span> <span class="n">the</span> <span class="n">cerebellar</span> <span class="n">peduncle</span> <span class="n">templates</span> <span class="kn">from</span><span class="w"> </span><span class="err">`</span><span class="n">Figshare</span> <span class="o">&lt;</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">figshare</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">articles</span><span class="o">/</span><span class="n">dataset</span><span class="o">/</span><span class="n">Regions_of_interest_for_automated_fiber_quantification_of_cerebellar_bundles</span><span class="o">/</span><span class="mi">23201630</span><span class="o">&gt;</span><span class="err">`</span><span class="n">_</span><span class="o">.</span>
-<span class="g g-Whitespace">     </span><span class="mi">17</span><span class="w"> </span>
-<span class="g g-Whitespace">     </span><span class="mi">18</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="g g-Whitespace">     </span><span class="mi">19</span><span class="sd"> </span>
-<span class="ne">---&gt; </span><span class="mi">20</span><span class="sd"> cp_rois = afd.read_cp_templates()</span>
-<span class="g g-Whitespace">     </span><span class="mi">21</span><span class="sd"> </span>
-<span class="g g-Whitespace">     </span><span class="mi">22</span><span class="sd"> </span>
-<span class="g g-Whitespace">     </span><span class="mi">23</span><span class="sd"> &quot;&quot;&quot;</span>
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">34</span>
+<span class="g g-Whitespace">     </span><span class="mi">30</span> <span class="n">They</span> <span class="n">decussate</span><span class="p">,</span> <span class="n">so</span> <span class="s2">&quot;cross_midline&quot;</span> <span class="ow">is</span> <span class="nb">set</span> <span class="n">to</span> <span class="kc">True</span><span class="o">.</span> <span class="n">The</span> <span class="n">Middle</span> <span class="n">CPs</span> <span class="n">are</span> <span class="n">defined</span>
+<span class="g g-Whitespace">     </span><span class="mi">31</span> <span class="n">by</span> <span class="n">two</span> <span class="n">inclusion</span> <span class="n">ROIs</span> <span class="ow">and</span> <span class="n">they</span> <span class="n">use</span> <span class="n">the</span> <span class="n">SCP</span> <span class="n">intermediate</span> <span class="n">ROIs</span> <span class="k">as</span> <span class="n">exclusion</span> <span class="n">ROIs</span><span class="o">.</span>
+<span class="g g-Whitespace">     </span><span class="mi">32</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">     </span><span class="mi">33</span><span class="sd"> </span>
+<span class="ne">---&gt; </span><span class="mi">34</span><span class="sd"> cp_bundles = abd.cerebellar_bd()</span>
+<span class="g g-Whitespace">     </span><span class="mi">35</span><span class="sd"> </span>
+<span class="g g-Whitespace">     </span><span class="mi">36</span><span class="sd"> &quot;&quot;&quot;</span>
+<span class="g g-Whitespace">     </span><span class="mi">37</span> <span class="n">The</span> <span class="n">bundle</span> <span class="nb">dict</span> <span class="n">has</span> <span class="n">been</span> <span class="n">defined</span><span class="p">,</span> <span class="ow">and</span> <span class="n">now</span> <span class="n">we</span> <span class="n">are</span> <span class="n">ready</span> <span class="n">to</span> <span class="n">run</span> <span class="n">the</span> <span class="n">AFQ</span> <span class="n">pipeline</span><span class="o">.</span>
 
-<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/AFQ/data/fetch.py:1405,</span> in <span class="ni">read_cp_templates</span><span class="nt">(as_img, resample_to)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1402</span> <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;loading or templates&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1403</span> <span class="n">tic</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
-<span class="ne">-&gt; </span><span class="mi">1405</span> <span class="n">template_dict</span> <span class="o">=</span> <span class="n">_fetcher_to_template</span><span class="p">(</span>
-<span class="g g-Whitespace">   </span><span class="mi">1406</span>     <span class="n">fetch_cp_templates</span><span class="p">,</span> <span class="n">as_img</span><span class="o">=</span><span class="n">as_img</span><span class="p">,</span> <span class="n">resample_to</span><span class="o">=</span><span class="n">resample_to</span>
-<span class="g g-Whitespace">   </span><span class="mi">1407</span> <span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1409</span> <span class="n">toc</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
-<span class="g g-Whitespace">   </span><span class="mi">1410</span> <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cerebellar peduncles templates loaded in </span><span class="si">{</span><span class="n">toc</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">tic</span><span class="si">:</span><span class="s2">0.4f</span><span class="si">}</span><span class="s2"> seconds&quot;</span><span class="p">)</span>
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/AFQ/api/bundle_dict.py:1047,</span> in <span class="ni">cerebellar_bd</span><span class="nt">()</span>
+<span class="g g-Whitespace">   </span><span class="mi">1045</span> <span class="k">def</span><span class="w"> </span><span class="nf">cerebellar_bd</span><span class="p">():</span>
+<span class="g g-Whitespace">   </span><span class="mi">1046</span>     <span class="n">cp_rois</span> <span class="o">=</span> <span class="n">afd</span><span class="o">.</span><span class="n">read_cp_templates</span><span class="p">()</span>
+<span class="ne">-&gt; </span><span class="mi">1047</span>     <span class="k">return</span> <span class="n">BundleDict</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1048</span>         <span class="p">{</span>
+<span class="g g-Whitespace">   </span><span class="mi">1049</span>             <span class="s2">&quot;Left Inferior Cerebellar Peduncle&quot;</span><span class="p">:</span> <span class="p">{</span>
+<span class="g g-Whitespace">   </span><span class="mi">1050</span>                 <span class="s2">&quot;include&quot;</span><span class="p">:</span> <span class="p">[</span>
+<span class="g g-Whitespace">   </span><span class="mi">1051</span>                     <span class="n">cp_rois</span><span class="p">[</span><span class="s2">&quot;ICP_L_inferior_prob&quot;</span><span class="p">],</span>
+<span class="g g-Whitespace">   </span><span class="mi">1052</span>                     <span class="n">cp_rois</span><span class="p">[</span><span class="s2">&quot;ICP_L_superior_prob&quot;</span><span class="p">],</span>
+<span class="g g-Whitespace">   </span><span class="mi">1053</span>                 <span class="p">],</span>
+<span class="g g-Whitespace">   </span><span class="mi">1054</span>                 <span class="s2">&quot;cross_midline&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1055</span>             <span class="p">},</span>
+<span class="g g-Whitespace">   </span><span class="mi">1056</span>             <span class="s2">&quot;Right Inferior Cerebellar Peduncle&quot;</span><span class="p">:</span> <span class="p">{</span>
+<span class="g g-Whitespace">   </span><span class="mi">1057</span>                 <span class="s2">&quot;include&quot;</span><span class="p">:</span> <span class="p">[</span>
+<span class="g g-Whitespace">   </span><span class="mi">1058</span>                     <span class="n">cp_rois</span><span class="p">[</span><span class="s2">&quot;ICP_R_inferior_prob&quot;</span><span class="p">],</span>
+<span class="g g-Whitespace">   </span><span class="mi">1059</span>                     <span class="n">cp_rois</span><span class="p">[</span><span class="s2">&quot;ICP_R_superior_prob&quot;</span><span class="p">],</span>
+<span class="g g-Whitespace">   </span><span class="mi">1060</span>                 <span class="p">],</span>
+<span class="g g-Whitespace">   </span><span class="mi">1061</span>                 <span class="s2">&quot;cross_midline&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1062</span>             <span class="p">},</span>
+<span class="g g-Whitespace">   </span><span class="mi">1063</span>             <span class="s2">&quot;Left Middle Cerebellar Peduncle&quot;</span><span class="p">:</span> <span class="p">{</span>
+<span class="g g-Whitespace">   </span><span class="mi">1064</span>                 <span class="s2">&quot;include&quot;</span><span class="p">:</span> <span class="p">[</span>
+<span class="g g-Whitespace">   </span><span class="mi">1065</span>                     <span class="n">cp_rois</span><span class="p">[</span><span class="s2">&quot;MCP_L_inferior_prob&quot;</span><span class="p">],</span>
+<span class="g g-Whitespace">   </span><span class="mi">1066</span>                     <span class="n">cp_rois</span><span class="p">[</span><span class="s2">&quot;MCP_R_superior_prob&quot;</span><span class="p">],</span>
+<span class="g g-Whitespace">   </span><span class="mi">1067</span>                 <span class="p">],</span>
+<span class="g g-Whitespace">   </span><span class="mi">1068</span>                 <span class="s2">&quot;exclude&quot;</span><span class="p">:</span> <span class="p">[</span>
+<span class="g g-Whitespace">   </span><span class="mi">1069</span>                     <span class="n">cp_rois</span><span class="p">[</span><span class="s2">&quot;SCP_L_inter_prob&quot;</span><span class="p">],</span>
+<span class="g g-Whitespace">   </span><span class="mi">1070</span>                 <span class="p">],</span>
+<span class="g g-Whitespace">   </span><span class="mi">1071</span>                 <span class="s2">&quot;cross_midline&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1072</span>             <span class="p">},</span>
+<span class="g g-Whitespace">   </span><span class="mi">1073</span>             <span class="s2">&quot;Right Middle Cerebellar Peduncle&quot;</span><span class="p">:</span> <span class="p">{</span>
+<span class="g g-Whitespace">   </span><span class="mi">1074</span>                 <span class="s2">&quot;include&quot;</span><span class="p">:</span> <span class="p">[</span>
+<span class="g g-Whitespace">   </span><span class="mi">1075</span>                     <span class="n">cp_rois</span><span class="p">[</span><span class="s2">&quot;MCP_R_inferior_prob&quot;</span><span class="p">],</span>
+<span class="g g-Whitespace">   </span><span class="mi">1076</span>                     <span class="n">cp_rois</span><span class="p">[</span><span class="s2">&quot;MCP_L_superior_prob&quot;</span><span class="p">],</span>
+<span class="g g-Whitespace">   </span><span class="mi">1077</span>                 <span class="p">],</span>
+<span class="g g-Whitespace">   </span><span class="mi">1078</span>                 <span class="s2">&quot;exclude&quot;</span><span class="p">:</span> <span class="p">[</span>
+<span class="g g-Whitespace">   </span><span class="mi">1079</span>                     <span class="n">cp_rois</span><span class="p">[</span><span class="s2">&quot;SCP_R_inter_prob&quot;</span><span class="p">],</span>
+<span class="g g-Whitespace">   </span><span class="mi">1080</span>                 <span class="p">],</span>
+<span class="g g-Whitespace">   </span><span class="mi">1081</span>                 <span class="s2">&quot;cross_midline&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1082</span>             <span class="p">},</span>
+<span class="g g-Whitespace">   </span><span class="mi">1083</span>             <span class="s2">&quot;Left Superior Cerebellar Peduncle&quot;</span><span class="p">:</span> <span class="p">{</span>
+<span class="g g-Whitespace">   </span><span class="mi">1084</span>                 <span class="s2">&quot;include&quot;</span><span class="p">:</span> <span class="p">[</span>
+<span class="g g-Whitespace">   </span><span class="mi">1085</span>                     <span class="n">cp_rois</span><span class="p">[</span><span class="s2">&quot;SCP_L_inferior_prob&quot;</span><span class="p">],</span>
+<span class="g g-Whitespace">   </span><span class="mi">1086</span>                     <span class="n">cp_rois</span><span class="p">[</span><span class="s2">&quot;SCP_L_inter_prob&quot;</span><span class="p">],</span>
+<span class="g g-Whitespace">   </span><span class="mi">1087</span>                     <span class="n">cp_rois</span><span class="p">[</span><span class="s2">&quot;SCP_R_superior_prob&quot;</span><span class="p">],</span>
+<span class="g g-Whitespace">   </span><span class="mi">1088</span>                 <span class="p">],</span>
+<span class="g g-Whitespace">   </span><span class="mi">1089</span>                 <span class="s2">&quot;exclude&quot;</span><span class="p">:</span> <span class="p">[</span>
+<span class="g g-Whitespace">   </span><span class="mi">1090</span>                     <span class="n">cp_rois</span><span class="p">[</span><span class="s2">&quot;SCP_L_superior_prob&quot;</span><span class="p">],</span>
+<span class="g g-Whitespace">   </span><span class="mi">1091</span>                 <span class="p">],</span>
+<span class="g g-Whitespace">   </span><span class="mi">1092</span>                 <span class="s2">&quot;cross_midline&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1093</span>             <span class="p">},</span>
+<span class="g g-Whitespace">   </span><span class="mi">1094</span>             <span class="s2">&quot;Right Superior Cerebellar Peduncle&quot;</span><span class="p">:</span> <span class="p">{</span>
+<span class="g g-Whitespace">   </span><span class="mi">1095</span>                 <span class="s2">&quot;include&quot;</span><span class="p">:</span> <span class="p">[</span>
+<span class="g g-Whitespace">   </span><span class="mi">1096</span>                     <span class="n">cp_rois</span><span class="p">[</span><span class="s2">&quot;SCP_R_inferior_prob&quot;</span><span class="p">],</span>
+<span class="g g-Whitespace">   </span><span class="mi">1097</span>                     <span class="n">cp_rois</span><span class="p">[</span><span class="s2">&quot;SCP_R_inter_prob&quot;</span><span class="p">],</span>
+<span class="g g-Whitespace">   </span><span class="mi">1098</span>                     <span class="n">cp_rois</span><span class="p">[</span><span class="s2">&quot;SCP_L_superior_prob&quot;</span><span class="p">],</span>
+<span class="g g-Whitespace">   </span><span class="mi">1099</span>                 <span class="p">],</span>
+<span class="g g-Whitespace">   </span><span class="mi">1100</span>                 <span class="s2">&quot;exclude&quot;</span><span class="p">:</span> <span class="p">[</span>
+<span class="g g-Whitespace">   </span><span class="mi">1101</span>                     <span class="n">cp_rois</span><span class="p">[</span><span class="s2">&quot;SCP_R_superior_prob&quot;</span><span class="p">],</span>
+<span class="g g-Whitespace">   </span><span class="mi">1102</span>                 <span class="p">],</span>
+<span class="g g-Whitespace">   </span><span class="mi">1103</span>                 <span class="s2">&quot;cross_midline&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1104</span>             <span class="p">},</span>
+<span class="g g-Whitespace">   </span><span class="mi">1105</span>         <span class="p">},</span>
+<span class="g g-Whitespace">   </span><span class="mi">1106</span>         <span class="n">citations</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Jossinger2022&quot;</span><span class="p">},</span>
+<span class="g g-Whitespace">   </span><span class="mi">1107</span>     <span class="p">)</span>
 
-<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/AFQ/data/fetch.py:118,</span> in <span class="ni">_fetcher_to_template</span><span class="nt">(fetcher, as_img, resample_to)</span>
-<span class="g g-Whitespace">    </span><span class="mi">116</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">resample_to</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-<span class="g g-Whitespace">    </span><span class="mi">117</span>     <span class="n">resample_to</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">resample_to</span><span class="p">)</span>
-<span class="ne">--&gt; </span><span class="mi">118</span> <span class="n">files</span><span class="p">,</span> <span class="n">folder</span> <span class="o">=</span> <span class="n">fetcher</span><span class="p">()</span>
-<span class="g g-Whitespace">    </span><span class="mi">119</span> <span class="n">template_dict</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="g g-Whitespace">    </span><span class="mi">120</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/AFQ/api/bundle_dict.py:1240,</span> in <span class="ni">BundleDict.__init__</span><span class="nt">(self, bundle_info, resample_to, resample_subject_to, keep_in_memory, citations, criteria_for_all)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1236</span>     <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1237</span>         <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;bundle_info must be a dict, currently a </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">bundle_info</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1238</span>     <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1239</span> <span class="k">if</span> <span class="n">resample_to</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1240</span>     <span class="n">resample_to</span> <span class="o">=</span> <span class="n">afd</span><span class="o">.</span><span class="n">read_mni_template</span><span class="p">()</span>
+<span class="g g-Whitespace">   </span><span class="mi">1241</span> <span class="bp">self</span><span class="o">.</span><span class="n">resample_to</span> <span class="o">=</span> <span class="n">resample_to</span>
+<span class="g g-Whitespace">   </span><span class="mi">1242</span> <span class="bp">self</span><span class="o">.</span><span class="n">resample_subject_to</span> <span class="o">=</span> <span class="n">resample_subject_to</span>
 
-<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/AFQ/data/fetch.py:100,</span> in <span class="ni">_make_reusable_fetcher.&lt;locals&gt;.fetcher</span><span class="nt">()</span>
-<span class="g g-Whitespace">     </span><span class="mi">98</span>     <span class="k">return</span> <span class="n">files</span><span class="p">,</span> <span class="n">folder</span>
-<span class="g g-Whitespace">     </span><span class="mi">99</span> <span class="k">else</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">100</span>     <span class="k">return</span> <span class="n">_make_fetcher</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">101</span>         <span class="n">name</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">102</span>         <span class="n">folder</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">103</span>         <span class="n">baseurl</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">104</span>         <span class="n">remote_fnames</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">105</span>         <span class="n">local_fnames</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">106</span>         <span class="n">doc</span><span class="o">=</span><span class="n">doc</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">107</span>         <span class="o">**</span><span class="n">make_fetcher_kwargs</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">108</span>     <span class="p">)()</span>
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/AFQ/data/fetch.py:2119,</span> in <span class="ni">read_mni_template</span><span class="nt">(resolution, mask, weight)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2092</span> <span class="k">def</span><span class="w"> </span><span class="nf">read_mni_template</span><span class="p">(</span><span class="n">resolution</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;T2w&quot;</span><span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">2093</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">2094</span><span class="sd"> </span>
+<span class="g g-Whitespace">   </span><span class="mi">2095</span><span class="sd">     Reads the MNI T1w or T2w template</span>
+<span class="sd">   (...)   2115 </span>
+<span class="g g-Whitespace">   </span><span class="mi">2116</span><span class="sd">     &quot;&quot;&quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">2117</span>     <span class="n">template_img</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">2118</span>         <span class="nb">str</span><span class="p">(</span>
+<span class="ne">-&gt; </span><span class="mi">2119</span>             <span class="n">tflow</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">2120</span>                 <span class="s2">&quot;MNI152NLin2009cAsym&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">2121</span>                 <span class="n">desc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">2122</span>                 <span class="n">resolution</span><span class="o">=</span><span class="n">resolution</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">2123</span>                 <span class="n">suffix</span><span class="o">=</span><span class="n">weight</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">2124</span>                 <span class="n">extension</span><span class="o">=</span><span class="s2">&quot;nii.gz&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">2125</span>             <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2126</span>         <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2127</span>     <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2128</span>     <span class="k">if</span> <span class="ow">not</span> <span class="n">mask</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">2129</span>         <span class="k">return</span> <span class="n">template_img</span>
 
-<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/dipy/data/fetcher.py:494,</span> in <span class="ni">_make_fetcher.&lt;locals&gt;.fetcher</span><span class="nt">(include_optional)</span>
-<span class="g g-Whitespace">    </span><span class="mi">491</span>         <span class="k">continue</span>
-<span class="g g-Whitespace">    </span><span class="mi">492</span>     <span class="n">files</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span> <span class="o">=</span> <span class="p">(</span><span class="n">baseurl</span> <span class="o">+</span> <span class="n">f</span><span class="p">,</span> <span class="n">md5_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">if</span> <span class="n">md5_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">)</span>
-<span class="ne">--&gt; </span><span class="mi">494</span> <span class="n">fetch_data</span><span class="p">(</span><span class="n">files</span><span class="p">,</span> <span class="n">folder</span><span class="p">,</span> <span class="n">data_size</span><span class="o">=</span><span class="n">data_size</span><span class="p">,</span> <span class="n">use_headers</span><span class="o">=</span><span class="n">use_headers</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">496</span> <span class="k">if</span> <span class="n">msg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">497</span>     <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/templateflow/client.py:231,</span> in <span class="ni">TemplateFlowClient.get</span><span class="nt">(self, template, raise_empty, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">174</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">175</span><span class="sd"> Pull files pertaining to one or more templates down.</span>
+<span class="g g-Whitespace">    </span><span class="mi">176</span><span class="sd"> </span>
+<span class="sd">   (...)    228 </span>
+<span class="g g-Whitespace">    </span><span class="mi">229</span><span class="sd"> &quot;&quot;&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">230</span> <span class="c1"># List files available</span>
+<span class="ne">--&gt; </span><span class="mi">231</span> <span class="n">out_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ls</span><span class="p">(</span><span class="n">template</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">233</span> <span class="k">if</span> <span class="n">raise_empty</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">out_file</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">234</span>     <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;No results found&#39;</span><span class="p">)</span>
 
-<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/dipy/testing/decorators.py:201,</span> in <span class="ni">warning_for_keywords.&lt;locals&gt;.decorator.&lt;locals&gt;.wrapper</span><span class="nt">(*args, **kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">194</span> <span class="c1"># Check if the current version is within the warning range</span>
-<span class="g g-Whitespace">    </span><span class="mi">195</span> <span class="k">if</span> <span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">196</span>     <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">from_version</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">197</span>     <span class="o">&lt;=</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">current_version</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">198</span>     <span class="o">&lt;=</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">until_version</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">199</span> <span class="p">):</span>
-<span class="g g-Whitespace">    </span><span class="mi">200</span>     <span class="c1"># Convert positional to keyword arguments and issue a warning</span>
-<span class="ne">--&gt; </span><span class="mi">201</span>     <span class="k">return</span> <span class="n">convert_positional_to_keyword</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">203</span> <span class="c1"># If the version is greater than the until_version,</span>
-<span class="g g-Whitespace">    </span><span class="mi">204</span> <span class="c1"># pass the arguments as they are</span>
-<span class="g g-Whitespace">    </span><span class="mi">205</span> <span class="k">elif</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">current_version</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">until_version</span><span class="p">):</span>
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/templateflow/client.py:168,</span> in <span class="ni">TemplateFlowClient.ls</span><span class="nt">(self, template, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">163</span> <span class="k">if</span> <span class="s1">&#39;extension&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">164</span>     <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;extension&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_normalize_ext</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;extension&#39;</span><span class="p">])</span>
+<span class="g g-Whitespace">    </span><span class="mi">166</span> <span class="k">return</span> <span class="p">[</span>
+<span class="g g-Whitespace">    </span><span class="mi">167</span>     <span class="n">Path</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">168</span>     <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">169</span>         <span class="n">template</span><span class="o">=</span><span class="n">Query</span><span class="o">.</span><span class="n">ANY</span> <span class="k">if</span> <span class="n">template</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">template</span><span class="p">,</span> <span class="n">return_type</span><span class="o">=</span><span class="s1">&#39;file&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+<span class="g g-Whitespace">    </span><span class="mi">170</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">171</span> <span class="p">]</span>
 
-<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/dipy/testing/decorators.py:192,</span> in <span class="ni">warning_for_keywords.&lt;locals&gt;.decorator.&lt;locals&gt;.wrapper.&lt;locals&gt;.convert_positional_to_keyword</span><span class="nt">(func, args, kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">182</span>         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">183</span>             <span class="sa">f</span><span class="s2">&quot;Pass </span><span class="si">{</span><span class="n">positionally_passed_kwonly_args</span><span class="si">}</span><span class="s2"> as keyword args. &quot;</span>
-<span class="g g-Whitespace">    </span><span class="mi">184</span>             <span class="sa">f</span><span class="s2">&quot;From version </span><span class="si">{</span><span class="n">until_version</span><span class="si">}</span><span class="s2"> passing these as positional &quot;</span>
-   <span class="p">(</span><span class="o">...</span><span class="p">)</span>    <span class="mi">187</span>             <span class="n">stacklevel</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">188</span>         <span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">190</span>     <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">positional_args</span><span class="p">,</span> <span class="o">**</span><span class="n">corrected_kwargs</span><span class="p">)</span>
-<span class="ne">--&gt; </span><span class="mi">192</span> <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/functools.py:1025,</span> in <span class="ni">cached_property.__get__</span><span class="nt">(self, instance, owner)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1023</span> <span class="n">val</span> <span class="o">=</span> <span class="n">cache</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">attrname</span><span class="p">,</span> <span class="n">_NOT_FOUND</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1024</span> <span class="k">if</span> <span class="n">val</span> <span class="ow">is</span> <span class="n">_NOT_FOUND</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1025</span>     <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1026</span>     <span class="k">try</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1027</span>         <span class="n">cache</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">attrname</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
 
-<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/dipy/data/fetcher.py:397,</span> in <span class="ni">fetch_data</span><span class="nt">(files, folder, data_size, use_headers, raise_on_error)</span>
-<span class="g g-Whitespace">    </span><span class="mi">395</span> <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;From: </span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">396</span> <span class="k">try</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">397</span>     <span class="n">_get_file_data</span><span class="p">(</span><span class="n">fullpath</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">use_headers</span><span class="o">=</span><span class="n">use_headers</span><span class="p">,</span> <span class="n">stored_md5</span><span class="o">=</span><span class="n">md5</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">398</span>     <span class="n">successful_downloads</span> <span class="o">+=</span> <span class="mi">1</span>
-<span class="g g-Whitespace">    </span><span class="mi">399</span> <span class="k">except</span> <span class="p">(</span><span class="n">FetcherError</span><span class="p">,</span> <span class="ne">Exception</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/templateflow/conf/cache.py:148,</span> in <span class="ni">TemplateFlowCache.layout</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">145</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.bids</span><span class="w"> </span><span class="kn">import</span> <span class="n">Layout</span>
+<span class="g g-Whitespace">    </span><span class="mi">147</span> <span class="bp">self</span><span class="o">.</span><span class="n">ensure</span><span class="p">()</span>
+<span class="ne">--&gt; </span><span class="mi">148</span> <span class="k">return</span> <span class="n">Layout</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">149</span>     <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">root</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">150</span>     <span class="n">validate</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">151</span>     <span class="n">config</span><span class="o">=</span><span class="s1">&#39;templateflow&#39;</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">152</span>     <span class="n">indexer</span><span class="o">=</span><span class="n">BIDSLayoutIndexer</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">153</span>         <span class="n">validate</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">154</span>         <span class="n">ignore</span><span class="o">=</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;scripts/&#39;</span><span class="p">),</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;/\.&#39;</span><span class="p">),</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^\.&#39;</span><span class="p">)),</span>
+<span class="g g-Whitespace">    </span><span class="mi">155</span>     <span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">156</span> <span class="p">)</span>
 
-<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/dipy/data/fetcher.py:233,</span> in <span class="ni">_get_file_data</span><span class="nt">(fname, url, use_headers, timeout, max_retries, stored_md5)</span>
-<span class="g g-Whitespace">    </span><span class="mi">230</span>     <span class="n">use_headers</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="g g-Whitespace">    </span><span class="mi">232</span> <span class="k">if</span> <span class="n">is_figshare</span> <span class="ow">or</span> <span class="n">is_zenodo</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">233</span>     <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">))</span>
-<span class="g g-Whitespace">    </span><span class="mi">235</span> <span class="n">last_exception</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="g g-Whitespace">    </span><span class="mi">236</span> <span class="k">for</span> <span class="n">attempt</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_retries</span><span class="p">):</span>
-<span class="g g-Whitespace">    </span><span class="mi">237</span>     <span class="c1"># Alternate between original URL and mirror on retries</span>
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/bids/layout/layout.py:188,</span> in <span class="ni">BIDSLayout.__init__</span><span class="nt">(self, root, validate, absolute_paths, derivatives, config, sources, regex_search, database_path, reset_database, indexer, is_derivative, **indexer_kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">183</span>     <span class="c1"># Do not overwrite indexer variable, so the same configuration is passed to</span>
+<span class="g g-Whitespace">    </span><span class="mi">184</span>     <span class="c1"># add_derivatives() below</span>
+<span class="g g-Whitespace">    </span><span class="mi">185</span>     <span class="n">_indexer</span> <span class="o">=</span> <span class="n">indexer</span> <span class="ow">or</span> <span class="n">BIDSLayoutIndexer</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">186</span>         <span class="n">validate</span><span class="o">=</span><span class="n">validate</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">is_derivative</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">187</span>     <span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">188</span>     <span class="n">_indexer</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">190</span> <span class="c1"># Add derivatives if any are found</span>
+<span class="g g-Whitespace">    </span><span class="mi">191</span> <span class="k">if</span> <span class="n">derivatives</span><span class="p">:</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/bids/layout/index.py:159,</span> in <span class="ni">BIDSLayoutIndexer.__call__</span><span class="nt">(self, layout)</span>
+<span class="g g-Whitespace">    </span><span class="mi">156</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">158</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">index_metadata</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">159</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_index_metadata</span><span class="p">()</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/bids/layout/index.py:318,</span> in <span class="ni">BIDSLayoutIndexer._index_metadata</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">313</span> <span class="c1"># If key/value pairs in JSON files duplicate ones extracted from files,</span>
+<span class="g g-Whitespace">    </span><span class="mi">314</span> <span class="c1"># we can end up with Tag collisions in the DB. To prevent this, we</span>
+<span class="g g-Whitespace">    </span><span class="mi">315</span> <span class="c1"># store all filename/entity pairs and the value, and then check against</span>
+<span class="g g-Whitespace">    </span><span class="mi">316</span> <span class="c1"># that before adding each new Tag.</span>
+<span class="g g-Whitespace">    </span><span class="mi">317</span> <span class="n">all_tags</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="ne">--&gt; </span><span class="mi">318</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Tag</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+<span class="g g-Whitespace">    </span><span class="mi">319</span>     <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">file_path</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">entity_name</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">320</span>     <span class="n">all_tags</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/sqlalchemy/orm/query.py:2711,</span> in <span class="ni">Query.all</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2689</span> <span class="k">def</span><span class="w"> </span><span class="nf">all</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">_T</span><span class="p">]:</span>
+<span class="g g-Whitespace">   </span><span class="mi">2690</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;Return the results represented by this :class:`_query.Query`</span>
+<span class="g g-Whitespace">   </span><span class="mi">2691</span><span class="sd">     as a list.</span>
+<span class="g g-Whitespace">   </span><span class="mi">2692</span><span class="sd"> </span>
+<span class="sd">   (...)   2709         :meth:`_engine.Result.scalars` - v2 comparable method.</span>
+<span class="g g-Whitespace">   </span><span class="mi">2710</span><span class="sd">     &quot;&quot;&quot;</span>
+<span class="ne">-&gt; </span><span class="mi">2711</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_iter</span><span class="p">()</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/sqlalchemy/engine/result.py:1799,</span> in <span class="ni">ScalarResult.all</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1791</span> <span class="k">def</span><span class="w"> </span><span class="nf">all</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">_R</span><span class="p">]:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1792</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;Return all scalar values in a sequence.</span>
+<span class="g g-Whitespace">   </span><span class="mi">1793</span><span class="sd"> </span>
+<span class="g g-Whitespace">   </span><span class="mi">1794</span><span class="sd">     Equivalent to :meth:`_engine.Result.all` except that</span>
+<span class="sd">   (...)   1797 </span>
+<span class="g g-Whitespace">   </span><span class="mi">1798</span><span class="sd">     &quot;&quot;&quot;</span>
+<span class="ne">-&gt; </span><span class="mi">1799</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_allrows</span><span class="p">()</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/sqlalchemy/engine/result.py:560,</span> in <span class="ni">ResultInternal._allrows</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">556</span> <span class="n">post_creational_filter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post_creational_filter</span>
+<span class="g g-Whitespace">    </span><span class="mi">558</span> <span class="n">make_row</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_row_getter</span>
+<span class="ne">--&gt; </span><span class="mi">560</span> <span class="n">rows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fetchall_impl</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">561</span> <span class="n">made_rows</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">_InterimRowType</span><span class="p">[</span><span class="n">_R</span><span class="p">]]</span>
+<span class="g g-Whitespace">    </span><span class="mi">562</span> <span class="k">if</span> <span class="n">make_row</span><span class="p">:</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/sqlalchemy/engine/result.py:1706,</span> in <span class="ni">FilterResult._fetchall_impl</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1705</span> <span class="k">def</span><span class="w"> </span><span class="nf">_fetchall_impl</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">_InterimRowType</span><span class="p">[</span><span class="n">Row</span><span class="p">[</span><span class="n">Any</span><span class="p">]]]:</span>
+<span class="ne">-&gt; </span><span class="mi">1706</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_real_result</span><span class="o">.</span><span class="n">_fetchall_impl</span><span class="p">()</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/sqlalchemy/engine/result.py:2310,</span> in <span class="ni">IteratorResult._fetchall_impl</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2308</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_raise_hard_closed</span><span class="p">()</span>
+<span class="g g-Whitespace">   </span><span class="mi">2309</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">2310</span>     <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iterator</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2311</span> <span class="k">finally</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">2312</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_soft_close</span><span class="p">()</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/sqlalchemy/orm/loading.py:220,</span> in <span class="ni">instances.&lt;locals&gt;.chunks</span><span class="nt">(size)</span>
+<span class="g g-Whitespace">    </span><span class="mi">218</span>         <span class="k">break</span>
+<span class="g g-Whitespace">    </span><span class="mi">219</span> <span class="k">else</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">220</span>     <span class="n">fetch</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">_raw_all_rows</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">222</span> <span class="k">if</span> <span class="n">single_entity</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">223</span>     <span class="n">proc</span> <span class="o">=</span> <span class="n">process</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/sqlalchemy/engine/result.py:553,</span> in <span class="ni">ResultInternal._raw_all_rows</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">551</span> <span class="k">assert</span> <span class="n">make_row</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+<span class="g g-Whitespace">    </span><span class="mi">552</span> <span class="n">rows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fetchall_impl</span><span class="p">()</span>
+<span class="ne">--&gt; </span><span class="mi">553</span> <span class="k">return</span> <span class="p">[</span><span class="n">make_row</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">]</span>
 
 <span class="ne">KeyboardInterrupt</span>: 
 </pre></div>
@@ -832,8 +998,8 @@ on [1]_, [2].</p>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
-<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=0790524f97105ba85085"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085"></script>
 
 
   <footer class="bd-footer">

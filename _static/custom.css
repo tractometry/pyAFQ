@@ -102,6 +102,14 @@ header.bd-header .navbar-brand > picture > img {
 .color-lightred { color: #ff9896; }
 .color-gold { color: #f2d94e; }
 .color-lightgold { color: #faeaa5; }
+.color-neonyellow { color: #f2d940; }
+.color-lightneonyellow { color: #faeb80; }
+.color-neonblue { color: #0026bf; }
+.color-lightneonblue { color: #4d66f2; }
+.color-neonmagenta { color: #a60073; }
+.color-lightneonmagenta { color: #d966b3; }
+.color-posteriorarcuate { color: #00b266; }
+.color-lightposteriorarcuate { color: #7ff2b3; }
 
 /* Callosum Colors */
 .color-darkgreen { color: #124730; }

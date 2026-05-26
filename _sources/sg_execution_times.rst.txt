@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**103:11.659** total execution time for 23 files **from all galleries**:
+**126:40.746** total execution time for 23 files **from all galleries**:
 
 .. container::
 
@@ -33,23 +33,23 @@ Computation times
      - Time
      - Mem (MB)
    * - :ref:`sphx_glr_tutorials_tutorial_examples_plot_001_group_afq_api.py` (``../../examples/tutorial_examples/plot_001_group_afq_api.py``)
-     - 62:00.365
-     - 11006.3
+     - 74:17.243
+     - 11693.0
    * - :ref:`sphx_glr_howto_howto_examples_plot_stages_of_tractometry.py` (``../../examples/howto_examples/plot_stages_of_tractometry.py``)
-     - 29:16.028
-     - 7032.2
+     - 35:11.341
+     - 7827.2
    * - :ref:`sphx_glr_tutorials_tutorial_examples_plot_004_export.py` (``../../examples/tutorial_examples/plot_004_export.py``)
-     - 06:41.029
-     - 3316.3
-   * - :ref:`sphx_glr_tutorials_tutorial_examples_plot_005_viz.py` (``../../examples/tutorial_examples/plot_005_viz.py``)
-     - 02:26.480
-     - 1513.2
+     - 12:18.066
+     - 10254.3
    * - :ref:`sphx_glr_tutorials_tutorial_examples_plot_007_rois.py` (``../../examples/tutorial_examples/plot_007_rois.py``)
-     - 01:43.370
-     - 1747.6
+     - 02:13.625
+     - 1838.9
    * - :ref:`sphx_glr_tutorials_tutorial_examples_plot_002_participant_afq_api.py` (``../../examples/tutorial_examples/plot_002_participant_afq_api.py``)
-     - 01:04.387
-     - 3098.3
+     - 01:21.924
+     - 2842.2
+   * - :ref:`sphx_glr_tutorials_tutorial_examples_plot_005_viz.py` (``../../examples/tutorial_examples/plot_005_viz.py``)
+     - 01:18.547
+     - 1634.2
    * - :ref:`sphx_glr_howto_howto_examples_acoustic_radiations.py` (``../../examples/howto_examples/acoustic_radiations.py``)
      - 00:00.000
      - 0.0

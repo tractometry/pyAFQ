@@ -49,8 +49,15 @@ nbclient.exceptions.CellTimeoutError: A cell timed out while it was being execut
 The message was: Cell execution timed out.
 Here is a preview of the cell contents:
 -------------------
-['myafq = GroupAFQ(', "    output_dir=op.join(afd.afq_home, 'stanford_hardi', 'derivatives',", "                       'recobundles'),", "    bids_path=op.join(afd.afq_home, 'stanford_hardi'),", '    # Set the algorithm to use RecoBundles for bundle recognition:']
-...
-["    t1_preproc_pipeline='freesurfer',", '    tracking_params=tracking_params,', "    viz_backend_spec='plotly_no_gif')", '', 'fig_files = myafq.export_all()']
+import os.path as op
+import AFQ.data.fetch as afd
+from AFQ.api.group import GroupAFQ
+import AFQ.api.bundle_dict as abd
+
+afd.organize_stanford_data(clear_previous_afq="track")
+
+tracking_params = dict(n_seeds=25000,
+                       random_seeds=True,
+                       rng_seed=42)
 -------------------
 

@@ -49,15 +49,13 @@ nbclient.exceptions.CellTimeoutError: A cell timed out while it was being execut
 The message was: Cell execution timed out.
 Here is a preview of the cell contents:
 -------------------
-myafq = GroupAFQ(
-    bids_path=op.join(afd.afq_home, 'stanford_hardi'),
-    dwi_preproc_pipeline='vistasoft',
-    t1_preproc_pipeline='freesurfer',
-    tracking_params=tracking_params,
-    brain_mask_definition=bm_def,
-    pve=pve,
-    bundle_info=bundle_info)
+from AFQ.api.group import GroupAFQ
+import AFQ.data.fetch as afd
+import AFQ.definitions.image as afm
+import AFQ.api.bundle_dict as abd
 
-myafq.export_all()
+import os.path as op
+
+afd.organize_stanford_data()
 -------------------
 

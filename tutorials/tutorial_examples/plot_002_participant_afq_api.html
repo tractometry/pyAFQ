@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Getting started with pyAFQ - ParticipantAFQ &#8212; AFQ 3.1 documentation</title>
+    <title>Getting started with pyAFQ - ParticipantAFQ &#8212; AFQ 3.2 documentation</title>
   
   
   
@@ -27,8 +27,8 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
@@ -38,15 +38,15 @@
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=c6496573" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=efc0aa2d" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <script defer src="../../_static/scripts/fontawesome.js?digest=0790524f97105ba85085"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=0790524f97105ba85085" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085" />
 
-    <script src="../../_static/documentation_options.js?v=b576230a"></script>
+    <script src="../../_static/documentation_options.js?v=828ea960"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/sg-tags.js?v=d80f6fa4"></script>
@@ -131,8 +131,8 @@
       
     
     
-    <img src="../../_static/logo.png" class="logo__image only-light" alt="AFQ 3.1 documentation - Home"/>
-    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="AFQ 3.1 documentation - Home"/>
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="AFQ 3.2 documentation - Home"/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="AFQ 3.2 documentation - Home"/>
   
   
 </a></div>
@@ -209,11 +209,18 @@
       
         <div class="navbar-item">
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button></div>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
       
         <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -226,8 +233,7 @@
           
           
           
-          <a href="https://github.com/tractometry/pyAFQ" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
-            <span class="sr-only">GitHub</span></a>
+          <a href="https://github.com/tractometry/pyAFQ" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
         </li>
 </ul></div>
       
@@ -330,11 +336,18 @@
         
           <div class="navbar-item">
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button></div>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
         
           <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -347,8 +360,7 @@
           
           
           
-          <a href="https://github.com/tractometry/pyAFQ" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
-            <span class="sr-only">GitHub</span></a>
+          <a href="https://github.com/tractometry/pyAFQ" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
         </li>
 </ul></div>
         
@@ -554,7 +566,7 @@
   from .autonotebook import tqdm as notebook_tqdm
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-05-19 01:04:18,496	INFO util.py:154 -- Missing packages: [&#39;ipywidgets&#39;]. Run `pip install -U ipywidgets`, then restart the notebook server for rich notebook output.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-05-26 23:00:48,945	INFO util.py:154 -- Missing packages: [&#39;ipywidgets&#39;]. Run `pip install -U ipywidgets`, then restart the notebook server for rich notebook output.
 </pre></div>
 </div>
 </div>
@@ -749,34 +761,91 @@ pass in the tracking parameters we defined above.</p>
 </div>
 </div>
 </section>
-<section id="calculating-dki-fa-diffusion-tensor-imaging-fractional-anisotropy">
-<h2>Calculating DKI FA (Diffusion Tensor Imaging Fractional Anisotropy)<a class="headerlink" href="#calculating-dki-fa-diffusion-tensor-imaging-fractional-anisotropy" title="Link to this heading">#</a></h2>
+<section id="calculating-dti-fa-diffusion-tensor-imaging-fractional-anisotropy">
+<h2>Calculating DTI FA (Diffusion Tensor Imaging Fractional Anisotropy)<a class="headerlink" href="#calculating-dti-fa-diffusion-tensor-imaging-fractional-anisotropy" title="Link to this heading">#</a></h2>
 <p>The ParticipantAFQ object has a method called <code class="docutils literal notranslate"><span class="pre">export</span></code>, which allows the user
 to calculate various derived quantities from the data.</p>
-<p>For example, FA can be computed using the DKI model, by explicitly
-calling <code class="docutils literal notranslate"><span class="pre">myafq.export(&quot;dki_fa&quot;)</span></code>. This triggers the computation of DKI
+<p>For example, FA can be computed using the DTI model, by explicitly
+calling <code class="docutils literal notranslate"><span class="pre">myafq.export(&quot;dti_fa&quot;)</span></code>. This triggers the computation of DTI
 parameters, and stores the results in the AFQ derivatives directory.
 In addition, it calculates the FA from these parameters and stores it in a
 different file in the same directory.</p>
-<div class="alert alert-info"><h4>Note</h4><p>The AFQ API computes quantities lazily. This means that DKI parameters
+<div class="alert alert-info"><h4>Note</h4><p>The AFQ API computes quantities lazily. This means that DTI parameters
    are not computed until they are required. This means that the first
    line below is the one that requires time.</p></div>
 <p>The result of the call to <code class="docutils literal notranslate"><span class="pre">export</span></code> is the filename of the corresponding FA
 files.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">FA_fname</span></a> <span class="o">=</span> <span class="n">myafq</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;dki_fa&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">FA_fname</span></a> <span class="o">=</span> <span class="n">myafq</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;dti_fa&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We will then use <code class="docutils literal notranslate"><span class="pre">nibabel</span></code> to load the deriviative file and retrieve the
+data array.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">FA_img</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">FA_fname</span></a><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">FA</span></a> <span class="o">=</span> <span class="n">FA_img</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="visualize-the-result-with-matplotlib">
+<h2>Visualize the result with Matplotlib<a class="headerlink" href="#visualize-the-result-with-matplotlib" title="Link to this heading">#</a></h2>
+<p>At this point <code class="docutils literal notranslate"><span class="pre">FA</span></code> is an array, and we can use standard Python tools to
+visualize it or perform additional computations with it.</p>
+<p>In this case we are going to take an axial slice halfway through the
+FA data array and plot using a sequential color map.</p>
+<div class="alert alert-info"><h4>Note</h4><p>The data array is structured as a xyz coordinate system.</p></div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">matshow</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">FA</span></a><span class="p">[:,</span> <span class="p">:,</span> <a href="https://docs.python.org/3/library/stdtypes.html#tuple" title="builtins.tuple" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">FA</span><span class="o">.</span><span class="n">shape</span></a><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;viridis&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:Calculating _model-kurtosis_param-diffusivity_dwimap.nii.gz, _model-kurtosis_param-s0_dwimap.nii.gz...
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(np.float64(-0.5), np.float64(128.5), np.float64(107.5), np.float64(-0.5))
+</pre></div>
+</div>
+<img alt="../../_images/59fe03523cc3ab7f377472f68db7834070d94b89aeb0b9f07d95ebe9c2c58736.png" src="../../_images/59fe03523cc3ab7f377472f68db7834070d94b89aeb0b9f07d95ebe9c2c58736.png" />
+</div>
+</div>
+</section>
+<section id="recognizing-the-bundles-and-calculating-tract-profiles">
+<h2>Recognizing the bundles and calculating tract profiles:<a class="headerlink" href="#recognizing-the-bundles-and-calculating-tract-profiles" title="Link to this heading">#</a></h2>
+<p>Typically, users of pyAFQ are interested in calculating not only an overall
+map of the FA, but also the major white matter pathways (or bundles) and
+tract profiles of tissue properties along their length. To trigger the
+pyAFQ pipeline that calculates the profiles, users can call the
+<code class="docutils literal notranslate"><span class="pre">export(&quot;profiles&quot;)</span></code> method:</p>
+<div class="alert alert-info"><h4>Note</h4><p>Running the code below triggers the full pipeline of operations
+   leading to the computation of the tract profiles. Therefore, it
+   takes a little while to run (about 40 minutes, typically).</p></div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">myafq</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;profiles&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:Calculating _desc-bundles_tractography...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:Calculating _tractography...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:AFQ:Calculating _model-csd_param-wm_dwimap.nii.gz...
 </pre></div>
 </div>
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">8</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">FA_fname</span></a> <span class="o">=</span> <span class="n">myafq</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;dki_fa&quot;</span><span class="p">)</span>
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">11</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">myafq</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;profiles&quot;</span><span class="p">)</span>
 
 <span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/AFQ/api/participant.py:218,</span> in <span class="ni">ParticipantAFQ.export</span><span class="nt">(self, attr_name)</span>
 <span class="g g-Whitespace">    </span><span class="mi">215</span> <span class="k">else</span><span class="p">:</span>
@@ -883,6 +952,187 @@ files.</p>
 <span class="g g-Whitespace">    </span><span class="mi">106</span>     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">output_specs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
 <span class="g g-Whitespace">    </span><span class="mi">107</span>         <span class="n">results</span> <span class="o">=</span> <span class="p">[</span><span class="n">results</span><span class="p">]</span>
 
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/AFQ/tasks/segmentation.py:56,</span> in <span class="ni">segment</span><span class="nt">(structural_imap, data_imap, mapping_imap, tractography_imap, segmentation_params)</span>
+<span class="g g-Whitespace">     </span><span class="mi">54</span> <span class="n">bundle_dict</span> <span class="o">=</span> <span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;bundle_dict&quot;</span><span class="p">]</span>
+<span class="g g-Whitespace">     </span><span class="mi">55</span> <span class="n">reg_template</span> <span class="o">=</span> <span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;reg_template&quot;</span><span class="p">]</span>
+<span class="ne">---&gt; </span><span class="mi">56</span> <span class="n">streamlines</span> <span class="o">=</span> <span class="n">tractography_imap</span><span class="p">[</span><span class="s2">&quot;streamlines&quot;</span><span class="p">]</span>
+<span class="g g-Whitespace">     </span><span class="mi">57</span> <span class="k">if</span> <span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">58</span>     <span class="n">streamlines</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.trk&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">59</span>     <span class="ow">or</span> <span class="n">streamlines</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.tck&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">60</span>     <span class="ow">or</span> <span class="n">streamlines</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.vtk&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">61</span> <span class="p">):</span>
+<span class="g g-Whitespace">     </span><span class="mi">62</span>     <span class="n">tg</span> <span class="o">=</span> <span class="n">load_tractogram</span><span class="p">(</span><span class="n">streamlines</span><span class="p">,</span> <span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;dwi&quot;</span><span class="p">],</span> <span class="n">bbox_valid_check</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/pcollections/_lazy.py:381,</span> in <span class="ni">ldict.__getitem__</span><span class="nt">(self, key)</span>
+<span class="g g-Whitespace">    </span><span class="mi">379</span> <span class="n">v</span> <span class="o">=</span> <span class="n">pdict</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">380</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">lazy</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">381</span>     <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">382</span> <span class="k">return</span> <span class="n">v</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/pcollections/_lazy.py:143,</span> in <span class="ni">lazy.__call__</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">141</span>     <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+<span class="g g-Whitespace">    </span><span class="mi">142</span> <span class="k">else</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">143</span>     <span class="n">val</span> <span class="o">=</span> <span class="n">part</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">144</span>     <span class="c1"># We&#39;ve successfully calculated the value; set the members</span>
+<span class="g g-Whitespace">    </span><span class="mi">145</span>     <span class="c1"># appropriately.</span>
+<span class="g g-Whitespace">    </span><span class="mi">146</span>     <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/immlib/workflow/_core.py:855,</span> in <span class="ni">plan._source_lookup</span><span class="nt">(inputtup, calctup, src)</span>
+<span class="g g-Whitespace">    </span><span class="mi">853</span>     <span class="p">(</span><span class="n">cidx</span><span class="p">,</span> <span class="n">oidx</span><span class="p">)</span> <span class="o">=</span> <span class="n">src</span>
+<span class="g g-Whitespace">    </span><span class="mi">854</span>     <span class="n">lazycalc</span> <span class="o">=</span> <span class="n">calctup</span><span class="p">[</span><span class="n">cidx</span><span class="p">]</span>
+<span class="ne">--&gt; </span><span class="mi">855</span>     <span class="n">val</span> <span class="o">=</span> <span class="n">lazycalc</span><span class="p">()[</span><span class="n">oidx</span><span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">856</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">857</span>     <span class="n">val</span> <span class="o">=</span> <span class="n">inputtup</span><span class="p">[</span><span class="n">src</span><span class="p">]()</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/pcollections/_lazy.py:143,</span> in <span class="ni">lazy.__call__</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">141</span>     <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+<span class="g g-Whitespace">    </span><span class="mi">142</span> <span class="k">else</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">143</span>     <span class="n">val</span> <span class="o">=</span> <span class="n">part</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">144</span>     <span class="c1"># We&#39;ve successfully calculated the value; set the members</span>
+<span class="g g-Whitespace">    </span><span class="mi">145</span>     <span class="c1"># appropriately.</span>
+<span class="g g-Whitespace">    </span><span class="mi">146</span>     <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/immlib/workflow/_core.py:884,</span> in <span class="ni">plan._make_calctup.&lt;locals&gt;.&lt;lambda&gt;</span><span class="nt">(c, args)</span>
+<span class="g g-Whitespace">    </span><span class="mi">881</span> <span class="c1"># We take advantage of Python&#39;s weak closures here:</span>
+<span class="g g-Whitespace">    </span><span class="mi">882</span> <span class="n">calctup</span> <span class="o">=</span> <span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">883</span> <span class="n">calctup</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span>
+<span class="ne">--&gt; </span><span class="mi">884</span>     <span class="n">lazy</span><span class="p">(</span><span class="k">lambda</span> <span class="n">c</span><span class="p">,</span><span class="n">args</span><span class="p">:</span> <span class="n">f</span><span class="p">(</span><span class="n">inputtup</span><span class="p">,</span> <span class="n">calctup</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span> <span class="n">c</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+<span class="nn">    885     for (c,args)</span> in <span class="ni">zip</span><span class="nt">(calcdata.calcs, calcdata.args))</span>
+<span class="g g-Whitespace">    </span><span class="mi">886</span> <span class="k">return</span> <span class="n">calctup</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/immlib/workflow/_core.py:873,</span> in <span class="ni">plan._call_calc</span><span class="nt">(inputtup, calctup, c, args)</span>
+<span class="g g-Whitespace">    </span><span class="mi">871</span>     <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">872</span>         <span class="n">kwargs</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">arg</span>
+<span class="ne">--&gt; </span><span class="mi">873</span> <span class="n">r</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">eager_call</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">874</span> <span class="k">if</span> <span class="n">is_amap</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">875</span>     <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">outputs</span><span class="p">))</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/immlib/workflow/_core.py:448,</span> in <span class="ni">calc.eager_call</span><span class="nt">(self, *args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">432</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;Eagerly calls the given calculation using the arguments.</span>
+<span class="g g-Whitespace">    </span><span class="mi">433</span><span class="sd"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">434</span><span class="sd"> ``c.eager_call(...)`` returns the result of calling the calculation</span>
+<span class="sd">   (...)    444 calc.eager_mapcall, calc.lazy_call, calc.lazy_mapcall</span>
+<span class="g g-Whitespace">    </span><span class="mi">445</span><span class="sd"> &quot;&quot;&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">446</span> <span class="c1"># Now we just pass these arguments along (the function itself has been</span>
+<span class="g g-Whitespace">    </span><span class="mi">447</span> <span class="c1"># given the caching code via decorators already).</span>
+<span class="ne">--&gt; </span><span class="mi">448</span> <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">449</span> <span class="c1"># Now interpret the result.</span>
+<span class="g g-Whitespace">    </span><span class="mi">450</span> <span class="n">outs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">outputs</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/AFQ/tasks/decorators.py:104,</span> in <span class="ni">as_file.&lt;locals&gt;._as_file.&lt;locals&gt;.wrapper_as_file</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">101</span> <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Calculating </span><span class="si">{</span><span class="n">calculation_name</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">103</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">104</span>     <span class="n">results</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">106</span>     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">output_specs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">107</span>         <span class="n">results</span> <span class="o">=</span> <span class="p">[</span><span class="n">results</span><span class="p">]</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/AFQ/tasks/tractography.py:82,</span> in <span class="ni">streamlines</span><span class="nt">(structural_imap, data_imap, seed, tissue_imap, citations, tracking_params)</span>
+<span class="g g-Whitespace">     </span><span class="mi">79</span> <span class="n">citations</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;smith2012anatomically&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">81</span> <span class="n">this_tracking_params</span> <span class="o">=</span> <a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tracking_params</span></a><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="ne">---&gt; </span><span class="mi">82</span> <span class="n">fodf</span> <span class="o">=</span> <span class="n">_fiber_odf</span><span class="p">(</span><span class="n">data_imap</span><span class="p">,</span> <span class="n">tissue_imap</span><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tracking_params</span></a><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">84</span> <span class="c1"># get masks</span>
+<span class="g g-Whitespace">     </span><span class="mi">85</span> <span class="n">this_tracking_params</span><span class="p">[</span><span class="s2">&quot;seed_mask&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/AFQ/tasks/tractography.py:50,</span> in <span class="ni">_fiber_odf</span><span class="nt">(data_imap, tissue_imap, tracking_params)</span>
+<span class="g g-Whitespace">     </span><span class="mi">48</span> <span class="n">calc_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">odf_model</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">_params&quot;</span>
+<span class="g g-Whitespace">     </span><span class="mi">49</span> <span class="k">if</span> <span class="n">calc_name</span> <span class="ow">in</span> <span class="n">data_imap</span><span class="p">:</span>
+<span class="ne">---&gt; </span><span class="mi">50</span>     <span class="n">params_file</span> <span class="o">=</span> <span class="n">data_imap</span><span class="p">[</span><span class="n">calc_name</span><span class="p">]</span>
+<span class="g g-Whitespace">     </span><span class="mi">51</span> <span class="k">elif</span> <span class="n">calc_name</span> <span class="ow">in</span> <span class="n">tissue_imap</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">52</span>     <span class="n">params_file</span> <span class="o">=</span> <span class="n">tissue_imap</span><span class="p">[</span><span class="n">calc_name</span><span class="p">]</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/pcollections/_lazy.py:381,</span> in <span class="ni">ldict.__getitem__</span><span class="nt">(self, key)</span>
+<span class="g g-Whitespace">    </span><span class="mi">379</span> <span class="n">v</span> <span class="o">=</span> <span class="n">pdict</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">380</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">lazy</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">381</span>     <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">382</span> <span class="k">return</span> <span class="n">v</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/pcollections/_lazy.py:143,</span> in <span class="ni">lazy.__call__</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">141</span>     <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+<span class="g g-Whitespace">    </span><span class="mi">142</span> <span class="k">else</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">143</span>     <span class="n">val</span> <span class="o">=</span> <span class="n">part</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">144</span>     <span class="c1"># We&#39;ve successfully calculated the value; set the members</span>
+<span class="g g-Whitespace">    </span><span class="mi">145</span>     <span class="c1"># appropriately.</span>
+<span class="g g-Whitespace">    </span><span class="mi">146</span>     <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/immlib/workflow/_core.py:855,</span> in <span class="ni">plan._source_lookup</span><span class="nt">(inputtup, calctup, src)</span>
+<span class="g g-Whitespace">    </span><span class="mi">853</span>     <span class="p">(</span><span class="n">cidx</span><span class="p">,</span> <span class="n">oidx</span><span class="p">)</span> <span class="o">=</span> <span class="n">src</span>
+<span class="g g-Whitespace">    </span><span class="mi">854</span>     <span class="n">lazycalc</span> <span class="o">=</span> <span class="n">calctup</span><span class="p">[</span><span class="n">cidx</span><span class="p">]</span>
+<span class="ne">--&gt; </span><span class="mi">855</span>     <span class="n">val</span> <span class="o">=</span> <span class="n">lazycalc</span><span class="p">()[</span><span class="n">oidx</span><span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">856</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">857</span>     <span class="n">val</span> <span class="o">=</span> <span class="n">inputtup</span><span class="p">[</span><span class="n">src</span><span class="p">]()</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/pcollections/_lazy.py:143,</span> in <span class="ni">lazy.__call__</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">141</span>     <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+<span class="g g-Whitespace">    </span><span class="mi">142</span> <span class="k">else</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">143</span>     <span class="n">val</span> <span class="o">=</span> <span class="n">part</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">144</span>     <span class="c1"># We&#39;ve successfully calculated the value; set the members</span>
+<span class="g g-Whitespace">    </span><span class="mi">145</span>     <span class="c1"># appropriately.</span>
+<span class="g g-Whitespace">    </span><span class="mi">146</span>     <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/immlib/workflow/_core.py:884,</span> in <span class="ni">plan._make_calctup.&lt;locals&gt;.&lt;lambda&gt;</span><span class="nt">(c, args)</span>
+<span class="g g-Whitespace">    </span><span class="mi">881</span> <span class="c1"># We take advantage of Python&#39;s weak closures here:</span>
+<span class="g g-Whitespace">    </span><span class="mi">882</span> <span class="n">calctup</span> <span class="o">=</span> <span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">883</span> <span class="n">calctup</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span>
+<span class="ne">--&gt; </span><span class="mi">884</span>     <span class="n">lazy</span><span class="p">(</span><span class="k">lambda</span> <span class="n">c</span><span class="p">,</span><span class="n">args</span><span class="p">:</span> <span class="n">f</span><span class="p">(</span><span class="n">inputtup</span><span class="p">,</span> <span class="n">calctup</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span> <span class="n">c</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+<span class="nn">    885     for (c,args)</span> in <span class="ni">zip</span><span class="nt">(calcdata.calcs, calcdata.args))</span>
+<span class="g g-Whitespace">    </span><span class="mi">886</span> <span class="k">return</span> <span class="n">calctup</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/immlib/workflow/_core.py:868,</span> in <span class="ni">plan._call_calc</span><span class="nt">(inputtup, calctup, c, args)</span>
+<span class="g g-Whitespace">    </span><span class="mi">866</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="g g-Whitespace">    </span><span class="mi">867</span> <span class="n">c</span> <span class="o">=</span> <span class="n">to_calc</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">868</span> <span class="k">for</span> <span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">arg</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">signature</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">argvals</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">869</span>     <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="n">p</span><span class="o">.</span><span class="n">POSITIONAL_ONLY</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">870</span>         <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">[</span><span class="n">arg</span><span class="p">]</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/immlib/workflow/_core.py:855,</span> in <span class="ni">plan._source_lookup</span><span class="nt">(inputtup, calctup, src)</span>
+<span class="g g-Whitespace">    </span><span class="mi">853</span>     <span class="p">(</span><span class="n">cidx</span><span class="p">,</span> <span class="n">oidx</span><span class="p">)</span> <span class="o">=</span> <span class="n">src</span>
+<span class="g g-Whitespace">    </span><span class="mi">854</span>     <span class="n">lazycalc</span> <span class="o">=</span> <span class="n">calctup</span><span class="p">[</span><span class="n">cidx</span><span class="p">]</span>
+<span class="ne">--&gt; </span><span class="mi">855</span>     <span class="n">val</span> <span class="o">=</span> <span class="n">lazycalc</span><span class="p">()[</span><span class="n">oidx</span><span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">856</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">857</span>     <span class="n">val</span> <span class="o">=</span> <span class="n">inputtup</span><span class="p">[</span><span class="n">src</span><span class="p">]()</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/pcollections/_lazy.py:143,</span> in <span class="ni">lazy.__call__</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">141</span>     <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+<span class="g g-Whitespace">    </span><span class="mi">142</span> <span class="k">else</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">143</span>     <span class="n">val</span> <span class="o">=</span> <span class="n">part</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">144</span>     <span class="c1"># We&#39;ve successfully calculated the value; set the members</span>
+<span class="g g-Whitespace">    </span><span class="mi">145</span>     <span class="c1"># appropriately.</span>
+<span class="g g-Whitespace">    </span><span class="mi">146</span>     <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/immlib/workflow/_core.py:884,</span> in <span class="ni">plan._make_calctup.&lt;locals&gt;.&lt;lambda&gt;</span><span class="nt">(c, args)</span>
+<span class="g g-Whitespace">    </span><span class="mi">881</span> <span class="c1"># We take advantage of Python&#39;s weak closures here:</span>
+<span class="g g-Whitespace">    </span><span class="mi">882</span> <span class="n">calctup</span> <span class="o">=</span> <span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">883</span> <span class="n">calctup</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span>
+<span class="ne">--&gt; </span><span class="mi">884</span>     <span class="n">lazy</span><span class="p">(</span><span class="k">lambda</span> <span class="n">c</span><span class="p">,</span><span class="n">args</span><span class="p">:</span> <span class="n">f</span><span class="p">(</span><span class="n">inputtup</span><span class="p">,</span> <span class="n">calctup</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span> <span class="n">c</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+<span class="nn">    885     for (c,args)</span> in <span class="ni">zip</span><span class="nt">(calcdata.calcs, calcdata.args))</span>
+<span class="g g-Whitespace">    </span><span class="mi">886</span> <span class="k">return</span> <span class="n">calctup</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/immlib/workflow/_core.py:873,</span> in <span class="ni">plan._call_calc</span><span class="nt">(inputtup, calctup, c, args)</span>
+<span class="g g-Whitespace">    </span><span class="mi">871</span>     <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">872</span>         <span class="n">kwargs</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">arg</span>
+<span class="ne">--&gt; </span><span class="mi">873</span> <span class="n">r</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">eager_call</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">874</span> <span class="k">if</span> <span class="n">is_amap</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">875</span>     <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">outputs</span><span class="p">))</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/immlib/workflow/_core.py:448,</span> in <span class="ni">calc.eager_call</span><span class="nt">(self, *args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">432</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;Eagerly calls the given calculation using the arguments.</span>
+<span class="g g-Whitespace">    </span><span class="mi">433</span><span class="sd"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">434</span><span class="sd"> ``c.eager_call(...)`` returns the result of calling the calculation</span>
+<span class="sd">   (...)    444 calc.eager_mapcall, calc.lazy_call, calc.lazy_mapcall</span>
+<span class="g g-Whitespace">    </span><span class="mi">445</span><span class="sd"> &quot;&quot;&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">446</span> <span class="c1"># Now we just pass these arguments along (the function itself has been</span>
+<span class="g g-Whitespace">    </span><span class="mi">447</span> <span class="c1"># given the caching code via decorators already).</span>
+<span class="ne">--&gt; </span><span class="mi">448</span> <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">449</span> <span class="c1"># Now interpret the result.</span>
+<span class="g g-Whitespace">    </span><span class="mi">450</span> <span class="n">outs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">outputs</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/AFQ/tasks/decorators.py:104,</span> in <span class="ni">as_file.&lt;locals&gt;._as_file.&lt;locals&gt;.wrapper_as_file</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">101</span> <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Calculating </span><span class="si">{</span><span class="n">calculation_name</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">103</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">104</span>     <span class="n">results</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">106</span>     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">output_specs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">107</span>         <span class="n">results</span> <span class="o">=</span> <span class="p">[</span><span class="n">results</span><span class="p">]</span>
+
 <span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/AFQ/tasks/decorators.py:228,</span> in <span class="ni">as_img.&lt;locals&gt;.wrapper_as_img</span><span class="nt">(*args, **kwargs)</span>
 <span class="g g-Whitespace">    </span><span class="mi">225</span>     <span class="n">dwi_affine</span> <span class="o">=</span> <span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;dwi_affine&quot;</span><span class="p">]</span>
 <span class="g g-Whitespace">    </span><span class="mi">227</span> <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
@@ -890,63 +1140,30 @@ files.</p>
 <span class="g g-Whitespace">    </span><span class="mi">229</span> <span class="n">elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
 <span class="g g-Whitespace">    </span><span class="mi">231</span> <span class="n">is_single_output</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
 
-<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/AFQ/tasks/data.py:318,</span> in <span class="ni">dki_params</span><span class="nt">(brain_mask, gtab, data, citations)</span>
-<span class="g g-Whitespace">    </span><span class="mi">310</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">311</span>         <span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">312</span>             <span class="s2">&quot;The DKI model requires at least 2 non-zero b-values, &quot;</span>
-   <span class="p">(</span><span class="o">...</span><span class="p">)</span>    <span class="mi">315</span>         <span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">316</span>     <span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">317</span> <span class="n">mask</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">brain_mask</span><span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
-<span class="ne">--&gt; </span><span class="mi">318</span> <span class="n">dkf</span> <span class="o">=</span> <span class="n">dki_fit_model</span><span class="p">(</span><span class="n">gtab</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">,</span> <span class="n">return_S0_hat</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">319</span> <span class="n">meta</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">320</span>     <span class="n">Description</span><span class="o">=</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">321</span>         <span class="s2">&quot;Diffusion Coefficient, encoded as a kurtosis tensor representation&quot;</span>
-   <span class="p">(</span><span class="o">...</span><span class="p">)</span>    <span class="mi">330</span>     <span class="p">),</span>
-<span class="g g-Whitespace">    </span><span class="mi">331</span> <span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">333</span> <span class="n">meta_s0</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">334</span>     <span class="n">Description</span><span class="o">=</span><span class="s2">&quot;Estimated signal intensity with no diffusion weighting, ie. S0&quot;</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">335</span>     <span class="n">Model</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
-   <span class="p">(</span><span class="o">...</span><span class="p">)</span>    <span class="mi">341</span>     <span class="p">),</span>
-<span class="g g-Whitespace">    </span><span class="mi">342</span> <span class="p">)</span>
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/AFQ/tasks/data.py:492,</span> in <span class="ni">csd_params</span><span class="nt">(dwi, brain_mask, gtab, data, citations, csd_response, csd_sh_order_max, csd_lambda_, csd_tau, csd_fa_thr)</span>
+<span class="g g-Whitespace">    </span><span class="mi">490</span> <span class="n">mask</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">brain_mask</span><span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">491</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">492</span>     <span class="n">csdm</span><span class="p">,</span> <span class="n">csdf</span><span class="p">,</span> <span class="n">sh_order_max</span> <span class="o">=</span> <span class="n">csd_fit_model</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">493</span>         <span class="n">gtab</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">494</span>         <span class="n">data</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">495</span>         <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">496</span>         <span class="n">response</span><span class="o">=</span><span class="n">csd_response</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">497</span>         <span class="n">sh_order_max</span><span class="o">=</span><span class="n">csd_sh_order_max</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">498</span>         <span class="n">lambda_</span><span class="o">=</span><span class="n">csd_lambda_</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">499</span>         <span class="n">tau</span><span class="o">=</span><span class="n">csd_tau</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">500</span>         <span class="n">csd_fa_thr</span><span class="o">=</span><span class="n">csd_fa_thr</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">501</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">502</span> <span class="k">except</span> <span class="n">CsdNanResponseError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">503</span>     <span class="k">raise</span> <span class="n">CsdNanResponseError</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">504</span>         <span class="sa">f</span><span class="s2">&quot;Could not compute CSD response function for file: </span><span class="si">{</span><span class="n">dwi</span><span class="si">}</span><span class="s2">.&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">505</span>     <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
-<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/AFQ/models/dki.py:16,</span> in <span class="ni">_fit</span><span class="nt">(gtab, data, mask, return_S0_hat)</span>
-<span class="g g-Whitespace">     </span><span class="mi">14</span> <span class="k">def</span><span class="w"> </span><span class="nf">_fit</span><span class="p">(</span><span class="n">gtab</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">return_S0_hat</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="g g-Whitespace">     </span><span class="mi">15</span>     <span class="n">dkimodel</span> <span class="o">=</span> <span class="n">dki</span><span class="o">.</span><span class="n">DiffusionKurtosisModel</span><span class="p">(</span><span class="n">gtab</span><span class="p">,</span> <span class="n">return_S0_hat</span><span class="o">=</span><span class="n">return_S0_hat</span><span class="p">)</span>
-<span class="ne">---&gt; </span><span class="mi">16</span>     <span class="k">return</span> <span class="n">dkimodel</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
-<span class="g g-Whitespace">     </span><span class="mi">17</span>         <span class="n">data</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">18</span>         <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">19</span>     <span class="p">)</span>
-
-<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/dipy/testing/decorators.py:201,</span> in <span class="ni">warning_for_keywords.&lt;locals&gt;.decorator.&lt;locals&gt;.wrapper</span><span class="nt">(*args, **kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">194</span> <span class="c1"># Check if the current version is within the warning range</span>
-<span class="g g-Whitespace">    </span><span class="mi">195</span> <span class="k">if</span> <span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">196</span>     <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">from_version</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">197</span>     <span class="o">&lt;=</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">current_version</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">198</span>     <span class="o">&lt;=</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">until_version</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">199</span> <span class="p">):</span>
-<span class="g g-Whitespace">    </span><span class="mi">200</span>     <span class="c1"># Convert positional to keyword arguments and issue a warning</span>
-<span class="ne">--&gt; </span><span class="mi">201</span>     <span class="k">return</span> <span class="n">convert_positional_to_keyword</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">203</span> <span class="c1"># If the version is greater than the until_version,</span>
-<span class="g g-Whitespace">    </span><span class="mi">204</span> <span class="c1"># pass the arguments as they are</span>
-<span class="g g-Whitespace">    </span><span class="mi">205</span> <span class="k">elif</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">current_version</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">until_version</span><span class="p">):</span>
-
-<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/dipy/testing/decorators.py:192,</span> in <span class="ni">warning_for_keywords.&lt;locals&gt;.decorator.&lt;locals&gt;.wrapper.&lt;locals&gt;.convert_positional_to_keyword</span><span class="nt">(func, args, kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">182</span>         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">183</span>             <span class="sa">f</span><span class="s2">&quot;Pass </span><span class="si">{</span><span class="n">positionally_passed_kwonly_args</span><span class="si">}</span><span class="s2"> as keyword args. &quot;</span>
-<span class="g g-Whitespace">    </span><span class="mi">184</span>             <span class="sa">f</span><span class="s2">&quot;From version </span><span class="si">{</span><span class="n">until_version</span><span class="si">}</span><span class="s2"> passing these as positional &quot;</span>
-   <span class="p">(</span><span class="o">...</span><span class="p">)</span>    <span class="mi">187</span>             <span class="n">stacklevel</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">188</span>         <span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">190</span>     <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">positional_args</span><span class="p">,</span> <span class="o">**</span><span class="n">corrected_kwargs</span><span class="p">)</span>
-<span class="ne">--&gt; </span><span class="mi">192</span> <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/dipy/reconst/dki.py:1896,</span> in <span class="ni">DiffusionKurtosisModel.fit</span><span class="nt">(self, data, mask)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1893</span> <span class="n">data_thres</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_signal</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1895</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_multi_method</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_iter_method</span><span class="p">:</span>
-<span class="ne">-&gt; </span><span class="mi">1896</span>     <span class="n">fit_result</span><span class="p">,</span> <span class="n">extra</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">multi_fit</span><span class="p">(</span>
-<span class="g g-Whitespace">   </span><span class="mi">1897</span>         <span class="n">data_thres</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span>
-<span class="g g-Whitespace">   </span><span class="mi">1898</span>     <span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1899</span>     <span class="k">if</span> <span class="n">extra</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1900</span>         <span class="bp">self</span><span class="o">.</span><span class="n">extra</span> <span class="o">=</span> <span class="n">extra</span>
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/AFQ/models/csd.py:75,</span> in <span class="ni">_fit</span><span class="nt">(gtab, data, mask, response, sh_order_max, lambda_, tau, csd_fa_thr)</span>
+<span class="g g-Whitespace">     </span><span class="mi">71</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">     </span><span class="mi">72</span><span class="sd"> Helper function that does the core of fitting a model to data.</span>
+<span class="g g-Whitespace">     </span><span class="mi">73</span><span class="sd"> &quot;&quot;&quot;</span>
+<span class="g g-Whitespace">     </span><span class="mi">74</span> <span class="n">model</span><span class="p">,</span> <span class="n">sh_order_max</span> <span class="o">=</span> <span class="n">_model</span><span class="p">(</span><span class="n">gtab</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">sh_order_max</span><span class="p">,</span> <span class="n">csd_fa_thr</span><span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">75</span> <span class="k">return</span> <span class="n">model</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">),</span> <span class="n">sh_order_max</span>
 
 <span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/dipy/reconst/multi_voxel.py:282,</span> in <span class="ni">multi_voxel_fit.&lt;locals&gt;.decorator.&lt;locals&gt;.new_fit</span><span class="nt">(self, data, mask, **kwargs)</span>
 <span class="g g-Whitespace">    </span><span class="mi">279</span> <span class="k">if</span> <span class="n">weights_is_array</span><span class="p">:</span>
@@ -955,6 +1172,20 @@ files.</p>
 <span class="g g-Whitespace">    </span><span class="mi">284</span> <span class="c1"># Not all fit methods return extra, handle this here</span>
 <span class="g g-Whitespace">    </span><span class="mi">285</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">svf</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
 
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/dipy/reconst/csdeconv.py:196,</span> in <span class="ni">ConstrainedSphericalDeconvModel.fit</span><span class="nt">(self, data, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">193</span> <span class="nd">@multi_voxel_fit</span>
+<span class="g g-Whitespace">    </span><span class="mi">194</span> <span class="k">def</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">195</span>     <span class="n">dwi_data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_where_dwi</span><span class="p">]</span>
+<span class="ne">--&gt; </span><span class="mi">196</span>     <span class="n">shm_coeff</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">csdeconv</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">197</span>         <span class="n">dwi_data</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">198</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_X</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">199</span>         <span class="bp">self</span><span class="o">.</span><span class="n">B_reg</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">200</span>         <span class="n">tau</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">201</span>         <span class="n">convergence</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">convergence</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">202</span>         <span class="n">P</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_P</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">203</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">204</span>     <span class="k">return</span> <span class="n">SphHarmFit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shm_coeff</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
 <span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/dipy/testing/decorators.py:201,</span> in <span class="ni">warning_for_keywords.&lt;locals&gt;.decorator.&lt;locals&gt;.wrapper</span><span class="nt">(*args, **kwargs)</span>
 <span class="g g-Whitespace">    </span><span class="mi">194</span> <span class="c1"># Check if the current version is within the warning range</span>
 <span class="g g-Whitespace">    </span><span class="mi">195</span> <span class="k">if</span> <span class="p">(</span>
@@ -977,94 +1208,14 @@ files.</p>
 <span class="g g-Whitespace">    </span><span class="mi">190</span>     <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">positional_args</span><span class="p">,</span> <span class="o">**</span><span class="n">corrected_kwargs</span><span class="p">)</span>
 <span class="ne">--&gt; </span><span class="mi">192</span> <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/dipy/reconst/dki.py:2000,</span> in <span class="ni">DiffusionKurtosisModel.multi_fit</span><span class="nt">(self, data, mask, **kwargs)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1997</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">return_S0_hat</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1998</span>     <span class="n">params</span><span class="p">,</span> <span class="n">S0_params</span> <span class="o">=</span> <span class="n">params</span>
-<span class="ne">-&gt; </span><span class="mi">2000</span> <span class="k">return</span> <span class="n">DiffusionKurtosisFit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">model_S0</span><span class="o">=</span><span class="n">S0_params</span><span class="p">),</span> <span class="n">extra</span>
-
-<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/dipy/testing/decorators.py:201,</span> in <span class="ni">warning_for_keywords.&lt;locals&gt;.decorator.&lt;locals&gt;.wrapper</span><span class="nt">(*args, **kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">194</span> <span class="c1"># Check if the current version is within the warning range</span>
-<span class="g g-Whitespace">    </span><span class="mi">195</span> <span class="k">if</span> <span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">196</span>     <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">from_version</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">197</span>     <span class="o">&lt;=</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">current_version</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">198</span>     <span class="o">&lt;=</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">until_version</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">199</span> <span class="p">):</span>
-<span class="g g-Whitespace">    </span><span class="mi">200</span>     <span class="c1"># Convert positional to keyword arguments and issue a warning</span>
-<span class="ne">--&gt; </span><span class="mi">201</span>     <span class="k">return</span> <span class="n">convert_positional_to_keyword</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">203</span> <span class="c1"># If the version is greater than the until_version,</span>
-<span class="g g-Whitespace">    </span><span class="mi">204</span> <span class="c1"># pass the arguments as they are</span>
-<span class="g g-Whitespace">    </span><span class="mi">205</span> <span class="k">elif</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">current_version</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">until_version</span><span class="p">):</span>
-
-<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/dipy/testing/decorators.py:157,</span> in <span class="ni">warning_for_keywords.&lt;locals&gt;.decorator.&lt;locals&gt;.wrapper.&lt;locals&gt;.convert_positional_to_keyword</span><span class="nt">(func, args, kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">139</span> <span class="k">def</span><span class="w"> </span><span class="nf">convert_positional_to_keyword</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
-<span class="g g-Whitespace">    </span><span class="mi">140</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="g g-Whitespace">    </span><span class="mi">141</span><span class="sd">     Converts excess positional arguments to keyword arguments.</span>
-<span class="g g-Whitespace">    </span><span class="mi">142</span><span class="sd"> </span>
-<span class="sd">   (...)    155         The result of the function call with corrected arguments.</span>
-<span class="g g-Whitespace">    </span><span class="mi">156</span><span class="sd">     &quot;&quot;&quot;</span>
-<span class="ne">--&gt; </span><span class="mi">157</span>     <span class="n">sig</span> <span class="o">=</span> <span class="n">signature</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">158</span>     <span class="n">params</span> <span class="o">=</span> <span class="n">sig</span><span class="o">.</span><span class="n">parameters</span>
-<span class="g g-Whitespace">    </span><span class="mi">159</span>     <span class="n">max_positional_args</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">160</span>         <span class="mi">1</span>
-<span class="nn">    161         for param</span> in <span class="ni">params.values</span><span class="nt">()</span>
-<span class="g g-Whitespace">    </span><span class="mi">162</span>         <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">kind</span>
-<span class="nn">    163        </span> in <span class="nt">(Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)</span>
-<span class="g g-Whitespace">    </span><span class="mi">164</span>     <span class="p">)</span>
-
-<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/inspect.py:3387,</span> in <span class="ni">signature</span><span class="nt">(obj, follow_wrapped, globals, locals, eval_str)</span>
-<span class="g g-Whitespace">   </span><span class="mi">3382</span>             <span class="n">rendered</span> <span class="o">+=</span> <span class="s1">&#39; -&gt; </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">anno</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">3384</span>         <span class="k">return</span> <span class="n">rendered</span>
-<span class="ne">-&gt; </span><span class="mi">3387</span> <span class="k">def</span><span class="w"> </span><span class="nf">signature</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">follow_wrapped</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">globals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">locals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">eval_str</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="g g-Whitespace">   </span><span class="mi">3388</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;Get a signature object for the passed callable.&quot;&quot;&quot;</span>
-<span class="g g-Whitespace">   </span><span class="mi">3389</span>     <span class="k">return</span> <span class="n">Signature</span><span class="o">.</span><span class="n">from_callable</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">follow_wrapped</span><span class="o">=</span><span class="n">follow_wrapped</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">3390</span>                                    <span class="nb">globals</span><span class="o">=</span><span class="nb">globals</span><span class="p">,</span> <span class="nb">locals</span><span class="o">=</span><span class="nb">locals</span><span class="p">,</span> <span class="n">eval_str</span><span class="o">=</span><span class="n">eval_str</span><span class="p">)</span>
+<span class="nn">File /opt/hostedtoolcache/Python/3.13.13/x64/lib/python3.13/site-packages/dipy/reconst/csdeconv.py:617,</span> in <span class="ni">csdeconv</span><span class="nt">(dwsignal, X, B_reg, tau, convergence, P)</span>
+<span class="g g-Whitespace">    </span><span class="mi">614</span> <span class="n">H</span> <span class="o">=</span> <span class="n">B_reg</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">where_fodf_small</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">616</span> <span class="c1"># We use the Cholesky decomposition to solve for the SH coefficients.</span>
+<span class="ne">--&gt; </span><span class="mi">617</span> <span class="n">Q</span> <span class="o">=</span> <span class="n">P</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">H</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">618</span> <span class="n">fodf_sh</span> <span class="o">=</span> <span class="n">_solve_cholesky</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">620</span> <span class="c1"># Sample the FOD using the regularization sphere and compute k.</span>
 
 <span class="ne">KeyboardInterrupt</span>: 
-</pre></div>
-</div>
-</div>
-</div>
-<p>We will then use <code class="docutils literal notranslate"><span class="pre">nibabel</span></code> to load the deriviative file and retrieve the
-data array.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">FA_img</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">FA_fname</span></a><span class="p">)</span>
-<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">FA</span></a> <span class="o">=</span> <span class="n">FA_img</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-</section>
-<section id="visualize-the-result-with-matplotlib">
-<h2>Visualize the result with Matplotlib<a class="headerlink" href="#visualize-the-result-with-matplotlib" title="Link to this heading">#</a></h2>
-<p>At this point <code class="docutils literal notranslate"><span class="pre">FA</span></code> is an array, and we can use standard Python tools to
-visualize it or perform additional computations with it.</p>
-<p>In this case we are going to take an axial slice halfway through the
-FA data array and plot using a sequential color map.</p>
-<div class="alert alert-info"><h4>Note</h4><p>The data array is structured as a xyz coordinate system.</p></div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">matshow</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">FA</span></a><span class="p">[:,</span> <span class="p">:,</span> <a href="https://docs.python.org/3/library/stdtypes.html#tuple" title="builtins.tuple" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">FA</span><span class="o">.</span><span class="n">shape</span></a><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;viridis&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</section>
-<section id="recognizing-the-bundles-and-calculating-tract-profiles">
-<h2>Recognizing the bundles and calculating tract profiles:<a class="headerlink" href="#recognizing-the-bundles-and-calculating-tract-profiles" title="Link to this heading">#</a></h2>
-<p>Typically, users of pyAFQ are interested in calculating not only an overall
-map of the FA, but also the major white matter pathways (or bundles) and
-tract profiles of tissue properties along their length. To trigger the
-pyAFQ pipeline that calculates the profiles, users can call the
-<code class="docutils literal notranslate"><span class="pre">export(&quot;profiles&quot;)</span></code> method:</p>
-<div class="alert alert-info"><h4>Note</h4><p>Running the code below triggers the full pipeline of operations
-   leading to the computation of the tract profiles. Therefore, it
-   takes a little while to run (about 40 minutes, typically).</p></div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">myafq</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;profiles&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1183,7 +1334,7 @@ preprocessing and reconstructing diffusion MRI data. Nat Methods.
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#define-pve-images-optional">Define PVE images (optional)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#brain-mask-definition-optional">Brain Mask Definition (optional)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#initialize-a-participantafq-object">Initialize a ParticipantAFQ object:</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#calculating-dki-fa-diffusion-tensor-imaging-fractional-anisotropy">Calculating DKI FA (Diffusion Tensor Imaging Fractional Anisotropy)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#calculating-dti-fa-diffusion-tensor-imaging-fractional-anisotropy">Calculating DTI FA (Diffusion Tensor Imaging Fractional Anisotropy)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualize-the-result-with-matplotlib">Visualize the result with Matplotlib</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recognizing-the-bundles-and-calculating-tract-profiles">Recognizing the bundles and calculating tract profiles:</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-the-bundles-and-calculating-tract-profiles">Visualizing the bundles and calculating tract profiles:</a></li>
@@ -1230,8 +1381,8 @@ preprocessing and reconstructing diffusion MRI data. Nat Methods.
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
-<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=0790524f97105ba85085"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085"></script>
 
 
   <footer class="bd-footer">

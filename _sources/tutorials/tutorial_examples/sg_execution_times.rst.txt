@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**73:55.632** total execution time for 7 files **from tutorials/tutorial_examples**:
+**91:29.405** total execution time for 7 files **from tutorials/tutorial_examples**:
 
 .. container::
 
@@ -33,20 +33,20 @@ Computation times
      - Time
      - Mem (MB)
    * - :ref:`sphx_glr_tutorials_tutorial_examples_plot_001_group_afq_api.py` (``plot_001_group_afq_api.py``)
-     - 62:00.365
-     - 11006.3
+     - 74:17.243
+     - 11693.0
    * - :ref:`sphx_glr_tutorials_tutorial_examples_plot_004_export.py` (``plot_004_export.py``)
-     - 06:41.029
-     - 3316.3
-   * - :ref:`sphx_glr_tutorials_tutorial_examples_plot_005_viz.py` (``plot_005_viz.py``)
-     - 02:26.480
-     - 1513.2
+     - 12:18.066
+     - 10254.3
    * - :ref:`sphx_glr_tutorials_tutorial_examples_plot_007_rois.py` (``plot_007_rois.py``)
-     - 01:43.370
-     - 1747.6
+     - 02:13.625
+     - 1838.9
    * - :ref:`sphx_glr_tutorials_tutorial_examples_plot_002_participant_afq_api.py` (``plot_002_participant_afq_api.py``)
-     - 01:04.387
-     - 3098.3
+     - 01:21.924
+     - 2842.2
+   * - :ref:`sphx_glr_tutorials_tutorial_examples_plot_005_viz.py` (``plot_005_viz.py``)
+     - 01:18.547
+     - 1634.2
    * - :ref:`sphx_glr_tutorials_tutorial_examples_plot_003_rerun.py` (``plot_003_rerun.py``)
      - 00:00.000
      - 0.0

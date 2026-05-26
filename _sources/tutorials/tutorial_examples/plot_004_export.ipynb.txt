@@ -65,7 +65,7 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "## Calculating DKI FA (Diffusion Tensor Imaging Fractional Anisotropy)\nFA can be computed using the DKI model, by explicitly calling\n``myafq.export(\"dki_fa\")``. This triggers the computation of DKI parameters,\nand stores the results in the AFQ derivatives directory. In addition, it\ncalculates the FA from these parameters and stores it in a different file in\nthe same directory.\n\n<div class=\"alert alert-info\"><h4>Note</h4><p>The AFQ API computes quantities lazily. This means that DKI parameters\n   are not computed until they are required. This means that the first\n   line below is the one that requires time.</p></div>\n\nThe result of the call to ``export`` is the filename of the corresponding FA\nfiles.\n\n"
+        "## Calculating DTI FA (Diffusion Tensor Imaging Fractional Anisotropy)\nFA can be computed using the DTI model, by explicitly calling\n``myafq.export(\"dti_fa\")``. This triggers the computation of DTI parameters,\nand stores the results in the AFQ derivatives directory. In addition, it\ncalculates the FA from these parameters and stores it in a different file in\nthe same directory.\n\n<div class=\"alert alert-info\"><h4>Note</h4><p>The AFQ API computes quantities lazily. This means that DTI parameters\n   are not computed until they are required. This means that the first\n   line below is the one that requires time.</p></div>\n\nThe result of the call to ``export`` is the filename of the corresponding FA\nfiles.\n\n"
       ]
     },
     {
@@ -76,7 +76,7 @@
       },
       "outputs": [],
       "source": [
-        "FA_fname = myafq.export(\"dki_fa\")"
+        "FA_fname = myafq.export(\"dti_fa\")"
       ]
     },
     {

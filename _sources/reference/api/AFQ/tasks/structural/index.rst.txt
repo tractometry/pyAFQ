@@ -107,7 +107,7 @@ Module Contents
    ..
        !! processed by numpydoc !!
 
-.. py:function:: synthseg_model(t1_masked, citations, onnx_kwargs)
+.. py:function:: synthseg_model(t1_file, citations, onnx_kwargs)
 
    
    full path to the synthseg2 model segmentations
@@ -176,7 +176,7 @@ Module Contents
    ..
        !! processed by numpydoc !!
 
-.. py:function:: t1w_brain_mask(t1_file, citations, onnx_kwargs, brain_mask_definition=None)
+.. py:function:: t1w_brain_mask(synthseg_model, brain_mask_definition=None)
 
    
    full path to a nifti file containing brain mask from T1w image
@@ -189,7 +189,7 @@ Module Contents
            the brain mask, which gets applied before registration to a
            template.
            If you want no brain mask to be applied, use FullImage.
-           If None, use Brainchop Mindgrab model.
+           If None, use Synthseg model.
            Default: None
 
 
@@ -203,10 +203,13 @@ Module Contents
 
    .. rubric:: References
 
-   [1] Masoud, M., Hu, F., & Plis, S. (2023). Brainchop: In-browser MRI
-       volumetric segmentation and rendering. Journal of Open Source
-       Software, 8(83), 5098.
-       https://doi.org/10.21105/joss.05098
+   [1] Billot, Benjamin, et al. "Robust machine learning segmentation
+       for large-scale analysis of heterogeneous clinical brain MRI
+       datasets." Proceedings of the National Academy of Sciences 120.9
+       (2023): e2216399120.
+   [2] Billot, Benjamin, et al. "SynthSeg: Segmentation of brain MRI scans
+       of any contrast and resolution without retraining." Medical image
+       analysis 86 (2023): 102789.
 
    .. only:: latex
 

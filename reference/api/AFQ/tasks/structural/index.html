@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>AFQ.tasks.structural &#8212; AFQ 3.1 documentation</title>
+    <title>AFQ.tasks.structural &#8212; AFQ 3.2 documentation</title>
   
   
   
@@ -27,8 +27,8 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
-<link href="../../../../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+  <link href="../../../../../_static/styles/theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
+<link href="../../../../../_static/styles/pydata-sphinx-theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/graphviz.css?v=4ae1632d" />
@@ -38,15 +38,15 @@
     <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../../../../../_static/custom.css?v=c6496573" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/custom.css?v=efc0aa2d" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../../../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <script defer src="../../../../../_static/scripts/fontawesome.js?digest=0790524f97105ba85085"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
-<link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+  <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=0790524f97105ba85085" />
+<link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085" />
 
-    <script src="../../../../../_static/documentation_options.js?v=b576230a"></script>
+    <script src="../../../../../_static/documentation_options.js?v=828ea960"></script>
     <script src="../../../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../../../_static/sg-tags.js?v=d80f6fa4"></script>
@@ -131,8 +131,8 @@
       
     
     
-    <img src="../../../../../_static/logo.png" class="logo__image only-light" alt="AFQ 3.1 documentation - Home"/>
-    <img src="../../../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="AFQ 3.1 documentation - Home"/>
+    <img src="../../../../../_static/logo.png" class="logo__image only-light" alt="AFQ 3.2 documentation - Home"/>
+    <img src="../../../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="AFQ 3.2 documentation - Home"/>
   
   
 </a></div>
@@ -209,11 +209,18 @@
       
         <div class="navbar-item">
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button></div>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
       
         <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -226,8 +233,7 @@
           
           
           
-          <a href="https://github.com/tractometry/pyAFQ" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
-            <span class="sr-only">GitHub</span></a>
+          <a href="https://github.com/tractometry/pyAFQ" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
         </li>
 </ul></div>
       
@@ -330,11 +336,18 @@
         
           <div class="navbar-item">
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button></div>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
         
           <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -347,8 +360,7 @@
           
           
           
-          <a href="https://github.com/tractometry/pyAFQ" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
-            <span class="sr-only">GitHub</span></a>
+          <a href="https://github.com/tractometry/pyAFQ" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
         </li>
 </ul></div>
         
@@ -561,13 +573,13 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#AFQ.tasks.structural.onnx_kwargs" title="AFQ.tasks.structural.onnx_kwargs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">onnx_kwargs</span></code></a>(low_mem[, onnx_execution_provider, ...])</p></td>
 <td><p>The execution provider to use for onnx models</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AFQ.tasks.structural.synthseg_model" title="AFQ.tasks.structural.synthseg_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">synthseg_model</span></code></a>(t1_masked, citations, onnx_kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AFQ.tasks.structural.synthseg_model" title="AFQ.tasks.structural.synthseg_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">synthseg_model</span></code></a>(t1_file, citations, onnx_kwargs)</p></td>
 <td><p>full path to the synthseg2 model segmentations</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#AFQ.tasks.structural.mx_model" title="AFQ.tasks.structural.mx_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mx_model</span></code></a>(t1_file, t1w_brain_mask, citations, onnx_kwargs)</p></td>
 <td><p>full path to the multi-axial model for brain extraction</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AFQ.tasks.structural.t1w_brain_mask" title="AFQ.tasks.structural.t1w_brain_mask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">t1w_brain_mask</span></code></a>(t1_file, citations, onnx_kwargs[, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AFQ.tasks.structural.t1w_brain_mask" title="AFQ.tasks.structural.t1w_brain_mask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">t1w_brain_mask</span></code></a>(synthseg_model[, brain_mask_definition])</p></td>
 <td><p>full path to a nifti file containing brain mask from T1w image</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#AFQ.tasks.structural.t1_masked" title="AFQ.tasks.structural.t1_masked"><code class="xref py py-obj docutils literal notranslate"><span class="pre">t1_masked</span></code></a>(t1_file, t1w_brain_mask)</p></td>
@@ -639,7 +651,7 @@ Default: 1</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="AFQ.tasks.structural.synthseg_model">
-<span class="sig-prename descclassname"><span class="pre">AFQ.tasks.structural.</span></span><span class="sig-name descname"><span class="pre">synthseg_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t1_masked</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">citations</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">onnx_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/tasks/structural.html#synthseg_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.tasks.structural.synthseg_model" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">AFQ.tasks.structural.</span></span><span class="sig-name descname"><span class="pre">synthseg_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t1_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">citations</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">onnx_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/tasks/structural.html#synthseg_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.tasks.structural.synthseg_model" title="Link to this definition">#</a></dt>
 <dd><p>full path to the synthseg2 model segmentations</p>
 <p class="rubric">References</p>
 <dl class="simple">
@@ -668,7 +680,7 @@ Medical Imaging 12.5 (2025): 054001-054001.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="AFQ.tasks.structural.t1w_brain_mask">
-<span class="sig-prename descclassname"><span class="pre">AFQ.tasks.structural.</span></span><span class="sig-name descname"><span class="pre">t1w_brain_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t1_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">citations</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">onnx_kwargs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">brain_mask_definition</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/tasks/structural.html#t1w_brain_mask"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.tasks.structural.t1w_brain_mask" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">AFQ.tasks.structural.</span></span><span class="sig-name descname"><span class="pre">t1w_brain_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">synthseg_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">brain_mask_definition</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/AFQ/tasks/structural.html#t1w_brain_mask"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AFQ.tasks.structural.t1w_brain_mask" title="Link to this definition">#</a></dt>
 <dd><p>full path to a nifti file containing brain mask from T1w image</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -677,7 +689,7 @@ Medical Imaging 12.5 (2025): 054001-054001.</p>
 the brain mask, which gets applied before registration to a
 template.
 If you want no brain mask to be applied, use FullImage.
-If None, use Brainchop Mindgrab model.
+If None, use Synthseg model.
 Default: None</p>
 </dd>
 </dl>
@@ -685,9 +697,12 @@ Default: None</p>
 </dl>
 <p class="rubric">References</p>
 <dl class="simple">
-<dt>[1] Masoud, M., Hu, F., &amp; Plis, S. (2023). Brainchop: In-browser MRI</dt><dd><p>volumetric segmentation and rendering. Journal of Open Source
-Software, 8(83), 5098.
-<a class="reference external" href="https://doi.org/10.21105/joss.05098">https://doi.org/10.21105/joss.05098</a></p>
+<dt>[1] Billot, Benjamin, et al. “Robust machine learning segmentation</dt><dd><p>for large-scale analysis of heterogeneous clinical brain MRI
+datasets.” Proceedings of the National Academy of Sciences 120.9
+(2023): e2216399120.</p>
+</dd>
+<dt>[2] Billot, Benjamin, et al. “SynthSeg: Segmentation of brain MRI scans</dt><dd><p>of any contrast and resolution without retraining.” Medical image
+analysis 86 (2023): 102789.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -822,8 +837,8 @@ Software, 8(83), 5098.
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
-<script defer src="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+  <script defer src="../../../../../_static/scripts/bootstrap.js?digest=0790524f97105ba85085"></script>
+<script defer src="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085"></script>
 
 
   <footer class="bd-footer">
