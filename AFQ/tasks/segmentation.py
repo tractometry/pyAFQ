@@ -101,7 +101,7 @@ def segment(
     if is_trx:
         seg_sft.sft.dtype_dict = {"positions": np.float16, "offsets": np.uint32}
         tgram = TrxFile.from_sft(seg_sft.sft)
-        tgram.groups = seg_sft.bundle_idxs
+        tgram.groups = seg_sft._bundle_idxs
 
     else:
         tgram = seg_sft.sft
@@ -209,15 +209,9 @@ def export_bundle_lengths(bundles):
             len_data[f"{bundle} Median"] = 0
             len_data[f"{bundle} Min"] = 0
             len_data[f"{bundle} Max"] = 0
-    len_data["Total Recognized Median"] = np.median(
-        seg_sft.sft._tractogram._streamlines._lengths
-    )
-    len_data["Total Recognized Min"] = np.min(
-        seg_sft.sft._tractogram._streamlines._lengths
-    )
-    len_data["Total Recognized Max"] = np.max(
-        seg_sft.sft._tractogram._streamlines._lengths
-    )
+    len_data["Total Recognized Median"] = np.median(seg_sft.get_lengths())
+    len_data["Total Recognized Min"] = np.min(seg_sft.get_lengths())
+    len_data["Total Recognized Max"] = np.max(seg_sft.get_lengths())
 
     counts_df = pd.DataFrame(
         data=len_data,
@@ -297,7 +291,7 @@ def tract_profiles(
     reference = nib.load(scalar_dict[list(scalar_dict.keys())[0]])
     seg_sft = aus.SegmentedSFT.fromfile(bundles, reference=reference)
 
-    seg_sft.sft.to_rasmm()
+    seg_sft.to_rasmm()
     for bundle_name in seg_sft.bundle_names:
         this_sl = seg_sft.get_bundle(bundle_name).streamlines
         if len(this_sl) == 0:

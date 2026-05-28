@@ -555,7 +555,7 @@ class GroupAFQ(object):
                     ses
                 ]
                 seg_sft = aus.SegmentedSFT.fromfile(this_bundles_file, this_img)
-                seg_sft.sft.to_rasmm()
+                seg_sft.to_rasmm()
                 subses_info.append((seg_sft, this_mapping, this_img, this_reg_template))
 
             bundle_dict = self.export("bundle_dict", collapse=False)[
@@ -567,7 +567,7 @@ class GroupAFQ(object):
             for b in bundle_dict.bundle_names:
                 for i in range(len(self.valid_sub_list)):
                     seg_sft, mapping, img, reg_template = subses_info[i]
-                    idx = seg_sft.bundle_idxs[b]
+                    idx = seg_sft.bundle_idxs(b)
                     # use the first subses that works
                     # otherwise try each successive subses
                     if len(idx) == 0:

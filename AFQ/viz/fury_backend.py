@@ -46,6 +46,7 @@ def visualize_bundles(
     bundle=None,
     colors=None,
     color_by_direction=False,
+    n_sls_viz=65536,
     opacity=1.0,
     line_width=2.0,
     flip_axes=None,
@@ -86,6 +87,11 @@ def visualize_bundles(
     color_by_direction : bool
         Whether to color by direction instead of by bundle. Default: False
 
+    n_sls_viz : int
+        Maximum number of streamlines to visualize. If there are more than
+        this number of streamlines, a random subset of streamlines will be
+        visualized. Default: 65536
+
     opacity : float
         Float between 0 and 1 defining the opacity of the bundle.
         Default: 1.0
@@ -119,7 +125,12 @@ def visualize_bundles(
     figure.background = (background[0], background[1], background[2])
 
     for sls, color, name, dimensions in vut.tract_generator(
-        seg_sft, bundle, colors, n_points, img
+        seg_sft,
+        bundle,
+        colors,
+        n_points,
+        img,
+        n_sls_viz=n_sls_viz,
     ):
         sls = list(sls)
         if name == "all_bundles":

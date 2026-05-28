@@ -387,7 +387,7 @@ def default_bd():
                 "primary_axis": "I/S",
                 "ORG_spectral_subbundles": SpectralSubbundleDict(
                     {
-                        "Left V1V3": {
+                        "Left Early Visual": {
                             "cluster_IDs": [78],
                             "Left Optic Radiation": {
                                 "core": "Anterior",
@@ -449,7 +449,7 @@ def default_bd():
                 "primary_axis": "I/S",
                 "ORG_spectral_subbundles": SpectralSubbundleDict(
                     {
-                        "Right V1V3": {
+                        "Right Early Visual": {
                             "cluster_IDs": [78],
                             "Right Optic Radiation": {
                                 "core": "Anterior",
