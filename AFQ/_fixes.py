@@ -436,5 +436,5 @@ def make_gif(show_m, out_path, n_frames=36, az_ang=-10, duration=150):
             save_all=True,
             append_images=cropped_video[1:],
             duration=duration,
-            loop=1,
+            loop=0,
         )
