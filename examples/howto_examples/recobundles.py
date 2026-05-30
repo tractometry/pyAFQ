@@ -44,7 +44,7 @@ myafq = GroupAFQ(
     dwi_preproc_pipeline='vistasoft',
     t1_preproc_pipeline='freesurfer',
     tracking_params=tracking_params,
-    viz_backend_spec='plotly_no_gif')
+    viz_backend_spec='plotly_no_mp4')
 
 fig_files = myafq.export_all()
 

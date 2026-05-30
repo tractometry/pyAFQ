@@ -66,7 +66,7 @@ def afq_process_subject(subject):
     myafq = GroupAFQ(
         "local_bids_dir",
         dwi_preproc_pipeline="pipeline_name",
-        viz_backend_spec='plotly')  # this will generate both interactive html and GIFs # noqa
+        viz_backend_spec='plotly')  # this will generate both interactive html and MP4s # noqa
 
     # export_all runs the entire pipeline and creates many useful derivates
     myafq.export_all()

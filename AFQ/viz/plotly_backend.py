@@ -1,10 +1,13 @@
 import enum
 import logging
+import os.path as op
 import tempfile
 
+import imageio
 import numpy as np
 import pandas as pd
 from dipy.tracking.streamline import set_number_of_points
+from PIL import Image
 
 import AFQ.viz.utils as vut
 
@@ -475,43 +478,64 @@ def visualize_bundles(
     return _inline_interact(figure, interact, inline)
 
 
-def create_gif(figure, file_name, n_frames=30, zoom=2.5, z_offset=0.5, size=(600, 600)):
+def create_mp4(
+    figure, file_name, n_frames=720, fps=30, zoom=2.5, z_offset=0.5, size=(600, 600)
+):
     """
-    Convert a Plotly Figure object into a gif
+    Convert a Plotly Figure object into a mp4
 
     Parameters
     ----------
     figure: Plotly Figure object
-        Figure to be converted to a gif
+        Figure to be converted to a mp4
 
     file_name: str
-        File to save gif to.
+        File to save mp4 to.
 
-    n_frames: int, optional
-        Number of frames in gif.
-        Will be evenly distributed throughout the rotation.
-        Default: 60
+    fps: int, optional
+        Frames per second for the output video.
+        Default: 30
 
     zoom: float, optional
         How much to magnify the figure in the fig.
         Default: 2.5
 
     size: tuple, optional
-        Size of the gif.
+        Size of the mp4.
         Default: (600, 600)
     """
-    tdir = tempfile.gettempdir()
+    width, height = size
+    if width % 2 != 0:
+        width -= 1
+    if height % 2 != 0:
+        height -= 1
 
-    for i in range(n_frames):
-        theta = (i * 6.28) / n_frames
-        camera = dict(
-            eye=dict(x=np.cos(theta) * zoom, y=np.sin(theta) * zoom, z=z_offset)
-        )
-        figure.update_layout(scene_camera=camera)
-        figure.write_image(tdir + f"/tgif{i}.png")
-        scope._shutdown_kaleido()  # temporary fix for memory leak
+    figure.update_layout(width=width, height=height)
 
-    vut.gif_from_pngs(tdir, file_name, n_frames, png_fname="tgif", add_zeros=False)
+    with tempfile.TemporaryDirectory() as tdir:
+        frame_paths = []
+
+        for i in range(n_frames):
+            theta = (i * 2 * np.pi) / n_frames
+
+            camera = dict(
+                eye=dict(x=np.cos(theta) * zoom, y=np.sin(theta) * zoom, z=z_offset)
+            )
+            figure.update_layout(scene_camera=camera)
+
+            frame_path = op.join(tdir, f"tframe{i}.png")
+            figure.write_image(frame_path)
+            frame_paths.append(frame_path)
+
+            pio.kaleido.scope._shutdown_kaleido()
+
+        with imageio.get_writer(
+            file_name, fps=fps, codec="libx264", quality=8
+        ) as writer:
+            for path in frame_paths:
+                img = Image.open(path).convert("RGB")
+                frame_arr = np.array(img)
+                writer.append_data(frame_arr)
 
 
 def _draw_roi(figure, roi, name, color, opacity, dimensions, flip_axes):

@@ -71,7 +71,7 @@ myafq = GroupAFQ(
     bundle_info=abd.callosal_bd(),
     tracking_params=tracking_params,
     segmentation_params=segmentation_params,
-    viz_backend_spec='plotly_no_gif')
+    viz_backend_spec='plotly_no_mp4')
 
 # Calling export all produces all of the outputs of processing, including
 # tractography, scalar maps, tract profiles and visualizations:

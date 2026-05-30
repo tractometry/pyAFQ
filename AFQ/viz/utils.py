@@ -1,10 +1,8 @@
 import colorsys
 import logging
-import os.path as op
 from collections import OrderedDict
 
 import dipy.tracking.streamlinespeed as dps
-import imageio as io
 import matplotlib.patches as mpatches
 import matplotlib.pyplot as plt
 import nibabel as nib
@@ -616,35 +614,6 @@ def trim(im, buffer=0):
         return im.crop(this_bbox)
 
 
-def gif_from_pngs(tdir, gif_fname, n_frames, png_fname="tgif", add_zeros=False):
-    """
-    Helper function
-    Stitches together gif from screenshots
-    """
-    if add_zeros:
-        fname_suffix10 = "00000"
-        fname_suffix100 = "0000"
-        fname_suffix1000 = "000"
-    else:
-        fname_suffix10 = ""
-        fname_suffix100 = ""
-        fname_suffix1000 = ""
-    angles = []
-    n_frame_copies = 60 // n_frames
-    for i in range(n_frames):
-        if i < 10:
-            angle_fname = f"{png_fname}{fname_suffix10}{i}.png"
-        elif i < 100:
-            angle_fname = f"{png_fname}{fname_suffix100}{i}.png"
-        else:
-            angle_fname = f"{png_fname}{fname_suffix1000}{i}.png"
-        frame = io.imread(op.join(tdir, angle_fname))
-        for _j in range(n_frame_copies):
-            angles.append(frame)
-
-    io.mimsave(gif_fname, angles)
-
-
 def prepare_roi(roi, resample_to=None):
     """
     Load the ROI
@@ -726,7 +695,7 @@ class Viz:
             self.visualize_bundles = AFQ.viz.fury_backend.visualize_bundles
             self.visualize_roi = AFQ.viz.fury_backend.visualize_roi
             self.visualize_volume = AFQ.viz.fury_backend.visualize_volume
-            self.create_gif = AFQ.viz.fury_backend.create_gif
+            self.create_mp4 = AFQ.viz.fury_backend.create_mp4
         elif "plotly" in backend:
             try:
                 import AFQ.viz.plotly_backend
@@ -735,7 +704,7 @@ class Viz:
             self.visualize_bundles = AFQ.viz.plotly_backend.visualize_bundles
             self.visualize_roi = AFQ.viz.plotly_backend.visualize_roi
             self.visualize_volume = AFQ.viz.plotly_backend.visualize_volume
-            self.create_gif = AFQ.viz.plotly_backend.create_gif
+            self.create_mp4 = AFQ.viz.plotly_backend.create_mp4
             self.single_bundle_viz = AFQ.viz.plotly_backend.single_bundle_viz
         else:
             raise TypeError(

@@ -3,6 +3,7 @@ import math
 import tempfile
 from math import radians
 
+import imageio
 import numpy as np
 from dipy.align import vector_fields as vfu
 from dipy.align.imwarp import DiffeomorphicMap, mult_aff
@@ -361,9 +362,9 @@ def gaussian_weights(
         return w
 
 
-def make_gif(show_m, out_path, n_frames=36, az_ang=-10, duration=150):
+def make_mp4(show_m, out_path, n_frames=720, az_ang=-0.5, fps=30):
     """
-    Make a video from a Fury Show Manager.
+    Make an MP4 video from a Fury Show Manager with auto-cropping.
 
     Parameters
     ----------
@@ -371,7 +372,7 @@ def make_gif(show_m, out_path, n_frames=36, az_ang=-10, duration=150):
         The Fury Show Manager to use for rendering.
 
     out_path : str
-        The name of the output file.
+        The name of the output file
 
     n_frames : int
         The number of frames to render.
@@ -382,17 +383,20 @@ def make_gif(show_m, out_path, n_frames=36, az_ang=-10, duration=150):
         z-axis for each frame, in degrees.
         Default: -10
 
-    duration : int
-        The duration of each frame in the output GIF, in milliseconds.
-        Default: 150
+    fps : float
+        The frames per second for the output video.
+        Default: 30
     """
+    if not out_path.lower().endswith(".mp4"):
+        out_path += ".mp4"
+
     video = []
 
     show_m.render()
     show_m.window.draw()
 
     with tempfile.TemporaryDirectory() as tmp_dir:
-        for ii in tqdm(range(n_frames), desc="Generating GIF", leave=False):
+        for ii in tqdm(range(n_frames), desc="Generating MP4", leave=False):
             frame_fname = f"{tmp_dir}/{ii}.png"
             show_m.screens[0].controller.rotate((radians(az_ang), 0), None)
             show_m.render()
@@ -406,7 +410,6 @@ def make_gif(show_m, out_path, n_frames=36, az_ang=-10, duration=150):
         for img in video:
             arr = np.array(img)
             bg_color = arr[0, 0]
-
             mask = np.any(arr != bg_color, axis=-1)
 
             if np.any(mask):
@@ -421,20 +424,44 @@ def make_gif(show_m, out_path, n_frames=36, az_ang=-10, duration=150):
                 all_lower = max(all_lower, ymax)
 
         if all_left < all_right:
-            crop_box = (
-                max(0, all_left),
-                max(0, all_upper),
-                min(video[0].width, all_right),
-                min(video[0].height, all_lower),
-            )
+
+            def align_down(x, multiple=16):
+                return (x // multiple) * multiple
+
+            def align_up(x, multiple=16):
+                return ((x + multiple - 1) // multiple) * multiple
+
+            left = align_up(max(0, all_left), 16)
+            upper = align_up(max(0, all_upper), 16)
+            right = align_down(min(video[0].width, all_right), 16)
+            lower = align_down(min(video[0].height, all_lower), 16)
+
+            crop_box = (left, upper, right, lower)
             cropped_video = [img.crop(crop_box) for img in video]
         else:
             cropped_video = video
 
-        cropped_video[0].save(
+        width, height = cropped_video[0].size
+        with imageio.get_writer(
             out_path,
-            save_all=True,
-            append_images=cropped_video[1:],
-            duration=duration,
-            loop=0,
-        )
+            fps=fps,
+            format="ffmpeg",
+            output_params=[
+                "-vcodec",
+                "libx264",
+                "-crf",
+                "18",
+                "-pix_fmt",
+                "yuv420p",
+                "-preset",
+                "slow",
+                "-movflags",
+                "+faststart",
+            ],
+        ) as writer:
+            for img in cropped_video:
+                if img.size != (width, height):
+                    img = img.crop((0, 0, width, height))
+
+                frame_arr = np.array(img)
+                writer.append_data(frame_arr)

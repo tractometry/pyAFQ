@@ -40,7 +40,7 @@ from matplotlib.cm import tab20
 
 import AFQ.data.fetch as afd
 from AFQ.viz.utils import gen_color_dict
-from AFQ._fixes import make_gif
+from AFQ._fixes import make_mp4
 
 
 ###############################################################################
@@ -67,7 +67,7 @@ study_path = afd.fetch_hbn_afq(["NDARAA948VFH"])[1]
 # y, or z dimension. We then call this function three times, once for each of
 # the b0, b1000, and b2000 volumes, and add the resulting slicer actors to a
 # scene. We set the camera on the scene to a view that we like, and then we
-# record the scene into png files and subsequently gif animations. We do this
+# record the scene into png files and subsequently mp4 files. We do this
 # for each of the three volumes.
 
 deriv_path = op.join(
@@ -132,7 +132,7 @@ for bval, slicer in zip([0, 1000, 2000],
     )
     window.update_camera(show_m.screens[0].camera, None, slicer)
     show_m.screens[0].controller.rotate((0, radians(-90)), None)
-    make_gif(show_m, f'b{bval}.gif')
+    make_mp4(show_m, f'b{bval}.mp4')
 
 #############################################################################
 # Visualizing whole-brain tractography
@@ -201,12 +201,12 @@ show_m = window.ShowManager(
     size=(2400, 2400)
 )
 rotate_to_anterior(show_m)
-make_gif(show_m, "whole_brain.gif")
+make_mp4(show_m, "whole_brain.mp4")
 
 #############################################################################
 # Whole brain with waypoints
 # --------------------------------------
-# We can also generate a gif video with the whole brain tractography and the
+# We can also generate a mp4 video with the whole brain tractography and the
 # waypoints that are used to define the bundles. We will use the same scene as
 # before, but we will add the waypoints as contours to the scene.
 #
@@ -255,7 +255,7 @@ show_m = window.ShowManager(
     size=(2400, 2400)
 )
 rotate_to_anterior(show_m)
-make_gif(show_m, "whole_brain_with_waypoints.gif")
+make_mp4(show_m, "whole_brain_with_waypoints.mp4")
 
 bundle_path = op.join(afq_path,
                       'bundles')
@@ -349,7 +349,7 @@ show_m = window.ShowManager(
     size=(2400, 2400)
 )
 rotate_to_anterior(show_m)
-make_gif(show_m, "arc1.gif")
+make_mp4(show_m, "arc1.mp4")
 
 #############################################################################
 # Clean bundle
@@ -367,7 +367,7 @@ show_m = window.ShowManager(
     size=(2400, 2400)
 )
 rotate_to_anterior(show_m)
-make_gif(show_m, "arc2.gif")
+make_mp4(show_m, "arc2.mp4")
 
 clean_bundles_path = op.join(afq_path,
                              'clean_bundles')
@@ -390,7 +390,7 @@ show_m = window.ShowManager(
     size=(2400, 2400)
 )
 rotate_to_anterior(show_m)
-make_gif(show_m, "arc3.gif")
+make_mp4(show_m, "arc3.mp4")
 
 #############################################################################
 # Show the values of tissue properties along the bundle
@@ -421,7 +421,7 @@ show_m = window.ShowManager(
     size=(2400, 2400)
 )
 rotate_to_anterior(show_m)
-make_gif(show_m, "arc4.gif")
+make_mp4(show_m, "arc4.mp4")
 
 #############################################################################
 # Core of the bundle and tract profile
@@ -458,7 +458,7 @@ show_m = window.ShowManager(
     size=(2400, 2400)
 )
 rotate_to_anterior(show_m)
-make_gif(show_m, "arc5.gif")
+make_mp4(show_m, "arc5.mp4")
 
 #############################################################################
 # Core of all bundles and their tract profiles
@@ -488,7 +488,7 @@ show_m = window.ShowManager(
     size=(2400, 2400)
 )
 rotate_to_anterior(show_m)
-make_gif(show_m, "all_bundles.gif")
+make_mp4(show_m, "all_bundles.mp4")
 
 scene.clear()
 
@@ -522,7 +522,7 @@ show_m = window.ShowManager(
     size=(2400, 2400)
 )
 rotate_to_anterior(show_m)
-make_gif(show_m, "all_tract_profiles.gif")
+make_mp4(show_m, "all_tract_profiles.mp4")
 
 
 #############################################################################
