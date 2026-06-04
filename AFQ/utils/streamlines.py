@@ -19,93 +19,73 @@ from AFQ.utils.path import drop_extension, read_json
 
 
 class SegmentedSFT:
-    def __init__(self, bundles, sidecar_info=None, is_trx=False):
+    def __init__(self, bundles, sidecar_info=None):
+        """
+        Initialize a SegmentedSFT object.
+
+        Parameters
+        ----------
+        bundles : dict
+            A dictionary where keys are bundle names and values are either
+            StatefulTractogram objects or dictionaries with keys "sl"
+            and "idx".
+        sidecar_info : dict, optional
+            Sidecar information to optionally attach.
+        """
+
         if sidecar_info is None:
             sidecar_info = {}
-
         self.sidecar_info = sidecar_info
-        self.is_trx = is_trx
-
-        if is_trx:
-            # Loading from TRX, we do not calculate additional information,
-            # To avoid loading unnecessary streamlines into memory
-            self.bundle_names = list(bundles.groups.keys())
-            self.sft = bundles
-
-            # mimic SFT attributes for compatibility
-            affine = np.array(self.sft.header["VOXEL_TO_RASMM"], dtype=np.float32)
-            dimensions = np.array(self.sft.header["DIMENSIONS"], dtype=np.uint16)
-            vox_sizes = np.array(voxel_sizes(affine), dtype=np.float32)
-            vox_order = "".join(aff2axcodes(affine))
-            space_attributes = (affine, dimensions, vox_sizes, vox_order)
-            self.sft.space_attributes = space_attributes
-            self.sft.space = Space.RASMM
-            self.sft.origin = Origin.NIFTI
-            self.sft.dtype_dict = self.sft.get_dtype_dict()
-        else:
-            self.bundle_names = []
-            sls = []
-            idxs = {}
-            this_tracking_idxs = {}
-            idx_count = 0
-            for b_name in bundles:
-                if isinstance(bundles[b_name], dict):
-                    this_sft = bundles[b_name]["sl"]
-                    this_tracking_idxs[b_name] = bundles[b_name]["idx"]
-                else:
-                    this_sft = bundles[b_name]
-                this_sls = list(this_sft.streamlines)
-                sls.extend(this_sls)
-                new_idx_count = idx_count + len(this_sls)
-                idxs[b_name] = np.arange(idx_count, new_idx_count, dtype=np.uint32)
-                idx_count = new_idx_count
-                self.bundle_names.append(b_name)
-
-            self._bundle_idxs = idxs
-            if len(this_tracking_idxs) > 1:
-                self.this_tracking_idxs = this_tracking_idxs
+        self.bundle_names = []
+        sls = []
+        idxs = {}
+        this_tracking_idxs = {}
+        idx_count = 0
+        for b_name in bundles:
+            if isinstance(bundles[b_name], dict):
+                this_sft = bundles[b_name]["sl"]
+                this_tracking_idxs[b_name] = bundles[b_name]["idx"]
             else:
-                self.this_tracking_idxs = None
+                this_sft = bundles[b_name]
+            this_sls = list(this_sft.streamlines)
+            sls.extend(this_sls)
+            new_idx_count = idx_count + len(this_sls)
+            idxs[b_name] = np.arange(idx_count, new_idx_count, dtype=np.uint32)
+            idx_count = new_idx_count
+            self.bundle_names.append(b_name)
 
-            self.sidecar_info["bundle_ids"] = {}
-            dps = np.zeros(len(sls))
-            for ii, bundle_name in enumerate(self.bundle_names):
-                self.sidecar_info["bundle_ids"][f"{bundle_name}"] = ii + 1
-                dps[self._bundle_idxs[bundle_name]] = ii + 1
-            self.sft = StatefulTractogram.from_sft(
-                sls, this_sft, data_per_streamline={"bundle": dps}
-            )
-            if self.this_tracking_idxs is not None:
-                for kk, _vv in self.this_tracking_idxs.items():
-                    self.this_tracking_idxs[kk] = (
-                        self.this_tracking_idxs[kk].astype(int).tolist()
-                    )
-                self.sidecar_info["tracking_idx"] = self.this_tracking_idxs
+        self.bundle_idxs = idxs
+        if len(this_tracking_idxs) > 1:
+            self.this_tracking_idxs = this_tracking_idxs
+        else:
+            self.this_tracking_idxs = None
+
+        self.sidecar_info["bundle_ids"] = {}
+        dps = np.zeros(len(sls))
+        for ii, bundle_name in enumerate(self.bundle_names):
+            self.sidecar_info["bundle_ids"][f"{bundle_name}"] = ii + 1
+            dps[self.bundle_idxs[bundle_name]] = ii + 1
+        self.sft = StatefulTractogram.from_sft(
+            sls, this_sft, data_per_streamline={"bundle": dps}
+        )
+        if self.this_tracking_idxs is not None:
+            for kk, _vv in self.this_tracking_idxs.items():
+                self.this_tracking_idxs[kk] = (
+                    self.this_tracking_idxs[kk].astype(int).tolist()
+                )
+            self.sidecar_info["tracking_idx"] = self.this_tracking_idxs
 
     def get_lengths(self):
-        if self.is_trx:
-            return self.sft.streamlines._lengths
-        else:
-            return self.sft._tractogram._streamlines._lengths
+        return self.sft._tractogram._streamlines._lengths
 
     def to_rasmm(self):
-        if self.is_trx:
-            pass  # always in RASMM
-        else:
-            self.sft.to_space(Space.RASMM)
+        self.sft.to_space(Space.RASMM)
 
-    def bundle_idxs(self, b_name):
-        if self.is_trx:
-            return self.sft.groups[b_name]
-        else:
-            return self._bundle_idxs[b_name]
+    def get_bundle_idxs(self, b_name):
+        return self.bundle_idxs[b_name]
 
     def get_bundle(self, b_name):
-        if self.is_trx:
-            idx = self.sft.groups[b_name]
-            return StatefulTractogram(self.sft.streamlines[idx], self.sft, Space.RASMM)
-        else:
-            return self.sft[self._bundle_idxs[b_name]]
+        return self.sft[self.bundle_idxs[b_name]]
 
     def get_bundle_param_info(self, b_name):
         return self.sidecar_info.get("Bundle Parameters", {}).get(b_name, {})
@@ -113,8 +93,6 @@ class SegmentedSFT:
     @classmethod
     def fromfile(cls, trk_or_trx_file, reference="same", sidecar_file=None):
         if sidecar_file is None:
-            # assume json sidecar has the same name as trk_file,
-            # but with json suffix
             sidecar_file = f"{drop_extension(trk_or_trx_file)}.json"
             if not op.exists(sidecar_file):
                 raise ValueError(
@@ -126,10 +104,9 @@ class SegmentedSFT:
         sidecar_info = read_json(sidecar_file)
         if trk_or_trx_file.endswith(".trx"):
             bundles = load_trx(trk_or_trx_file, reference)
-            is_trx = True
+            return SegmentedTRX(bundles, sidecar_info)
         else:
             sft = load_tractogram(trk_or_trx_file, reference, to_space=Space.RASMM)
-
             if reference == "same":
                 reference = sft
             bundles = {}
@@ -141,9 +118,53 @@ class SegmentedSFT:
                     )
             else:
                 bundles["whole_brain"] = sft
-            is_trx = False
+            return SegmentedSFT(bundles, sidecar_info)
 
-        return cls(bundles, sidecar_info, is_trx=is_trx)
+
+class SegmentedTRX(SegmentedSFT):
+    def __init__(self, trx, sidecar_info=None):
+        """
+        Initialize a SegmentedTRX object.
+
+        Parameters
+        ----------
+        trx : TrxFile
+            The TRX file to interact with.
+        sidecar_info : dict, optional
+            Sidecar information to optionally attach.
+        """
+        if sidecar_info is None:
+            sidecar_info = {}
+        self.sidecar_info = sidecar_info
+
+        # Loading from TRX, we do not calculate additional information,
+        # To avoid loading unnecessary streamlines into memory
+        self.bundle_names = list(trx.groups.keys())
+        self.sft = trx
+
+        # Mimic SFT attributes for compatibility
+        affine = np.array(self.sft.header["VOXEL_TO_RASMM"], dtype=np.float32)
+        dimensions = np.array(self.sft.header["DIMENSIONS"], dtype=np.uint16)
+        vox_sizes = np.array(voxel_sizes(affine), dtype=np.float32)
+        vox_order = "".join(aff2axcodes(affine))
+        space_attributes = (affine, dimensions, vox_sizes, vox_order)
+        self.sft.space_attributes = space_attributes
+        self.sft.space = Space.RASMM
+        self.sft.origin = Origin.NIFTI
+        self.sft.dtype_dict = self.sft.get_dtype_dict()
+
+    def get_lengths(self):
+        return self.sft.streamlines._lengths
+
+    def to_rasmm(self):
+        pass  # always in RASMM
+
+    def get_bundle_idxs(self, b_name):
+        return self.sft.groups[b_name]
+
+    def get_bundle(self, b_name):
+        idx = self.sft.groups[b_name]
+        return StatefulTractogram(self.sft.streamlines[idx], self.sft, Space.RASMM)
 
 
 def split_streamline(streamlines, sl_to_split, split_idx):

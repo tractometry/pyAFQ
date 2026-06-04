@@ -362,7 +362,7 @@ def gaussian_weights(
         return w
 
 
-def make_mp4(show_m, out_path, n_frames=720, az_ang=-0.5, fps=30, crf=18):
+def make_mp4(show_m, out_path, n_frames=720, az_ang=-0.5, fps=30, crf=35):
     """
     Make an MP4 video from a Fury Show Manager with auto-cropping.
 
@@ -391,7 +391,7 @@ def make_mp4(show_m, out_path, n_frames=720, az_ang=-0.5, fps=30, crf=18):
         The Constant Rate Factor for the output video, which controls the
         quality and file size. Lower values result in
         higher quality and larger file sizes.
-        Default: 18 (visually lossless)
+        Default: 35 (very low quality, small file size)
     """
     if not out_path.lower().endswith(".mp4"):
         out_path += ".mp4"

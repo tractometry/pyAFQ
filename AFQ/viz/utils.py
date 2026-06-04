@@ -560,7 +560,7 @@ def tract_generator(
             # No selection: visualize all of them:
             streamlines = seg_sft.sft.streamlines
             for bundle_name in sorted(seg_sft.bundle_names):
-                idx = seg_sft.bundle_idxs(bundle_name)
+                idx = seg_sft.get_bundle_idxs(bundle_name)
                 if len(idx) == 0:
                     continue
                 n_sl_viz = (len(idx) * n_sls_viz) // len(streamlines)

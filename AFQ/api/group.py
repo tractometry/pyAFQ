@@ -567,7 +567,7 @@ class GroupAFQ(object):
             for b in bundle_dict.bundle_names:
                 for i in range(len(self.valid_sub_list)):
                     seg_sft, mapping, img, reg_template = subses_info[i]
-                    idx = seg_sft.bundle_idxs(b)
+                    idx = seg_sft.get_bundle_idxs(b)
                     # use the first subses that works
                     # otherwise try each successive subses
                     if len(idx) == 0:
