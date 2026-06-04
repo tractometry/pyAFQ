@@ -358,6 +358,9 @@ def track(
             rng_seed=tracking_kwargs["random_seed"],
             chunk_size=jit_chunk_size,
         ) as jit_tracker:
+            jit_tracker.set_compression_parameters(
+                pos_dtype=np.float16, linearize=False
+            )
             if trx:
                 res = jit_tracker.generate_trx(seeds, params_img)
             else:
