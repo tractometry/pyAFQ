@@ -104,6 +104,7 @@ class SegmentedSFT:
         sidecar_info = read_json(sidecar_file)
         if trk_or_trx_file.endswith(".trx"):
             bundles = load_trx(trk_or_trx_file, reference)
+            bundles.streamlines._data = bundles.streamlines._data.astype(np.float32)
             return SegmentedTRX(bundles, sidecar_info)
         else:
             sft = load_tractogram(trk_or_trx_file, reference, to_space=Space.RASMM)
