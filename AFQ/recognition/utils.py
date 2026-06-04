@@ -126,6 +126,8 @@ def resample_tg(tg, n_points):
         if len(tg.shape) > 2:
             streamlines = tg.tolist()
             streamlines = [np.asarray(item) for item in streamlines]
+        else:
+            streamlines = [np.asarray(tg)]
     elif hasattr(tg, "streamlines"):
         streamlines = tg.streamlines
     else:

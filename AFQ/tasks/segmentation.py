@@ -154,7 +154,7 @@ def export_bundles(base_fname, output_dir, bundles, tracking_params):
             if len(bundle_sft) > 0:
                 logger.info(f"Saving {fname}")
                 if is_trx:
-                    seg_sft.sft.dtype_dict = {
+                    bundle_sft.dtype_dict = {
                         "positions": np.float16,
                         "offsets": np.uint32,
                     }
