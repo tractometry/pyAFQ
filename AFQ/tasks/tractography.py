@@ -88,7 +88,7 @@ def streamlines(
 
     if is_trx:
         start_time = time()
-        dtype_dict = {"positions": np.float32, "offsets": np.uint32}
+        dtype_dict = {"positions": np.float32, "offsets": np.uint64}
 
         lazyt = aft.track(
             fodf,

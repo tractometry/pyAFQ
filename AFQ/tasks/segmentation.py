@@ -99,7 +99,7 @@ def segment(
         raise ValueError("Fatal: No bundles recognized.")
 
     if is_trx:
-        seg_sft.sft.dtype_dict = {"positions": np.float32, "offsets": np.uint32}
+        seg_sft.sft.dtype_dict = {"positions": np.float16, "offsets": np.uint32}
         tgram = TrxFile.from_sft(seg_sft.sft)
         tgram.groups = seg_sft.bundle_idxs
 
@@ -154,8 +154,8 @@ def export_bundles(base_fname, output_dir, bundles, tracking_params):
             if len(bundle_sft) > 0:
                 logger.info(f"Saving {fname}")
                 if is_trx:
-                    seg_sft.sft.dtype_dict = {
-                        "positions": np.float32,
+                    bundle_sft.dtype_dict = {
+                        "positions": np.float16,
                         "offsets": np.uint32,
                     }
                     trxfile = TrxFile.from_sft(bundle_sft)

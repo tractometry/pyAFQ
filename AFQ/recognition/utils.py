@@ -7,6 +7,7 @@ import dipy.tracking.streamlinespeed as dps
 import numpy as np
 from dipy.io.stateful_tractogram import Space, StatefulTractogram
 from dipy.io.streamline import save_tractogram
+from dipy.tracking import Streamlines
 from dipy.tracking.distances import bundles_distances_mdf
 from tqdm import tqdm
 
@@ -125,11 +126,16 @@ def resample_tg(tg, n_points):
         if len(tg.shape) > 2:
             streamlines = tg.tolist()
             streamlines = [np.asarray(item) for item in streamlines]
+        else:
+            streamlines = [np.asarray(tg)]
     elif hasattr(tg, "streamlines"):
         streamlines = tg.streamlines
     else:
         streamlines = tg
 
+    streamlines = Streamlines(streamlines)
+    if streamlines._data.dtype != np.float32:
+        streamlines._data = streamlines._data.astype(np.float32)
     return dps.set_number_of_points(streamlines, n_points)
 
 
