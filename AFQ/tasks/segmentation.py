@@ -99,7 +99,7 @@ def segment(data_imap, mapping_imap, tractography_imap, segmentation_params):
     if is_trx:
         seg_sft.sft.dtype_dict = {"positions": np.float16, "offsets": np.uint32}
         tgram = TrxFile.from_sft(seg_sft.sft)
-        tgram.groups = seg_sft._bundle_idxs
+        tgram.groups = seg_sft.bundle_idxs
     else:
         tgram = seg_sft.sft
 
