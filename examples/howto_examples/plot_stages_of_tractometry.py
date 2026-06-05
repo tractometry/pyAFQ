@@ -128,7 +128,7 @@ for bval, slicer in zip([0, 1000, 2000],
 
     show_m = window.ShowManager(
         scene=scene, window_type="offscreen",
-        size=(2400, 2400)
+        size=(800, 800),  pixel_ratio=2.0
     )
     window.update_camera(show_m.screens[0].camera, None, slicer)
     show_m.screens[0].controller.rotate((0, radians(-90)), None)
@@ -198,7 +198,7 @@ scene.add(slicer)
 scene.background = (1, 1, 1)
 show_m = window.ShowManager(
     scene=scene, window_type="offscreen",
-    size=(2400, 2400)
+    size=(800, 800),  pixel_ratio=2.0
 )
 rotate_to_anterior(show_m)
 make_mp4(show_m, "whole_brain.mp4")
@@ -252,7 +252,7 @@ scene.add(waypoint2_actor)
 
 show_m = window.ShowManager(
     scene=scene, window_type="offscreen",
-    size=(2400, 2400)
+    size=(800, 800),  pixel_ratio=2.0
 )
 rotate_to_anterior(show_m)
 make_mp4(show_m, "whole_brain_with_waypoints.mp4")
@@ -346,7 +346,7 @@ scene.add(waypoint2_actor)
 
 show_m = window.ShowManager(
     scene=scene, window_type="offscreen",
-    size=(2400, 2400)
+    size=(800, 800),  pixel_ratio=2.0
 )
 rotate_to_anterior(show_m)
 make_mp4(show_m, "arc1.mp4")
@@ -364,7 +364,7 @@ scene.add(slicer)
 
 show_m = window.ShowManager(
     scene=scene, window_type="offscreen",
-    size=(2400, 2400)
+    size=(800, 800),  pixel_ratio=2.0
 )
 rotate_to_anterior(show_m)
 make_mp4(show_m, "arc2.mp4")
@@ -387,7 +387,7 @@ scene.add(slicer)
 
 show_m = window.ShowManager(
     scene=scene, window_type="offscreen",
-    size=(2400, 2400)
+    size=(800, 800),  pixel_ratio=2.0
 )
 rotate_to_anterior(show_m)
 make_mp4(show_m, "arc3.mp4")
@@ -418,7 +418,7 @@ scene.add(slicer)
 
 show_m = window.ShowManager(
     scene=scene, window_type="offscreen",
-    size=(2400, 2400)
+    size=(800, 800),  pixel_ratio=2.0
 )
 rotate_to_anterior(show_m)
 make_mp4(show_m, "arc4.mp4")
@@ -455,7 +455,7 @@ scene.add(core_arc_actor)
 
 show_m = window.ShowManager(
     scene=scene, window_type="offscreen",
-    size=(2400, 2400)
+    size=(800, 800),  pixel_ratio=2.0
 )
 rotate_to_anterior(show_m)
 make_mp4(show_m, "arc5.mp4")
@@ -485,7 +485,7 @@ for ii, bundle in enumerate(bundles):
 
 show_m = window.ShowManager(
     scene=scene, window_type="offscreen",
-    size=(2400, 2400)
+    size=(800, 800),  pixel_ratio=2.0
 )
 rotate_to_anterior(show_m)
 make_mp4(show_m, "all_bundles.mp4")
@@ -519,7 +519,7 @@ for bundle in bundles:
 
 show_m = window.ShowManager(
     scene=scene, window_type="offscreen",
-    size=(2400, 2400)
+    size=(800, 800),  pixel_ratio=2.0
 )
 rotate_to_anterior(show_m)
 make_mp4(show_m, "all_tract_profiles.mp4")
