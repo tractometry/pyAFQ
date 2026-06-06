@@ -128,11 +128,11 @@ for bval, slicer in zip([0, 1000, 2000],
 
     show_m = window.ShowManager(
         scene=scene, window_type="offscreen",
-        size=(800, 800),  pixel_ratio=2.0
+        size=(600, 600),  pixel_ratio=2.0
     )
     window.update_camera(show_m.screens[0].camera, None, slicer)
     show_m.screens[0].controller.rotate((0, radians(-90)), None)
-    make_mp4(show_m, f'b{bval}.mp4')
+    make_mp4(show_m, f'b{bval}.mp4', n_frames=180, az_ang=-2, crf=32)
 
 #############################################################################
 # Visualizing whole-brain tractography
@@ -182,7 +182,7 @@ whole_brain_t1w = transform_streamlines(
 
 
 
-whole_brain_actor = actor.streamlines(whole_brain_t1w, thickness=2)
+whole_brain_actor = actor.streamlines(whole_brain_t1w, thickness=1)
 slicer = slice_volume(t1w, y=t1w.shape[1] // 2 - 5, z=t1w.shape[-1] // 3)
 
 def rotate_to_anterior(show_m):
@@ -198,10 +198,10 @@ scene.add(slicer)
 scene.background = (1, 1, 1)
 show_m = window.ShowManager(
     scene=scene, window_type="offscreen",
-    size=(800, 800),  pixel_ratio=2.0
+    size=(600, 600),  pixel_ratio=2.0
 )
 rotate_to_anterior(show_m)
-make_mp4(show_m, "whole_brain.mp4")
+make_mp4(show_m, "whole_brain.mp4", n_frames=180, az_ang=-2, crf=32)
 
 #############################################################################
 # Whole brain with waypoints
@@ -215,7 +215,7 @@ make_mp4(show_m, "whole_brain.mp4")
 # https://docs.dipy.org/1.11.0/examples_built/registration/syn_registration_3d.html
 
 scene.clear()
-whole_brain_actor = actor.streamlines(whole_brain_t1w, thickness=2)
+whole_brain_actor = actor.streamlines(whole_brain_t1w, thickness=1)
 
 scene.add(whole_brain_actor)
 scene.add(slicer)
@@ -252,10 +252,10 @@ scene.add(waypoint2_actor)
 
 show_m = window.ShowManager(
     scene=scene, window_type="offscreen",
-    size=(800, 800),  pixel_ratio=2.0
+    size=(600, 600),  pixel_ratio=2.0
 )
 rotate_to_anterior(show_m)
-make_mp4(show_m, "whole_brain_with_waypoints.mp4")
+make_mp4(show_m, "whole_brain_with_waypoints.mp4", n_frames=180, az_ang=-2, crf=32)
 
 bundle_path = op.join(afq_path,
                       'bundles')
@@ -335,7 +335,7 @@ sft_arc.to_rasmm()
 arc_t1w = transform_streamlines(sft_arc.streamlines,
                                 np.linalg.inv(t1w_img.affine))
 
-arc_actor = actor.streamlines(arc_t1w, thickness=8, colors=color_dict['Left Arcuate'])
+arc_actor = actor.streamlines(arc_t1w, thickness=1, colors=color_dict['Left Arcuate'])
 scene.clear()
 
 scene.add(arc_actor)
@@ -346,10 +346,10 @@ scene.add(waypoint2_actor)
 
 show_m = window.ShowManager(
     scene=scene, window_type="offscreen",
-    size=(800, 800),  pixel_ratio=2.0
+    size=(600, 600),  pixel_ratio=2.0
 )
 rotate_to_anterior(show_m)
-make_mp4(show_m, "arc1.mp4")
+make_mp4(show_m, "arc1.mp4", n_frames=180, az_ang=-2, crf=32)
 
 #############################################################################
 # Clean bundle
@@ -364,10 +364,10 @@ scene.add(slicer)
 
 show_m = window.ShowManager(
     scene=scene, window_type="offscreen",
-    size=(800, 800),  pixel_ratio=2.0
+    size=(600, 600),  pixel_ratio=2.0
 )
 rotate_to_anterior(show_m)
-make_mp4(show_m, "arc2.mp4")
+make_mp4(show_m, "arc2.mp4", n_frames=180, az_ang=-2, crf=32)
 
 clean_bundles_path = op.join(afq_path,
                              'clean_bundles')
@@ -379,7 +379,7 @@ sft_arc.to_rasmm()
 arc_t1w = transform_streamlines(sft_arc.streamlines,
                                 np.linalg.inv(t1w_img.affine))
 
-arc_actor = actor.streamlines(arc_t1w, thickness=8, colors=tab20.colors[18])
+arc_actor = actor.streamlines(arc_t1w, thickness=1, colors=tab20.colors[18])
 scene.clear()
 
 scene.add(arc_actor)
@@ -387,10 +387,10 @@ scene.add(slicer)
 
 show_m = window.ShowManager(
     scene=scene, window_type="offscreen",
-    size=(800, 800),  pixel_ratio=2.0
+    size=(600, 600),  pixel_ratio=2.0
 )
 rotate_to_anterior(show_m)
-make_mp4(show_m, "arc3.mp4")
+make_mp4(show_m, "arc3.mp4", n_frames=180, az_ang=-2, crf=32)
 
 #############################################################################
 # Show the values of tissue properties along the bundle
@@ -408,9 +408,10 @@ scene.clear()
 fa_in_t1 = resample(fa_img, t1w_img).get_fdata()
 fa_profiles = values_from_volume(fa_in_t1, arc_t1w, np.eye(4))
 for ii in range(len(arc_t1w)):
-    colors = create_colormap(np.asarray(fa_profiles[ii]), name="blues", auto=False)
+    colors = create_colormap(1-np.asarray(fa_profiles[ii]), name="blues")
     arc_actor = actor.streamlines(
-        arc_t1w[ii], thickness=8,
+        arc_t1w[ii], thickness=2,
+        opacity=0.5,
         colors=colors)
     scene.add(arc_actor)
 
@@ -418,10 +419,10 @@ scene.add(slicer)
 
 show_m = window.ShowManager(
     scene=scene, window_type="offscreen",
-    size=(800, 800),  pixel_ratio=2.0
+    size=(600, 600),  pixel_ratio=2.0
 )
 rotate_to_anterior(show_m)
-make_mp4(show_m, "arc4.mp4")
+make_mp4(show_m, "arc4.mp4", n_frames=180, az_ang=-2, crf=32)
 
 #############################################################################
 # Core of the bundle and tract profile
@@ -438,7 +439,7 @@ arc_profile = afq_profile(fa, sft_arc.streamlines, affine=np.eye(4),
 
 core_arc_actor = actor.streamlines(
     [core_arc],
-    thickness=40,
+    thickness=5,
     colors=create_colormap(arc_profile, name='viridis')
 )
 
@@ -455,10 +456,10 @@ scene.add(core_arc_actor)
 
 show_m = window.ShowManager(
     scene=scene, window_type="offscreen",
-    size=(800, 800),  pixel_ratio=2.0
+    size=(600, 600),  pixel_ratio=2.0
 )
 rotate_to_anterior(show_m)
-make_mp4(show_m, "arc5.mp4")
+make_mp4(show_m, "arc5.mp4", n_frames=180, az_ang=-2, crf=32)
 
 #############################################################################
 # Core of all bundles and their tract profiles
@@ -478,17 +479,17 @@ for ii, bundle in enumerate(bundles):
 
     bundle_actor = actor.streamlines(
         bundle_t1w,
-        thickness=8,
+        thickness=1,
         colors=color_dict[formal_bundles[ii]]
     )
     scene.add(bundle_actor)
 
 show_m = window.ShowManager(
     scene=scene, window_type="offscreen",
-    size=(800, 800),  pixel_ratio=2.0
+    size=(600, 600),  pixel_ratio=2.0
 )
 rotate_to_anterior(show_m)
-make_mp4(show_m, "all_bundles.mp4")
+make_mp4(show_m, "all_bundles.mp4", n_frames=180, az_ang=-2, crf=32)
 
 scene.clear()
 
@@ -511,7 +512,7 @@ for bundle in bundles:
 
     core_actor = actor.streamlines(
         [core_bundle],
-        thickness=40,
+        thickness=5,
         colors=create_colormap(tract_profiles[-1], name='viridis')
     )
 
@@ -519,10 +520,10 @@ for bundle in bundles:
 
 show_m = window.ShowManager(
     scene=scene, window_type="offscreen",
-    size=(800, 800),  pixel_ratio=2.0
+    size=(600, 600),  pixel_ratio=2.0,
 )
 rotate_to_anterior(show_m)
-make_mp4(show_m, "all_tract_profiles.mp4")
+make_mp4(show_m, "all_tract_profiles.mp4", n_frames=180, az_ang=-2, crf=32)
 
 
 #############################################################################
