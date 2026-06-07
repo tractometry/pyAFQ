@@ -1,10 +1,17 @@
-"""
-.. _pyafq-2-settings:
+---
+file_format: mystnb
+kernelspec:
+  name: python3
+mystnb:
+  execution_mode: "off"
+---
 
+(pyafq-2-settings)=
 ======================================
 Running pyAFQ 2.x defaults in pyAFQ 3.x
 ======================================
-"""
+
+```{code-cell} ipython3
 from AFQ.api.group import GroupAFQ
 import AFQ.data.fetch as afd
 import AFQ.definitions.image as afm
@@ -13,14 +20,15 @@ import AFQ.api.bundle_dict as abd
 import os.path as op
 
 afd.organize_stanford_data()
+```
 
-################################################################
-# Tractography parameters in the old way
-# --------------------------------------------------------------
-# In pyAFQ 2.x, we used CSD with no asymmetric filtering,
-# and seeded streamlines throughout the white matter instead of
-# on the white matter / gray matter interface.
+Tractography parameters in the old way
+--------------------------------------------------------------
+In pyAFQ 2.x, we used CSD with no asymmetric filtering,
+and seeded streamlines throughout the white matter instead of
+on the white matter / gray matter interface.
 
+```{code-cell} ipython3
 tracking_params = dict(
     odf_model="csd",
     n_seeds=1,
@@ -30,18 +38,19 @@ tracking_params = dict(
     seed_mask=afm.ScalarImage("dti_fa"),
     seed_threshold=0.2
 )
+```
 
-################################################################
-# Partial Volume Estimate in the old way
-# --------------------------------------------------------------
-# In pyAFQ 2.x, we did not use PVE and instead thresholded
-# on fractional anisotropy (FA) maps to create
-# seed and stopping masks. Here, we recreate
-# the PVE images using the FA maps.
-# Note there the CSF map is not used in this case.
-# Additionally, in pyAFQ 2.x, the brain mask was calculated
-# using median OTSU. Here, we import it from the Freesurfer segmentation instead.
+Partial Volume Estimate in the old way
+--------------------------------------------------------------
+In pyAFQ 2.x, we did not use PVE and instead thresholded
+on fractional anisotropy (FA) maps to create
+seed and stopping masks. Here, we recreate
+the PVE images using the FA maps.
+Note there the CSF map is not used in this case.
+Additionally, in pyAFQ 2.x, the brain mask was calculated
+using median OTSU. Here, we import it from the Freesurfer segmentation instead.
 
+```{code-cell} ipython3
 pve = afm.PVEImages(
     afm.ThresholdedScalarImage(
         "dti_fa",
@@ -56,26 +65,27 @@ pve = afm.PVEImages(
 bm_def = afm.LabelledImageFile(
     suffix="seg", filters={"scope": "freesurfer"},
     exclusive_labels=[0])
+```
 
-################################################################
-# VOF / pAF / CST in the old way
-# --------------------------------------------------------------
-# In pyAFQ 2.x, the vertical occipital fasciculus (VOF)
-# and posterior arcuate fasciculus (pAF) were defined differently.
-# The pAF in 3.0 has an increased restriction that it cannot overlap with
-# the arcuate by more than 30%. The VOF has several changes:
-# 1. one endpoint ROI instead of both, but there is a minimum length
-#    requirement to of 25mm to compensate;
-# 2. The allowed overlap with the pAF has been reduced;
-# 3. it must be lateral to the inferior fronto-occipital fasciculus
-#    instead of the inferior longitudinal fasciculus;
-# 4. cleaning has been changed: there is now mahalanobis cleaning on
-#    orientation, and isolation forest cleaning instead of mahalanobis for 
-#    distance.
-# Additionally, in the new version, the inferior endpoints of the
-# corticospinal tracts (CST) were removed, and the superior longitudinal
-# fasciculus (SLF) was broken into three sub-bundles.
+VOF / pAF / CST in the old way
+--------------------------------------------------------------
+In pyAFQ 2.x, the vertical occipital fasciculus (VOF)
+and posterior arcuate fasciculus (pAF) were defined differently.
+The pAF in 3.0 has an increased restriction that it cannot overlap with
+the arcuate by more than 30%. The VOF has several changes:
+1. one endpoint ROI instead of both, but there is a minimum length
+   requirement to of 25mm to compensate;
+2. The allowed overlap with the pAF has been reduced;
+3. it must be lateral to the inferior fronto-occipital fasciculus
+   instead of the inferior longitudinal fasciculus;
+4. cleaning has been changed: there is now mahalanobis cleaning on
+   orientation, and isolation forest cleaning instead of mahalanobis for 
+   distance.
+Additionally, in the new version, the inferior endpoints of the
+corticospinal tracts (CST) were removed, and the superior longitudinal
+fasciculus (SLF) was broken into three sub-bundles.
 
+```{code-cell} ipython3
 templates = afd.read_templates(as_img=False)
 old_vof_paf_cst_slf_definitions = abd.BundleDict({
         'Left Corticospinal': {
@@ -154,13 +164,14 @@ old_vof_paf_cst_slf_definitions = abd.BundleDict({
                                          'core': 'Left'},
                                      'primary_axis': 'I/S',
                                      'primary_axis_percentage': 40}})
+```
 
-##################################################################
-# Callosal bundles in the old way
-# ----------------------------------------------------------------
-# In pyAFQ 2.x, the callosal bundles were cleaned using mahalnobis
-# instead of isolation forest.
+Callosal bundles in the old way
+----------------------------------------------------------------
+In pyAFQ 2.x, the callosal bundles were cleaned using mahalnobis
+instead of isolation forest.
 
+```{code-cell} ipython3
 callosal_templates =\
     afd.read_callosum_templates(as_img=False)
 callosal_bd = abd.BundleDict({
@@ -225,18 +236,19 @@ callosal_bd = abd.BundleDict({
 bundle_info = abd.default_bd() + \
     old_vof_paf_cst_slf_definitions + \
     callosal_bd
+```
 
-################################################################
-# Run GroupAFQ with these parameters
-# --------------------------------------------------------------
-# Finally, we can run GroupAFQ with the 2.0 parameters.
-# In sum, we changed:
-# Tractography parameters to use CSD and seed throughout
-# the white matter;
-# PVE images to use FA thresholding;
-# Bundle definitions for VOF, pAF, and CST to use the old definitions;
-# Callosal bundles to use mahalanobis cleaning.
+Run GroupAFQ with these parameters
+--------------------------------------------------------------
+Finally, we can run GroupAFQ with the 2.0 parameters.
+In sum, we changed:
+Tractography parameters to use CSD and seed throughout
+the white matter;
+PVE images to use FA thresholding;
+Bundle definitions for VOF, pAF, and CST to use the old definitions;
+Callosal bundles to use mahalanobis cleaning.
 
+```{code-cell} ipython3
 myafq = GroupAFQ(
     bids_path=op.join(afd.afq_home, 'stanford_hardi'),
     dwi_preproc_pipeline='vistasoft',
@@ -247,3 +259,4 @@ myafq = GroupAFQ(
     bundle_info=bundle_info)
 
 myafq.export_all()
+```

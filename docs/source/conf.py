@@ -12,9 +12,6 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 
-from plotly.io._sg_scraper import plotly_sg_scraper
-from AFQ.utils.docs import PNGScraper, MP4Scraper
-
 import sys
 import os
 import AFQ
@@ -53,7 +50,7 @@ extensions = [
     'sphinx.ext.mathjax',
     'sphinx.ext.viewcode',
     'sphinx.ext.githubpages',
-    'sphinx_gallery.gen_gallery',
+    'myst_nb',
     'sphinx_design',
     'sphinx.ext.autosummary',
     'sphinxcontrib.bibtex',
@@ -62,7 +59,6 @@ extensions = [
     'updatedocs',
     'kwargsdocs',
     'methodsdocs',
-    'myst_nb',
 ]
 
 bibtex_bibfiles = ['references.bib']
@@ -75,8 +71,11 @@ templates_path = ['_templates']
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
 #
-# source_suffix = ['.rst', '.md']
-source_suffix = '.rst'
+source_suffix = {
+    '.rst': 'restructuredtext',
+    '.md': 'myst-nb',
+    '.ipynb': 'myst-nb',
+}
 
 # The master toctree document.
 master_doc = 'index'
@@ -95,6 +94,10 @@ exclude_patterns = []
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'
+
+# Myst settings
+nb_execution_mode = "force"
+nb_execution_timeout = 7200
 
 # -- Options for HTML output -------------------------------------------------
 
@@ -222,28 +225,11 @@ intersphinx_mapping = {'python': ('https://docs.python.org/3/', None),
                        'dipy': ('https://docs.dipy.org/stable/', None)
                        }
 
-image_scrapers = ('matplotlib', plotly_sg_scraper, PNGScraper(), MP4Scraper())
+# Myst settings
+nb_execution_raise_on_error = True
 
-from _progressbars import reset_progressbars  # noqa
-
-sphinx_gallery_thumbnail_path = '../source/_static/logo.png'
-
-from sphinx_gallery.sorting import FileNameSortKey
-
-sphinx_gallery_conf = {
-
-    # path to your examples scripts
-    'examples_dirs': ['../../examples/howto_examples',
-                      '../../examples/tutorial_examples'],
-    # path where to save gallery generated examples
-    'gallery_dirs': ['howto/howto_examples', 'tutorials/tutorial_examples'],
-    'image_scrapers': image_scrapers,
-    'reset_modules': (reset_progressbars),
-    'filename_pattern': r'/plot_(?!.*(003_rerun|006_bids_layout)).*\.py$',
-    'show_memory': True,
-    'abort_on_example_error': True,
-    'within_subsection_order': FileNameSortKey,
-}
+# example of how to exclude notebooks when testing
+# nb_execution_excludepatterns = ["plot_00*"]  
 
 # Auto API
 autoapi_type = 'python'

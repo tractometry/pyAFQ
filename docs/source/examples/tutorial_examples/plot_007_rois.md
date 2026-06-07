@@ -1,4 +1,9 @@
-"""
+---
+file_format: mystnb
+kernelspec:
+  name: python3
+---
+
 ====================================================================
 Plotting Default Regions of Interest (ROIs) to Understand the Tracts
 ====================================================================
@@ -10,11 +15,12 @@ coronal, and axial views of these ROIs overlaid on the MNI template T1w brain.
 
 The visualization helps understand the spatial relationships between tracts and
 their defining ROIs.
-"""
 
-####################################################
-# Import libraries, load the default tract templates
++++
 
+Import libraries, load the default tract templates
+
+```{code-cell} ipython3
 import numpy as np
 
 import matplotlib
@@ -26,11 +32,11 @@ import AFQ.api.bundle_dict as abd
 
 
 templates = abd.default_bd() + abd.callosal_bd()
+```
 
+Define a function to visualize ROIs for a specific tract
 
-##########################################################
-# Define a function to visualize ROIs for a specific tract
-
+```{code-cell} ipython3
 def visualize_tract_rois(tract_name):
     """
     Visualize ROIs for a specific tract overlaid on the template brain.
@@ -163,10 +169,11 @@ def visualize_tract_rois(tract_name):
     figures.append(fig)
 
     return figures
+```
 
-#####################################
-# Create visualization for each tract
+Create visualization for each tract
 
+```{code-cell} ipython3
 
 for bundle_name in templates.bundle_names:
     print(f"Visualizing ROIs for tract: {bundle_name}")
@@ -174,3 +181,4 @@ for bundle_name in templates.bundle_names:
     for ii, fig in enumerate(figs):
         fig.savefig(f"{bundle_name}_{ii}.png")
         plt.close(fig)
+```

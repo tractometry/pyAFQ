@@ -362,7 +362,7 @@ def gaussian_weights(
         return w
 
 
-def make_mp4(show_m, out_path, n_frames=720, az_ang=-0.5, fps=30, crf=35):
+def make_mp4(show_m, out_path, n_frames=720, az_ang=-0.5, fps=30, crf=35, verbose=True):
     """
     Make an MP4 video from a Fury Show Manager with auto-cropping.
 
@@ -392,6 +392,10 @@ def make_mp4(show_m, out_path, n_frames=720, az_ang=-0.5, fps=30, crf=35):
         quality and file size. Lower values result in
         higher quality and larger file sizes.
         Default: 35 (very low quality, small file size)
+
+    verbose : bool
+        Whether to show a progress bar while generating the video.
+        Default: True
     """
     if not out_path.lower().endswith(".mp4"):
         out_path += ".mp4"
@@ -402,7 +406,9 @@ def make_mp4(show_m, out_path, n_frames=720, az_ang=-0.5, fps=30, crf=35):
     show_m.window.draw()
 
     with tempfile.TemporaryDirectory() as tmp_dir:
-        for ii in tqdm(range(n_frames), desc="Generating MP4", leave=False):
+        for ii in tqdm(
+            range(n_frames), desc="Generating MP4", leave=False, disable=not verbose
+        ):
             frame_fname = f"{tmp_dir}/{ii}.png"
             show_m.screens[0].controller.rotate((radians(az_ang), 0), None)
             show_m.render()

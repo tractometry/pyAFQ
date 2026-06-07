@@ -1,4 +1,11 @@
-"""
+---
+file_format: mystnb
+kernelspec:
+  name: python3
+mystnb:
+  execution_mode: "off"
+---
+
 ================
 Re-running pyAFQ
 ================
@@ -13,20 +20,21 @@ old parameters.
 To solve this, use the myafq.clobber() or myafq.cmd_outputs() methods. They
 are the same methods. They will delete previous derivatives so you can
 re-run your pipeline.
-"""
+
+```{code-cell} ipython3
 from AFQ.api.group import GroupAFQ
 import AFQ.data.fetch as afd
 import AFQ.definitions.image as afm
 import os.path as op
 import os
+```
 
+We start with some example data. The data we will use here is
+generated from HBN
+We then setup our myafq object which we will use to demonstrate
+the clobber method.
 
-##########################################################################
-# We start with some example data. The data we will use here is
-# generated from HBN
-# We then setup our myafq object which we will use to demonstrate
-# the clobber method.
-
+```{code-cell} ipython3
 afd.fetch_hbn_preproc(["NDARAA948VFH"])
 
 tracking_params = dict(n_seeds=100,
@@ -80,32 +88,33 @@ myafq = GroupAFQ(
     pve=pve)
 
 myafq.export("b0")
+```
 
-####################
-# Delete Some Things
-# ------------------
-# To delete only specific types of derivatives while preserving others,
-# use the ``dependent_on`` parameter::
-#
-#     # Delete only tractography-dependent files
-#     myafq.cmd_outputs(dependent_on="track")
-#
-#     # Delete only bundle recognition-dependent files
-#     myafq.cmd_outputs(dependent_on="recog")
-#
-#     # Delete only profiling-dependent files
-#     myafq.cmd_outputs(dependent_on="prof")
-#
-# You can also specify exceptions - files to preserve::
-#
-#     # Delete all outputs except the tractography
-#     myafq.cmd_outputs(exceptions=["streamlines"])
-#
-# Here, we will change the tractography parameters, but we want to keep all
-# derivatives not dependent on tractography. Typically, this means keeping
-# The mapping from MNI space and fitted models, but deleting recognized
-# bundles and tract profiles.
+Delete Some Things
+------------------
+To delete only specific types of derivatives while preserving others,
+use the ``dependent_on`` parameter::
 
+    # Delete only tractography-dependent files
+    myafq.cmd_outputs(dependent_on="track")
+
+    # Delete only bundle recognition-dependent files
+    myafq.cmd_outputs(dependent_on="recog")
+
+    # Delete only profiling-dependent files
+    myafq.cmd_outputs(dependent_on="prof")
+
+You can also specify exceptions - files to preserve::
+
+    # Delete all outputs except the tractography
+    myafq.cmd_outputs(exceptions=["streamlines"])
+
+Here, we will change the tractography parameters, but we want to keep all
+derivatives not dependent on tractography. Typically, this means keeping
+The mapping from MNI space and fitted models, but deleting recognized
+bundles and tract profiles.
+
+```{code-cell} ipython3
 myafq.clobber(dependent_on="track")
 
 tracking_params = dict(n_seeds=100,
@@ -144,7 +153,7 @@ myafq.export("streamlines")
 backup_dir = op.join(afd.afq_home, "HBN_backup")
 os.makedirs(backup_dir, exist_ok=True)
 
-# Move the outupts of AFQ to this directory
+# Move the outputs of AFQ to this directory
 myafq.cmd_outputs(cmd="mv", suffix=backup_dir)
 
 ##############
@@ -158,3 +167,4 @@ myafq.cmd_outputs(cmd="mv", suffix=backup_dir)
 # 5. Resetting the workflow to ensure subsequent runs regenerate affected derivatives
 #
 # We plan to automate this process in the future.
+```

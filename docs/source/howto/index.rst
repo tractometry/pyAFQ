@@ -25,4 +25,4 @@ software.
    tractography_params
    segmentation_params
    cleaning_params
-   howto_examples/index
+   ../examples/howto_examples/index

@@ -1,4 +1,11 @@
-"""
+---
+file_format: mystnb
+kernelspec:
+  name: python3
+mystnb:
+  execution_mode: "off"
+---
+
 ====================================
 How to segment out only some bundles
 ====================================
@@ -9,8 +16,7 @@ some bundles. This example shows how to track and recognize only certain
 bundles that you are interested in, though note that ARC, pARC and VOF are all
 also part of the set of bundles that are segmented per default.
 
-"""
-
+```{code-cell} ipython3
 import AFQ.api.bundle_dict as abd
 import AFQ.data.fetch as afd
 from AFQ.api.group import GroupAFQ
@@ -27,7 +33,6 @@ bundle_names = [
     "Left Vertical Occipital", "Right Vertical Occipital"]
 bundle_dict = abd.default_bd()[bundle_names]
 
-
 myafq = GroupAFQ(
     op.join(afd.afq_home, 'stanford_hardi'),
     bundle_info=bundle_dict,
@@ -39,12 +44,17 @@ myafq = GroupAFQ(
         "seed_mask": RoiImage(use_waypoints=True, use_endpoints=True),
     }
 )
+```
 
+```{code-cell} ipython3
 for b_name in bundle_names:
     b_len = len(aus.SegmentedSFT.fromfile(myafq.export("bundles")[
         "01"]).get_bundle(b_name))
 
     if b_len < 1:
         raise ValueError(f"{b_name} not found")
+```
 
+```{code-cell} ipython3
 myafq.export("all_bundles_figure")["01"][0]
+```
