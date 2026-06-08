@@ -6,11 +6,9 @@ mystnb:
   execution_mode: "off"
 ---
 
-==========================
-How to use Free water DTI
-==========================
+# How to use Free water DTI
 
-The free-water DTI model [1, 2]_ fits a two compartment model to dMRI data
+The free-water DTI model [^1], [^2] fits a two compartment model to dMRI data
 with more than one non-zero shell. One compartment is a spherical compartment
 with the diffusivity of water, which accounts for free water in the tissue.
 The other compartment is the standard diffusion tensor.
@@ -33,10 +31,10 @@ import AFQ.api.bundle_dict as abd
 import pandas as pd
 ```
 
-Get some data
---------------
+## Get some data
+
 In this example, we will look at one subject from the Healthy Brain Network
-Processed Open Diffusion Derivatives dataset (HBN-POD2) [3, 4]_. The data in
+Processed Open Diffusion Derivatives dataset (HBN-POD2) [^3], [^4]. The data in
 this study were collected with a multi-shell sequence, meaning that most
 subjects in this study have data with more than one non-zero b-value. This
 means that we can fit the fwDTI model to their data.
@@ -49,8 +47,7 @@ format in the `~/AFQ_data/HBN` folder.
 study_dir = afd.fetch_hbn_preproc(["NDARAA948VFH"])[1]
 ```
 
-Define an AFQ object
---------------------
+## Define an AFQ object
 In addition to preprocessd dMRI data, HBN-POD2 contains brain mask and mapping
 information for each subject. We can use this information in our pipeline, by
 inserting this information as `mapping_definition` inputs to the `GroupAFQ` class
@@ -78,8 +75,7 @@ myafq = GroupAFQ(
     scalars=["fwdti_fa", "fwdti_md", "fwdti_fwf", "dti_fa", "dti_md"])
 ```
 
-Compare fwDTI and DTI maps
--------------------------
+## Compare fwDTI and DTI maps
 First, we take a look at the maps for the FA and MD calculated using the two
 models
 
@@ -106,8 +102,7 @@ ax[1].matshow(fwMD[:, :, fwMD.shape[-1] // 2], cmap='gray', vmax=0.005)
 ax[1].axis("off")
 ```
 
- Free-water fraction map
--------------------------
+## Free-water fraction map
 In addition to the standard tensor scalars, provided by the fwDTI model, this
 model also computes a free-water fraction, which is a number between 0 and 1
 that assesses the fraction of the voxel signal that is explained by the free
@@ -120,8 +115,7 @@ ax.matshow(fwf[:, :, fwf.shape[-1] // 2], cmap='gray')
 ax.axis("off")
 ```
 
- Comparing bundle profiles
--------------------------
+## Comparing bundle profiles
 Exporting the profiles will create a CSV file that contains information about
 node-by-node values of the scalars computed with both models. Here, we read in
 this information with Pandas and plot a comparison. As you can see, when free
@@ -151,22 +145,21 @@ for ii, bundle in enumerate(["Left Arcuate", "Right Arcuate"]):
     ax[2, ii].set_xlabel("Distance along the bundle (A => P)")
 ```
 
-References
-----------
+## References
 
-.. [1] Hoy AR, Koay CG, Kecskemeti SR, Alexander AL. Optimization of a free
+[^1]: Hoy AR, Koay CG, Kecskemeti SR, Alexander AL. Optimization of a free
     water elimination two-compartment model for diffusion tensor imaging.
     Neuroimage. 2014;103:323-333.
 
-.. [2] Henriques RN, Rokem A, Garyfallidis E, St-Jean S, Peterson ET, Correia
+[^2]: Henriques RN, Rokem A, Garyfallidis E, St-Jean S, Peterson ET, Correia
     MM. [Re] Optimization of a free water elimination two-compartment model
     for diffusion tensor imaging. bioRxiv. February 2017:108795.
     doi:10.1101/108795
 
-.. [3] Alexander LM, Escalera J, Ai L, et al. An open resource for
+[^3]: Alexander LM, Escalera J, Ai L, et al. An open resource for
     transdiagnostic research in pediatric mental health and learning
     disorders. Sci Data. 2017;4:170181.
 
-.. [4] Richie-Halford A, Cieslak M, Ai L, et al. An analysis-ready and
+[^4]: Richie-Halford A, Cieslak M, Ai L, et al. An analysis-ready and
     quality controlled resource for pediatric brain white-matter research.
     Scientific Data. 2022;9(1):1-27.

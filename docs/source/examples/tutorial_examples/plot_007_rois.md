@@ -4,9 +4,7 @@ kernelspec:
   name: python3
 ---
 
-====================================================================
-Plotting Default Regions of Interest (ROIs) to Understand the Tracts
-====================================================================
+# Plotting Default Regions of Interest (ROIs) to Understand the Tracts
 This script visualizes the default Regions of Interest (ROIs) for the
 white matter tracts we recognize by default in pyAFQ. It loads predefined
 tract templates into MNI space, extracts inclusion, exclusion, start, and
@@ -181,4 +179,14 @@ for bundle_name in templates.bundle_names:
     for ii, fig in enumerate(figs):
         fig.savefig(f"{bundle_name}_{ii}.png")
         plt.close(fig)
+```
+
+```{code-cell} ipython3
+:tags: [remove-input]
+from IPython.display import display
+from AFQ.utils.docs import embed_image
+
+for bundle_name in templates.bundle_names:
+    for ii, _ in enumerate(figs):
+        display(embed_image(f"{bundle_name}_{ii}.png"))
 ```

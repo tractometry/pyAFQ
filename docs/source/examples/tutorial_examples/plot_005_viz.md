@@ -4,9 +4,7 @@ kernelspec:
   name: python3
 ---
 
-============================
-Visualizing AFQ derivatives
-============================
+# Visualizing AFQ derivatives
 
 Visualizing the results of a pyAFQ analysis is useful because it allows us to
 inspect the results of the analysis and to communicate the results to others.
@@ -18,7 +16,7 @@ However, when communicating the results of pyAFQ analysis, it is often useful
 to have more specific control over the visualization that is produced. In
 addition, it is often useful to have visualizations that are visually appealing
 and striking. In this tutorial, we will use the `fury <https://fury.gl/>`_
-library [1]_ to visualize outputs of pyAFQ as publication-ready figures.
+library [^1] to visualize outputs of pyAFQ as publication-ready figures.
 
 ```{code-cell} ipython3
 import os
@@ -38,11 +36,11 @@ import AFQ.data.fetch as afd
 from AFQ.viz.utils import PanelFigure
 ```
 
-Get some data from HBN POD2
-----------------------------
+## Get some data from HBN POD2
+
 The Healthy Brain Network Preprocessed Open Diffusion Derivatives (HBN POD2)
 is a collection of resources based on the Healthy Brain Network dataset
-[2, 3]_. HBN POD2 includes data derivatives - including pyAFQ derivatives -
+[^2], [^3]. HBN POD2 includes data derivatives - including pyAFQ derivatives -
 from more than 2,000 subjects. The data and the derivatives can be browsed at
 https://fcp-indi.s3.amazonaws.com/index.html#data/Projects/HBN/BIDS_curated/
 
@@ -69,12 +67,13 @@ bundle_path = op.join(afq_path,
                       'bundles')
 ```
 
-Read data into memory
-----------------------
+## Read data into memory
 The bundle coordinates from pyAFQ are always saved in the reference frame of
 the diffusion data from which they are generated, so we need an image file
 with the dMRI coordinates as a reference for loading the data (we could also
 use `"same"` here).
+
+
 
 ```{code-cell} ipython3
 fa_img = nib.load(op.join(afq_path,
@@ -86,8 +85,7 @@ sft_cst = load_trk(op.join(bundle_path,
                            'sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi_space-RASMM_model-CSD_desc-prob-afq-CST_L_tractography.trk'), fa_img)
 ```
 
-Transform into the T1w reference frame
---------------------------------------
+## Transform into the T1w reference frame
 Our first goal is to visualize the bundles with a background of the
 T1-weighted image, which provides anatomical context. We read in this data and
 transform the bundle coordinates, first into the RASMM common coordinate frame
@@ -108,8 +106,7 @@ cst_t1w = transform_streamlines(sft_cst.streamlines,
                                 np.linalg.inv(t1w_img.affine))
 ```
 
-Visualizing bundles with principal direction coloring
------------------------------------------------------
+## Visualizing bundles with principal direction coloring
 The first visualization we will create will have the streamlines colored
 according to their direction. The color of each streamline will be RGB encoded
 according to the RAS of the average orientation of its segments. This is the
@@ -132,8 +129,7 @@ arc_actor = actor.streamlines(arc_t1w, thickness=8)
 cst_actor = actor.streamlines(cst_t1w, thickness=8)
 ```
 
-Slicer actors
--------------
+## Slicer actors
 The anatomical image is rendered using `slicer` actors. These are actors that
 visualize one slice of a three dimensional volume. We call the function on the
 T1-weighted data, selecting the x slice that is half-way through the x
@@ -151,8 +147,7 @@ slicer = actor.data_slicer(t1w,
                                t1w.shape[-1] // 3))
 ```
 
-Making a `scene`
------------------
+## Making a `scene`
 The next kind of fury object we will be working with is a `window.Scene`
 object. This is the (3D!) canvas on which we are drawing the actors. We
 initialize this object and call the `scene.add` method to add the actors.
@@ -165,11 +160,13 @@ scene.add(cst_actor)
 scene.add(slicer)
 ```
 
-Showing the visualization
--------------------------
-If you are working in an interactive session, you can call::
+## Showing the visualization
 
-    window.show(scene, size=(1200, 1200))
+If you are working in an interactive session, you can call:
+
+```python
+window.show(scene, size=(1200, 1200))
+```
 
 to see what the visualization looks like. This would pop up a window that will
 show you the visualization as it is now. You can interact with this
@@ -181,8 +178,7 @@ blocking execution of any further commands in the Python interpreter!)
 
 +++
 
-Record the visualization
--------------------------
+## Record the visualization
 If you are not working in an interactive session, or you have already figured
 out the camera settings that work for you, you can go ahead and record the
 image into a png file. We use a pretty high resolution here (2400 by 2400) so
@@ -207,8 +203,14 @@ def save_png(scene, name):
 save_png(scene, 'arc_cst1.png')
 ```
 
-Setting bundle colors
----------------------
+```{code-cell} ipython3
+:tags: [remove-input]
+from AFQ.utils.docs import embed_image
+
+embed_image(op.join(afd.afq_home, "VizExample", "arc_cst1.png"))
+```
+
+## Setting bundle colors
 The default behavior produces a nice image! But we often want to be able to
 differentiate streamlines based on the bundle to which they belong. For this,
 we will set the color of each streamline, based on the bundle. We often use
@@ -237,8 +239,12 @@ scene.add(slicer)
 save_png(scene, 'arc_cst2.png')
 ```
 
-Adding core bundles with tract profiles
----------------------------------------
+```{code-cell} ipython3
+:tags: [remove-input]
+embed_image(op.join(afd.afq_home, "VizExample", "arc_cst2.png"))
+```
+
+## Adding core bundles with tract profiles
 Next, we'd like to add a representation of the core of each bundle and plot
 the profile of some property along the length of the bundle. Another option
 for setting streamline colors is for each point along a streamline to have a a
@@ -260,9 +266,10 @@ sequence of streamlines as input. Before plotting things again, we initialize
 our bundle line actors again. This time, we set the opacity of the lines to
 0.1, so that they do not occlude the view of the core bundle visualizations.
 
-.. note::
-  In this case, the profile is FA, but you can use any sequence of 100
-  numbers in place of the FA profiles: group differences, p-values, etc.
+:::{note}
+In this case, the profile is FA, but you can use any sequence of 100
+numbers in place of the FA profiles: group differences, p-values, etc.
+:::
 
 ```{code-cell} ipython3
 from dipy.tracking.streamline import set_number_of_points
@@ -302,8 +309,12 @@ scene.add(core_cst_actor)
 save_png(scene, 'arc_cst3.png')
 ```
 
-Adding ROIs
------------
+```{code-cell} ipython3
+:tags: [remove-input]
+embed_image(op.join(afd.afq_home, "VizExample", "arc_cst3.png"))
+```
+
+## Adding ROIs
 Another element that we can add into the visualization are volume renderings
 of regions of interest. For example, the waypoint ROIs that were used to
 define the bundles. Here, we will add the waypoints that were used to define
@@ -318,11 +329,13 @@ addition of a `contour_from_roi` actor for each of the ROIs. We select another
 color from the Tableau 20 palette to represent this, and use an opacity of
 0.5.
 
-.. note::
-  In this case, the surface rendered is of the waypoint ROIs, but very
-  similar code can be used to render other surfaces, provided a volume that
-  contains that surface. For example, the gray-white matter boundary could
-  be visualized provided an array with a binary representation of the volume #   enclosed in this boundary
+:::{note}
+In this case, the surface rendered is of the waypoint ROIs, but very
+similar code can be used to render other surfaces, provided a volume that
+contains that surface. For example, the gray-white matter boundary could
+be visualized provided an array with a binary representation of the volume
+enclosed in this boundary.
+:::
 
 ```{code-cell} ipython3
 
@@ -369,8 +382,12 @@ scene.add(waypoint2_actor)
 save_png(scene, 'arc_cst4.png')
 ```
 
-Visualizing tracts and tract profiles with a "glass brain"
-----------------------------------------------------------
+```{code-cell} ipython3
+:tags: [remove-input]
+embed_image(op.join(afd.afq_home, "VizExample", "arc_cst4.png"))
+```
+
+## Visualizing tracts and tract profiles with a "glass brain"
 Displaying tracts together with slices of anatomical data is beautiful
 but sometimes poses a challenge because of occlusion. Another option is
 to visualize the data with a "glass brain". That is, a faint contour
@@ -381,7 +398,7 @@ We set its display color to black (`[0, 0, 0]`) and its opacity to a very low
 value so that the tracts can easily be seen. This visualization is best with
 a bright background, so we set the background to white (`[1, 1, 1]`).
 In addition, we will demonstrate another way to show tract profile
-information (based on Luo et al. 2025 [4]_): here the tract profile is
+information (based on Luo et al. 2025 [^4]): here the tract profile is
 interpolated onto each streamline in the tract and mapped to a colormap.
 This vividly shows the variations in tract profile values over space.
 
@@ -413,8 +430,12 @@ scene.background = (1, 1, 1)
 save_png(scene, 'arc_cst5.png')
 ```
 
-Making a Figure out of many fury panels
----------------------------------------
+```{code-cell} ipython3
+:tags: [remove-input]
+embed_image(op.join(afd.afq_home, "VizExample", "arc_cst5.png"))
+```
+
+## Making a Figure out of many fury panels
 We can also make a figure that contains multiple panels, each of which
 contains a different visualization. This is useful for communicating the
 results of an analysis. Here, we will make a figure with four panels, using
@@ -430,18 +451,23 @@ pf.add_img(op.join(out_folder, 'arc_cst5.png'), 1, 1)
 pf.format_and_save_figure(f"arc_cst_fig.png")
 ```
 
-References
-----------
-.. [1] Garyfallidis et al., (2021). FURY: advanced scientific visualization.
+```{code-cell} ipython3
+:tags: [remove-input]
+embed_image('arc_cst_fig.png')
+```
+
+## References
+
+[^1]: Garyfallidis et al., (2021). FURY: advanced scientific visualization.
    Journal of Open Source Software, 6(64), 3384,
    https://doi.org/10.21105/joss.03384
 
-.. [2] Alexander LM, Escalera J, Ai L, et al. An open resource for
+[^2]: Alexander LM, Escalera J, Ai L, et al. An open resource for
     transdiagnostic research in pediatric mental health and learning
     disorders. Sci Data. 2017;4:170181.
 
-.. [3] Richie-Halford A, Cieslak M, Ai L, et al. An analysis-ready and
+[^3]: Richie-Halford A, Cieslak M, Ai L, et al. An analysis-ready and
     quality controlled resource for pediatric brain white-matter research.
     Scientific Data. 2022;9(1):1-27.
 
-.. [4] Luo A, et al. Two Axes of White Matter Development. In prep.
+[^4]: Luo A, et al. Two Axes of White Matter Development. In prep.

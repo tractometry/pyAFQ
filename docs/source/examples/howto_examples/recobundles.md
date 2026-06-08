@@ -6,17 +6,15 @@ mystnb:
   execution_mode: "off"
 ---
 
-=========================================
-Using RecoBundles for bundle recognition
-=========================================
+# Using RecoBundles for bundle recognition
 
 For bundle recognition, pyAFQ defaults to use the waypoint ROI approach
-described in [Yeatman2012]_. However, as an alternative approach, pyAFQ also
-supports using the RecoBundles algorithm [Garyfallidis2017]_, which uses an
+described in [^Yeatman2012]. However, as an alternative approach, pyAFQ also
+supports using the RecoBundles algorithm [^Garyfallidis2017], which uses an
 atlas of bundles in streamlines. This example shows how to
 use RecoBundles for bundle recognition.
 
-The code closely resembles the code used in :ref:`sphx_glr_tutorial_examples_plot_001-plot_afq_api.py`.
+The code closely resembles the code used in the GroupAFQ tutorial.
 
 ```{code-cell} ipython3
 import os.path as op
@@ -31,8 +29,7 @@ tracking_params = dict(n_seeds=25000,
                        rng_seed=42)
 ```
 
-Defining the segmentation params
---------------------------------
+## Defining the segmentation params
 We also refer to bundle recognition as the "segmentation" of the tractogram.
 Parameters of this process are set through a dictionary input to the
 `segmentation_params` argument of the GroupAFQ object. In this case, we
@@ -55,11 +52,11 @@ myafq = GroupAFQ(
 fig_files = myafq.export_all()
 ```
 
-References:
--------------------------
- .. [Garyfallidis2017] Garyfallidis, Eleftherios, Marc-Alexandre Côté,
-                     Francois Rheault, Jasmeen Sidhu, Janice Hau, Laurent
-                     Petit, David Fortin, Stephen Cunanne, and Maxime
-                     Descoteaux. 2017.“Recognition of White Matter Bundles
-                     Using Local and Global Streamline-Based Registration and
-                     Clustering.”NeuroImage 170: 283-295.
+## References
+
+[^Garyfallidis2017]: Garyfallidis, Eleftherios, Marc-Alexandre Côté,
+    Francois Rheault, Jasmeen Sidhu, Janice Hau, Laurent
+    Petit, David Fortin, Stephen Cunanne, and Maxime
+    Descoteaux. 2017. “Recognition of White Matter Bundles
+    Using Local and Global Streamline-Based Registration and
+    Clustering.” NeuroImage 170: 283-295.

@@ -6,21 +6,20 @@ mystnb:
   execution_mode: "off"
 ---
 
-=============================================
-BabyAFQ : tractometry for infant dMRI data
-=============================================
+# BabyAFQ : tractometry for infant dMRI data
 
 The following is an example of tractometry for infant bundles. This example and
 resulting pyAFQ support for pediatric bundles was inspired by and largely due
-to the work of Grotheer et al. [Grotheer2021]_, as implemented in
-[Grotheer2023]_.
+to the work of Grotheer et al. [^Grotheer2021], as implemented in
+[^Grotheer2023].
 
-.. note::
-    Because it is time and disk-space consuming, this example
-    is not run when the pyAFQ documentation is built. To run this example
-    yourself, you can download the contents of this file as an
-    executable `.py` file or as a Jupyter notebook from the links at the bottom
-    of the page.
+:::{note}
+Because it is time and disk-space consuming, this example
+is not run when the pyAFQ documentation is built. To run this example
+yourself, you can download the contents of this file as an
+executable `.py` file or as a Jupyter notebook from the links at the bottom
+of the page.
+:::
 
 ```{code-cell} ipython3
 import os.path as op
@@ -33,8 +32,7 @@ import AFQ.api.bundle_dict as abd
 import AFQ.data.fetch as afd
 ```
 
-Baby dMRI data
--------------------------
+## Baby dMRI data
 
 Infant MRI data are quite different from data acquired in grownup
 participants, and even from children that are just a few years older.
@@ -50,15 +48,15 @@ location and curvature is different in infants than in grownups. For example,
 the arcuate fasciculus is much more curved in infants than in grownups.
 Because of this, we use a different set of templates for infant brains than
 for grownup brains. These templates were created and validated by
-Mareike Grotheer and colleagues in [Grotheer2021]_. They are available for
+Mareike Grotheer and colleagues in [^Grotheer2021]. They are available for
 download as part of the pyAFQ software, as we will show below.
 
 In this example, we will demonstrate the use of pyAFQ on data from one
 infant. The data, provided by Kalanit Grill Spector's
-`Stanford Vision and Perception Neuroscience Lab <http://vpnl.stanford.edu/>`,
-and was previously published in [Grotheer2021]_.
+[Stanford Vision and Perception Neuroscience Lab](http://vpnl.stanford.edu/),
+and was previously published in [^Grotheer2021].
 The data is available to download on
-`Figshare <https://figshare.com/articles/dataset/Example_babyAFQ_BIDS_subject/21440739>`.
+[Figshare](https://figshare.com/articles/dataset/Example_babyAFQ_BIDS_subject/21440739).
 You can download it from there and unzip it into ~/AFQ_Data/baby_example/
 (Note that this is 2.69GB of data, so it can take a while to download). Or
 you can download it and unzip it using the following block of code.
@@ -76,8 +74,7 @@ with zipfile.ZipFile(baby_zip, 'r') as zip_ref:
     zip_ref.extractall(op.join(data_folder, "baby_example"))
 ```
 
-Initialize a GroupAFQ object:
------------------------------
+## Initialize a GroupAFQ object:
 
 Now that the data is downloaded and organized in a BIDS-compliant structure,
 we can start running pyAFQ on it. We start by initializing a GroupAFQ object.
@@ -93,9 +90,9 @@ A few special things to note here:
    `read_pediatric_templates` function in `AFQ.data.fetch`.
 3. We use the `baby_bd` to define the bundles that we want to
    segment. This dictionary is different from the default behavior in that it
-   uses the waypoint ROIs from [Grotheer2021]_.
+   uses the waypoint ROIs from [^Grotheer2021].
 4. In this case, tractography has already been run using
-   `MRTRIX <https://www.mrtrix.org/>`, and is accessed using the
+   [MRTRIX](https://www.mrtrix.org/), and is accessed using the
    `import_tract` key-word argument.
 
 ```{code-cell} ipython3
@@ -112,8 +109,7 @@ myafq = GroupAFQ(
 )
 ```
 
-Running the pipeline
---------------------
+## Running the pipeline
 
 A call to the `export` function will trigger the pyAFQ pipeline. This will
 run tractography, bundle segmentation, and bundle cleaning. The results will
@@ -129,8 +125,7 @@ segmentation, and tract profile results, as well as the visualizations.
 viz = myafq.export("all_bundles_figure")
 ```
 
-Viewing the results
--------------------
+## Viewing the results
 One way to view the results is to open the file named
 `sub-01_ses-01_dwi_space-RASMM_model-probCSD_algo-AFQ_desc-viz_dwi.html`
 in your browser. This is a visualization of the tractography and segmentation
@@ -148,17 +143,17 @@ building your GroupAFQ object (e.g. `GroupAFQ(..., sbv_lims_bundles=[0, 0.5])`).
 
 ```
 
-References:
--------------------------
-.. [Grotheer2021] Grotheer, Mareike, Mona Rosenke, Hua Wu, Holly Kular,
-                  Francesca R. Querdasi, Vaidehi S. Natu, Jason D. Yeatman,
-                  and Kalanit Grill-Spector. "White matter myelination during
-                  early infancy is linked to spatial gradients and myelin
-                  content at birth." Nature communications 13: 997.
+## References
 
-.. [Grotheer2023] Grotheer, Mareike, David Bloom, John Kruper,
-                  Adam Richie-Halford, Stephanie Zika,
-                  Vicente A. Aguilera González, Jason D. Yeatman,
-                  Kalanit Grill-Spector, and Ariel Rokem. "Human white matter
-                  myelinates faster in utero than ex utero." Proceedings
-                  of the National Academy of Sciences 120: e2303491120.
+[^Grotheer2021]: Grotheer, Mareike, Mona Rosenke, Hua Wu, Holly Kular,
+    Francesca R. Querdasi, Vaidehi S. Natu, Jason D. Yeatman,
+    and Kalanit Grill-Spector. "White matter myelination during
+    early infancy is linked to spatial gradients and myelin
+    content at birth." Nature communications 13: 997.
+
+[^Grotheer2023]: Grotheer, Mareike, David Bloom, John Kruper,
+    Adam Richie-Halford, Stephanie Zika,
+    Vicente A. Aguilera González, Jason D. Yeatman,
+    Kalanit Grill-Spector, and Ariel Rokem. "Human white matter
+    myelinates faster in utero than ex utero." Proceedings
+    of the National Academy of Sciences 120: e2303491120.

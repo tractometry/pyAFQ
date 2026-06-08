@@ -6,17 +6,16 @@ mystnb:
   execution_mode: "off"
 ---
 
-==========================
-AFQ with HCP data
-==========================
+# AFQ with HCP data
+
 This example demonstrates how to use the AFQ API to analyze HCP data.
 For this example to run properly, you will need to gain access to the HCP data.
 This can be done by following this instructions on the webpage
-`here <https://wiki.humanconnectome.org/display/PublicData/How+To+Connect+to+Connectome+Data+via+AWS>`_.
-We will use the ``Cloudknot`` library to run our AFQ analysis in the AWS
+[here](https://wiki.humanconnectome.org/display/PublicData/How+To+Connect+to+Connectome+Data+via+AWS).
+We will use the `Cloudknot` library to run our AFQ analysis in the AWS
 Batch service (see also
-`this example <http://tractometry.org/pyAFQ/auto_examples/cloudknot_example.html>`_).
-In the following we will use ``Cloudknot`` to run multiple
+[this example](http://tractometry.org/pyAFQ/auto_examples/cloudknot_example.html)).
+In the following we will use `Cloudknot` to run multiple
 configurations of pyAFQ on the HCP dataset. Specifically, here we will run
 pyAFQ with different tractography seeding strategies.
 
@@ -124,7 +123,7 @@ args = list(itertools.product(subjects, seed_mask, n_seeds))
 
 We assume that the credentials for HCP usage are stored in the home directory in a
 `~/.aws/credentials` file. This is where these credentials are stored if the AWS CLI is used to
-configure the profile. We use the standard lib ``configparser`` library
+configure the profile. We use the standard lib `configparser` library
 to get the relevant hcp keys from there.
 
 ```{code-cell} ipython3
@@ -158,8 +157,8 @@ This calls the function to attach the access keys to the argument list
 args = attach_keys(args)
 ```
 
-Define the :meth:`Knot` object to run your jobs on. See
-`this example <http://tractometry.org/pyAFQ/auto_examples/cloudknot_example.html>`_ for more
+Define the `Knot` object to run your jobs on. See
+[this example](http://tractometry.org/pyAFQ/auto_examples/cloudknot_example.html) for more
 details about the arguments to the object.
 
 ```{code-cell} ipython3
@@ -181,13 +180,17 @@ result_futures = knot.map(args, starmap=True)
 ```
 
 The following function can be called repeatedly in a jupyter notebook
-to view the progress of jobs::
+to view the progress of jobs:
 
-    knot.view_jobs()
+```python
+knot.view_jobs()
+```
 
-You can also view the status of a specific job::
+You can also view the status of a specific job:
 
-    knot.jobs[0].status
+```python
+knot.jobs[0].status
+```
 
 +++
 
@@ -219,7 +222,7 @@ knot2 = ck.Knot(
     bid_percentage=100)
 ```
 
-the arguments to this call to :meth:`map` are all the different configurations of pyAFQ that we ran
+the arguments to this call to `map` are all the different configurations of pyAFQ that we ran
 
 ```{code-cell} ipython3
 seed_mask = ["fa", "roi"]

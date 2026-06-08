@@ -26,4 +26,5 @@ Then, you are ready to run pyAFQ in one of the following ways:
 .. toctree::
     :maxdepth: 2
 
-    examples/index.rst
+    tutorials/index.rst
+    examples/tutorial_examples/index.rst

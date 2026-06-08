@@ -6,9 +6,7 @@ mystnb:
   execution_mode: "off"
 ---
 
-==========================
-Callosal bundles using AFQ API
-==========================
+# Callosal bundles using AFQ API
 An example using the AFQ API to find callosal bundles using the templates from:
 http://hdl.handle.net/1773/34926
 
@@ -25,17 +23,15 @@ from AFQ.definitions.image import RoiImage
 import AFQ.data.fetch as afd
 ```
 
-Get some example data
----------------------
+## Get some example data
 
-Retrieves `Stanford HARDI dataset <https://purl.stanford.edu/ng782rw8378>`_.
+Retrieves [Stanford HARDI dataset](https://purl.stanford.edu/ng782rw8378).
 
 ```{code-cell} ipython3
 afd.organize_stanford_data(clear_previous_afq="track")
 ```
 
-Set tractography parameters (optional)
----------------------
+## Set tractography parameters (optional)
 We make this tracking_params which we will pass to the GroupAFQ object
 which specifies that we want 100,000 seeds randomly distributed
 in the ROIs of every bundle.
@@ -49,8 +45,7 @@ tracking_params = dict(seed_mask=RoiImage(),
                        rng_seed=42)
 ```
 
-Set segmentation parameters (optional)
----------------------
+## Set segmentation parameters (optional)
 We make this segmentation_params which we will pass to the GroupAFQ object
 which specifies that we want to clip the extracted tract profiles
 to only be between the two ROIs.
@@ -64,8 +59,7 @@ one can remove the first and last nodes in a tract profile.
 segmentation_params = {"clip_edges": True}
 ```
 
-Initialize a GroupAFQ object:
--------------------------
+## Initialize a GroupAFQ object:
 
 We specify bundle_info as the callosal bundles only
 (`abd.callosal_bd`). If we want to segment both the callosum
@@ -89,8 +83,7 @@ myafq = GroupAFQ(
 myafq.export_all()
 ```
 
-Create Group Density Maps:
--------------------------
+## Create Group Density Maps:
 
 pyAFQ can make density maps of streamline counts per subject/session
 by calling `myafq.export("density_map")`. When using `GroupAFQ`, you can also
@@ -106,8 +99,7 @@ ax.matshow(
 ax.axis("off")
 ```
 
-Visualizing bundles and tract profiles:
----------------------------------------
+## Visualizing bundles and tract profiles:
 This would run the script and visualize the bundles using the plotly
 interactive visualization, which should automatically open in a
 new browser window.

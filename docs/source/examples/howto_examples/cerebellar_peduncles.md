@@ -6,16 +6,14 @@ mystnb:
   execution_mode: "off"
 ---
 
-================================
-Delineating cerebellar peduncles
-================================
+# Delineating cerebellar peduncles
 
 The cerebellar peduncles are white matter tracts that connect the cerebellum to
 the brainstem and cortex. In this example, we show how to delineate the
 cerebellar peduncles using a subject from the Healthy Brain Network dataset.
 
 This how-to will focus on the definition of the Cerebellar Peduncles (CP) based
-on [1]_, [2].
+on [^1], [^2].
 
 
 ```{code-cell} ipython3
@@ -56,7 +54,7 @@ cp_bundles = abd.cerebellar_bd()
 
 The bundle dict has been defined, and now we are ready to run the AFQ pipeline.
 Next, we define a GroupAFQ object. In this case, the tracking parameters
-focus specifically on the CP, by using the ``RoiImage`` class to define the
+focus specifically on the CP, by using the `RoiImage` class to define the
 seed region. We seed extensively in the ROIs that define the CPs.
 
 ```{code-cell} ipython3
@@ -80,13 +78,13 @@ The call to `export("bundles")` triggers the execution of the full pipeline.
 cp_afq.export("bundles")
 ```
 
-References
-----------
-.. [1] S. Jossinger, A. Sares, A. Zislis, D. Sury, V. Gracco, M. Ben-Shachar (2022)
-       White matter correlates of sensorimotor synchronization in persistent
-       developmental stuttering, Journal of Communication Disorders, 95.
+## References
 
-.. [2] S. Jossinger, M. Yablonski, O. Amir, M. Ben-Shachar (2023). The
-       contributions of the cerebellar peduncles and the frontal aslant tract
-       in mediating speech fluency. Neurobiology of Language 2023;
-       doi: https://doi.org/10.1162/nol_a_00098
+[^1]: S. Jossinger, A. Sares, A. Zislis, D. Sury, V. Gracco, M. Ben-Shachar (2022)
+      White matter correlates of sensorimotor synchronization in persistent
+      developmental stuttering, Journal of Communication Disorders, 95.
+
+[^2]: S. Jossinger, M. Yablonski, O. Amir, M. Ben-Shachar (2023). The
+      contributions of the cerebellar peduncles and the frontal aslant tract
+      in mediating speech fluency. Neurobiology of Language 2023;
+      doi: https://doi.org/10.1162/nol_a_00098

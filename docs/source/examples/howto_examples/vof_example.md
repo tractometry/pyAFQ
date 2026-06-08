@@ -6,9 +6,7 @@ mystnb:
   execution_mode: "off"
 ---
 
-====================================
-How to segment out only some bundles
-====================================
+# How to segment out only some bundles
 
 The pyAFQ software can be configured to find all of its default set of white
 matter pathways, or bundles. Alternatively, it can be configured to find only

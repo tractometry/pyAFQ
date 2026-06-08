@@ -6,16 +6,14 @@ mystnb:
   execution_mode: "off"
 ---
 
-=====================================================
-How to add new bundles into pyAFQ (SLF 1/2/3 Example)
-=====================================================
+# How to add new bundles into pyAFQ (SLF 1/2/3 Example)
 
 pyAFQ is designed to be customizable and extensible. This example shows how you
 can customize it to define a new bundle based on a definition of waypoint and
 endpoint ROIs of your design.
 
 In this case, we add sub-bundles of the superior longitudinal fasciculus,
-based on work by Sagi et al [1]_.
+based on work by Sagi et al [^1].
 
 We start by importing some of the components that we need for this example and
 fixing the random seed for reproducibility
@@ -33,10 +31,10 @@ import os
 np.random.seed(1234)
 ```
 
-Get dMRI data
----------------
+## Get dMRI data
+
 We will analyze eight subject from the Healthy Brain Network Processed Open
-Diffusion Derivatives dataset (HBN-POD2) [2]_, [3]_. We'll use a fetcher to
+Diffusion Derivatives dataset (HBN-POD2) [^2], [^3]. We'll use a fetcher to
 get preprocessed dMRI data for eight of the >2,000 subjects in that study. The
 data gets organized into a BIDS-compatible format in the `~/AFQ_data/HBN`
 folder. These 12 subjects have very high quality data.
@@ -59,8 +57,7 @@ _, study_dir = afd.fetch_hbn_preproc([
 ])
 ```
 
-Get ROIs and save to disk
---------------------------------
+## Get ROIs and save to disk
 The goal of this tutorial is to demonstrate how to segment new pathways based
 on ROIs that are saved to disk. In principle, ROIs can be a) files created by
 the user and saved to the local disk, b) files stored somewhere on the internet
@@ -97,8 +94,7 @@ for roi_url in roi_urls:
     wget.download(roi_url, template_dir)
 ```
 
-Define custom `BundleDict` object
----------------------------------
+## Define custom `BundleDict` object
 A `BundleDict` is a custom object that holds information about "include" and
 "exclude" ROIs, as well as endpoint ROIs, and whether the bundle crosses the
 midline. In this case, the ROIs are all defined in the MNI template space that
@@ -156,17 +152,19 @@ bundles = abd.BundleDict({
 
 Custom bundle definitions such as the SLF or OR, and the standard BundleDict
 can be combined through addition. To get both the SLF and the standard
-bundles, we would execute the following code::
+bundles, we would execute the following code:
 
-    bundles = bundles + abd.default_bd()
+```python
+bundles = bundles + abd.default_bd()
+```
 
 In this case, we will skip this and generate just the SLF.
 
 +++
 
-Define GroupAFQ object
-----------------------
-HBN POD2 have been processed with qsiprep [4]_. This means that a brain mask
+## Define GroupAFQ object
+
+HBN POD2 have been processed with qsiprep [^4]. This means that a brain mask
 has already been computed for them.
 
 For tractography, we use CSD-based probabilistic tractography,
@@ -199,8 +197,7 @@ my_afq.clobber(dependent_on='recog')
 my_afq.export_all()
 ```
 
-Visualize a montage
-----------------------
+## Visualize a montage
 One way to examine the output of the pyAFQ pipeline is by creating a montage
 of images of a particular bundle across a group of participants. In the montage function
 the first input refers to a key in the bundlediect and the second gives the layout
@@ -215,8 +212,7 @@ montage = my_afq.group_montage(
     "L_SLF3", (3, 4), "Sagittal", "left", slice_pos=0.5)
 ```
 
-Interactive bundle visualization
---------------------------------
+## Interactive bundle visualization
 Another way to examine the outputs is to export the individual bundle
 figures, which show the streamlines, as well as the ROIs used to define the
 bundle. This is an html file, which contains an interactive figure that can
@@ -226,22 +222,22 @@ be navigated, zoomed, rotated, etc.
 bundle_html = my_afq.export("all_bundles_figure")
 ```
 
-References
-----------
-.. [1] Romi Sagi, J.S.H. Taylor, Kyriaki Neophytou, Tamar Cohen,
+## References
+
+[^1]: Romi Sagi, J.S.H. Taylor, Kyriaki Neophytou, Tamar Cohen,
     Brenda Rapp, Kathleen Rastle, Michal Ben-Shachar.
     White matter associations with spelling performance.
     Brain Struct Funct 229, 2115–2135 (2024).
     https://doi.org/10.1007/s00429-024-02775-7
 
-.. [2] Alexander LM, Escalera J, Ai L, et al. An open resource for
+[^2]: Alexander LM, Escalera J, Ai L, et al. An open resource for
     transdiagnostic research in pediatric mental health and learning
     disorders. Sci Data. 2017;4:170181.
 
-.. [3] Richie-Halford A, Cieslak M, Ai L, et al. An analysis-ready and quality
+[^3]: Richie-Halford A, Cieslak M, Ai L, et al. An analysis-ready and quality
     controlled resource for pediatric brain white-matter research. Scientific
     Data. 2022;9(1):1-27.
 
-.. [4] Cieslak M, Cook PA, He X, et al. QSIPrep: an integrative platform for
+[^4]: Cieslak M, Cook PA, He X, et al. QSIPrep: an integrative platform for
     preprocessing and reconstructing diffusion MRI data. Nat Methods.
     2021;18(7):775-778.

@@ -6,23 +6,21 @@ mystnb:
   execution_mode: "off"
 ---
 
-====================
-How pyAFQ uses BIDS
-====================
+# How pyAFQ uses BIDS
 
 The pyAFQ API relies heavily on the
-`Brain Imaging Data Standard (BIDS) <https://bids-specification.readthedocs.io/en/stable/>`_,
+[Brain Imaging Data Standard (BIDS)](https://bids-specification.readthedocs.io/en/stable/),
 a widely used standard for organizing and describing neuroimaging data. This
 means that the software assumes that its inputs are organized according to the
 BIDS specification and its outputs conform where possible with BIDS.
 
-.. note::
-
-    Derivatives of processing diffusion MRI are not currently fully
-    described in the existing BIDS specification, but describing these
-    is part of an ongoing effort. Wherever possible, we conform with
-    the draft implementation of the BIDS DWI derivatives available
-    `here <https://bids-specification.readthedocs.io/en/wip-derivatives/05-derivatives/05-diffusion-derivatives.html>`_
+:::{note}
+Derivatives of processing diffusion MRI are not currently fully
+described in the existing BIDS specification, but describing these
+is part of an ongoing effort. Wherever possible, we conform with
+the draft implementation of the BIDS DWI derivatives available
+[here](https://bids-specification.readthedocs.io/en/wip-derivatives/05-derivatives/05-diffusion-derivatives.html).
+:::
 
 In this example, we will explore the use of BIDS in pyAFQ and see
 how BIDS allows us to extend and provide flexibility to the users
@@ -39,7 +37,7 @@ import AFQ.definitions.image as afm
 ```
 
 To interact with and query BIDS datasets, we use
- `pyBIDS <https://bids-standard.github.io/pybids/>`_, which we import here:
+[pyBIDS](https://bids-standard.github.io/pybids/), which we import here:
 
 ```{code-cell} ipython3
 import bids
@@ -48,7 +46,7 @@ from bids.layout import BIDSLayout
 
 We start with some example data. The data we will use here is
 generated from the
-`Stanford HARDI dataset <https://purl.stanford.edu/ng782rw8378>`_.
+[Stanford HARDI dataset](https://purl.stanford.edu/ng782rw8378).
 The call below fetches
 this dataset and organized it within the `~/AFQ_data` folder in the BIDS
 format.
@@ -84,16 +82,16 @@ in the dataset. In this case, we do not include the raw data folders and only
 have the outputs of pipelines that were used to preprocess the data (e.g.,
 correct the data for subject motion, eddy currents, and so forth).
 In general, only the preprocessed diffusion data is required for pyAFQ to run.
-See the :doc:`"Organizing your data" </howto/data>` section of the
+See the ["Organizing your data"](/howto/data) section of the
 documentation for more details.
 In this case, one folder contains derivative of the Freesurfer software and
 another folder contains the DWI data that has been preprocessed with the
 Vistasoft software.
 pyAFQ provides facilities to segment tractography results obtained
 using other software as well. For example, we often use
-`qsiprep <https://qsiprep.readthedocs.io/en/latest/>`_ to preprocess
+[qsiprep](https://qsiprep.readthedocs.io/en/latest/) to preprocess
 our data and reconstruct tractographies with software such as
-`MRTRIX <https://www.mrtrix.org/>`_. Here, we will demonstrate how to use
+[MRTRIX](https://www.mrtrix.org/). Here, we will demonstrate how to use
 these reconstructions in the pyAFQ segmentation and tractometry pipeline
 We fetch this data and add it as a separate pipeline
 The following code will download a previously-created tractography and
@@ -167,7 +165,7 @@ After we do that, our dataset folder should look like this:
 |                     └── sub-01_ses-01_dwi.nii.gz
 
 To explore the layout of these derivatives, we will initialize a
-:class:`BIDSLayout` class instance to help us see what is in this dataset
+`BIDSLayout` class instance to help us see what is in this dataset
 
 ```{code-cell} ipython3
 layout = bids.BIDSLayout(bids_path, derivatives=True)
@@ -187,7 +185,7 @@ are stored here:
 print(layout.derivatives)
 ```
 
-We can use a :class:`bids.BIDSValidator` object to make sure that the
+We can use a `bids.BIDSValidator` object to make sure that the
 files within our data set are BIDS-compliant. For example, we can
 extract the tractography derivatives part of our layout using:
 
@@ -195,7 +193,7 @@ extract the tractography derivatives part of our layout using:
 my_tractography = layout.derivatives["my_tractography"]
 ```
 
-This variable is also a BIDS layout object. This object has a ``get``
+This variable is also a BIDS layout object. This object has a `get`
 method, which allows us to query and find specific items within the
 layout. For example, we can ask for files that have a suffix consistent
 with tractography results:
@@ -204,7 +202,7 @@ with tractography results:
 tractography_files = my_tractography.get(suffix='tractography')
 ```
 
-Or ask for files that have a ``.trk`` extension:
+Or ask for files that have a `.trk` extension:
 
 ```{code-cell} ipython3
 tractography_files = my_tractography.get(extension='.trk')
@@ -223,12 +221,12 @@ We can also get some more structured information about this file:
 print(tractography_file.get_entities())
 ```
 
-We can use a :class:`bids.BIDSValidator` class instance to validate that
+We can use a `bids.BIDSValidator` class instance to validate that
 this file is compliant with the specification. Note that the validator
 requires that the filename be provided relative to the root of the BIDS
 dataset, so we have to split the string that contains the full path
 of the tractography to extract only the part that is relative to the
-root of the entire BIDS ``layout`` object:
+root of the entire BIDS `layout` object:
 
 ```{code-cell} ipython3
 tractography_full_path = tractography_file.path
@@ -244,7 +242,7 @@ bundle names for the bundle info. These names refer to bundles for
 which we already have clear definitions of the information
 needed to segment them (e.g., waypoint ROIs and probability maps).
 For an example that includes custom definition of bundle info, see the
-`plot_callosal_tract_profile example <http://tractometry.org/pyAFQ/auto_examples/plot_callosal_tract_profile.html>`_.
+[plot_callosal_tract_profile example](http://tractometry.org/pyAFQ/auto_examples/plot_callosal_tract_profile.html).
 
 ```{code-cell} ipython3
 bundle_info = abd.default_bd()[

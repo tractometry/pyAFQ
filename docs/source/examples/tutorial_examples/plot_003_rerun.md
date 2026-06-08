@@ -6,9 +6,7 @@ mystnb:
   execution_mode: "off"
 ---
 
-================
-Re-running pyAFQ
-================
+# Re-running pyAFQ
 Sometimes you want to change arguments and re-run pyAFQ. This could be to
 try different parameters, to run on changed data, or re-run after updating
 parameters due to an error.
@@ -17,8 +15,8 @@ pyAFQ saves derivatives as it goes, so if you re-run pyAFQ after changing
 parameters, it could use derivatives from previous runs with the
 old parameters.
 
-To solve this, use the myafq.clobber() or myafq.cmd_outputs() methods. They
-are the same methods. They will delete previous derivatives so you can
+To solve this, use the `myafq.clobber()` or `myafq.cmd_outputs()` methods.
+These are equivalent methods that delete previous derivatives so you can
 re-run your pipeline.
 
 ```{code-cell} ipython3
@@ -29,10 +27,8 @@ import os.path as op
 import os
 ```
 
-We start with some example data. The data we will use here is
-generated from HBN
-We then setup our myafq object which we will use to demonstrate
-the clobber method.
+We start with some example data generated from HBN, then setup our
+`myafq` object to demonstrate the clobber method.
 
 ```{code-cell} ipython3
 afd.fetch_hbn_preproc(["NDARAA948VFH"])
@@ -57,25 +53,30 @@ myafq = GroupAFQ(
     participant_labels=['NDARAA948VFH'],
     pve=pve,
     tracking_params=tracking_params)
+```
 
-###################
-# Delete Everything
-# -----------------
-# To delete all pyAFQ outputs in the output directory, simply call::
-#
-#     myafq.cmd_outputs()
-#
-# or::
-#
-#     myafq.clobber()
-#
-# This is equivalent to running ``rm -r`` on all pyAFQ outputs. After this,
-# you can re-run your pipeline from scratch.
-#
-# Here, we will delete everything and re-run with a different b0 threshold.
-# The b0_threshold determines which b-values are considered b0.
-# The default is 50.
+## Delete Everything
 
+To delete all pyAFQ outputs in the output directory, simply call:
+
+```python
+myafq.cmd_outputs()
+```
+
+or:
+
+```python
+myafq.clobber()
+```
+
+This is equivalent to running `rm -r` on all pyAFQ outputs. After this,
+you can re-run your pipeline from scratch.
+
+Here, we will delete everything and re-run with a different b0 threshold.
+The `b0_threshold` determines which b-values are considered b0.
+The default is 50.
+
+```{code-cell} ipython3
 myafq.cmd_outputs()
 
 myafq = GroupAFQ(
@@ -90,29 +91,32 @@ myafq = GroupAFQ(
 myafq.export("b0")
 ```
 
-Delete Some Things
-------------------
+## Delete Some Things
+
 To delete only specific types of derivatives while preserving others,
-use the ``dependent_on`` parameter::
+use the `dependent_on` parameter:
 
-    # Delete only tractography-dependent files
-    myafq.cmd_outputs(dependent_on="track")
+```python
+# Delete only tractography-dependent files
+myafq.cmd_outputs(dependent_on="track")
 
-    # Delete only bundle recognition-dependent files
-    myafq.cmd_outputs(dependent_on="recog")
+# Delete only bundle recognition-dependent files
+myafq.cmd_outputs(dependent_on="recog")
 
-    # Delete only profiling-dependent files
-    myafq.cmd_outputs(dependent_on="prof")
+# Delete only profiling-dependent files
+myafq.cmd_outputs(dependent_on="prof")
+```
 
-You can also specify exceptions - files to preserve::
+You can also specify exceptions — files to preserve:
 
-    # Delete all outputs except the tractography
-    myafq.cmd_outputs(exceptions=["streamlines"])
+```python
+# Delete all outputs except the tractography
+myafq.cmd_outputs(exceptions=["streamlines"])
+```
 
-Here, we will change the tractography parameters, but we want to keep all
-derivatives not dependent on tractography. Typically, this means keeping
-The mapping from MNI space and fitted models, but deleting recognized
-bundles and tract profiles.
+Here, we will change the tractography parameters, but keep all derivatives
+not dependent on tractography. Typically this means keeping the mapping from
+MNI space and fitted models, but deleting recognized bundles and tract profiles.
 
 ```{code-cell} ipython3
 myafq.clobber(dependent_on="track")
@@ -133,38 +137,39 @@ myafq = GroupAFQ(
     pve=pve)
 
 myafq.export("streamlines")
+```
 
-##################
-# Move Some Things
-# ----------------
-# The ``cmd_outputs`` method is flexible and can perform other file operations
-# besides deletion. For example, to copy files::
+## Move Some Things
 
-#     # Copy only files dependent on tractography
-#     myafq.cmd_outputs(
-#           cmd="cp",
-#           dependent_on="track",
-#           suffix="/path/to/backup/")
+The `cmd_outputs` method is flexible and can perform other file operations
+besides deletion. For example, to copy files:
 
-# Note: The method automatically adds ``-r``
-#       for "cp" and "rm" operations.
+```python
+# Copy only files dependent on tractography
+myafq.cmd_outputs(
+        cmd="cp",
+        dependent_on="track",
+        suffix="/path/to/backup/")
 
+# Note: The method automatically adds `-r` for "cp" and "rm" operations.
+```
+
+```{code-cell} ipython3
 # Create backup directory
 backup_dir = op.join(afd.afq_home, "HBN_backup")
 os.makedirs(backup_dir, exist_ok=True)
 
 # Move the outputs of AFQ to this directory
 myafq.cmd_outputs(cmd="mv", suffix=backup_dir)
-
-##############
-# How It Works
-# ------------
-# The method works by:
-# 1. Identifying all pyAFQ outputs in the output directory
-# 2. Filtering based on the ``dependent_on`` parameter (if provided)
-# 3. Removing any files listed in ``exceptions``
-# 4. Executing the specified command (``rm``, ``mv``, ``cp`` etc.) on the remaining files
-# 5. Resetting the workflow to ensure subsequent runs regenerate affected derivatives
-#
-# We plan to automate this process in the future.
 ```
+
+## How It Works
+
+The method works by:
+1. Identifying all pyAFQ outputs in the output directory
+2. Filtering based on the `dependent_on` parameter (if provided)
+3. Removing any files listed in `exceptions`
+4. Executing the specified command (`rm`, `mv`, `cp` etc.) on the remaining files
+5. Resetting the workflow to ensure subsequent runs regenerate affected derivatives
+
+We plan to automate this process in the future.

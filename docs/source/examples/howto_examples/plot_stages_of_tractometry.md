@@ -4,9 +4,7 @@ kernelspec:
   name: python3
 ---
 
-=============================================================
-Understanding the different stages of tractometry with videos
-=============================================================
+# Understanding the different stages of tractometry with videos
 
 Two-dimensional figures of anatomical data are somewhat limited, because of the
 complex three-dimensional configuration of the brain. Therefored, dynamic
@@ -20,8 +18,7 @@ known as pillow).
 
 +++
 
-Imports
--------
+## Imports
 
 ```{code-cell} ipython3
 
@@ -47,8 +44,7 @@ from AFQ.viz.utils import gen_color_dict
 from AFQ._fixes import make_mp4
 ```
 
-Get data from HBN POD2
-----------------------------
+## Get data from HBN POD2
 We get the same data that is used in the visualization tutorials.
 
 ```{code-cell} ipython3
@@ -56,9 +52,8 @@ afd.fetch_hbn_preproc(["NDARAA948VFH"])
 study_path = afd.fetch_hbn_afq(["NDARAA948VFH"])[1]
 ```
 
-Visualize the processed dMRI data
----------------------------------
-The HBN POD2 dataset was processed using the ``qsiprep`` pipeline. The
+## Visualize the processed dMRI data
+The HBN POD2 dataset was processed using the `qsiprep` pipeline. The
 results from this processing are stored within a sub-folder of the
 derivatives folder within the study folder.
 Here, we will start by visualizing the diffusion data. We read in the
@@ -145,12 +140,19 @@ for bval, slicer in zip([0, 1000, 2000],
 from AFQ.utils.docs import embed_video, embed_image
 
 embed_video("b0.mp4")
+```
+
+```{code-cell} ipython3
+:tags: [remove-input]
 embed_video("b1000.mp4")
+```
+
+```{code-cell} ipython3
+:tags: [remove-input]
 embed_video("b2000.mp4")
 ```
 
-Visualizing whole-brain tractography
-------------------------------------
+## Visualizing whole-brain tractography
 One of the first steps of the pyAFQ pipeline is to generate whole-brain
 tractography. We will visualize the results of this step. We start by reading
 in the FA image, which is used as a reference for the tractography. We then
@@ -190,8 +192,7 @@ whole_brain_t1w = transform_streamlines(
     np.linalg.inv(t1w_img.affine))
 ```
 
-Visualize the streamlines
--------------------------
+## Visualize the streamlines
 The streamlines are visualized in the context of the T1-weighted data.
 
 ```{code-cell} ipython3
@@ -224,8 +225,7 @@ make_mp4(show_m, "whole_brain.mp4", n_frames=180, az_ang=-2, crf=32, verbose=Fal
 embed_video("whole_brain.mp4")
 ```
 
-Whole brain with waypoints
---------------------------------------
+## Whole brain with waypoints
 We can also generate a mp4 video with the whole brain tractography and the
 waypoints that are used to define the bundles. We will use the same scene as
 before, but we will add the waypoints as contours to the scene.
@@ -287,7 +287,8 @@ bundle_path = op.join(afq_path,
 embed_video("whole_brain_with_waypoints.mp4")
 ```
 
-Define the bundles
+## Define the bundles
+
 The bundles are defined by the waypoints that we just visualized. Here
 we organize some names of bundles we want to visualize.
 In current pyAFQ, only the formal names are used. But for this example,
@@ -347,8 +348,7 @@ formal_bundles = [
 color_dict = gen_color_dict(formal_bundles)
 ```
 
-Visualize the arcuate bundle
-----------------------------
+## Visualize the arcuate bundle
 Now visualize only the arcuate bundle that is selected with these waypoints.
 
 ```{code-cell} ipython3
@@ -384,8 +384,7 @@ make_mp4(show_m, "arc1.mp4", n_frames=180, az_ang=-2, crf=32, verbose=False)
 embed_video("arc1.mp4")
 ```
 
-Clean bundle
-------------
+## Clean bundle
 The next step in processing would be to clean the bundle by removing
 streamlines that are outliers. We will visualize the cleaned bundle.
 
@@ -429,11 +428,14 @@ make_mp4(show_m, "arc3.mp4", n_frames=180, az_ang=-2, crf=32, verbose=False)
 ```{code-cell} ipython3
 :tags: [remove-input]
 embed_video("arc2.mp4")
+```
+
+```{code-cell} ipython3
+:tags: [remove-input]
 embed_video("arc3.mp4")
 ```
 
-Show the values of tissue properties along the bundle
-------------------------------------------------------
+## Show the values of tissue properties along the bundle
 We can also visualize the values of tissue properties along the bundle. Here
 we will visualize the fractional anisotropy (FA) along the arcuate bundle.
 This is done by using a colormap to color the streamlines according to the
@@ -470,8 +472,7 @@ make_mp4(show_m, "arc4.mp4", n_frames=180, az_ang=-2, crf=32, verbose=False)
 embed_video("arc4.mp4")
 ```
 
-Core of the bundle and tract profile
--------------------------------------
+## Core of the bundle and tract profile
 Finally, we can visualize the core of the bundle and the tract profile. The
 core of the bundle is the median of the streamlines, and the tract profile is
 the values of the tissue property along the core of the bundle.
@@ -513,8 +514,7 @@ make_mp4(show_m, "arc5.mp4", n_frames=180, az_ang=-2, crf=32, verbose=False)
 embed_video("arc5.mp4")
 ```
 
-Core of all bundles and their tract profiles
---------------------------------------------
+## Core of all bundles and their tract profiles
 Same as before, but for all bundles.
 
 ```{code-cell} ipython3
@@ -581,11 +581,14 @@ make_mp4(show_m, "all_tract_profiles.mp4", n_frames=180, az_ang=-2, crf=32, verb
 ```{code-cell} ipython3
 :tags: [remove-input]
 embed_video("all_bundles.mp4")
+```
+
+```{code-cell} ipython3
+:tags: [remove-input]
 embed_video("all_tract_profiles.mp4")
 ```
 
-Tract profiles as a table
--------------------------
+## Tract profiles as a table
 Finally, we can visualize the tract profiles as a table. This is done by
 plotting the tract profiles for each bundle as a line plot, with the x-axis
 representing the position along the bundle, and the y-axis representing the
@@ -605,6 +608,7 @@ ax.set_xticklabels(bundles, rotation=45, ha='right')
 fig.set_size_inches(10, 5)
 plt.subplots_adjust(bottom=0.2)
 fig.savefig("tract_profiles_table.png")
+print("Done!")
 ```
 
 ```{code-cell} ipython3

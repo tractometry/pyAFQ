@@ -4,11 +4,9 @@ kernelspec:
   name: python3
 ---
 
-======================================
-Getting started with pyAFQ - GroupAFQ
-======================================
+# Getting started with pyAFQ - GroupAFQ
 
-There are two ways to :doc:`use pyAFQ </tutorials/index>`: through the
+There are two ways to [use pyAFQ](/tutorials/index): through the
 command line interface, and by writing Python code. This tutorial will walk you
 through the basics of the latter, using pyAFQ's Python Application Programming
 Interface (API).
@@ -27,20 +25,20 @@ import AFQ.viz.altair as ava
 import AFQ.definitions.image as afm
 ```
 
-Example data
-------------
+## Example data
+
 pyAFQ can be called using GroupAFQ to handle data
 organized in a BIDS compliant directory.
 If this is not the case, refer to the Participant AFQ example.
 To get users started with this tutorial, we will download some example
 data and organize it in a BIDS compliant way (for more details on how
-BIDS is used in pyAFQ, refer to :doc:`plot_006_bids_layout`).
+BIDS is used in pyAFQ, refer to [plot_006_bids_layout](plot_006_bids_layout)).
 
 The following call downloads a a single subject's data from the Healthy Brain
-Network Processed Open Diffusion Derivatives dataset (HBN-POD2) [1]_, [2]_
-and organizes it in BIDS in the user's home directory under::
+Network Processed Open Diffusion Derivatives dataset (HBN-POD2) [^1], [^2]
+and organizes it in BIDS in the user's home directory under:
 
-  ``~/AFQ_data/HBN/``
+`~/AFQ_data/HBN/`
 
 The data is also placed in a derivatives directory, signifying that it has
 already undergone the required preprocessing necessary for pyAFQ to run.
@@ -55,8 +53,7 @@ bids_path = afd.fetch_hbn_preproc(
     clear_previous_afq="all")[1]
 ```
 
-Set tractography parameters (optional)
----------------------------------------
+## Set tractography parameters (optional)
 We make create a `tracking_params` variable, which we will pass to the
 GroupAFQ object which specifies that we want 100,000 seeds randomly
 distributed in the white matter. We only do this to make this example faster
@@ -69,8 +66,7 @@ tracking_params = dict(n_seeds=1e5,
                        trx=True)
 ```
 
-Define PVE images (optional)
-----------------------------
+## Define PVE images (optional)
 To improve segmentation and tractography results, we can provide
 partial volume estimate (PVE) images for the cerebrospinal fluid (CSF),
 gray matter (GM), and white matter (WM). Here, we define these images
@@ -91,8 +87,7 @@ pve = afm.PVEImages(
         suffix="probseg", filters={"scope": "qsiprep", "label": "WM"}))
 ```
 
-Brain Mask Definition (optional)
---------------------------------
+## Brain Mask Definition (optional)
 
 By default, pyAFQ will compute a brain mask from the T1. However,
 this requires onnxruntime to be installed. If you do not have onnxruntime
@@ -104,11 +99,10 @@ brain_mask_definition = afm.ImageFile(
     suffix="mask", filters={"desc": "brain", "scope": "qsiprep"})
 ```
 
-Initialize a GroupAFQ object:
--------------------------
+## Initialize a GroupAFQ object:
 
 Creates a GroupAFQ object, that encapsulates tractometry. This object can be
-used to manage the entire :doc:`/explanations/index`, including:
+used to manage the entire [tractometry pipeline](/explanations/index), including:
 
 - Tractography
 - Registration
@@ -118,12 +112,12 @@ used to manage the entire :doc:`/explanations/index`, including:
 - Visualization
 
 This will also create an output folder for the corresponding AFQ derivatives
-in the AFQ data directory: ``AFQ_data/HBN/derivatives/afq/``
+in the AFQ data directory: `AFQ_data/HBN/derivatives/afq/`
 
 To initialize this object we will pass in the path location to our BIDS
 compliant data, the name of the preprocessing pipeline we want to use, 
 the name of the t1 preprocessing pipeline we want to use (in this case,
-its the same, qsiprep [3]), the participant labels we want to process
+its the same, qsiprep [^3]), the participant labels we want to process
 (in this case, just a single subject), the PVE images we defined above, and
 the tracking parameters we defined above.
 
@@ -138,8 +132,8 @@ myafq = GroupAFQ(
     tracking_params=tracking_params)
 ```
 
-Calculating DTI FA (Diffusion Tensor Imaging Fractional Anisotropy)
-------------------------------------------------------------------
+## Calculating DTI FA (Diffusion Tensor Imaging Fractional Anisotropy)
+
 The GroupAFQ object has a method called `export`, which allows the user
 to calculate various derived quantities from the data.
 
@@ -150,11 +144,11 @@ the AFQ derivatives directory. In addition, it calculates the FA
 from these parameters and stores it in a different file in the same
 directory.
 
-.. note::
-
-   The AFQ API computes quantities lazily. This means that DTI parameters
-   are not computed until they are required. This means that the first
-   line below is the one that requires time.
+:::{note}
+The AFQ API computes quantities lazily. This means that DTI parameters
+are not computed until they are required. This means that the first
+line below is the one that requires time.
+:::
 
 The result of the call to `export` is a dictionary, with the subject
 IDs as keys, and the filenames of the corresponding files as values.
@@ -171,63 +165,80 @@ FA_img = nib.load(FA_fname)
 FA = FA_img.get_fdata()
 ```
 
-Visualize the result with Matplotlib
--------------------------------------
+## Visualize the result with Matplotlib
 At this point `FA` is an array, and we can use standard Python tools to
 visualize it or perform additional computations with it.
 
 In this case we are going to take an axial slice halfway through the
 FA data array and plot using a sequential color map.
 
-.. note::
-
-   The data array is structured as a xyz coordinate system.
+:::{note}
+The data array is structured as a xyz coordinate system.
+:::
 
 ```{code-cell} ipython3
 fig, ax = plt.subplots(1)
 ax.matshow(FA[:, :, FA.shape[-1] // 2], cmap='viridis')
 ax.axis("off")
+plt.savefig("FA.png")
 ```
 
-Recognizing the bundles and calculating tract profiles:
------------------------------------------------------
+```{code-cell} ipython3
+:tags: [remove-input]
+from AFQ.utils.docs import embed_html, embed_image
+
+embed_image("FA.png")
+```
+
+## Recognizing the bundles and calculating tract profiles:
+
 Typically, users of pyAFQ are interested in calculating not only an overall
 map of the FA, but also the major white matter pathways (or bundles) and
 tract profiles of tissue properties along their length. To trigger the
 pyAFQ pipeline that calculates the profiles, users can call the
 `export('profiles')` method:
 
-.. note::
-   Running the code below triggers the full pipeline of operations
-   leading to the computation of the tract profiles. Therefore, it
-   takes a little while to run (about 40 minutes, typically).
+:::{note}
+Running the code below triggers the full pipeline of operations
+leading to the computation of the tract profiles. Therefore, it
+takes a little while to run (about 40 minutes, typically).
+:::
 
 ```{code-cell} ipython3
 myafq.export('profiles')
 ```
 
-Visualizing the bundles and calculating tract profiles:
------------------------------------------------------
+## Visualizing the bundles and calculating tract profiles:
+
 The pyAFQ API provides several ways to visualize bundles and profiles.
 
 First, we will run a function that exports an html file that contains
 an interactive visualization of the bundles that are segmented.
 
-.. note::
-   By default we resample a 100 points within a bundle, however to reduce
-   processing time we will only resample 50 points.
+:::{note}
+By default we resample a 100 points within a bundle, however to reduce
+processing time we will only resample 50 points.
+:::
 
 Once it is done running, it should pop a browser window open and let you
 interact with the bundles.
 
-.. note::
-   You can hide or show a bundle by clicking the legend, or select a
-   single bundle by double clicking the legend. The interactive
-   visualization will also all you to pan, zoom, and rotate.
+:::{note}
+You can hide or show a bundle by clicking the legend, or select a
+single bundle by double clicking the legend. The interactive
+visualization will also allow you to pan, zoom, and rotate.
+:::
 
 ```{code-cell} ipython3
+:tags: [remove-execution]
 bundle_html = myafq.export("all_bundles_figure", collapse=False)
 plotly.io.show(bundle_html["NDARAA948VFH"]["HBNsiteRU"][0])
+```
+
+```{code-cell} ipython3
+:tags: [remove-input]
+bundle_html = myafq.export("all_bundles_figure", collapse=False)
+embed_html(bundle_html["NDARAA948VFH"]["HBNsiteRU"][1])
 ```
 
 We can also visualize the tract profiles in all of the bundles. These
@@ -240,10 +251,14 @@ fig_files = myafq.export("tract_profile_plots", collapse=False)[
     "NDARAA948VFH"]["HBNsiteRU"]
 ```
 
-.. figure:: {{ fig_files[0] }}
+```{code-cell} ipython3
+:tags: [remove-input]
+embed_image(fig_files[0] + ".png")
+```
 
 ```{code-cell} ipython3
-
+:tags: [remove-input]
+embed_image(fig_files[1] + ".png")
 ```
 
 We can even use altair to visualize the tract profiles in all
@@ -263,11 +278,15 @@ altair_df = ava.combined_profiles_df_to_altair_df(
         "msdki_msd",
         "msdki_msk"])
 altair_chart = ava.altair_df_to_chart(altair_df)
-altair_chart.display()
+altair_chart.save("profiles_chart.html")
 ```
 
-Exporting citations
-----------------------
+```{code-cell} ipython3
+:tags: [remove-input]
+embed_html("profiles_chart.html")
+```
+
+## Exporting citations
 Finally, we can export the citations for the some of methods used in this
 analysis. These are not guaranteed to be comprehensive, but they
 should be a good starting point.
@@ -294,8 +313,7 @@ for ind in bundle_counts.index:
             f"for bundle(s):\n{bundle_counts}"))
 ```
 
-Alternative way to initialize GroupAFQ when using QSIPrep data
---------------------------------------------------------------
+## Alternative way to initialize GroupAFQ when using QSIPrep data
 As a final note, if you are using QSIPrep preprocessed data,
 you can also initialize the GroupAFQ object using the
 `from_qsiprep` class method. This method will automatically set
@@ -312,16 +330,16 @@ myafq = GroupAFQ.from_qsiprep(
     tracking_params=tracking_params)
 ```
 
-References
-----------
-.. [1] Alexander LM, Escalera J, Ai L, et al. An open resource for
+## References
+
+[^1]: Alexander LM, Escalera J, Ai L, et al. An open resource for
     transdiagnostic research in pediatric mental health and learning
     disorders. Sci Data. 2017;4:170181.
 
-.. [2] Richie-Halford A, Cieslak M, Ai L, et al. An analysis-ready and quality
+[^2]: Richie-Halford A, Cieslak M, Ai L, et al. An analysis-ready and quality
     controlled resource for pediatric brain white-matter research. Scientific
     Data. 2022;9(1):1-27.
 
-.. [3] Cieslak M, Cook PA, He X, et al. QSIPrep: an integrative platform for
+[^3]: Cieslak M, Cook PA, He X, et al. QSIPrep: an integrative platform for
     preprocessing and reconstructing diffusion MRI data. Nat Methods.
     2021;18(7):775-778.

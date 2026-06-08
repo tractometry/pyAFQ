@@ -16,3 +16,9 @@ def embed_image(path):
     with open(path, "rb") as f:
         img_data = base64.b64encode(f.read()).decode()
     return HTML(f'<img src="data:image/png;base64,{img_data}"/>')
+
+
+def embed_html(path):
+    with open(path, "r") as f:
+        html_content = f.read()
+    return HTML(html_content)

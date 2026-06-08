@@ -6,21 +6,20 @@ mystnb:
   execution_mode: "off"
 ---
 
-==========================================
-Using cloudknot to run pyAFQ on AWS batch:
-==========================================
-One of the purposes of ``pyAFQ`` is to analyze large-scale openly-available
+# Using cloudknot to run pyAFQ on AWS batch:
+
+One of the purposes of `pyAFQ` is to analyze large-scale openly-available
 datasets, such as those in the
-`Human Connectome Project <https://www.humanconnectome.org/>`_.
+[Human Connectome Project](https://www.humanconnectome.org/).
 
 To analyze these datasets, large amounts of compute are needed.
 One way to gain access to massive computational power is by using
 cloud computing. Here, we will demonstrate
-how to use ``pyAFQ`` in the Amazon Web Services cloud.
+how to use `pyAFQ` in the Amazon Web Services cloud.
 
-We will rely on the `AWS Batch Service <https://aws.amazon.com/batch/>`_ ,
+We will rely on the [AWS Batch Service](https://aws.amazon.com/batch/),
 and we will submit work into AWS Batch using software that our group
-developed called `Cloudknot <https://nrdg.github.io/cloudknot/>`_.
+developed called [Cloudknot](https://nrdg.github.io/cloudknot/).
 
 +++
 
@@ -35,15 +34,15 @@ import cloudknot as ck
 ck.set_region('us-east-1')
 ```
 
-Define the function to use
---------------------------
-``Cloudknot`` uses the single program multiple data paradigm of computing.
+## Define the function to use
+
+`Cloudknot` uses the single program multiple data paradigm of computing.
 This means that the same function will be run on multiple different inputs.
-For example, a ``pyAFQ`` processing function run
+For example, a `pyAFQ` processing function run
 on multiple different subjects in a dataset.
 Below, we define the function that we will use. Notice that
-``Cloudknot`` functions include the import statements of the dependencies
-used. This is necessary so that ``Cloudknot`` knows
+`Cloudknot` functions include the import statements of the dependencies
+used. This is necessary so that `Cloudknot` knows
 what dependencies to install into AWS Batch to run this function.
 
 ```{code-cell} ipython3
@@ -96,15 +95,15 @@ see the docstring for S3BIDSStudy.__init__ for more information
 subjects = ["123456", "123457", "123458"]
 ```
 
-Defining a ``Knot`` instance
----------------------------------
-We instantiate a class instance of the :class:`ck.Knot` class.
+## Defining a `Knot` instance
+
+We instantiate a class instance of the `ck.Knot` class.
 This object will be used to run your jobs.
 The object is instantiated with the `'AmazonS3FullAccess'` policy,
 so that it can write the results
 out to S3, into a bucket that you have write permissions on.
 Setting the `bid_percentage` key-word makes AWS Batch use
-`spot EC2 instances <https://aws.amazon.com/ec2/spot/>`_ for the
+[spot EC2 instances](https://aws.amazon.com/ec2/spot/) for the
 computation. This can result in substantial cost-savings, as spot compute
 instances can cost much less than on-demand instances.
 However, not that spot instances can also
@@ -123,9 +122,9 @@ knot = ck.Knot(
     bid_percentage=100)
 ```
 
-Launching the computation
---------------------------------
-The :meth:`map` method of the :class:`Knot object maps each of the inputs
+## Launching the computation
+
+The `map` method of the `Knot` object maps each of the inputs
 provided as a sequence onto the function and executes the function on each
 one of them in parallel.
 
@@ -134,27 +133,31 @@ result_futures = knot.map(subjects)
 ```
 
 Once computations have started, you can call the following
-function to view the progress of jobs::
+function to view the progress of jobs:
 
-    knot.view_jobs()
+```python
+knot.view_jobs()
+```
 
-You can also view the status of a specific job::
+You can also view the status of a specific job:
 
-    knot.jobs[0].status
+```python
+knot.jobs[0].status
+```
 
 ```{code-cell} ipython3
 
 ```
 
-When all jobs are finished, remember to use the :meth:`clobber` method to
-destroy all of the AWS resources created by the :class:`Knot`
+When all jobs are finished, remember to use the `clobber` method to
+destroy all of the AWS resources created by the `Knot`
 
 ```{code-cell} ipython3
 result_futures.result()
 knot.clobber(clobber_pars=True, clobber_repo=True, clobber_image=True)
 ```
 
-In a second :class:`Knot` object, we use a function that takes the
+In a second `Knot` object, we use a function that takes the
 resulting profiles of each subject and combines them into one csv file.
 
 ```{code-cell} ipython3
@@ -176,7 +179,7 @@ knot2 = ck.Knot(
 
 This knot is called with a dummy argument, which is not used within the
 function itself. The `job_type` key-word argument is used to signal to
-``Cloudknot`` that only one job is submitted rather than the default
+`Cloudknot` that only one job is submitted rather than the default
 array of jobs.
 
 ```{code-cell} ipython3

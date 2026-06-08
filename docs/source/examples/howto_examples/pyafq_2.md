@@ -7,9 +7,7 @@ mystnb:
 ---
 
 (pyafq-2-settings)=
-======================================
-Running pyAFQ 2.x defaults in pyAFQ 3.x
-======================================
+# Running pyAFQ 2.x defaults in pyAFQ 3.x
 
 ```{code-cell} ipython3
 from AFQ.api.group import GroupAFQ
@@ -22,8 +20,7 @@ import os.path as op
 afd.organize_stanford_data()
 ```
 
-Tractography parameters in the old way
---------------------------------------------------------------
+## Tractography parameters in the old way
 In pyAFQ 2.x, we used CSD with no asymmetric filtering,
 and seeded streamlines throughout the white matter instead of
 on the white matter / gray matter interface.
@@ -40,8 +37,7 @@ tracking_params = dict(
 )
 ```
 
-Partial Volume Estimate in the old way
---------------------------------------------------------------
+## Partial Volume Estimate in the old way
 In pyAFQ 2.x, we did not use PVE and instead thresholded
 on fractional anisotropy (FA) maps to create
 seed and stopping masks. Here, we recreate
@@ -67,8 +63,7 @@ bm_def = afm.LabelledImageFile(
     exclusive_labels=[0])
 ```
 
-VOF / pAF / CST in the old way
---------------------------------------------------------------
+## VOF / pAF / CST in the old way
 In pyAFQ 2.x, the vertical occipital fasciculus (VOF)
 and posterior arcuate fasciculus (pAF) were defined differently.
 The pAF in 3.0 has an increased restriction that it cannot overlap with
@@ -166,8 +161,7 @@ old_vof_paf_cst_slf_definitions = abd.BundleDict({
                                      'primary_axis_percentage': 40}})
 ```
 
-Callosal bundles in the old way
-----------------------------------------------------------------
+## Callosal bundles in the old way
 In pyAFQ 2.x, the callosal bundles were cleaned using mahalnobis
 instead of isolation forest.
 
@@ -238,8 +232,7 @@ bundle_info = abd.default_bd() + \
     callosal_bd
 ```
 
-Run GroupAFQ with these parameters
---------------------------------------------------------------
+## Run GroupAFQ with these parameters
 Finally, we can run GroupAFQ with the 2.0 parameters.
 In sum, we changed:
 Tractography parameters to use CSD and seed throughout
