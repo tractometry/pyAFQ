@@ -11,3 +11,6 @@ tutorial, and will save results as it goes along.
 
 .. toctree::
     :maxdepth: 2
+    :glob:
+
+    *

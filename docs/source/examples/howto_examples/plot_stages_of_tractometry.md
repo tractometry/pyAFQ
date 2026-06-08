@@ -1,7 +1,16 @@
 ---
 file_format: mystnb
+jupytext:
+  text_representation:
+    extension: .md
+    format_name: myst
 kernelspec:
+  display_name: Python 3
+  language: python
   name: python3
+language_info:
+  name: python
+  pygments_lexer: ipython3
 ---
 
 # Understanding the different stages of tractometry with videos
