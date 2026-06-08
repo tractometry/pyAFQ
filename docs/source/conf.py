@@ -95,10 +95,6 @@ exclude_patterns = []
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'
 
-# Myst settings
-nb_execution_mode = "force"
-nb_execution_timeout = 7200
-
 # -- Options for HTML output -------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
@@ -226,6 +222,14 @@ intersphinx_mapping = {'python': ('https://docs.python.org/3/', None),
                        }
 
 # Myst settings
+nb_execution_mode = "force"
+nb_execution_timeout = 7200
+myst_enable_extensions = [
+    "colon_fence",
+    "deflist",
+    "dollarmath",
+    "amsmath",
+]
 nb_execution_raise_on_error = True
 
 # example of how to exclude notebooks when testing

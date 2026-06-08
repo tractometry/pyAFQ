@@ -376,12 +376,12 @@ def make_mp4(show_m, out_path, n_frames=720, az_ang=-0.5, fps=30, crf=35, verbos
 
     n_frames : int
         The number of frames to render.
-        Default: 36
+        Default: 720
 
     az_ang : float
         The angle to rotate the camera around the
         z-axis for each frame, in degrees.
-        Default: -10
+        Default: -0.5
 
     fps : float
         The frames per second for the output video.

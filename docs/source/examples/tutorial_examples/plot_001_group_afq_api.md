@@ -265,11 +265,6 @@ fig_files = myafq.export("tract_profile_plots", collapse=False)[
 embed_image(fig_files[0] + ".png")
 ```
 
-```{code-cell} ipython3
-:tags: [remove-input]
-embed_image(fig_files[1] + ".png")
-```
-
 We can even use altair to visualize the tract profiles in all
 of the bundles. We provide a more customizable interface for visualizing
 the tract profiles using altair.

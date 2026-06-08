@@ -283,11 +283,6 @@ fig_files = myafq.export("tract_profile_plots")
 embed_image(fig_files[0] + ".png")
 ```
 
-```{code-cell} ipython3
-:tags: [remove-input]
-embed_image(fig_files[1] + ".png")
-```
-
 ## Exporting citations
 Finally, we can export the citations for the some of methods used in this
 analysis. These are not guaranteed to be comprehensive, but they

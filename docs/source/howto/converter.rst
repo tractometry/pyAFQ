@@ -13,7 +13,7 @@ specified in its dataset_description.json.
 
 There is an example usage of import_tract with the
 :class:`AFQ.api.group.GroupAFQ` object in 
-`How pyAFQ uses BIDS <examples/tutorial_examples/plot_006_bids_layout.html>`_.
+`How pyAFQ uses BIDS <../examples/tutorial_examples/plot_006_bids_layout.html>`_.
 
 
 Matlab AFQ to Python AFQ conversion

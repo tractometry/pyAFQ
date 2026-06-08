@@ -236,7 +236,7 @@ choice (bottom).
 Running pyAFQ in practice
 =========================
 
-`Getting started with pyAFQ - ParticipantAFQ <examples/tutorial_examples/plot_002_participant_afq_api.html>`_
+`Getting started with pyAFQ - ParticipantAFQ <../examples/tutorial_examples/plot_002_participant_afq_api.html>`_
 
 
 AFQ Insight Example

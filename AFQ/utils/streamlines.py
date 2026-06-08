@@ -1,9 +1,8 @@
 import os.path as op
 
 import numpy as np
-from dipy.io.stateful_tractogram import Space, StatefulTractogram
+from dipy.io.stateful_tractogram import Origin, Space, StatefulTractogram
 from dipy.io.streamline import load_tractogram, save_tractogram
-from dipy.io.utils import Origin
 from nibabel.affines import voxel_sizes
 from nibabel.orientations import aff2axcodes
 
