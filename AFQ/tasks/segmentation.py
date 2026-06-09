@@ -91,10 +91,10 @@ def segment(data_imap, mapping_imap, tractography_imap, segmentation_params):
         **segmentation_params,
     )
 
-    seg_sft = aus.SegmentedSFT(bundles)
-
-    if len(seg_sft.sft) < 1:
+    if len(bundles) == 0:
         raise ValueError("Fatal: No bundles recognized.")
+
+    seg_sft = aus.SegmentedSFT(bundles)
 
     if is_trx:
         seg_sft.sft.dtype_dict = {"positions": np.float16, "offsets": np.uint32}
