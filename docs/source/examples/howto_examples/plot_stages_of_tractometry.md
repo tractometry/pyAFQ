@@ -137,11 +137,11 @@ for bval, slicer in zip([0, 1000, 2000],
 
     show_m = window.ShowManager(
         scene=scene, window_type="offscreen",
-        size=(400, 400),  pixel_ratio=2.0
+        size=(600, 600),  pixel_ratio=2.0
     )
     window.update_camera(show_m.screens[0].camera, None, slicer)
     show_m.screens[0].controller.rotate((0, radians(-90)), None)
-    make_mp4(show_m, f'b{bval}.mp4', n_frames=180, az_ang=-2, crf=28, verbose=False)
+    make_mp4(show_m, f'b{bval}.mp4', n_frames=90, fps=15, az_ang=-2, crf=28, verbose=False)
 ```
 
 ```{code-cell} ipython3
@@ -223,10 +223,10 @@ scene.add(slicer)
 scene.background = (1, 1, 1)
 show_m = window.ShowManager(
     scene=scene, window_type="offscreen",
-    size=(400, 400),  pixel_ratio=2.0
+    size=(600, 600),  pixel_ratio=2.0
 )
 rotate_to_anterior(show_m)
-make_mp4(show_m, "whole_brain.mp4", n_frames=180, az_ang=-2, crf=28, verbose=False)
+make_mp4(show_m, "whole_brain.mp4", n_frames=90, fps=15, az_ang=-2, crf=28, verbose=False)
 ```
 
 ```{code-cell} ipython3
@@ -282,10 +282,10 @@ scene.add(waypoint2_actor)
 
 show_m = window.ShowManager(
     scene=scene, window_type="offscreen",
-    size=(400, 400),  pixel_ratio=2.0
+    size=(600, 600),  pixel_ratio=2.0
 )
 rotate_to_anterior(show_m)
-make_mp4(show_m, "whole_brain_with_waypoints.mp4", n_frames=180, az_ang=-2, crf=28, verbose=False)
+make_mp4(show_m, "whole_brain_with_waypoints.mp4", n_frames=90, fps=15, az_ang=-2, crf=28, verbose=False)
 
 bundle_path = op.join(afq_path,
                       'bundles')
@@ -382,10 +382,10 @@ scene.add(waypoint2_actor)
 
 show_m = window.ShowManager(
     scene=scene, window_type="offscreen",
-    size=(400, 400),  pixel_ratio=2.0
+    size=(600, 600),  pixel_ratio=2.0
 )
 rotate_to_anterior(show_m)
-make_mp4(show_m, "arc1.mp4", n_frames=180, az_ang=-2, crf=28, verbose=False)
+make_mp4(show_m, "arc1.mp4", n_frames=90, fps=15, az_ang=-2, crf=28, verbose=False)
 ```
 
 ```{code-cell} ipython3
@@ -405,10 +405,10 @@ scene.add(slicer)
 
 show_m = window.ShowManager(
     scene=scene, window_type="offscreen",
-    size=(400, 400),  pixel_ratio=2.0
+    size=(600, 600),  pixel_ratio=2.0
 )
 rotate_to_anterior(show_m)
-make_mp4(show_m, "arc2.mp4", n_frames=180, az_ang=-2, crf=28, verbose=False)
+make_mp4(show_m, "arc2.mp4", n_frames=90, fps=15, az_ang=-2, crf=28, verbose=False)
 
 clean_bundles_path = op.join(afq_path,
                              'clean_bundles')
@@ -428,10 +428,10 @@ scene.add(slicer)
 
 show_m = window.ShowManager(
     scene=scene, window_type="offscreen",
-    size=(400, 400),  pixel_ratio=2.0
+    size=(600, 600),  pixel_ratio=2.0
 )
 rotate_to_anterior(show_m)
-make_mp4(show_m, "arc3.mp4", n_frames=180, az_ang=-2, crf=28, verbose=False)
+make_mp4(show_m, "arc3.mp4", n_frames=90, fps=15, az_ang=-2, crf=28, verbose=False)
 ```
 
 ```{code-cell} ipython3
@@ -470,10 +470,10 @@ scene.add(slicer)
 
 show_m = window.ShowManager(
     scene=scene, window_type="offscreen",
-    size=(400, 400),  pixel_ratio=2.0
+    size=(600, 600),  pixel_ratio=2.0
 )
 rotate_to_anterior(show_m)
-make_mp4(show_m, "arc4.mp4", n_frames=180, az_ang=-2, crf=28, verbose=False)
+make_mp4(show_m, "arc4.mp4", n_frames=90, fps=15, az_ang=-2, crf=28, verbose=False)
 ```
 
 ```{code-cell} ipython3
@@ -512,10 +512,10 @@ scene.add(core_arc_actor)
 
 show_m = window.ShowManager(
     scene=scene, window_type="offscreen",
-    size=(400, 400),  pixel_ratio=2.0
+    size=(600, 600),  pixel_ratio=2.0
 )
 rotate_to_anterior(show_m)
-make_mp4(show_m, "arc5.mp4", n_frames=180, az_ang=-2, crf=28, verbose=False)
+make_mp4(show_m, "arc5.mp4", n_frames=90, fps=15, az_ang=-2, crf=28, verbose=False)
 ```
 
 ```{code-cell} ipython3
@@ -547,10 +547,10 @@ for ii, bundle in enumerate(bundles):
 
 show_m = window.ShowManager(
     scene=scene, window_type="offscreen",
-    size=(400, 400),  pixel_ratio=2.0
+    size=(600, 600),  pixel_ratio=2.0
 )
 rotate_to_anterior(show_m)
-make_mp4(show_m, "all_bundles.mp4", n_frames=180, az_ang=-2, crf=28, verbose=False)
+make_mp4(show_m, "all_bundles.mp4", n_frames=90, fps=15, az_ang=-2, crf=28, verbose=False)
 
 scene.clear()
 
@@ -581,10 +581,10 @@ for bundle in bundles:
 
 show_m = window.ShowManager(
     scene=scene, window_type="offscreen",
-    size=(400, 400),  pixel_ratio=2.0,
+    size=(600, 600),  pixel_ratio=2.0,
 )
 rotate_to_anterior(show_m)
-make_mp4(show_m, "all_tract_profiles.mp4", n_frames=180, az_ang=-2, crf=28, verbose=False)
+make_mp4(show_m, "all_tract_profiles.mp4", n_frames=90, fps=15, az_ang=-2, crf=28, verbose=False)
 ```
 
 ```{code-cell} ipython3
