@@ -18,7 +18,7 @@ from dipy.tracking.tracker import (
 )
 from nibabel.streamlines.tractogram import LazyTractogram
 from skimage.segmentation import find_boundaries
-from tqdm import tqdm
+from tqdm.auto import tqdm
 
 from AFQ._fixes import tensor_odf
 from AFQ.tractography.utils import gen_seeds

@@ -560,7 +560,7 @@ all_bundles_figure:
 
 
 indiv_bundles_figures:
-    list of full paths to html or gif files containing visualizations of individual bundles
+    list of full paths to html or mp4 files containing visualizations of individual bundles
 
 
 tract_profile_plots:

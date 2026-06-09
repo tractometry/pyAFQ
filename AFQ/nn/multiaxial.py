@@ -3,7 +3,7 @@ import os.path as op
 
 import nibabel as nib
 import numpy as np
-from tqdm import tqdm
+from tqdm.auto import tqdm
 
 from AFQ.data.fetch import afq_home, fetch_multiaxial_models
 from AFQ.nn.utils import prepare_t1_for_nn, resample_output

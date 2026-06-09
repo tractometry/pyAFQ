@@ -14,7 +14,7 @@ from dipy.data import get_sphere
 from dipy.direction import peak_directions
 from dipy.reconst.shm import sh_to_sf, sh_to_sf_matrix, sph_harm_ind_list
 from numba import config, njit, prange, set_num_threads
-from tqdm import tqdm
+from tqdm.auto import tqdm
 
 logger = logging.getLogger("AFQ")
 

@@ -1,10 +1,8 @@
 import colorsys
 import logging
-import os.path as op
 from collections import OrderedDict
 
 import dipy.tracking.streamlinespeed as dps
-import imageio as io
 import matplotlib.patches as mpatches
 import matplotlib.pyplot as plt
 import nibabel as nib
@@ -125,10 +123,10 @@ COLOR_DICT = OrderedDict(
         "Right Posterior Arcuate": (0.5, 0.95, 0.7),
         "Left Vertical Occipital": vof_l_base,
         "Right Vertical Occipital": vof_r_base,
-        "Left V1V3": vof_l_shades[0],
+        "Left Early Visual": vof_l_shades[0],
         "Left Posterior Vertical Occipital": vof_l_shades[1],
         "Left Anterior Vertical Occipital": vof_l_shades[2],
-        "Right V1V3": vof_r_shades[0],
+        "Right Early Visual": vof_r_shades[0],
         "Right Posterior Vertical Occipital": vof_r_shades[1],
         "Right Anterior Vertical Occipital": vof_r_shades[2],
         "median": tableau_20[6],
@@ -265,6 +263,7 @@ class PanelFigure:
         x_coord,
         y_coord,
         reduct_count=1,
+        trim_buffer=2,
         subplot_label_pos=(0.1, 0.1),
         legend=None,
         legend_kwargs=None,
@@ -285,6 +284,9 @@ class PanelFigure:
         reduct_count : int
             number of times to trim whitespace around image
             Default: 1
+        trim_buffer : int
+            number of pixels to add back around image after trimming
+            Default: 2
         subplot_label_pos : tuple of floats
             position of subplot label
             Default: (0.1, 0.1)
@@ -308,7 +310,7 @@ class PanelFigure:
         ax = self.fig.add_subplot(self.grid[y_coord, x_coord])
         im1 = Image.open(fname)
         for _ in range(reduct_count):
-            im1 = trim(im1)
+            im1 = trim(im1, buffer=trim_buffer)
         if legend is not None:
             patches = []
             for value, color in legend.items():
@@ -372,7 +374,7 @@ class PanelFigure:
         self.fig.savefig(fname, dpi=300)
         if trim_final:
             im1 = Image.open(fname)
-            im1 = trim(im1)
+            im1 = trim(im1, buffer=0)
             im1.save(fname, dpi=(300, 300))
 
 
@@ -537,11 +539,11 @@ def tract_generator(
     if colors is None:
         colors = gen_color_dict(seg_sft.bundle_names)
 
-    seg_sft.sft.to_rasmm()
-    streamlines = seg_sft.sft.streamlines
+    seg_sft.to_rasmm()
     viz_logger.info("Generating colorful lines from tractography...")
 
     if len(seg_sft.bundle_names) == 1 and seg_sft.bundle_names[0] == "whole_brain":
+        streamlines = seg_sft.sft.streamlines
         if isinstance(colors, dict):
             colors = list(colors.values())
         # There are no bundles in here:
@@ -556,8 +558,9 @@ def tract_generator(
     else:
         if bundle is None:
             # No selection: visualize all of them:
+            streamlines = seg_sft.sft.streamlines
             for bundle_name in sorted(seg_sft.bundle_names):
-                idx = seg_sft.bundle_idxs[bundle_name]
+                idx = seg_sft.get_bundle_idxs(bundle_name)
                 if len(idx) == 0:
                     continue
                 n_sl_viz = (len(idx) * n_sls_viz) // len(streamlines)
@@ -588,51 +591,27 @@ def tract_generator(
             yield sls, color, bundle, dim
 
 
-def bbox(img):
+def bbox(img, buffer=0):
     img = np.sum(img, axis=-1)
     rows = np.any(img, axis=1)
     cols = np.any(img, axis=0)
     rmin, rmax = np.where(rows)[0][[0, -1]]
     cmin, cmax = np.where(cols)[0][[0, -1]]
 
-    return cmin, rmin, cmax, rmax
+    return (
+        max(cmin - buffer, 0),
+        max(rmin - buffer, 0),
+        min(cmax + buffer, img.shape[1]),
+        min(rmax + buffer, img.shape[0]),
+    )
 
 
-def trim(im):
+def trim(im, buffer=0):
     bg = Image.new(im.mode, im.size, im.getpixel((0, 0)))
     diff = ImageChops.difference(im, bg)
-    this_bbox = bbox(diff)
+    this_bbox = bbox(diff, buffer=buffer)
     if this_bbox:
         return im.crop(this_bbox)
-
-
-def gif_from_pngs(tdir, gif_fname, n_frames, png_fname="tgif", add_zeros=False):
-    """
-    Helper function
-    Stitches together gif from screenshots
-    """
-    if add_zeros:
-        fname_suffix10 = "00000"
-        fname_suffix100 = "0000"
-        fname_suffix1000 = "000"
-    else:
-        fname_suffix10 = ""
-        fname_suffix100 = ""
-        fname_suffix1000 = ""
-    angles = []
-    n_frame_copies = 60 // n_frames
-    for i in range(n_frames):
-        if i < 10:
-            angle_fname = f"{png_fname}{fname_suffix10}{i}.png"
-        elif i < 100:
-            angle_fname = f"{png_fname}{fname_suffix100}{i}.png"
-        else:
-            angle_fname = f"{png_fname}{fname_suffix1000}{i}.png"
-        frame = io.imread(op.join(tdir, angle_fname))
-        for _j in range(n_frame_copies):
-            angles.append(frame)
-
-    io.mimsave(gif_fname, angles)
 
 
 def prepare_roi(roi, resample_to=None):
@@ -716,7 +695,7 @@ class Viz:
             self.visualize_bundles = AFQ.viz.fury_backend.visualize_bundles
             self.visualize_roi = AFQ.viz.fury_backend.visualize_roi
             self.visualize_volume = AFQ.viz.fury_backend.visualize_volume
-            self.create_gif = AFQ.viz.fury_backend.create_gif
+            self.create_mp4 = AFQ.viz.fury_backend.create_mp4
         elif "plotly" in backend:
             try:
                 import AFQ.viz.plotly_backend
@@ -725,7 +704,7 @@ class Viz:
             self.visualize_bundles = AFQ.viz.plotly_backend.visualize_bundles
             self.visualize_roi = AFQ.viz.plotly_backend.visualize_roi
             self.visualize_volume = AFQ.viz.plotly_backend.visualize_volume
-            self.create_gif = AFQ.viz.plotly_backend.create_gif
+            self.create_mp4 = AFQ.viz.plotly_backend.create_mp4
             self.single_bundle_viz = AFQ.viz.plotly_backend.single_bundle_viz
         else:
             raise TypeError(

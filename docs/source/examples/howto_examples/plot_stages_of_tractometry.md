@@ -1,7 +1,19 @@
-"""
-=============================================================
-Understanding the different stages of tractometry with videos
-=============================================================
+---
+file_format: mystnb
+jupytext:
+  text_representation:
+    extension: .md
+    format_name: myst
+kernelspec:
+  display_name: Python 3
+  language: python
+  name: python3
+language_info:
+  name: python
+  pygments_lexer: ipython3
+---
+
+# Understanding the different stages of tractometry with videos
 
 Two-dimensional figures of anatomical data are somewhat limited, because of the
 complex three-dimensional configuration of the brain. Therefored, dynamic
@@ -13,13 +25,11 @@ visualize individual frames of the results of each stage, and then create
 videos of each stage of the process using the Python Image Library (PIL, also
 known as pillow).
 
-"""
++++
 
-##############################################################################
-# Imports
-# -------
-#
+## Imports
 
+```{code-cell} ipython3
 
 import os.path as op
 import nibabel as nib
@@ -40,36 +50,35 @@ from matplotlib.cm import tab20
 
 import AFQ.data.fetch as afd
 from AFQ.viz.utils import gen_color_dict
-from AFQ._fixes import make_gif
+from AFQ._fixes import make_mp4
+```
 
+## Get data from HBN POD2
+We get the same data that is used in the visualization tutorials.
 
-###############################################################################
-# Get data from HBN POD2
-# ----------------------------
-# We get the same data that is used in the visualization tutorials.
-
+```{code-cell} ipython3
 afd.fetch_hbn_preproc(["NDARAA948VFH"])
 study_path = afd.fetch_hbn_afq(["NDARAA948VFH"])[1]
+```
 
-#############################################################################
-# Visualize the processed dMRI data
-# ---------------------------------
-# The HBN POD2 dataset was processed using the ``qsiprep`` pipeline. The
-# results from this processing are stored within a sub-folder of the
-# derivatives folder within the study folder.
-# Here, we will start by visualizing the diffusion data. We read in the
-# diffusion data, as well as the gradient table, using the `nibabel` library.
-# We then extract the b0, b1000, and b2000 volumes from the diffusion data.
-# We will use the `actor.data_slicer` function from `fury` to visualize these. This
-# function takes a 3D volume as input and returns a `slicer` actor, which can
-# then be added to a `window.Scene` object. We create a helper function that
-# will create a slicer actor for a given volume and a given slice along the x,
-# y, or z dimension. We then call this function three times, once for each of
-# the b0, b1000, and b2000 volumes, and add the resulting slicer actors to a
-# scene. We set the camera on the scene to a view that we like, and then we
-# record the scene into png files and subsequently gif animations. We do this
-# for each of the three volumes.
+## Visualize the processed dMRI data
+The HBN POD2 dataset was processed using the `qsiprep` pipeline. The
+results from this processing are stored within a sub-folder of the
+derivatives folder within the study folder.
+Here, we will start by visualizing the diffusion data. We read in the
+diffusion data, as well as the gradient table, using the `nibabel` library.
+We then extract the b0, b1000, and b2000 volumes from the diffusion data.
+We will use the `actor.data_slicer` function from `fury` to visualize these. This
+function takes a 3D volume as input and returns a `slicer` actor, which can
+then be added to a `window.Scene` object. We create a helper function that
+will create a slicer actor for a given volume and a given slice along the x,
+y, or z dimension. We then call this function three times, once for each of
+the b0, b1000, and b2000 volumes, and add the resulting slicer actors to a
+scene. We set the camera on the scene to a view that we like, and then we
+record the scene into png files and subsequently mp4 files. We do this
+for each of the three volumes.
 
+```{code-cell} ipython3
 deriv_path = op.join(
     study_path, "derivatives")
 
@@ -128,30 +137,47 @@ for bval, slicer in zip([0, 1000, 2000],
 
     show_m = window.ShowManager(
         scene=scene, window_type="offscreen",
-        size=(2400, 2400)
+        size=(600, 600),  pixel_ratio=2.0
     )
     window.update_camera(show_m.screens[0].camera, None, slicer)
     show_m.screens[0].controller.rotate((0, radians(-90)), None)
-    make_gif(show_m, f'b{bval}.gif')
+    make_mp4(show_m, f'b{bval}.mp4', n_frames=90, fps=15, az_ang=-2, crf=28, verbose=False)
+```
 
-#############################################################################
-# Visualizing whole-brain tractography
-# ------------------------------------
-# One of the first steps of the pyAFQ pipeline is to generate whole-brain
-# tractography. We will visualize the results of this step. We start by reading
-# in the FA image, which is used as a reference for the tractography. We then
-# load the whole brain tractography, and transform the coordinates of the
-# streamlines into the coordinate frame of the T1-weighted data.
-#
-# If you are interested in learning more about the different steps of the
-# tractometry pipeline, you can reference DIPY examples. Here are some
-# relevant links:
-#
-# For an example of fitting FA, see:
-# https://docs.dipy.org/1.11.0/examples_built/reconstruction/reconst_dti.html
-# For an example of running tractography, see:
-# https://docs.dipy.org/1.11.0/examples_built/fiber_tracking/tracking_probabilistic.html
+```{code-cell} ipython3
+:tags: [remove-input]
+from AFQ.utils.docs import embed_video, embed_image
 
+embed_video("b0.mp4")
+```
+
+```{code-cell} ipython3
+:tags: [remove-input]
+embed_video("b1000.mp4")
+```
+
+```{code-cell} ipython3
+:tags: [remove-input]
+embed_video("b2000.mp4")
+```
+
+## Visualizing whole-brain tractography
+One of the first steps of the pyAFQ pipeline is to generate whole-brain
+tractography. We will visualize the results of this step. We start by reading
+in the FA image, which is used as a reference for the tractography. We then
+load the whole brain tractography, and transform the coordinates of the
+streamlines into the coordinate frame of the T1-weighted data.
+
+If you are interested in learning more about the different steps of the
+tractometry pipeline, you can reference DIPY examples. Here are some
+relevant links:
+
+For an example of fitting FA, see:
+https://docs.dipy.org/1.11.0/examples_built/reconstruction/reconst_dti.html
+For an example of running tractography, see:
+https://docs.dipy.org/1.11.0/examples_built/fiber_tracking/tracking_probabilistic.html
+
+```{code-cell} ipython3
 afq_path = op.join(
     deriv_path,
     'afq',
@@ -173,16 +199,15 @@ sft_whole_brain.to_rasmm()
 whole_brain_t1w = transform_streamlines(
     sft_whole_brain.streamlines,
     np.linalg.inv(t1w_img.affine))
+```
 
-#############################################################################
-# Visualize the streamlines
-# -------------------------
-# The streamlines are visualized in the context of the T1-weighted data.
-#
+## Visualize the streamlines
+The streamlines are visualized in the context of the T1-weighted data.
+
+```{code-cell} ipython3
 
 
-
-whole_brain_actor = actor.streamlines(whole_brain_t1w, thickness=2)
+whole_brain_actor = actor.streamlines(whole_brain_t1w, thickness=0.5)
 slicer = slice_volume(t1w, y=t1w.shape[1] // 2 - 5, z=t1w.shape[-1] // 3)
 
 def rotate_to_anterior(show_m):
@@ -198,24 +223,29 @@ scene.add(slicer)
 scene.background = (1, 1, 1)
 show_m = window.ShowManager(
     scene=scene, window_type="offscreen",
-    size=(2400, 2400)
+    size=(600, 600),  pixel_ratio=2.0
 )
 rotate_to_anterior(show_m)
-make_gif(show_m, "whole_brain.gif")
+make_mp4(show_m, "whole_brain.mp4", n_frames=90, fps=15, az_ang=-2, crf=28, verbose=False)
+```
 
-#############################################################################
-# Whole brain with waypoints
-# --------------------------------------
-# We can also generate a gif video with the whole brain tractography and the
-# waypoints that are used to define the bundles. We will use the same scene as
-# before, but we will add the waypoints as contours to the scene.
-#
-# To get these waypoints in subject space, we had to register to MNI.
-# Once again, there is a helpful DIPY example for details:
-# https://docs.dipy.org/1.11.0/examples_built/registration/syn_registration_3d.html
+```{code-cell} ipython3
+:tags: [remove-input]
+embed_video("whole_brain.mp4")
+```
 
+## Whole brain with waypoints
+We can also generate a mp4 video with the whole brain tractography and the
+waypoints that are used to define the bundles. We will use the same scene as
+before, but we will add the waypoints as contours to the scene.
+
+To get these waypoints in subject space, we had to register to MNI.
+Once again, there is a helpful DIPY example for details:
+https://docs.dipy.org/1.11.0/examples_built/registration/syn_registration_3d.html
+
+```{code-cell} ipython3
 scene.clear()
-whole_brain_actor = actor.streamlines(whole_brain_t1w, thickness=2)
+whole_brain_actor = actor.streamlines(whole_brain_t1w, thickness=0.5)
 
 scene.add(whole_brain_actor)
 scene.add(slicer)
@@ -252,23 +282,30 @@ scene.add(waypoint2_actor)
 
 show_m = window.ShowManager(
     scene=scene, window_type="offscreen",
-    size=(2400, 2400)
+    size=(600, 600),  pixel_ratio=2.0
 )
 rotate_to_anterior(show_m)
-make_gif(show_m, "whole_brain_with_waypoints.gif")
+make_mp4(show_m, "whole_brain_with_waypoints.mp4", n_frames=90, fps=15, az_ang=-2, crf=28, verbose=False)
 
 bundle_path = op.join(afq_path,
                       'bundles')
+```
 
-############################################
-# Define the bundles
-# The bundles are defined by the waypoints that we just visualized. Here
-# we organize some names of bundles we want to visualize.
-# In current pyAFQ, only the formal names are used. But for this example,
-# we will use derivatives from previous versions of pyAFQ, where names
-# were abbreviated. We have standardized colors for each bundle,
-# provided by `gen_color_dict`, which we will use for visualization.
+```{code-cell} ipython3
+:tags: [remove-input]
+embed_video("whole_brain_with_waypoints.mp4")
+```
 
+## Define the bundles
+
+The bundles are defined by the waypoints that we just visualized. Here
+we organize some names of bundles we want to visualize.
+In current pyAFQ, only the formal names are used. But for this example,
+we will use derivatives from previous versions of pyAFQ, where names
+were abbreviated. We have standardized colors for each bundle,
+provided by `gen_color_dict`, which we will use for visualization.
+
+```{code-cell} ipython3
 bundles = [
     "ARC_R",
     "ATR_R",
@@ -318,13 +355,12 @@ formal_bundles = [
 ]
 
 color_dict = gen_color_dict(formal_bundles)
+```
 
-#############################################################################
-# Visualize the arcuate bundle
-# ----------------------------
-# Now visualize only the arcuate bundle that is selected with these waypoints.
-#
+## Visualize the arcuate bundle
+Now visualize only the arcuate bundle that is selected with these waypoints.
 
+```{code-cell} ipython3
 fa_img = nib.load(op.join(afq_path,
                           'sub-NDARAA948VFH_ses-HBNsiteRU_acq-64dir_space-T1w_desc-preproc_dwi_model-DKI_FA.nii.gz'))
 fa = fa_img.get_fdata()
@@ -335,7 +371,7 @@ sft_arc.to_rasmm()
 arc_t1w = transform_streamlines(sft_arc.streamlines,
                                 np.linalg.inv(t1w_img.affine))
 
-arc_actor = actor.streamlines(arc_t1w, thickness=8, colors=color_dict['Left Arcuate'])
+arc_actor = actor.streamlines(arc_t1w, thickness=0.5, colors=color_dict['Left Arcuate'])
 scene.clear()
 
 scene.add(arc_actor)
@@ -346,17 +382,22 @@ scene.add(waypoint2_actor)
 
 show_m = window.ShowManager(
     scene=scene, window_type="offscreen",
-    size=(2400, 2400)
+    size=(600, 600),  pixel_ratio=2.0
 )
 rotate_to_anterior(show_m)
-make_gif(show_m, "arc1.gif")
+make_mp4(show_m, "arc1.mp4", n_frames=90, fps=15, az_ang=-2, crf=28, verbose=False)
+```
 
-#############################################################################
-# Clean bundle
-# ------------
-# The next step in processing would be to clean the bundle by removing
-# streamlines that are outliers. We will visualize the cleaned bundle.
+```{code-cell} ipython3
+:tags: [remove-input]
+embed_video("arc1.mp4")
+```
 
+## Clean bundle
+The next step in processing would be to clean the bundle by removing
+streamlines that are outliers. We will visualize the cleaned bundle.
+
+```{code-cell} ipython3
 scene.clear()
 
 scene.add(arc_actor)
@@ -364,10 +405,10 @@ scene.add(slicer)
 
 show_m = window.ShowManager(
     scene=scene, window_type="offscreen",
-    size=(2400, 2400)
+    size=(600, 600),  pixel_ratio=2.0
 )
 rotate_to_anterior(show_m)
-make_gif(show_m, "arc2.gif")
+make_mp4(show_m, "arc2.mp4", n_frames=90, fps=15, az_ang=-2, crf=28, verbose=False)
 
 clean_bundles_path = op.join(afq_path,
                              'clean_bundles')
@@ -379,7 +420,7 @@ sft_arc.to_rasmm()
 arc_t1w = transform_streamlines(sft_arc.streamlines,
                                 np.linalg.inv(t1w_img.affine))
 
-arc_actor = actor.streamlines(arc_t1w, thickness=8, colors=tab20.colors[18])
+arc_actor = actor.streamlines(arc_t1w, thickness=0.5, colors=tab20.colors[18])
 scene.clear()
 
 scene.add(arc_actor)
@@ -387,30 +428,41 @@ scene.add(slicer)
 
 show_m = window.ShowManager(
     scene=scene, window_type="offscreen",
-    size=(2400, 2400)
+    size=(600, 600),  pixel_ratio=2.0
 )
 rotate_to_anterior(show_m)
-make_gif(show_m, "arc3.gif")
+make_mp4(show_m, "arc3.mp4", n_frames=90, fps=15, az_ang=-2, crf=28, verbose=False)
+```
 
-#############################################################################
-# Show the values of tissue properties along the bundle
-# ------------------------------------------------------
-# We can also visualize the values of tissue properties along the bundle. Here
-# we will visualize the fractional anisotropy (FA) along the arcuate bundle.
-# This is done by using a colormap to color the streamlines according to the
-# values of the tissue property, with `fury.colormap.create_colormap`.
-#
-# There is a DIPY example with more details here:
-# https://docs.dipy.org/1.11.0/examples_built/streamline_analysis/afq_tract_profiles.html
+```{code-cell} ipython3
+:tags: [remove-input]
+embed_video("arc2.mp4")
+```
 
+```{code-cell} ipython3
+:tags: [remove-input]
+embed_video("arc3.mp4")
+```
+
+## Show the values of tissue properties along the bundle
+We can also visualize the values of tissue properties along the bundle. Here
+we will visualize the fractional anisotropy (FA) along the arcuate bundle.
+This is done by using a colormap to color the streamlines according to the
+values of the tissue property, with `fury.colormap.create_colormap`.
+
+There is a DIPY example with more details here:
+https://docs.dipy.org/1.11.0/examples_built/streamline_analysis/afq_tract_profiles.html
+
+```{code-cell} ipython3
 scene.clear()
 
 fa_in_t1 = resample(fa_img, t1w_img).get_fdata()
 fa_profiles = values_from_volume(fa_in_t1, arc_t1w, np.eye(4))
 for ii in range(len(arc_t1w)):
-    colors = create_colormap(np.asarray(fa_profiles[ii]), name="blues", auto=False)
+    colors = create_colormap(np.asarray(fa_profiles[ii]), name="viridis")
     arc_actor = actor.streamlines(
-        arc_t1w[ii], thickness=8,
+        arc_t1w[ii], thickness=2,
+        opacity=0.5,
         colors=colors)
     scene.add(arc_actor)
 
@@ -418,18 +470,23 @@ scene.add(slicer)
 
 show_m = window.ShowManager(
     scene=scene, window_type="offscreen",
-    size=(2400, 2400)
+    size=(600, 600),  pixel_ratio=2.0
 )
 rotate_to_anterior(show_m)
-make_gif(show_m, "arc4.gif")
+make_mp4(show_m, "arc4.mp4", n_frames=90, fps=15, az_ang=-2, crf=28, verbose=False)
+```
 
-#############################################################################
-# Core of the bundle and tract profile
-# -------------------------------------
-# Finally, we can visualize the core of the bundle and the tract profile. The
-# core of the bundle is the median of the streamlines, and the tract profile is
-# the values of the tissue property along the core of the bundle.
+```{code-cell} ipython3
+:tags: [remove-input]
+embed_video("arc4.mp4")
+```
 
+## Core of the bundle and tract profile
+Finally, we can visualize the core of the bundle and the tract profile. The
+core of the bundle is the median of the streamlines, and the tract profile is
+the values of the tissue property along the core of the bundle.
+
+```{code-cell} ipython3
 core_arc = np.median(np.asarray(set_number_of_points(arc_t1w, 20)), axis=0)
 
 sft_arc.to_vox()
@@ -438,33 +495,38 @@ arc_profile = afq_profile(fa, sft_arc.streamlines, affine=np.eye(4),
 
 core_arc_actor = actor.streamlines(
     [core_arc],
-    thickness=40,
+    thickness=5,
     colors=create_colormap(arc_profile, name='viridis')
 )
 
 arc_actor = actor.streamlines(
     arc_t1w,
-    thickness=1,
-    opacity=0.2)  # better to visualize the core
+    thickness=0.5,
+    opacity=0.05)  # better to visualize the core
 
 scene.clear()
 
 scene.add(slicer)
-scene.add(arc_actor)
 scene.add(core_arc_actor)
+scene.add(arc_actor)
 
 show_m = window.ShowManager(
     scene=scene, window_type="offscreen",
-    size=(2400, 2400)
+    size=(600, 600),  pixel_ratio=2.0
 )
 rotate_to_anterior(show_m)
-make_gif(show_m, "arc5.gif")
+make_mp4(show_m, "arc5.mp4", n_frames=90, fps=15, az_ang=-2, crf=28, verbose=False)
+```
 
-#############################################################################
-# Core of all bundles and their tract profiles
-# --------------------------------------------
-# Same as before, but for all bundles.
+```{code-cell} ipython3
+:tags: [remove-input]
+embed_video("arc5.mp4")
+```
 
+## Core of all bundles and their tract profiles
+Same as before, but for all bundles.
+
+```{code-cell} ipython3
 scene.clear()
 scene.add(slicer)
 
@@ -478,17 +540,17 @@ for ii, bundle in enumerate(bundles):
 
     bundle_actor = actor.streamlines(
         bundle_t1w,
-        thickness=8,
+        thickness=0.5,
         colors=color_dict[formal_bundles[ii]]
     )
     scene.add(bundle_actor)
 
 show_m = window.ShowManager(
     scene=scene, window_type="offscreen",
-    size=(2400, 2400)
+    size=(600, 600),  pixel_ratio=2.0
 )
 rotate_to_anterior(show_m)
-make_gif(show_m, "all_bundles.gif")
+make_mp4(show_m, "all_bundles.mp4", n_frames=90, fps=15, az_ang=-2, crf=28, verbose=False)
 
 scene.clear()
 
@@ -511,7 +573,7 @@ for bundle in bundles:
 
     core_actor = actor.streamlines(
         [core_bundle],
-        thickness=40,
+        thickness=5,
         colors=create_colormap(tract_profiles[-1], name='viridis')
     )
 
@@ -519,21 +581,30 @@ for bundle in bundles:
 
 show_m = window.ShowManager(
     scene=scene, window_type="offscreen",
-    size=(2400, 2400)
+    size=(600, 600),  pixel_ratio=2.0,
 )
 rotate_to_anterior(show_m)
-make_gif(show_m, "all_tract_profiles.gif")
+make_mp4(show_m, "all_tract_profiles.mp4", n_frames=90, fps=15, az_ang=-2, crf=28, verbose=False)
+```
 
+```{code-cell} ipython3
+:tags: [remove-input]
+embed_video("all_bundles.mp4")
+```
 
-#############################################################################
-# Tract profiles as a table
-# -------------------------
-# Finally, we can visualize the tract profiles as a table. This is done by
-# plotting the tract profiles for each bundle as a line plot, with the x-axis
-# representing the position along the bundle, and the y-axis representing the
-# value of the tissue property. We will use the `matplotlib` library to create
-# this plot.
+```{code-cell} ipython3
+:tags: [remove-input]
+embed_video("all_tract_profiles.mp4")
+```
 
+## Tract profiles as a table
+Finally, we can visualize the tract profiles as a table. This is done by
+plotting the tract profiles for each bundle as a line plot, with the x-axis
+representing the position along the bundle, and the y-axis representing the
+value of the tissue property. We will use the `matplotlib` library to create
+this plot.
+
+```{code-cell} ipython3
 import matplotlib.pyplot as plt
 fig, ax = plt.subplots()
 for ii, bundle in enumerate(bundles):
@@ -546,3 +617,10 @@ ax.set_xticklabels(bundles, rotation=45, ha='right')
 fig.set_size_inches(10, 5)
 plt.subplots_adjust(bottom=0.2)
 fig.savefig("tract_profiles_table.png")
+print("Done!")
+```
+
+```{code-cell} ipython3
+:tags: [remove-input]
+embed_image("tract_profiles_table.png")
+```

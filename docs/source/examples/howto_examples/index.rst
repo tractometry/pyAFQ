@@ -9,3 +9,6 @@ about the variety of pyAFQ functionality that is available.
 
 .. toctree::
     :maxdepth: 2
+    :glob:
+
+    *

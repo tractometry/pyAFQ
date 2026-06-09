@@ -1,19 +1,33 @@
-"""
-=====================================================
-How to add new bundles into pyAFQ (SLF 1/2/3 Example)
-=====================================================
+---
+file_format: mystnb
+jupytext:
+  text_representation:
+    extension: .md
+    format_name: myst
+kernelspec:
+  display_name: Python 3
+  language: python
+  name: python3
+language_info:
+  name: python
+  pygments_lexer: ipython3
+mystnb:
+  execution_mode: "off"
+---
+
+# How to add new bundles into pyAFQ (SLF 1/2/3 Example)
 
 pyAFQ is designed to be customizable and extensible. This example shows how you
 can customize it to define a new bundle based on a definition of waypoint and
 endpoint ROIs of your design.
 
 In this case, we add sub-bundles of the superior longitudinal fasciculus,
-based on work by Sagi et al [1]_.
+based on work by Sagi et al [^1].
 
 We start by importing some of the components that we need for this example and
 fixing the random seed for reproducibility
-"""
 
+```{code-cell} ipython3
 import os.path as op
 import numpy as np
 
@@ -24,18 +38,18 @@ from AFQ.definitions.image import RoiImage
 import wget
 import os
 np.random.seed(1234)
+```
 
+## Get dMRI data
 
-#############################################################################
-# Get dMRI data
-# ---------------
-# We will analyze eight subject from the Healthy Brain Network Processed Open
-# Diffusion Derivatives dataset (HBN-POD2) [2]_, [3]_. We'll use a fetcher to
-# get preprocessed dMRI data for eight of the >2,000 subjects in that study. The
-# data gets organized into a BIDS-compatible format in the `~/AFQ_data/HBN`
-# folder. These 12 subjects have very high quality data.
-# The fether returns this directory as study_dir:
+We will analyze eight subject from the Healthy Brain Network Processed Open
+Diffusion Derivatives dataset (HBN-POD2) [^2], [^3]. We'll use a fetcher to
+get preprocessed dMRI data for eight of the >2,000 subjects in that study. The
+data gets organized into a BIDS-compatible format in the `~/AFQ_data/HBN`
+folder. These 12 subjects have very high quality data.
+The fether returns this directory as study_dir:
 
+```{code-cell} ipython3
 _, study_dir = afd.fetch_hbn_preproc([
     'NDARKP893TWU',
     'NDAREP505XAD',
@@ -50,17 +64,17 @@ _, study_dir = afd.fetch_hbn_preproc([
     'NDARJG687YYX',
     'NDARJA157YB3',
 ])
+```
 
-#############################################################################
-# Get ROIs and save to disk
-# --------------------------------
-# The goal of this tutorial is to demonstrate how to segment new pathways based
-# on ROIs that are saved to disk. In principle, ROIs can be a) files created by
-# the user and saved to the local disk, b) files stored somewhere on the internet
-# (as is the case here) or c) Files that are accessed with a fetcher. In this
-# example we download these files from the MATLAB AFQ website, but this code could
-# be commented out and paths could be used to local ROIs on disk
+## Get ROIs and save to disk
+The goal of this tutorial is to demonstrate how to segment new pathways based
+on ROIs that are saved to disk. In principle, ROIs can be a) files created by
+the user and saved to the local disk, b) files stored somewhere on the internet
+(as is the case here) or c) Files that are accessed with a fetcher. In this
+example we download these files from the MATLAB AFQ website, but this code could
+be commented out and paths could be used to local ROIs on disk
 
+```{code-cell} ipython3
 roi_urls = ['https://github.com/yeatmanlab/AFQ/raw/c762ca4c393f2105d4f444c44d9e4b4702f0a646/SLF123/ROIs/MFgL.nii.gz',
             'https://github.com/yeatmanlab/AFQ/raw/c762ca4c393f2105d4f444c44d9e4b4702f0a646/SLF123/ROIs/MFgR.nii.gz',
             'https://github.com/yeatmanlab/AFQ/raw/c762ca4c393f2105d4f444c44d9e4b4702f0a646/SLF123/ROIs/PaL.nii.gz',
@@ -87,19 +101,18 @@ os.makedirs(template_dir, exist_ok=True)
 
 for roi_url in roi_urls:
     wget.download(roi_url, template_dir)
+```
 
+## Define custom `BundleDict` object
+A `BundleDict` is a custom object that holds information about "include" and
+"exclude" ROIs, as well as endpoint ROIs, and whether the bundle crosses the
+midline. In this case, the ROIs are all defined in the MNI template space that
+is used as the default template space in pyAFQ, but, in principle, other
+template spaces could be used. In this example, we provide paths to the ROIs
+to populate the `BundleDict`, but we could also provide already-loaded nifti
+objects, as demonstrated in other examples.
 
-#############################################################################
-# Define custom `BundleDict` object
-# ---------------------------------
-# A `BundleDict` is a custom object that holds information about "include" and
-# "exclude" ROIs, as well as endpoint ROIs, and whether the bundle crosses the
-# midline. In this case, the ROIs are all defined in the MNI template space that
-# is used as the default template space in pyAFQ, but, in principle, other
-# template spaces could be used. In this example, we provide paths to the ROIs
-# to populate the `BundleDict`, but we could also provide already-loaded nifti
-# objects, as demonstrated in other examples.
-
+```{code-cell} ipython3
 bundles = abd.BundleDict({
     "L_SLF1": {
         "include": [
@@ -144,29 +157,33 @@ bundles = abd.BundleDict({
             "distance_threshold": 2}
     }
 })
+```
 
-#############################################################################
-# Custom bundle definitions such as the SLF or OR, and the standard BundleDict
-# can be combined through addition. To get both the SLF and the standard
-# bundles, we would execute the following code::
-#
-#     bundles = bundles + abd.default_bd()
-#
-# In this case, we will skip this and generate just the SLF.
+Custom bundle definitions such as the SLF or OR, and the standard BundleDict
+can be combined through addition. To get both the SLF and the standard
+bundles, we would execute the following code:
 
-#############################################################################
-# Define GroupAFQ object
-# ----------------------
-# HBN POD2 have been processed with qsiprep [4]_. This means that a brain mask
-# has already been computed for them.
-#
-# For tractography, we use CSD-based probabilistic tractography,
-# seeding 200,000 seeds but only within the ROIs
-# and not throughout the white matter. This is controlled by passing
-# `"seed_mask": RoiImage()` in the `tracking_params` dict. The custom bundles
-# are passed as `bundle_info=bundles`. The call to `my_afq.export_all()`
-# initiates the pipeline.
+```python
+bundles = bundles + abd.default_bd()
+```
 
+In this case, we will skip this and generate just the SLF.
+
++++
+
+## Define GroupAFQ object
+
+HBN POD2 have been processed with qsiprep [^4]. This means that a brain mask
+has already been computed for them.
+
+For tractography, we use CSD-based probabilistic tractography,
+seeding 200,000 seeds but only within the ROIs
+and not throughout the white matter. This is controlled by passing
+`"seed_mask": RoiImage()` in the `tracking_params` dict. The custom bundles
+are passed as `bundle_info=bundles`. The call to `my_afq.export_all()`
+initiates the pipeline.
+
+```{code-cell} ipython3
 my_afq = GroupAFQ(
     bids_path=study_dir,
     dwi_preproc_pipeline="qsiprep",
@@ -187,49 +204,49 @@ my_afq = GroupAFQ(
 my_afq.clobber(dependent_on='recog')
 
 my_afq.export_all()
+```
 
-#############################################################################
-# Visualize a montage
-# ----------------------
-# One way to examine the output of the pyAFQ pipeline is by creating a montage
-# of images of a particular bundle across a group of participants. In the montage function
-# the first input refers to a key in the bundlediect and the second gives the layout
-# of the figure (eg. 3 rows 4 columns) and finally is the view.
+## Visualize a montage
+One way to examine the output of the pyAFQ pipeline is by creating a montage
+of images of a particular bundle across a group of participants. In the montage function
+the first input refers to a key in the bundlediect and the second gives the layout
+of the figure (eg. 3 rows 4 columns) and finally is the view.
 
+```{code-cell} ipython3
 montage = my_afq.group_montage(
     "L_SLF1", (3, 4), "Sagittal", "left", slice_pos=0.5)
 montage = my_afq.group_montage(
     "L_SLF2", (3, 4), "Sagittal", "left", slice_pos=0.5)
 montage = my_afq.group_montage(
     "L_SLF3", (3, 4), "Sagittal", "left", slice_pos=0.5)
+```
 
-#############################################################################
-# Interactive bundle visualization
-# --------------------------------
-# Another way to examine the outputs is to export the individual bundle
-# figures, which show the streamlines, as well as the ROIs used to define the
-# bundle. This is an html file, which contains an interactive figure that can
-# be navigated, zoomed, rotated, etc.
+## Interactive bundle visualization
+Another way to examine the outputs is to export the individual bundle
+figures, which show the streamlines, as well as the ROIs used to define the
+bundle. This is an html file, which contains an interactive figure that can
+be navigated, zoomed, rotated, etc.
 
+```{code-cell} ipython3
 bundle_html = my_afq.export("all_bundles_figure")
+```
 
-#############################################################################
-# References
-# ----------
-# .. [1] Romi Sagi, J.S.H. Taylor, Kyriaki Neophytou, Tamar Cohen,
-#     Brenda Rapp, Kathleen Rastle, Michal Ben-Shachar.
-#     White matter associations with spelling performance.
-#     Brain Struct Funct 229, 2115–2135 (2024).
-#     https://doi.org/10.1007/s00429-024-02775-7
-#
-# .. [2] Alexander LM, Escalera J, Ai L, et al. An open resource for
-#     transdiagnostic research in pediatric mental health and learning
-#     disorders. Sci Data. 2017;4:170181.
-#
-# .. [3] Richie-Halford A, Cieslak M, Ai L, et al. An analysis-ready and quality
-#     controlled resource for pediatric brain white-matter research. Scientific
-#     Data. 2022;9(1):1-27.
-#
-# .. [4] Cieslak M, Cook PA, He X, et al. QSIPrep: an integrative platform for
-#     preprocessing and reconstructing diffusion MRI data. Nat Methods.
-#     2021;18(7):775-778.
+## References
+
+[^1]: Romi Sagi, J.S.H. Taylor, Kyriaki Neophytou, Tamar Cohen,
+    Brenda Rapp, Kathleen Rastle, Michal Ben-Shachar.
+    White matter associations with spelling performance.
+    Brain Struct Funct 229, 2115–2135 (2024).
+    https://doi.org/10.1007/s00429-024-02775-7
+
+[^2]: Alexander LM, Escalera J, Ai L, et al. An open resource for
+    transdiagnostic research in pediatric mental health and learning
+    disorders. Sci Data. 2017;4:170181.
+
+[^3]: Richie-Halford A, Cieslak M, Ai L, et al. An analysis-ready and quality
+    controlled resource for pediatric brain white-matter research. Scientific
+    Data. 2022;9(1):1-27.
+
+[^4]: Cieslak M, Cook PA, He X, et al. QSIPrep: an integrative platform for
+    preprocessing and reconstructing diffusion MRI data. Nat Methods.
+    2021;18(7):775-778.

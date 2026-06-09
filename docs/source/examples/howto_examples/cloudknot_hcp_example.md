@@ -1,34 +1,52 @@
-"""
-==========================
-AFQ with HCP data
-==========================
+---
+file_format: mystnb
+jupytext:
+  text_representation:
+    extension: .md
+    format_name: myst
+kernelspec:
+  display_name: Python 3
+  language: python
+  name: python3
+language_info:
+  name: python
+  pygments_lexer: ipython3
+mystnb:
+  execution_mode: "off"
+---
+
+# AFQ with HCP data
+
 This example demonstrates how to use the AFQ API to analyze HCP data.
 For this example to run properly, you will need to gain access to the HCP data.
 This can be done by following this instructions on the webpage
-`here <https://wiki.humanconnectome.org/display/PublicData/How+To+Connect+to+Connectome+Data+via+AWS>`_.
-We will use the ``Cloudknot`` library to run our AFQ analysis in the AWS
+[here](https://wiki.humanconnectome.org/display/PublicData/How+To+Connect+to+Connectome+Data+via+AWS).
+We will use the `Cloudknot` library to run our AFQ analysis in the AWS
 Batch service (see also
-`this example <http://tractometry.org/pyAFQ/auto_examples/cloudknot_example.html>`_).
-In the following we will use ``Cloudknot`` to run multiple
+[this example](http://tractometry.org/pyAFQ/auto_examples/cloudknot_example.html)).
+In the following we will use `Cloudknot` to run multiple
 configurations of pyAFQ on the HCP dataset. Specifically, here we will run
 pyAFQ with different tractography seeding strategies.
-"""
 
-##########################################################################
-# Import cloudknot and set the correct region. The HCP data is stored in `us-east-1`, so it's best
-# to analyze it there.
++++
+
+Import cloudknot and set the correct region. The HCP data is stored in `us-east-1`, so it's best
+to analyze it there.
+
+```{code-cell} ipython3
 import configparser
 import itertools
 import cloudknot as ck
 import os.path as op
 
 ck.set_region('us-east-1')
+```
 
-##########################################################################
-# Define a function to run. This function allows us to pass in the subject ID for the subjects we would
-# like to analyze , as well as strategies for seeding tractography (different masks and/or different
-# numbers of seeds per voxel).
+Define a function to run. This function allows us to pass in the subject ID for the subjects we would
+like to analyze , as well as strategies for seeding tractography (different masks and/or different
+numbers of seeds per voxel).
 
+```{code-cell} ipython3
 
 def afq_process_subject(subject, seed_mask, n_seeds,
                         aws_access_key, aws_secret_key):
@@ -89,41 +107,49 @@ def afq_process_subject(subject, seed_mask, n_seeds,
         s3fs.S3FileSystem(),
         (f"my_study_bucket/my_study_prefix_{seed_mask}_{n_seeds}"
          f"/derivatives/afq"))
+```
 
+In this example, we will process the data from the following subjects
 
-##########################################################################
-# In this example, we will process the data from the following subjects
+```{code-cell} ipython3
 subjects = ["103818", "105923", "111312"]
+```
 
-##########################################################################
-# We will test combinations of different conditions:
-# subjects, seed masks, and number of seeds
+We will test combinations of different conditions:
+subjects, seed masks, and number of seeds
+
+```{code-cell} ipython3
 seed_mask = ["fa", "roi"]
 n_seeds = [1, 2, 1000000, 2000000]
+```
 
-##########################################################################
-# The following function creates all the combinations of the above lists, such that every subject is
-# run with every mask and every number of seeds.
+The following function creates all the combinations of the above lists, such that every subject is
+run with every mask and every number of seeds.
+
+```{code-cell} ipython3
 args = list(itertools.product(subjects, seed_mask, n_seeds))
+```
 
-##########################################################################
-# We assume that the credentials for HCP usage are stored in the home directory in a
-# `~/.aws/credentials` file. This is where these credentials are stored if the AWS CLI is used to
-# configure the profile. We use the standard lib ``configparser`` library
-# to get the relevant hcp keys from there.
+We assume that the credentials for HCP usage are stored in the home directory in a
+`~/.aws/credentials` file. This is where these credentials are stored if the AWS CLI is used to
+configure the profile. We use the standard lib `configparser` library
+to get the relevant hcp keys from there.
+
+```{code-cell} ipython3
 CP = configparser.ConfigParser()
 CP.read_file(open(op.join(op.expanduser('~'), '.aws', 'credentials')))
 CP.sections()
 aws_access_key = CP.get('hcp', 'AWS_ACCESS_KEY_ID')
 aws_secret_key = CP.get('hcp', 'AWS_SECRET_ACCESS_KEY')
+```
 
-##########################################################################
-# The following function will attach your AWS keys to each list in a list of lists
-# We use this with each list being a list of arguments,
-# and we append the AWS keys to each list of arguments, so that we can pass
-# them into the function to be used on AWS Batch to download the data into the
-# AWS Batch machines.
+The following function will attach your AWS keys to each list in a list of lists
+We use this with each list being a list of arguments,
+and we append the AWS keys to each list of arguments, so that we can pass
+them into the function to be used on AWS Batch to download the data into the
+AWS Batch machines.
 
+```{code-cell} ipython3
 
 def attach_keys(list_of_arg_lists):
     new_list_of_arg_lists = []
@@ -132,16 +158,19 @@ def attach_keys(list_of_arg_lists):
         arg_ls.extend([aws_access_key, aws_secret_key])
         new_list_of_arg_lists.append(arg_ls)
     return new_list_of_arg_lists
+```
 
+This calls the function to attach the access keys to the argument list
 
-##########################################################################
-# This calls the function to attach the access keys to the argument list
+```{code-cell} ipython3
 args = attach_keys(args)
+```
 
-##########################################################################
-# Define the :meth:`Knot` object to run your jobs on. See
-# `this example <http://tractometry.org/pyAFQ/auto_examples/cloudknot_example.html>`_ for more
-# details about the arguments to the object.
+Define the `Knot` object to run your jobs on. See
+[this example](http://tractometry.org/pyAFQ/auto_examples/cloudknot_example.html) for more
+details about the arguments to the object.
+
+```{code-cell} ipython3
 knot = ck.Knot(
     name='afq-hcp-tractography-201110-0',
     func=afq_process_subject,
@@ -149,33 +178,43 @@ knot = ck.Knot(
     image_github_installs="https://github.com/tractometry/pyAFQ.git",
     pars_policies=('AmazonS3FullAccess',),
     bid_percentage=100)
+```
 
-##########################################################################
-# This launches a process for each combination.
-# Because `starmap` is `True`, each list in `args` will be unfolded
-# and passed into `afq_process_subject` as arguments.
+This launches a process for each combination.
+Because `starmap` is `True`, each list in `args` will be unfolded
+and passed into `afq_process_subject` as arguments.
+
+```{code-cell} ipython3
 result_futures = knot.map(args, starmap=True)
+```
 
-##########################################################################
-# The following function can be called repeatedly in a jupyter notebook
-# to view the progress of jobs::
-#
-#     knot.view_jobs()
-#
-# You can also view the status of a specific job::
-#
-#     knot.jobs[0].status
+The following function can be called repeatedly in a jupyter notebook
+to view the progress of jobs:
 
-##########################################################################
-# When all jobs are finished, remember to clobber the knot to destroy all the resources that were
-# created in AWS.
+```python
+knot.view_jobs()
+```
+
+You can also view the status of a specific job:
+
+```python
+knot.jobs[0].status
+```
+
++++
+
+When all jobs are finished, remember to clobber the knot to destroy all the resources that were
+created in AWS.
+
+```{code-cell} ipython3
 result_futures.result()  # waits for futures to resolve, not needed in notebook
 knot.clobber(clobber_pars=True, clobber_repo=True, clobber_image=True)
+```
 
-##########################################################################
-# We continue processing to create another knot which takes the resulting profiles of each
-# combination and combines them all into one csv file
+We continue processing to create another knot which takes the resulting profiles of each
+combination and combines them all into one csv file
 
+```{code-cell} ipython3
 
 def afq_combine_profiles(seed_mask, n_seeds):
     from AFQ.api import download_and_combine_afq_profiles
@@ -190,9 +229,11 @@ knot2 = ck.Knot(
     image_github_installs="https://github.com/tractometry/pyAFQ.git",
     pars_policies=('AmazonS3FullAccess',),
     bid_percentage=100)
+```
 
-##########################################################################
-# the arguments to this call to :meth:`map` are all the different configurations of pyAFQ that we ran
+the arguments to this call to `map` are all the different configurations of pyAFQ that we ran
+
+```{code-cell} ipython3
 seed_mask = ["fa", "roi"]
 n_seeds = [1, 2, 1000000, 2000000]
 args = list(itertools.product(seed_mask, n_seeds))
@@ -200,3 +241,4 @@ args = list(itertools.product(seed_mask, n_seeds))
 result_futures2 = knot2.map(args, starmap=True)
 result_futures2.result()
 knot2.clobber(clobber_pars=True, clobber_repo=True, clobber_image=True)
+```

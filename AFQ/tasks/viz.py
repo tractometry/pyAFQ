@@ -120,13 +120,13 @@ def viz_bundles(
     )
 
     fname = None
-    if "no_gif" not in viz_backend.backend:
-        fname = get_fname(base_fname, ".gif", "..")
+    if "no_mp4" not in viz_backend.backend:
+        fname = get_fname(base_fname, ".mp4", "..")
 
         try:
-            viz_backend.create_gif(figure, fname)
+            viz_backend.create_mp4(figure, fname)
         except PermissionError as e:
-            logger.warning(f"Failed to write GIF file: {fname} \n{e}")
+            logger.warning(f"Failed to write MP4 file: {fname} \n{e}")
     if "plotly" in viz_backend.backend:
         fname = get_fname(base_fname, ".html", "..")
 
@@ -156,7 +156,7 @@ def viz_indivBundle(
     n_points_indiv=40,
 ):
     """
-    list of full paths to html or gif files
+    list of full paths to html or mp4 files
     containing visualizations of individual bundles
 
     Parameters
@@ -255,15 +255,15 @@ def viz_indivBundle(
 
         base_fname = op.join(output_dir, op.split(base_fname)[1])
         figures[bundle_name] = figure
-        if "no_gif" not in viz_backend.backend:
+        if "no_mp4" not in viz_backend.backend:
             fname = get_fname(
                 base_fname,
-                f"_desc-{str_to_desc(bundle_name)}_tractography.gif",
+                f"_desc-{str_to_desc(bundle_name)}_tractography.mp4",
                 "viz_bundles",
             )
 
             try:
-                viz_backend.create_gif(figure, fname)
+                viz_backend.create_mp4(figure, fname)
             except PermissionError as e:
                 if not failed_write:
                     logger.warning(
@@ -380,7 +380,7 @@ def plot_tract_profiles(base_fname, output_dir, scalars, segmentation_imap):
 
 
 @immlib.calc("viz_backend")
-def init_viz_backend(viz_backend_spec="plotly_no_gif"):
+def init_viz_backend(viz_backend_spec="plotly_no_mp4"):
     """
     An instance of the `AFQ.viz.utils.viz_backend` class.
 
@@ -390,8 +390,8 @@ def init_viz_backend(viz_backend_spec="plotly_no_gif"):
         Which visualization backend to use.
         See Visualization Backends page in documentation for details
         https://tractometry.org/pyAFQ/reference/viz_backend.html
-        One of {"fury", "plotly", "plotly_no_gif"}.
-        Default: "plotly_no_gif"
+        One of {"fury", "plotly", "plotly_no_mp4"}.
+        Default: "plotly_no_mp4"
     """
     if "fury" not in viz_backend_spec and "plotly" not in viz_backend_spec:
         raise TypeError("viz_backend_spec must contain either 'fury' or 'plotly'")

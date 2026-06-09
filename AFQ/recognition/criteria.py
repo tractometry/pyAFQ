@@ -11,7 +11,7 @@ from dipy.segment.clustering import QuickBundles
 from dipy.segment.featurespeed import ResampleFeature
 from dipy.segment.metricspeed import AveragePointwiseEuclideanMetric
 from scipy.ndimage import distance_transform_edt
-from tqdm import tqdm
+from tqdm.auto import tqdm
 from trx.io import load as load_trx
 
 import AFQ.recognition.cleaning as abc

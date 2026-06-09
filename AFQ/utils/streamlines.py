@@ -1,8 +1,10 @@
 import os.path as op
 
 import numpy as np
-from dipy.io.stateful_tractogram import Space, StatefulTractogram
+from dipy.io.stateful_tractogram import Origin, Space, StatefulTractogram
 from dipy.io.streamline import load_tractogram, save_tractogram
+from nibabel.affines import voxel_sizes
+from nibabel.orientations import aff2axcodes
 
 try:
     from trx.io import load as load_trx
@@ -17,8 +19,22 @@ from AFQ.utils.path import drop_extension, read_json
 
 class SegmentedSFT:
     def __init__(self, bundles, sidecar_info=None):
+        """
+        Initialize a SegmentedSFT object.
+
+        Parameters
+        ----------
+        bundles : dict
+            A dictionary where keys are bundle names and values are either
+            StatefulTractogram objects or dictionaries with keys "sl"
+            and "idx".
+        sidecar_info : dict, optional
+            Sidecar information to optionally attach.
+        """
+
         if sidecar_info is None:
             sidecar_info = {}
+        self.sidecar_info = sidecar_info
         self.bundle_names = []
         sls = []
         idxs = {}
@@ -43,7 +59,6 @@ class SegmentedSFT:
         else:
             self.this_tracking_idxs = None
 
-        self.sidecar_info = sidecar_info
         self.sidecar_info["bundle_ids"] = {}
         dps = np.zeros(len(sls))
         for ii, bundle_name in enumerate(self.bundle_names):
@@ -59,6 +74,15 @@ class SegmentedSFT:
                 )
             self.sidecar_info["tracking_idx"] = self.this_tracking_idxs
 
+    def get_lengths(self):
+        return self.sft._tractogram._streamlines._lengths
+
+    def to_rasmm(self):
+        self.sft.to_space(Space.RASMM)
+
+    def get_bundle_idxs(self, b_name):
+        return self.bundle_idxs[b_name]
+
     def get_bundle(self, b_name):
         return self.sft[self.bundle_idxs[b_name]]
 
@@ -68,8 +92,6 @@ class SegmentedSFT:
     @classmethod
     def fromfile(cls, trk_or_trx_file, reference="same", sidecar_file=None):
         if sidecar_file is None:
-            # assume json sidecar has the same name as trk_file,
-            # but with json suffix
             sidecar_file = f"{drop_extension(trk_or_trx_file)}.json"
             if not op.exists(sidecar_file):
                 raise ValueError(
@@ -80,20 +102,11 @@ class SegmentedSFT:
                 )
         sidecar_info = read_json(sidecar_file)
         if trk_or_trx_file.endswith(".trx"):
-            trx = load_trx(trk_or_trx_file, reference)
-            trx.streamlines._data = trx.streamlines._data.astype(np.float32)
-            sft = trx.to_sft()
-            if reference == "same":
-                reference = sft
-            bundles = {}
-            for bundle in trx.groups:
-                idx = trx.groups[bundle]
-                bundles[bundle] = StatefulTractogram(
-                    sft.streamlines[idx], reference, Space.RASMM
-                )
+            bundles = load_trx(trk_or_trx_file, reference)
+            bundles.streamlines._data = bundles.streamlines._data.astype(np.float32)
+            return SegmentedTRX(bundles, sidecar_info)
         else:
             sft = load_tractogram(trk_or_trx_file, reference, to_space=Space.RASMM)
-
             if reference == "same":
                 reference = sft
             bundles = {}
@@ -105,8 +118,53 @@ class SegmentedSFT:
                     )
             else:
                 bundles["whole_brain"] = sft
+            return SegmentedSFT(bundles, sidecar_info)
 
-        return cls(bundles, sidecar_info)
+
+class SegmentedTRX(SegmentedSFT):
+    def __init__(self, trx, sidecar_info=None):
+        """
+        Initialize a SegmentedTRX object.
+
+        Parameters
+        ----------
+        trx : TrxFile
+            The TRX file to interact with.
+        sidecar_info : dict, optional
+            Sidecar information to optionally attach.
+        """
+        if sidecar_info is None:
+            sidecar_info = {}
+        self.sidecar_info = sidecar_info
+
+        # Loading from TRX, we do not calculate additional information,
+        # To avoid loading unnecessary streamlines into memory
+        self.bundle_names = list(trx.groups.keys())
+        self.sft = trx
+
+        # Mimic SFT attributes for compatibility
+        affine = np.array(self.sft.header["VOXEL_TO_RASMM"], dtype=np.float32)
+        dimensions = np.array(self.sft.header["DIMENSIONS"], dtype=np.uint16)
+        vox_sizes = np.array(voxel_sizes(affine), dtype=np.float32)
+        vox_order = "".join(aff2axcodes(affine))
+        space_attributes = (affine, dimensions, vox_sizes, vox_order)
+        self.sft.space_attributes = space_attributes
+        self.sft.space = Space.RASMM
+        self.sft.origin = Origin.NIFTI
+        self.sft.dtype_dict = self.sft.get_dtype_dict()
+
+    def get_lengths(self):
+        return self.sft.streamlines._lengths
+
+    def to_rasmm(self):
+        pass  # always in RASMM
+
+    def get_bundle_idxs(self, b_name):
+        return self.sft.groups[b_name]
+
+    def get_bundle(self, b_name):
+        idx = self.sft.groups[b_name]
+        return StatefulTractogram(self.sft.streamlines[idx], self.sft, Space.RASMM)
 
 
 def split_streamline(streamlines, sl_to_split, split_idx):

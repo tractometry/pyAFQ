@@ -12,10 +12,8 @@ Then, you are ready to run pyAFQ in one of the following ways:
 1. The first is to write a program that uses `pyAFQ` as a software library.
    Detailed tutorials for this are provided in the link at the bottom of the page.
 
-1. The second is as a program run in the command line. After installing the software, and organizing the data, run::
-
-        pyAFQ /path/to/config.toml
-
+1. The second is as a program run in the command line. After installing the software
+    and organizing the data, run: `pyAFQ /path/to/config.toml`,
     pointing the program to the location of a configuration file (see
     :doc:`configuration file specification </reference/config>` for an
     explanation of this file). This will run whole-brain tractography, segment
@@ -26,4 +24,4 @@ Then, you are ready to run pyAFQ in one of the following ways:
 .. toctree::
     :maxdepth: 2
 
-    tutorial_examples/index.rst
+    ../examples/tutorial_examples/index.rst

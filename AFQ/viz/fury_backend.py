@@ -5,7 +5,7 @@ import numpy as np
 from dipy.tracking.streamline import set_number_of_points
 
 import AFQ.viz.utils as vut
-from AFQ._fixes import make_gif
+from AFQ._fixes import make_mp4
 
 try:
     from fury import actor, window
@@ -46,6 +46,7 @@ def visualize_bundles(
     bundle=None,
     colors=None,
     color_by_direction=False,
+    n_sls_viz=65536,
     opacity=1.0,
     line_width=2.0,
     flip_axes=None,
@@ -86,6 +87,11 @@ def visualize_bundles(
     color_by_direction : bool
         Whether to color by direction instead of by bundle. Default: False
 
+    n_sls_viz : int
+        Maximum number of streamlines to visualize. If there are more than
+        this number of streamlines, a random subset of streamlines will be
+        visualized. Default: 65536
+
     opacity : float
         Float between 0 and 1 defining the opacity of the bundle.
         Default: 1.0
@@ -119,7 +125,12 @@ def visualize_bundles(
     figure.background = (background[0], background[1], background[2])
 
     for sls, color, name, dimensions in vut.tract_generator(
-        seg_sft, bundle, colors, n_points, img
+        seg_sft,
+        bundle,
+        colors,
+        n_points,
+        img,
+        n_sls_viz=n_sls_viz,
     ):
         sls = list(sls)
         if name == "all_bundles":
@@ -150,15 +161,15 @@ def scene_rotate_forward(show_m, scene):
     show_m.window.draw()
 
 
-def create_gif(
+def create_mp4(
     figure,
     file_name,
-    n_frames=36,
-    az_ang=-10,
+    fps=30,
+    az_ang=-0.5,
     size=(600, 600),
 ):
     """
-    Convert a Fury Scene object into a gif
+    Convert a Fury Scene object into a mp4
 
     Make a video from a Fury Show Manager.
 
@@ -170,17 +181,17 @@ def create_gif(
     file_name : str
         The name of the output file.
 
-    n_frames : int
-        The number of frames to render.
-        Default: 36
+    fps : int
+        The frames per second for the output video.
+        Default: 30
 
     az_ang : float
         The angle to rotate the camera around the
         z-axis for each frame, in degrees.
-        Default: -10
+        Default: -0.5
 
     size : tuple
-        The size of the output gif, in pixels.
+        The size of the output mp4, in pixels.
         Default: (600, 600)
     """
     show_m = window.ShowManager(
@@ -189,7 +200,7 @@ def create_gif(
         size=size,
     )
     scene_rotate_forward(show_m, figure)
-    make_gif(show_m, file_name, n_frames=n_frames, az_ang=az_ang)
+    make_mp4(show_m, file_name, fps=fps, az_ang=az_ang)
 
 
 def visualize_roi(

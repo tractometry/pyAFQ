@@ -22,7 +22,7 @@ from dipy.io.streamline import (
 from dipy.segment.clustering import QuickBundles
 from dipy.segment.featurespeed import ResampleFeature
 from dipy.segment.metric import AveragePointwiseEuclideanMetric
-from tqdm import tqdm
+from tqdm.auto import tqdm
 
 from AFQ._fixes import get_simplified_transform
 from AFQ.data.utils import aws_import_msg_error

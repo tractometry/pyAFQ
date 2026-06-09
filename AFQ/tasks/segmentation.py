@@ -38,9 +38,7 @@ logger = logging.getLogger("AFQ")
 
 @immlib.calc("bundles")
 @as_file("_desc-bundles_tractography")
-def segment(
-    structural_imap, data_imap, mapping_imap, tractography_imap, segmentation_params
-):
+def segment(data_imap, mapping_imap, tractography_imap, segmentation_params):
     """
     full path to a trk/trx file containing containing
     segmented streamlines, labeled by bundle
@@ -93,16 +91,15 @@ def segment(
         **segmentation_params,
     )
 
-    seg_sft = aus.SegmentedSFT(bundles)
-
-    if len(seg_sft.sft) < 1:
+    if len(bundles) == 0:
         raise ValueError("Fatal: No bundles recognized.")
+
+    seg_sft = aus.SegmentedSFT(bundles)
 
     if is_trx:
         seg_sft.sft.dtype_dict = {"positions": np.float16, "offsets": np.uint32}
         tgram = TrxFile.from_sft(seg_sft.sft)
         tgram.groups = seg_sft.bundle_idxs
-
     else:
         tgram = seg_sft.sft
 
@@ -209,15 +206,9 @@ def export_bundle_lengths(bundles):
             len_data[f"{bundle} Median"] = 0
             len_data[f"{bundle} Min"] = 0
             len_data[f"{bundle} Max"] = 0
-    len_data["Total Recognized Median"] = np.median(
-        seg_sft.sft._tractogram._streamlines._lengths
-    )
-    len_data["Total Recognized Min"] = np.min(
-        seg_sft.sft._tractogram._streamlines._lengths
-    )
-    len_data["Total Recognized Max"] = np.max(
-        seg_sft.sft._tractogram._streamlines._lengths
-    )
+    len_data["Total Recognized Median"] = np.median(seg_sft.get_lengths())
+    len_data["Total Recognized Min"] = np.min(seg_sft.get_lengths())
+    len_data["Total Recognized Max"] = np.max(seg_sft.get_lengths())
 
     counts_df = pd.DataFrame(
         data=len_data,
@@ -297,7 +288,7 @@ def tract_profiles(
     reference = nib.load(scalar_dict[list(scalar_dict.keys())[0]])
     seg_sft = aus.SegmentedSFT.fromfile(bundles, reference=reference)
 
-    seg_sft.sft.to_rasmm()
+    seg_sft.to_rasmm()
     for bundle_name in seg_sft.bundle_names:
         this_sl = seg_sft.get_bundle(bundle_name).streamlines
         if len(this_sl) == 0:

@@ -26,9 +26,11 @@ upload: html
 
 # find artifacts from sphinx-gallery in examples folder
 ARTIFACTS := $(strip \
-			 	$(wildcard ../examples/*.gz) $(wildcard ../examples/**/*.gz) \
-			 	$(wildcard ../examples/*.trk) $(wildcard ../examples/**/*.trk) \
-			 	$(wildcard ../examples/*.npy) $(wildcard ../examples/**/*.npy) \
+			 	$(wildcard source/examples/*/*.gz) $(wildcard source/examples/**/*.gz) \
+			 	$(wildcard source/examples/*/*.trk) $(wildcard source/examples/**/*.trk) \
+			 	$(wildcard source/examples/*/*.npy) $(wildcard source/examples/**/*.npy) \
+			 	$(wildcard source/examples/*/*.png) $(wildcard source/examples/**/*.png) \
+			 	$(wildcard source/examples/*/*.mp4) $(wildcard source/examples/**/*.mp4) \
 			  )
 
 # leaves only the files that were in the distribution. deletes files created
@@ -47,23 +49,3 @@ realclean: distclean
 
 	rm -rf $(HOME)/.dipy/
 	rm -rf $(HOME)/AFQ_data/
-
-html-noplot:
-	PYDEVD_DISABLE_FILE_VALIDATION=1 $(SPHINXBUILD) \
-		-D plot_gallery=0 \
-		-D exclude_patterns=howto/howto_examples/*.ipynb,tutorials/tutorial_examples/*.ipynb \
-		-b html $(ALLSPHINXOPTS) $(SOURCEDIR) $(BUILDDIR)/html
-	@echo
-	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
-
-html-noplot-clean:
-	@echo Removing files created by sphinx-build
-	rm -rf $(BUILDDIR)
-	rm -f $(SOURCEDIR)/reference/config.rst
-	$(if $(ARTIFACTS),rm -f $(ARTIFACTS))
-	PYDEVD_DISABLE_FILE_VALIDATION=1 $(SPHINXBUILD) \
-		-D plot_gallery=0 \
-		-D exclude_patterns=howto/howto_examples/*.ipynb,tutorials/tutorial_examples/*.ipynb \
-		-b html $(ALLSPHINXOPTS) $(SOURCEDIR) $(BUILDDIR)/html
-	@echo
-	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
