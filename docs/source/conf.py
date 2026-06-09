@@ -231,6 +231,7 @@ myst_enable_extensions = [
     "amsmath",
 ]
 nb_execution_raise_on_error = True
+nb_scroll_outputs = True
 
 # example of how to exclude notebooks when testing
 # nb_execution_excludepatterns = ["plot_00*"]  

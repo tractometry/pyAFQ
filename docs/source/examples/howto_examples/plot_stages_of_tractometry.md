@@ -459,7 +459,7 @@ scene.clear()
 fa_in_t1 = resample(fa_img, t1w_img).get_fdata()
 fa_profiles = values_from_volume(fa_in_t1, arc_t1w, np.eye(4))
 for ii in range(len(arc_t1w)):
-    colors = create_colormap(1-np.asarray(fa_profiles[ii]), name="blues")
+    colors = create_colormap(np.asarray(fa_profiles[ii]), name="viridis")
     arc_actor = actor.streamlines(
         arc_t1w[ii], thickness=2,
         opacity=0.5,
@@ -502,13 +502,13 @@ core_arc_actor = actor.streamlines(
 arc_actor = actor.streamlines(
     arc_t1w,
     thickness=0.5,
-    opacity=0.2)  # better to visualize the core
+    opacity=0.05)  # better to visualize the core
 
 scene.clear()
 
 scene.add(slicer)
-scene.add(arc_actor)
 scene.add(core_arc_actor)
+scene.add(arc_actor)
 
 show_m = window.ShowManager(
     scene=scene, window_type="offscreen",

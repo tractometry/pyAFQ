@@ -18,7 +18,7 @@ from dipy.io.stateful_tractogram import Space, StatefulTractogram
 from dipy.io.streamline import save_tractogram
 from dipy.utils.parallel import paramap
 from PIL import Image
-from tqdm import tqdm
+from tqdm.auto import tqdm
 
 import AFQ.api.bundle_dict as abd
 import AFQ.definitions.image as afm

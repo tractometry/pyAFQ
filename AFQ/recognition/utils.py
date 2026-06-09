@@ -9,7 +9,7 @@ from dipy.io.stateful_tractogram import Space, StatefulTractogram
 from dipy.io.streamline import save_tractogram
 from dipy.tracking import Streamlines
 from dipy.tracking.distances import bundles_distances_mdf
-from tqdm import tqdm
+from tqdm.auto import tqdm
 
 axes_dict = {
     "L/R": 0,

@@ -12,7 +12,7 @@ from dipy.tracking.streamline import set_number_of_points
 from PIL import Image
 from scipy.linalg import blas, pinvh
 from scipy.special import gammaln, lpmv
-from tqdm import tqdm
+from tqdm.auto import tqdm
 
 logger = logging.getLogger("AFQ")
 

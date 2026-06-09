@@ -8,7 +8,7 @@ from time import time
 import nibabel as nib
 from dipy.align import resample
 from PIL import Image, ImageDraw, ImageFont
-from tqdm import tqdm
+from tqdm.auto import tqdm
 
 import AFQ.utils.streamlines as aus
 from AFQ.api.utils import (

@@ -2,7 +2,7 @@ import nibabel as nib
 import numpy as np
 import scipy.io
 from dipy.io.stateful_tractogram import Space, StatefulTractogram
-from tqdm import tqdm
+from tqdm.auto import tqdm
 
 from AFQ.data.utils import BUNDLE_MAT_2_PYTHON
 

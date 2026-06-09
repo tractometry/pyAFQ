@@ -2,7 +2,7 @@ import numpy as np
 import osqp
 from dipy.reconst.mcsd import MSDeconvFit, MultiShellDeconvModel
 from scipy.sparse import csr_matrix
-from tqdm import tqdm
+from tqdm.auto import tqdm
 
 __all__ = ["MultiShellDeconvModel"]
 
