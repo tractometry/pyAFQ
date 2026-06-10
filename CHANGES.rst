@@ -1,3 +1,9 @@
+3.3 (June 10, 2026)
+===================
+Updates visualizations and reduces tractography file sizes.
+  * [DOC] MyST examples and other visualization changes (#195)
+  * [ENH] Return to float16 for streamline data (#196)
+
 3.2 (May 26, 2026)
 ==================
 Adds the temporo-parietal as a separate bundle from the
