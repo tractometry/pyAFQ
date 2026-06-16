@@ -279,6 +279,8 @@ def pve_from_synthseg(synthseg_data):
         SynthSegLabels.RIGHT_ACCUMBENS_AREA,
         SynthSegLabels.LEFT_HYPOTHALAMUS,
         SynthSegLabels.RIGHT_HYPOTHALAMUS,
+        SynthSegLabels.LEFT_PALLIDUM,
+        SynthSegLabels.RIGHT_PALLIDUM,
     ]
     GM_labels.extend(
         range(SynthSegLabels.BACKGROUND_PARC, SynthSegLabels.CTX_RH_INSULA + 1)
@@ -289,14 +291,12 @@ def pve_from_synthseg(synthseg_data):
         SynthSegLabels.LEFT_CEREBELLUM_WHITE_MATTER,
         SynthSegLabels.RIGHT_CEREBRAL_WHITE_MATTER,
         SynthSegLabels.RIGHT_CEREBELLUM_WHITE_MATTER,
+        SynthSegLabels.LEFT_VENTRAL_DC,
+        SynthSegLabels.RIGHT_VENTRAL_DC,
     ]
 
     mixed_labels = [
         SynthSegLabels.BRAIN_STEM,
-        SynthSegLabels.LEFT_PALLIDUM,
-        SynthSegLabels.RIGHT_PALLIDUM,
-        SynthSegLabels.LEFT_VENTRAL_DC,
-        SynthSegLabels.RIGHT_VENTRAL_DC,
     ]
 
     PVE = np.zeros(synthseg_data.shape + (3,), dtype=np.float32)
