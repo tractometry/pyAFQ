@@ -250,3 +250,7 @@ bundle_html = my_afq.export("all_bundles_figure")
 [^4]: Cieslak M, Cook PA, He X, et al. QSIPrep: an integrative platform for
     preprocessing and reconstructing diffusion MRI data. Nat Methods.
     2021;18(7):775-778.
+
+:::{only} html
+{download}`Download as Jupyter Notebook: add_custom_bundle.ipynb`
+:::

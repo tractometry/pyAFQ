@@ -13,4 +13,4 @@ tutorial, and will save results as it goes along.
     :maxdepth: 2
     :glob:
 
-    *
+    *.md

@@ -11,4 +11,4 @@ about the variety of pyAFQ functionality that is available.
     :maxdepth: 2
     :glob:
 
-    *
+    *.md

@@ -196,3 +196,7 @@ result_futures2 = knot2.map(["dummy_argument"], job_type="independent")
 result_futures2.result()
 knot2.clobber(clobber_pars=True, clobber_repo=True, clobber_image=True)
 ```
+
+:::{only} html
+{download}`Download as Jupyter Notebook: cloudknot_example.ipynb`
+:::

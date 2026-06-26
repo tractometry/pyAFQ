@@ -166,3 +166,7 @@ building your GroupAFQ object (e.g. `GroupAFQ(..., sbv_lims_bundles=[0, 0.5])`).
     Kalanit Grill-Spector, and Ariel Rokem. "Human white matter
     myelinates faster in utero than ex utero." Proceedings
     of the National Academy of Sciences 120: e2303491120.
+
+:::{only} html
+{download}`Download as Jupyter Notebook: baby_afq.ipynb`
+:::

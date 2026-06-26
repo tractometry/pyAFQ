@@ -173,3 +173,7 @@ plotly.io.show(bundle_html["NDARAA948VFH"]["Left Optic Radiation"])
 [^5]: Cieslak M, Cook PA, He X, et al. QSIPrep: an integrative platform for
     preprocessing and reconstructing diffusion MRI data. Nat Methods.
     2021;18(7):775-778.
+
+:::{only} html
+{download}`Download as Jupyter Notebook: optic_radiations.ipynb`
+:::

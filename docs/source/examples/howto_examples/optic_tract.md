@@ -188,3 +188,7 @@ plotly.io.show(bundle_html["NDARAA948VFH"])
 [^3]: Richie-Halford A, Cieslak M, Ai L, et al. An analysis-ready and quality
     controlled resource for pediatric brain white-matter research. Scientific
     Data. 2022;9(1):1-27.
+
+:::{only} html
+{download}`Download as Jupyter Notebook: optic_tract.ipynb`
+:::

@@ -69,3 +69,7 @@ fig_files = myafq.export_all()
     Descoteaux. 2017. “Recognition of White Matter Bundles
     Using Local and Global Streamline-Based Registration and
     Clustering.” NeuroImage 170: 283-295.
+
+:::{only} html
+{download}`Download as Jupyter Notebook: recobundles.ipynb`
+:::

@@ -117,3 +117,7 @@ new browser window.
 bundle_html = myafq.export("all_bundles_figure")
 plotly.io.show(bundle_html["01"][0])
 ```
+
+:::{only} html
+{download}`Download as Jupyter Notebook: afq_callosal.ipynb`
+:::

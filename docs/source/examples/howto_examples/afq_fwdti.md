@@ -172,3 +172,7 @@ for ii, bundle in enumerate(["Left Arcuate", "Right Arcuate"]):
 [^4]: Richie-Halford A, Cieslak M, Ai L, et al. An analysis-ready and
     quality controlled resource for pediatric brain white-matter research.
     Scientific Data. 2022;9(1):1-27.
+
+:::{only} html
+{download}`Download as Jupyter Notebook: afq_fwdti.ipynb`
+:::

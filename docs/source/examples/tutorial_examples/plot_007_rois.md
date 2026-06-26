@@ -199,3 +199,7 @@ for bundle_name in templates.bundle_names:
     for ii, _ in enumerate(figs):
         display(embed_image(f"{bundle_name}_{ii}.png"))
 ```
+
+:::{only} html
+{download}`Download as Jupyter Notebook: plot_007_rois.ipynb`
+:::

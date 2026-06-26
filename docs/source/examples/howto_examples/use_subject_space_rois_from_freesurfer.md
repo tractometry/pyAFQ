@@ -161,3 +161,7 @@ myafq = GroupAFQ(
 bundle_html = myafq.export("indiv_bundles_figures")
 plotly.io.show(bundle_html["01"]["L_OR"])
 ```
+
+:::{only} html
+{download}`Download as Jupyter Notebook: use_subject_space_rois_from_freesurfer.ipynb`
+:::

@@ -131,3 +131,7 @@ plotly.io.show(bundle_html["NDARAA948VFH"]["Left Acoustic Radiation"])
 [^3]: Cieslak M, Cook PA, He X, et al. QSIPrep: an integrative platform for
     preprocessing and reconstructing diffusion MRI data. Nat Methods.
     2021;18(7):775-778.
+
+:::{only} html
+{download}`Download as Jupyter Notebook: acoustic_radiations.ipynb`
+:::

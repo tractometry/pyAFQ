@@ -65,3 +65,7 @@ for b_name in bundle_names:
 ```{code-cell} ipython3
 myafq.export("all_bundles_figure")["01"][0]
 ```
+
+:::{only} html
+{download}`Download as Jupyter Notebook: vof_example.ipynb`
+:::

@@ -480,3 +480,7 @@ embed_image('arc_cst_fig.png')
     Scientific Data. 2022;9(1):1-27.
 
 [^4]: Luo A, et al. Two Axes of White Matter Development. In prep.
+
+:::{only} html
+{download}`Download as Jupyter Notebook: plot_005_viz.ipynb`
+:::

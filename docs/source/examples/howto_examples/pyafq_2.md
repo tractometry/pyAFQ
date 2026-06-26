@@ -262,3 +262,7 @@ myafq = GroupAFQ(
 
 myafq.export_all()
 ```
+
+:::{only} html
+{download}`Download as Jupyter Notebook: pyafq_2.ipynb`
+:::

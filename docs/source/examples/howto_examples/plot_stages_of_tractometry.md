@@ -624,3 +624,7 @@ print("Done!")
 :tags: [remove-input]
 embed_image("tract_profiles_table.png")
 ```
+
+:::{only} html
+{download}`Download as Jupyter Notebook: plot_stages_of_tractometry.ipynb`
+:::

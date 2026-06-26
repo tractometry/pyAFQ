@@ -182,3 +182,7 @@ The method works by:
 5. Resetting the workflow to ensure subsequent runs regenerate affected derivatives
 
 We plan to automate this process in the future.
+
+:::{only} html
+{download}`Download as Jupyter Notebook: plot_003_rerun.ipynb`
+:::
