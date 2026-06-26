@@ -12,7 +12,7 @@ language_info:
   name: python
   pygments_lexer: ipython3
 mystnb:
-  execution_mode: "off"
+  execution_mode: 'off'
 ---
 
 (pyafq-2-settings)=
@@ -83,7 +83,7 @@ the arcuate by more than 30%. The VOF has several changes:
 3. it must be lateral to the inferior fronto-occipital fasciculus
    instead of the inferior longitudinal fasciculus;
 4. cleaning has been changed: there is now mahalanobis cleaning on
-   orientation, and isolation forest cleaning instead of mahalanobis for 
+   orientation, and isolation forest cleaning instead of mahalanobis for
    distance.
 Additionally, in the new version, the inferior endpoints of the
 corticospinal tracts (CST) were removed, and the superior longitudinal

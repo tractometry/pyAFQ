@@ -12,7 +12,7 @@ language_info:
   name: python
   pygments_lexer: ipython3
 mystnb:
-  execution_mode: "off"
+  execution_mode: 'off'
 ---
 
 # Delineating cerebellar peduncles

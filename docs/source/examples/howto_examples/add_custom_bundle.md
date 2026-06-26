@@ -12,7 +12,7 @@ language_info:
   name: python
   pygments_lexer: ipython3
 mystnb:
-  execution_mode: "off"
+  execution_mode: 'off'
 ---
 
 # How to add new bundles into pyAFQ (SLF 1/2/3 Example)
