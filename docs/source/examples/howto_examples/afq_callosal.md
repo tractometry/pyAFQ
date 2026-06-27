@@ -107,5 +107,5 @@ plotly.io.show(bundle_html["01"][0])
 ```
 
 :::{only} html
-{download}`Download as Jupyter Notebook: afq_callosal.ipynb`
+{download}`Download as Jupyter Notebook <afq_callosal.ipynb>`
 :::

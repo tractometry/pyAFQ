@@ -482,5 +482,5 @@ embed_image('arc_cst_fig.png')
 [^4]: Luo A, et al. Two Axes of White Matter Development. In prep.
 
 :::{only} html
-{download}`Download as Jupyter Notebook: plot_005_viz.ipynb`
+{download}`Download as Jupyter Notebook <plot_005_viz.ipynb>`
 :::

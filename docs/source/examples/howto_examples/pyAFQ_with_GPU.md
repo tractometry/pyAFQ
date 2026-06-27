@@ -74,5 +74,5 @@ plotly.io.show(bundle_html["01"][0])
 ```
 
 :::{only} html
-{download}`Download as Jupyter Notebook: pyAFQ_with_GPU.ipynb`
+{download}`Download as Jupyter Notebook <pyAFQ_with_GPU.ipynb>`
 :::

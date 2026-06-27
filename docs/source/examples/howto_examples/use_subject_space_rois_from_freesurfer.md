@@ -163,5 +163,5 @@ plotly.io.show(bundle_html["01"]["L_OR"])
 ```
 
 :::{only} html
-{download}`Download as Jupyter Notebook: use_subject_space_rois_from_freesurfer.ipynb`
+{download}`Download as Jupyter Notebook <use_subject_space_rois_from_freesurfer.ipynb>`
 :::

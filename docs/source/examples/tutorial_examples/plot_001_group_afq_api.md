@@ -349,5 +349,5 @@ myafq = GroupAFQ.from_qsiprep(
     2021;18(7):775-778.
 
 :::{only} html
-{download}`Download as Jupyter Notebook: plot_001_group_afq_api.ipynb`
+{download}`Download as Jupyter Notebook <plot_001_group_afq_api.ipynb>`
 :::

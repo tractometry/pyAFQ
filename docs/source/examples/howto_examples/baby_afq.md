@@ -168,5 +168,5 @@ building your GroupAFQ object (e.g. `GroupAFQ(..., sbv_lims_bundles=[0, 0.5])`).
     of the National Academy of Sciences 120: e2303491120.
 
 :::{only} html
-{download}`Download as Jupyter Notebook: baby_afq.ipynb`
+{download}`Download as Jupyter Notebook <baby_afq.ipynb>`
 :::

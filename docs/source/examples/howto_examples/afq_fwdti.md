@@ -174,5 +174,5 @@ for ii, bundle in enumerate(["Left Arcuate", "Right Arcuate"]):
     Scientific Data. 2022;9(1):1-27.
 
 :::{only} html
-{download}`Download as Jupyter Notebook: afq_fwdti.ipynb`
+{download}`Download as Jupyter Notebook <afq_fwdti.ipynb>`
 :::

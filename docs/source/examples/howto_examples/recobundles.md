@@ -71,5 +71,5 @@ fig_files = myafq.export_all()
     Clustering.” NeuroImage 170: 283-295.
 
 :::{only} html
-{download}`Download as Jupyter Notebook: recobundles.ipynb`
+{download}`Download as Jupyter Notebook <recobundles.ipynb>`
 :::

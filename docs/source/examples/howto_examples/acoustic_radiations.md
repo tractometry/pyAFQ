@@ -144,5 +144,5 @@ plotly.io.show(bundle_html["NDARAA948VFH"]["Left Acoustic Radiation"])
     2021;18(7):775-778.
 
 :::{only} html
-{download}`Download as Jupyter Notebook: acoustic_radiations.ipynb`
+{download}`Download as Jupyter Notebook <acoustic_radiations.ipynb>`
 :::

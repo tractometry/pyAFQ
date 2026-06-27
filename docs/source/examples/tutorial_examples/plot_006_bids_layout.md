@@ -326,5 +326,5 @@ print(layout.get(desc="bundles", return_type="filename"))
 ```
 
 :::{only} html
-{download}`Download as Jupyter Notebook: plot_006_bids_layout.ipynb`
+{download}`Download as Jupyter Notebook <plot_006_bids_layout.ipynb>`
 :::

@@ -190,5 +190,5 @@ plotly.io.show(bundle_html["NDARAA948VFH"])
     Data. 2022;9(1):1-27.
 
 :::{only} html
-{download}`Download as Jupyter Notebook: optic_tract.ipynb`
+{download}`Download as Jupyter Notebook <optic_tract.ipynb>`
 :::

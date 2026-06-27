@@ -67,5 +67,5 @@ myafq.export("all_bundles_figure")["01"][0]
 ```
 
 :::{only} html
-{download}`Download as Jupyter Notebook: vof_example.ipynb`
+{download}`Download as Jupyter Notebook <vof_example.ipynb>`
 :::

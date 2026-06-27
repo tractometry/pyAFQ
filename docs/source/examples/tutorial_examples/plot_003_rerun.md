@@ -184,5 +184,5 @@ The method works by:
 We plan to automate this process in the future.
 
 :::{only} html
-{download}`Download as Jupyter Notebook: plot_003_rerun.ipynb`
+{download}`Download as Jupyter Notebook <plot_003_rerun.ipynb>`
 :::

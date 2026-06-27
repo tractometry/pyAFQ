@@ -198,5 +198,5 @@ knot2.clobber(clobber_pars=True, clobber_repo=True, clobber_image=True)
 ```
 
 :::{only} html
-{download}`Download as Jupyter Notebook: cloudknot_example.ipynb`
+{download}`Download as Jupyter Notebook <cloudknot_example.ipynb>`
 :::

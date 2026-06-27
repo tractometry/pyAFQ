@@ -99,5 +99,5 @@ cp_afq.export("bundles")
       doi: https://doi.org/10.1162/nol_a_00098
 
 :::{only} html
-{download}`Download as Jupyter Notebook: cerebellar_peduncles.ipynb`
+{download}`Download as Jupyter Notebook <cerebellar_peduncles.ipynb>`
 :::

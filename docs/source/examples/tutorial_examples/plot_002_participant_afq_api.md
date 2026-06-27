@@ -307,5 +307,5 @@ myafq.export("citations")
     2021;18(7):775-778.
 
 :::{only} html
-{download}`Download as Jupyter Notebook: plot_002_participant_afq_api.ipynb`
+{download}`Download as Jupyter Notebook <plot_002_participant_afq_api.ipynb>`
 :::

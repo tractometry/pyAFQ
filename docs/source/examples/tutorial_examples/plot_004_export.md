@@ -222,5 +222,5 @@ myafq.export_up_to("bundles")
 ```
 
 :::{only} html
-{download}`Download as Jupyter Notebook: plot_004_export.ipynb`
+{download}`Download as Jupyter Notebook <plot_004_export.ipynb>`
 :::

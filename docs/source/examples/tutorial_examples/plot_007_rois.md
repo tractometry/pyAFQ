@@ -201,5 +201,5 @@ for bundle_name in templates.bundle_names:
 ```
 
 :::{only} html
-{download}`Download as Jupyter Notebook: plot_007_rois.ipynb`
+{download}`Download as Jupyter Notebook <plot_007_rois.ipynb>`
 :::
