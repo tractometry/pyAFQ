@@ -305,3 +305,7 @@ myafq.export("citations")
 [^3]: Cieslak M, Cook PA, He X, et al. QSIPrep: an integrative platform for
     preprocessing and reconstructing diffusion MRI data. Nat Methods.
     2021;18(7):775-778.
+
+:::{only} html
+{download}`Download as Jupyter Notebook <plot_002_participant_afq_api.ipynb>`
+:::

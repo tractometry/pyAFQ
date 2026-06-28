@@ -12,7 +12,7 @@ language_info:
   name: python
   pygments_lexer: ipython3
 mystnb:
-  execution_mode: "off"
+  execution_mode: 'off'
 ---
 
 # AFQ with HCP data
@@ -242,3 +242,7 @@ result_futures2 = knot2.map(args, starmap=True)
 result_futures2.result()
 knot2.clobber(clobber_pars=True, clobber_repo=True, clobber_image=True)
 ```
+
+:::{only} html
+{download}`Download as Jupyter Notebook <cloudknot_hcp_example.ipynb>`
+:::

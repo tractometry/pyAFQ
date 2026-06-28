@@ -12,13 +12,13 @@ language_info:
   name: python
   pygments_lexer: ipython3
 mystnb:
-  execution_mode: "off"
+  execution_mode: 'off'
 ---
 
 # How to track the Optic Tract and Posterior Optic Nerve in pyAFQ
 
 pyAFQ is designed to be customizable and extensible, even to
-relatively small bundles. This example will be based on the work 
+relatively small bundles. This example will be based on the work
 of Kruper et al. [^1]. Here, part of the trick is that most preprocessing
 pipelines will cut off a portion or all of the optic nerve. So, we
 only attempt to track the most posterior portion of the optic nerve,
@@ -103,7 +103,7 @@ For tractography, we use a higher max_angle to account for the
 sharp turn the optic tract makes around the midbrain. Additionally, we seed
 densely around the ROIs.
 For segmentation, we use more lenient cleaning parameters to account for
-the small size of these bundles. 
+the small size of these bundles.
 
 ```{code-cell} ipython3
 tractography_params = {
@@ -188,3 +188,7 @@ plotly.io.show(bundle_html["NDARAA948VFH"])
 [^3]: Richie-Halford A, Cieslak M, Ai L, et al. An analysis-ready and quality
     controlled resource for pediatric brain white-matter research. Scientific
     Data. 2022;9(1):1-27.
+
+:::{only} html
+{download}`Download as Jupyter Notebook <optic_tract.ipynb>`
+:::

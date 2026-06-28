@@ -12,7 +12,7 @@ language_info:
   name: python
   pygments_lexer: ipython3
 mystnb:
-  execution_mode: "off"
+  execution_mode: 'off'
 ---
 
 # Re-running pyAFQ
@@ -182,3 +182,7 @@ The method works by:
 5. Resetting the workflow to ensure subsequent runs regenerate affected derivatives
 
 We plan to automate this process in the future.
+
+:::{only} html
+{download}`Download as Jupyter Notebook <plot_003_rerun.ipynb>`
+:::

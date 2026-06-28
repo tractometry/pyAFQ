@@ -347,3 +347,7 @@ myafq = GroupAFQ.from_qsiprep(
 [^3]: Cieslak M, Cook PA, He X, et al. QSIPrep: an integrative platform for
     preprocessing and reconstructing diffusion MRI data. Nat Methods.
     2021;18(7):775-778.
+
+:::{only} html
+{download}`Download as Jupyter Notebook <plot_001_group_afq_api.ipynb>`
+:::

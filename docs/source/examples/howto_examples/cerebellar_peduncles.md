@@ -12,7 +12,7 @@ language_info:
   name: python
   pygments_lexer: ipython3
 mystnb:
-  execution_mode: "off"
+  execution_mode: 'off'
 ---
 
 # Delineating cerebellar peduncles
@@ -97,3 +97,7 @@ cp_afq.export("bundles")
       contributions of the cerebellar peduncles and the frontal aslant tract
       in mediating speech fluency. Neurobiology of Language 2023;
       doi: https://doi.org/10.1162/nol_a_00098
+
+:::{only} html
+{download}`Download as Jupyter Notebook <cerebellar_peduncles.ipynb>`
+:::

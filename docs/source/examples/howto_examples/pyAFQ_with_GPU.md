@@ -12,7 +12,7 @@ language_info:
   name: python
   pygments_lexer: ipython3
 mystnb:
-  execution_mode: "off"
+  execution_mode: 'off'
 ---
 
 # Running pyAFQ using the GPU for tractography
@@ -46,7 +46,7 @@ afd.organize_stanford_data()
 We make create a `tracking_params` variable to define the parameters for tractography.
 The only parameter we need to set to use the GPU is `jit_backend`,
 which we set to "cuda". Other backends include: "metal", "webgpu", or "numba".
-Numba is the default. 
+Numba is the default.
 Note that the GPU backend will only run for probabilistic tracking,
 which is the default.
 
@@ -72,3 +72,7 @@ myafq = GroupAFQ(
 bundle_html = myafq.export("all_bundles_figure")
 plotly.io.show(bundle_html["01"][0])
 ```
+
+:::{only} html
+{download}`Download as Jupyter Notebook <pyAFQ_with_GPU.ipynb>`
+:::

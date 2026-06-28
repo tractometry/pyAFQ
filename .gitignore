@@ -15,5 +15,6 @@ dist
 .DS_Store
 **.sw?
 **Untitled.ipynb
+docs/source/examples/**/*.ipynb
 pip-wheel-metadata
 pyAFQ.egg-info

@@ -12,7 +12,7 @@ language_info:
   name: python
   pygments_lexer: ipython3
 mystnb:
-  execution_mode: "off"
+  execution_mode: 'off'
 ---
 
 # How to add new bundles into pyAFQ (Acoustic Radiations Example)
@@ -55,21 +55,32 @@ case, the ROIs are all defined in the MNI template space that is used as the
 default template space in pyAFQ, but, in principle, other template spaces
 could be used.
 
-The ROIs for the case can be downloaded using a custom fetcher which saves
-the ROIs to a folder and creates a dictionary of paths to the ROIs:
+The ROIs for this case can be downloaded using a custom fetcher which saves
+the ROIs to a folder and creates a dictionary of paths to the ROIs.
 
 ```{code-cell} ipython3
 ar_rois = afd.read_ar_templates()
 
+path_to_thal_l = ar_rois["AAL_Thal_L"]
+path_to_sup_temp_l = ar_rois["AAL_TempSup_L"]
+path_to_thal_r = ar_rois["AAL_Thal_R"]
+path_to_sup_temp_r = ar_rois["AAL_TempSup_R"]
+```
+
+However, if you have ROIs that you would like to use as start/end ROIs for a
+bundle, you can provide a file-system path to the files that contain these
+ROIs. These paths are then provided as inputs to create a bundle dictionary:
+
+```{code-cell} ipython3
 bundles = abd.BundleDict({
     "Left Acoustic Radiation": {
-        "start": ar_rois["AAL_Thal_L"],
-        "end": ar_rois["AAL_TempSup_L"],
+        "start": path_to_thal_l,
+        "end": path_to_sup_temp_l,
         "cross_midline": False,
     },
     "Right Acoustic Radiation": {
-        "start": ar_rois["AAL_Thal_R"],
-        "end": ar_rois["AAL_TempSup_R"],
+        "start": path_to_thal_r,
+        "end": path_to_sup_temp_r,
         "cross_midline": False
     }
 })
@@ -131,3 +142,7 @@ plotly.io.show(bundle_html["NDARAA948VFH"]["Left Acoustic Radiation"])
 [^3]: Cieslak M, Cook PA, He X, et al. QSIPrep: an integrative platform for
     preprocessing and reconstructing diffusion MRI data. Nat Methods.
     2021;18(7):775-778.
+
+:::{only} html
+{download}`Download as Jupyter Notebook <acoustic_radiations.ipynb>`
+:::
