@@ -25,6 +25,7 @@ def recognize(
     nb_points=False,
     nb_streamlines=False,
     clip_edges=False,
+    clean_unclipped=False,
     rb_recognize_params=None,
     refine_reco=False,
     prob_threshold=0,
@@ -64,6 +65,11 @@ def recognize(
         Default: False
     clip_edges : bool
         Whether to clip the streamlines to be only in between the ROIs.
+        Default: False
+    clean_unclipped : bool
+        Whether to use the unclipped streamlines when cleaning.
+        Only considered if clip_edges is True or bundlesection
+        is in the bundle_dict.
         Default: False
     rb_recognize_params : dict
         RecoBundles parameters for the recognize function.
@@ -186,6 +192,7 @@ def recognize(
         dist_to_atlas=dist_to_atlas,
         save_intermediates=save_intermediates,
         clip_edges=clip_edges,
+        clean_unclipped=clean_unclipped,
         rb_recognize_params=rb_recognize_params,
         prob_threshold=prob_threshold,
         refine_reco=refine_reco,

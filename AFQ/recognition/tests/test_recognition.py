@@ -158,7 +158,13 @@ def test_segment_return_idx():
 def test_segment_clip_edges_api():
     # Test with the clip_edges kwarg set to True:
     fiber_groups, _ = recognize(
-        tg, hardi_img, mapping, bundles, reg_template, clip_edges=True
+        tg,
+        hardi_img,
+        mapping,
+        bundles,
+        reg_template,
+        clip_edges=True,
+        clean_unclipped=True,
     )
     npt.assert_equal(len(fiber_groups), 2)
     npt.assert_(len(fiber_groups["Right Corticospinal"]) > 0)

@@ -308,16 +308,15 @@ def recobundles(
     b_sls.select(rec_labels, "Recobundles")
 
 
-def qb_thresh(b_sls, bundle_def, clip_edges, **kwargs):
+def qb_thresh(b_sls, bundle_def, clip_for_clean, **kwargs):
     b_sls.initiate_selection("qb_thresh")
-    cut = clip_edges or ("bundlesection" in bundle_def)
     qbx = QuickBundles(
         bundle_def["qb_thresh"],
         AveragePointwiseEuclideanMetric(ResampleFeature(nb_points=12)),
     )
-    clusters = qbx.cluster(b_sls.get_selected_sls(cut=cut, flip=True))
+    clusters = qbx.cluster(b_sls.get_selected_sls(cut=clip_for_clean, flip=True))
     cleaned_idx = clusters[np.argmax(clusters.clusters_sizes())].indices
-    b_sls.select(cleaned_idx, "qb_thresh", cut=cut)
+    b_sls.select(cleaned_idx, "qb_thresh", cut=clip_for_clean)
 
 
 def clean_by_other_bundle(
@@ -366,35 +365,34 @@ def clean_by_other_bundle(
     b_sls.select(cleaned_idx, other_bundle_name)
 
 
-def orient_mahal(b_sls, bundle_def, **kwargs):
+def orient_mahal(b_sls, bundle_def, clip_for_clean, **kwargs):
     b_sls.initiate_selection("orient_mahal")
     accept_idx = abc.clean_by_orientation_mahalanobis(
-        b_sls.get_selected_sls(), **bundle_def.get("orient_mahal", {})
+        b_sls.get_selected_sls(cut=clip_for_clean), **bundle_def.get("orient_mahal", {})
     )
-    b_sls.select(accept_idx, "orient_mahal")
+    b_sls.select(accept_idx, "orient_mahal", cut=clip_for_clean)
 
 
-def isolation_forest(b_sls, bundle_def, rng, **kwargs):
+def isolation_forest(b_sls, bundle_def, clip_for_clean, rng, **kwargs):
     b_sls.initiate_selection("isolation_forest")
     accept_idx = abc.clean_by_isolation_forest(
-        b_sls.get_selected_sls(),
+        b_sls.get_selected_sls(cut=clip_for_clean),
         distance_threshold=bundle_def["isolation_forest"].get("distance_threshold", 3),
         n_rounds=bundle_def["isolation_forest"].get("n_rounds", 5),
         random_state=rng,
     )
-    b_sls.select(accept_idx, "isolation_forest")
+    b_sls.select(accept_idx, "isolation_forest", cut=clip_for_clean)
 
 
-def mahalanobis(b_sls, bundle_def, clip_edges, cleaning_params, **kwargs):
+def mahalanobis(b_sls, bundle_def, clip_for_clean, cleaning_params, **kwargs):
     b_sls.initiate_selection("Mahalanobis")
     clean_params = bundle_def.get("mahal", {})
     clean_params = {**cleaning_params, **clean_params}
     clean_params["return_idx"] = True
-    cut = clip_edges or ("bundlesection" in bundle_def)
     _, cleaned_idx = abc.clean_bundle(
-        b_sls.get_selected_sls(cut=cut, flip=True), **clean_params
+        b_sls.get_selected_sls(cut=clip_for_clean, flip=True), **clean_params
     )
-    b_sls.select(cleaned_idx, "Mahalanobis", cut=cut)
+    b_sls.select(cleaned_idx, "Mahalanobis", cut=clip_for_clean)
 
 
 def _prepare_bundle_def(bundle_dict, bundle_name, mapping, img):
@@ -669,6 +667,8 @@ def recognize_bundles(
         "vox_dim": vox_dim,
         "tol": tol,
         "dist_to_atlas": dist_to_atlas,
+        "clip_for_clean": not segmentation_params["clean_unclipped"]
+        and (segmentation_params["clip_edges"] or ("bundlesection" in bundle_def)),
     }
 
     bundle_defs = {}
