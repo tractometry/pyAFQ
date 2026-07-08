@@ -663,12 +663,11 @@ def recognize_bundles(
     tol, dist_to_atlas, vox_dim = abu.tolerance_mm_to_vox(
         img, dist_to_waypoint, dist_to_atlas
     )
+
     preproc_scalars = {
         "vox_dim": vox_dim,
         "tol": tol,
         "dist_to_atlas": dist_to_atlas,
-        "clip_for_clean": not segmentation_params["clean_unclipped"]
-        and (segmentation_params["clip_edges"] or ("bundlesection" in bundle_def)),
     }
 
     bundle_defs = {}
@@ -765,6 +764,10 @@ def recognize_bundles(
             candidate_global_idx = None
             fgarray_for_candidates = None
 
+        clip_for_clean = not segmentation_params["clean_unclipped"] and (
+            segmentation_params["clip_edges"] or ("bundlesection" in bundle_def)
+        )
+
         _run_global_phase(
             bundle_def,
             bundle_name,
@@ -780,6 +783,7 @@ def recognize_bundles(
             tol,
             dist_to_atlas,
             save_intermediates=save_intermediates,
+            clip_for_clean=clip_for_clean,
             **segmentation_params,
         )
 
