@@ -147,6 +147,52 @@ def t1w_over_b0(structural_imap, b0, citations, min_b0_for_r1_approximation=1e-2
     return data, meta
 
 
+@immlib.calc("t1w_over_log_b0")
+@as_file("_desc-T1wOverLogB0.nii.gz")
+@as_img
+def t1w_over_log_b0(structural_imap, b0, citations, min_b0_for_r1_approximation=1e-2):
+    """
+    full path to a nifti file containing the T1w over log(mean b0)
+    which is a proxy for R1 [1]_
+
+    Parameters
+    ----------
+    min_b0_for_r1_approximation : float, optional
+        The minimum value of b0 to consider when doing the division.
+        This is to avoid dividing by small numbers.
+        Default: 1e-2
+
+    References
+    ----------
+    .. [1] Moskovich, S., Shtangel, O., & Mezer, A. (2024).
+             Approximating R1 and R2: A quantitative approach to
+             clinical weighted MRI. Hum. Brain Mapp., 45(18), e70102.
+
+    """
+    citations.add("Moskovich2024-qd")
+
+    t1_img = nib.load(structural_imap["t1_masked"])
+    b0_img = nib.load(b0)
+    resampled_t1 = resample(t1_img, b0_img)
+
+    b0_data = b0_img.get_fdata()
+    mask = b0_data >= min_b0_for_r1_approximation
+
+    log_b0 = np.full_like(b0_data, np.nan, dtype=float)
+    np.log(b0_data, out=log_b0, where=mask)
+
+    data = np.zeros_like(resampled_t1.get_fdata(), dtype=float)
+    np.divide(
+        resampled_t1.get_fdata(),
+        log_b0,
+        out=data,
+        where=mask,
+    )
+
+    meta = dict(T1w=structural_imap["t1_masked"], b0=b0)
+    return data, meta
+
+
 @immlib.calc("masked_b0")
 @as_file("_desc-masked_b0ref.nii.gz")
 @as_img
@@ -1429,6 +1475,7 @@ def get_data_plan(kwargs):
             b0,
             b0_mask,
             t1w_over_b0,
+            t1w_over_log_b0,
             brain_mask,
             dti_fit,
             dki_fit,
