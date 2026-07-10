@@ -690,7 +690,14 @@ class GroupAFQ(object):
         for inputs in calcdata.calcs[idx].inputs:
             self.export(inputs)
 
-    def export_all(self, viz=True, afqbrowser=True, xforms=True, indiv=True):
+    def export_all(
+        self,
+        viz=True,
+        afqbrowser=True,
+        xforms=True,
+        indiv=True,
+        delete_full_tractogram=False,
+    ):
         """Exports all the possible outputs
 
         Parameters
@@ -714,6 +721,14 @@ class GroupAFQ(object):
             the AFQ segmentation algorithm, individual ROIs are also
             output.
             Default: True
+        delete_full_tractogram : bool
+            Whether to delete the full, unsegmented tractogram (and its
+            associated json) after all other outputs have been generated.
+            This can be useful for saving disk space, as the full
+            tractogram is typically over 90 percent of the total output size.
+            Only the full tractogram and its json are deleted; all other
+            outputs are left in place.
+            Default: False
         """
         start_time = time()
 
@@ -722,7 +737,18 @@ class GroupAFQ(object):
         self.combine_profiles()
         if afqbrowser:
             self.assemble_AFQ_browser()
+        if delete_full_tractogram:
+            self.delete_full_tractogram()
         self.logger.info(f"Time taken for export all: {str(time() - start_time)}")
+
+    def delete_full_tractogram(self):
+        """
+        Delete the full, unsegmented tractogram (and its associated json)
+        for every subject and session. Only the full tractogram and its
+        json are deleted; all other outputs are left in place.
+        """
+        for pAFQ in self.pAFQ_list:
+            pAFQ.delete_full_tractogram()
 
     def cmd_outputs(
         self, cmd="rm", dependent_on=None, up_to=None, exceptions=None, suffix=""
