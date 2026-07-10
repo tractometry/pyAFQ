@@ -150,17 +150,19 @@ def t1w_over_b0(structural_imap, b0, citations, min_b0_for_r1_approximation=1e-2
 @immlib.calc("t1w_over_log_b0")
 @as_file("_desc-T1wOverLogB0.nii.gz")
 @as_img
-def t1w_over_log_b0(structural_imap, b0, citations, min_b0_for_r1_approximation=1e-2):
+def t1w_over_log_b0(
+    structural_imap, b0, citations, min_b0_for_logr1_approximation=1.05
+):
     """
     full path to a nifti file containing the T1w over log(mean b0)
     which is a proxy for R1 [1]_
 
     Parameters
     ----------
-    min_b0_for_r1_approximation : float, optional
+    min_b0_for_logr1_approximation : float, optional
         The minimum value of b0 to consider when doing the division.
         This is to avoid dividing by small numbers.
-        Default: 1e-2
+        Default: 1.05
 
     References
     ----------
@@ -176,7 +178,7 @@ def t1w_over_log_b0(structural_imap, b0, citations, min_b0_for_r1_approximation=
     resampled_t1 = resample(t1_img, b0_img)
 
     b0_data = b0_img.get_fdata()
-    mask = b0_data >= min_b0_for_r1_approximation
+    mask = b0_data >= min_b0_for_logr1_approximation
 
     log_b0 = np.full_like(b0_data, np.nan, dtype=float)
     np.log(b0_data, out=log_b0, where=mask)
