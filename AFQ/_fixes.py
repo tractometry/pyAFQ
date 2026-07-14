@@ -340,25 +340,35 @@ def gaussian_weights(
                 cov = eigenvectors @ np.diag(eigenvalues) @ eigenvectors.T
 
             if np.any(cov > 0):
-                weights.ravel()[mask] = np.sqrt(
-                    np.einsum("ij,jk,ik->i", diff, pinvh(cov), diff)
-                )
+                m = np.einsum("ij,jk,ik->i", diff, pinvh(cov), diff)
+                np.clip(m, 0, None, out=m)
+                weights.ravel()[mask] = np.sqrt(m)
 
     if return_mahalanobis:
         return weights
 
     with np.errstate(divide="ignore"):
         w_inv = 1.0 / weights
-    w_inv[np.isinf(w_inv)] = 0
+    w_inv[~np.isfinite(w_inv)] = 0
 
     denom = np.sum(w_inv, axis=0)
     w = np.divide(w_inv, denom, out=np.zeros_like(w_inv), where=denom != 0)
     col_sums = w.sum(axis=0)
-    if np.max(np.abs(col_sums - 1)) > 1e-3:
+    if not np.all(np.abs(col_sums - 1) <= 1e-3):
         return _weighting_failed()
     else:
         final_sums = w.sum(axis=0, keepdims=True)
         np.divide(w, final_sums, out=w, where=final_sums != 0)
+
+        weight_sum = np.sum(w, axis=0)
+        if not np.allclose(weight_sum, np.ones(n_points)):
+            bad = ~np.isclose(weight_sum, 1.0, rtol=1e-5, atol=1e-8)
+            logger.warning(f"weights not normalized: {w.shape}, {w.dtype}")
+            logger.warning(f"bundle sls: {len(bundle)}, weight rows: {w.shape[0]}")
+            logger.warning(f"offending nodes: {np.where(bad)[0]}")
+            logger.warning(f"their sums: {weight_sum[bad]}")
+            logger.warning(f"any nan: {np.isnan(w).any()}")
+            return _weighting_failed()
         return w
 
 

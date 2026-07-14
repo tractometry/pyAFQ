@@ -338,7 +338,9 @@ def tract_profiles(
                         "low variance in the scalar data."
                     )
                 )
-                this_prof_weights = np.ones_like(this_prof_weights)
+                this_prof_weights = np.ones_like(this_prof_weights) / len(
+                    this_prof_weights
+                )
             this_profile[ii] = afq_profile(
                 scalar_data,
                 this_sl,
