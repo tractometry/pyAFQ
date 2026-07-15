@@ -25,6 +25,7 @@ from AFQ.models.wmgm_interface import fit_wm_gm_interface
 from AFQ.nn.brainchop import pve_from_subcortex
 from AFQ.nn.multiaxial import extract_pve
 from AFQ.nn.synthseg import pve_from_synthseg
+from AFQ.nn.utils import merge_PVEs
 from AFQ.tasks.decorators import as_file, as_fit_deriv, as_img
 from AFQ.tasks.utils import with_name
 
@@ -104,7 +105,7 @@ def pve_internal(structural_imap, pve="synthseg"):
             PVE_multiaxial = extract_pve(mx_model_img).get_fdata().astype(np.float32)
 
             # Use predictions from both to get final estimates
-            PVE = (PVE_brainchop + PVE_multiaxial) / 2
+            PVE = merge_PVEs(PVE_brainchop, PVE_multiaxial)
 
             return nib.Nifti1Image(PVE, t1_subcortex_img.affine), dict(
                 SubCortexParcellation=structural_imap["t1_subcortex"],

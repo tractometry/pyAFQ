@@ -41,7 +41,7 @@ def run_brainchop(ort, t1_img, model_name, onnx_kwargs):
         https://doi.org/10.21105/joss.05098
     """
     model = _get_model(model_name)
-    t1_data, conformed_affine = prepare_t1_for_nn(t1_img)
+    t1_data, conformed_affine = prepare_t1_for_nn(t1_img, orientation="LIA")
 
     image = t1_data.astype(np.float32)[None, None, ...]
 
