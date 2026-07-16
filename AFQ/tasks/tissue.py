@@ -86,7 +86,7 @@ def pve_internal(structural_imap, pve="synthseg"):
                 SynthsegParcellation=structural_imap["synthseg_model"],
                 labels=["csf", "gm", "wm"],
             )
-        elif pve == "multiaxial+brainchop":
+        elif pve == "multiaxial+brainchop" or pve == "multiaxial+brainchop+synthseg":
             logger.warning(
                 (
                     "Using MultiAxial+BrainChop for PVE estimation. "
@@ -107,11 +107,19 @@ def pve_internal(structural_imap, pve="synthseg"):
             # Use predictions from both to get final estimates
             PVE = merge_PVEs(PVE_brainchop, PVE_multiaxial)
 
-            return nib.Nifti1Image(PVE, t1_subcortex_img.affine), dict(
+            meta = dict(
                 SubCortexParcellation=structural_imap["t1_subcortex"],
                 MultiAxialSegmentation=structural_imap["mx_model"],
                 labels=["csf", "gm", "wm"],
             )
+            if pve == "multiaxial+brainchop+synthseg":
+                synthseg_seg = nib.load(structural_imap["synthseg_model"])
+                PVE_synthseg = pve_from_synthseg(synthseg_seg.get_fdata())
+                PVE = merge_PVEs(PVE, PVE_synthseg)
+
+                meta["SynthsegParcellation"] = structural_imap["synthseg_model"]
+
+            return nib.Nifti1Image(PVE, t1_subcortex_img.affine), meta
 
     raise ValueError(
         "pve must be a PVEImage, PVEImages, 'synthseg', or 'multiaxial+brainchop'"
