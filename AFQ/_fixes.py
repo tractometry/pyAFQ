@@ -353,17 +353,21 @@ def gaussian_weights(
 
     denom = np.sum(w_inv, axis=0, dtype=np.float64)
     w = np.divide(
-        w_inv, denom, out=np.zeros_like(w_inv), where=denom != 0, dtype=np.float64
+        w_inv,
+        denom,
+        out=np.zeros_like(w_inv, dtype=np.float64),
+        where=denom != 0,
+        dtype=np.float64,
     )
 
     col_sums = w.sum(axis=0, dtype=np.float64)
     if not np.all(np.abs(col_sums - 1) <= 1e-3):
         return _weighting_failed()
     else:
-        final_sums = w.sum(axis=0, keepdims=True)
+        final_sums = w.sum(axis=0, keepdims=True, dtype=np.float64)
         np.divide(w, final_sums, out=w, where=final_sums != 0, dtype=np.float64)
 
-        weight_sum = np.sum(w, axis=0)
+        weight_sum = np.sum(w, axis=0, dtype=np.float64)
         if not np.allclose(weight_sum, np.ones(n_nodes)):
             bad = ~np.isclose(weight_sum, 1.0, rtol=1e-5, atol=1e-8)
             logger.warning(f"weights not normalized: {w.shape}, {w.dtype}")
