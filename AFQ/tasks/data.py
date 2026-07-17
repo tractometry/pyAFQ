@@ -547,7 +547,7 @@ def csd_aodf(structural_imap, csd_params, tracking_params, citations):
     logger.info("Applying unified filtering to generate asymmetric CSD ODFs...")
     aodf = unified_filtering(
         sh_coeff,
-        get_sphere(tracking_params["sphere"]),
+        get_sphere(name=tracking_params["sphere"]),
         n_threads=structural_imap["n_threads"],
         low_mem=structural_imap["low_mem"],
     )
@@ -669,7 +669,7 @@ def gq(gtab, data, tracking_params, citations, gq_sampling_length=1.2):
     citations.add("yeh2010generalized")
     gqmodel = GeneralizedQSamplingModel(gtab, sampling_length=gq_sampling_length)
 
-    sphere = get_sphere(tracking_params["sphere"])
+    sphere = get_sphere(name=tracking_params["sphere"])
 
     odf = gwi_odf(gqmodel, data, sphere)
 
@@ -764,7 +764,7 @@ def rumba_params(
     )
 
     rumba_fit = rumba_model.fit(data, mask=nib.load(brain_mask).get_fdata())
-    odf = rumba_fit.odf(sphere=get_sphere(tracking_params["sphere"]))
+    odf = rumba_fit.odf(sphere=get_sphere(name=tracking_params["sphere"]))
 
     model_meta = dict(
         Description=(
