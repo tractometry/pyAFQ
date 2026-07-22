@@ -2307,6 +2307,9 @@ def fetch_hcp(
         data_files[
             op.join(sess_dir, "anat", f"sub-{subject}_aparc+aseg_seg.nii.gz")
         ] = f"{study}/{subject}/T1w/aparc+aseg.nii.gz"
+        data_files[
+            op.join(sess_dir, "anat", f"sub-{subject}_desc-PVE_probseg.nii.gz")
+        ] = f"{study}/{subject}/T1w/wmparc.nii.gz"
 
     download_files = {}
     for k in data_files.keys():

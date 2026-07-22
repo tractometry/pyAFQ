@@ -1,5 +1,6 @@
 import logging
 import math
+import os
 import os.path as op
 import tempfile
 from math import radians
@@ -30,7 +31,7 @@ from AFQ.tasks.tractography import get_tractography_plan
 from AFQ.tasks.utils import get_base_fname
 from AFQ.tasks.viz import get_viz_plan
 from AFQ.utils.bin import pyafq_str_to_val
-from AFQ.utils.path import apply_cmd_to_afq_derivs
+from AFQ.utils.path import apply_cmd_to_afq_derivs, drop_extension
 from AFQ.viz.utils import BEST_BUNDLE_ORIENTATIONS, get_eye, trim
 
 __all__ = ["ParticipantAFQ"]
@@ -240,7 +241,9 @@ class ParticipantAFQ(object):
         for inputs in calcdata.calcs[idx].inputs:
             self.export(inputs)
 
-    def export_all(self, viz=True, xforms=True, indiv=True):
+    def export_all(
+        self, viz=True, xforms=True, indiv=True, delete_full_tractogram=False
+    ):
         f""" Exports all the possible outputs
         {valid_exports_string}
 
@@ -262,10 +265,32 @@ class ParticipantAFQ(object):
             the AFQ segmentation algorithm, individual ROIs are also
             output.
             Default: True
+        delete_full_tractogram : bool
+            Whether to delete the full, unsegmented tractogram (and its
+            associated json) after all other outputs have been generated.
+            This can be useful for saving disk space, as the full
+            tractogram is typically over 90 percent of the total output size.
+            Only the full tractogram and its json are deleted;
+            all other outputs are left in place.
+            Default: False
         """
         start_time = time()
         export_all_helper(self, xforms, indiv, viz)
+        if delete_full_tractogram:
+            self.delete_full_tractogram()
         self.logger.info(f"Time taken for export all: {time() - start_time}")
+
+    def delete_full_tractogram(self):
+        """
+        Delete the full, unsegmented tractogram (and its associated json).
+        Only the full tractogram and its json are deleted; all other
+        outputs are left in place.
+        """
+        tractogram_file = self.export("streamlines")
+        for fname in (tractogram_file, drop_extension(tractogram_file) + ".json"):
+            if op.exists(fname):
+                os.remove(fname)
+                self.logger.info(f"Deleted {fname}")
 
     def participant_montage(self, images_per_row=3, anatomy=True, bundle_names=None):
         """
