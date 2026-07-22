@@ -272,17 +272,17 @@ def gaussian_weights(
     n_sls, n_nodes, _ = sls.shape
 
     def _weighting_failed():
-        weights = np.ones((n_sls, n_nodes))
         logger.warning(
             (
-                "Not enough streamlines for weight calculation, "
+                f"Not enough or too many streamlines (n_sls: {n_sls}) "
+                "for weight calculation, "
                 "weighting everything evenly"
             )
         )
         if return_mahalanobis:
             return np.full((n_sls, n_nodes), np.nan)
         else:
-            return weights / np.sum(weights, 0)
+            return np.full((n_sls, n_nodes), 1.0 / n_sls)
 
     if n_sls < 15:  # Cov^-1 unstable under this amount
         return _weighting_failed()
@@ -340,26 +340,44 @@ def gaussian_weights(
                 cov = eigenvectors @ np.diag(eigenvalues) @ eigenvectors.T
 
             if np.any(cov > 0):
-                weights.ravel()[mask] = np.sqrt(
-                    np.einsum("ij,jk,ik->i", diff, pinvh(cov), diff)
-                )
+                m = np.einsum("ij,jk,ik->i", diff, pinvh(cov), diff)
+                np.clip(m, 0, None, out=m)
+                weights.ravel()[mask] = np.sqrt(m)
 
     if return_mahalanobis:
         return weights
 
-    with np.errstate(divide="ignore"):
+    with np.errstate(divide="ignore", invalid="ignore"):
         w_inv = 1.0 / weights
-    w_inv[np.isinf(w_inv)] = 0
+    w_inv[~np.isfinite(w_inv)] = 0
 
-    denom = np.sum(w_inv, axis=0)
-    w = np.divide(w_inv, denom, out=np.zeros_like(w_inv), where=denom != 0)
-    col_sums = w.sum(axis=0)
-    if np.max(np.abs(col_sums - 1)) > 1e-3:
+    denom = np.sum(w_inv, axis=0, dtype=np.float64)
+    w = np.divide(
+        w_inv,
+        denom,
+        out=np.zeros_like(w_inv, dtype=np.float64),
+        where=denom != 0,
+        dtype=np.float64,
+    )
+
+    col_sums = w.sum(axis=0, dtype=np.float64)
+    if not np.all(np.abs(col_sums - 1) <= 1e-3):
         return _weighting_failed()
     else:
-        final_sums = w.sum(axis=0, keepdims=True)
-        np.divide(w, final_sums, out=w, where=final_sums != 0)
-        return w
+        final_sums = w.sum(axis=0, keepdims=True, dtype=np.float64)
+        np.divide(w, final_sums, out=w, where=final_sums != 0, dtype=np.float64)
+
+        weight_sum = np.sum(w, axis=0, dtype=np.float64)
+        if not np.allclose(weight_sum, np.ones(n_nodes)):
+            bad = ~np.isclose(weight_sum, 1.0, rtol=1e-5, atol=1e-8)
+            logger.warning(f"weights not normalized: {w.shape}, {w.dtype}")
+            logger.warning(f"n_sls: {n_sls}")
+            logger.warning(f"offending nodes: {np.where(bad)[0]}")
+            logger.warning(f"their sums: {weight_sum[bad]}")
+            logger.warning(f"any nan: {np.isnan(w).any()}")
+            del w, w_inv
+            return _weighting_failed()
+    return w
 
 
 def make_mp4(show_m, out_path, n_frames=720, az_ang=-0.5, fps=30, crf=35, verbose=True):

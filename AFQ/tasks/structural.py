@@ -34,7 +34,7 @@ def configure_ncpus_nthreads(numba_n_threads=None, low_memory=False):
         Default: False
     """
     if numba_n_threads is None:
-        numba_n_threads = max(get_num_threads() - 1, 1)
+        numba_n_threads = min(max(get_num_threads() - 1, 1), 32)
 
     return numba_n_threads, low_memory
 
