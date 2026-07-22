@@ -274,7 +274,7 @@ def gaussian_weights(
     def _weighting_failed():
         logger.warning(
             (
-                f"Not enough or too many streamlines (n_sls: {n_sls})"
+                f"Not enough or too many streamlines (n_sls: {n_sls}) "
                 "for weight calculation, "
                 "weighting everything evenly"
             )
