@@ -1,120 +1,14 @@
 import datetime
 import os.path as op
 import platform
-from argparse import ArgumentParser
 
-import toml
-
-from AFQ.api.bundle_dict import *  # interprets bundle_dicts loaded from toml # noqa F403
+from AFQ.api.bundle_dict import *  # interprets bundle_dicts loaded from command line # noqa F403
 from AFQ.api.bundle_dict import BundleDict
 from AFQ.api.utils import kwargs_descriptors
-from AFQ.definitions.image import *  # interprets masks loaded from toml # noqa F403
-from AFQ.definitions.mapping import *  # interprets mappings loaded from toml # noqa F403
+from AFQ.definitions.image import *  # interprets masks loaded from command line # noqa F403
+from AFQ.definitions.mapping import *  # interprets mappings loaded from command line # noqa F403
 from AFQ.definitions.utils import Definition
 from AFQ.utils.docstring_parser import parse_numpy_docstring
-
-
-def model_input_parser(usage):
-    parser = ArgumentParser(usage)
-
-    parser.add_argument(
-        "-d", "--dwi", dest="dwi", action="append", help="DWI files (enter one or more)"
-    )
-
-    parser.add_argument(
-        "-l",
-        "--bval",
-        dest="bval",
-        action="append",
-        help="B-value files (enter one or more)",
-    )
-
-    parser.add_argument(
-        "-c",
-        "--bvec",
-        dest="bvec",
-        action="append",
-        help="B-vector files (enter one or more)",
-    )
-
-    parser.add_argument(
-        "-o",
-        "--out_dir",
-        dest="out_dir",
-        action="store",
-        help="""Full path to directory for files to be saved
-                            (will be created if it doesn't exist)")""",
-    )
-
-    parser.add_argument(
-        "-m", "--mask", dest="mask", action="store", default=None, help="Mask file"
-    )
-
-    parser.add_argument(
-        "-b",
-        "--b0_threshold",
-        dest="b0_threshold",
-        action="store",
-        help="b0 threshold",
-        default=0,
-    )
-
-    return parser
-
-
-def model_predict_input_parser(usage):
-    parser = ArgumentParser(usage)
-
-    parser.add_argument(
-        "-p",
-        "--params",
-        dest="params",
-        action="store",
-        help="A file containing model params",
-    )
-
-    parser.add_argument(
-        "-l",
-        "--bval",
-        dest="bval",
-        action="append",
-        help="B-value files (enter one or more)",
-    )
-
-    parser.add_argument(
-        "-c",
-        "--bvec",
-        dest="bvec",
-        action="append",
-        help="B-vector files (enter one or more)",
-    )
-
-    parser.add_argument(
-        "-o",
-        "--out_dir",
-        dest="out_dir",
-        action="store",
-        help="""Full path to directory for files to be saved
-                            (will be created if it doesn't exist)")""",
-    )
-
-    parser.add_argument(
-        "-s",
-        "--S0_file",
-        dest="S0_file",
-        action="store",
-        help="File containing S0 measurements to use in prediction",
-    )
-
-    parser.add_argument(
-        "-b",
-        "--b0_threshold",
-        dest="b0_threshold",
-        help="b0 threshold (default: 0)",
-        action="store",
-        default=0,
-    )
-    return parser
 
 
 def pyafq_str_to_val(t):
@@ -146,11 +40,11 @@ def pyafq_str_to_val(t):
         return t
 
 
-def val_to_toml(v):
+def val_to_formal(v):
     if v is None:
         return '""'
     elif isinstance(v, Definition):
-        return f'"{v.str_for_toml()}"'
+        return f'"{v.str_formal()}"'
     elif isinstance(v, str):
         return f'"{v}"'
     elif isinstance(v, bool):
@@ -168,24 +62,24 @@ def val_to_toml(v):
         return f"{v}"
 
 
-def dict_to_toml(dictionary):
-    toml = "# Use '' to indicate None\n# Wrap dictionaries in quotes\n"
-    toml = toml + "# Wrap definition object instantiations in quotes\n\n"
+def arg_dict_formatted(dictionary):
+    desc = "# Use '' to indicate None\n# Wrap dictionaries in quotes\n"
+    desc = desc + "# Wrap definition object instantiations in quotes\n\n"
     for section, args in dictionary.items():
         if section == "AFQ_desc":
-            toml = "# " + dictionary["AFQ_desc"].replace("\n", "\n# ") + "\n\n" + toml
+            desc = "# " + dictionary["AFQ_desc"].replace("\n", "\n# ") + "\n\n" + desc
             continue
-        toml = toml + f"[{section}]\n"
+        desc = desc + f"[{section}]\n"
         for arg, arg_info in args.items():
-            toml = toml + "\n"
-            if isinstance(arg_info, dict):
+            desc = desc + "\n"
+            if isinstance(arg_info, dict) and "default" in arg_info:
                 if "desc" in arg_info:
-                    toml = toml + arg_info["desc"]
-                toml = toml + f"{arg} = {val_to_toml(arg_info['default'])}\n"
+                    desc = desc + arg_info["desc"]
+                desc = desc + f"{arg} = {val_to_formal(arg_info['default'])}\n"
             else:
-                toml = toml + f"{arg} = {val_to_toml(arg_info)}\n"
-        toml = toml + "\n"
-    return toml + "\n"
+                desc = desc + f"{arg} = {val_to_formal(arg_info)}\n"
+        desc = desc + "\n"
+    return desc + "\n"
 
 
 # these params are handled internally in the qsiprep pipeline,
@@ -210,9 +104,9 @@ def dict_to_json(dictionary):
                 continue
             local_ignore.append(arg)
             if isinstance(arg_info, dict):
-                json = json + f'"{arg}": {val_to_toml(arg_info["default"])}'
+                json = json + f'"{arg}": {val_to_formal(arg_info["default"])}'
             else:
-                json = json + f'"{arg}": {val_to_toml(arg_info)}'
+                json = json + f'"{arg}": {val_to_formal(arg_info)}'
             json = json + ",\n                "
     return json[:-18]  # remove trailing ,\n and indent
 
@@ -221,14 +115,12 @@ def func_dict_to_arg_dict(func_dict=None, logger=None):
     if func_dict is None:
         import AFQ.tractography.tractography as aft
         from AFQ.api.group import GroupAFQ
-        from AFQ.recognition.cleaning import clean_bundle
         from AFQ.recognition.recognize import recognize
 
         func_dict = {
             "BIDS": GroupAFQ.__init__,
             "Tractography": aft.track,
             "Segmentation": recognize,
-            "Cleaning": clean_bundle,
         }
 
     arg_dict = {}
@@ -283,71 +175,93 @@ def func_dict_to_arg_dict(func_dict=None, logger=None):
 
 
 def parse_config_run_afq(
-    toml_file,
+    dwi,
+    bval,
+    bvec,
+    t1,
+    o_folder,
     default_arg_dict,
+    cli_args,
     to_call="export_all",
-    overwrite=False,
     logger=None,
     verbose=False,
     dry_run=False,
-    special_args=None,
 ):
     from AFQ import __version__
-    from AFQ.api.group import GroupAFQ
+    from AFQ.api.participant import ParticipantAFQ
 
-    # load configuration file
-    if special_args is None:
-        special_args = {
-            "SEGMENTATION_PARAMS": "segmentation_params",
-            "TRACTOGRAPHY_PARAMS": "tracking_params",
-        }
-    if not op.exists(toml_file):
-        raise FileExistsError(
-            "Config file does not exist. "
-            + "If you want to generate this file,"
-            + " add the argument --generate-config-only"
-        )
-    f_arg_dict = toml.load(toml_file)
+    f_arg_dict = vars(cli_args)
+
+    special_args = {
+        "SEGMENTATION_PARAMS": "segmentation_params",
+        "TRACTOGRAPHY_PARAMS": "tracking_params",
+    }
+
+    special_args_assignment = {}
+    for section_name, new_section_name in special_args.items():
+        if section_name in default_arg_dict:
+            for arg in default_arg_dict[section_name].keys():
+                special_args_assignment[arg] = new_section_name
+
+    if bval is False:
+        bval = dwi.replace(".nii.gz", ".bval")
+        if not op.exists(bval):
+            bval = dwi.replace(".nii.gz", ".bvals")
+        if not op.exists(bval):
+            bval = dwi.replace(".nii", ".bval")
+        if not op.exists(bval):
+            bval = dwi.replace(".nii", ".bvals")
+        if not op.exists(bval):
+            raise FileNotFoundError(
+                "Could not find bval file. Please specify the path to the bval file."
+            )
+    if bvec is False:
+        bvec = dwi.replace(".nii.gz", ".bvec")
+        if not op.exists(bvec):
+            bvec = dwi.replace(".nii.gz", ".bvecs")
+        if not op.exists(bvec):
+            bvec = dwi.replace(".nii", ".bvec")
+        if not op.exists(bvec):
+            bvec = dwi.replace(".nii", ".bvecs")
+        if not op.exists(bvec):
+            raise FileNotFoundError(
+                "Could not find bvec file. Please specify the path to the bvec file."
+            )
 
     # extract arguments from file
     kwargs = {}
-    bids_path = ""
-    for section, args in f_arg_dict.items():
-        for arg, default in args.items():
-            if section not in default_arg_dict:
-                default_arg_dict[section] = {}
-            if arg == "bids_path":
-                bids_path = default
-            else:
-                val = pyafq_str_to_val(default)
-                is_special = False
-                for toml_key, doc_arg in special_args.items():
-                    if section == toml_key:
-                        if doc_arg not in kwargs:
-                            kwargs[doc_arg] = {}
-                        kwargs[doc_arg][arg] = val
-                        is_special = True
-                if not is_special:
-                    kwargs[arg] = val
-            if arg not in default_arg_dict[section]:
-                default_arg_dict[section][arg] = {}
-            default_arg_dict[section][arg]["default"] = default
+
+    for arg, default in f_arg_dict.items():
+        if arg in [
+            "dwi",
+            "bvec",
+            "bval",
+            "t1",
+            "o_folder",
+            "verbose",
+            "dry_run",
+            "to_call",
+        ]:
+            continue
+        val = pyafq_str_to_val(default)
+        if val is None:
+            continue
+        if arg in special_args_assignment:
+            section_name = special_args_assignment[arg]
+            if section_name not in kwargs:
+                kwargs[section_name] = {}
+            kwargs[section_name][arg] = val
+        else:
+            kwargs[arg] = val
+        if arg not in default_arg_dict:
+            default_arg_dict[arg] = {}
+        default_arg_dict[arg]["default"] = default
 
     if logger is not None and (verbose or dry_run):
         logger.info("The following arguments are recognized: " + str(kwargs))
 
     if dry_run:
         return
-
-    # if overwrite, write new file with updated docs / args
-    if overwrite:
-        if logger is not None:
-            logger.info("Updating configuration file.")
-        with open(toml_file, "w") as ff:
-            ff.write(dict_to_toml(default_arg_dict))
-
-    if bids_path == "":
-        raise RuntimeError("Config file must provide bids_path")
 
     # generate metadata file for this run
     default_arg_dict["pyAFQ"] = {}
@@ -357,11 +271,11 @@ def parse_config_run_afq(
     default_arg_dict["pyAFQ"]["version"] = __version__
     default_arg_dict["pyAFQ"]["platform"] = platform.system()
 
-    myafq = GroupAFQ(bids_path, **kwargs)
+    myafq = ParticipantAFQ(dwi, bval, bvec, t1, o_folder, **kwargs)
 
-    afq_metadata_file = op.join(myafq.afq_path, "afq_metadata.toml")
+    afq_metadata_file = op.join(o_folder, "afq_metadata.toml")
     with open(afq_metadata_file, "w") as ff:
-        ff.write(dict_to_toml(default_arg_dict))
+        ff.write(arg_dict_formatted(default_arg_dict))
 
     # call user specified function:
     if to_call == "all":
@@ -372,21 +286,7 @@ def parse_config_run_afq(
     # If you got this far, you can report on time ended and record that:
     default_arg_dict["pyAFQ"]["utc_time_ended"] = datetime.datetime.now().isoformat("T")
     with open(afq_metadata_file, "w") as ff:
-        ff.write(dict_to_toml(default_arg_dict))
-
-
-def generate_config(toml_file, default_arg_dict, overwrite=False, logger=None):
-    if not overwrite and op.exists(toml_file):
-        raise FileExistsError(
-            "Config file already exists. "
-            + "If you want to overwrite this file,"
-            + " add the argument --overwrite-config"
-        )
-    if logger is not None:
-        logger.info("Generating default configuration file.")
-    toml_file = open(toml_file, "w")
-    toml_file.write(dict_to_toml(default_arg_dict))
-    toml_file.close()
+        ff.write(arg_dict_formatted(default_arg_dict))
 
 
 def generate_json(json_folder, overwrite=False, logger=None):

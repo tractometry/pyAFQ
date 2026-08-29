@@ -13,9 +13,8 @@ Then, you are ready to run pyAFQ in one of the following ways:
    Detailed tutorials for this are provided in the link at the bottom of the page.
 
 1. The second is as a program run in the command line. After installing the software
-    and organizing the data, run: `pyAFQ /path/to/config.toml`,
-    pointing the program to the location of a configuration file (see
-    :doc:`configuration file specification </reference/config>` for an
+    and organizing the data, run: `pyAFQ /path/to/dwi /path/to/t1 /path/to/output_folder`,
+    (see :doc:`The pyAFQ CLI </reference/cli>` for an
     explanation of this file). This will run whole-brain tractography, segment
     the tracts, and extract tract-profiles for each tract, generating a CSV
     file under that contains the tract profiles for all

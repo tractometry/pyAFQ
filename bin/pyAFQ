@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
-import os.path as op
+import os
+import sys
 import warnings
 from argparse import ArgumentParser
 
@@ -16,58 +17,84 @@ with warnings.catch_warnings():
     logger = logging.getLogger("AFQ")
     logger.setLevel(level=logging.INFO)
 
-usage = """pyAFQ /path/to/afq_config.toml
+usage = """
+pyAFQ [OPTIONS] dwi t1 o_folder
+pyAFQ download
+pyAFQ qsiprep
 
-Runs full AFQ processing as specified in the configuration file.
+The first form runs the pyAFQ tractometry pipeline on a single subject.
 
-For details about configuration, see instructions in:
-https://tractometry.org/pyAFQ/reference/config.html
+Two subcommands are also available, and take no further arguments:
 
-The default configuration file looks like:
+    download   Fetch every template, atlas, and model pyAFQ may need and
+               cache them locally, then exit. Run this once if you intend
+               to use pyAFQ on a machine without internet access, or to
+               build a Docker image.
 
+    qsiprep    Write default JSON configuration files into the current
+               working directory and exit. These can be used to define a
+               pyAFQ recon workflow in qsiprep; no pipeline is run.
+
+General options:
+
+    -h, --help       Show this help message and arguments.
+    -v, --verbose    Verbose when reading the TOML file.
+    -d, --dry-run    Print the recognized arguments without running pyAFQ.
+    -c, --call       AFQ.api attribute to get. Defaults to 'all', which
+                     runs the entire tractometry pipeline.
 """
 
 
 def parse_cli(arg_dict):
-    cli_parser = ArgumentParser(usage=usage + afb.dict_to_toml(arg_dict))
+    if len(sys.argv) == 2 and sys.argv[1] == "download":
+        logger.info("Downloading templates...")
+        download_templates()
+        exit()
+    elif len(sys.argv) >= 2 and sys.argv[1] == "qsiprep":
+        logger.info("Generating JSON config for qsiprep...")
+        afb.generate_json(os.getcwd(), logger=logger)
+        exit()
+
+    cli_parser = ArgumentParser(usage=usage)
+
+    cli_parser.add_argument(dest="dwi", action="store", help="Path to DWI data file")
 
     cli_parser.add_argument(
-        dest="config",
+        dest="t1",
         action="store",
-        help="Path to config file or folder. "
-        + "For example, /path/to/afq_config.toml",
+        help=(
+            "Path to T1-weighted image file. "
+            "Must already be registered to the "
+            "DWI data, though not resampled."
+        ),
     )
 
     cli_parser.add_argument(
-        "-g",
-        "--generate-config-only",
-        dest="generate_toml",
-        action="store_true",
-        default=False,
-        help="Generate a default config file at the path"
-        + " specified without running pyAFQ.",
+        dest="o_folder", action="store", help="Path to output folder"
     )
 
     cli_parser.add_argument(
-        "-q",
-        "--generate-qsiprep-json-only",
-        dest="generate_json",
-        action="store_true",
+        "--bval",
+        dest="bval",
+        action="store",
         default=False,
-        help="Generate two default json files at the path"
-        + " (which should be a folder) specified without running pyAFQ;"
-        + " this json can be used to define a recon workflow in qsiprep.",
+        help=(
+            "Path to bval file. "
+            "If none, the dwi data "
+            "file path will be used to find it."
+        ),
     )
 
     cli_parser.add_argument(
-        "-o",
-        "--overwrite-config",
-        dest="overwrite",
-        action="store_true",
+        "--bvec",
+        dest="bvec",
+        action="store",
         default=False,
-        help="Overwrite config file at the path"
-        + " with current arguments and comments,"
-        + " preserving previous defaults when applicable.",
+        help=(
+            "Path to bvec file. "
+            "If none, the dwi data "
+            "file path will be used to find it."
+        ),
     )
 
     cli_parser.add_argument(
@@ -93,31 +120,26 @@ def parse_cli(arg_dict):
         "-c",
         "--call",
         dest="to_call",
+        action="store",
         default="all",
         help="AFQ.api attribute to get using the specified config file."
         + " Defaults to 'all', which will perform the entire"
         + " tractometry pipeline.",
     )
 
-    cli_parser.add_argument(
-        "-t",
-        "--notrack",
-        action="store_true",
-        default=False,
-        help="Disable the use of pyAFQ being recorded by Google Analytics. ",
-    )
+    for key_, args in arg_dict.items():
+        if key_ == "AFQ_desc" or key_ == "BIDS_PARAMS":
+            continue
+        for arg, arg_info in args.items():
+            cli_parser.add_argument(
+                f"--{arg}",
+                dest=arg,
+                action="store",
+                default=arg_info["default"],
+                help=arg_info["desc"],
+            )
 
-    opts = cli_parser.parse_args()
-
-    return (
-        opts.config,
-        opts.generate_toml,
-        opts.overwrite,
-        opts.verbose,
-        opts.dry_run,
-        opts.to_call,
-        opts.generate_json,
-    )
+    return cli_parser.parse_args()
 
 
 def download_templates():
@@ -140,35 +162,18 @@ def download_templates():
 
 if __name__ == "__main__":
     arg_dict = afb.func_dict_to_arg_dict(logger=logger)
-    config_file, generate_only, overwrite, verbose, dry_run, to_call, generate_json = (
-        parse_cli(arg_dict)
+    args = parse_cli(arg_dict)
+
+    afb.parse_config_run_afq(
+        args.dwi,
+        args.bval,
+        args.bvec,
+        args.t1,
+        args.o_folder,
+        arg_dict,
+        args,
+        to_call=args.to_call,
+        verbose=args.verbose,
+        dry_run=args.dry_run,
+        logger=logger,
     )
-
-    if config_file == "download":
-        logger.info("Downloading templates...")
-        download_templates()
-        exit()
-
-    if generate_only and generate_json:
-        raise ValueError("Can only generate .toml or .json; not both")
-    if generate_json:
-        if not op.isdir(config_file):
-            raise ValueError("Config must be a folder when generating a .json")
-    else:
-        if config_file[-5:] != ".toml":
-            raise ValueError("Config file must be .toml unless generating a .json")
-
-    if generate_only:
-        afb.generate_config(config_file, arg_dict, overwrite, logger=logger)
-    elif generate_json:
-        afb.generate_json(config_file, overwrite, logger=logger)
-    else:
-        afb.parse_config_run_afq(
-            config_file,
-            arg_dict,
-            to_call=to_call,
-            overwrite=overwrite,
-            verbose=verbose,
-            dry_run=dry_run,
-            logger=logger,
-        )

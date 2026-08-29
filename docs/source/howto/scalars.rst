@@ -10,8 +10,7 @@ numeric value per voxel).
 In AFQ/definitions/image.py, there are many classes one can use to define
 custom images. Two of these classes are particularly useful to
 specify custom scalars. As a user, one should initialize one of these
-classes and pass them to the AFQ.api objects, or write out the initialization as
-a string inside of one's configuration file for use with the CLI. To do this,
+classes and pass them to the AFQ.api objects. To do this,
 give an image object as an element of the scalars array passed to :class:`AFQ.api.group.GroupAFQ`.
 Then your custom image will be automatically used during tract profile extraction.
 

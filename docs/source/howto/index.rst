@@ -14,7 +14,6 @@ software.
    data
    kwargs
    rerun
-   config
    mask
    scalars
    converter
