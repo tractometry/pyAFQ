@@ -1,3 +1,4 @@
+import ast
 import datetime
 import os.path as op
 import platform
@@ -12,31 +13,34 @@ from AFQ.utils.docstring_parser import parse_numpy_docstring
 
 
 def pyafq_str_to_val(t):
-    if isinstance(t, str) and len(t) < 1:
-        return None
-    elif isinstance(t, list):
-        ls = []
-        for e in t:
-            ls.append(pyafq_str_to_val(e))
-        return ls
-    elif isinstance(t, str) and t[0] == "[":
+    if isinstance(t, list):
+        return [pyafq_str_to_val(e) for e in t]
+
+    if not isinstance(t, str):
+        return t  # already an int, float, bool, etc.
+
+    if isinstance(t, str) and t[0] == "[":
         return eval(t)
-    elif isinstance(t, str) and t[0] == "{":
-        return eval(t)  # interpret as dictionary
-    elif isinstance(t, str) and (
-        "Image" in t or "Map" in t or "Dict" in t or "_bd(" in t
-    ):
+
+    if isinstance(t, str) and t[0] == "{":
+        return eval(t)
+
+    t = t.strip()
+    if not t:
+        return None
+
+    # Strings that construct pyAFQ objects still need real eval.
+    if any(k in t for k in ("Image", "Map", "Dict", "_bd(")):
         try:
-            definition_or_dict = eval(t)
-        except NameError:
+            val = eval(t)
+        except (NameError, SyntaxError, TypeError):
             return t
-        if isinstance(definition_or_dict, Definition):
-            return definition_or_dict
-        elif isinstance(definition_or_dict, BundleDict):
-            return definition_or_dict
-        else:
-            return t
-    else:
+        return val if isinstance(val, (Definition, BundleDict)) else t
+
+    # Default to literal_eval for other strings
+    try:
+        return ast.literal_eval(t)
+    except (ValueError, SyntaxError):
         return t
 
 
