@@ -38,7 +38,7 @@ Two subcommands are also available, and take no further arguments:
 General options:
 
     -h, --help       Show this help message and arguments.
-    -v, --verbose    Verbose when reading the TOML file.
+    -v, --verbose    Verbose logging.
     -d, --dry-run    Print the recognized arguments without running pyAFQ.
     -c, --call       AFQ.api attribute to get. Defaults to 'all', which
                      runs the entire tractometry pipeline.

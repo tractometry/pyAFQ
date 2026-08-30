@@ -69,18 +69,19 @@ def track(
         pft refers to Particle Filtering Tracking ([Girard2014]_).
         Default: "prob"
     max_angle : float, optional.
-        The maximum turning angle in each step. Default: 30
+        The maximum turning angle in each step.
+        Default: 30
     sphere : str or DIPY Sphere
         The discretization of the ODF. Can be a DIPY Sphere or
         a string name of a DIPY Sphere.
         Default: "repulsion724"
     seed_mask : array, optional.
         Float or binary mask describing the ROI within which we seed for
-        tracking.
-        Default to the entire volume (all ones).
+        tracking. If None, use the entire volume (all ones).
+        Default: None
     seed_threshold : float, optional.
         A value of the seed_mask above which tracking is seeded.
-        Default to 0.
+        Default: 0
     gm_threshold : float, optional.
         A value of the pve_gm_data above which we consider a voxel to be GM
         for the purposes of ACT stopping criterion. Default: 0.4.
@@ -114,7 +115,7 @@ def track(
         {"DTI", "CSD", "DKI", "GQ", "RUMBA", "MSMT_AODF", "CSD_AODF", "MSMTCSD"}.
         If a Definition, we assume it is a definition of a file containing
         Spherical Harmonics coefficients.
-        Defaults to use "CSD_AODF"
+        Default: "CSD_AODF"
     basis_type : str, optional
         The spherical harmonic basis type used to represent the coefficients.
         One of {"descoteaux07", "tournier07"}. Default: "descoteaux07"

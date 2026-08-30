@@ -3,7 +3,7 @@ Segmentation Parameters
 ==========================
 
 This page documents the configuration options for controlling
-tractography in pyAFQ. These parameters can be passed directly
+bundle recognition in pyAFQ. These parameters can be passed directly
 when using the CLI or passed as arguments when using the API.
 
 Example Usage

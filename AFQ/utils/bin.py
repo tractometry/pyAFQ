@@ -253,9 +253,12 @@ def parse_config_run_afq(
             kwargs[section_name][arg] = val
         else:
             kwargs[arg] = val
-        if arg not in default_arg_dict:
-            default_arg_dict[arg] = {}
-        default_arg_dict[arg]["default"] = default
+        for section, args in default_arg_dict.items():
+            if section == "AFQ_desc" or not isinstance(args, dict):
+                continue
+            if arg in args and isinstance(args[arg], dict):
+                args[arg]["default"] = default
+                break
 
     if logger is not None and (verbose or dry_run):
         logger.info("The following arguments are recognized: " + str(kwargs))

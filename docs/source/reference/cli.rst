@@ -46,7 +46,7 @@ Options
                         will be used to find it.
 --bvec BVEC             Path to bvec file. If none, the DWI data file path
                         will be used to find it.
--v, --verbose           Verbose when reading the TOML file.
+-v, --verbose           Verbose logging.
 -d, --dry-run           Perform a dry run — print the recognized arguments
                         without running pyAFQ.
 -c TO_CALL, --call TO_CALL

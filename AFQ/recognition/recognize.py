@@ -112,7 +112,8 @@ def recognize(
         Default: 4
     save_intermediates : str, optional
         The full path to a folder into which intermediate products
-        are saved. Default: None, means no saving of intermediates.
+        are saved. If None, means no saving of intermediates.
+        Default: None.
     cleaning_params : dict, optional
         Cleaning params to pass to seg.clean_bundle. This will
         override the default parameters of that method. However, this
