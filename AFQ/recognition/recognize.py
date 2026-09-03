@@ -29,7 +29,7 @@ def recognize(
     rb_recognize_params=None,
     refine_reco=False,
     prob_threshold=0,
-    dist_to_waypoint=None,
+    dist_to_waypoint=0,
     rng=None,
     return_idx=False,
     filter_by_endpoints=True,
@@ -86,8 +86,6 @@ def recognize(
     dist_to_waypoint : float.
         The distance that a streamline node has to be from the waypoint
         ROI in order to be included or excluded.
-        If set to None (default), will be calculated as the
-        center-to-corner distance of the voxel in the diffusion data.
         If a bundle has inc_addtol or exc_addtol in its bundle_dict, that
         tolerance will be added to this distance.
         For example, if you wanted to increase tolerance for the right
@@ -95,7 +93,7 @@ def recognize(
         modification to your bundle_dict:
         bundle_dict["Right Arcuate"]["inc_addtol"] = [3, 3]
         Additional tolerances can also be negative.
-        Default: None.
+        Default: 0.
     rng : RandomState or int
         If None, creates RandomState.
         If int, creates RandomState with seed rng.

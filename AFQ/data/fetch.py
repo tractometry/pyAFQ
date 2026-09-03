@@ -55,6 +55,7 @@ __all__ = [
     "fetch_brainchop_models",
     "fetch_multiaxial_models",
     "fetch_synthseg_models",
+    "fetch_babyseg_models",
     "fetch_templates",
     "read_templates",
     "fetch_stanford_hardi_tractography",
@@ -261,6 +262,24 @@ fetch_synthseg_models = _make_reusable_fetcher(
     synthseg_fnames,
     md5_list=synthseg_md5_hashes,
     doc="Download ONNX SynthSeg models",
+)
+
+babyseg_remote_fnames = ["67035599"]
+
+babyseg_fnames = ["babyseg.onnx"]
+
+babyseg_md5_hashes = [
+    "5f64b439dcfff36045448e0cc562f6e7",
+]
+
+fetch_babyseg_models = _make_reusable_fetcher(
+    "fetch_babyseg_models",
+    op.join(afq_home, "babyseg_onnx"),
+    baseurl,
+    babyseg_remote_fnames,
+    babyseg_fnames,
+    md5_list=babyseg_md5_hashes,
+    doc="Download ONNX BabySeg models",
 )
 
 multiaxial_fnames = [

@@ -23,12 +23,22 @@ def crop_to_nonzero(img):
     return nib.Nifti1Image(cropped_data, new_affine)
 
 
-def prepare_t1_for_nn(t1_img, orientation="RAS"):
+def prepare_t1_for_nn(t1_img, orientation="RAS", out_shape_dynamic=False):
     t1_img_cropped = crop_to_nonzero(t1_img)
 
+    if out_shape_dynamic:
+        divisor = 64
+        min_shape = 128
+        max_shape = 320
+        s = np.array(t1_img_cropped.shape[:3])
+        out_shape = tuple(
+            np.clip(np.ceil(s / divisor).astype(int) * divisor, min_shape, max_shape)
+        )
+    else:
+        out_shape = (256, 256, 256)
     t1_img_conformed = nbp.conform(
         t1_img_cropped,
-        out_shape=(256, 256, 256),
+        out_shape=out_shape,
         voxel_size=(1.0, 1.0, 1.0),
         orientation=orientation,
         order=1,

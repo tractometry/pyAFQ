@@ -6,6 +6,7 @@ import numpy as np
 from numba import get_num_threads
 
 from AFQ.definitions.utils import Definition
+from AFQ.nn.babyseg import run_babyseg
 from AFQ.nn.brainchop import run_brainchop
 from AFQ.nn.multiaxial import run_multiaxial
 from AFQ.nn.synthseg import run_synthseg
@@ -87,6 +88,32 @@ def onnx_kwargs(
     onnx_kwargs = {"providers": [onnx_execution_provider], "sess_options": options}
 
     return {"onnx_kwargs": onnx_kwargs}
+
+
+@immlib.calc("babyseg_model")
+@as_file(suffix="_model-babyseg_probseg.nii.gz", subfolder="nn")
+def babyseg_model(t1_file, citations, onnx_kwargs):
+    """
+    full path to the babyseg model segmentations
+
+    References
+    ----------
+    [1] Hoffmann M, Zöllei L, Dalca AV. "Deep infant brain segmentation from
+        multi-contrast MRI." Asilomar Conference on Signals, Systems, and
+        Computers, 2025, pp. 974-981. https://arxiv.org/abs/2512.05114
+    [2] Hoffmann M. "Domain-randomized deep learning for neuroimage analysis."
+        IEEE Signal Processing Magazine, 42(4):78-90, 2025.
+        https://arxiv.org/abs/2507.13458
+    """
+    citations.add("hoffmann2025deep")
+    citations.add("hoffmann2025domain")
+    ort = check_onnxruntime(
+        "BabySeg",
+        "Or, provide your own segmentations using PVEImage or PVEImages.",
+    )
+    t1_img = nib.load(t1_file)
+    predictions = run_babyseg(ort, t1_img, onnx_kwargs)
+    return predictions, dict(T1w=t1_file)
 
 
 @immlib.calc("synthseg_model")
@@ -250,6 +277,7 @@ def get_structural_plan(kwargs):
         [
             mx_model,
             synthseg_model,
+            babyseg_model,
             t1w_brain_mask,
             t1_subcortex,
             t1_masked,

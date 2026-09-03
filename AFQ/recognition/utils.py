@@ -2,7 +2,6 @@ import copy
 import os.path as op
 from time import time
 
-import dipy.tracking.streamline as dts
 import dipy.tracking.streamlinespeed as dps
 import numpy as np
 from dipy.io.stateful_tractogram import Space, StatefulTractogram
@@ -40,13 +39,7 @@ def tolerance_mm_to_vox(img, dist_to_waypoint, input_dist_to_atlas):
     R = img.affine[0:3, 0:3]
     vox_dim = np.mean(np.diag(np.linalg.cholesky(R.T.dot(R))))
 
-    # Tolerance is set to the square of the distance to the corner
-    # because we are using the squared Euclidean distance in calls to
-    # `cdist` to make those calls faster.
-    if dist_to_waypoint is None:
-        tol = dts.dist_to_corner(img.affine)
-    else:
-        tol = dist_to_waypoint / vox_dim
+    tol = dist_to_waypoint / vox_dim
     dist_to_atlas = int(input_dist_to_atlas / vox_dim)
     return tol, dist_to_atlas, vox_dim
 

@@ -62,7 +62,9 @@ bundles = {
 
 
 def test_segment():
-    fiber_groups, _ = recognize(tg, hardi_img, mapping, bundles, reg_template)
+    fiber_groups, _ = recognize(
+        tg, hardi_img, mapping, bundles, reg_template, dist_to_waypoint=2
+    )
 
     # We asked for 2 fiber groups:
     npt.assert_equal(len(fiber_groups), 2)
@@ -109,13 +111,25 @@ def test_segment_mixed_roi():
         mapping,
         bundle_info,
         reg_template,
-        dist_to_atlas=10,
+        dist_to_atlas=12,
     )
 
-    # We asked for 2 fiber groups:
     npt.assert_equal(len(fiber_groups), 1)
     OR_LV1_sl = fiber_groups["OR LV1"]
     npt.assert_(len(OR_LV1_sl) == 6)
+
+    fiber_groups, _ = recognize(
+        tg,
+        hardi_img,
+        mapping,
+        bundle_info,
+        reg_template,
+        dist_to_atlas=10,
+    )
+
+    npt.assert_equal(len(fiber_groups), 1)
+    OR_LV1_sl = fiber_groups["OR LV1"]
+    npt.assert_(len(OR_LV1_sl) == 2)
 
 
 @pytest.mark.nightly
@@ -142,7 +156,13 @@ def test_segment_no_prob():
 def test_segment_return_idx():
     # Test with the return_idx kwarg set to True:
     fiber_groups, _ = recognize(
-        tg, hardi_img, mapping, bundles, reg_template, return_idx=True
+        tg,
+        hardi_img,
+        mapping,
+        bundles,
+        reg_template,
+        return_idx=True,
+        dist_to_waypoint=2,
     )
 
     npt.assert_equal(len(fiber_groups), 2)
@@ -225,7 +245,9 @@ def test_exclusion_ROI():
 
 
 def test_segment_sampled_streamlines():
-    fiber_groups, _ = recognize(tg, hardi_img, mapping, bundles, reg_template)
+    fiber_groups, _ = recognize(
+        tg, hardi_img, mapping, bundles, reg_template, dist_to_waypoint=2
+    )
 
     # Already using a subsampled tck
     # the Right Corticospinal has two streamlines and
@@ -244,6 +266,7 @@ def test_segment_sampled_streamlines():
         reg_template,
         nb_streamlines=nb_streamlines,
         rng=2026,
+        dist_to_waypoint=2,
     )
 
     # sampled streamlines should be subset of the original streamlines

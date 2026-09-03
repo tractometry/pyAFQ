@@ -22,6 +22,7 @@ from AFQ.models.asym_filtering import (
 from AFQ.models.msmt import MultiShellDeconvModel
 from AFQ.models.QBallTP import anisotropic_power
 from AFQ.models.wmgm_interface import fit_wm_gm_interface
+from AFQ.nn.babyseg import pve_from_babyseg
 from AFQ.nn.brainchop import pve_from_subcortex
 from AFQ.nn.multiaxial import extract_pve
 from AFQ.nn.synthseg import pve_from_synthseg
@@ -61,14 +62,33 @@ def pve_internal(structural_imap, pve="synthseg"):
         or a Definition object to import the PVE.
         Importing a PVE from software like Freesurfer or FSL FAST is
         recommended if they are available.
-        The built-in methods are "synthseg" or "multiaxial+brainchop".
+        The built-in methods are "synthseg", "multiaxial+brainchop",
+        "multiaxial+brainchop+synthseg", and "babyseg".
         "synthseg" uses SynthSeg2 [1] to get the PVE.
         "multiaxial+brainchop" uses MultiAxial [2] and BrainChop [3]
         segmentations to get the PVE. Note this requires downloading
         the pre-trained multi-axial model which is licensed with
         Creative Commons Attribution-NonCommercial-ShareAlike 4.0
-        International.
+        International. "multiaxial+brainchop+synthseg" combines all
+        three. Finally, "babyseg" uses BabySeg [4] to get the PVE
+        for baby brain data.
         Default: "synthseg"
+    References
+    ----------
+    [1] Billot, Benjamin, et al. "Robust machine learning segmentation
+        for large-scale analysis of heterogeneous clinical brain MRI
+        datasets." Proceedings of the National Academy of Sciences 120.9
+        (2023): e2216399120.
+    [2] Birnbaum, Andrew M., et al. "Full-head segmentation of MRI
+        with abnormal brain anatomy: model and data release." Journal of
+        Medical Imaging 12.5 (2025): 054001-054001.
+    [3] Masoud, M., Hu, F., & Plis, S. (2023). Brainchop: In-browser MRI
+        volumetric segmentation and rendering. Journal of Open Source
+        Software, 8(83), 5098.
+        https://doi.org/10.21105/joss.05098
+    [4] Hoffmann M, Zöllei L, Dalca AV. "Deep infant brain segmentation from
+        multi-contrast MRI." Asilomar Conference on Signals, Systems, and
+        Computers, 2025, pp. 974-981. https://arxiv.org/abs/2512.05114
     """
     if isinstance(pve, str):
         if pve == "synthseg":
@@ -120,6 +140,14 @@ def pve_internal(structural_imap, pve="synthseg"):
                 meta["SynthsegParcellation"] = structural_imap["synthseg_model"]
 
             return nib.Nifti1Image(PVE, t1_subcortex_img.affine), meta
+        elif pve == "babyseg":
+            babyseg_seg = nib.load(structural_imap["babyseg_model"])
+            PVE = pve_from_babyseg(babyseg_seg.get_fdata())
+
+            return nib.Nifti1Image(PVE, babyseg_seg.affine), dict(
+                BabySegParcellation=structural_imap["babyseg_model"],
+                labels=["csf", "gm", "wm"],
+            )
 
     raise ValueError(
         "pve must be a PVEImage, PVEImages, 'synthseg', or 'multiaxial+brainchop'"

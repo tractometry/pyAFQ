@@ -36,9 +36,10 @@ import plotly
 import wget
 import zipfile
 
-from AFQ.api.group import GroupAFQ
+from AFQ.api.participant import ParticipantAFQ
 import AFQ.api.bundle_dict as abd
 import AFQ.data.fetch as afd
+from AFQ.definitions.image import BabyBrainMask
 ```
 
 ## Baby dMRI data
@@ -93,28 +94,34 @@ up below.
 
 A few special things to note here:
 
-1. The data were preprocessed using the `vistasoft` pipeline, so we set
-   `dwi_preproc_pipeline = "vistasoft"`.
+1. We can pass in the T2w file into the `t1_file` argument. The babyAFQ
+   pipeline needs at least one structural MRI, but it can be T2w or T1w.
 2. We use the UNC neonatal template, which can be read on a call to the
    `read_pediatric_templates` function in `AFQ.data.fetch`.
 3. We use the `baby_bd` to define the bundles that we want to
    segment. This dictionary is different from the default behavior in that it
    uses the waypoint ROIs from [^Grotheer2021].
-4. In this case, tractography has already been run using
-   [MRTRIX](https://www.mrtrix.org/), and is accessed using the
-   `import_tract` key-word argument.
+4. We set `pve` and `brain_mask_definition` to use BabySeg [^Hoffmann2025].
+5. We (optionally) set the ODF model to be CSD instead of the default
+   asymmetrically filtered CSD.
 
 ```{code-cell} ipython3
-myafq = GroupAFQ(
-    bids_path=op.join(op.expanduser('~'),
-                      "AFQ_data/baby_example/example_bids_subject"),
-    dwi_preproc_pipeline="vistasoft",
-    reg_template_spec=afd.read_pediatric_templates(
-    )["UNCNeo-withCerebellum-for-babyAFQ"],
-    reg_subject_spec="b0",
+subject_path = op.join(op.expanduser('~'),
+                       "AFQ_data/baby_example/example_bids_subject")
+dwi_prefix = subject_path + "/derivatives/vistasoft/sub-01/ses-01/dwi/sub-01_ses-01_dwi"
+
+myafq = ParticipantAFQ(
+    dwi_data_file=dwi_prefix + ".nii.gz",
+    bval_file=dwi_prefix + ".bval",
+    bvec_file=dwi_prefix + ".bvec",
+    t1_file=op.join(
+      subject_path, "derivatives/mrtrix/sub-01/ses-01/anat/sub-01_ses-01_desc-t2BiascorrAcpc_dwi.nii.gz"),
+    output_dir=op.join(subject_path, "derivatives/afq"),
+    reg_template_spec=afd.read_pediatric_templates()["UNCNeo-withCerebellum-for-babyAFQ"],
     bundle_info=abd.baby_bd(),
-    import_tract={
-        "suffix": "tractography", "scope": "mrtrix"},
+    pve="babyseg",
+    brain_mask_definition=BabyBrainMask(),
+    tracking_params=dict(odf_model="csd"),
 )
 ```
 
@@ -166,6 +173,11 @@ building your GroupAFQ object (e.g. `GroupAFQ(..., sbv_lims_bundles=[0, 0.5])`).
     Kalanit Grill-Spector, and Ariel Rokem. "Human white matter
     myelinates faster in utero than ex utero." Proceedings
     of the National Academy of Sciences 120: e2303491120.
+
+[^Hoffmann2025]: Hoffmann, Malte, Lilla Zöllei, and Adrian V. Dalca.
+    "Deep infant brain segmentation from multi-contrast MRI."
+    Asilomar Conference on Signals, Systems, and Computers,
+    pp. 974–981. IEEE, 2025.
 
 :::{only} html
 {download}`Download as Jupyter Notebook <baby_afq.ipynb>`

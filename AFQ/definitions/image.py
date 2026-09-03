@@ -12,6 +12,7 @@ from AFQ.tasks.utils import get_tp
 __all__ = [
     "ImageFile",
     "FullImage",
+    "BabyBrainMask",
     "RoiImage",
     "LabelledImageFile",
     "ThresholdedImageFile",
@@ -310,6 +311,28 @@ class FullImage(ImageDefinition):
                 return _image_getter_helper(data_imap["dwi"])
 
         return image_getter
+
+
+class BabyBrainMask(ImageDefinition):
+    def __init__(self):
+        pass
+
+    def get_name(self):
+        return "babyseg_brain_mask"
+
+    def get_image_getter(self, task_name):
+        def _image_getter_helper(babyseg_model):
+            predictions = nib.load(babyseg_model)
+            brain_mask = (predictions.get_fdata() > 0).astype(np.uint8)
+            brain_mask_img = nib.Nifti1Image(brain_mask, predictions.affine)
+            return brain_mask_img, dict(BabySegPredictions=babyseg_model)
+
+        if task_name == "structural":
+            return _image_getter_helper
+        else:
+            raise ValueError(
+                "BabyBrainMask can only be used in the structural context."
+            )
 
 
 class RoiImage(ImageDefinition):
