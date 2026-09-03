@@ -369,7 +369,6 @@ def plot_tract_profiles(base_fname, output_dir, scalars, segmentation_imap):
                 segmentation_imap["profiles"],
                 scalar=this_scalar,
                 file_name=fname,
-                n_boot=100,
             )
             fnames.append(fname)
 

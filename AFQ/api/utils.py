@@ -7,7 +7,6 @@ from dipy.io.stateful_tractogram import set_sft_logger_level
 from pcollections._lazy import LazyError
 
 from AFQ.utils.docstring_parser import parse_numpy_docstring
-from AFQ.viz.utils import viz_import_msg_error
 
 __all__ = ["methods_descriptors", "kwargs_descriptors", "AFQclass_doc"]
 
@@ -176,14 +175,7 @@ def export_all_helper(api_afq_object, xforms, indiv, viz):
     api_afq_object.export("profiles")
 
     if viz:
-        try:
-            import IPython  # noqa F401
-            import pingouin  # noqa F401
-            import seaborn  # noqa F401
-        except (ImportError, ModuleNotFoundError):
-            api_afq_object.logger.warning(viz_import_msg_error("plot"))
-        else:
-            api_afq_object.export("tract_profile_plots")
+        api_afq_object.export("tract_profile_plots")
         api_afq_object.export("all_bundles_figure")
         api_afq_object.export("indiv_bundles_figures")
 
