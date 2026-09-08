@@ -7,8 +7,6 @@ import immlib
 import nibabel as nib
 import numpy as np
 import pandas as pd
-from bibtexparser.bibdatabase import BibDatabase
-from bibtexparser.bwriter import BibTexWriter
 from dipy.align import resample
 from plotly.subplots import make_subplots
 
@@ -406,26 +404,16 @@ def citations(base_fname, citations):
     refbib_path = op.join(op.dirname(AFQ.__file__), "_references.bib")
     bib_fname = get_fname(base_fname, "_citations.bib")
 
-    with open(refbib_path, "r") as f:
-        master_db = bibtexparser.load(f)
-
-    master_map = {e["ID"]: e for e in master_db.entries}
-    if op.exists(bib_fname):
-        with open(bib_fname, "r") as f:
-            current_db = bibtexparser.load(f)
-    else:
-        current_db = BibDatabase()
-
-    existing_ids = {e["ID"] for e in current_db.entries}
-
+    master = bibtexparser.parse_file(refbib_path).entries_dict
+    entries = (
+        bibtexparser.parse_file(bib_fname).entries_dict if op.exists(bib_fname) else {}
+    )
     for cid in citations:
-        if cid not in existing_ids:
-            current_db.entries.append(master_map[cid])
+        entries.setdefault(cid, master[cid])
 
-    writer = BibTexWriter()
-    current_db.entries.sort(key=lambda x: x["ID"])
-    with open(bib_fname, "w") as f:
-        f.write(writer.write(current_db))
+    bibtexparser.write_file(
+        bib_fname, bibtexparser.Library([entries[cid] for cid in sorted(entries)])
+    )
 
     return bib_fname
 
