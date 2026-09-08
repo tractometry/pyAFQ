@@ -10,6 +10,10 @@ pyAFQ with fslpy. This image also contains an entrypoint, and can be
 run with::
     docker run -v bids_dir:/bids_dir:rw ghcr.io/nrdg/pyafq path/to/dwi path/to/t1 path/to/output_folder
 
-This is using the CLI which you can
+or, for a whole BIDS dataset, with the BIDS App style entrypoint::
+
+    docker run -v bids_dir:/bids_dir:rw --entrypoint pyAFQ-bids ghcr.io/nrdg/pyafq /bids_dir participant --dwi-preproc-pipeline qsiprep
+
+These use the CLIs which you can
 read about in `The pyAFQ CLI <../reference/cli.html>`_.
 You can also launch python inside the container and use the normal pyAFQ.
