@@ -81,7 +81,7 @@ def track(
         Default: None
     seed_threshold : float, optional.
         A value of the seed_mask above which tracking is seeded.
-        Default: 0
+        Default: 0.5
     gm_threshold : float, optional.
         A value of the pve_gm_data above which we consider a voxel to be GM
         for the purposes of ACT stopping criterion. Default: 0.4.
@@ -109,7 +109,7 @@ def track(
     minlen: int, optional
         The minimal length (mm) in a streamline. Default: 20
     maxlen: int, optional
-        The maximum length (mm) in a streamline. Default: 250
+        The maximum length (mm) in a streamline. Default: 500
     odf_model : str or Definition, optional
         Can be either a string or Definition. If a string, it must be one of
         {"DTI", "CSD", "DKI", "GQ", "RUMBA", "MSMT_AODF", "CSD_AODF", "MSMTCSD"}.

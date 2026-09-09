@@ -73,7 +73,7 @@ def recognize(
         Default: False
     rb_recognize_params : dict
         RecoBundles parameters for the recognize function.
-        Default: dict(model_clust_thr=1.25, reduction_thr=25, pruning_thr=12)
+        Default: None
     refine_reco : bool
         Whether to refine the RecoBundles segmentation.
         Default: False
@@ -118,13 +118,14 @@ def recognize(
         Cleaning params to pass to seg.clean_bundle. This will
         override the default parameters of that method. However, this
         can be overridden by setting the cleaning parameters in the
-        bundle_dict. Default: {}.
+        bundle_dict.
+        Default: None.
     chunk_size : int, optional
         Number of streamlines to preprocess at a time. The full
         tractogram is processed in chunks of this size to keep peak
         memory bounded. Per-chunk surviving candidates are merged
         before the global per-bundle filtering steps run.
-        Default: 1e6.
+        Default: int(1e6).
 
     References
     ----------
