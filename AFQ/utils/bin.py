@@ -29,7 +29,7 @@ def pyafq_str_to_val(t):
     if not t:
         return None
 
-    # Strings that construct pyAFQ objects still need real eval.
+    # Strings that construct pyAFQ objects need eval
     if any(k in t for k in ("Image", "Map", "Dict", "_bd(")):
         try:
             val = eval(t)

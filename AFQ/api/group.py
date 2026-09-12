@@ -1455,7 +1455,7 @@ def combine_list_of_profiles(profile_fnames):
         profiles = pd.read_csv(fname)
         profiles["subjectID"] = fname.split("sub-")[1].split("/")[0].split("_")[0]
         if "ses-" in fname:
-            session_name = fname.split("ses-")[1].split("/")[0]
+            session_name = fname.split("ses-")[1].split("/")[0].split("_")[0]
         else:
             session_name = "unknown"
         profiles["sessionID"] = session_name
