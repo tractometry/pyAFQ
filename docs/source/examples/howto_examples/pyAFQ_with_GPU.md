@@ -45,10 +45,8 @@ afd.organize_stanford_data()
 ## Set tractography parameters
 We make create a `tracking_params` variable to define the parameters for tractography.
 The only parameter we need to set to use the GPU is `track_backend`,
-which we set to "cuda". Other backends include: "metal", "webgpu", or "numba".
-Numba is the default.
-Note that the GPU backend will only run for probabilistic tracking,
-which is the default.
+which we set to "cuda". Other backends include: "auto", "metal", or "webgpu".
+The CPU backend is "cpu" and is the default.
 
 ```{code-cell} ipython3
 tracking_params = dict(n_seeds=1e7,
