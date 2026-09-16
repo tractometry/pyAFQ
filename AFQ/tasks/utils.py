@@ -64,7 +64,7 @@ def check_onnxruntime(model_name, alternative_text):
             f"`pip install onnxruntime-gpu` if you have a compatible GPU or "
             f"`pip install pyAFQ[nn]` or "
             "`pip install pyAFQ[gpu]` if you have a compatible GPU "
-            "and want GPUStreamlines. "
+            "and want GPU accelerated tractography. "
             f"{alternative_text}\n"
             "If there are still issues, post an issue on "
             "https://github.com/tractometry/pyAFQ/issues"
