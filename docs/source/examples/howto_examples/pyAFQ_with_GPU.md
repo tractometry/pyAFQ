@@ -17,13 +17,13 @@ mystnb:
 
 # Running pyAFQ using the GPU for tractography
 Running pyAFQ using the GPU for tractography is as simple as
-(1) Installing GPUStreamlines using `pip install` and
-(2) passing in the `jit_backend` parameter when you create your
+(1) Installing CUDA libraries using `pip install` and
+(2) passing in the `track_backend` parameter when you create your
     GroupAFQ object.
-To install GPUStreamlines, do:
-    `pip install git+https://github.com/dipy/GPUStreamlines.git`
+To install, do:
+    `pip install dipy[cu13]`
 That's step 1 complete! The rest of this example is the same as the GroupAFQ
-example except with the `jit_backend` parameter set.
+example except with the `track_backend` parameter set.
 
 ```{code-cell} ipython3
 from AFQ.api.group import GroupAFQ
@@ -44,7 +44,7 @@ afd.organize_stanford_data()
 
 ## Set tractography parameters
 We make create a `tracking_params` variable to define the parameters for tractography.
-The only parameter we need to set to use the GPU is `jit_backend`,
+The only parameter we need to set to use the GPU is `track_backend`,
 which we set to "cuda". Other backends include: "metal", "webgpu", or "numba".
 Numba is the default.
 Note that the GPU backend will only run for probabilistic tracking,
@@ -54,7 +54,7 @@ which is the default.
 tracking_params = dict(n_seeds=1e7,
                        random_seeds=True,
                        rng_seed=2025,
-                       jit_backend="cuda",
+                       track_backend="cuda",
                        trx=True)
 ```
 
