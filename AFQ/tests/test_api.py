@@ -14,7 +14,6 @@ import numpy as np
 import numpy.testing as npt
 import pandas as pd
 import pytest
-import toml
 from dipy.io.streamline import load_tractogram
 from dipy.segment.metric import mdf
 from pandas.testing import assert_series_equal
@@ -991,41 +990,29 @@ def test_AFQ_data_waypoint():
         "inclusive_labels=[1, 2]))"
     )
     bm_def_as_str = (
-        "LabelledImageFile(suffix='seg', "
-        "filters={'scope': 'freesurfer'}, "
+        'LabelledImageFile(suffix="seg", '
+        'filters={"scope": "freesurfer"}, '
         "exclusive_labels=[0])"
     )
-    config = dict(
-        BIDS_PARAMS=dict(
-            bids_path=bids_path,
-            dwi_preproc_pipeline="vistasoft",
-            t1_preproc_pipeline="freesurfer",
-        ),
-        STRUCTURAL=dict(
-            brain_mask_definition=bm_def_as_str,
-        ),
-        DATA=dict(bundle_info=bundle_dict_as_str),
-        TISSUE=dict(pve=pve_as_str),
-        SEGMENTATION=dict(
-            n_points_profile=50,
-            scalars=[
-                "dti_fa",
-                "dti_md",
-                "dti_ga",
-                "t1w_over_b0",
-                f"ImageFile('{t1_path_other}')",
-                f"TemplateImage('{t1_path}')",
-            ],
-        ),
-        TRACTOGRAPHY_PARAMS=tracking_params,
-        SEGMENTATION_PARAMS=segmentation_params,
+
+    cmd = (
+        f"pyAFQ -v {op.join(vista_folder, 'sub-01_ses-01_dwi.nii.gz')}"
+        f" {op.join(freesurfer_folder, 'sub-01_ses-01_T1w.nii.gz')}"
+        f" {afq_folder}"
+        f" --brain_mask_definition='{bm_def_as_str}'"
+        f" --bundle_info='{bundle_dict_as_str}'"
+        f" --pve='{pve_as_str}'"
+        f" --n_points_profile=50"
+        f' --scalars=\'["dti_fa", "dti_md", "dti_ga", "t1w_over_b0", '
+        f'ImageFile("{t1_path_other}"), TemplateImage("{t1_path}")]\''
+        f" --odf_model=csd"
+        f" --n_seeds=2000"
+        f" --directions=prob"
+        f" --random_seeds=True"
+        f" --rng_seed=42"
+        f" --return_idx=True"
     )
 
-    config_file = op.join(tmpdir, "afq_config.toml")
-    with open(config_file, "w") as ff:
-        toml.dump(config, ff)
-
-    cmd = f"pyAFQ -v {config_file}"
     completed_process = subprocess.run(cmd, shell=True, capture_output=True)
     if completed_process.returncode != 0:
         print(completed_process.stdout)

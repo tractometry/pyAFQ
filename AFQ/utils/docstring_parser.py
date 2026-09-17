@@ -102,16 +102,20 @@ def parse_numpy_docstring(docstring):
         default = None
         default_match = re.search(r"[Dd]efault:\s*([^\n]+)", desc)
         if default_match:
+            kwarg = True
             default = default_match.group(1).strip(" .")
             try:
                 default = eval(default)
             except Exception:
                 default = _white_space(default)
+        else:
+            kwarg = False
 
-        params[name] = {
-            "help": _white_space(desc),
-            "metavar": _white_space(type_info),
-            "default": default,
-        }
+        if kwarg:
+            params[name] = {
+                "help": _white_space(desc),
+                "metavar": _white_space(type_info),
+                "default": default,
+            }
 
     return {"description": _white_space(description), "arguments": params}

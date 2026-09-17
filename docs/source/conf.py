@@ -56,7 +56,6 @@ extensions = [
     'sphinxcontrib.bibtex',
     'autoapi.extension',
     'numpydoc',
-    'updatedocs',
     'kwargsdocs',
     'methodsdocs',
 ]

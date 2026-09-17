@@ -9,7 +9,7 @@ our Mask API.
 In the :mod:`AFQ.definitions.mapping` module, there are four mapping classes one
 can use to specify the mapping. As a user, one should initialize mapping classes
 and pass them to the AFQ.api objects, or write out the initialization as a
-string inside of one's configuration file for use with the CLI.
+string inside to pass into the CLI.
 
 -  :class:`AFQ.definitions.mapping.SynMap`: The default mapping class is to use
    Symmetric Diffeomorphic Image Registration (SyN). This is done with an

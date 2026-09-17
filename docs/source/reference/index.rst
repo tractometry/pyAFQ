@@ -13,4 +13,4 @@
    kwargs
    viz_backend
    mapping
-   config
+   cli

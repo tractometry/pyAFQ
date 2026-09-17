@@ -15,7 +15,7 @@ from AFQ.tests.test_api import create_dummy_bids_path
 
 def test_str_instantiates_mixin():
     thresh_image = ThresholdedScalarImage("dti_fa", lower_bound=0.2)
-    thresh_image_str = thresh_image.str_for_toml()
+    thresh_image_str = thresh_image.str_formal()
     thresh_image_from_str = eval(thresh_image_str)
 
     npt.assert_(thresh_image.combine == thresh_image_from_str.combine)

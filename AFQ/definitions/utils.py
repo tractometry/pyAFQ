@@ -27,9 +27,9 @@ class Definition(object):
     def find_path(self, bids_layout, from_path, subject, session, required=True):
         pass
 
-    def str_for_toml(self):
+    def str_formal(self):
         """
-        Uses __init__ in str_for_toml to make string that will instantiate
+        Uses __init__ in str_formal to make string that will instantiate
         itself. Assumes object will have attributes of same name as
         __init__ args. This is important for reading/writing definitions
         as arguments to config files.
@@ -56,7 +56,7 @@ def _arglist_to_string(args, get_attr=None):
         if get_attr is not None:
             arg = getattr(get_attr, arg)
         if isinstance(arg, Definition):
-            arg = arg.str_for_toml()
+            arg = arg.str_formal()
         elif isinstance(arg, str):
             arg = f'"{arg}"'
         elif isinstance(arg, list):

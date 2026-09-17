@@ -134,6 +134,9 @@ def check_attribute(attr_name):
     if attr_name[:-5] in task_modules:
         return None
 
+    if attr_name in ["tracking_params", "segmentation_params"]:
+        return "segmentation_imap"
+
     if attr_name in methods_sections:
         return f"{methods_sections[attr_name]}_imap"
 

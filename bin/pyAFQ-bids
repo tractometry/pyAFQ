@@ -1,0 +1,225 @@
+#!/usr/bin/env python
+
+import warnings
+from argparse import ArgumentParser
+
+with warnings.catch_warnings():
+    warnings.simplefilter("ignore")
+
+    print("Loading AFQ libraries...")
+
+    import logging
+
+    import AFQ.utils.bin as afb
+
+    logging.basicConfig(level=logging.INFO)
+    logger = logging.getLogger("AFQ")
+    logger.setLevel(level=logging.INFO)
+
+usage = """
+pyAFQ-bids [OPTIONS] bids_dir {participant,group}
+
+BIDS-App style interface to pyAFQ. Inputs are discovered with pyBIDS from
+the preprocessed derivatives in bids_dir (e.g. a qsiprep output), so no
+paths to individual files need to be given.
+
+Analysis levels:
+
+    participant   Run the tractometry pipeline for each subject (and
+                  session) found, or only those given by
+                  --participant-label / --session-id.
+
+    group         Combine tract profiles computed at the
+                  participant level into a single tract_profiles.csv
+
+For a single subject with explicit file paths, use the ``pyAFQ`` command
+instead.
+"""
+
+
+def parse_cli(arg_dict):
+    cli_parser = ArgumentParser(usage=usage)
+
+    cli_parser.add_argument(
+        dest="bids_dir",
+        action="store",
+        help=(
+            "Root of the BIDS dataset. Must contain a dataset_description.json "
+            "and a derivatives folder with preprocessed DWI data."
+        ),
+    )
+
+    cli_parser.add_argument(
+        dest="analysis_level",
+        action="store",
+        choices=["participant", "group"],
+        help="Level of the analysis to perform.",
+    )
+
+    cli_parser.add_argument(
+        "--participant-label",
+        "--participant_label",
+        dest="participant_label",
+        action="store",
+        nargs="+",
+        default=None,
+        help=(
+            "Space separated list of participant labels to process "
+            "(with or without the 'sub-' prefix). Default: all participants."
+        ),
+    )
+
+    cli_parser.add_argument(
+        "--session-id",
+        "--session_id",
+        dest="session_id",
+        action="store",
+        nargs="+",
+        default=None,
+        help=(
+            "Space separated list of session IDs to process "
+            "(with or without the 'ses-' prefix). Default: all sessions."
+        ),
+    )
+
+    cli_parser.add_argument(
+        "--dwi-preproc-pipeline",
+        "--dwi_preproc_pipeline",
+        dest="dwi_preproc_pipeline",
+        action="store",
+        default="all",
+        help=(
+            "Name of the derivatives pipeline containing the preprocessed DWI "
+            "data, e.g. 'qsiprep'. Default: 'all'."
+        ),
+    )
+
+    cli_parser.add_argument(
+        "--t1-preproc-pipeline",
+        "--t1_preproc_pipeline",
+        dest="t1_preproc_pipeline",
+        action="store",
+        default=None,
+        help=(
+            "Name of the derivatives pipeline containing the preprocessed T1w "
+            "data. Default: same as --dwi-preproc-pipeline."
+        ),
+    )
+
+    cli_parser.add_argument(
+        "--bids-filter-file",
+        "--bids_filter_file",
+        dest="bids_filter_file",
+        action="store",
+        default=None,
+        help=(
+            "Path to a JSON file of pyBIDS entity filters used to select the "
+            'DWI files (e.g. {"acquisition": "64dir", "space": "T1w"}). '
+            'A qsiprep/fmriprep style file with a top-level "dwi" key is '
+            "also accepted."
+        ),
+    )
+
+    cli_parser.add_argument(
+        "--nprocs",
+        "--n-cpus",
+        dest="nprocs",
+        action="store",
+        type=int,
+        default=1,
+        help=(
+            "Number of subject/sessions to process in parallel. "
+            "Use -1 for all available CPUs. Default: 1."
+        ),
+    )
+
+    cli_parser.add_argument(
+        "--parallel-engine",
+        dest="parallel_engine",
+        action="store",
+        default="serial",
+        help=(
+            "Parallelization engine passed to dipy's paramap "
+            "(e.g. 'serial', 'joblib', 'ray', 'dask'). If --nprocs is not 1 "
+            "and this is left as 'serial', 'joblib' is used. Default: 'serial'."
+        ),
+    )
+
+    cli_parser.add_argument(
+        "--skip-bids-validation",
+        dest="skip_bids_validation",
+        action="store_true",
+        default=False,
+        help=(
+            "Do not validate the dataset or index metadata with pyBIDS. "
+            "Speeds up indexing of large datasets."
+        ),
+    )
+
+    cli_parser.add_argument(
+        "-v",
+        "--verbose",
+        dest="verbose",
+        action="store_true",
+        default=False,
+        help="Verbose logging.",
+    )
+
+    cli_parser.add_argument(
+        "-d",
+        "--dry-run",
+        dest="dry_run",
+        action="store_true",
+        default=False,
+        help="Perform a dry run - prints recognized"
+        + " arguments without running pyAFQ",
+    )
+
+    cli_parser.add_argument(
+        "-c",
+        "--call",
+        dest="to_call",
+        action="store",
+        default="all",
+        help="AFQ.api attribute to export at the participant level."
+        + " Defaults to 'all', which will perform the entire"
+        + " tractometry pipeline. Ignored at the group level.",
+    )
+
+    for key_, args in arg_dict.items():
+        if key_ == "AFQ_desc" or key_ == "BIDS_PARAMS":
+            continue
+        for arg, arg_info in args.items():
+            cli_parser.add_argument(
+                f"--{arg}",
+                dest=arg,
+                action="store",
+                default=arg_info["default"],
+                help=arg_info["desc"],
+            )
+
+    return cli_parser.parse_args()
+
+
+if __name__ == "__main__":
+    arg_dict = afb.func_dict_to_arg_dict(logger=logger)
+    args = parse_cli(arg_dict)
+
+    afb.run_bids_afq(
+        args.bids_dir,
+        args.analysis_level,
+        arg_dict,
+        args,
+        participant_label=args.participant_label,
+        session_id=args.session_id,
+        dwi_preproc_pipeline=args.dwi_preproc_pipeline,
+        t1_preproc_pipeline=args.t1_preproc_pipeline,
+        bids_filter_file=args.bids_filter_file,
+        nprocs=args.nprocs,
+        parallel_engine=args.parallel_engine,
+        skip_bids_validation=args.skip_bids_validation,
+        to_call=args.to_call,
+        verbose=args.verbose,
+        dry_run=args.dry_run,
+        logger=logger,
+    )
