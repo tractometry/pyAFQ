@@ -50,15 +50,25 @@ def visualize_tract_profiles(
     """
     df = pd.read_csv(tract_profiles)
 
-    callosal = sorted([t for t in df["tractID"].unique() if t.startswith("Callosum")])
-
-    bilateral_bases = sorted(
-        {
-            t.replace("Left ", "").replace("Right ", "")
-            for t in df["tractID"].unique()
-            if t.startswith("Left ") or t.startswith("Right ")
-        }
-    )
+    bilateral_bases = []
+    callosal = []
+    for tt in df["tractID"].unique():
+        if (
+            tt.startswith("Left ")
+            or tt.startswith("Right ")
+            or tt.endswith("_L")
+            or tt.endswith("_R")
+        ):
+            bilateral_bases.append(
+                tt.replace("Left ", "")
+                .replace("Right ", "")
+                .replace("_L", "")
+                .replace("_R", "")
+            )
+        else:
+            callosal.append(tt)
+    bilateral_bases = sorted(bilateral_bases)
+    callosal = sorted(callosal)
 
     n_bilateral = len(bilateral_bases)
     n_callosal = len(callosal)
