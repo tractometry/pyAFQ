@@ -22,6 +22,8 @@ def _plot_tract(ax, df, tract_name, metric, color, label=None):
 
 
 def _split_hemisphere(tract_id):
+    if tract_id.endswith(("_L_R", "_R_L")):
+        return None, None
     for prefix, hemi in (("Left ", "Left"), ("Right ", "Right")):
         if tract_id.startswith(prefix):
             return tract_id[len(prefix) :], hemi
