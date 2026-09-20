@@ -146,7 +146,9 @@ def test_segment_no_prob():
         },
     }
 
-    fiber_groups, _ = recognize(tg, hardi_img, mapping, bundles_no_prob, reg_template)
+    fiber_groups, _ = recognize(
+        tg, hardi_img, mapping, bundles_no_prob, reg_template, dist_to_waypoint=2
+    )
 
     # This condition should still hold
     npt.assert_equal(len(fiber_groups), 2)
@@ -185,6 +187,7 @@ def test_segment_clip_edges_api():
         reg_template,
         clip_edges=True,
         clean_unclipped=True,
+        dist_to_waypoint=2,
     )
     npt.assert_equal(len(fiber_groups), 2)
     npt.assert_(len(fiber_groups["Right Corticospinal"]) > 0)
