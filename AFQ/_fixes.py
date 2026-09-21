@@ -319,15 +319,20 @@ def gaussian_weights(
 
         flat_coords = sls.reshape(-1, 3)
         flat_groups = working_groups.reshape(-1)
-        unique_ids = np.unique(flat_groups)
+        flat_weights = weights.reshape(-1)
 
-        for gid in unique_ids:
-            mask = flat_groups == gid
-            group_data = flat_coords[mask]
+        order = np.argsort(flat_groups, kind="stable")
+        sorted_groups = flat_groups[order]
+        sorted_coords = flat_coords[order]
+        _, starts = np.unique(sorted_groups, return_index=True)
+        ends = np.append(starts[1:], len(sorted_groups))
 
-            if len(group_data) < 15:
+        for start, end in zip(starts, ends):
+            # small groups will have unstable covariance matrices
+            if end - start < 15:
                 continue
 
+            group_data = sorted_coords[start:end]
             mu = stat(group_data, axis=0)
             diff = group_data - mu
 
@@ -342,7 +347,7 @@ def gaussian_weights(
             if np.any(cov > 0):
                 m = np.einsum("ij,jk,ik->i", diff, pinvh(cov), diff)
                 np.clip(m, 0, None, out=m)
-                weights.ravel()[mask] = np.sqrt(m)
+                flat_weights[order[start:end]] = np.sqrt(m)
 
     if return_mahalanobis:
         return weights
