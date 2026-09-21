@@ -929,11 +929,6 @@ class GroupAFQ(object):
                     )
                 )
                 figure.write_image(this_fname)
-
-                # temporary fix for memory leak
-                import plotly.io as pio
-
-                pio.kaleido.scope._shutdown_kaleido()
             else:
                 from fury import window
 
