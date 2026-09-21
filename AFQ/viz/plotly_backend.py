@@ -15,14 +15,12 @@ try:
     import plotly
     import plotly.express as px
     import plotly.graph_objs as go
-    import plotly.io as pio
     from plotly.colors import hex_to_rgb
     from plotly.subplots import make_subplots
 except (ImportError, ModuleNotFoundError) as e:
     raise ImportError(vut.viz_import_msg_error("plotly")) from e
 
 
-scope = pio.kaleido.scope
 viz_logger = logging.getLogger("AFQ")
 
 
@@ -526,8 +524,6 @@ def create_mp4(
             frame_path = op.join(tdir, f"tframe{i}.png")
             figure.write_image(frame_path)
             frame_paths.append(frame_path)
-
-            pio.kaleido.scope._shutdown_kaleido()
 
         with imageio.get_writer(
             file_name, fps=fps, codec="libx264", quality=8

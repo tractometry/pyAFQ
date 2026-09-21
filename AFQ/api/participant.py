@@ -369,10 +369,6 @@ class ParticipantAFQ(object):
                         showlegend=False,
                     )
                     figure.write_image(this_fname, scale=4)
-                    # temporary fix for memory leak
-                    import plotly.io as pio
-
-                    pio.kaleido.scope._shutdown_kaleido()
                 else:
                     from fury import window
 
