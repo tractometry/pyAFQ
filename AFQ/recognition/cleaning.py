@@ -128,13 +128,6 @@ def clean_by_orientation_mahalanobis(
     if length_threshold == 0:
         length_threshold = np.inf
     fgarray = abu.resample_tg(streamlines, n_points)
-
-    fgarray = np.asarray(fgarray)
-    centroids = np.mean(fgarray, axis=0)
-    _, assignment_idxs = cKDTree(centroids, leafsize=16).query(
-        fgarray.reshape(-1, 3), k=1, workers=-1
-    )
-    assignment_idxs = assignment_idxs.reshape((len(fgarray), n_points))
     fgarray = np.asarray(fgarray)
 
     if core_only != 0:
@@ -142,6 +135,12 @@ def clean_by_orientation_mahalanobis(
         fgarray = fgarray[
             :, int(n_points * crop_edge) : int(n_points * (1 - crop_edge)), :
         ]
+
+    centroids = np.mean(fgarray, axis=0)
+    _, assignment_idxs = cKDTree(centroids, leafsize=16).query(
+        fgarray.reshape(-1, 3), k=1, workers=-1
+    )
+    assignment_idxs = assignment_idxs.reshape((len(fgarray), n_points))
 
     fgarray_dists = fgarray[:, 1:, :] - fgarray[:, :-1, :]
     assignment_idxs = assignment_idxs[:, 1:]
