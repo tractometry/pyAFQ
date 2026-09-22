@@ -3,7 +3,7 @@ import logging
 import dipy.tracking.streamline as dts
 import numpy as np
 from dipy.io.stateful_tractogram import StatefulTractogram
-from dipy.stats.analysis import assignment_map
+from scipy.spatial import cKDTree
 from scipy.stats import zscore
 from sklearn.ensemble import IsolationForest
 
@@ -82,22 +82,66 @@ def clean_by_orientation_mahalanobis(
     clean_rounds=5,
     remove_lengths="long",
 ):
+    """
+    Clean a segmented fiber group based on the Mahalanobis distance of
+    each streamline's local orientation (the step between consecutive
+    nodes), rather than its position.
+
+    Parameters
+    ----------
+    streamlines : ArraySequence or sequence of N by 3 arrays
+        The streamlines of the bundle to be cleaned.
+    n_points : int, optional
+        Number of points to resample streamlines to.
+        Default: 100
+    core_only : float, optional
+        If non-zero, only the core of the bundle is used for cleaning.
+        For example, 0.6 uses the middle 60% of each streamline, allowing
+        streamlines to deviate in the starting and ending 20%.
+        Default: 0
+    min_sl : int, optional.
+        Minimum number of streamlines to keep. If a round of cleaning would
+        leave fewer than this, the `min_sl` streamlines with the smallest
+        total Mahalanobis distance are kept instead. Default: 20.
+    distance_threshold : float, optional.
+        Threshold of cleaning based on the Mahalanobis distance (the units are
+        standard deviations). Default: 3.
+    length_threshold: float, optional
+        Threshold for cleaning based on length (in standard deviations), where
+        length is the number of points in each streamline. If 0, no cleaning
+        by length is done. Default: 4.
+    clean_rounds : int, optional.
+        Number of rounds of cleaning based on the Mahalanobis distance from
+        the mean orientation of each node. Default: 5
+    remove_lengths : str
+        Specifies which streamlines to remove based on their length.
+        Options are "long" (remove long streamlines), "short"
+        (remove short streamlines), or "both"
+        (remove both long and short streamlines).
+        Default: "long"
+
+    Returns
+    -------
+    idx : ndarray
+        Indices of the streamlines that passed cleaning.
+    """
     if length_threshold == 0:
         length_threshold = np.inf
-    fgarray = abu.resample_tg(streamlines, n_points)
+    fgarray = np.asarray(abu.resample_tg(streamlines, n_points))
+    fgarray_dists = np.gradient(fgarray, axis=1)
 
-    _, assignment_idxs = np.asarray(assignment_map(fgarray, fgarray, n_points))
-    assignment_idxs = assignment_idxs.reshape((len(fgarray), n_points))
-    fgarray = np.asarray(fgarray)
+    centroids = np.mean(fgarray, axis=0)
+    _, assignment_idxs = cKDTree(centroids, leafsize=16).query(
+        fgarray.reshape(-1, 3), k=1, workers=-1
+    )
+    assignment_idxs = assignment_idxs.reshape(fgarray.shape[:2])
 
     if core_only != 0:
         crop_edge = (1.0 - core_only) / 2
-        fgarray = fgarray[
-            :, int(n_points * crop_edge) : int(n_points * (1 - crop_edge)), :
-        ]
+        core = slice(int(n_points * crop_edge), int(n_points * (1 - crop_edge)))
+        fgarray_dists = fgarray_dists[:, core, :]
+        assignment_idxs = assignment_idxs[:, core]
 
-    fgarray_dists = fgarray[:, 1:, :] - fgarray[:, :-1, :]
-    assignment_idxs = assignment_idxs[:, 1:]
     lengths = np.array([sl.shape[0] for sl in streamlines])
     idx = np.arange(len(fgarray))
     rounds_elapsed = 0

@@ -38,7 +38,7 @@ logger = logging.getLogger("AFQ")
 
 @immlib.calc("bundles")
 @as_file("_desc-bundles_tractography")
-def segment(data_imap, mapping_imap, tractography_imap, segmentation_params):
+def segment(data_imap, mapping_imap, tractography_imap, segmentation_params, citations):
     """
     full path to a trk/trx file containing containing
     segmented streamlines, labeled by bundle
@@ -49,6 +49,12 @@ def segment(data_imap, mapping_imap, tractography_imap, segmentation_params):
         The parameters for segmentation.
         Defaults to using the default behavior of the seg.Segmentation object.
     """
+    citations.add("Chandio2020")
+    citations.add("kruper2025software")
+    citations.add("Kruper2021-xb")
+    citations.add("garyfallidis2014dipy")
+    citations.add("Yeatman2012")
+
     bundle_dict = data_imap["bundle_dict"]
     reg_template = data_imap["reg_template"]
     streamlines = tractography_imap["streamlines"]

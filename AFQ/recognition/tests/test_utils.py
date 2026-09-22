@@ -11,6 +11,7 @@ import AFQ.recognition.cleaning as abc
 import AFQ.recognition.curvature as abv
 import AFQ.recognition.other_bundles as abo
 import AFQ.recognition.utils as abu
+from AFQ._fixes import gaussian_weights
 
 hardi_dir = op.join(fetcher.dipy_home, "stanford_hardi")
 hardi_fdata = op.join(hardi_dir, "HARDI150.nii.gz")
@@ -61,6 +62,50 @@ def test_cleaning():
         idx_sl = tg.streamlines[returned_idx][idx]
         for node_idx, node in enumerate(sl):
             npt.assert_equal(node, idx_sl[node_idx])
+
+
+def test_gaussian_weights_uneven_groups():
+    # make uneven groups
+    rng = np.random.default_rng(40)
+    group_ids = np.array([3, 7, 42, 100])
+    assignment_idxs = rng.choice(group_ids, size=(40, 30), p=[0.6, 0.25, 0.1, 0.05])
+    tiny = rng.choice(40 * 30, size=5, replace=False)
+    assignment_idxs.ravel()[tiny] = 999
+
+    offsets = {3: 0.0, 7: 50.0, 42: -30.0, 100: 10.0, 999: 5.0}
+    scales = {3: 1.0, 7: 5.0, 42: 0.2, 100: 2.0, 999: 1.0}
+    sls = np.empty((40, 30, 3))
+    for gid in offsets:
+        mask = assignment_idxs == gid
+        sls[mask] = offsets[gid] + scales[gid] * rng.normal(size=(mask.sum(), 3)) * [
+            1.0,
+            3.0,
+            0.5,
+        ]
+
+    counts = np.unique(assignment_idxs, return_counts=True)[1]
+    npt.assert_(counts.max() > 10 * counts.min())  # groups really are uneven
+
+    for stat in [np.mean, np.median]:
+        m_dist = gaussian_weights(
+            sls,
+            assignment_idxs=assignment_idxs,
+            n_points=None,
+            return_mahalanobis=True,
+            stat=stat,
+        )
+        npt.assert_equal(m_dist.shape, assignment_idxs.shape)
+        npt.assert_(np.all(np.isfinite(m_dist)))
+        # the group with fewer than 15 points is skipped
+        npt.assert_equal(m_dist[assignment_idxs == 999], 0)
+
+    weights = gaussian_weights(sls, assignment_idxs=assignment_idxs, n_points=None)
+    npt.assert_equal(weights.shape, assignment_idxs.shape)
+    npt.assert_(np.all(weights >= 0))
+    npt.assert_array_almost_equal(np.sum(weights, axis=0), 1)
+    # uniform 1 / n_sl weights would also sum to 1; make sure this is not
+    # the fallback for failed weighting
+    npt.assert_(not np.allclose(weights, 1.0 / sls.shape[0]))
 
 
 def test_segment_clip_edges():
