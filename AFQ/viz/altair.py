@@ -96,7 +96,6 @@ def altair_df_to_chart(
     column_count=1,
     font_size=20,
     line_size=10,
-    row_label_angle=90,
     bundle_list=None,
     legend_line_size=5,
     alt_x_kwargs=None,
