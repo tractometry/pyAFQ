@@ -131,16 +131,9 @@ def altair_df_to_chart(
     ]
 
     tp_units = {
-        "DKI AWF": "",
-        "DKI FA": "",
         "DKI MD": " (µm²/ms)",
-        "DKI MK": "",
-        "DTI FA": "",
         "DTI MD": " (µm²/ms)",
         "MSDKI MSD": " (µm²/ms)",
-        "MSDKI MSK": "",
-        "DKI MKT": "",
-        "T1W OVER B0": "",
     }
 
     if bundle_list is None:
@@ -153,7 +146,7 @@ def altair_df_to_chart(
         for ii, tp in enumerate(sorted(profiles.TP.unique())):
             this_dataframe = row_dataframe[row_dataframe.TP == tp]
             if jj == 0:
-                title_name = tp + tp_units[tp]
+                title_name = tp + tp_units.get(tp, "")
             else:
                 title_name = ""
             if ii == 0:
