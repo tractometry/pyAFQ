@@ -1,5 +1,7 @@
 import colorsys
+import hashlib
 import logging
+import math
 from collections import OrderedDict
 
 import dipy.tracking.streamlinespeed as dps
@@ -15,6 +17,83 @@ from PIL import Image, ImageChops
 import AFQ.utils.streamlines as aus
 
 __all__ = ["Viz"]
+
+
+def _stable_unit_floats(name, n=3):
+    """
+    Deterministically map a string to n floats in [0, 1).
+    Uses md5 rather than hash(), because Python's built-in str hash
+    is salted per process and would change between runs.
+    """
+    digest = hashlib.md5(name.encode("utf-8")).digest()
+    return [int.from_bytes(digest[4 * i : 4 * i + 4], "big") / 2**32 for i in range(n)]
+
+
+def _split_side(bundle):
+    """
+    Returns (side, base_name), e.g. "Left Arcuate" -> ("Left", "Arcuate").
+    side is None for bundles without a Left/Right prefix.
+    """
+    for side in ("Left", "Right"):
+        prefix = side + " "
+        if bundle.startswith(prefix):
+            return side, bundle[len(prefix) :]
+    for side in ("L", "R"):
+        suffix = "_" + side
+        if bundle.endswith(suffix):
+            return side, bundle[: -len(suffix)]
+    return None, bundle
+
+
+def _oklch_to_rgb(L, C, h):
+    """
+    Convert OKLCH (L in 0-1, C chroma ~0-0.37, h in turns 0-1) to sRGB in 0-1.
+    If the color is out of the sRGB gamut, chroma is reduced until it fits,
+    keeping lightness and hue fixed.
+    """
+
+    def to_linear_srgb(L, C, h):
+        a = C * math.cos(2 * math.pi * h)
+        b = C * math.sin(2 * math.pi * h)
+        l_ = (L + 0.3963377774 * a + 0.2158037573 * b) ** 3
+        m_ = (L - 0.1055613458 * a - 0.0638541728 * b) ** 3
+        s_ = (L - 0.0894841775 * a - 1.2914855480 * b) ** 3
+        return (
+            4.0767416621 * l_ - 3.3077115913 * m_ + 0.2309699292 * s_,
+            -1.2684380046 * l_ + 2.6097574011 * m_ - 0.3413193965 * s_,
+            -0.0041960863 * l_ - 0.7034186147 * m_ + 1.7076147010 * s_,
+        )
+
+    def gamma(x):
+        x = min(max(x, 0.0), 0.9999)
+        return 12.92 * x if x <= 0.0031308 else 1.055 * x ** (1 / 2.4) - 0.055
+
+    rgb = to_linear_srgb(L, C, h)
+    while C > 0 and not all(-1e-6 <= c <= 1 + 1e-6 for c in rgb):
+        C -= 0.005
+        rgb = to_linear_srgb(L, C, h)
+    return tuple(gamma(c) for c in rgb)
+
+
+def _hashed_rgb(base_name, side=None):
+    """
+    Stable color for a bundle name, derived from a hash of base_name.
+    Colors are chosen in OKLCH so hues are perceptually evenly spread.
+    Left/Right pairs share a hue and differ in lightness (like Tableau 20):
+    Left gets a darker shade, Right a lighter tint, and lone bundles
+    sit in between.
+    """
+    hue, l_u, c_u = _stable_unit_floats(base_name)
+    lightness = 0.60 + 0.08 * l_u  # lone: 0.60 to 0.68
+    chroma = 0.11 + 0.06 * c_u  # 0.11 to 0.17
+
+    if side == "Right":
+        lightness += 0.14  # 0.74 to 0.82
+        chroma *= 0.8
+    elif side == "Left":
+        lightness -= 0.12  # 0.48 to 0.56
+
+    return _oklch_to_rgb(lightness, chroma, hue)
 
 
 def get_distinct_shades(base_rgb, n_steps, hue_shift):
@@ -79,7 +158,7 @@ slf_r_shades = get_distinct_shades(slf_r_base, 3, hue_shift=0.1)
 vof_l_shades = get_distinct_shades(vof_l_base, 3, hue_shift=0.15)
 vof_r_shades = get_distinct_shades(vof_r_base, 3, hue_shift=0.15)
 
-COLOR_DICT = OrderedDict(
+_COLOR_DICT = OrderedDict(
     {
         "Left Anterior Thalamic": tableau_20[0],
         "C_L": tableau_20[0],
@@ -426,36 +505,34 @@ def display_string(scalar_name):
 
 def gen_color_dict(bundles):
     """
-    Helper function.
-    Generate a color dict given a list of bundles.
+    Generate a color dictionary given a list of bundle names.
+    Default pyAFQ bundles get predefined colors, selected from
+    palettes like tableau20 and Paul Tol's palette. Others get a
+    color derived from a hash of their name, so the same bundle is the
+    same color across runs. Left/Right pairs share a base color and
+    are separated by a hue shift.
+
+    Parameters
+    ----------
+    bundles : list of str
+        List of bundle names to generate colors for.
+
+    Returns
+    -------
+    dict
+        A dictionary mapping bundle names to their RGB color values.
     """
-
-    def incr_color_idx(color_idx):
-        return (color_idx + 1) % 20
-
     custom_color_dict = {}
-    color_idx = 0
     for bundle in bundles:
-        if bundle not in custom_color_dict.keys():
-            if bundle in COLOR_DICT.keys():
-                custom_color_dict[bundle] = COLOR_DICT[bundle]
-            else:
-                other_bundle = bundle
-                if bundle.startswith("Left "):
-                    other_bundle = "Right" + other_bundle[5:]
-                elif bundle.startswith("Right "):
-                    other_bundle = "Left" + other_bundle[4:]
-                other_bundle = str(other_bundle)
+        if bundle in custom_color_dict:
+            continue
+        if bundle in _COLOR_DICT:
+            custom_color_dict[bundle] = _COLOR_DICT[bundle]
+            continue
 
-                if other_bundle == bundle:  # lone bundle
-                    custom_color_dict[bundle] = tableau_20[color_idx]
-                    color_idx = incr_color_idx(color_idx)
-                else:  # right left pair
-                    if color_idx % 2 != 0:
-                        color_idx = incr_color_idx(color_idx)
-                    custom_color_dict[bundle] = tableau_20[color_idx]
-                    custom_color_dict[other_bundle] = tableau_20[color_idx + 1]
-                    color_idx = incr_color_idx(incr_color_idx(color_idx))
+        side, base_name = _split_side(bundle)
+        custom_color_dict[bundle] = _hashed_rgb(base_name, side)
+
     return custom_color_dict
 
 

@@ -49,12 +49,8 @@ def _to_color_range(num):
 
 
 def _color_arr2str(color_arr, opacity=1.0):
-    return (
-        f"rgba({_to_color_range(color_arr[0])}, "
-        f"{_to_color_range(color_arr[1])}, "
-        f"{_to_color_range(color_arr[2])}, "
-        f"{_to_color_range(opacity)})"
-    )
+    r, g, b = (int(round(255 * min(max(c, 0.0), 1.0))) for c in color_arr[:3])
+    return f"rgba({r}, {g}, {b}, {min(max(opacity, 0.0), 1.0)})"
 
 
 def set_layout(figure):
@@ -232,23 +228,21 @@ def _draw_streamlines(
 def _plot_profiles(profiles, bundle_name, color, fig, scalar):
     if isinstance(profiles, pd.DataFrame):
         all_tp = profiles[scalar].to_numpy()
-        all_tp = np.max(all_tp) - all_tp
-        lim_0 = np.percentile(all_tp, 1)
-        lim_1 = np.percentile(all_tp, 90)
+        tp_max = np.max(all_tp)
+        inverted = tp_max - all_tp
+        lim_0 = np.percentile(inverted, 1)
+        lim_1 = np.percentile(inverted, 90)
+        lim_range = max(lim_1 - lim_0, 1e-12)
 
         profiles = profiles[profiles.tractID == bundle_name]
         x = profiles["nodeID"]
         y = profiles[scalar]
+        color = np.asarray(color)[:3]
         line_color = []
 
         for scalar_val in profiles[scalar].to_numpy():
-            brightness = np.minimum(
-                np.maximum(
-                    scalar_val - lim_0,
-                    0,
-                ),
-                lim_1,
-            )
+            brightness = np.clip((tp_max - scalar_val - lim_0) / lim_range, 0, 1)
+            brightness = 0.3 + 0.7 * brightness  # keep low values visible
             line_color.append(_color_arr2str(brightness * color))
     else:
         x = np.arange(len(profiles))

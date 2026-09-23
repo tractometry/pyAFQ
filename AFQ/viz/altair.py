@@ -2,18 +2,18 @@ import altair as alt
 import numpy as np
 import scipy.stats as stats
 
-from AFQ.viz.utils import COLOR_DICT
+from AFQ.viz.utils import gen_color_dict
 
 
-def altair_color_dict(names_to_include=None):
+def altair_color_dict(bundle_names):
     """
     Given a list of bundle names, return a dictionary of colors for each
     Formatted for Altair.
     """
-    altair_cd = dict(COLOR_DICT.copy())
+    altair_cd = gen_color_dict(bundle_names)
     for key in list(altair_cd.keys()):
         value = altair_cd[key]
-        if (names_to_include is None) or (key in names_to_include):
+        if (bundle_names is None) or (key in bundle_names):
             altair_cd[key] = (
                 f"rgb({int(value[0] * 255)},"
                 f"{int(value[1] * 255)},"
