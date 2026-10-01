@@ -102,7 +102,7 @@ def streamlines(
             or this_tracking_params["directions"] == "ptt"
         ):
             # We do not count these as we go yet,
-            # this needs to be implemented in GPUStreamlines
+            # this needs to be implemented
             n_streamlines = 0
             sft = lazyt
         else:

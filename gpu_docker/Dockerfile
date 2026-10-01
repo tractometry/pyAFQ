@@ -22,9 +22,9 @@ ENV LD_LIBRARY_PATH /usr/lib/x86_64-linux-gnu:${LD_LIBRARY_PATH}
 
 # python prereqs
 RUN pip install numpy>=2.0.0
-RUN pip install scipy>=1.13.0 cython nibabel dipy tqdm fslpy cuslines==2.0.0
+RUN pip install scipy>=1.13.0 cython nibabel "dipy[cu13]" tqdm fslpy
 
-# clone pyAFQ GPUStreamlines
+# clone pyAFQ
 RUN git clone https://github.com/tractometry/pyAFQ.git /opt/pyAFQ
 RUN cd /opt/pyAFQ && git reset --hard ${COMMIT}
 RUN cd /opt/pyAFQ && pip install -e .

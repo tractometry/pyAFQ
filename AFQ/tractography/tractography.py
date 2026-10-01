@@ -1,24 +1,28 @@
 import logging
-from math import radians
 from time import time
 
 import dipy.data as dpd
 import nibabel as nib
-import numba
 import numpy as np
 from dipy.align import resample
 from dipy.core.sphere import HemiSphere
+from dipy.direction.pmf import _sh_order_from_ncoef
 from dipy.io.stateful_tractogram import Space, StatefulTractogram
+from dipy.io.streamline import save_trx_from_generator
 from dipy.reconst import shm
 from dipy.reconst.dti import decompose_tensor, from_lower_triangular
-from dipy.tracking.stopping_criterion import ActStoppingCriterion
+from dipy.tracking.stopping_criterion import (
+    ActStoppingCriterion,
+    ThresholdStoppingCriterion,
+)
 from dipy.tracking.tracker import (
     deterministic_tracking,
     pft_tracking,
+    probabilistic_tracking,
+    ptt_tracking,
 )
 from nibabel.streamlines.tractogram import LazyTractogram
 from skimage.segmentation import find_boundaries
-from tqdm.auto import tqdm
 
 from AFQ._fixes import tensor_odf
 from AFQ.tractography.utils import gen_seeds
@@ -33,7 +37,6 @@ def track(
     sphere="repulsion724",
     seed_mask=None,
     seed_threshold=0.5,
-    gm_threshold=0.4,
     thresholds_as_percentages=False,
     n_seeds=1e7,
     random_seeds=True,
@@ -41,12 +44,13 @@ def track(
     step_size=0.5,
     minlen=20,
     maxlen=500,
+    maxcross=-1,
     odf_model="CSD_AODF",
     basis_type="descoteaux07",
     legacy=True,
     trx=True,
-    jit_backend="numba",
-    jit_chunk_size=None,
+    track_backend="cpu",
+    track_chunk_size=None,
 ):
     """
     Tractography
@@ -65,7 +69,7 @@ def track(
         If 0 or -1, uses all available threads.
     directions : str
         How tracking directions are determined.
-        One of: {"det" | "prob" | "pft"}
+        One of: {"det" | "prob" | "pft" | "ptt"}.
         pft refers to Particle Filtering Tracking ([Girard2014]_).
         Default: "prob"
     max_angle : float, optional.
@@ -81,10 +85,7 @@ def track(
         Default: None
     seed_threshold : float, optional.
         A value of the seed_mask above which tracking is seeded.
-        Default: 0.5
-    gm_threshold : float, optional.
-        A value of the pve_gm_data above which we consider a voxel to be GM
-        for the purposes of ACT stopping criterion. Default: 0.4.
+        Default to 0.5.
     n_seeds : int or 2D array, optional.
         The seeding density: if this is an int, it is is how many seeds in each
         voxel on each dimension (for example, 2 => [2, 2, 2]). If this is a 2D
@@ -110,6 +111,10 @@ def track(
         The minimal length (mm) in a streamline. Default: 20
     maxlen: int, optional
         The maximum length (mm) in a streamline. Default: 500
+    maxcross: int, optional
+        The maximum number of streamlines generated from each initial seed.
+        Any values <=0 interpreted as no limit.
+        Default: -1
     odf_model : str or Definition, optional
         Can be either a string or Definition. If a string, it must be one of
         {"DTI", "CSD", "DKI", "GQ", "RUMBA", "MSMT_AODF", "CSD_AODF", "MSMTCSD"}.
@@ -126,19 +131,18 @@ def track(
         Whether to return the streamlines compatible with input to TRX file
         (i.e., as a LazyTractogram class instance).
         Default: True
-    jit_backend : str, optional
-        If directions is "prob" or "ptt", the JIT backend to use.
-        One of {"auto", "cuda", "metal", "webgpu", or "numba"}.
-        Default: "numba"
-    jit_chunk_size : int, optional
-        If directions is "prob" or "ptt", the chunk size to use
-        for JIT tracking. If None, chooses 25000 for numba backend
-        and 5000 for other backends.
+    track_backend : str, optional
+        If directions is "prob", the backend to use. One of
+        {"cpu", "auto", "cuda", "metal", "webgpu"}. "cpu" is DIPY's OpenMP
+        tracker; the others are DIPY's GPU simple trackers ("auto" picks the
+        first available GPU). Default: "cpu"
+    track_chunk_size : int, optional
+        Seeds tracked at once. If None, 25000 on the CPU and 10000 on a GPU.
         Default: None
 
     Returns
     -------
-    list of streamlines ()
+    TrxFile (trx=True) or StatefulTractogram/LazyTractogram
 
     References
     ----------
@@ -218,10 +222,6 @@ def track(
     pve_wm_data[edge] = 0.0
     pve_csf_data[edge] = 0.0
 
-    # We relax ACT stopping criterion here to allow streamlines closer
-    # to the WM/GM boundary.
-    pve_gm_data *= 0.5 / gm_threshold
-
     stopping_criterion = ActStoppingCriterion.from_pve(
         pve_wm_data, pve_gm_data, pve_csf_data
     )
@@ -237,16 +237,16 @@ def track(
     if directions == "pft" and (odf_model == "DTI" or odf_model == "DKI"):
         tracking_kwargs["sf"] = odf
     else:
-        sym_order = (-3.0 + np.sqrt(1.0 + 8.0 * model_params.shape[3])) / 2.0
-        if sym_order.is_integer():
-            sh_order_max = sym_order
-            full_basis = False
-        else:
-            full_order = np.sqrt(model_params.shape[3]) - 1.0
-            sh_order_max = full_order
-            full_basis = True
+        # DIPY can handle passing-in SH, but
+        # precalculating SF is faster
+        sh_order_max, full_basis = _sh_order_from_ncoef(model_params.shape[-1])
         pmf = shm.sh_to_sf(
-            model_params, sphere, sh_order_max=sh_order_max, full_basis=full_basis
+            model_params,
+            sphere,
+            sh_order_max=sh_order_max,
+            full_basis=full_basis,
+            basis_type=basis_type,
+            legacy=legacy,
         )
         pmf[pmf < 0] = 0
         tracking_kwargs["sf"] = pmf
@@ -266,143 +266,76 @@ def track(
         params_img.affine,
     )
 
-    if directions == "prob" or directions == "ptt":
-        jit_backend = jit_backend.lower()
-        if jit_backend == "auto":
-            from cuslines import (
-                ProbDirectionGetter,
-                PttDirectionGetter,
-                Tracker,
-            )
-        elif jit_backend == "cuda":
-            from cuslines.cuda_python import (
-                GPUTracker as Tracker,
-            )
-            from cuslines.cuda_python import (
-                ProbDirectionGetter,
-                PttDirectionGetter,
-            )
-        elif jit_backend == "metal":
-            from cuslines.metal import (
-                MetalGPUTracker as Tracker,
-            )
-            from cuslines.metal import (
-                MetalProbDirectionGetter as ProbDirectionGetter,
-            )
-            from cuslines.metal import (
-                MetalPttDirectionGetter as PttDirectionGetter,
-            )
-        elif jit_backend == "webgpu":
-            from cuslines.webgpu import (
-                WebGPUProbDirectionGetter as ProbDirectionGetter,
-            )
-            from cuslines.webgpu import (
-                WebGPUPttDirectionGetter as PttDirectionGetter,
-            )
-            from cuslines.webgpu import (
-                WebGPUTracker as Tracker,
-            )
-        elif jit_backend == "numba":
-            from cuslines.numba import (
-                CPUProbDirectionGetter as ProbDirectionGetter,
-            )
-            from cuslines.numba import (
-                CPUPttDirectionGetter as PttDirectionGetter,
-            )
-            from cuslines.numba import (
-                CPUTracker as Tracker,
-            )
-        else:
-            raise ValueError(
-                "jit_backend must be one of 'auto', 'cuda', "
-                f"'metal', 'numba', or 'webgpu', not {jit_backend}"
+    tracking_kwargs.update(
+        {
+            "sphere": sphere,
+            "max_angle": max_angle,
+            "basis_type": basis_type,
+            "legacy": legacy,
+            "step_size": step_size,
+            "min_len": minlen,
+            "max_len": maxlen,
+            "return_all": False,
+            "max_cross": maxcross,
+            "is_symmetric": isinstance(sphere, HemiSphere),
+            "nbr_threads": int(n_threads),
+        }
+    )
+
+    if directions == "prob":
+        track_backend = track_backend.lower()
+        use_gpu = track_backend != "cpu"
+        if track_chunk_size is None:
+            track_chunk_size = 10000 if use_gpu else 25000
+
+        if use_gpu:
+            stopping_criterion = ThresholdStoppingCriterion(
+                1 - np.maximum(pve_gm_data, pve_csf_data), 0.5
             )
 
-        if directions == "ptt":
-            dg = PttDirectionGetter()
-        else:
-            dg = ProbDirectionGetter()
-
-        inv_affine = np.linalg.inv(params_img.affine)
-        seeds = np.dot(seeds, inv_affine[:3, :3].T)
-        seeds += inv_affine[:3, 3]
-
-        minlen = int(minlen / step_size)
-        maxlen = int(maxlen / step_size)
-
-        R = params_img.affine[0:3, 0:3]
-        vox_dim = np.mean(np.diag(np.linalg.cholesky(R.T.dot(R))))
-        step_size = step_size / vox_dim
-
-        if jit_chunk_size is None:
-            if jit_backend == "numba":
-                jit_chunk_size = 25000
-            else:
-                jit_chunk_size = 5000
-
-        if n_threads != 0:
-            old_numba_n_threads = numba.get_num_threads()
-            numba.set_num_threads(n_threads)
-
-        with Tracker(
-            dg,
-            tracking_kwargs["sf"],
-            pve_wm_data,
-            gm_threshold,
-            sphere.vertices,
-            sphere.edges,
-            sphere_symm=isinstance(sphere, HemiSphere),
-            max_angle=radians(max_angle),
-            step_size=step_size,
-            min_pts=minlen,
-            max_pts=maxlen,
-            rng_seed=tracking_kwargs["random_seed"],
-            chunk_size=jit_chunk_size,
-        ) as jit_tracker:
-            jit_tracker.set_compression_parameters(
-                pos_dtype=np.float16, linearize=False
-            )
-            if trx:
-                res = jit_tracker.generate_trx(seeds, params_img)
-            else:
-                res = jit_tracker.generate_sft(seeds, params_img)
-
-        if n_threads != 0:
-            numba.set_num_threads(old_numba_n_threads)
-        return res
-    else:
-        if directions == "det":
-            tracker = deterministic_tracking
-        elif directions == "pft":
-            tracker = pft_tracking
-        else:
-            raise ValueError(f"Unrecognized direction '{directions}'.")
-
-        logger.info("Note there will be a long initial delay as seeds are initialized")
-
-        start_time = time()
-        tracker = tqdm(
-            tracker(
-                seeds,
-                stopping_criterion,
-                params_img.affine,
-                max_angle=max_angle,
-                sphere=sphere,
-                basis_type=basis_type,
-                legacy=legacy,
-                step_size=step_size,
-                min_len=minlen,
-                max_len=maxlen,
-                return_all=False,
-                nbr_threads=int(n_threads),
-                **tracking_kwargs,
-            ),
-            total=len(seeds),
-            desc="Tracking, note that the total is an overestimate...",
+        gen = probabilistic_tracking(
+            seeds,
+            stopping_criterion,
+            params_img.affine,
+            chunk_size=track_chunk_size,
+            chunked=True,
+            backend=track_backend,
+            **tracking_kwargs,
         )
-        logger.info((f"Seed initialization took {time() - start_time:.2f} seconds."))
-
         if trx:
-            return LazyTractogram(lambda: tracker, affine_to_rasmm=params_img.affine)
-        else:
-            return StatefulTractogram(tracker, params_img, Space.RASMM)
+            if maxcross <= 0:
+                nb_streamlines_estimate = 3 * len(seeds)
+            else:
+                nb_streamlines_estimate = maxcross * len(seeds)
+            return save_trx_from_generator(
+                gen,
+                params_img,
+                nb_streamlines_estimate=nb_streamlines_estimate,
+                data_dtype=np.float16,
+            )
+        return StatefulTractogram(gen, params_img, Space.RASMM)
+    elif directions == "ptt":
+        tracker = ptt_tracking
+        tracking_kwargs["chunked"] = trx
+    elif directions == "det":
+        tracker = deterministic_tracking
+        tracking_kwargs["chunked"] = trx
+    elif directions == "pft":
+        tracker = pft_tracking
+        tracking_kwargs["chunked"] = trx
+    else:
+        raise ValueError(f"Unrecognized direction '{directions}'.")
+
+    logger.info("Note there will be a long initial delay as seeds are initialized")
+    start_time = time()
+    gen = tracker(
+        seeds,
+        stopping_criterion,
+        params_img.affine,
+        **tracking_kwargs,
+    )
+    logger.info(f"Seed initialization took {time() - start_time:.2f} seconds.")
+
+    if trx:
+        return LazyTractogram(lambda: gen, affine_to_rasmm=params_img.affine)
+    return StatefulTractogram(gen, params_img, Space.RASMM)
