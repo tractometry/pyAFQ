@@ -3,7 +3,7 @@ import math
 import matplotlib.pyplot as plt
 import pandas as pd
 
-from AFQ.viz.utils import COLOR_DICT, display_string
+from AFQ.viz.utils import display_string, gen_color_dict
 
 __all__ = ["visualize_tract_profiles"]
 
@@ -61,6 +61,7 @@ def visualize_tract_profiles(
         Matplotlib figure and axes.
     """
     df = pd.read_csv(tract_profiles)
+    color_dict = gen_color_dict(df["tractID"].unique())
 
     bilateral = {}
     callosal = []
@@ -97,8 +98,6 @@ def visualize_tract_profiles(
         ax.spines[["top", "right"]].set_visible(False)
         ax.legend(fontsize=fontsize, loc="best", frameon=False)
 
-    default_colors = {"Left": "steelblue", "Right": "darkorange"}
-
     for idx, base in enumerate(bilateral_bases):
         ax = flat_axes[idx]
         for hemi in ("Left", "Right"):
@@ -110,7 +109,7 @@ def visualize_tract_profiles(
                 df,
                 full_name,
                 scalar,
-                COLOR_DICT.get(full_name, default_colors[hemi]),
+                color_dict[full_name],
                 hemi,
             )
         _style_axis(ax, base + " " + display_string(scalar))
@@ -121,7 +120,7 @@ def visualize_tract_profiles(
         ax.plot(
             sub["nodeID"],
             sub[scalar],
-            color=COLOR_DICT.get(tract, "gray"),
+            color=color_dict[tract],
             linewidth=1.8,
             label=tract.replace("Callosum ", ""),
         )

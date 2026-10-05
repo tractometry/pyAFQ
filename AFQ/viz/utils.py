@@ -1,4 +1,5 @@
 import colorsys
+import hashlib
 import logging
 from collections import OrderedDict
 
@@ -15,6 +16,56 @@ from PIL import Image, ImageChops
 import AFQ.utils.streamlines as aus
 
 __all__ = ["Viz"]
+
+
+def _stable_unit_floats(name, n):
+    """
+    Deterministically map a string to n floats in [0, 1).
+    """
+    digest = hashlib.shake_128(name.encode("utf-8")).digest(n * 8)
+
+    return [
+        int.from_bytes(digest[8 * i : 8 * i + 8], "big") / (1 << 64) for i in range(n)
+    ]
+
+
+def split_side(bundle):
+    """
+    Returns (side, base_name), e.g. "Left Arcuate" -> ("Left", "Arcuate").
+    side is None for bundles without a Left/Right prefix.
+    """
+    for side in ("Left", "Right"):
+        prefix = side + " "
+        if bundle.startswith(prefix):
+            return side, bundle[len(prefix) :]
+    for side in ("L", "R"):
+        suffix = "_" + side
+        if bundle.endswith(suffix):
+            return side, bundle[: -len(suffix)]
+    return None, bundle
+
+
+def _hashed_rgb(base_name, side=None):
+    hue = _stable_unit_floats(base_name, 1)[0]
+
+    if side == "Right":
+        sat = 0.5
+    elif side == "Left":
+        sat = 0.8
+    else:
+        sat = 0.6
+
+    val = 0.85
+
+    r, g, b = colorsys.hsv_to_rgb(hue, sat, val)
+    if r >= 1.0:
+        r = 0.999
+    if g >= 1.0:
+        g = 0.999
+    if b >= 1.0:
+        b = 0.999
+
+    return (r, g, b)
 
 
 def get_distinct_shades(base_rgb, n_steps, hue_shift):
@@ -79,7 +130,7 @@ slf_r_shades = get_distinct_shades(slf_r_base, 3, hue_shift=0.1)
 vof_l_shades = get_distinct_shades(vof_l_base, 3, hue_shift=0.15)
 vof_r_shades = get_distinct_shades(vof_r_base, 3, hue_shift=0.15)
 
-COLOR_DICT = OrderedDict(
+_COLOR_DICT = OrderedDict(
     {
         "Left Anterior Thalamic": tableau_20[0],
         "C_L": tableau_20[0],
@@ -426,36 +477,34 @@ def display_string(scalar_name):
 
 def gen_color_dict(bundles):
     """
-    Helper function.
-    Generate a color dict given a list of bundles.
+    Generate a color dictionary given a list of bundle names.
+    Default pyAFQ bundles get predefined colors, selected from
+    palettes like tableau20 and Paul Tol's palette. Others get a
+    color derived from a hash of their name, so the same bundle is the
+    same color across runs. Left/Right pairs share a base color and
+    are separated by a hue shift.
+
+    Parameters
+    ----------
+    bundles : list of str
+        List of bundle names to generate colors for.
+
+    Returns
+    -------
+    dict
+        A dictionary mapping bundle names to their RGB color values.
     """
-
-    def incr_color_idx(color_idx):
-        return (color_idx + 1) % 20
-
     custom_color_dict = {}
-    color_idx = 0
     for bundle in bundles:
-        if bundle not in custom_color_dict.keys():
-            if bundle in COLOR_DICT.keys():
-                custom_color_dict[bundle] = COLOR_DICT[bundle]
-            else:
-                other_bundle = bundle
-                if bundle.startswith("Left "):
-                    other_bundle = "Right" + other_bundle[5:]
-                elif bundle.startswith("Right "):
-                    other_bundle = "Left" + other_bundle[4:]
-                other_bundle = str(other_bundle)
+        if bundle in custom_color_dict:
+            continue
+        if bundle in _COLOR_DICT:
+            custom_color_dict[bundle] = _COLOR_DICT[bundle]
+            continue
 
-                if other_bundle == bundle:  # lone bundle
-                    custom_color_dict[bundle] = tableau_20[color_idx]
-                    color_idx = incr_color_idx(color_idx)
-                else:  # right left pair
-                    if color_idx % 2 != 0:
-                        color_idx = incr_color_idx(color_idx)
-                    custom_color_dict[bundle] = tableau_20[color_idx]
-                    custom_color_dict[other_bundle] = tableau_20[color_idx + 1]
-                    color_idx = incr_color_idx(incr_color_idx(color_idx))
+        side, base_name = split_side(bundle)
+        custom_color_dict[bundle] = _hashed_rgb(base_name, side)
+
     return custom_color_dict
 
 
