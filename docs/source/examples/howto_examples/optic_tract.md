@@ -34,6 +34,7 @@ from AFQ.api.group import GroupAFQ
 
 import AFQ.data.fetch as afd
 from AFQ.definitions.image import RoiImage
+from AFQ.definitions.mapping import AntsMap
 import AFQ.definitions.image as afm
 ```
 
@@ -163,6 +164,7 @@ my_afq = GroupAFQ(
     dwi_preproc_pipeline="qsiprep",
     participant_labels=["NDARAA948VFH"],
     output_dir=op.join(study_dir, "derivatives", "afq_otoc"),
+    mapping_definition=AntsMap(sub_space="T1w"),
     pve=pve,
     tracking_params=tractography_params,
     segmentation_params=segmentation_params,

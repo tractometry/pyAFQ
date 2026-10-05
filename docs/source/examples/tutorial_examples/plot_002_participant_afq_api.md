@@ -26,6 +26,7 @@ import plotly
 from AFQ.api.participant import ParticipantAFQ
 import AFQ.data.fetch as afd
 import AFQ.definitions.image as afm
+from AFQ.definitions.mapping import AntsMap
 ```
 
 ## Example data
@@ -130,6 +131,22 @@ brain_mask_definition = afm.ImageFile(
     path=op.join(sub_dir, "anat", "sub-NDARAA948VFH_desc-brain_mask.nii.gz"))
 ```
 
+## Mapping Definition (optional)
+
+By default, pyAFQ will register the subject to the MNI template itself.
+However, QSIPrep already computes this registration, so we can use QSIPrep's
+transforms instead, which is faster. This requires antspyx to be installed.
+
+```{code-cell} ipython3
+mapping_definition = AntsMap(
+    sub_to_tmpl_path=op.join(sub_dir, "anat", (
+        "sub-NDARAA948VFH_"
+        "from-T1w_to-MNI152NLin2009cAsym_mode-image_xfm.h5")),
+    tmpl_to_sub_path=op.join(sub_dir, "anat", (
+        "sub-NDARAA948VFH_"
+        "from-MNI152NLin2009cAsym_to-T1w_mode-image_xfm.h5")))
+```
+
 ## Initialize a ParticipantAFQ object:
 
 Creates a ParticipantAFQ object, that encapsulates tractometry. This object
@@ -156,6 +173,7 @@ myafq = ParticipantAFQ(
     tracking_params=tracking_params,
     pve=pve,
     brain_mask_definition=brain_mask_definition,
+    mapping_definition=mapping_definition,
 )
 ```
 

@@ -43,13 +43,13 @@ top-level directory of this repo and issue:
 
 .. code::
 
-   pip install -e .[dev,fury,afqbrowser,plot]
+   pip install -e .[all]
 
 On some platforms, you may need to add quotes around the ``.[]`` part:
 
 .. code::
 
-   pip install -e .'[dev,fury,afqbrowser,plot]'
+   pip install -e .'[all]'
 
 .. note::
 

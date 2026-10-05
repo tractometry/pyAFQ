@@ -4,8 +4,10 @@ from time import time
 
 import nibabel as nib
 import numpy as np
+import pandas as pd
 from dipy.align import affine_registration, syn_registration
 from dipy.align.streamlinear import whole_brain_slr
+from dipy.tracking.streamline import Streamlines
 
 import AFQ.registration as reg
 from AFQ._fixes import get_simplified_transform
@@ -22,7 +24,15 @@ try:
 except ModuleNotFoundError:
     has_fslpy = False
 
-__all__ = ["FnirtMap", "SynMap", "SlrMap", "AffMap", "IdentityMap"]
+try:
+    import ants
+
+    has_ants = True
+except ModuleNotFoundError:
+    has_ants = False
+
+
+__all__ = ["FnirtMap", "AntsMap", "SynMap", "SlrMap", "AffMap", "IdentityMap"]
 
 
 logger = logging.getLogger("AFQ")
@@ -194,6 +204,174 @@ class ConformedFnirtMapping:
         raise NotImplementedError(
             "Fnirt based mappings can currently"
             + " only transform from template to subject space"
+        )
+
+
+class AntsMap(Definition):
+    """
+    Use an existing pair of ANTs transforms from QSIprep,
+    one in each direction between the
+    subject and template. Requires antspyx.
+
+    Parameters
+    ----------
+    sub_to_tmpl_path : str, optional
+        Path to the subject-to-template transform. If this and
+        `tmpl_to_sub_path` are None, both are found with BIDS.
+        Default: None
+    tmpl_to_sub_path : str, optional
+        Path to the template-to-subject transform.
+        Default: None
+    sub_space : str, optional
+        BIDS `from`/`to` label of the subject space.
+        Default: "ACPC"
+    tmpl_space : str, optional
+        BIDS `from`/`to` label of the template space.
+        Default: "MNI152NLin2009cAsym"
+    filters : dict, optional
+        Additional filters to pass to bids_layout.get() to identify
+        the transforms, e.g. {"scope": "qsiprep"}.
+        Default: None
+
+    Examples
+    --------
+    api.GroupAFQ(mapping_definition=AntsMap())
+    """
+
+    def __init__(
+        self,
+        sub_to_tmpl_path=None,
+        tmpl_to_sub_path=None,
+        sub_space="ACPC",
+        tmpl_space="MNI152NLin2009cAsym",
+        filters=None,
+    ):
+        if not has_ants:
+            raise ImportError("Please install antspyx if you want to use AntsMap")
+        if (sub_to_tmpl_path is None) != (tmpl_to_sub_path is None):
+            raise ValueError(
+                "Pass both `sub_to_tmpl_path` and `tmpl_to_sub_path`, "
+                "or neither to find them with BIDS."
+            )
+        self.sub_to_tmpl_path = sub_to_tmpl_path
+        self.tmpl_to_sub_path = tmpl_to_sub_path
+        self.sub_space = sub_space
+        self.tmpl_space = tmpl_space
+        self.filters = filters
+        self.fnames = {}
+
+    def find_path(self, bids_layout, from_path, subject, session, required=True):
+        if self.sub_to_tmpl_path is not None:
+            return
+        self.fnames[from_path] = tuple(
+            find_file(
+                bids_layout,
+                from_path,
+                {"extension": ".h5", **(self.filters or {}), "from": src, "to": dst},
+                "xfm",
+                session,
+                subject,
+                required=required,
+            )
+            for src, dst in [
+                (self.sub_space, self.tmpl_space),
+                (self.tmpl_space, self.sub_space),
+            ]
+        )
+
+    def get_for_subses(
+        self, base_fname, dwi, dwi_data_file, reg_subject, reg_template, tmpl_name
+    ):
+        if self.sub_to_tmpl_path is not None:
+            xfms = (self.sub_to_tmpl_path, self.tmpl_to_sub_path)
+        else:
+            xfms = self.fnames[dwi_data_file]
+        return AntsMapping(*xfms, dwi, reg_template)
+
+
+class AntsMapping:
+    """
+    Mapping from ANTs transforms which matches the generic mapping API.
+    transform / transform_points go from template to subject / subject
+    to template, as for the DIPY mappings.
+    """
+
+    def __init__(self, sub_to_tmpl, tmpl_to_sub, sub_img, tmpl_img):
+        if isinstance(sub_img, str):
+            sub_img = nib.load(sub_img)
+        if isinstance(tmpl_img, str):
+            tmpl_img = nib.load(tmpl_img)
+        self.sub_to_tmpl = sub_to_tmpl
+        self.tmpl_to_sub = tmpl_to_sub
+        self.sub_affine, self.sub_shape = sub_img.affine, sub_img.shape[:3]
+        self.tmpl_affine, self.tmpl_shape = tmpl_img.affine, tmpl_img.shape[:3]
+
+        # ITK/ANTs world coordinates are LPS, NIfTI affines are RAS
+        self._RAS2LPS = np.diag([-1.0, -1.0, 1.0, 1.0])
+
+    def _to_ants(self, data, affine):
+        lps = self._RAS2LPS @ affine
+        spacing = np.linalg.norm(lps[:3, :3], axis=0)
+        return ants.from_numpy(
+            np.asarray(data, dtype=np.float32),
+            origin=lps[:3, 3].tolist(),
+            spacing=spacing.tolist(),
+            direction=lps[:3, :3] / spacing,
+        )
+
+    def _ants_warp(self, data, from_affine, to_affine, to_shape, xfm, interpolation):
+        return ants.apply_transforms(
+            fixed=self._to_ants(np.zeros(to_shape), to_affine),
+            moving=self._to_ants(data, from_affine),
+            transformlist=[xfm],
+            interpolator={"nearest": "nearestNeighbor"}.get(
+                interpolation, interpolation
+            ),
+        ).numpy()
+
+    def transform(self, data, interpolation="linear", **kwargs):
+        return self._ants_warp(
+            data,
+            self.tmpl_affine,
+            self.sub_affine,
+            self.sub_shape,
+            self.tmpl_to_sub,
+            interpolation,
+        )
+
+    def transform_inverse(self, data, interpolation="linear", **kwargs):
+        return self._ants_warp(
+            data,
+            self.sub_affine,
+            self.tmpl_affine,
+            self.tmpl_shape,
+            self.sub_to_tmpl,
+            interpolation,
+        )
+
+    def _ants_move_sls(self, sls, from_affine, to_affine, xfm):
+        if len(sls) == 0:
+            return sls
+        lengths = [len(sl) for sl in sls]
+        pts = nib.affines.apply_affine(
+            self._RAS2LPS @ from_affine, np.concatenate(list(sls))
+        )
+        pts = ants.apply_transforms_to_points(
+            3, pd.DataFrame(pts, columns=["x", "y", "z"]), [xfm]
+        )[["x", "y", "z"]].to_numpy()
+        pts = nib.affines.apply_affine(np.linalg.inv(self._RAS2LPS @ to_affine), pts)
+        return Streamlines(np.split(pts, np.cumsum(lengths)[:-1]))
+
+    # ANTs moves points in the opposite direction to images, so the
+    # template-to-subject image transform moves points subject-to-template
+    def transform_points(self, sls):
+        return self._ants_move_sls(
+            sls, self.sub_affine, self.tmpl_affine, self.tmpl_to_sub
+        )
+
+    def transform_points_inverse(self, sls):
+        return self._ants_move_sls(
+            sls, self.tmpl_affine, self.sub_affine, self.sub_to_tmpl
         )
 
 
