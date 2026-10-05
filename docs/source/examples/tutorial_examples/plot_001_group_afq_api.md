@@ -32,6 +32,7 @@ from AFQ.api.group import GroupAFQ
 import AFQ.data.fetch as afd
 import AFQ.viz.altair as ava
 import AFQ.definitions.image as afm
+from AFQ.definitions.mapping import AntsMap
 ```
 
 ## Example data
@@ -108,6 +109,18 @@ brain_mask_definition = afm.ImageFile(
     suffix="mask", filters={"desc": "brain", "scope": "qsiprep"})
 ```
 
+## Mapping Definition (optional)
+
+By default, pyAFQ will register each subject to the MNI template itself.
+However, QSIPrep already computes this registration, so we can use QSIPrep's
+transforms instead, which is faster. HBN POD2 was processed with an older
+version of QSIPrep, which labels the subject space "T1w" rather than "ACPC".
+This requires antspyx to be installed.
+
+```{code-cell} ipython3
+mapping_definition = AntsMap(sub_space="T1w")
+```
+
 ## Initialize a GroupAFQ object:
 
 Creates a GroupAFQ object, that encapsulates tractometry. This object can be
@@ -138,6 +151,7 @@ myafq = GroupAFQ(
     participant_labels=['NDARAA948VFH'],
     pve=pve,
     brain_mask_definition=brain_mask_definition,
+    mapping_definition=mapping_definition,
     tracking_params=tracking_params)
 ```
 
@@ -324,8 +338,9 @@ As a final note, if you are using QSIPrep preprocessed data,
 you can also initialize the GroupAFQ object using the
 `from_qsiprep` class method. This method will automatically set
 the appropriate BIDS filters to find the preprocessed DWI data.
-Additionally, it will find and use the brain masks and PVE images
-that QSIPrep generates. Outside of BIDS filters, the arguments
+Additionally, it will find and use the brain masks, PVE images, and
+transforms to the MNI template that QSIPrep generates (here, we still need to
+pass the mapping definition, because HBN POD2 uses the older "T1w" name). Outside of BIDS filters, the arguments
 are the same as those used when initializing the GroupAFQ object
 directly.
 
@@ -333,6 +348,7 @@ directly.
 myafq = GroupAFQ.from_qsiprep(
     qsi_dir=op.join(afd.afq_home, 'HBN'),
     participant_labels=['NDARAA948VFH'],
+    mapping_definition=mapping_definition,
     tracking_params=tracking_params)
 ```
 

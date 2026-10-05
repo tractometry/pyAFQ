@@ -1006,7 +1006,7 @@ class GroupAFQ(object):
         Transforms a given bundle to reg_template space for all subjects
         then merges them to one trk file.
         Useful for visualizing the variability in the bundle across subjects.
-        Note: currently only implemented using built-in SynMap
+        Note: currently only implemented using SynMap or AntsMap
 
         Parameters
         ----------
@@ -1020,12 +1020,12 @@ class GroupAFQ(object):
         if "mapping_definition" in reference_plans_dict:
             mapping_definition = reference_plans_dict["mapping_definition"]
             if mapping_definition is not None and not isinstance(
-                mapping_definition, SynMap
+                mapping_definition, (SynMap, AntsMap)
             ):
                 raise NotImplementedError(
                     (
                         "combine_bundle not implemented for mapping_definition "
-                        "other than SynMap"
+                        "other than SynMap or AntsMap"
                     )
                 )
 

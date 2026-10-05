@@ -32,6 +32,7 @@ re-run your pipeline.
 from AFQ.api.group import GroupAFQ
 import AFQ.data.fetch as afd
 import AFQ.definitions.image as afm
+from AFQ.definitions.mapping import AntsMap
 import os.path as op
 import os
 ```
@@ -60,6 +61,7 @@ myafq = GroupAFQ(
     dwi_preproc_pipeline='qsiprep',
     t1_preproc_pipeline='qsiprep',
     participant_labels=['NDARAA948VFH'],
+    mapping_definition=AntsMap(sub_space="T1w"),
     pve=pve,
     tracking_params=tracking_params)
 ```
@@ -93,6 +95,7 @@ myafq = GroupAFQ(
     dwi_preproc_pipeline='qsiprep',
     t1_preproc_pipeline='qsiprep',
     participant_labels=['NDARAA948VFH'],
+    mapping_definition=AntsMap(sub_space="T1w"),
     b0_threshold=100,
     tracking_params=tracking_params,
     pve=pve)
@@ -141,6 +144,7 @@ myafq = GroupAFQ(
     dwi_preproc_pipeline='qsiprep',
     t1_preproc_pipeline='qsiprep',
     participant_labels=['NDARAA948VFH'],
+    mapping_definition=AntsMap(sub_space="T1w"),
     b0_threshold=100,
     tracking_params=tracking_params,
     pve=pve)
