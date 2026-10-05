@@ -621,7 +621,6 @@ def test_AFQ_reco():
         bids_path=bids_path,
         dwi_preproc_pipeline="vistasoft",
         t1_preproc_pipeline="freesurfer",
-        viz_backend_spec="plotly",
         profile_weights="median",
         bundle_info=abd.reco_bd(16),
         tracking_params={"n_seeds": 1e4},
