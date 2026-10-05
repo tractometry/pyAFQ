@@ -32,7 +32,7 @@ from AFQ.api.utils import (
     valid_exports_string,
 )
 from AFQ.data.utils import aws_import_msg_error
-from AFQ.definitions.mapping import SynMap
+from AFQ.definitions.mapping import AntsMap, SynMap
 from AFQ.definitions.utils import Definition, find_file
 from AFQ.version import version as pyafq_version
 from AFQ.viz.utils import get_eye, trim
@@ -503,6 +503,9 @@ class GroupAFQ(object):
             kwargs["brain_mask_definition"] = afm.ImageFile(
                 suffix="mask", filters={"desc": "brain", "scope": "qsiprep"}
             )
+
+        if "mapping_definition" not in kwargs:
+            kwargs["mapping_definition"] = AntsMap(filters={"scope": "qsiprep"})
 
         return cls(
             qsi_dir,
