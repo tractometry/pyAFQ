@@ -1,3 +1,26 @@
+3.4 (October 06, 2026)
+======================
+Fixes problem where, in some custom ROIs, holes or disconnected components 
+would be introduced during the transformation. Adds an option to auto
+delete the full tractogram after an export all, to save space. Accelerates
+cleaning by orientation. Other minor fixes and documentation updates.
+  * [ENH] better colors when not in default dict (#225)
+  * [ENH] much faster orientation by mahal cleaning (#222)
+  * [FIX/ENH] Upgrade plotly/kaleido (#223)
+  * Fix nightly tests (#221)
+  * [DOC] New CLI (#217)
+  * [ENH] more specific ROI transforming, add babyseg, update babyAFQ (#210)
+  * [DOC] Update tract profile plots code (#216)
+  * ENH option to auto delete full tractogram in export all (#203)
+  * BF: Call fury object with key-word. (#211)
+  * [FIX] Update pyAFQ download list (#209)
+  * Adds documentation example of TRX file format.  (#208)
+  * TST: Configure docbuild workflow to display full tracebacks. (#205)
+  * Metal fixes (#204)
+  * [FIX/ENH] VOF HBN changes (#202)
+  * [ENH/FIX] Add flag to turn off clipping during cleaning when clip_edges is True (#201)
+  * DOC: Prevent notebooks from being executed, add ipynb link (#199)
+
 3.3 (June 10, 2026)
 ===================
 Updates visualizations and reduces tractography file sizes.
