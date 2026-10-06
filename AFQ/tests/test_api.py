@@ -629,7 +629,7 @@ def test_AFQ_reco():
 
     seg_sft = aus.SegmentedSFT.fromfile(myafq.export("bundles")["01"])
     npt.assert_(len(seg_sft.get_bundle("CCMid").streamlines) > 0)
-    myafq.export_all()
+    myafq.export_all(afqbrowser=True)
 
 
 @pytest.mark.nightly_reco80

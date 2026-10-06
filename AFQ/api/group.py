@@ -567,6 +567,9 @@ class GroupAFQ(object):
             for b in bundle_dict.bundle_names:
                 for i in range(len(self.valid_sub_list)):
                     seg_sft, mapping, img, reg_template = subses_info[i]
+                    if b not in seg_sft.bundle_names:
+                        continue
+
                     idx = seg_sft.get_bundle_idxs(b)
                     # use the first subses that works
                     # otherwise try each successive subses
@@ -693,7 +696,7 @@ class GroupAFQ(object):
     def export_all(
         self,
         viz=True,
-        afqbrowser=True,
+        afqbrowser=False,
         xforms=True,
         indiv=True,
         delete_full_tractogram=False,
@@ -709,7 +712,7 @@ class GroupAFQ(object):
             Default: True
         afqbrowser : bool
             Whether to output an AFQ-Browser from this AFQ instance.
-            Default: True
+            Default: False
         xforms : bool
             Whether to output the reg_template image in subject space and,
             depending on if it is possible based on the mapping used, to
