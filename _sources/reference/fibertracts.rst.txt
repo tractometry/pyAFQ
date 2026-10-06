@@ -122,7 +122,7 @@ Major Fiber Tracts
      - :blue:`Blue`
      - :cite:`Yeatman2012`
      - Default
-     - `Getting started with pyAFQ - GroupAFQ <../tutorials/tutorial_examples/plot_001_group_afq_api.html>`_
+     - `Getting started with pyAFQ - GroupAFQ <../examples/tutorial_examples/plot_001_group_afq_api.html>`_
    * - Right Anterior Thalamic
      - :lightblue:`Light Blue`
      - 
@@ -222,7 +222,7 @@ Major Fiber Tracts
      - :darkgreen:`Dark Green`
      - :cite:`Dougherty2007`
      - 
-     - `Callosal bundles using AFQ API <../howto/howto_examples/plot_afq_callosal.html>`_
+     - `Callosal bundles using AFQ API <../examples/howto_examples/plot_afq_callosal.html>`_
    * - Callosum Motor
      - :skyblue:`Sky Blue`
      - 
@@ -262,7 +262,7 @@ Major Fiber Tracts
      - 
      - :cite:`Jossinger2022`
      - Cerebellar
-     - `Delineating cerebellar peduncles <../howto/howto_examples/cerebellar_peduncles.html>`_
+     - `Delineating cerebellar peduncles <../examples/howto_examples/cerebellar_peduncles.html>`_
    * - Right Inferior Cerebellar Peduncle
      - 
      - 
@@ -292,7 +292,7 @@ Major Fiber Tracts
      - 
      - :cite:`Tzourio-Mazoyer2002`
      - Acoustic Radiations
-     - `Acoustic Radiations Example <../howto/howto_examples/acoustic_radiations.html>`_
+     - `Acoustic Radiations Example <../examples/howto_examples/acoustic_radiations.html>`_
    * - Right Acoustic Radiation
      - 
      - 
@@ -302,7 +302,7 @@ Major Fiber Tracts
      - :neonblue:`Neon Blue`
      - :cite:`Caffarra2021`
      - Optic Radiations
-     - `Optic Radiations Example <../howto/howto_examples/optic_radiations.html>`_
+     - `Optic Radiations Example <../examples/howto_examples/optic_radiations.html>`_
    * - Right Optic Radiation
      - :lightneonblue:`Light Neon Blue`
      - 
@@ -322,7 +322,7 @@ Major Fiber Tracts
      - 
      - :cite:`Sagi2024`
      - Superior Longitudinal Sub-divisions
-     - `SLF 1/2/3 Example <../howto/howto_examples/add_custom_bundle.html>`_
+     - `SLF 1/2/3 Example <../examples/howto_examples/add_custom_bundle.html>`_
    * - Right Superior Longitudinal I
      - 
      - 

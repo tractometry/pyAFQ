@@ -1,0 +1,106 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "1e52f483",
+   "metadata": {},
+   "source": [
+    "# How to segment out only some bundles\n",
+    "\n",
+    "The pyAFQ software can be configured to find all of its default set of white\n",
+    "matter pathways, or bundles. Alternatively, it can be configured to find only\n",
+    "some bundles. This example shows how to track and recognize only certain\n",
+    "bundles that you are interested in, though note that ARC, pARC and VOF are all\n",
+    "also part of the set of bundles that are segmented per default."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "612569b2",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import AFQ.api.bundle_dict as abd\n",
+    "import AFQ.data.fetch as afd\n",
+    "from AFQ.api.group import GroupAFQ\n",
+    "from AFQ.definitions.image import RoiImage\n",
+    "import AFQ.utils.streamlines as aus\n",
+    "\n",
+    "import os.path as op\n",
+    "\n",
+    "afd.organize_stanford_data(clear_previous_afq=\"track\")\n",
+    "\n",
+    "bundle_names = [\n",
+    "    \"Left Arcuate\", \"Right Arcuate\",\n",
+    "    \"Left Posterior Arcuate\", \"Right Posterior Arcuate\",\n",
+    "    \"Left Vertical Occipital\", \"Right Vertical Occipital\"]\n",
+    "bundle_dict = abd.default_bd()[bundle_names]\n",
+    "\n",
+    "myafq = GroupAFQ(\n",
+    "    op.join(afd.afq_home, 'stanford_hardi'),\n",
+    "    bundle_info=bundle_dict,\n",
+    "    dwi_preproc_pipeline='vistasoft',\n",
+    "    t1_preproc_pipeline='freesurfer',\n",
+    "    tracking_params={\n",
+    "        \"n_seeds\": 50000,\n",
+    "        \"random_seeds\": True,\n",
+    "        \"seed_mask\": RoiImage(use_waypoints=True, use_endpoints=True),\n",
+    "    }\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "e94c7c62",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "for b_name in bundle_names:\n",
+    "    b_len = len(aus.SegmentedSFT.fromfile(myafq.export(\"bundles\")[\n",
+    "        \"01\"]).get_bundle(b_name))\n",
+    "\n",
+    "    if b_len < 1:\n",
+    "        raise ValueError(f\"{b_name} not found\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "d0d9e541",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "myafq.export(\"all_bundles_figure\")[\"01\"][0]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "01f2114f",
+   "metadata": {},
+   "source": [
+    ":::{only} html\n",
+    "{download}`Download as Jupyter Notebook <vof_example.ipynb>`\n",
+    ":::"
+   ]
+  }
+ ],
+ "metadata": {
+  "file_format": "mystnb",
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "name": "python",
+   "pygments_lexer": "ipython3"
+  },
+  "mystnb": {
+   "execution_mode": "off"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}

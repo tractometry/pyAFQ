@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 
 
@@ -7,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.nn.utils &#8212; AFQ 3.2 documentation</title>
+    <title>AFQ.nn.utils &#8212; AFQ 3.4 documentation</title>
   
   
   
@@ -26,29 +25,24 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=fd6457a4" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=efc0aa2d" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../../_static/scripts/fontawesome.js?digest=0790524f97105ba85085"></script>
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=64cc4de3f052d77215f0"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=0790524f97105ba85085" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085" />
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../../../_static/documentation_options.js?v=828ea960"></script>
+    <script src="../../../_static/documentation_options.js?v=ed7fbdb4"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
-    <script src="../../../_static/sg-tags.js?v=d80f6fa4"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/AFQ/nn/utils';</script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
@@ -104,7 +98,7 @@
   
     <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
-  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+  <button type="button" class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
   </button>
   
@@ -128,8 +122,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 3.2 documentation - Home"/>
-    <img src="../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="AFQ 3.2 documentation - Home"/>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 3.4 documentation - Home"/>
+    <img src="../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="AFQ 3.4 documentation - Home"/>
   
   
 </a></div>
@@ -152,14 +146,14 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../tutorials/tutorial_examples/index.html">
+  <a class="nav-link nav-internal" href="../../../examples/tutorial_examples/index.html">
     Tutorials: Getting started
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../howto/howto_examples/index.html">
+  <a class="nav-link nav-internal" href="../../../examples/howto_examples/index.html">
     How to examples
   </a>
 </li>
@@ -196,7 +190,7 @@
         <div class="navbar-item navbar-persistent--container">
           
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
  <i class="fa-solid fa-magnifying-glass"></i>
  <span class="search-button__default-text">Search</span>
  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
@@ -207,15 +201,15 @@
         <div class="navbar-item">
 
 <div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
     <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
     <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
     <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
   <ul class="dropdown-menu dropdown-menu-end">
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
   </ul>
 </div></div>
       
@@ -241,7 +235,7 @@
   
     <div class="navbar-persistent--mobile">
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
  <i class="fa-solid fa-magnifying-glass"></i>
  <span class="search-button__default-text">Search</span>
  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
@@ -286,14 +280,14 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../tutorials/tutorial_examples/index.html">
+  <a class="nav-link nav-internal" href="../../../examples/tutorial_examples/index.html">
     Tutorials: Getting started
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../howto/howto_examples/index.html">
+  <a class="nav-link nav-internal" href="../../../examples/howto_examples/index.html">
     How to examples
   </a>
 </li>
@@ -332,15 +326,15 @@
           <div class="navbar-item">
 
 <div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
     <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
     <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
     <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
   <ul class="dropdown-menu dropdown-menu-end">
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
   </ul>
 </div></div>
         
@@ -449,7 +443,7 @@
 <div class="viewcode-block" id="crop_to_nonzero">
 <a class="viewcode-back" href="../../../reference/api/AFQ/nn/utils/index.html#AFQ.nn.utils.crop_to_nonzero">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">crop_to_nonzero</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Crops the image to the bounding box of non-zero voxels.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Crops the image to the bounding box of non-zero voxels."""</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
     <span class="n">nonzero_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
 
@@ -471,14 +465,24 @@
 
 <div class="viewcode-block" id="prepare_t1_for_nn">
 <a class="viewcode-back" href="../../../reference/api/AFQ/nn/utils/index.html#AFQ.nn.utils.prepare_t1_for_nn">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">prepare_t1_for_nn</span><span class="p">(</span><span class="n">t1_img</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">prepare_t1_for_nn</span><span class="p">(</span><span class="n">t1_img</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="s2">"RAS"</span><span class="p">,</span> <span class="n">out_shape_dynamic</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="n">t1_img_cropped</span> <span class="o">=</span> <span class="n">crop_to_nonzero</span><span class="p">(</span><span class="n">t1_img</span><span class="p">)</span>
 
+    <span class="k">if</span> <span class="n">out_shape_dynamic</span><span class="p">:</span>
+        <span class="n">divisor</span> <span class="o">=</span> <span class="mi">64</span>
+        <span class="n">min_shape</span> <span class="o">=</span> <span class="mi">128</span>
+        <span class="n">max_shape</span> <span class="o">=</span> <span class="mi">320</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">t1_img_cropped</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span>
+        <span class="n">out_shape</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">s</span> <span class="o">/</span> <span class="n">divisor</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="o">*</span> <span class="n">divisor</span><span class="p">,</span> <span class="n">min_shape</span><span class="p">,</span> <span class="n">max_shape</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">out_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>
     <span class="n">t1_img_conformed</span> <span class="o">=</span> <span class="n">nbp</span><span class="o">.</span><span class="n">conform</span><span class="p">(</span>
         <span class="n">t1_img_cropped</span><span class="p">,</span>
-        <span class="n">out_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">),</span>
+        <span class="n">out_shape</span><span class="o">=</span><span class="n">out_shape</span><span class="p">,</span>
         <span class="n">voxel_size</span><span class="o">=</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>
-        <span class="n">orientation</span><span class="o">=</span><span class="s2">&quot;RAS&quot;</span><span class="p">,</span>
+        <span class="n">orientation</span><span class="o">=</span><span class="n">orientation</span><span class="p">,</span>
         <span class="n">order</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
     <span class="p">)</span>
 
@@ -500,6 +504,44 @@
         <span class="n">t1_img</span><span class="p">,</span>
         <span class="n">order</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
     <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="merge_PVEs">
+<a class="viewcode-back" href="../../../reference/api/AFQ/nn/utils/index.html#AFQ.nn.utils.merge_PVEs">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">merge_PVEs</span><span class="p">(</span><span class="n">PVE_a</span><span class="p">,</span> <span class="n">PVE_b</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Merge two PVE (Partial Volume Estimation) images, PVE_a and PVE_b,</span>
+<span class="sd">    into a single PVE image. The merging is done by taking the maximum</span>
+<span class="sd">    WM estimate from both images, then the maximum GM estimate, and</span>
+<span class="sd">    finally normalizing.</span>
+<span class="sd">    """</span>
+
+    <span class="n">csf_a</span><span class="p">,</span> <span class="n">gm_a</span><span class="p">,</span> <span class="n">wm_a</span> <span class="o">=</span> <span class="n">PVE_a</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">PVE_a</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">PVE_a</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+    <span class="n">csf_b</span><span class="p">,</span> <span class="n">gm_b</span><span class="p">,</span> <span class="n">wm_b</span> <span class="o">=</span> <span class="n">PVE_b</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">PVE_b</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">PVE_b</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+
+    <span class="n">new_wm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">wm_a</span><span class="p">,</span> <span class="n">wm_b</span><span class="p">)</span>
+
+    <span class="c1"># 2. Choose the source (a or b) with the larger GM estimate, per voxel</span>
+    <span class="n">use_a</span> <span class="o">=</span> <span class="n">gm_a</span> <span class="o">&gt;=</span> <span class="n">gm_b</span>
+    <span class="n">chosen_csf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">use_a</span><span class="p">,</span> <span class="n">csf_a</span><span class="p">,</span> <span class="n">csf_b</span><span class="p">)</span>
+    <span class="n">chosen_gm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">use_a</span><span class="p">,</span> <span class="n">gm_a</span><span class="p">,</span> <span class="n">gm_b</span><span class="p">)</span>
+
+    <span class="c1"># 3. Normalize chosen csf+gm to fill the remaining mass (1 - new_wm)</span>
+    <span class="n">remaining</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">new_wm</span>
+    <span class="n">chosen_sum</span> <span class="o">=</span> <span class="n">chosen_csf</span> <span class="o">+</span> <span class="n">chosen_gm</span>
+
+    <span class="c1"># avoid divide-by-zero where chosen_sum is 0 (e.g. pure-WM voxel)</span>
+    <span class="n">scale</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span>
+        <span class="n">remaining</span><span class="p">,</span> <span class="n">chosen_sum</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">chosen_sum</span><span class="p">),</span> <span class="n">where</span><span class="o">=</span><span class="n">chosen_sum</span> <span class="o">&gt;</span> <span class="mi">0</span>
+    <span class="p">)</span>
+
+    <span class="n">new_csf</span> <span class="o">=</span> <span class="n">chosen_csf</span> <span class="o">*</span> <span class="n">scale</span>
+    <span class="n">new_gm</span> <span class="o">=</span> <span class="n">chosen_gm</span> <span class="o">*</span> <span class="n">scale</span>
+
+    <span class="n">PVE</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">new_csf</span><span class="p">,</span> <span class="n">new_gm</span><span class="p">,</span> <span class="n">new_wm</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">PVE</span></div>
 
 </pre></div>
 
@@ -530,8 +572,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../../_static/scripts/bootstrap.js?digest=0790524f97105ba85085"></script>
-<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085"></script>
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0"></script>
 
 
   <footer class="bd-footer">
@@ -553,7 +595,6 @@
 
   <p class="sphinx-version">
     Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
-    <br/>
   </p>
 </div>
       

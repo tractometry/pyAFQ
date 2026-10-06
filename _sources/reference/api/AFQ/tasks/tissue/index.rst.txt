@@ -72,14 +72,41 @@ Module Contents
            or a Definition object to import the PVE.
            Importing a PVE from software like Freesurfer or FSL FAST is
            recommended if they are available.
-           The built-in methods are "synthseg" or "multiaxial+brainchop".
+           The built-in methods are "synthseg", "multiaxial+brainchop",
+           "multiaxial+brainchop+synthseg", and "babyseg".
            "synthseg" uses SynthSeg2 [1] to get the PVE.
            "multiaxial+brainchop" uses MultiAxial [2] and BrainChop [3]
            segmentations to get the PVE. Note this requires downloading
            the pre-trained multi-axial model which is licensed with
            Creative Commons Attribution-NonCommercial-ShareAlike 4.0
-           International.
+           International. "multiaxial+brainchop+synthseg" combines all
+           three. Finally, "babyseg" uses BabySeg [4] to get the PVE
+           for baby brain data.
            Default: "synthseg"
+
+       **References**
+           ..
+
+       **----------**
+           ..
+
+       **[1] Billot, Benjamin, et al. "Robust machine learning segmentation**
+           for large-scale analysis of heterogeneous clinical brain MRI
+           datasets." Proceedings of the National Academy of Sciences 120.9
+           (2023): e2216399120.
+
+       **[2] Birnbaum, Andrew M., et al. "Full-head segmentation of MRI**
+           with abnormal brain anatomy: model and data release." Journal of
+           Medical Imaging 12.5 (2025): 054001-054001.
+
+       **[3] Masoud, M., Hu, F., & Plis, S. (2023). Brainchop: In-browser MRI**
+           volumetric segmentation and rendering. Journal of Open Source
+           Software, 8(83), 5098.
+           https://doi.org/10.21105/joss.05098
+
+       **[4] Hoffmann M, Zöllei L, Dalca AV. "Deep infant brain segmentation from**
+           multi-contrast MRI." Asilomar Conference on Signals, Systems, and
+           Computers, 2025, pp. 974-981. https://arxiv.org/abs/2512.05114
 
 
 

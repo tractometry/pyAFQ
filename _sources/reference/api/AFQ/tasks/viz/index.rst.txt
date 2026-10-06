@@ -91,7 +91,7 @@ Module Contents
 .. py:function:: viz_indivBundle(base_fname, output_dir, viz_backend, structural_imap, data_imap, tissue_imap, mapping_imap, segmentation_imap, best_scalar, sbv_lims_indiv=None, volume_opacity_indiv=0.5, n_points_indiv=40)
 
    
-   list of full paths to html or gif files
+   list of full paths to html or mp4 files
    containing visualizations of individual bundles
 
 
@@ -154,7 +154,7 @@ Module Contents
    ..
        !! processed by numpydoc !!
 
-.. py:function:: init_viz_backend(viz_backend_spec='plotly_no_gif')
+.. py:function:: init_viz_backend(viz_backend_spec='plotly_no_mp4')
 
    
    An instance of the `AFQ.viz.utils.viz_backend` class.
@@ -166,8 +166,8 @@ Module Contents
            Which visualization backend to use.
            See Visualization Backends page in documentation for details
            https://tractometry.org/pyAFQ/reference/viz_backend.html
-           One of {"fury", "plotly", "plotly_no_gif"}.
-           Default: "plotly_no_gif"
+           One of {"fury", "plotly", "plotly_no_mp4"}.
+           Default: "plotly_no_mp4"
 
 
 

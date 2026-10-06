@@ -10,13 +10,12 @@ Functions
 .. autoapisummary::
 
    AFQ.viz.plot.visualize_tract_profiles
-   AFQ.viz.plot.visualize_gif_inline
 
 
 Module Contents
 ---------------
 
-.. py:function:: visualize_tract_profiles(tract_profiles, scalar='dti_fa', ylim=None, n_boot=1000, file_name=None, positions=vut.POSITIONS)
+.. py:function:: visualize_tract_profiles(tract_profiles, scalar='dti_fa', file_name=None, fontsize=14)
 
    
    Visualize all tract profiles for a scalar in one plot
@@ -30,50 +29,16 @@ Module Contents
        **scalar** : string, optional
            Scalar to use in plots. Default: "dti_fa".
 
-       **ylim** : list of 2 floats, optional
-           Minimum and maximum value used for y-axis bounds.
-           If None, ylim is not set.
-           Default: None
-
-       **n_boot** : int, optional
-           Number of bootstrap resamples for seaborn to use
-           to estimate the ci.
-           Default: 1000
-
        **file_name** : string, optional
            File name to save figure to if not None. Default: None
 
-       **positions** : dictionary, optional
-           Dictionary that maps bundle names to position in plot.
-           Default: vut.POSITIONS
+       **fontsize** : int, optional
+           Font size for figure. Default: 14
 
    :Returns:
 
        Matplotlib figure and axes.
            ..
-
-
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:function:: visualize_gif_inline(fname, use_s3fs=False)
-
-   
-   Display a gif inline, possible from s3fs
-
-
-
 
 
 

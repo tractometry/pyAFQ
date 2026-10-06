@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 
 
@@ -7,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.recognition.utils &#8212; AFQ 3.2 documentation</title>
+    <title>AFQ.recognition.utils &#8212; AFQ 3.4 documentation</title>
   
   
   
@@ -26,29 +25,24 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=fd6457a4" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=efc0aa2d" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../../_static/scripts/fontawesome.js?digest=0790524f97105ba85085"></script>
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=64cc4de3f052d77215f0"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=0790524f97105ba85085" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085" />
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../../../_static/documentation_options.js?v=828ea960"></script>
+    <script src="../../../_static/documentation_options.js?v=ed7fbdb4"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
-    <script src="../../../_static/sg-tags.js?v=d80f6fa4"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/AFQ/recognition/utils';</script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
@@ -104,7 +98,7 @@
   
     <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
-  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+  <button type="button" class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
   </button>
   
@@ -128,8 +122,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 3.2 documentation - Home"/>
-    <img src="../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="AFQ 3.2 documentation - Home"/>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 3.4 documentation - Home"/>
+    <img src="../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="AFQ 3.4 documentation - Home"/>
   
   
 </a></div>
@@ -152,14 +146,14 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../tutorials/tutorial_examples/index.html">
+  <a class="nav-link nav-internal" href="../../../examples/tutorial_examples/index.html">
     Tutorials: Getting started
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../howto/howto_examples/index.html">
+  <a class="nav-link nav-internal" href="../../../examples/howto_examples/index.html">
     How to examples
   </a>
 </li>
@@ -196,7 +190,7 @@
         <div class="navbar-item navbar-persistent--container">
           
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
  <i class="fa-solid fa-magnifying-glass"></i>
  <span class="search-button__default-text">Search</span>
  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
@@ -207,15 +201,15 @@
         <div class="navbar-item">
 
 <div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
     <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
     <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
     <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
   <ul class="dropdown-menu dropdown-menu-end">
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
   </ul>
 </div></div>
       
@@ -241,7 +235,7 @@
   
     <div class="navbar-persistent--mobile">
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
  <i class="fa-solid fa-magnifying-glass"></i>
  <span class="search-button__default-text">Search</span>
  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
@@ -286,14 +280,14 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../tutorials/tutorial_examples/index.html">
+  <a class="nav-link nav-internal" href="../../../examples/tutorial_examples/index.html">
     Tutorials: Getting started
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../howto/howto_examples/index.html">
+  <a class="nav-link nav-internal" href="../../../examples/howto_examples/index.html">
     How to examples
   </a>
 </li>
@@ -332,15 +326,15 @@
           <div class="navbar-item">
 
 <div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
     <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
     <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
     <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
   <ul class="dropdown-menu dropdown-menu-end">
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
   </ul>
 </div></div>
         
@@ -445,26 +439,26 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">op</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">time</span><span class="w"> </span><span class="kn">import</span> <span class="n">time</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">dipy.tracking.streamline</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dts</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">dipy.tracking.streamlinespeed</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dps</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">dipy.io.stateful_tractogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">Space</span><span class="p">,</span> <span class="n">StatefulTractogram</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">dipy.io.streamline</span><span class="w"> </span><span class="kn">import</span> <span class="n">save_tractogram</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dipy.tracking</span><span class="w"> </span><span class="kn">import</span> <span class="n">Streamlines</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">dipy.tracking.distances</span><span class="w"> </span><span class="kn">import</span> <span class="n">bundles_distances_mdf</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">tqdm</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tqdm.auto</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
 
 <div class="viewcode-block" id="axes_dict">
 <a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.axes_dict">[docs]</a>
 <span class="n">axes_dict</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;L/R&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="s2">&quot;L&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="s2">&quot;R&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="s2">&quot;P/A&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="s2">&quot;P&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="s2">&quot;A&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="s2">&quot;I/S&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-    <span class="s2">&quot;I&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-    <span class="s2">&quot;S&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="s2">"L/R"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s2">"L"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s2">"R"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s2">"P/A"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">"P"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">"A"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">"I/S"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="s2">"I"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="s2">"S"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
 <span class="p">}</span></div>
 
 
@@ -472,10 +466,10 @@
 <div class="viewcode-block" id="manual_orient_sls">
 <a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.manual_orient_sls">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">manual_orient_sls</span><span class="p">(</span><span class="n">fgarray</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Helper function to manually orient streamlines by their endpoints,</span>
 <span class="sd">    according to LPI+ pyAFQ standard assuming streamlines are in RASMM</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">endpoint_diff</span> <span class="o">=</span> <span class="n">fgarray</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:]</span> <span class="o">-</span> <span class="n">fgarray</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span>
     <span class="n">primary_axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">endpoint_diff</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">endpoint_diff</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fgarray</span><span class="p">)),</span> <span class="n">primary_axis</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span></div>
@@ -490,13 +484,7 @@
     <span class="n">R</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">affine</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
     <span class="n">vox_dim</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cholesky</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">R</span><span class="p">))))</span>
 
-    <span class="c1"># Tolerance is set to the square of the distance to the corner</span>
-    <span class="c1"># because we are using the squared Euclidean distance in calls to</span>
-    <span class="c1"># `cdist` to make those calls faster.</span>
-    <span class="k">if</span> <span class="n">dist_to_waypoint</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">tol</span> <span class="o">=</span> <span class="n">dts</span><span class="o">.</span><span class="n">dist_to_corner</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">affine</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">tol</span> <span class="o">=</span> <span class="n">dist_to_waypoint</span> <span class="o">/</span> <span class="n">vox_dim</span>
+    <span class="n">tol</span> <span class="o">=</span> <span class="n">dist_to_waypoint</span> <span class="o">/</span> <span class="n">vox_dim</span>
     <span class="n">dist_to_atlas</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">input_dist_to_atlas</span> <span class="o">/</span> <span class="n">vox_dim</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">tol</span><span class="p">,</span> <span class="n">dist_to_atlas</span><span class="p">,</span> <span class="n">vox_dim</span></div>
 
@@ -505,9 +493,9 @@
 <div class="viewcode-block" id="flip_sls">
 <a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.flip_sls">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">flip_sls</span><span class="p">(</span><span class="n">select_sl</span><span class="p">,</span> <span class="n">idx_to_flip</span><span class="p">,</span> <span class="n">in_place</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Helper function to flip streamlines</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">in_place</span><span class="p">:</span>
         <span class="n">flipped_sl</span> <span class="o">=</span> <span class="n">select_sl</span>
     <span class="k">else</span><span class="p">:</span>
@@ -524,7 +512,7 @@
 <div class="viewcode-block" id="cut_sls_by_closest">
 <a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.cut_sls_by_closest">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">cut_sls_by_closest</span><span class="p">(</span><span class="n">select_sl</span><span class="p">,</span> <span class="n">roi_closest</span><span class="p">,</span> <span class="n">roi_idxs</span><span class="p">,</span> <span class="n">in_place</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Helper function to cut streamlines according to which points</span>
 <span class="sd">    are closest to certain rois.</span>
 
@@ -539,7 +527,7 @@
 <span class="sd">        two indices into the list of inclusion rois to use for the cut</span>
 <span class="sd">    in_place</span>
 <span class="sd">        whether to modify select_sl</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">in_place</span><span class="p">:</span>
         <span class="n">cut_sl</span> <span class="o">=</span> <span class="n">select_sl</span>
     <span class="k">else</span><span class="p">:</span>
@@ -583,16 +571,21 @@
 <div class="viewcode-block" id="resample_tg">
 <a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.resample_tg">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">resample_tg</span><span class="p">(</span><span class="n">tg</span><span class="p">,</span> <span class="n">n_points</span><span class="p">):</span>
-    <span class="c1"># reformat for dipy&#39;s set_number_of_points</span>
+    <span class="c1"># reformat for dipy's set_number_of_points</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tg</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tg</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
             <span class="n">streamlines</span> <span class="o">=</span> <span class="n">tg</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
             <span class="n">streamlines</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">streamlines</span><span class="p">]</span>
-    <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">tg</span><span class="p">,</span> <span class="s2">&quot;streamlines&quot;</span><span class="p">):</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">streamlines</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">tg</span><span class="p">)]</span>
+    <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">tg</span><span class="p">,</span> <span class="s2">"streamlines"</span><span class="p">):</span>
         <span class="n">streamlines</span> <span class="o">=</span> <span class="n">tg</span><span class="o">.</span><span class="n">streamlines</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">streamlines</span> <span class="o">=</span> <span class="n">tg</span>
 
+    <span class="n">streamlines</span> <span class="o">=</span> <span class="n">Streamlines</span><span class="p">(</span><span class="n">streamlines</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">streamlines</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">dtype</span> <span class="o">!=</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">:</span>
+        <span class="n">streamlines</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">streamlines</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">dps</span><span class="o">.</span><span class="n">set_number_of_points</span><span class="p">(</span><span class="n">streamlines</span><span class="p">,</span> <span class="n">n_points</span><span class="p">)</span></div>
 
 
@@ -642,7 +635,7 @@
 <a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.SlsBeingRecognized.initiate_selection">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">initiate_selection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">clean_name</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
-        <span class="n">tqdm</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Filtering by </span><span class="si">{</span><span class="n">clean_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">tqdm</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Filtering by </span><span class="si">{</span><span class="n">clean_name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">selected_fiber_idxs</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">)</span></div>
 
 
@@ -651,14 +644,14 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">select</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">clean_name</span><span class="p">,</span> <span class="n">cut</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">selected_fiber_idxs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">selected_fiber_idxs</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sls_flipped</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sls_flipped</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;roi_closest&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"roi_closest"</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">roi_closest</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">roi_closest</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;roi_dists&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"roi_dists"</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">roi_dists</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">roi_dists</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
         <span class="n">time_taken</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_time</span>
         <span class="n">tqdm</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;After filtering by </span><span class="si">{</span><span class="n">clean_name</span><span class="si">}</span><span class="s2"> (time: </span><span class="si">{</span><span class="n">time_taken</span><span class="si">}</span><span class="s2">s), &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="si">}</span><span class="s2"> streamlines remain.&quot;</span>
+            <span class="sa">f</span><span class="s2">"After filtering by </span><span class="si">{</span><span class="n">clean_name</span><span class="si">}</span><span class="s2"> (time: </span><span class="si">{</span><span class="n">time_taken</span><span class="si">}</span><span class="s2">s), "</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="si">}</span><span class="s2"> streamlines remain."</span>
         <span class="p">)</span>
 
         <span class="c1"># Only save intermediates after the 90% of the</span>
@@ -671,7 +664,7 @@
                 <span class="p">),</span>
                 <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">save_intermediates</span><span class="p">,</span>
-                    <span class="sa">f</span><span class="s2">&quot;sls_after_</span><span class="si">{</span><span class="n">clean_name</span><span class="si">}</span><span class="s2">_for_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">b_name</span><span class="si">}</span><span class="s2">.trk&quot;</span><span class="p">,</span>
+                    <span class="sa">f</span><span class="s2">"sls_after_</span><span class="si">{</span><span class="n">clean_name</span><span class="si">}</span><span class="s2">_for_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">b_name</span><span class="si">}</span><span class="s2">.trk"</span><span class="p">,</span>
                 <span class="p">),</span>
                 <span class="n">bbox_valid_check</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
             <span class="p">)</span></div>
@@ -681,7 +674,7 @@
 <a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.SlsBeingRecognized.get_selected_sls">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_selected_sls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cut</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">flip</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="n">selected_sls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ref_sls</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">selected_fiber_idxs</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">cut</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;roi_closest&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_roi</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">cut</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"roi_closest"</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_roi</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">selected_sls</span> <span class="o">=</span> <span class="n">cut_sls_by_closest</span><span class="p">(</span>
                 <span class="n">selected_sls</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">roi_closest</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_roi</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="n">in_place</span><span class="o">=</span><span class="kc">False</span>
             <span class="p">)</span>
@@ -696,10 +689,10 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">oriented_yet</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
                 <span class="p">(</span>
-                    <span class="s2">&quot;Attempted to oriented streamlines &quot;</span>
-                    <span class="s2">&quot;that were already oriented. &quot;</span>
-                    <span class="s2">&quot;This is a bug in the implementation of a &quot;</span>
-                    <span class="s2">&quot;bundle recognition procedure. &quot;</span>
+                    <span class="s2">"Attempted to oriented streamlines "</span>
+                    <span class="s2">"that were already oriented. "</span>
+                    <span class="s2">"This is a bug in the implementation of a "</span>
+                    <span class="s2">"bundle recognition procedure. "</span>
                 <span class="p">)</span>
             <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">oriented_yet</span> <span class="o">=</span> <span class="kc">True</span>
@@ -727,8 +720,8 @@
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_roi</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
                     <span class="p">(</span>
-                        <span class="s2">&quot;You cannot have includes in the original bundle and&quot;</span>
-                        <span class="s2">&quot; subbundles; only one or the other.&quot;</span>
+                        <span class="s2">"You cannot have includes in the original bundle and"</span>
+                        <span class="s2">" subbundles; only one or the other."</span>
                     <span class="p">)</span>
                 <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
@@ -737,9 +730,9 @@
         <span class="n">new_copy</span><span class="o">.</span><span class="n">selected_fiber_idxs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">selected_fiber_idxs</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="n">new_copy</span><span class="o">.</span><span class="n">sls_flipped</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sls_flipped</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;roi_closest&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"roi_closest"</span><span class="p">):</span>
             <span class="n">new_copy</span><span class="o">.</span><span class="n">roi_closest</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">roi_closest</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;roi_dists&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"roi_dists"</span><span class="p">):</span>
             <span class="n">new_copy</span><span class="o">.</span><span class="n">roi_dists</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">roi_dists</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
         <span class="k">return</span> <span class="n">new_copy</span></div>
@@ -749,16 +742,16 @@
 <a class="viewcode-back" href="../../../reference/api/AFQ/recognition/utils/index.html#AFQ.recognition.utils.SlsBeingRecognized.export_selected">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">export_selected</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chunk_offset</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">{</span>
-            <span class="s2">&quot;global_idx&quot;</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">"global_idx"</span><span class="p">:</span> <span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">selected_fiber_idxs</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">chunk_offset</span><span class="p">)</span>
             <span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span>
-            <span class="s2">&quot;sls_flipped&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">sls_flipped</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span>
-            <span class="s2">&quot;oriented_yet&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">oriented_yet</span><span class="p">,</span>
-            <span class="s2">&quot;roi_closest&quot;</span><span class="p">:</span> <span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">roi_closest</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;roi_closest&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+            <span class="s2">"sls_flipped"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">sls_flipped</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span>
+            <span class="s2">"oriented_yet"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">oriented_yet</span><span class="p">,</span>
+            <span class="s2">"roi_closest"</span><span class="p">:</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">roi_closest</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"roi_closest"</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
             <span class="p">),</span>
-            <span class="s2">&quot;roi_dists&quot;</span><span class="p">:</span> <span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">roi_dists</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;roi_dists&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+            <span class="s2">"roi_dists"</span><span class="p">:</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">roi_dists</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"roi_dists"</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
             <span class="p">),</span>
         <span class="p">}</span></div>
 
@@ -775,31 +768,31 @@
         <span class="n">ref</span><span class="p">,</span>
         <span class="n">n_roi</span><span class="p">,</span>
     <span class="p">):</span>
-        <span class="n">non_empty</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">survivor_dicts</span> <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;global_idx&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">non_empty</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">survivor_dicts</span> <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">"global_idx"</span><span class="p">]</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">non_empty</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
 
-        <span class="n">global_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">d</span><span class="p">[</span><span class="s2">&quot;global_idx&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">non_empty</span><span class="p">])</span>
-        <span class="n">sls_flipped</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">d</span><span class="p">[</span><span class="s2">&quot;sls_flipped&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">non_empty</span><span class="p">])</span>
-        <span class="n">oriented_yet</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s2">&quot;oriented_yet&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">non_empty</span><span class="p">)</span>
+        <span class="n">global_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">d</span><span class="p">[</span><span class="s2">"global_idx"</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">non_empty</span><span class="p">])</span>
+        <span class="n">sls_flipped</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">d</span><span class="p">[</span><span class="s2">"sls_flipped"</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">non_empty</span><span class="p">])</span>
+        <span class="n">oriented_yet</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s2">"oriented_yet"</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">non_empty</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">global_idx</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">global_idx</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
-            <span class="n">order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">global_idx</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;stable&quot;</span><span class="p">)</span>
+            <span class="n">order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">global_idx</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"stable"</span><span class="p">)</span>
             <span class="n">global_idx</span> <span class="o">=</span> <span class="n">global_idx</span><span class="p">[</span><span class="n">order</span><span class="p">]</span>
             <span class="n">sls_flipped</span> <span class="o">=</span> <span class="n">sls_flipped</span><span class="p">[</span><span class="n">order</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">order</span> <span class="o">=</span> <span class="kc">None</span>
 
-        <span class="n">has_roi</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="s2">&quot;roi_closest&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">non_empty</span><span class="p">]</span>
+        <span class="n">has_roi</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="s2">"roi_closest"</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">non_empty</span><span class="p">]</span>
         <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">has_roi</span><span class="p">):</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="n">has_roi</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
-                    <span class="s2">&quot;Inconsistent roi_closest across chunks for bundle &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">b_name</span><span class="si">}</span><span class="s2">: some chunks have it, some don&#39;t. This is a&quot;</span>
-                    <span class="s2">&quot; bug in chunked recognition.&quot;</span>
+                    <span class="s2">"Inconsistent roi_closest across chunks for bundle "</span>
+                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">b_name</span><span class="si">}</span><span class="s2">: some chunks have it, some don't. This is a"</span>
+                    <span class="s2">" bug in chunked recognition."</span>
                 <span class="p">)</span>
-            <span class="n">roi_closest</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">d</span><span class="p">[</span><span class="s2">&quot;roi_closest&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">non_empty</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-            <span class="n">roi_dists</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">d</span><span class="p">[</span><span class="s2">&quot;roi_dists&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">non_empty</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">roi_closest</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">d</span><span class="p">[</span><span class="s2">"roi_closest"</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">non_empty</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">roi_dists</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">d</span><span class="p">[</span><span class="s2">"roi_dists"</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">non_empty</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">order</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">roi_closest</span> <span class="o">=</span> <span class="n">roi_closest</span><span class="p">[</span><span class="n">order</span><span class="p">]</span>
                 <span class="n">roi_dists</span> <span class="o">=</span> <span class="n">roi_dists</span><span class="p">[</span><span class="n">order</span><span class="p">]</span>
@@ -854,8 +847,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../../_static/scripts/bootstrap.js?digest=0790524f97105ba85085"></script>
-<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085"></script>
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0"></script>
 
 
   <footer class="bd-footer">
@@ -877,7 +870,6 @@
 
   <p class="sphinx-version">
     Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
-    <br/>
   </p>
 </div>
       

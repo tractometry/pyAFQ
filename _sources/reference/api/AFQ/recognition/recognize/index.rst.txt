@@ -28,7 +28,7 @@ Module Contents
 
 .. py:data:: logger
 
-.. py:function:: recognize(tg, img, mapping, bundle_dict, reg_template, nb_points=False, nb_streamlines=False, clip_edges=False, rb_recognize_params=None, refine_reco=False, prob_threshold=0, dist_to_waypoint=None, rng=None, return_idx=False, filter_by_endpoints=True, dist_to_atlas=4, save_intermediates=None, cleaning_params=None, chunk_size=int(1000000.0))
+.. py:function:: recognize(tg, img, mapping, bundle_dict, reg_template, nb_points=False, nb_streamlines=False, clip_edges=False, clean_unclipped=False, rb_recognize_params=None, refine_reco=False, prob_threshold=0, dist_to_waypoint=0, rng=None, return_idx=False, filter_by_endpoints=True, dist_to_atlas=4, save_intermediates=None, cleaning_params=None, chunk_size=int(1000000.0))
 
    
    Segment streamlines into bundles.
@@ -67,9 +67,15 @@ Module Contents
            Whether to clip the streamlines to be only in between the ROIs.
            Default: False
 
+       **clean_unclipped** : bool
+           Whether to use the unclipped streamlines when cleaning.
+           Only considered if clip_edges is True or bundlesection
+           is in the bundle_dict.
+           Default: False
+
        **rb_recognize_params** : dict
            RecoBundles parameters for the recognize function.
-           Default: dict(model_clust_thr=1.25, reduction_thr=25, pruning_thr=12)
+           Default: None
 
        **refine_reco** : bool
            Whether to refine the RecoBundles segmentation.
@@ -85,8 +91,6 @@ Module Contents
        **dist_to_waypoint** : float.
            The distance that a streamline node has to be from the waypoint
            ROI in order to be included or excluded.
-           If set to None (default), will be calculated as the
-           center-to-corner distance of the voxel in the diffusion data.
            If a bundle has inc_addtol or exc_addtol in its bundle_dict, that
            tolerance will be added to this distance.
            For example, if you wanted to increase tolerance for the right
@@ -94,7 +98,7 @@ Module Contents
            modification to your bundle_dict:
            bundle_dict["Right Arcuate"]["inc_addtol"] = [3, 3]
            Additional tolerances can also be negative.
-           Default: None.
+           Default: 0.
 
        **rng** : RandomState or int
            If None, creates RandomState.
@@ -118,20 +122,22 @@ Module Contents
 
        **save_intermediates** : str, optional
            The full path to a folder into which intermediate products
-           are saved. Default: None, means no saving of intermediates.
+           are saved. If None, means no saving of intermediates.
+           Default: None.
 
        **cleaning_params** : dict, optional
            Cleaning params to pass to seg.clean_bundle. This will
            override the default parameters of that method. However, this
            can be overridden by setting the cleaning parameters in the
-           bundle_dict. Default: {}.
+           bundle_dict.
+           Default: None.
 
        **chunk_size** : int, optional
            Number of streamlines to preprocess at a time. The full
            tractogram is processed in chunks of this size to keep peak
            memory bounded. Per-chunk surviving candidates are merged
            before the global per-bundle filtering steps run.
-           Default: 1e6.
+           Default: int(1e6).
 
 
 

@@ -4,43 +4,22 @@ AFQ.utils.docs
 .. py:module:: AFQ.utils.docs
 
 
-Classes
--------
+Functions
+---------
 
 .. autoapisummary::
 
-   AFQ.utils.docs.PNGScraper
-   AFQ.utils.docs.GIFScraper
+   AFQ.utils.docs.embed_video
+   AFQ.utils.docs.embed_image
+   AFQ.utils.docs.embed_html
 
 
 Module Contents
 ---------------
 
-.. py:class:: PNGScraper
+.. py:function:: embed_video(path)
 
-   Bases: :py:obj:`object`
+.. py:function:: embed_image(path)
 
-
-   .. py:attribute:: seen
-
-
-   .. py:method:: __repr__()
-
-
-   .. py:method:: __call__(block, block_vars, gallery_conf)
-
-
-.. py:class:: GIFScraper
-
-   Bases: :py:obj:`object`
-
-
-   .. py:attribute:: seen
-
-
-   .. py:method:: __repr__()
-
-
-   .. py:method:: __call__(block, block_vars, gallery_conf)
-
+.. py:function:: embed_html(path)
 

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 
 
@@ -8,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>User Guide &#8212; AFQ 3.2 documentation</title>
+    <title>User Guide &#8212; AFQ 3.4 documentation</title>
   
   
   
@@ -27,29 +26,24 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css?v=fd6457a4" />
-    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-binder.css?v=f4aeca0c" />
-    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-dataframe.css?v=2082cf3c" />
-    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="_static/custom.css?v=efc0aa2d" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="_static/scripts/fontawesome.js?digest=0790524f97105ba85085"></script>
+  <script defer src="_static/scripts/fontawesome.js?digest=64cc4de3f052d77215f0"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=0790524f97105ba85085" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085" />
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=828ea960"></script>
+    <script src="_static/documentation_options.js?v=ed7fbdb4"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
-    <script src="_static/sg-tags.js?v=d80f6fa4"></script>
     <script src="_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'guides_index';</script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
@@ -107,7 +101,7 @@
   
     <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
-  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+  <button type="button" class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
   </button>
   
@@ -131,8 +125,8 @@
       
     
     
-    <img src="_static/logo.png" class="logo__image only-light" alt="AFQ 3.2 documentation - Home"/>
-    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="AFQ 3.2 documentation - Home"/>
+    <img src="_static/logo.png" class="logo__image only-light" alt="AFQ 3.4 documentation - Home"/>
+    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="AFQ 3.4 documentation - Home"/>
   
   
 </a></div>
@@ -148,21 +142,21 @@
   <ul class="bd-navbar-elements navbar-nav">
     
 <li class="nav-item current active">
-  <a class="nav-link nav-internal" href="#">
+  <a class="nav-link nav-internal" href="#" aria-current="page">
     User Guide
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="tutorials/tutorial_examples/index.html">
+  <a class="nav-link nav-internal" href="examples/tutorial_examples/index.html">
     Tutorials: Getting started
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="howto/howto_examples/index.html">
+  <a class="nav-link nav-internal" href="examples/howto_examples/index.html">
     How to examples
   </a>
 </li>
@@ -199,7 +193,7 @@
         <div class="navbar-item navbar-persistent--container">
           
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
  <i class="fa-solid fa-magnifying-glass"></i>
  <span class="search-button__default-text">Search</span>
  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
@@ -210,15 +204,15 @@
         <div class="navbar-item">
 
 <div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
     <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
     <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
     <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
   <ul class="dropdown-menu dropdown-menu-end">
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
   </ul>
 </div></div>
       
@@ -244,7 +238,7 @@
   
     <div class="navbar-persistent--mobile">
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
  <i class="fa-solid fa-magnifying-glass"></i>
  <span class="search-button__default-text">Search</span>
  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
@@ -253,7 +247,7 @@
   
 
   
-    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+    <button type="button" class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
       <span class="fa-solid fa-outdent"></span>
     </button>
   
@@ -284,21 +278,21 @@
   <ul class="bd-navbar-elements navbar-nav">
     
 <li class="nav-item current active">
-  <a class="nav-link nav-internal" href="#">
+  <a class="nav-link nav-internal" href="#" aria-current="page">
     User Guide
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="tutorials/tutorial_examples/index.html">
+  <a class="nav-link nav-internal" href="examples/tutorial_examples/index.html">
     Tutorials: Getting started
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="howto/howto_examples/index.html">
+  <a class="nav-link nav-internal" href="examples/howto_examples/index.html">
     How to examples
   </a>
 </li>
@@ -337,15 +331,15 @@
           <div class="navbar-item">
 
 <div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
     <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
     <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
     <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
   <ul class="dropdown-menu dropdown-menu-end">
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
   </ul>
 </div></div>
         
@@ -392,14 +386,14 @@
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="tutorials/index.html">Getting started with pyAFQ</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="tutorials/tutorial_examples/index.html">Tutorials: Getting started</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="tutorials/tutorial_examples/plot_001_group_afq_api.html">Getting started with pyAFQ - GroupAFQ</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tutorials/tutorial_examples/plot_002_participant_afq_api.html">Getting started with pyAFQ - ParticipantAFQ</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tutorials/tutorial_examples/plot_003_rerun.html">Re-running pyAFQ</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tutorials/tutorial_examples/plot_004_export.html">Exporting pyAFQ Results</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tutorials/tutorial_examples/plot_005_viz.html">Visualizing AFQ derivatives</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tutorials/tutorial_examples/plot_006_bids_layout.html">How pyAFQ uses BIDS</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tutorials/tutorial_examples/plot_007_rois.html">Plotting Default Regions of Interest (ROIs) to Understand the Tracts</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="examples/tutorial_examples/index.html">Tutorials: Getting started</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/tutorial_examples/plot_001_group_afq_api.html">Getting started with pyAFQ - GroupAFQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/tutorial_examples/plot_002_participant_afq_api.html">Getting started with pyAFQ - ParticipantAFQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/tutorial_examples/plot_003_rerun.html">Re-running pyAFQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/tutorial_examples/plot_004_export.html">Exporting pyAFQ Results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/tutorial_examples/plot_005_viz.html">Visualizing AFQ derivatives</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/tutorial_examples/plot_006_bids_layout.html">How pyAFQ uses BIDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/tutorial_examples/plot_007_rois.html">Plotting Default Regions of Interest (ROIs) to Understand the Tracts</a></li>
 </ul>
 </details></li>
 </ul>
@@ -419,23 +413,23 @@
 <li class="toctree-l2"><a class="reference internal" href="howto/tractography_params.html">Tractography Parameters</a></li>
 <li class="toctree-l2"><a class="reference internal" href="howto/segmentation_params.html">Segmentation Parameters</a></li>
 <li class="toctree-l2"><a class="reference internal" href="howto/cleaning_params.html">Cleaning Parameters</a></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="howto/howto_examples/index.html">How to examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="howto/howto_examples/acoustic_radiations.html">How to add new bundles into pyAFQ (Acoustic Radiations Example)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="howto/howto_examples/add_custom_bundle.html">How to add new bundles into pyAFQ (SLF 1/2/3 Example)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="howto/howto_examples/afq_callosal.html">Callosal bundles using AFQ API</a></li>
-<li class="toctree-l3"><a class="reference internal" href="howto/howto_examples/afq_fwdti.html">How to use Free water DTI</a></li>
-<li class="toctree-l3"><a class="reference internal" href="howto/howto_examples/baby_afq.html">BabyAFQ : tractometry for infant dMRI data</a></li>
-<li class="toctree-l3"><a class="reference internal" href="howto/howto_examples/cerebellar_peduncles.html">Delineating cerebellar peduncles</a></li>
-<li class="toctree-l3"><a class="reference internal" href="howto/howto_examples/cloudknot_example.html">Using cloudknot to run pyAFQ on AWS batch:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="howto/howto_examples/cloudknot_hcp_example.html">AFQ with HCP data</a></li>
-<li class="toctree-l3"><a class="reference internal" href="howto/howto_examples/optic_radiations.html">How to add new bundles into pyAFQ(Optic Radiations Example)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="howto/howto_examples/optic_tract.html">How to track the Optic Tract and Posterior Optic Nerve in pyAFQ</a></li>
-<li class="toctree-l3"><a class="reference internal" href="howto/howto_examples/plot_stages_of_tractometry.html">Understanding the different stages of tractometry with videos</a></li>
-<li class="toctree-l3"><a class="reference internal" href="howto/howto_examples/pyAFQ_with_GPU.html">Running pyAFQ using the GPU for tractography</a></li>
-<li class="toctree-l3"><a class="reference internal" href="howto/howto_examples/pyafq_2.html">Running pyAFQ 2.x defaults in pyAFQ 3.x</a></li>
-<li class="toctree-l3"><a class="reference internal" href="howto/howto_examples/recobundles.html">Using RecoBundles for bundle recognition</a></li>
-<li class="toctree-l3"><a class="reference internal" href="howto/howto_examples/use_subject_space_rois_from_freesurfer.html">Using Subject Space ROIs from Freesurfer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="howto/howto_examples/vof_example.html">How to segment out only some bundles</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="examples/howto_examples/index.html">How to examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/howto_examples/acoustic_radiations.html">How to add new bundles into pyAFQ (Acoustic Radiations Example)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/howto_examples/afq_callosal.html">Creating tract density maps of callosal bundles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/howto_examples/afq_fwdti.html">How to use Free water DTI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/howto_examples/baby_afq.html">BabyAFQ : tractometry for infant dMRI data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/howto_examples/cerebellar_peduncles.html">Delineating cerebellar peduncles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/howto_examples/cloudknot_example.html">Using cloudknot to run pyAFQ on AWS batch:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/howto_examples/cloudknot_hcp_example.html">AFQ with HCP data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/howto_examples/optic_radiations.html">How to add new bundles into pyAFQ (Optic Radiations Example)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/howto_examples/optic_tract.html">How to track the Optic Tract and Posterior Optic Nerve in pyAFQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/howto_examples/plot_stages_of_tractometry.html">Understanding the different stages of tractometry with videos</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/howto_examples/plot_trx.html">How to use TRX in pyAFQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/howto_examples/pyAFQ_with_GPU.html">Running pyAFQ using the GPU for tractography</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/howto_examples/pyafq_2.html">Running pyAFQ 2.x defaults in pyAFQ 3.x</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/howto_examples/recobundles.html">Using RecoBundles for bundle recognition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/howto_examples/use_subject_space_rois_from_freesurfer.html">Using Subject Space ROIs from Freesurfer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/howto_examples/vof_example.html">How to segment out only some bundles</a></li>
 </ul>
 </details></li>
 </ul>
@@ -475,7 +469,7 @@
 <li class="toctree-l2"><a class="reference internal" href="reference/viz_backend.html">Visualization Backends</a></li>
 
 <li class="toctree-l2"><a class="reference internal" href="reference/mapping.html">The pyAFQ Mapping API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="reference/config.html">The pyAFQ configuration file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/cli.html">The pyAFQ CLI</a></li>
 </ul>
 </details></li>
 </ul>
@@ -540,7 +534,75 @@
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/index.html">Getting started with pyAFQ</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tutorials/tutorial_examples/index.html">Tutorials: Getting started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/tutorial_examples/index.html">Tutorials: Getting started</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/tutorial_examples/plot_001_group_afq_api.html">Getting started with pyAFQ - GroupAFQ</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_001_group_afq_api.html#example-data">Example data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_001_group_afq_api.html#set-tractography-parameters-optional">Set tractography parameters (optional)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_001_group_afq_api.html#define-pve-images-optional">Define PVE images (optional)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_001_group_afq_api.html#brain-mask-definition-optional">Brain Mask Definition (optional)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_001_group_afq_api.html#initialize-a-groupafq-object">Initialize a GroupAFQ object:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_001_group_afq_api.html#calculating-dti-fa-diffusion-tensor-imaging-fractional-anisotropy">Calculating DTI FA (Diffusion Tensor Imaging Fractional Anisotropy)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_001_group_afq_api.html#visualize-the-result-with-matplotlib">Visualize the result with Matplotlib</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_001_group_afq_api.html#recognizing-the-bundles-and-calculating-tract-profiles">Recognizing the bundles and calculating tract profiles:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_001_group_afq_api.html#visualizing-the-bundles-and-calculating-tract-profiles">Visualizing the bundles and calculating tract profiles:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_001_group_afq_api.html#exporting-citations">Exporting citations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_001_group_afq_api.html#alternative-way-to-initialize-groupafq-when-using-qsiprep-data">Alternative way to initialize GroupAFQ when using QSIPrep data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_001_group_afq_api.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/tutorial_examples/plot_002_participant_afq_api.html">Getting started with pyAFQ - ParticipantAFQ</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_002_participant_afq_api.html#example-data">Example data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_002_participant_afq_api.html#defining-data-files">Defining data files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_002_participant_afq_api.html#set-tractography-parameters-optional">Set tractography parameters (optional)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_002_participant_afq_api.html#define-pve-images-optional">Define PVE images (optional)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_002_participant_afq_api.html#brain-mask-definition-optional">Brain Mask Definition (optional)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_002_participant_afq_api.html#initialize-a-participantafq-object">Initialize a ParticipantAFQ object:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_002_participant_afq_api.html#calculating-dti-fa-diffusion-tensor-imaging-fractional-anisotropy">Calculating DTI FA (Diffusion Tensor Imaging Fractional Anisotropy)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_002_participant_afq_api.html#visualize-the-result-with-matplotlib">Visualize the result with Matplotlib</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_002_participant_afq_api.html#recognizing-the-bundles-and-calculating-tract-profiles">Recognizing the bundles and calculating tract profiles:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_002_participant_afq_api.html#visualizing-the-bundles-and-calculating-tract-profiles">Visualizing the bundles and calculating tract profiles:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_002_participant_afq_api.html#exporting-citations">Exporting citations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_002_participant_afq_api.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/tutorial_examples/plot_003_rerun.html">Re-running pyAFQ</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_003_rerun.html#delete-everything">Delete Everything</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_003_rerun.html#delete-some-things">Delete Some Things</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_003_rerun.html#move-some-things">Move Some Things</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_003_rerun.html#how-it-works">How It Works</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/tutorial_examples/plot_004_export.html">Exporting pyAFQ Results</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_004_export.html#preparing-the-participantafq-object">Preparing the ParticipantAFQ object</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_004_export.html#the-export-method">The Export Method</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_004_export.html#calculating-dti-fa-diffusion-tensor-imaging-fractional-anisotropy">Calculating DTI FA (Diffusion Tensor Imaging Fractional Anisotropy)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_004_export.html#recognizing-the-bundles-and-calculating-tract-profiles">Recognizing the bundles and calculating tract profiles:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_004_export.html#visualizing-the-bundles-and-calculating-tract-profiles">Visualizing the bundles and calculating tract profiles:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_004_export.html#the-export-all-method">The Export All Method</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_004_export.html#the-export-up-to-method">The Export Up To Method</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/tutorial_examples/plot_005_viz.html">Visualizing AFQ derivatives</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_005_viz.html#get-some-data-from-hbn-pod2">Get some data from HBN POD2</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_005_viz.html#read-data-into-memory">Read data into memory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_005_viz.html#transform-into-the-t1w-reference-frame">Transform into the T1w reference frame</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_005_viz.html#visualizing-bundles-with-principal-direction-coloring">Visualizing bundles with principal direction coloring</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_005_viz.html#slicer-actors">Slicer actors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_005_viz.html#making-a-scene">Making a <code class="docutils literal notranslate"><span class="pre">scene</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_005_viz.html#showing-the-visualization">Showing the visualization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_005_viz.html#record-the-visualization">Record the visualization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_005_viz.html#setting-bundle-colors">Setting bundle colors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_005_viz.html#adding-core-bundles-with-tract-profiles">Adding core bundles with tract profiles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_005_viz.html#adding-rois">Adding ROIs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_005_viz.html#visualizing-tracts-and-tract-profiles-with-a-glass-brain">Visualizing tracts and tract profiles with a “glass brain”</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_005_viz.html#making-a-figure-out-of-many-fury-panels">Making a Figure out of many fury panels</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tutorial_examples/plot_005_viz.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/tutorial_examples/plot_006_bids_layout.html">How pyAFQ uses BIDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/tutorial_examples/plot_007_rois.html">Plotting Default Regions of Interest (ROIs) to Understand the Tracts</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="howto/index.html">How To</a><ul>
@@ -584,7 +646,115 @@
 <li class="toctree-l3"><a class="reference internal" href="howto/cleaning_params.html#cleaning-parameter-reference">Cleaning Parameter Reference</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="howto/howto_examples/index.html">How to examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/howto_examples/index.html">How to examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/howto_examples/acoustic_radiations.html">How to add new bundles into pyAFQ (Acoustic Radiations Example)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/acoustic_radiations.html#get-dmri-data">Get dMRI data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/acoustic_radiations.html#define-custom-bundledict-object">Define custom <code class="docutils literal notranslate"><span class="pre">BundleDict</span></code> object</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/acoustic_radiations.html#define-groupafq-object">Define GroupAFQ object</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/acoustic_radiations.html#interactive-bundle-visualization">Interactive bundle visualization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/acoustic_radiations.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/howto_examples/afq_callosal.html">Creating tract density maps of callosal bundles</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/afq_callosal.html#get-some-example-data">Get some example data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/afq_callosal.html#set-segmentation-parameters-optional">Set segmentation parameters (optional)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/afq_callosal.html#initialize-a-groupafq-object">Initialize a GroupAFQ object:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/afq_callosal.html#create-tract-density-maps">Create tract density maps:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/afq_callosal.html#visualizing-bundles-and-tract-profiles">Visualizing bundles and tract profiles:</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/howto_examples/afq_fwdti.html">How to use Free water DTI</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/afq_fwdti.html#get-some-data">Get some data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/afq_fwdti.html#define-an-afq-object">Define an AFQ object</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/afq_fwdti.html#compare-fwdti-and-dti-maps">Compare fwDTI and DTI maps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/afq_fwdti.html#free-water-fraction-map">Free-water fraction map</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/afq_fwdti.html#comparing-bundle-profiles">Comparing bundle profiles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/afq_fwdti.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/howto_examples/baby_afq.html">BabyAFQ : tractometry for infant dMRI data</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/baby_afq.html#baby-dmri-data">Baby dMRI data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/baby_afq.html#initialize-a-groupafq-object">Initialize a GroupAFQ object:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/baby_afq.html#running-the-pipeline">Running the pipeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/baby_afq.html#viewing-the-results">Viewing the results</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/baby_afq.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/howto_examples/cerebellar_peduncles.html">Delineating cerebellar peduncles</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/cerebellar_peduncles.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/howto_examples/cloudknot_example.html">Using cloudknot to run pyAFQ on AWS batch:</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/cloudknot_example.html#define-the-function-to-use">Define the function to use</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/cloudknot_example.html#defining-a-knot-instance">Defining a <code class="docutils literal notranslate"><span class="pre">Knot</span></code> instance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/cloudknot_example.html#launching-the-computation">Launching the computation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/howto_examples/cloudknot_hcp_example.html">AFQ with HCP data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/howto_examples/optic_radiations.html">How to add new bundles into pyAFQ (Optic Radiations Example)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/optic_radiations.html#get-dmri-data">Get dMRI data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/optic_radiations.html#define-custom-bundledict-object">Define custom <code class="docutils literal notranslate"><span class="pre">BundleDict</span></code> object</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/optic_radiations.html#define-groupafq-object">Define GroupAFQ object</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/optic_radiations.html#visualize-a-montage">Visualize a montage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/optic_radiations.html#interactive-bundle-visualization">Interactive bundle visualization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/optic_radiations.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/howto_examples/optic_tract.html">How to track the Optic Tract and Posterior Optic Nerve in pyAFQ</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/optic_tract.html#get-dmri-data">Get dMRI data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/optic_tract.html#define-optic-tract-and-optic-nerve-bundledict-object">Define Optic Tract and Optic Nerve <code class="docutils literal notranslate"><span class="pre">BundleDict</span></code> object</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/optic_tract.html#tractography-and-segmentation-parameters">Tractography and segmentation parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/optic_tract.html#define-pve-images-for-segmentation">Define PVE images for segmentation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/optic_tract.html#define-groupafq-object">Define GroupAFQ object</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/optic_tract.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/howto_examples/plot_stages_of_tractometry.html">Understanding the different stages of tractometry with videos</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/plot_stages_of_tractometry.html#imports">Imports</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/plot_stages_of_tractometry.html#get-data-from-hbn-pod2">Get data from HBN POD2</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/plot_stages_of_tractometry.html#visualize-the-processed-dmri-data">Visualize the processed dMRI data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/plot_stages_of_tractometry.html#visualizing-whole-brain-tractography">Visualizing whole-brain tractography</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/plot_stages_of_tractometry.html#visualize-the-streamlines">Visualize the streamlines</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/plot_stages_of_tractometry.html#whole-brain-with-waypoints">Whole brain with waypoints</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/plot_stages_of_tractometry.html#define-the-bundles">Define the bundles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/plot_stages_of_tractometry.html#visualize-the-arcuate-bundle">Visualize the arcuate bundle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/plot_stages_of_tractometry.html#clean-bundle">Clean bundle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/plot_stages_of_tractometry.html#show-the-values-of-tissue-properties-along-the-bundle">Show the values of tissue properties along the bundle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/plot_stages_of_tractometry.html#core-of-the-bundle-and-tract-profile">Core of the bundle and tract profile</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/plot_stages_of_tractometry.html#core-of-all-bundles-and-their-tract-profiles">Core of all bundles and their tract profiles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/plot_stages_of_tractometry.html#tract-profiles-as-a-table">Tract profiles as a table</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/howto_examples/plot_trx.html">How to use TRX in pyAFQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/howto_examples/pyAFQ_with_GPU.html">Running pyAFQ using the GPU for tractography</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/pyAFQ_with_GPU.html#set-tractography-parameters">Set tractography parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/pyAFQ_with_GPU.html#running-with-the-gpu">Running with the GPU</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/howto_examples/pyafq_2.html">Running pyAFQ 2.x defaults in pyAFQ 3.x</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/pyafq_2.html#tractography-parameters-in-the-old-way">Tractography parameters in the old way</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/pyafq_2.html#partial-volume-estimate-in-the-old-way">Partial Volume Estimate in the old way</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/pyafq_2.html#vof-paf-cst-in-the-old-way">VOF / pAF / CST in the old way</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/pyafq_2.html#callosal-bundles-in-the-old-way">Callosal bundles in the old way</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/pyafq_2.html#run-groupafq-with-these-parameters">Run GroupAFQ with these parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/howto_examples/recobundles.html">Using RecoBundles for bundle recognition</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/recobundles.html#defining-the-segmentation-params">Defining the segmentation params</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/recobundles.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/howto_examples/use_subject_space_rois_from_freesurfer.html">Using Subject Space ROIs from Freesurfer</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/use_subject_space_rois_from_freesurfer.html#get-some-example-data">Get some example data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/use_subject_space_rois_from_freesurfer.html#generate-left-thalamus-roi-from-freesurfer-segmentation-file">Generate left thalamus ROI from freesurfer segmentation file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/use_subject_space_rois_from_freesurfer.html#set-tractography-parameters-optional">Set tractography parameters (optional)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/use_subject_space_rois_from_freesurfer.html#define-custom-bundledict-object">Define custom <code class="docutils literal notranslate"><span class="pre">BundleDict</span></code> object</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/howto_examples/use_subject_space_rois_from_freesurfer.html#initialize-a-groupafq-object">Initialize a GroupAFQ object:</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/howto_examples/vof_example.html">How to segment out only some bundles</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="explanations/index.html">Explanations</a><ul>
@@ -679,6 +849,7 @@
 <li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ.export"><code class="docutils literal notranslate"><span class="pre">GroupAFQ.export()</span></code></a></li>
 <li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ.export_up_to"><code class="docutils literal notranslate"><span class="pre">GroupAFQ.export_up_to()</span></code></a></li>
 <li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ.export_all"><code class="docutils literal notranslate"><span class="pre">GroupAFQ.export_all()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ.delete_full_tractogram"><code class="docutils literal notranslate"><span class="pre">GroupAFQ.delete_full_tractogram()</span></code></a></li>
 <li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ.cmd_outputs"><code class="docutils literal notranslate"><span class="pre">GroupAFQ.cmd_outputs()</span></code></a></li>
 <li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ.clobber"><code class="docutils literal notranslate"><span class="pre">GroupAFQ.clobber</span></code></a></li>
 <li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/api/group/index.html#AFQ.api.group.GroupAFQ.make_all_participant_montages"><code class="docutils literal notranslate"><span class="pre">GroupAFQ.make_all_participant_montages()</span></code></a></li>
@@ -704,6 +875,7 @@
 <li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/api/participant/index.html#AFQ.api.participant.ParticipantAFQ.export"><code class="docutils literal notranslate"><span class="pre">ParticipantAFQ.export()</span></code></a></li>
 <li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/api/participant/index.html#AFQ.api.participant.ParticipantAFQ.export_up_to"><code class="docutils literal notranslate"><span class="pre">ParticipantAFQ.export_up_to()</span></code></a></li>
 <li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/api/participant/index.html#AFQ.api.participant.ParticipantAFQ.export_all"><code class="docutils literal notranslate"><span class="pre">ParticipantAFQ.export_all()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/api/participant/index.html#AFQ.api.participant.ParticipantAFQ.delete_full_tractogram"><code class="docutils literal notranslate"><span class="pre">ParticipantAFQ.delete_full_tractogram()</span></code></a></li>
 <li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/api/participant/index.html#AFQ.api.participant.ParticipantAFQ.participant_montage"><code class="docutils literal notranslate"><span class="pre">ParticipantAFQ.participant_montage()</span></code></a></li>
 <li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/api/participant/index.html#AFQ.api.participant.ParticipantAFQ.cmd_outputs"><code class="docutils literal notranslate"><span class="pre">ParticipantAFQ.cmd_outputs()</span></code></a></li>
 <li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/api/participant/index.html#AFQ.api.participant.ParticipantAFQ.clobber"><code class="docutils literal notranslate"><span class="pre">ParticipantAFQ.clobber</span></code></a></li>
@@ -737,6 +909,7 @@
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/data/fetch/index.html#AFQ.data.fetch.fetch_callosum_templates"><code class="docutils literal notranslate"><span class="pre">fetch_callosum_templates</span></code></a></li>
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/data/fetch/index.html#AFQ.data.fetch.read_callosum_templates"><code class="docutils literal notranslate"><span class="pre">read_callosum_templates()</span></code></a></li>
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/data/fetch/index.html#AFQ.data.fetch.fetch_synthseg_models"><code class="docutils literal notranslate"><span class="pre">fetch_synthseg_models</span></code></a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/data/fetch/index.html#AFQ.data.fetch.fetch_babyseg_models"><code class="docutils literal notranslate"><span class="pre">fetch_babyseg_models</span></code></a></li>
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/data/fetch/index.html#AFQ.data.fetch.fetch_multiaxial_models"><code class="docutils literal notranslate"><span class="pre">fetch_multiaxial_models</span></code></a></li>
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/data/fetch/index.html#AFQ.data.fetch.fetch_brainchop_models"><code class="docutils literal notranslate"><span class="pre">fetch_brainchop_models</span></code></a></li>
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/data/fetch/index.html#AFQ.data.fetch.fetch_templates"><code class="docutils literal notranslate"><span class="pre">fetch_templates</span></code></a></li>
@@ -782,6 +955,11 @@
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.FullImage"><code class="docutils literal notranslate"><span class="pre">FullImage</span></code></a><ul>
 <li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.FullImage.get_name"><code class="docutils literal notranslate"><span class="pre">FullImage.get_name()</span></code></a></li>
 <li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.FullImage.get_image_getter"><code class="docutils literal notranslate"><span class="pre">FullImage.get_image_getter()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.BabyBrainMask"><code class="docutils literal notranslate"><span class="pre">BabyBrainMask</span></code></a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.BabyBrainMask.get_name"><code class="docutils literal notranslate"><span class="pre">BabyBrainMask.get_name()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.BabyBrainMask.get_image_getter"><code class="docutils literal notranslate"><span class="pre">BabyBrainMask.get_image_getter()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/definitions/image/index.html#AFQ.definitions.image.RoiImage"><code class="docutils literal notranslate"><span class="pre">RoiImage</span></code></a><ul>
@@ -876,7 +1054,7 @@
 <li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/definitions/utils/index.html#module-contents">Module Contents</a><ul>
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/definitions/utils/index.html#AFQ.definitions.utils.Definition"><code class="docutils literal notranslate"><span class="pre">Definition</span></code></a><ul>
 <li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/definitions/utils/index.html#AFQ.definitions.utils.Definition.find_path"><code class="docutils literal notranslate"><span class="pre">Definition.find_path()</span></code></a></li>
-<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/definitions/utils/index.html#AFQ.definitions.utils.Definition.str_for_toml"><code class="docutils literal notranslate"><span class="pre">Definition.str_for_toml()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/definitions/utils/index.html#AFQ.definitions.utils.Definition.str_formal"><code class="docutils literal notranslate"><span class="pre">Definition.str_formal()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/definitions/utils/index.html#AFQ.definitions.utils.name_from_path"><code class="docutils literal notranslate"><span class="pre">name_from_path()</span></code></a></li>
@@ -959,6 +1137,44 @@
 </li>
 <li class="toctree-l5"><a class="reference internal" href="reference/api/AFQ/nn/index.html">AFQ.nn</a><ul>
 <li class="toctree-l6"><a class="reference internal" href="reference/api/AFQ/nn/index.html#submodules">Submodules</a><ul>
+<li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/nn/babyseg/index.html">AFQ.nn.babyseg</a><ul>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/nn/babyseg/index.html#attributes">Attributes</a></li>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/nn/babyseg/index.html#classes">Classes</a></li>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/nn/babyseg/index.html#functions">Functions</a></li>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/nn/babyseg/index.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/nn/babyseg/index.html#AFQ.nn.babyseg.logger"><code class="docutils literal notranslate"><span class="pre">logger</span></code></a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/nn/babyseg/index.html#AFQ.nn.babyseg.BabySegLabels"><code class="docutils literal notranslate"><span class="pre">BabySegLabels</span></code></a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/nn/babyseg/index.html#AFQ.nn.babyseg.BabySegLabels.BACKGROUND"><code class="docutils literal notranslate"><span class="pre">BabySegLabels.BACKGROUND</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/nn/babyseg/index.html#AFQ.nn.babyseg.BabySegLabels.LEFT_CEREBRAL_WHITE_MATTER"><code class="docutils literal notranslate"><span class="pre">BabySegLabels.LEFT_CEREBRAL_WHITE_MATTER</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/nn/babyseg/index.html#AFQ.nn.babyseg.BabySegLabels.LEFT_CEREBRAL_CORTEX"><code class="docutils literal notranslate"><span class="pre">BabySegLabels.LEFT_CEREBRAL_CORTEX</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/nn/babyseg/index.html#AFQ.nn.babyseg.BabySegLabels.LEFT_LATERAL_VENTRICLE"><code class="docutils literal notranslate"><span class="pre">BabySegLabels.LEFT_LATERAL_VENTRICLE</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/nn/babyseg/index.html#AFQ.nn.babyseg.BabySegLabels.LEFT_CEREBELLUM_CORTEX"><code class="docutils literal notranslate"><span class="pre">BabySegLabels.LEFT_CEREBELLUM_CORTEX</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/nn/babyseg/index.html#AFQ.nn.babyseg.BabySegLabels.LEFT_THALAMUS"><code class="docutils literal notranslate"><span class="pre">BabySegLabels.LEFT_THALAMUS</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/nn/babyseg/index.html#AFQ.nn.babyseg.BabySegLabels.LEFT_CAUDATE"><code class="docutils literal notranslate"><span class="pre">BabySegLabels.LEFT_CAUDATE</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/nn/babyseg/index.html#AFQ.nn.babyseg.BabySegLabels.BRAIN_STEM"><code class="docutils literal notranslate"><span class="pre">BabySegLabels.BRAIN_STEM</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/nn/babyseg/index.html#AFQ.nn.babyseg.BabySegLabels.LEFT_HIPPOCAMPUS"><code class="docutils literal notranslate"><span class="pre">BabySegLabels.LEFT_HIPPOCAMPUS</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/nn/babyseg/index.html#AFQ.nn.babyseg.BabySegLabels.LEFT_AMYGDALA"><code class="docutils literal notranslate"><span class="pre">BabySegLabels.LEFT_AMYGDALA</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/nn/babyseg/index.html#AFQ.nn.babyseg.BabySegLabels.LEFT_VENTRAL_DC"><code class="docutils literal notranslate"><span class="pre">BabySegLabels.LEFT_VENTRAL_DC</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/nn/babyseg/index.html#AFQ.nn.babyseg.BabySegLabels.RIGHT_CEREBRAL_WHITE_MATTER"><code class="docutils literal notranslate"><span class="pre">BabySegLabels.RIGHT_CEREBRAL_WHITE_MATTER</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/nn/babyseg/index.html#AFQ.nn.babyseg.BabySegLabels.RIGHT_CEREBRAL_CORTEX"><code class="docutils literal notranslate"><span class="pre">BabySegLabels.RIGHT_CEREBRAL_CORTEX</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/nn/babyseg/index.html#AFQ.nn.babyseg.BabySegLabels.RIGHT_LATERAL_VENTRICLE"><code class="docutils literal notranslate"><span class="pre">BabySegLabels.RIGHT_LATERAL_VENTRICLE</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/nn/babyseg/index.html#AFQ.nn.babyseg.BabySegLabels.RIGHT_CEREBELLUM_CORTEX"><code class="docutils literal notranslate"><span class="pre">BabySegLabels.RIGHT_CEREBELLUM_CORTEX</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/nn/babyseg/index.html#AFQ.nn.babyseg.BabySegLabels.RIGHT_THALAMUS"><code class="docutils literal notranslate"><span class="pre">BabySegLabels.RIGHT_THALAMUS</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/nn/babyseg/index.html#AFQ.nn.babyseg.BabySegLabels.RIGHT_CAUDATE"><code class="docutils literal notranslate"><span class="pre">BabySegLabels.RIGHT_CAUDATE</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/nn/babyseg/index.html#AFQ.nn.babyseg.BabySegLabels.RIGHT_HIPPOCAMPUS"><code class="docutils literal notranslate"><span class="pre">BabySegLabels.RIGHT_HIPPOCAMPUS</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/nn/babyseg/index.html#AFQ.nn.babyseg.BabySegLabels.RIGHT_AMYGDALA"><code class="docutils literal notranslate"><span class="pre">BabySegLabels.RIGHT_AMYGDALA</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/nn/babyseg/index.html#AFQ.nn.babyseg.BabySegLabels.RIGHT_VENTRAL_DC"><code class="docutils literal notranslate"><span class="pre">BabySegLabels.RIGHT_VENTRAL_DC</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/nn/babyseg/index.html#AFQ.nn.babyseg.BabySegLabels.LEFT_BASAL_GANGLIA"><code class="docutils literal notranslate"><span class="pre">BabySegLabels.LEFT_BASAL_GANGLIA</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/nn/babyseg/index.html#AFQ.nn.babyseg.BabySegLabels.RIGHT_BASAL_GANGLIA"><code class="docutils literal notranslate"><span class="pre">BabySegLabels.RIGHT_BASAL_GANGLIA</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/nn/babyseg/index.html#AFQ.nn.babyseg._get_model"><code class="docutils literal notranslate"><span class="pre">_get_model()</span></code></a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/nn/babyseg/index.html#AFQ.nn.babyseg.run_babyseg"><code class="docutils literal notranslate"><span class="pre">run_babyseg()</span></code></a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/nn/babyseg/index.html#AFQ.nn.babyseg.pve_from_babyseg"><code class="docutils literal notranslate"><span class="pre">pve_from_babyseg()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/nn/brainchop/index.html">AFQ.nn.brainchop</a><ul>
 <li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/nn/brainchop/index.html#functions">Functions</a></li>
 <li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/nn/brainchop/index.html#module-contents">Module Contents</a><ul>
@@ -1099,6 +1315,7 @@
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/nn/utils/index.html#AFQ.nn.utils.crop_to_nonzero"><code class="docutils literal notranslate"><span class="pre">crop_to_nonzero()</span></code></a></li>
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/nn/utils/index.html#AFQ.nn.utils.prepare_t1_for_nn"><code class="docutils literal notranslate"><span class="pre">prepare_t1_for_nn()</span></code></a></li>
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/nn/utils/index.html#AFQ.nn.utils.resample_output"><code class="docutils literal notranslate"><span class="pre">resample_output()</span></code></a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/nn/utils/index.html#AFQ.nn.utils.merge_PVEs"><code class="docutils literal notranslate"><span class="pre">merge_PVEs()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -1300,6 +1517,7 @@
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.get_data_gtab"><code class="docutils literal notranslate"><span class="pre">get_data_gtab()</span></code></a></li>
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.b0"><code class="docutils literal notranslate"><span class="pre">b0()</span></code></a></li>
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.t1w_over_b0"><code class="docutils literal notranslate"><span class="pre">t1w_over_b0()</span></code></a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.t1w_over_log_b0"><code class="docutils literal notranslate"><span class="pre">t1w_over_log_b0()</span></code></a></li>
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.b0_mask"><code class="docutils literal notranslate"><span class="pre">b0_mask()</span></code></a></li>
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.dti_fit"><code class="docutils literal notranslate"><span class="pre">dti_fit()</span></code></a></li>
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/tasks/data/index.html#AFQ.tasks.data.dti_params"><code class="docutils literal notranslate"><span class="pre">dti_params()</span></code></a></li>
@@ -1410,6 +1628,7 @@
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/tasks/structural/index.html#AFQ.tasks.structural.logger"><code class="docutils literal notranslate"><span class="pre">logger</span></code></a></li>
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/tasks/structural/index.html#AFQ.tasks.structural.configure_ncpus_nthreads"><code class="docutils literal notranslate"><span class="pre">configure_ncpus_nthreads()</span></code></a></li>
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/tasks/structural/index.html#AFQ.tasks.structural.onnx_kwargs"><code class="docutils literal notranslate"><span class="pre">onnx_kwargs()</span></code></a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/tasks/structural/index.html#AFQ.tasks.structural.babyseg_model"><code class="docutils literal notranslate"><span class="pre">babyseg_model()</span></code></a></li>
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/tasks/structural/index.html#AFQ.tasks.structural.synthseg_model"><code class="docutils literal notranslate"><span class="pre">synthseg_model()</span></code></a></li>
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/tasks/structural/index.html#AFQ.tasks.structural.mx_model"><code class="docutils literal notranslate"><span class="pre">mx_model()</span></code></a></li>
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/tasks/structural/index.html#AFQ.tasks.structural.t1w_brain_mask"><code class="docutils literal notranslate"><span class="pre">t1w_brain_mask()</span></code></a></li>
@@ -1516,36 +1735,31 @@
 <li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/utils/bin/index.html#attributes">Attributes</a></li>
 <li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/utils/bin/index.html#functions">Functions</a></li>
 <li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/utils/bin/index.html#module-contents">Module Contents</a><ul>
-<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.model_input_parser"><code class="docutils literal notranslate"><span class="pre">model_input_parser()</span></code></a></li>
-<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.model_predict_input_parser"><code class="docutils literal notranslate"><span class="pre">model_predict_input_parser()</span></code></a></li>
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.pyafq_str_to_val"><code class="docutils literal notranslate"><span class="pre">pyafq_str_to_val()</span></code></a></li>
-<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.val_to_toml"><code class="docutils literal notranslate"><span class="pre">val_to_toml()</span></code></a></li>
-<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.dict_to_toml"><code class="docutils literal notranslate"><span class="pre">dict_to_toml()</span></code></a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.val_to_formal"><code class="docutils literal notranslate"><span class="pre">val_to_formal()</span></code></a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.arg_dict_formatted"><code class="docutils literal notranslate"><span class="pre">arg_dict_formatted()</span></code></a></li>
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.qsi_prep_ignore_params"><code class="docutils literal notranslate"><span class="pre">qsi_prep_ignore_params</span></code></a></li>
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.dict_to_json"><code class="docutils literal notranslate"><span class="pre">dict_to_json()</span></code></a></li>
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.func_dict_to_arg_dict"><code class="docutils literal notranslate"><span class="pre">func_dict_to_arg_dict()</span></code></a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin._PARTICIPANT_CLI_ONLY"><code class="docutils literal notranslate"><span class="pre">_PARTICIPANT_CLI_ONLY</span></code></a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin._BIDS_CLI_ONLY"><code class="docutils literal notranslate"><span class="pre">_BIDS_CLI_ONLY</span></code></a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.cli_args_to_kwargs"><code class="docutils literal notranslate"><span class="pre">cli_args_to_kwargs()</span></code></a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin._find_gradient_file"><code class="docutils literal notranslate"><span class="pre">_find_gradient_file()</span></code></a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin._start_metadata"><code class="docutils literal notranslate"><span class="pre">_start_metadata()</span></code></a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin._write_metadata"><code class="docutils literal notranslate"><span class="pre">_write_metadata()</span></code></a></li>
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.parse_config_run_afq"><code class="docutils literal notranslate"><span class="pre">parse_config_run_afq()</span></code></a></li>
-<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.generate_config"><code class="docutils literal notranslate"><span class="pre">generate_config()</span></code></a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.run_bids_afq"><code class="docutils literal notranslate"><span class="pre">run_bids_afq()</span></code></a></li>
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/utils/bin/index.html#AFQ.utils.bin.generate_json"><code class="docutils literal notranslate"><span class="pre">generate_json()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l7"><a class="reference internal" href="reference/api/AFQ/utils/docs/index.html">AFQ.utils.docs</a><ul>
-<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/utils/docs/index.html#classes">Classes</a></li>
+<li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/utils/docs/index.html#functions">Functions</a></li>
 <li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/utils/docs/index.html#module-contents">Module Contents</a><ul>
-<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/utils/docs/index.html#AFQ.utils.docs.PNGScraper"><code class="docutils literal notranslate"><span class="pre">PNGScraper</span></code></a><ul>
-<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/docs/index.html#AFQ.utils.docs.PNGScraper.seen"><code class="docutils literal notranslate"><span class="pre">PNGScraper.seen</span></code></a></li>
-<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/docs/index.html#AFQ.utils.docs.PNGScraper.__repr__"><code class="docutils literal notranslate"><span class="pre">PNGScraper.__repr__()</span></code></a></li>
-<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/docs/index.html#AFQ.utils.docs.PNGScraper.__call__"><code class="docutils literal notranslate"><span class="pre">PNGScraper.__call__()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/utils/docs/index.html#AFQ.utils.docs.GIFScraper"><code class="docutils literal notranslate"><span class="pre">GIFScraper</span></code></a><ul>
-<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/docs/index.html#AFQ.utils.docs.GIFScraper.seen"><code class="docutils literal notranslate"><span class="pre">GIFScraper.seen</span></code></a></li>
-<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/docs/index.html#AFQ.utils.docs.GIFScraper.__repr__"><code class="docutils literal notranslate"><span class="pre">GIFScraper.__repr__()</span></code></a></li>
-<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/docs/index.html#AFQ.utils.docs.GIFScraper.__call__"><code class="docutils literal notranslate"><span class="pre">GIFScraper.__call__()</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/utils/docs/index.html#AFQ.utils.docs.embed_video"><code class="docutils literal notranslate"><span class="pre">embed_video()</span></code></a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/utils/docs/index.html#AFQ.utils.docs.embed_image"><code class="docutils literal notranslate"><span class="pre">embed_image()</span></code></a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/utils/docs/index.html#AFQ.utils.docs.embed_html"><code class="docutils literal notranslate"><span class="pre">embed_html()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -1594,13 +1808,26 @@
 <li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/utils/streamlines/index.html#module-contents">Module Contents</a><ul>
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/utils/streamlines/index.html#AFQ.utils.streamlines.has_trx"><code class="docutils literal notranslate"><span class="pre">has_trx</span></code></a></li>
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/utils/streamlines/index.html#AFQ.utils.streamlines.SegmentedSFT"><code class="docutils literal notranslate"><span class="pre">SegmentedSFT</span></code></a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/streamlines/index.html#AFQ.utils.streamlines.SegmentedSFT.sidecar_info"><code class="docutils literal notranslate"><span class="pre">SegmentedSFT.sidecar_info</span></code></a></li>
 <li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/streamlines/index.html#AFQ.utils.streamlines.SegmentedSFT.bundle_names"><code class="docutils literal notranslate"><span class="pre">SegmentedSFT.bundle_names</span></code></a></li>
 <li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/streamlines/index.html#AFQ.utils.streamlines.SegmentedSFT.bundle_idxs"><code class="docutils literal notranslate"><span class="pre">SegmentedSFT.bundle_idxs</span></code></a></li>
-<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/streamlines/index.html#AFQ.utils.streamlines.SegmentedSFT.sidecar_info"><code class="docutils literal notranslate"><span class="pre">SegmentedSFT.sidecar_info</span></code></a></li>
 <li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/streamlines/index.html#AFQ.utils.streamlines.SegmentedSFT.sft"><code class="docutils literal notranslate"><span class="pre">SegmentedSFT.sft</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/streamlines/index.html#AFQ.utils.streamlines.SegmentedSFT.get_lengths"><code class="docutils literal notranslate"><span class="pre">SegmentedSFT.get_lengths()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/streamlines/index.html#AFQ.utils.streamlines.SegmentedSFT.to_rasmm"><code class="docutils literal notranslate"><span class="pre">SegmentedSFT.to_rasmm()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/streamlines/index.html#AFQ.utils.streamlines.SegmentedSFT.get_bundle_idxs"><code class="docutils literal notranslate"><span class="pre">SegmentedSFT.get_bundle_idxs()</span></code></a></li>
 <li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/streamlines/index.html#AFQ.utils.streamlines.SegmentedSFT.get_bundle"><code class="docutils literal notranslate"><span class="pre">SegmentedSFT.get_bundle()</span></code></a></li>
 <li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/streamlines/index.html#AFQ.utils.streamlines.SegmentedSFT.get_bundle_param_info"><code class="docutils literal notranslate"><span class="pre">SegmentedSFT.get_bundle_param_info()</span></code></a></li>
 <li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/streamlines/index.html#AFQ.utils.streamlines.SegmentedSFT.fromfile"><code class="docutils literal notranslate"><span class="pre">SegmentedSFT.fromfile()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/utils/streamlines/index.html#AFQ.utils.streamlines.SegmentedTRX"><code class="docutils literal notranslate"><span class="pre">SegmentedTRX</span></code></a><ul>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/streamlines/index.html#AFQ.utils.streamlines.SegmentedTRX.sidecar_info"><code class="docutils literal notranslate"><span class="pre">SegmentedTRX.sidecar_info</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/streamlines/index.html#AFQ.utils.streamlines.SegmentedTRX.bundle_names"><code class="docutils literal notranslate"><span class="pre">SegmentedTRX.bundle_names</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/streamlines/index.html#AFQ.utils.streamlines.SegmentedTRX.sft"><code class="docutils literal notranslate"><span class="pre">SegmentedTRX.sft</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/streamlines/index.html#AFQ.utils.streamlines.SegmentedTRX.get_lengths"><code class="docutils literal notranslate"><span class="pre">SegmentedTRX.get_lengths()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/streamlines/index.html#AFQ.utils.streamlines.SegmentedTRX.to_rasmm"><code class="docutils literal notranslate"><span class="pre">SegmentedTRX.to_rasmm()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/streamlines/index.html#AFQ.utils.streamlines.SegmentedTRX.get_bundle_idxs"><code class="docutils literal notranslate"><span class="pre">SegmentedTRX.get_bundle_idxs()</span></code></a></li>
+<li class="toctree-l10"><a class="reference internal" href="reference/api/AFQ/utils/streamlines/index.html#AFQ.utils.streamlines.SegmentedTRX.get_bundle"><code class="docutils literal notranslate"><span class="pre">SegmentedTRX.get_bundle()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/utils/streamlines/index.html#AFQ.utils.streamlines.split_streamline"><code class="docutils literal notranslate"><span class="pre">split_streamline()</span></code></a></li>
@@ -1614,6 +1841,8 @@
 <li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/utils/volume/index.html#functions">Functions</a></li>
 <li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/utils/volume/index.html#module-contents">Module Contents</a><ul>
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/utils/volume/index.html#AFQ.utils.volume.logger"><code class="docutils literal notranslate"><span class="pre">logger</span></code></a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/utils/volume/index.html#AFQ.utils.volume._signed_distance"><code class="docutils literal notranslate"><span class="pre">_signed_distance()</span></code></a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/utils/volume/index.html#AFQ.utils.volume._betti"><code class="docutils literal notranslate"><span class="pre">_betti()</span></code></a></li>
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/utils/volume/index.html#AFQ.utils.volume.transform_roi"><code class="docutils literal notranslate"><span class="pre">transform_roi()</span></code></a></li>
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/utils/volume/index.html#AFQ.utils.volume.density_map"><code class="docutils literal notranslate"><span class="pre">density_map()</span></code></a></li>
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/utils/volume/index.html#AFQ.utils.volume.dice_coeff"><code class="docutils literal notranslate"><span class="pre">dice_coeff()</span></code></a></li>
@@ -1645,7 +1874,7 @@
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/viz/fury_backend/index.html#AFQ.viz.fury_backend._inline_interact"><code class="docutils literal notranslate"><span class="pre">_inline_interact()</span></code></a></li>
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/viz/fury_backend/index.html#AFQ.viz.fury_backend.visualize_bundles"><code class="docutils literal notranslate"><span class="pre">visualize_bundles()</span></code></a></li>
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/viz/fury_backend/index.html#AFQ.viz.fury_backend.scene_rotate_forward"><code class="docutils literal notranslate"><span class="pre">scene_rotate_forward()</span></code></a></li>
-<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/viz/fury_backend/index.html#AFQ.viz.fury_backend.create_gif"><code class="docutils literal notranslate"><span class="pre">create_gif()</span></code></a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/viz/fury_backend/index.html#AFQ.viz.fury_backend.create_mp4"><code class="docutils literal notranslate"><span class="pre">create_mp4()</span></code></a></li>
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/viz/fury_backend/index.html#AFQ.viz.fury_backend.visualize_roi"><code class="docutils literal notranslate"><span class="pre">visualize_roi()</span></code></a></li>
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/viz/fury_backend/index.html#AFQ.viz.fury_backend.visualize_volume"><code class="docutils literal notranslate"><span class="pre">visualize_volume()</span></code></a></li>
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/viz/fury_backend/index.html#AFQ.viz.fury_backend._draw_core"><code class="docutils literal notranslate"><span class="pre">_draw_core()</span></code></a></li>
@@ -1658,7 +1887,6 @@
 <li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/viz/plot/index.html#functions">Functions</a></li>
 <li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/viz/plot/index.html#module-contents">Module Contents</a><ul>
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/viz/plot/index.html#AFQ.viz.plot.visualize_tract_profiles"><code class="docutils literal notranslate"><span class="pre">visualize_tract_profiles()</span></code></a></li>
-<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/viz/plot/index.html#AFQ.viz.plot.visualize_gif_inline"><code class="docutils literal notranslate"><span class="pre">visualize_gif_inline()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -1668,7 +1896,6 @@
 <li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/viz/plotly_backend/index.html#classes">Classes</a></li>
 <li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/viz/plotly_backend/index.html#functions">Functions</a></li>
 <li class="toctree-l8"><a class="reference internal" href="reference/api/AFQ/viz/plotly_backend/index.html#module-contents">Module Contents</a><ul>
-<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/viz/plotly_backend/index.html#AFQ.viz.plotly_backend.scope"><code class="docutils literal notranslate"><span class="pre">scope</span></code></a></li>
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/viz/plotly_backend/index.html#AFQ.viz.plotly_backend.viz_logger"><code class="docutils literal notranslate"><span class="pre">viz_logger</span></code></a></li>
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/viz/plotly_backend/index.html#AFQ.viz.plotly_backend._inline_interact"><code class="docutils literal notranslate"><span class="pre">_inline_interact()</span></code></a></li>
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/viz/plotly_backend/index.html#AFQ.viz.plotly_backend._to_color_range"><code class="docutils literal notranslate"><span class="pre">_to_color_range()</span></code></a></li>
@@ -1677,7 +1904,7 @@
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/viz/plotly_backend/index.html#AFQ.viz.plotly_backend._draw_streamlines"><code class="docutils literal notranslate"><span class="pre">_draw_streamlines()</span></code></a></li>
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/viz/plotly_backend/index.html#AFQ.viz.plotly_backend._plot_profiles"><code class="docutils literal notranslate"><span class="pre">_plot_profiles()</span></code></a></li>
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/viz/plotly_backend/index.html#AFQ.viz.plotly_backend.visualize_bundles"><code class="docutils literal notranslate"><span class="pre">visualize_bundles()</span></code></a></li>
-<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/viz/plotly_backend/index.html#AFQ.viz.plotly_backend.create_gif"><code class="docutils literal notranslate"><span class="pre">create_gif()</span></code></a></li>
+<li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/viz/plotly_backend/index.html#AFQ.viz.plotly_backend.create_mp4"><code class="docutils literal notranslate"><span class="pre">create_mp4()</span></code></a></li>
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/viz/plotly_backend/index.html#AFQ.viz.plotly_backend._draw_roi"><code class="docutils literal notranslate"><span class="pre">_draw_roi()</span></code></a></li>
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/viz/plotly_backend/index.html#AFQ.viz.plotly_backend.visualize_roi"><code class="docutils literal notranslate"><span class="pre">visualize_roi()</span></code></a></li>
 <li class="toctree-l9"><a class="reference internal" href="reference/api/AFQ/viz/plotly_backend/index.html#AFQ.viz.plotly_backend.Axes"><code class="docutils literal notranslate"><span class="pre">Axes</span></code></a><ul>
@@ -1755,7 +1982,19 @@
 <li class="toctree-l2"><a class="reference internal" href="reference/viz_backend.html">Visualization Backends</a></li>
 <li class="toctree-l2"><a class="reference internal" href="reference/viz_backend.html#fury-dockerfile-for-cloudknot">Fury Dockerfile for Cloudknot</a></li>
 <li class="toctree-l2"><a class="reference internal" href="reference/mapping.html">The pyAFQ Mapping API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="reference/config.html">The pyAFQ configuration file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/cli.html">The pyAFQ CLI</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/cli.html#pyafq-single-subject-with-explicit-paths"><code class="docutils literal notranslate"><span class="pre">pyAFQ</span></code>: single subject with explicit paths</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/cli.html#positional-arguments">Positional arguments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/cli.html#options">Options</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/cli.html#pyafq-bids-bids-app-style"><code class="docutils literal notranslate"><span class="pre">pyAFQ-bids</span></code>: BIDS App style</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/cli.html#id1">Positional arguments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/cli.html#id2">Options</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -1839,8 +2078,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="_static/scripts/bootstrap.js?digest=0790524f97105ba85085"></script>
-<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085"></script>
+  <script defer src="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0"></script>
 
 
   <footer class="bd-footer">
@@ -1862,7 +2101,6 @@
 
   <p class="sphinx-version">
     Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
-    <br/>
   </p>
 </div>
       

@@ -13,10 +13,10 @@ entrypoint ``pyafq`` to run the workflow with::
 
     apptainer run \
         --bind bids_dir:bids_dir \
-        pyafq_latest.sif bids_dir/config.toml
+        pyafq_latest.sif /path/to/dwi /path/to/t1 /path/to/output_folder
 
-This is using the config file which you can read about
-in `The pyAFQ configuration file <../reference/config.html>`_.
+This is using the CLI which you can read about
+in `The pyAFQ CLI <../reference/cli.html>`_.
 You can also launch python inside the container and use the normal pyAFQ.
 
 .. note::

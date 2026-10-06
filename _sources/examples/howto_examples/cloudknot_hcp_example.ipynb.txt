@@ -1,0 +1,420 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "54598be1",
+   "metadata": {},
+   "source": [
+    "# AFQ with HCP data\n",
+    "\n",
+    "This example demonstrates how to use the AFQ API to analyze HCP data.\n",
+    "For this example to run properly, you will need to gain access to the HCP data.\n",
+    "This can be done by following this instructions on the webpage\n",
+    "[here](https://wiki.humanconnectome.org/display/PublicData/How+To+Connect+to+Connectome+Data+via+AWS).\n",
+    "We will use the `Cloudknot` library to run our AFQ analysis in the AWS\n",
+    "Batch service (see also\n",
+    "[this example](http://tractometry.org/pyAFQ/auto_examples/cloudknot_example.html)).\n",
+    "In the following we will use `Cloudknot` to run multiple\n",
+    "configurations of pyAFQ on the HCP dataset. Specifically, here we will run\n",
+    "pyAFQ with different tractography seeding strategies."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "3739da99",
+   "metadata": {},
+   "source": [
+    "Import cloudknot and set the correct region. The HCP data is stored in `us-east-1`, so it's best\n",
+    "to analyze it there."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "e85f559d",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import configparser\n",
+    "import itertools\n",
+    "import cloudknot as ck\n",
+    "import os.path as op\n",
+    "\n",
+    "ck.set_region('us-east-1')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "63ac1137",
+   "metadata": {},
+   "source": [
+    "Define a function to run. This function allows us to pass in the subject ID for the subjects we would\n",
+    "like to analyze , as well as strategies for seeding tractography (different masks and/or different\n",
+    "numbers of seeds per voxel)."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "cc021fce",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def afq_process_subject(subject, seed_mask, n_seeds,\n",
+    "                        aws_access_key, aws_secret_key):\n",
+    "    # define a function that each job will run\n",
+    "    # In this case, each process does a single subject\n",
+    "    import logging\n",
+    "    import s3fs\n",
+    "    # all imports must be at the top of the function\n",
+    "    # cloudknot installs the appropriate packages from pip\n",
+    "    from AFQ.data.fetch import fetch_hcp\n",
+    "    from AFQ.api.group import GroupAFQ\n",
+    "    import AFQ.definitions.image as afm\n",
+    "\n",
+    "    # set logging level to your choice\n",
+    "    logging.basicConfig(level=logging.INFO)\n",
+    "    log = logging.getLogger(__name__)\n",
+    "\n",
+    "    # Download the given subject to the AWS Batch machine from s3\n",
+    "    _, hcp_bids = fetch_hcp(\n",
+    "        [subject],\n",
+    "        profile_name=False,\n",
+    "        study=\"HCP_1200\",\n",
+    "        aws_access_key_id=aws_access_key,\n",
+    "        aws_secret_access_key=aws_secret_key)\n",
+    "\n",
+    "    # We make a new seed mask for each process based off of the\n",
+    "    # seed_mask argument, which is a string.\n",
+    "    # This is to avoid any complications with pickling the masks.\n",
+    "    if seed_mask == \"roi\":\n",
+    "        seed_mask_obj = afm.RoiImage()\n",
+    "    elif seed_mask == \"fa\":\n",
+    "        seed_mask_obj = afm.ScalarImage(\"dti_fa\")\n",
+    "    else:\n",
+    "        seed_mask_obj = afm.FullImage()\n",
+    "\n",
+    "    # Determined if n_seeds is per voxel or not\n",
+    "    if n_seeds > 3:\n",
+    "        random_seeds = True\n",
+    "    else:\n",
+    "        random_seeds = False\n",
+    "\n",
+    "    # set the tracking_params based off our inputs\n",
+    "    tracking_params = {\n",
+    "        \"seed_mask\": seed_mask_obj,\n",
+    "        \"n_seeds\": n_seeds,\n",
+    "        \"random_seeds\": random_seeds}\n",
+    "\n",
+    "    # define the api GroupAFQ object\n",
+    "    myafq = GroupAFQ(\n",
+    "        hcp_bids,\n",
+    "        tracking_params=tracking_params)\n",
+    "\n",
+    "    # export_all runs the entire pipeline and creates many useful derivates\n",
+    "    myafq.export_all()\n",
+    "\n",
+    "    # upload the results to some location on s3\n",
+    "    myafq.upload_to_s3(\n",
+    "        s3fs.S3FileSystem(),\n",
+    "        (f\"my_study_bucket/my_study_prefix_{seed_mask}_{n_seeds}\"\n",
+    "         f\"/derivatives/afq\"))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "e16b6118",
+   "metadata": {},
+   "source": [
+    "In this example, we will process the data from the following subjects"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "0baf5b72",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "subjects = [\"103818\", \"105923\", \"111312\"]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "3fab2256",
+   "metadata": {},
+   "source": [
+    "We will test combinations of different conditions:\n",
+    "subjects, seed masks, and number of seeds"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "a2d96c5d",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "seed_mask = [\"fa\", \"roi\"]\n",
+    "n_seeds = [1, 2, 1000000, 2000000]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "3d9c3afa",
+   "metadata": {},
+   "source": [
+    "The following function creates all the combinations of the above lists, such that every subject is\n",
+    "run with every mask and every number of seeds."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "b3f561df",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "args = list(itertools.product(subjects, seed_mask, n_seeds))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "ed6cc3fb",
+   "metadata": {},
+   "source": [
+    "We assume that the credentials for HCP usage are stored in the home directory in a\n",
+    "`~/.aws/credentials` file. This is where these credentials are stored if the AWS CLI is used to\n",
+    "configure the profile. We use the standard lib `configparser` library\n",
+    "to get the relevant hcp keys from there."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "8caf0386",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "CP = configparser.ConfigParser()\n",
+    "CP.read_file(open(op.join(op.expanduser('~'), '.aws', 'credentials')))\n",
+    "CP.sections()\n",
+    "aws_access_key = CP.get('hcp', 'AWS_ACCESS_KEY_ID')\n",
+    "aws_secret_key = CP.get('hcp', 'AWS_SECRET_ACCESS_KEY')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "798ee9ce",
+   "metadata": {},
+   "source": [
+    "The following function will attach your AWS keys to each list in a list of lists\n",
+    "We use this with each list being a list of arguments,\n",
+    "and we append the AWS keys to each list of arguments, so that we can pass\n",
+    "them into the function to be used on AWS Batch to download the data into the\n",
+    "AWS Batch machines."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "c4854e5b",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def attach_keys(list_of_arg_lists):\n",
+    "    new_list_of_arg_lists = []\n",
+    "    for args in list_of_arg_lists:\n",
+    "        arg_ls = list(args)\n",
+    "        arg_ls.extend([aws_access_key, aws_secret_key])\n",
+    "        new_list_of_arg_lists.append(arg_ls)\n",
+    "    return new_list_of_arg_lists"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "4028d743",
+   "metadata": {},
+   "source": [
+    "This calls the function to attach the access keys to the argument list"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "3cb5dc69",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "args = attach_keys(args)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "21d7c592",
+   "metadata": {},
+   "source": [
+    "Define the `Knot` object to run your jobs on. See\n",
+    "[this example](http://tractometry.org/pyAFQ/auto_examples/cloudknot_example.html) for more\n",
+    "details about the arguments to the object."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "ccc48266",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "knot = ck.Knot(\n",
+    "    name='afq-hcp-tractography-201110-0',\n",
+    "    func=afq_process_subject,\n",
+    "    base_image='python:3.11',\n",
+    "    image_github_installs=\"https://github.com/tractometry/pyAFQ.git\",\n",
+    "    pars_policies=('AmazonS3FullAccess',),\n",
+    "    bid_percentage=100)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "63adf75a",
+   "metadata": {},
+   "source": [
+    "This launches a process for each combination.\n",
+    "Because `starmap` is `True`, each list in `args` will be unfolded\n",
+    "and passed into `afq_process_subject` as arguments."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "d2b7324c",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "result_futures = knot.map(args, starmap=True)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "9d04c068",
+   "metadata": {},
+   "source": [
+    "The following function can be called repeatedly in a jupyter notebook\n",
+    "to view the progress of jobs:\n",
+    "\n",
+    "```python\n",
+    "knot.view_jobs()\n",
+    "```\n",
+    "\n",
+    "You can also view the status of a specific job:\n",
+    "\n",
+    "```python\n",
+    "knot.jobs[0].status\n",
+    "```"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "d2bacabf",
+   "metadata": {},
+   "source": [
+    "When all jobs are finished, remember to clobber the knot to destroy all the resources that were\n",
+    "created in AWS."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "1c28cacb",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "result_futures.result()  # waits for futures to resolve, not needed in notebook\n",
+    "knot.clobber(clobber_pars=True, clobber_repo=True, clobber_image=True)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "4fe68723",
+   "metadata": {},
+   "source": [
+    "We continue processing to create another knot which takes the resulting profiles of each\n",
+    "combination and combines them all into one csv file"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "6c927cd5",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def afq_combine_profiles(seed_mask, n_seeds):\n",
+    "    from AFQ.api import download_and_combine_afq_profiles\n",
+    "    download_and_combine_afq_profiles(\n",
+    "        \"my_study_bucket\", f\"my_study_prefix_{seed_mask}_{n_seeds}\")\n",
+    "\n",
+    "\n",
+    "knot2 = ck.Knot(\n",
+    "    name='afq_combine_subjects-201110-0',\n",
+    "    func=afq_combine_profiles,\n",
+    "    base_image='python:3.11',\n",
+    "    image_github_installs=\"https://github.com/tractometry/pyAFQ.git\",\n",
+    "    pars_policies=('AmazonS3FullAccess',),\n",
+    "    bid_percentage=100)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "d4b4fec1",
+   "metadata": {},
+   "source": [
+    "the arguments to this call to `map` are all the different configurations of pyAFQ that we ran"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "8e80531d",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "seed_mask = [\"fa\", \"roi\"]\n",
+    "n_seeds = [1, 2, 1000000, 2000000]\n",
+    "args = list(itertools.product(seed_mask, n_seeds))\n",
+    "\n",
+    "result_futures2 = knot2.map(args, starmap=True)\n",
+    "result_futures2.result()\n",
+    "knot2.clobber(clobber_pars=True, clobber_repo=True, clobber_image=True)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "7bbf56fa",
+   "metadata": {},
+   "source": [
+    ":::{only} html\n",
+    "{download}`Download as Jupyter Notebook <cloudknot_hcp_example.ipynb>`\n",
+    ":::"
+   ]
+  }
+ ],
+ "metadata": {
+  "file_format": "mystnb",
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "name": "python",
+   "pygments_lexer": "ipython3"
+  },
+  "mystnb": {
+   "execution_mode": "off"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}

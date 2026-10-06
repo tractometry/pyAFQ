@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 
 
@@ -7,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.recognition.criteria &#8212; AFQ 3.2 documentation</title>
+    <title>AFQ.recognition.criteria &#8212; AFQ 3.4 documentation</title>
   
   
   
@@ -26,29 +25,24 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=fd6457a4" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=efc0aa2d" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../../_static/scripts/fontawesome.js?digest=0790524f97105ba85085"></script>
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=64cc4de3f052d77215f0"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=0790524f97105ba85085" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085" />
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../../../_static/documentation_options.js?v=828ea960"></script>
+    <script src="../../../_static/documentation_options.js?v=ed7fbdb4"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
-    <script src="../../../_static/sg-tags.js?v=d80f6fa4"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/AFQ/recognition/criteria';</script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
@@ -104,7 +98,7 @@
   
     <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
-  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+  <button type="button" class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
   </button>
   
@@ -128,8 +122,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 3.2 documentation - Home"/>
-    <img src="../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="AFQ 3.2 documentation - Home"/>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 3.4 documentation - Home"/>
+    <img src="../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="AFQ 3.4 documentation - Home"/>
   
   
 </a></div>
@@ -152,14 +146,14 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../tutorials/tutorial_examples/index.html">
+  <a class="nav-link nav-internal" href="../../../examples/tutorial_examples/index.html">
     Tutorials: Getting started
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../howto/howto_examples/index.html">
+  <a class="nav-link nav-internal" href="../../../examples/howto_examples/index.html">
     How to examples
   </a>
 </li>
@@ -196,7 +190,7 @@
         <div class="navbar-item navbar-persistent--container">
           
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
  <i class="fa-solid fa-magnifying-glass"></i>
  <span class="search-button__default-text">Search</span>
  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
@@ -207,15 +201,15 @@
         <div class="navbar-item">
 
 <div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
     <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
     <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
     <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
   <ul class="dropdown-menu dropdown-menu-end">
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
   </ul>
 </div></div>
       
@@ -241,7 +235,7 @@
   
     <div class="navbar-persistent--mobile">
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
  <i class="fa-solid fa-magnifying-glass"></i>
  <span class="search-button__default-text">Search</span>
  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
@@ -286,14 +280,14 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../tutorials/tutorial_examples/index.html">
+  <a class="nav-link nav-internal" href="../../../examples/tutorial_examples/index.html">
     Tutorials: Getting started
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../howto/howto_examples/index.html">
+  <a class="nav-link nav-internal" href="../../../examples/howto_examples/index.html">
     How to examples
   </a>
 </li>
@@ -332,15 +326,15 @@
           <div class="navbar-item">
 
 <div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
     <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
     <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
     <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
   <ul class="dropdown-menu dropdown-menu-end">
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
   </ul>
 </div></div>
         
@@ -454,7 +448,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">dipy.segment.featurespeed</span><span class="w"> </span><span class="kn">import</span> <span class="n">ResampleFeature</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">dipy.segment.metricspeed</span><span class="w"> </span><span class="kn">import</span> <span class="n">AveragePointwiseEuclideanMetric</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.ndimage</span><span class="w"> </span><span class="kn">import</span> <span class="n">distance_transform_edt</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">tqdm</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tqdm.auto</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">trx.io</span><span class="w"> </span><span class="kn">import</span> <span class="n">load</span> <span class="k">as</span> <span class="n">load_trx</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">AFQ.recognition.cleaning</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">abc</span>
@@ -474,94 +468,94 @@
 <div class="viewcode-block" id="criteria_order_chunk_local">
 <a class="viewcode-back" href="../../../reference/api/AFQ/recognition/criteria/index.html#AFQ.recognition.criteria.criteria_order_chunk_local">[docs]</a>
 <span class="n">criteria_order_chunk_local</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">&quot;length&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;endpoint_dists&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;cross_midline&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;start&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;end&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;prob_map&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;primary_axis&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;include&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;exclude&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;curvature&quot;</span><span class="p">,</span>
+    <span class="s2">"length"</span><span class="p">,</span>
+    <span class="s2">"endpoint_dists"</span><span class="p">,</span>
+    <span class="s2">"cross_midline"</span><span class="p">,</span>
+    <span class="s2">"start"</span><span class="p">,</span>
+    <span class="s2">"end"</span><span class="p">,</span>
+    <span class="s2">"prob_map"</span><span class="p">,</span>
+    <span class="s2">"primary_axis"</span><span class="p">,</span>
+    <span class="s2">"include"</span><span class="p">,</span>
+    <span class="s2">"exclude"</span><span class="p">,</span>
+    <span class="s2">"curvature"</span><span class="p">,</span>
 <span class="p">]</span></div>
 
 
 <span class="c1"># RecoBundles needs the whole candidate pool for a bundle, so it runs</span>
-<span class="c1"># in the global phase even though it&#39;s nominally a &quot;pre-other-bundles&quot;</span>
+<span class="c1"># in the global phase even though it's nominally a "pre-other-bundles"</span>
 <span class="c1"># criterion.</span>
 <div class="viewcode-block" id="criteria_order_pre_other_bundles">
 <a class="viewcode-back" href="../../../reference/api/AFQ/recognition/criteria/index.html#AFQ.recognition.criteria.criteria_order_pre_other_bundles">[docs]</a>
-<span class="n">criteria_order_pre_other_bundles</span> <span class="o">=</span> <span class="n">criteria_order_chunk_local</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;recobundles&quot;</span><span class="p">]</span></div>
+<span class="n">criteria_order_pre_other_bundles</span> <span class="o">=</span> <span class="n">criteria_order_chunk_local</span> <span class="o">+</span> <span class="p">[</span><span class="s2">"recobundles"</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="criteria_order_post_other_bundles">
 <a class="viewcode-back" href="../../../reference/api/AFQ/recognition/criteria/index.html#AFQ.recognition.criteria.criteria_order_post_other_bundles">[docs]</a>
-<span class="n">criteria_order_post_other_bundles</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;orient_mahal&quot;</span><span class="p">,</span> <span class="s2">&quot;isolation_forest&quot;</span><span class="p">,</span> <span class="s2">&quot;qb_thresh&quot;</span><span class="p">]</span></div>
+<span class="n">criteria_order_post_other_bundles</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"orient_mahal"</span><span class="p">,</span> <span class="s2">"isolation_forest"</span><span class="p">,</span> <span class="s2">"qb_thresh"</span><span class="p">]</span></div>
 
 
 
 <div class="viewcode-block" id="valid_noncriterion">
 <a class="viewcode-back" href="../../../reference/api/AFQ/recognition/criteria/index.html#AFQ.recognition.criteria.valid_noncriterion">[docs]</a>
 <span class="n">valid_noncriterion</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">&quot;space&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;mahal&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;inc_addtol&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;exc_addtol&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;exact_endpoints&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;ORG_spectral_subbundles&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;cluster_IDs&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;startpoint_location&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;endpoint_location&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;primary_axis_core_only&quot;</span><span class="p">,</span>
+    <span class="s2">"space"</span><span class="p">,</span>
+    <span class="s2">"mahal"</span><span class="p">,</span>
+    <span class="s2">"inc_addtol"</span><span class="p">,</span>
+    <span class="s2">"exc_addtol"</span><span class="p">,</span>
+    <span class="s2">"exact_endpoints"</span><span class="p">,</span>
+    <span class="s2">"ORG_spectral_subbundles"</span><span class="p">,</span>
+    <span class="s2">"cluster_IDs"</span><span class="p">,</span>
+    <span class="s2">"startpoint_location"</span><span class="p">,</span>
+    <span class="s2">"endpoint_location"</span><span class="p">,</span>
+    <span class="s2">"primary_axis_core_only"</span><span class="p">,</span>
 <span class="p">]</span></div>
 
 
 
 <div class="viewcode-block" id="logger">
 <a class="viewcode-back" href="../../../reference/api/AFQ/recognition/criteria/index.html#AFQ.recognition.criteria.logger">[docs]</a>
-<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;AFQ&quot;</span><span class="p">)</span></div>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">"AFQ"</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="prob_map">
 <a class="viewcode-back" href="../../../reference/api/AFQ/recognition/criteria/index.html#AFQ.recognition.criteria.prob_map">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">prob_map</span><span class="p">(</span><span class="n">b_sls</span><span class="p">,</span> <span class="n">bundle_def</span><span class="p">,</span> <span class="n">preproc_plan</span><span class="p">,</span> <span class="n">prob_threshold</span><span class="p">,</span> <span class="n">img</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="n">b_sls</span><span class="o">.</span><span class="n">initiate_selection</span><span class="p">(</span><span class="s2">&quot;Prob. Map&quot;</span><span class="p">)</span>
+    <span class="n">b_sls</span><span class="o">.</span><span class="n">initiate_selection</span><span class="p">(</span><span class="s2">"Prob. Map"</span><span class="p">)</span>
     <span class="n">fiber_probabilities</span> <span class="o">=</span> <span class="n">dts</span><span class="o">.</span><span class="n">values_from_volume</span><span class="p">(</span>
-        <span class="n">bundle_def</span><span class="p">[</span><span class="s2">&quot;prob_map&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">(),</span>
+        <span class="n">bundle_def</span><span class="p">[</span><span class="s2">"prob_map"</span><span class="p">]</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">(),</span>
         <span class="n">preproc_plan</span><span class="o">.</span><span class="n">fgarray</span><span class="p">[</span><span class="n">b_sls</span><span class="o">.</span><span class="n">selected_fiber_idxs</span><span class="p">],</span>
         <span class="n">img</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">fiber_probabilities</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">fiber_probabilities</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">b_sls</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">fiber_probabilities</span> <span class="o">&gt;</span> <span class="n">prob_threshold</span><span class="p">,</span> <span class="s2">&quot;Prob. Map&quot;</span><span class="p">)</span></div>
+    <span class="n">b_sls</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">fiber_probabilities</span> <span class="o">&gt;</span> <span class="n">prob_threshold</span><span class="p">,</span> <span class="s2">"Prob. Map"</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="cross_midline">
 <a class="viewcode-back" href="../../../reference/api/AFQ/recognition/criteria/index.html#AFQ.recognition.criteria.cross_midline">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">cross_midline</span><span class="p">(</span><span class="n">b_sls</span><span class="p">,</span> <span class="n">bundle_def</span><span class="p">,</span> <span class="n">preproc_plan</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="n">b_sls</span><span class="o">.</span><span class="n">initiate_selection</span><span class="p">(</span><span class="s2">&quot;Cross Mid.&quot;</span><span class="p">)</span>
+    <span class="n">b_sls</span><span class="o">.</span><span class="n">initiate_selection</span><span class="p">(</span><span class="s2">"Cross Mid."</span><span class="p">)</span>
     <span class="n">accepted</span> <span class="o">=</span> <span class="n">preproc_plan</span><span class="o">.</span><span class="n">crosses</span><span class="p">[</span><span class="n">b_sls</span><span class="o">.</span><span class="n">selected_fiber_idxs</span><span class="p">]</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">bundle_def</span><span class="p">[</span><span class="s2">&quot;cross_midline&quot;</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">bundle_def</span><span class="p">[</span><span class="s2">"cross_midline"</span><span class="p">]:</span>
         <span class="n">accepted</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">accepted</span><span class="p">)</span>
-    <span class="n">b_sls</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">accepted</span><span class="p">,</span> <span class="s2">&quot;Cross Mid.&quot;</span><span class="p">)</span></div>
+    <span class="n">b_sls</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">accepted</span><span class="p">,</span> <span class="s2">"Cross Mid."</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="start">
 <a class="viewcode-back" href="../../../reference/api/AFQ/recognition/criteria/index.html#AFQ.recognition.criteria.start">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="n">b_sls</span><span class="p">,</span> <span class="n">bundle_def</span><span class="p">,</span> <span class="n">preproc_plan</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="n">b_sls</span><span class="o">.</span><span class="n">initiate_selection</span><span class="p">(</span><span class="s2">&quot;Startpoint&quot;</span><span class="p">)</span>
-    <span class="n">exact_endpoints</span> <span class="o">=</span> <span class="n">bundle_def</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;exact_endpoints&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="n">b_sls</span><span class="o">.</span><span class="n">initiate_selection</span><span class="p">(</span><span class="s2">"Startpoint"</span><span class="p">)</span>
+    <span class="n">exact_endpoints</span> <span class="o">=</span> <span class="n">bundle_def</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"exact_endpoints"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">exact_endpoints</span><span class="p">:</span>
         <span class="n">tol</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">tol</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;dist_to_atlas&quot;</span><span class="p">]</span>
+        <span class="n">tol</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">"dist_to_atlas"</span><span class="p">]</span>
 
     <span class="n">accept_idx</span> <span class="o">=</span> <span class="n">abr</span><span class="o">.</span><span class="n">clean_by_endpoints</span><span class="p">(</span>
         <span class="n">preproc_plan</span><span class="o">.</span><span class="n">fgarray</span><span class="p">[</span><span class="n">b_sls</span><span class="o">.</span><span class="n">selected_fiber_idxs</span><span class="p">],</span>
-        <span class="n">bundle_def</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">],</span>
+        <span class="n">bundle_def</span><span class="p">[</span><span class="s2">"start"</span><span class="p">],</span>
         <span class="mi">0</span><span class="p">,</span>
         <span class="n">tol</span><span class="o">=</span><span class="n">tol</span><span class="p">,</span>
         <span class="n">flip_sls</span><span class="o">=</span><span class="n">b_sls</span><span class="o">.</span><span class="n">sls_flipped</span><span class="p">,</span>
@@ -569,7 +563,7 @@
     <span class="k">if</span> <span class="ow">not</span> <span class="n">b_sls</span><span class="o">.</span><span class="n">oriented_yet</span><span class="p">:</span>
         <span class="n">accepted_idx_flipped</span> <span class="o">=</span> <span class="n">abr</span><span class="o">.</span><span class="n">clean_by_endpoints</span><span class="p">(</span>
             <span class="n">preproc_plan</span><span class="o">.</span><span class="n">fgarray</span><span class="p">[</span><span class="n">b_sls</span><span class="o">.</span><span class="n">selected_fiber_idxs</span><span class="p">],</span>
-            <span class="n">bundle_def</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">],</span>
+            <span class="n">bundle_def</span><span class="p">[</span><span class="s2">"start"</span><span class="p">],</span>
             <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
             <span class="n">tol</span><span class="o">=</span><span class="n">tol</span><span class="p">,</span>
         <span class="p">)</span>
@@ -582,23 +576,23 @@
         <span class="n">b_sls</span><span class="o">.</span><span class="n">reorient</span><span class="p">(</span><span class="n">accepted_idx_flipped</span><span class="p">)</span>
         <span class="n">accept_idx</span> <span class="o">=</span> <span class="n">new_accept_idx</span>
 
-    <span class="n">b_sls</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">accept_idx</span><span class="p">,</span> <span class="s2">&quot;Startpoint&quot;</span><span class="p">)</span></div>
+    <span class="n">b_sls</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">accept_idx</span><span class="p">,</span> <span class="s2">"Startpoint"</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="end">
 <a class="viewcode-back" href="../../../reference/api/AFQ/recognition/criteria/index.html#AFQ.recognition.criteria.end">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">end</span><span class="p">(</span><span class="n">b_sls</span><span class="p">,</span> <span class="n">bundle_def</span><span class="p">,</span> <span class="n">preproc_plan</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="n">b_sls</span><span class="o">.</span><span class="n">initiate_selection</span><span class="p">(</span><span class="s2">&quot;endpoint&quot;</span><span class="p">)</span>
-    <span class="n">exact_endpoints</span> <span class="o">=</span> <span class="n">bundle_def</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;exact_endpoints&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="n">b_sls</span><span class="o">.</span><span class="n">initiate_selection</span><span class="p">(</span><span class="s2">"endpoint"</span><span class="p">)</span>
+    <span class="n">exact_endpoints</span> <span class="o">=</span> <span class="n">bundle_def</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"exact_endpoints"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">exact_endpoints</span><span class="p">:</span>
         <span class="n">tol</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">tol</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;dist_to_atlas&quot;</span><span class="p">]</span>
+        <span class="n">tol</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">"dist_to_atlas"</span><span class="p">]</span>
 
     <span class="n">accept_idx</span> <span class="o">=</span> <span class="n">abr</span><span class="o">.</span><span class="n">clean_by_endpoints</span><span class="p">(</span>
         <span class="n">preproc_plan</span><span class="o">.</span><span class="n">fgarray</span><span class="p">[</span><span class="n">b_sls</span><span class="o">.</span><span class="n">selected_fiber_idxs</span><span class="p">],</span>
-        <span class="n">bundle_def</span><span class="p">[</span><span class="s2">&quot;end&quot;</span><span class="p">],</span>
+        <span class="n">bundle_def</span><span class="p">[</span><span class="s2">"end"</span><span class="p">],</span>
         <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
         <span class="n">tol</span><span class="o">=</span><span class="n">tol</span><span class="p">,</span>
         <span class="n">flip_sls</span><span class="o">=</span><span class="n">b_sls</span><span class="o">.</span><span class="n">sls_flipped</span><span class="p">,</span>
@@ -606,7 +600,7 @@
     <span class="k">if</span> <span class="ow">not</span> <span class="n">b_sls</span><span class="o">.</span><span class="n">oriented_yet</span><span class="p">:</span>
         <span class="n">accepted_idx_flipped</span> <span class="o">=</span> <span class="n">abr</span><span class="o">.</span><span class="n">clean_by_endpoints</span><span class="p">(</span>
             <span class="n">preproc_plan</span><span class="o">.</span><span class="n">fgarray</span><span class="p">[</span><span class="n">b_sls</span><span class="o">.</span><span class="n">selected_fiber_idxs</span><span class="p">],</span>
-            <span class="n">bundle_def</span><span class="p">[</span><span class="s2">&quot;end&quot;</span><span class="p">],</span>
+            <span class="n">bundle_def</span><span class="p">[</span><span class="s2">"end"</span><span class="p">],</span>
             <span class="mi">0</span><span class="p">,</span>
             <span class="n">tol</span><span class="o">=</span><span class="n">tol</span><span class="p">,</span>
         <span class="p">)</span>
@@ -618,69 +612,69 @@
         <span class="n">accepted_idx_flipped</span><span class="p">[</span><span class="n">special_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">special_idx_to_flip</span>
         <span class="n">b_sls</span><span class="o">.</span><span class="n">reorient</span><span class="p">(</span><span class="n">accepted_idx_flipped</span><span class="p">)</span>
         <span class="n">accept_idx</span> <span class="o">=</span> <span class="n">new_accept_idx</span>
-    <span class="n">b_sls</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">accept_idx</span><span class="p">,</span> <span class="s2">&quot;endpoint&quot;</span><span class="p">)</span></div>
+    <span class="n">b_sls</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">accept_idx</span><span class="p">,</span> <span class="s2">"endpoint"</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="length">
 <a class="viewcode-back" href="../../../reference/api/AFQ/recognition/criteria/index.html#AFQ.recognition.criteria.length">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">length</span><span class="p">(</span><span class="n">b_sls</span><span class="p">,</span> <span class="n">bundle_def</span><span class="p">,</span> <span class="n">preproc_plan</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="n">b_sls</span><span class="o">.</span><span class="n">initiate_selection</span><span class="p">(</span><span class="s2">&quot;length&quot;</span><span class="p">)</span>
-    <span class="n">min_len</span> <span class="o">=</span> <span class="n">bundle_def</span><span class="p">[</span><span class="s2">&quot;length&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;min_len&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="n">max_len</span> <span class="o">=</span> <span class="n">bundle_def</span><span class="p">[</span><span class="s2">&quot;length&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;max_len&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
+    <span class="n">b_sls</span><span class="o">.</span><span class="n">initiate_selection</span><span class="p">(</span><span class="s2">"length"</span><span class="p">)</span>
+    <span class="n">min_len</span> <span class="o">=</span> <span class="n">bundle_def</span><span class="p">[</span><span class="s2">"length"</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"min_len"</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">max_len</span> <span class="o">=</span> <span class="n">bundle_def</span><span class="p">[</span><span class="s2">"length"</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"max_len"</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
 
     <span class="n">sl_lens</span> <span class="o">=</span> <span class="n">preproc_plan</span><span class="o">.</span><span class="n">lengths</span>
 
     <span class="n">accept_idx</span> <span class="o">=</span> <span class="p">(</span><span class="n">sl_lens</span> <span class="o">&gt;=</span> <span class="n">min_len</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">sl_lens</span> <span class="o">&lt;=</span> <span class="n">max_len</span><span class="p">)</span>
-    <span class="n">b_sls</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">accept_idx</span><span class="p">,</span> <span class="s2">&quot;length&quot;</span><span class="p">)</span></div>
+    <span class="n">b_sls</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">accept_idx</span><span class="p">,</span> <span class="s2">"length"</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="endpoint_dists">
 <a class="viewcode-back" href="../../../reference/api/AFQ/recognition/criteria/index.html#AFQ.recognition.criteria.endpoint_dists">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">endpoint_dists</span><span class="p">(</span><span class="n">b_sls</span><span class="p">,</span> <span class="n">bundle_def</span><span class="p">,</span> <span class="n">preproc_plan</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="n">b_sls</span><span class="o">.</span><span class="n">initiate_selection</span><span class="p">(</span><span class="s2">&quot;endpoint_dists&quot;</span><span class="p">)</span>
-    <span class="n">min_dist</span> <span class="o">=</span> <span class="n">bundle_def</span><span class="p">[</span><span class="s2">&quot;endpoint_dists&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;min_dist&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="n">max_dist</span> <span class="o">=</span> <span class="n">bundle_def</span><span class="p">[</span><span class="s2">&quot;endpoint_dists&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;max_dist&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
+    <span class="n">b_sls</span><span class="o">.</span><span class="n">initiate_selection</span><span class="p">(</span><span class="s2">"endpoint_dists"</span><span class="p">)</span>
+    <span class="n">min_dist</span> <span class="o">=</span> <span class="n">bundle_def</span><span class="p">[</span><span class="s2">"endpoint_dists"</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"min_dist"</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">max_dist</span> <span class="o">=</span> <span class="n">bundle_def</span><span class="p">[</span><span class="s2">"endpoint_dists"</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"max_dist"</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
 
     <span class="n">sl_endpoint_dists</span> <span class="o">=</span> <span class="n">preproc_plan</span><span class="o">.</span><span class="n">endpoint_dists</span><span class="p">[</span><span class="n">b_sls</span><span class="o">.</span><span class="n">selected_fiber_idxs</span><span class="p">]</span>
 
     <span class="n">accept_idx</span> <span class="o">=</span> <span class="p">(</span><span class="n">sl_endpoint_dists</span> <span class="o">&gt;=</span> <span class="n">min_dist</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">sl_endpoint_dists</span> <span class="o">&lt;=</span> <span class="n">max_dist</span><span class="p">)</span>
-    <span class="n">b_sls</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">accept_idx</span><span class="p">,</span> <span class="s2">&quot;endpoint_dists&quot;</span><span class="p">)</span></div>
+    <span class="n">b_sls</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">accept_idx</span><span class="p">,</span> <span class="s2">"endpoint_dists"</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="primary_axis">
 <a class="viewcode-back" href="../../../reference/api/AFQ/recognition/criteria/index.html#AFQ.recognition.criteria.primary_axis">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">primary_axis</span><span class="p">(</span><span class="n">b_sls</span><span class="p">,</span> <span class="n">bundle_def</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="n">b_sls</span><span class="o">.</span><span class="n">initiate_selection</span><span class="p">(</span><span class="s2">&quot;orientation&quot;</span><span class="p">)</span>
+    <span class="n">b_sls</span><span class="o">.</span><span class="n">initiate_selection</span><span class="p">(</span><span class="s2">"orientation"</span><span class="p">)</span>
     <span class="n">accept_idx</span> <span class="o">=</span> <span class="n">abc</span><span class="o">.</span><span class="n">clean_by_orientation</span><span class="p">(</span>
         <span class="n">b_sls</span><span class="o">.</span><span class="n">get_selected_sls</span><span class="p">(),</span>
-        <span class="n">bundle_def</span><span class="p">[</span><span class="s2">&quot;primary_axis&quot;</span><span class="p">],</span>
-        <span class="n">bundle_def</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;primary_axis_core_only&quot;</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">),</span>
+        <span class="n">bundle_def</span><span class="p">[</span><span class="s2">"primary_axis"</span><span class="p">],</span>
+        <span class="n">bundle_def</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"primary_axis_core_only"</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">),</span>
     <span class="p">)</span>
-    <span class="n">b_sls</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">accept_idx</span><span class="p">,</span> <span class="s2">&quot;orientation&quot;</span><span class="p">)</span></div>
+    <span class="n">b_sls</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">accept_idx</span><span class="p">,</span> <span class="s2">"orientation"</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="include">
 <a class="viewcode-back" href="../../../reference/api/AFQ/recognition/criteria/index.html#AFQ.recognition.criteria.include">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">include</span><span class="p">(</span><span class="n">b_sls</span><span class="p">,</span> <span class="n">bundle_def</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="n">accept_idx</span> <span class="o">=</span> <span class="n">b_sls</span><span class="o">.</span><span class="n">initiate_selection</span><span class="p">(</span><span class="s2">&quot;include&quot;</span><span class="p">)</span>
-    <span class="n">flip_using_include</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">bundle_def</span><span class="p">[</span><span class="s2">&quot;include&quot;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">b_sls</span><span class="o">.</span><span class="n">oriented_yet</span>
+    <span class="n">accept_idx</span> <span class="o">=</span> <span class="n">b_sls</span><span class="o">.</span><span class="n">initiate_selection</span><span class="p">(</span><span class="s2">"include"</span><span class="p">)</span>
+    <span class="n">flip_using_include</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">bundle_def</span><span class="p">[</span><span class="s2">"include"</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">b_sls</span><span class="o">.</span><span class="n">oriented_yet</span>
 
-    <span class="k">if</span> <span class="s2">&quot;inc_addtol&quot;</span> <span class="ow">in</span> <span class="n">bundle_def</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s2">"inc_addtol"</span> <span class="ow">in</span> <span class="n">bundle_def</span><span class="p">:</span>
         <span class="n">include_roi_tols</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">inc_tol</span> <span class="ow">in</span> <span class="n">bundle_def</span><span class="p">[</span><span class="s2">&quot;inc_addtol&quot;</span><span class="p">]:</span>
-            <span class="n">include_roi_tols</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">inc_tol</span> <span class="o">/</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;vox_dim&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;tol&quot;</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">inc_tol</span> <span class="ow">in</span> <span class="n">bundle_def</span><span class="p">[</span><span class="s2">"inc_addtol"</span><span class="p">]:</span>
+            <span class="n">include_roi_tols</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">inc_tol</span> <span class="o">/</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">"vox_dim"</span><span class="p">]</span> <span class="o">+</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">"tol"</span><span class="p">])</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">include_roi_tols</span> <span class="o">=</span> <span class="p">[</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;tol&quot;</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">bundle_def</span><span class="p">[</span><span class="s2">&quot;include&quot;</span><span class="p">])</span>
+        <span class="n">include_roi_tols</span> <span class="o">=</span> <span class="p">[</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">"tol"</span><span class="p">]]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">bundle_def</span><span class="p">[</span><span class="s2">"include"</span><span class="p">])</span>
 
     <span class="n">inc_results</span> <span class="o">=</span> <span class="n">abr</span><span class="o">.</span><span class="n">check_sls_with_inclusion</span><span class="p">(</span>
-        <span class="n">b_sls</span><span class="o">.</span><span class="n">get_selected_sls</span><span class="p">(),</span> <span class="n">bundle_def</span><span class="p">[</span><span class="s2">&quot;include&quot;</span><span class="p">],</span> <span class="n">include_roi_tols</span>
+        <span class="n">b_sls</span><span class="o">.</span><span class="n">get_selected_sls</span><span class="p">(),</span> <span class="n">bundle_def</span><span class="p">[</span><span class="s2">"include"</span><span class="p">],</span> <span class="n">include_roi_tols</span>
     <span class="p">)</span>
 
-    <span class="n">n_inc</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">bundle_def</span><span class="p">[</span><span class="s2">&quot;include&quot;</span><span class="p">])</span>
+    <span class="n">n_inc</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">bundle_def</span><span class="p">[</span><span class="s2">"include"</span><span class="p">])</span>
     <span class="n">roi_closest</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_inc</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">b_sls</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
     <span class="n">roi_dists</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_inc</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">b_sls</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">flip_using_include</span><span class="p">:</span>
@@ -706,55 +700,55 @@
     <span class="n">b_sls</span><span class="o">.</span><span class="n">roi_dists</span> <span class="o">=</span> <span class="n">roi_dists</span><span class="o">.</span><span class="n">T</span>
     <span class="k">if</span> <span class="n">flip_using_include</span><span class="p">:</span>
         <span class="n">b_sls</span><span class="o">.</span><span class="n">reorient</span><span class="p">(</span><span class="n">to_flip</span><span class="p">)</span>
-    <span class="n">b_sls</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">accept_idx</span><span class="p">,</span> <span class="s2">&quot;include&quot;</span><span class="p">)</span></div>
+    <span class="n">b_sls</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">accept_idx</span><span class="p">,</span> <span class="s2">"include"</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="curvature">
 <a class="viewcode-back" href="../../../reference/api/AFQ/recognition/criteria/index.html#AFQ.recognition.criteria.curvature">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">curvature</span><span class="p">(</span><span class="n">b_sls</span><span class="p">,</span> <span class="n">bundle_def</span><span class="p">,</span> <span class="n">mapping</span><span class="p">,</span> <span class="n">img</span><span class="p">,</span> <span class="n">save_intermediates</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Filters streamlines by how well they match</span>
 <span class="sd">    a curve in orientation and shape but not scale</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">accept_idx</span> <span class="o">=</span> <span class="n">b_sls</span><span class="o">.</span><span class="n">initiate_selection</span><span class="p">(</span><span class="s2">&quot;curvature&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="s2">&quot;sft&quot;</span> <span class="ow">in</span> <span class="n">bundle_def</span><span class="p">[</span><span class="s2">&quot;curvature&quot;</span><span class="p">]:</span>
-        <span class="n">ref_sl</span> <span class="o">=</span> <span class="n">bundle_def</span><span class="p">[</span><span class="s2">&quot;curvature&quot;</span><span class="p">][</span><span class="s2">&quot;sft&quot;</span><span class="p">]</span>
+<span class="sd">    """</span>
+    <span class="n">accept_idx</span> <span class="o">=</span> <span class="n">b_sls</span><span class="o">.</span><span class="n">initiate_selection</span><span class="p">(</span><span class="s2">"curvature"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s2">"sft"</span> <span class="ow">in</span> <span class="n">bundle_def</span><span class="p">[</span><span class="s2">"curvature"</span><span class="p">]:</span>
+        <span class="n">ref_sl</span> <span class="o">=</span> <span class="n">bundle_def</span><span class="p">[</span><span class="s2">"curvature"</span><span class="p">][</span><span class="s2">"sft"</span><span class="p">]</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">ref_sl</span> <span class="o">=</span> <span class="n">load_tractogram</span><span class="p">(</span>
-            <span class="n">bundle_def</span><span class="p">[</span><span class="s2">&quot;curvature&quot;</span><span class="p">][</span><span class="s2">&quot;path&quot;</span><span class="p">],</span> <span class="s2">&quot;same&quot;</span><span class="p">,</span> <span class="n">bbox_valid_check</span><span class="o">=</span><span class="kc">False</span>
+            <span class="n">bundle_def</span><span class="p">[</span><span class="s2">"curvature"</span><span class="p">][</span><span class="s2">"path"</span><span class="p">],</span> <span class="s2">"same"</span><span class="p">,</span> <span class="n">bbox_valid_check</span><span class="o">=</span><span class="kc">False</span>
         <span class="p">)</span>
     <span class="n">moved_ref_sl</span> <span class="o">=</span> <span class="n">move_streamlines</span><span class="p">(</span>
-        <span class="n">ref_sl</span><span class="p">,</span> <span class="s2">&quot;subject&quot;</span><span class="p">,</span> <span class="n">mapping</span><span class="p">,</span> <span class="n">img</span><span class="p">,</span> <span class="n">save_intermediates</span><span class="o">=</span><span class="n">save_intermediates</span>
+        <span class="n">ref_sl</span><span class="p">,</span> <span class="s2">"subject"</span><span class="p">,</span> <span class="n">mapping</span><span class="p">,</span> <span class="n">img</span><span class="p">,</span> <span class="n">save_intermediates</span><span class="o">=</span><span class="n">save_intermediates</span>
     <span class="p">)</span>
     <span class="n">moved_ref_sl</span> <span class="o">=</span> <span class="n">moved_ref_sl</span><span class="o">.</span><span class="n">streamlines</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">moved_ref_curve</span> <span class="o">=</span> <span class="n">abv</span><span class="o">.</span><span class="n">sl_curve</span><span class="p">(</span><span class="n">moved_ref_sl</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">moved_ref_sl</span><span class="p">))</span>
-    <span class="n">ref_curve_threshold</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">bundle_def</span><span class="p">[</span><span class="s2">&quot;curvature&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;thresh&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
-    <span class="n">cut</span> <span class="o">=</span> <span class="n">bundle_def</span><span class="p">[</span><span class="s2">&quot;curvature&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cut&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="n">ref_curve_threshold</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">bundle_def</span><span class="p">[</span><span class="s2">"curvature"</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"thresh"</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+    <span class="n">cut</span> <span class="o">=</span> <span class="n">bundle_def</span><span class="p">[</span><span class="s2">"curvature"</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"cut"</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">sl</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">b_sls</span><span class="o">.</span><span class="n">get_selected_sls</span><span class="p">(</span><span class="n">cut</span><span class="o">=</span><span class="n">cut</span><span class="p">,</span> <span class="n">flip</span><span class="o">=</span><span class="kc">True</span><span class="p">)):</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sl</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">this_sl_curve</span> <span class="o">=</span> <span class="n">abv</span><span class="o">.</span><span class="n">sl_curve</span><span class="p">(</span><span class="n">sl</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">moved_ref_sl</span><span class="p">))</span>
             <span class="n">dist</span> <span class="o">=</span> <span class="n">abv</span><span class="o">.</span><span class="n">sl_curve_dist</span><span class="p">(</span><span class="n">this_sl_curve</span><span class="p">,</span> <span class="n">moved_ref_curve</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">dist</span> <span class="o">&lt;=</span> <span class="n">ref_curve_threshold</span><span class="p">:</span>
                 <span class="n">accept_idx</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="n">b_sls</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">accept_idx</span><span class="p">,</span> <span class="s2">&quot;curvature&quot;</span><span class="p">,</span> <span class="n">cut</span><span class="o">=</span><span class="n">cut</span><span class="p">)</span></div>
+    <span class="n">b_sls</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">accept_idx</span><span class="p">,</span> <span class="s2">"curvature"</span><span class="p">,</span> <span class="n">cut</span><span class="o">=</span><span class="n">cut</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="exclude">
 <a class="viewcode-back" href="../../../reference/api/AFQ/recognition/criteria/index.html#AFQ.recognition.criteria.exclude">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">exclude</span><span class="p">(</span><span class="n">b_sls</span><span class="p">,</span> <span class="n">bundle_def</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="n">accept_idx</span> <span class="o">=</span> <span class="n">b_sls</span><span class="o">.</span><span class="n">initiate_selection</span><span class="p">(</span><span class="s2">&quot;exclude&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="s2">&quot;exc_addtol&quot;</span> <span class="ow">in</span> <span class="n">bundle_def</span><span class="p">:</span>
+    <span class="n">accept_idx</span> <span class="o">=</span> <span class="n">b_sls</span><span class="o">.</span><span class="n">initiate_selection</span><span class="p">(</span><span class="s2">"exclude"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s2">"exc_addtol"</span> <span class="ow">in</span> <span class="n">bundle_def</span><span class="p">:</span>
         <span class="n">exclude_roi_tols</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">exc_tol</span> <span class="ow">in</span> <span class="n">bundle_def</span><span class="p">[</span><span class="s2">&quot;exc_addtol&quot;</span><span class="p">]:</span>
-            <span class="n">exclude_roi_tols</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">exc_tol</span> <span class="o">/</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;vox_dim&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;tol&quot;</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">exc_tol</span> <span class="ow">in</span> <span class="n">bundle_def</span><span class="p">[</span><span class="s2">"exc_addtol"</span><span class="p">]:</span>
+            <span class="n">exclude_roi_tols</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">exc_tol</span> <span class="o">/</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">"vox_dim"</span><span class="p">]</span> <span class="o">+</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">"tol"</span><span class="p">])</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">exclude_roi_tols</span> <span class="o">=</span> <span class="p">[</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;tol&quot;</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">bundle_def</span><span class="p">[</span><span class="s2">&quot;exclude&quot;</span><span class="p">])</span>
+        <span class="n">exclude_roi_tols</span> <span class="o">=</span> <span class="p">[</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">"tol"</span><span class="p">]]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">bundle_def</span><span class="p">[</span><span class="s2">"exclude"</span><span class="p">])</span>
     <span class="k">for</span> <span class="n">sl_idx</span><span class="p">,</span> <span class="n">sl</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">b_sls</span><span class="o">.</span><span class="n">get_selected_sls</span><span class="p">()):</span>
-        <span class="k">if</span> <span class="n">abr</span><span class="o">.</span><span class="n">check_sl_with_exclusion</span><span class="p">(</span><span class="n">sl</span><span class="p">,</span> <span class="n">bundle_def</span><span class="p">[</span><span class="s2">&quot;exclude&quot;</span><span class="p">],</span> <span class="n">exclude_roi_tols</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">abr</span><span class="o">.</span><span class="n">check_sl_with_exclusion</span><span class="p">(</span><span class="n">sl</span><span class="p">,</span> <span class="n">bundle_def</span><span class="p">[</span><span class="s2">"exclude"</span><span class="p">],</span> <span class="n">exclude_roi_tols</span><span class="p">):</span>
             <span class="n">accept_idx</span><span class="p">[</span><span class="n">sl_idx</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="n">b_sls</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">accept_idx</span><span class="p">,</span> <span class="s2">&quot;exclude&quot;</span><span class="p">)</span></div>
+    <span class="n">b_sls</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">accept_idx</span><span class="p">,</span> <span class="s2">"exclude"</span><span class="p">)</span></div>
 
 
 
@@ -772,10 +766,10 @@
     <span class="n">rb_recognize_params</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
 <span class="p">):</span>
-    <span class="n">b_sls</span><span class="o">.</span><span class="n">initiate_selection</span><span class="p">(</span><span class="s2">&quot;Recobundles&quot;</span><span class="p">)</span>
+    <span class="n">b_sls</span><span class="o">.</span><span class="n">initiate_selection</span><span class="p">(</span><span class="s2">"Recobundles"</span><span class="p">)</span>
     <span class="n">moved_sl</span> <span class="o">=</span> <span class="n">move_streamlines</span><span class="p">(</span>
         <span class="n">StatefulTractogram</span><span class="p">(</span><span class="n">b_sls</span><span class="o">.</span><span class="n">get_selected_sls</span><span class="p">(),</span> <span class="n">img</span><span class="p">,</span> <span class="n">Space</span><span class="o">.</span><span class="n">RASMM</span><span class="p">),</span>
-        <span class="s2">&quot;template&quot;</span><span class="p">,</span>
+        <span class="s2">"template"</span><span class="p">,</span>
         <span class="n">mapping</span><span class="p">,</span>
         <span class="n">reg_template</span><span class="p">,</span>
         <span class="n">to_space</span><span class="o">=</span><span class="n">Space</span><span class="o">.</span><span class="n">RASMM</span><span class="p">,</span>
@@ -783,34 +777,33 @@
     <span class="p">)</span><span class="o">.</span><span class="n">streamlines</span>
     <span class="n">moved_sl_resampled</span> <span class="o">=</span> <span class="n">abu</span><span class="o">.</span><span class="n">resample_tg</span><span class="p">(</span><span class="n">moved_sl</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
     <span class="n">rb</span> <span class="o">=</span> <span class="n">RecoBundles</span><span class="p">(</span><span class="n">moved_sl</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
-    <span class="n">_</span><span class="p">,</span> <span class="n">rec_labels</span> <span class="o">=</span> <span class="n">rb</span><span class="o">.</span><span class="n">recognize</span><span class="p">(</span><span class="n">bundle_def</span><span class="p">[</span><span class="s2">&quot;recobundles&quot;</span><span class="p">][</span><span class="s2">&quot;sl&quot;</span><span class="p">],</span> <span class="o">**</span><span class="n">rb_recognize_params</span><span class="p">)</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">rec_labels</span> <span class="o">=</span> <span class="n">rb</span><span class="o">.</span><span class="n">recognize</span><span class="p">(</span><span class="n">bundle_def</span><span class="p">[</span><span class="s2">"recobundles"</span><span class="p">][</span><span class="s2">"sl"</span><span class="p">],</span> <span class="o">**</span><span class="n">rb_recognize_params</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">refine_reco</span><span class="p">:</span>
         <span class="n">_</span><span class="p">,</span> <span class="n">rec_labels</span> <span class="o">=</span> <span class="n">rb</span><span class="o">.</span><span class="n">refine</span><span class="p">(</span>
-            <span class="n">bundle_def</span><span class="p">[</span><span class="s2">&quot;recobundles&quot;</span><span class="p">][</span><span class="s2">&quot;sl&quot;</span><span class="p">],</span>
+            <span class="n">bundle_def</span><span class="p">[</span><span class="s2">"recobundles"</span><span class="p">][</span><span class="s2">"sl"</span><span class="p">],</span>
             <span class="n">moved_sl_resampled</span><span class="p">[</span><span class="n">rec_labels</span><span class="p">],</span>
             <span class="o">**</span><span class="n">rb_recognize_params</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">b_sls</span><span class="o">.</span><span class="n">oriented_yet</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">rec_labels</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">standard_sl</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">bundle_def</span><span class="p">[</span><span class="s2">&quot;recobundles&quot;</span><span class="p">][</span><span class="s2">&quot;centroid&quot;</span><span class="p">]))</span>
+        <span class="n">standard_sl</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">bundle_def</span><span class="p">[</span><span class="s2">"recobundles"</span><span class="p">][</span><span class="s2">"centroid"</span><span class="p">]))</span>
         <span class="n">oriented_idx</span> <span class="o">=</span> <span class="n">abu</span><span class="o">.</span><span class="n">orient_by_streamline</span><span class="p">(</span><span class="n">moved_sl</span><span class="p">[</span><span class="n">rec_labels</span><span class="p">],</span> <span class="n">standard_sl</span><span class="p">)</span>
         <span class="n">b_sls</span><span class="o">.</span><span class="n">reorient</span><span class="p">(</span><span class="n">rec_labels</span><span class="p">[</span><span class="n">oriented_idx</span><span class="p">])</span>
     <span class="n">rec_labels</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">rec_labels</span><span class="p">)</span>
-    <span class="n">b_sls</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">rec_labels</span><span class="p">,</span> <span class="s2">&quot;Recobundles&quot;</span><span class="p">)</span></div>
+    <span class="n">b_sls</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">rec_labels</span><span class="p">,</span> <span class="s2">"Recobundles"</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="qb_thresh">
 <a class="viewcode-back" href="../../../reference/api/AFQ/recognition/criteria/index.html#AFQ.recognition.criteria.qb_thresh">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">qb_thresh</span><span class="p">(</span><span class="n">b_sls</span><span class="p">,</span> <span class="n">bundle_def</span><span class="p">,</span> <span class="n">clip_edges</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="n">b_sls</span><span class="o">.</span><span class="n">initiate_selection</span><span class="p">(</span><span class="s2">&quot;qb_thresh&quot;</span><span class="p">)</span>
-    <span class="n">cut</span> <span class="o">=</span> <span class="n">clip_edges</span> <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;bundlesection&quot;</span> <span class="ow">in</span> <span class="n">bundle_def</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">qb_thresh</span><span class="p">(</span><span class="n">b_sls</span><span class="p">,</span> <span class="n">bundle_def</span><span class="p">,</span> <span class="n">clip_for_clean</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">b_sls</span><span class="o">.</span><span class="n">initiate_selection</span><span class="p">(</span><span class="s2">"qb_thresh"</span><span class="p">)</span>
     <span class="n">qbx</span> <span class="o">=</span> <span class="n">QuickBundles</span><span class="p">(</span>
-        <span class="n">bundle_def</span><span class="p">[</span><span class="s2">&quot;qb_thresh&quot;</span><span class="p">],</span>
+        <span class="n">bundle_def</span><span class="p">[</span><span class="s2">"qb_thresh"</span><span class="p">],</span>
         <span class="n">AveragePointwiseEuclideanMetric</span><span class="p">(</span><span class="n">ResampleFeature</span><span class="p">(</span><span class="n">nb_points</span><span class="o">=</span><span class="mi">12</span><span class="p">)),</span>
     <span class="p">)</span>
-    <span class="n">clusters</span> <span class="o">=</span> <span class="n">qbx</span><span class="o">.</span><span class="n">cluster</span><span class="p">(</span><span class="n">b_sls</span><span class="o">.</span><span class="n">get_selected_sls</span><span class="p">(</span><span class="n">cut</span><span class="o">=</span><span class="n">cut</span><span class="p">,</span> <span class="n">flip</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+    <span class="n">clusters</span> <span class="o">=</span> <span class="n">qbx</span><span class="o">.</span><span class="n">cluster</span><span class="p">(</span><span class="n">b_sls</span><span class="o">.</span><span class="n">get_selected_sls</span><span class="p">(</span><span class="n">cut</span><span class="o">=</span><span class="n">clip_for_clean</span><span class="p">,</span> <span class="n">flip</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
     <span class="n">cleaned_idx</span> <span class="o">=</span> <span class="n">clusters</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">clusters</span><span class="o">.</span><span class="n">clusters_sizes</span><span class="p">())]</span><span class="o">.</span><span class="n">indices</span>
-    <span class="n">b_sls</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">cleaned_idx</span><span class="p">,</span> <span class="s2">&quot;qb_thresh&quot;</span><span class="p">,</span> <span class="n">cut</span><span class="o">=</span><span class="n">cut</span><span class="p">)</span></div>
+    <span class="n">b_sls</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">cleaned_idx</span><span class="p">,</span> <span class="s2">"qb_thresh"</span><span class="p">,</span> <span class="n">cut</span><span class="o">=</span><span class="n">clip_for_clean</span><span class="p">)</span></div>
 
 
 
@@ -823,36 +816,36 @@
     <span class="n">cleaned_idx</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">flipped_sls</span> <span class="o">=</span> <span class="n">b_sls</span><span class="o">.</span><span class="n">get_selected_sls</span><span class="p">(</span><span class="n">flip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="s2">&quot;overlap&quot;</span> <span class="ow">in</span> <span class="n">bundle_def</span><span class="p">[</span><span class="n">other_bundle_name</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="s2">"overlap"</span> <span class="ow">in</span> <span class="n">bundle_def</span><span class="p">[</span><span class="n">other_bundle_name</span><span class="p">]:</span>
         <span class="n">cleaned_idx_overlap</span> <span class="o">=</span> <span class="n">abo</span><span class="o">.</span><span class="n">clean_by_overlap</span><span class="p">(</span>
             <span class="n">flipped_sls</span><span class="p">,</span>
             <span class="n">other_bundle_sls</span><span class="p">,</span>
-            <span class="n">bundle_def</span><span class="p">[</span><span class="n">other_bundle_name</span><span class="p">][</span><span class="s2">&quot;overlap&quot;</span><span class="p">],</span>
+            <span class="n">bundle_def</span><span class="p">[</span><span class="n">other_bundle_name</span><span class="p">][</span><span class="s2">"overlap"</span><span class="p">],</span>
             <span class="n">img</span><span class="p">,</span>
             <span class="n">remove</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-            <span class="n">project</span><span class="o">=</span><span class="n">bundle_def</span><span class="p">[</span><span class="n">other_bundle_name</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;project&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+            <span class="n">project</span><span class="o">=</span><span class="n">bundle_def</span><span class="p">[</span><span class="n">other_bundle_name</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"project"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
         <span class="p">)</span>
         <span class="n">cleaned_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">cleaned_idx</span><span class="p">,</span> <span class="n">cleaned_idx_overlap</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="s2">&quot;node_thresh&quot;</span> <span class="ow">in</span> <span class="n">bundle_def</span><span class="p">[</span><span class="n">other_bundle_name</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="s2">"node_thresh"</span> <span class="ow">in</span> <span class="n">bundle_def</span><span class="p">[</span><span class="n">other_bundle_name</span><span class="p">]:</span>
         <span class="n">cleaned_idx_node_thresh</span> <span class="o">=</span> <span class="n">abo</span><span class="o">.</span><span class="n">clean_by_overlap</span><span class="p">(</span>
             <span class="n">flipped_sls</span><span class="p">,</span>
             <span class="n">other_bundle_sls</span><span class="p">,</span>
-            <span class="n">bundle_def</span><span class="p">[</span><span class="n">other_bundle_name</span><span class="p">][</span><span class="s2">&quot;node_thresh&quot;</span><span class="p">],</span>
+            <span class="n">bundle_def</span><span class="p">[</span><span class="n">other_bundle_name</span><span class="p">][</span><span class="s2">"node_thresh"</span><span class="p">],</span>
             <span class="n">img</span><span class="p">,</span>
             <span class="n">remove</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-            <span class="n">project</span><span class="o">=</span><span class="n">bundle_def</span><span class="p">[</span><span class="n">other_bundle_name</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;project&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+            <span class="n">project</span><span class="o">=</span><span class="n">bundle_def</span><span class="p">[</span><span class="n">other_bundle_name</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"project"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
         <span class="p">)</span>
         <span class="n">cleaned_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">cleaned_idx</span><span class="p">,</span> <span class="n">cleaned_idx_node_thresh</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="s2">&quot;core&quot;</span> <span class="ow">in</span> <span class="n">bundle_def</span><span class="p">[</span><span class="n">other_bundle_name</span><span class="p">]:</span>
-        <span class="n">consideration</span> <span class="o">=</span> <span class="n">bundle_def</span><span class="p">[</span><span class="n">other_bundle_name</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;consideration&quot;</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s2">"core"</span> <span class="ow">in</span> <span class="n">bundle_def</span><span class="p">[</span><span class="n">other_bundle_name</span><span class="p">]:</span>
+        <span class="n">consideration</span> <span class="o">=</span> <span class="n">bundle_def</span><span class="p">[</span><span class="n">other_bundle_name</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"consideration"</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">consideration</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
             <span class="n">consideration</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">consideration</span><span class="p">)</span>
-            <span class="n">consideration</span> <span class="o">=</span> <span class="n">consideration</span> <span class="o">/</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;vox_dim&quot;</span><span class="p">]</span>
+            <span class="n">consideration</span> <span class="o">=</span> <span class="n">consideration</span> <span class="o">/</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">"vox_dim"</span><span class="p">]</span>
 
         <span class="n">cleaned_idx_core</span> <span class="o">=</span> <span class="n">abo</span><span class="o">.</span><span class="n">clean_relative_to_other_core</span><span class="p">(</span>
-            <span class="n">bundle_def</span><span class="p">[</span><span class="n">other_bundle_name</span><span class="p">][</span><span class="s2">&quot;core&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span>
+            <span class="n">bundle_def</span><span class="p">[</span><span class="n">other_bundle_name</span><span class="p">][</span><span class="s2">"core"</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span>
             <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">abu</span><span class="o">.</span><span class="n">resample_tg</span><span class="p">(</span><span class="n">flipped_sls</span><span class="p">,</span> <span class="mi">100</span><span class="p">)),</span>
             <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">abu</span><span class="o">.</span><span class="n">resample_tg</span><span class="p">(</span><span class="n">other_bundle_sls</span><span class="p">,</span> <span class="mi">100</span><span class="p">)),</span>
             <span class="n">consideration</span><span class="o">=</span><span class="n">consideration</span><span class="p">,</span>
@@ -865,51 +858,50 @@
 
 <div class="viewcode-block" id="orient_mahal">
 <a class="viewcode-back" href="../../../reference/api/AFQ/recognition/criteria/index.html#AFQ.recognition.criteria.orient_mahal">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">orient_mahal</span><span class="p">(</span><span class="n">b_sls</span><span class="p">,</span> <span class="n">bundle_def</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="n">b_sls</span><span class="o">.</span><span class="n">initiate_selection</span><span class="p">(</span><span class="s2">&quot;orient_mahal&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">orient_mahal</span><span class="p">(</span><span class="n">b_sls</span><span class="p">,</span> <span class="n">bundle_def</span><span class="p">,</span> <span class="n">clip_for_clean</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">b_sls</span><span class="o">.</span><span class="n">initiate_selection</span><span class="p">(</span><span class="s2">"orient_mahal"</span><span class="p">)</span>
     <span class="n">accept_idx</span> <span class="o">=</span> <span class="n">abc</span><span class="o">.</span><span class="n">clean_by_orientation_mahalanobis</span><span class="p">(</span>
-        <span class="n">b_sls</span><span class="o">.</span><span class="n">get_selected_sls</span><span class="p">(),</span> <span class="o">**</span><span class="n">bundle_def</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;orient_mahal&quot;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">b_sls</span><span class="o">.</span><span class="n">get_selected_sls</span><span class="p">(</span><span class="n">cut</span><span class="o">=</span><span class="n">clip_for_clean</span><span class="p">),</span> <span class="o">**</span><span class="n">bundle_def</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"orient_mahal"</span><span class="p">,</span> <span class="p">{})</span>
     <span class="p">)</span>
-    <span class="n">b_sls</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">accept_idx</span><span class="p">,</span> <span class="s2">&quot;orient_mahal&quot;</span><span class="p">)</span></div>
+    <span class="n">b_sls</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">accept_idx</span><span class="p">,</span> <span class="s2">"orient_mahal"</span><span class="p">,</span> <span class="n">cut</span><span class="o">=</span><span class="n">clip_for_clean</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="isolation_forest">
 <a class="viewcode-back" href="../../../reference/api/AFQ/recognition/criteria/index.html#AFQ.recognition.criteria.isolation_forest">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">isolation_forest</span><span class="p">(</span><span class="n">b_sls</span><span class="p">,</span> <span class="n">bundle_def</span><span class="p">,</span> <span class="n">rng</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="n">b_sls</span><span class="o">.</span><span class="n">initiate_selection</span><span class="p">(</span><span class="s2">&quot;isolation_forest&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">isolation_forest</span><span class="p">(</span><span class="n">b_sls</span><span class="p">,</span> <span class="n">bundle_def</span><span class="p">,</span> <span class="n">clip_for_clean</span><span class="p">,</span> <span class="n">rng</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">b_sls</span><span class="o">.</span><span class="n">initiate_selection</span><span class="p">(</span><span class="s2">"isolation_forest"</span><span class="p">)</span>
     <span class="n">accept_idx</span> <span class="o">=</span> <span class="n">abc</span><span class="o">.</span><span class="n">clean_by_isolation_forest</span><span class="p">(</span>
-        <span class="n">b_sls</span><span class="o">.</span><span class="n">get_selected_sls</span><span class="p">(),</span>
-        <span class="n">distance_threshold</span><span class="o">=</span><span class="n">bundle_def</span><span class="p">[</span><span class="s2">&quot;isolation_forest&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;distance_threshold&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
-        <span class="n">n_rounds</span><span class="o">=</span><span class="n">bundle_def</span><span class="p">[</span><span class="s2">&quot;isolation_forest&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;n_rounds&quot;</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+        <span class="n">b_sls</span><span class="o">.</span><span class="n">get_selected_sls</span><span class="p">(</span><span class="n">cut</span><span class="o">=</span><span class="n">clip_for_clean</span><span class="p">),</span>
+        <span class="n">distance_threshold</span><span class="o">=</span><span class="n">bundle_def</span><span class="p">[</span><span class="s2">"isolation_forest"</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"distance_threshold"</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+        <span class="n">n_rounds</span><span class="o">=</span><span class="n">bundle_def</span><span class="p">[</span><span class="s2">"isolation_forest"</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"n_rounds"</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
         <span class="n">random_state</span><span class="o">=</span><span class="n">rng</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">b_sls</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">accept_idx</span><span class="p">,</span> <span class="s2">&quot;isolation_forest&quot;</span><span class="p">)</span></div>
+    <span class="n">b_sls</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">accept_idx</span><span class="p">,</span> <span class="s2">"isolation_forest"</span><span class="p">,</span> <span class="n">cut</span><span class="o">=</span><span class="n">clip_for_clean</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="mahalanobis">
 <a class="viewcode-back" href="../../../reference/api/AFQ/recognition/criteria/index.html#AFQ.recognition.criteria.mahalanobis">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">mahalanobis</span><span class="p">(</span><span class="n">b_sls</span><span class="p">,</span> <span class="n">bundle_def</span><span class="p">,</span> <span class="n">clip_edges</span><span class="p">,</span> <span class="n">cleaning_params</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="n">b_sls</span><span class="o">.</span><span class="n">initiate_selection</span><span class="p">(</span><span class="s2">&quot;Mahalanobis&quot;</span><span class="p">)</span>
-    <span class="n">clean_params</span> <span class="o">=</span> <span class="n">bundle_def</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;mahal&quot;</span><span class="p">,</span> <span class="p">{})</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">mahalanobis</span><span class="p">(</span><span class="n">b_sls</span><span class="p">,</span> <span class="n">bundle_def</span><span class="p">,</span> <span class="n">clip_for_clean</span><span class="p">,</span> <span class="n">cleaning_params</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">b_sls</span><span class="o">.</span><span class="n">initiate_selection</span><span class="p">(</span><span class="s2">"Mahalanobis"</span><span class="p">)</span>
+    <span class="n">clean_params</span> <span class="o">=</span> <span class="n">bundle_def</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"mahal"</span><span class="p">,</span> <span class="p">{})</span>
     <span class="n">clean_params</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">cleaning_params</span><span class="p">,</span> <span class="o">**</span><span class="n">clean_params</span><span class="p">}</span>
-    <span class="n">clean_params</span><span class="p">[</span><span class="s2">&quot;return_idx&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
-    <span class="n">cut</span> <span class="o">=</span> <span class="n">clip_edges</span> <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;bundlesection&quot;</span> <span class="ow">in</span> <span class="n">bundle_def</span><span class="p">)</span>
+    <span class="n">clean_params</span><span class="p">[</span><span class="s2">"return_idx"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">_</span><span class="p">,</span> <span class="n">cleaned_idx</span> <span class="o">=</span> <span class="n">abc</span><span class="o">.</span><span class="n">clean_bundle</span><span class="p">(</span>
-        <span class="n">b_sls</span><span class="o">.</span><span class="n">get_selected_sls</span><span class="p">(</span><span class="n">cut</span><span class="o">=</span><span class="n">cut</span><span class="p">,</span> <span class="n">flip</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="o">**</span><span class="n">clean_params</span>
+        <span class="n">b_sls</span><span class="o">.</span><span class="n">get_selected_sls</span><span class="p">(</span><span class="n">cut</span><span class="o">=</span><span class="n">clip_for_clean</span><span class="p">,</span> <span class="n">flip</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="o">**</span><span class="n">clean_params</span>
     <span class="p">)</span>
-    <span class="n">b_sls</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">cleaned_idx</span><span class="p">,</span> <span class="s2">&quot;Mahalanobis&quot;</span><span class="p">,</span> <span class="n">cut</span><span class="o">=</span><span class="n">cut</span><span class="p">)</span></div>
+    <span class="n">b_sls</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">cleaned_idx</span><span class="p">,</span> <span class="s2">"Mahalanobis"</span><span class="p">,</span> <span class="n">cut</span><span class="o">=</span><span class="n">clip_for_clean</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="_prepare_bundle_def">
 <a class="viewcode-back" href="../../../reference/api/AFQ/recognition/criteria/index.html#AFQ.recognition.criteria._prepare_bundle_def">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">_prepare_bundle_def</span><span class="p">(</span><span class="n">bundle_dict</span><span class="p">,</span> <span class="n">bundle_name</span><span class="p">,</span> <span class="n">mapping</span><span class="p">,</span> <span class="n">img</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Warp ROIs and apply distance-transform conversion</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">tqdm</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Preparing ROIs for </span><span class="si">{</span><span class="n">bundle_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="sd">    """</span>
+    <span class="n">tqdm</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Preparing ROIs for </span><span class="si">{</span><span class="n">bundle_name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
     <span class="n">bundle_def</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">bundle_dict</span><span class="o">.</span><span class="n">get_b_info</span><span class="p">(</span><span class="n">bundle_name</span><span class="p">))</span>
     <span class="n">bundle_def</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
@@ -919,25 +911,28 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">check_space</span><span class="p">(</span><span class="n">roi</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span> <span class="n">roi</span><span class="o">.</span><span class="n">affine</span><span class="p">):</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                <span class="s2">&quot;Resampling set to False in case where affines &quot;</span>
-                <span class="s2">&quot;do not match. This is likely due to subject space ROIs&quot;</span>
-                <span class="s2">&quot; not being in the right space. This found for bundle &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bundle_name</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="s2">"Resampling set to False in case where affines "</span>
+                <span class="s2">"do not match. This is likely due to subject space ROIs"</span>
+                <span class="s2">" not being in the right space. This found for bundle "</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">bundle_name</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
 
     <span class="n">apply_to_roi_dict</span><span class="p">(</span><span class="n">bundle_def</span><span class="p">,</span> <span class="n">check_space</span><span class="p">,</span> <span class="n">dry_run</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">apply_to_prob_map</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
+    <span class="c1"># The 0.5 is necessary here such that when we trilinear</span>
+    <span class="c1"># interpolate the distance transform, the value at the edge of</span>
+    <span class="c1"># the ROI is 0.</span>
     <span class="n">apply_to_roi_dict</span><span class="p">(</span>
         <span class="n">bundle_def</span><span class="p">,</span>
         <span class="k">lambda</span> <span class="n">roi_img</span><span class="p">:</span> <span class="n">nib</span><span class="o">.</span><span class="n">Nifti1Image</span><span class="p">(</span>
-            <span class="n">distance_transform_edt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">roi_img</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)),</span>
+            <span class="n">distance_transform_edt</span><span class="p">(</span><span class="n">roi_img</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">,</span>
             <span class="n">roi_img</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">dry_run</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">apply_to_recobundles</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">apply_to_prob_map</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">tqdm</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Time to prep ROIs: </span><span class="si">{</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start_time</span><span class="si">}</span><span class="s2">s&quot;</span><span class="p">)</span>
+    <span class="n">tqdm</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Time to prep ROIs: </span><span class="si">{</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start_time</span><span class="si">}</span><span class="s2">s"</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">bundle_def</span></div>
 
 
@@ -954,19 +949,19 @@
         <span class="p">):</span>
             <span class="k">if</span> <span class="n">potential_criterion</span> <span class="ow">in</span> <span class="n">bundle_dict</span><span class="o">.</span><span class="n">bundle_names</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Bundle </span><span class="si">{</span><span class="n">potential_criterion</span><span class="si">}</span><span class="s2"> is being used as a criterion in &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;the definition of bundle </span><span class="si">{</span><span class="n">bundle_name</span><span class="si">}</span><span class="s2">, however this bundle &quot;</span>
-                    <span class="s2">&quot;was not found. This could be because of insufficient streamlines&quot;</span>
+                    <span class="sa">f</span><span class="s2">"Bundle </span><span class="si">{</span><span class="n">potential_criterion</span><span class="si">}</span><span class="s2"> is being used as a criterion in "</span>
+                    <span class="sa">f</span><span class="s2">"the definition of bundle </span><span class="si">{</span><span class="n">bundle_name</span><span class="si">}</span><span class="s2">, however this bundle "</span>
+                    <span class="s2">"was not found. This could be because of insufficient streamlines"</span>
                 <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="s2">&quot;Invalid criterion in bundle definition:</span><span class="se">\n</span><span class="s2">&quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">potential_criterion</span><span class="si">}</span><span class="s2"> in bundle </span><span class="si">{</span><span class="n">bundle_name</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span>
-                    <span class="s2">&quot;Valid criteria are:</span><span class="se">\n</span><span class="s2">&quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">criteria_order_pre_other_bundles</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">criteria_order_post_other_bundles</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">recognized_bundles_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">valid_noncriterion</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="s2">"Invalid criterion in bundle definition:</span><span class="se">\n</span><span class="s2">"</span>
+                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">potential_criterion</span><span class="si">}</span><span class="s2"> in bundle </span><span class="si">{</span><span class="n">bundle_name</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">"</span>
+                    <span class="s2">"Valid criteria are:</span><span class="se">\n</span><span class="s2">"</span>
+                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">criteria_order_pre_other_bundles</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span>
+                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">criteria_order_post_other_bundles</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span>
+                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">recognized_bundles_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span>
+                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">valid_noncriterion</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span>
                 <span class="p">)</span></div>
 
 
@@ -990,18 +985,18 @@
         <span class="n">save_intermediates</span><span class="p">,</span>
         <span class="n">bundle_name</span><span class="p">,</span>
         <span class="n">img</span><span class="p">,</span>
-        <span class="nb">len</span><span class="p">(</span><span class="n">bundle_def</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;include&quot;</span><span class="p">,</span> <span class="p">[])),</span>
+        <span class="nb">len</span><span class="p">(</span><span class="n">bundle_def</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"include"</span><span class="p">,</span> <span class="p">[])),</span>
     <span class="p">)</span>
 
     <span class="n">inputs</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;b_sls&quot;</span><span class="p">:</span> <span class="n">b_sls</span><span class="p">,</span>
-        <span class="s2">&quot;preproc_plan&quot;</span><span class="p">:</span> <span class="n">preproc_plan</span><span class="p">,</span>
-        <span class="s2">&quot;bundle_def&quot;</span><span class="p">:</span> <span class="n">bundle_def</span><span class="p">,</span>
-        <span class="s2">&quot;img&quot;</span><span class="p">:</span> <span class="n">img</span><span class="p">,</span>
-        <span class="s2">&quot;save_intermediates&quot;</span><span class="p">:</span> <span class="n">save_intermediates</span><span class="p">,</span>
-        <span class="s2">&quot;vox_dim&quot;</span><span class="p">:</span> <span class="n">vox_dim</span><span class="p">,</span>
-        <span class="s2">&quot;tol&quot;</span><span class="p">:</span> <span class="n">tol</span><span class="p">,</span>
-        <span class="s2">&quot;dist_to_atlas&quot;</span><span class="p">:</span> <span class="n">dist_to_atlas</span><span class="p">,</span>
+        <span class="s2">"b_sls"</span><span class="p">:</span> <span class="n">b_sls</span><span class="p">,</span>
+        <span class="s2">"preproc_plan"</span><span class="p">:</span> <span class="n">preproc_plan</span><span class="p">,</span>
+        <span class="s2">"bundle_def"</span><span class="p">:</span> <span class="n">bundle_def</span><span class="p">,</span>
+        <span class="s2">"img"</span><span class="p">:</span> <span class="n">img</span><span class="p">,</span>
+        <span class="s2">"save_intermediates"</span><span class="p">:</span> <span class="n">save_intermediates</span><span class="p">,</span>
+        <span class="s2">"vox_dim"</span><span class="p">:</span> <span class="n">vox_dim</span><span class="p">,</span>
+        <span class="s2">"tol"</span><span class="p">:</span> <span class="n">tol</span><span class="p">,</span>
+        <span class="s2">"dist_to_atlas"</span><span class="p">:</span> <span class="n">dist_to_atlas</span><span class="p">,</span>
     <span class="p">}</span>
     <span class="n">inputs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">segmentation_params</span><span class="p">)</span>
 
@@ -1036,19 +1031,19 @@
         <span class="k">return</span>
 
     <span class="n">inputs</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;b_sls&quot;</span><span class="p">:</span> <span class="n">b_sls</span><span class="p">,</span>
-        <span class="s2">&quot;preproc_plan&quot;</span><span class="p">:</span> <span class="n">preproc_scalars</span><span class="p">,</span>
-        <span class="s2">&quot;bundle_def&quot;</span><span class="p">:</span> <span class="n">bundle_def</span><span class="p">,</span>
-        <span class="s2">&quot;mapping&quot;</span><span class="p">:</span> <span class="n">mapping</span><span class="p">,</span>
-        <span class="s2">&quot;img&quot;</span><span class="p">:</span> <span class="n">img</span><span class="p">,</span>
-        <span class="s2">&quot;reg_template&quot;</span><span class="p">:</span> <span class="n">reg_template</span><span class="p">,</span>
-        <span class="s2">&quot;vox_dim&quot;</span><span class="p">:</span> <span class="n">vox_dim</span><span class="p">,</span>
-        <span class="s2">&quot;tol&quot;</span><span class="p">:</span> <span class="n">tol</span><span class="p">,</span>
-        <span class="s2">&quot;dist_to_atlas&quot;</span><span class="p">:</span> <span class="n">dist_to_atlas</span><span class="p">,</span>
+        <span class="s2">"b_sls"</span><span class="p">:</span> <span class="n">b_sls</span><span class="p">,</span>
+        <span class="s2">"preproc_plan"</span><span class="p">:</span> <span class="n">preproc_scalars</span><span class="p">,</span>
+        <span class="s2">"bundle_def"</span><span class="p">:</span> <span class="n">bundle_def</span><span class="p">,</span>
+        <span class="s2">"mapping"</span><span class="p">:</span> <span class="n">mapping</span><span class="p">,</span>
+        <span class="s2">"img"</span><span class="p">:</span> <span class="n">img</span><span class="p">,</span>
+        <span class="s2">"reg_template"</span><span class="p">:</span> <span class="n">reg_template</span><span class="p">,</span>
+        <span class="s2">"vox_dim"</span><span class="p">:</span> <span class="n">vox_dim</span><span class="p">,</span>
+        <span class="s2">"tol"</span><span class="p">:</span> <span class="n">tol</span><span class="p">,</span>
+        <span class="s2">"dist_to_atlas"</span><span class="p">:</span> <span class="n">dist_to_atlas</span><span class="p">,</span>
     <span class="p">}</span>
     <span class="n">inputs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">segmentation_params</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="s2">&quot;recobundles&quot;</span> <span class="ow">in</span> <span class="n">bundle_def</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s2">"recobundles"</span> <span class="ow">in</span> <span class="n">bundle_def</span><span class="p">:</span>
         <span class="n">recobundles</span><span class="p">(</span><span class="o">**</span><span class="n">inputs</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">b_sls</span><span class="p">:</span>
@@ -1067,10 +1062,10 @@
             <span class="n">inputs</span><span class="p">[</span><span class="n">criterion</span><span class="p">]</span> <span class="o">=</span> <span class="nb">globals</span><span class="p">()[</span><span class="n">criterion</span><span class="p">](</span><span class="o">**</span><span class="n">inputs</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">b_sls</span><span class="p">:</span>
-        <span class="k">if</span> <span class="s2">&quot;mahal&quot;</span> <span class="ow">in</span> <span class="n">bundle_def</span> <span class="ow">or</span> <span class="p">(</span>
-            <span class="s2">&quot;isolation_forest&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">bundle_def</span>
-            <span class="ow">and</span> <span class="s2">&quot;orient_mahal&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">bundle_def</span>
-            <span class="ow">and</span> <span class="s2">&quot;ORG_spectral_subbundles&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">bundle_def</span>
+        <span class="k">if</span> <span class="s2">"mahal"</span> <span class="ow">in</span> <span class="n">bundle_def</span> <span class="ow">or</span> <span class="p">(</span>
+            <span class="s2">"isolation_forest"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">bundle_def</span>
+            <span class="ow">and</span> <span class="s2">"orient_mahal"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">bundle_def</span>
+            <span class="ow">and</span> <span class="s2">"ORG_spectral_subbundles"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">bundle_def</span>
         <span class="p">):</span>
             <span class="n">mahalanobis</span><span class="p">(</span><span class="o">**</span><span class="n">inputs</span><span class="p">)</span>
 
@@ -1080,35 +1075,35 @@
     <span class="k">if</span> <span class="p">(</span>
         <span class="n">b_sls</span>
         <span class="ow">and</span> <span class="ow">not</span> <span class="n">is_subbundle</span>
-        <span class="ow">and</span> <span class="s2">&quot;cross_midline&quot;</span> <span class="ow">in</span> <span class="n">bundle_def</span>
-        <span class="ow">and</span> <span class="ow">not</span> <span class="n">bundle_def</span><span class="p">[</span><span class="s2">&quot;cross_midline&quot;</span><span class="p">]</span>
+        <span class="ow">and</span> <span class="s2">"cross_midline"</span> <span class="ow">in</span> <span class="n">bundle_def</span>
+        <span class="ow">and</span> <span class="ow">not</span> <span class="n">bundle_def</span><span class="p">[</span><span class="s2">"cross_midline"</span><span class="p">]</span>
         <span class="ow">and</span> <span class="n">fgarray_for_candidates</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
         <span class="ow">and</span> <span class="n">candidate_global_idx</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
     <span class="p">):</span>
         <span class="n">pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span><span class="n">candidate_global_idx</span><span class="p">,</span> <span class="n">b_sls</span><span class="o">.</span><span class="n">selected_fiber_idxs</span><span class="p">)</span>
-        <span class="n">b_sls</span><span class="o">.</span><span class="n">initiate_selection</span><span class="p">(</span><span class="s2">&quot;Wrong side of mid.&quot;</span><span class="p">)</span>
+        <span class="n">b_sls</span><span class="o">.</span><span class="n">initiate_selection</span><span class="p">(</span><span class="s2">"Wrong side of mid."</span><span class="p">)</span>
         <span class="n">avg_side</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">fgarray_for_candidates</span><span class="p">[</span><span class="n">pos</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
         <span class="n">majority_side</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">avg_side</span><span class="p">))</span>
-        <span class="n">b_sls</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">avg_side</span> <span class="o">==</span> <span class="n">majority_side</span><span class="p">,</span> <span class="s2">&quot;Wrong side of mid.&quot;</span><span class="p">)</span>
+        <span class="n">b_sls</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">avg_side</span> <span class="o">==</span> <span class="n">majority_side</span><span class="p">,</span> <span class="s2">"Wrong side of mid."</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">b_sls</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">b_sls</span><span class="o">.</span><span class="n">oriented_yet</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="s2">&quot;pyAFQ was unable to consistently orient streamlines &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;in bundle </span><span class="si">{</span><span class="n">bundle_name</span><span class="si">}</span><span class="s2"> using the provided ROIs. &quot;</span>
-            <span class="s2">&quot;This can be fixed by including at least 2 &quot;</span>
-            <span class="s2">&quot;waypoint ROIs, or by using endpoint ROIs.&quot;</span>
+            <span class="s2">"pyAFQ was unable to consistently orient streamlines "</span>
+            <span class="sa">f</span><span class="s2">"in bundle </span><span class="si">{</span><span class="n">bundle_name</span><span class="si">}</span><span class="s2"> using the provided ROIs. "</span>
+            <span class="s2">"This can be fixed by including at least 2 "</span>
+            <span class="s2">"waypoint ROIs, or by using endpoint ROIs."</span>
         <span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">b_sls</span><span class="p">:</span>
         <span class="k">return</span>
 
-    <span class="k">if</span> <span class="s2">&quot;ORG_spectral_subbundles&quot;</span> <span class="ow">in</span> <span class="n">bundle_def</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s2">"ORG_spectral_subbundles"</span> <span class="ow">in</span> <span class="n">bundle_def</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">is_subbundle</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Nested ORG_spectral_subbundles are not supported.&quot;</span><span class="p">)</span>
-        <span class="n">subdict</span> <span class="o">=</span> <span class="n">bundle_def</span><span class="p">[</span><span class="s2">&quot;ORG_spectral_subbundles&quot;</span><span class="p">]</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Nested ORG_spectral_subbundles are not supported."</span><span class="p">)</span>
+        <span class="n">subdict</span> <span class="o">=</span> <span class="n">bundle_def</span><span class="p">[</span><span class="s2">"ORG_spectral_subbundles"</span><span class="p">]</span>
         <span class="n">b_sls</span><span class="o">.</span><span class="n">initiate_selection</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;ORG spectral clustering, </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">subdict</span><span class="o">.</span><span class="n">bundle_names</span><span class="p">)</span><span class="si">}</span><span class="s2"> &quot;</span>
-            <span class="s2">&quot;subbundles being recognized&quot;</span>
+            <span class="sa">f</span><span class="s2">"ORG spectral clustering, </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">subdict</span><span class="o">.</span><span class="n">bundle_names</span><span class="p">)</span><span class="si">}</span><span class="s2"> "</span>
+            <span class="s2">"subbundles being recognized"</span>
         <span class="p">)</span>
 
         <span class="n">sub_sft</span> <span class="o">=</span> <span class="n">StatefulTractogram</span><span class="p">(</span>
@@ -1119,13 +1114,13 @@
         <span class="p">)</span>
 
         <span class="k">for</span> <span class="n">sub_b_name</span> <span class="ow">in</span> <span class="n">subdict</span><span class="o">.</span><span class="n">bundle_names</span><span class="p">:</span>
-            <span class="n">c_ids</span> <span class="o">=</span> <span class="n">subdict</span><span class="o">.</span><span class="n">_dict</span><span class="p">[</span><span class="n">sub_b_name</span><span class="p">][</span><span class="s2">&quot;cluster_IDs&quot;</span><span class="p">]</span>
-            <span class="n">n_roi</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">subdict</span><span class="o">.</span><span class="n">_dict</span><span class="p">[</span><span class="n">sub_b_name</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;include&quot;</span><span class="p">,</span> <span class="p">[]))</span>
+            <span class="n">c_ids</span> <span class="o">=</span> <span class="n">subdict</span><span class="o">.</span><span class="n">_dict</span><span class="p">[</span><span class="n">sub_b_name</span><span class="p">][</span><span class="s2">"cluster_IDs"</span><span class="p">]</span>
+            <span class="n">n_roi</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">subdict</span><span class="o">.</span><span class="n">_dict</span><span class="p">[</span><span class="n">sub_b_name</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"include"</span><span class="p">,</span> <span class="p">[]))</span>
             <span class="n">cluster_b_sls</span> <span class="o">=</span> <span class="n">b_sls</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">sub_b_name</span><span class="p">,</span> <span class="n">n_roi</span><span class="p">)</span>
             <span class="n">selected</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">b_sls</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">c_id</span> <span class="ow">in</span> <span class="n">c_ids</span><span class="p">:</span>
                 <span class="n">selected</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="n">selected</span><span class="p">,</span> <span class="n">cluster_labels</span> <span class="o">==</span> <span class="n">c_id</span><span class="p">)</span>
-            <span class="n">cluster_b_sls</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">selected</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Clusters </span><span class="si">{</span><span class="n">c_ids</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">cluster_b_sls</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">selected</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"Clusters </span><span class="si">{</span><span class="n">c_ids</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
             <span class="n">sub_bundle_def</span> <span class="o">=</span> <span class="n">_prepare_bundle_def</span><span class="p">(</span><span class="n">subdict</span><span class="p">,</span> <span class="n">sub_b_name</span><span class="p">,</span> <span class="n">mapping</span><span class="p">,</span> <span class="n">img</span><span class="p">)</span>
             <span class="n">_validate_criteria</span><span class="p">(</span>
@@ -1178,17 +1173,18 @@
     <span class="n">recognized_bundles_dict</span> <span class="o">=</span> <span class="p">{}</span>
 
     <span class="n">tqdm</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;Recognizing bundles over </span><span class="si">{</span><span class="n">n_streamlines</span><span class="si">}</span><span class="s2"> streamlines &quot;</span>
-        <span class="sa">f</span><span class="s2">&quot;in chunks of </span><span class="si">{</span><span class="n">chunk_size</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="sa">f</span><span class="s2">"Recognizing bundles over </span><span class="si">{</span><span class="n">n_streamlines</span><span class="si">}</span><span class="s2"> streamlines "</span>
+        <span class="sa">f</span><span class="s2">"in chunks of </span><span class="si">{</span><span class="n">chunk_size</span><span class="si">}</span><span class="s2">"</span>
     <span class="p">)</span>
 
     <span class="n">tol</span><span class="p">,</span> <span class="n">dist_to_atlas</span><span class="p">,</span> <span class="n">vox_dim</span> <span class="o">=</span> <span class="n">abu</span><span class="o">.</span><span class="n">tolerance_mm_to_vox</span><span class="p">(</span>
         <span class="n">img</span><span class="p">,</span> <span class="n">dist_to_waypoint</span><span class="p">,</span> <span class="n">dist_to_atlas</span>
     <span class="p">)</span>
+
     <span class="n">preproc_scalars</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;vox_dim&quot;</span><span class="p">:</span> <span class="n">vox_dim</span><span class="p">,</span>
-        <span class="s2">&quot;tol&quot;</span><span class="p">:</span> <span class="n">tol</span><span class="p">,</span>
-        <span class="s2">&quot;dist_to_atlas&quot;</span><span class="p">:</span> <span class="n">dist_to_atlas</span><span class="p">,</span>
+        <span class="s2">"vox_dim"</span><span class="p">:</span> <span class="n">vox_dim</span><span class="p">,</span>
+        <span class="s2">"tol"</span><span class="p">:</span> <span class="n">tol</span><span class="p">,</span>
+        <span class="s2">"dist_to_atlas"</span><span class="p">:</span> <span class="n">dist_to_atlas</span><span class="p">,</span>
     <span class="p">}</span>
 
     <span class="n">bundle_defs</span> <span class="o">=</span> <span class="p">{}</span>
@@ -1202,12 +1198,12 @@
     <span class="k">for</span> <span class="n">chunk_start</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span>
         <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_streamlines</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">),</span>
         <span class="n">total</span><span class="o">=</span><span class="n">total_chunks</span><span class="p">,</span>
-        <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Batched Portion of Recognition&quot;</span><span class="p">,</span>
+        <span class="n">desc</span><span class="o">=</span><span class="s2">"Batched Portion of Recognition"</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="n">chunk_end</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">chunk_start</span> <span class="o">+</span> <span class="n">chunk_size</span><span class="p">,</span> <span class="n">n_streamlines</span><span class="p">)</span>
         <span class="n">tqdm</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Processing chunk </span><span class="si">{</span><span class="n">chunk_start</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">chunk_end</span><span class="si">}</span><span class="s2"> of </span><span class="si">{</span><span class="n">n_streamlines</span><span class="si">}</span><span class="s2"> &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="p">(</span><span class="n">chunk_end</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n_streamlines</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%)&quot;</span>
+            <span class="sa">f</span><span class="s2">"Processing chunk </span><span class="si">{</span><span class="n">chunk_start</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">chunk_end</span><span class="si">}</span><span class="s2"> of </span><span class="si">{</span><span class="n">n_streamlines</span><span class="si">}</span><span class="s2"> "</span>
+            <span class="sa">f</span><span class="s2">"(</span><span class="si">{</span><span class="p">(</span><span class="n">chunk_end</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n_streamlines</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%)"</span>
         <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">tg_path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">tg</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -1220,7 +1216,7 @@
         <span class="n">chunk_preproc</span> <span class="o">=</span> <span class="n">PreprocPlan</span><span class="p">(</span><span class="n">chunk_streamlines</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">bundle_name</span> <span class="ow">in</span> <span class="n">bundle_dict</span><span class="o">.</span><span class="n">bundle_names</span><span class="p">:</span>
-            <span class="n">tqdm</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Running chunk-local phase for bundle </span><span class="si">{</span><span class="n">bundle_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">tqdm</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Running chunk-local phase for bundle </span><span class="si">{</span><span class="n">bundle_name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
             <span class="n">chunk_b_sls</span> <span class="o">=</span> <span class="n">_run_chunk_local</span><span class="p">(</span>
                 <span class="n">bundle_defs</span><span class="p">[</span><span class="n">bundle_name</span><span class="p">],</span>
                 <span class="n">chunk_streamlines</span><span class="p">,</span>
@@ -1243,7 +1239,7 @@
         <span class="n">tg</span> <span class="o">=</span> <span class="n">load_trx</span><span class="p">(</span><span class="n">tg_path</span><span class="p">,</span> <span class="n">img</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">bundle_name</span> <span class="ow">in</span> <span class="n">bundle_dict</span><span class="o">.</span><span class="n">bundle_names</span><span class="p">:</span>
-        <span class="n">tqdm</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Running global phase for bundle </span><span class="si">{</span><span class="n">bundle_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">tqdm</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Running global phase for bundle </span><span class="si">{</span><span class="n">bundle_name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="n">bundle_def</span> <span class="o">=</span> <span class="n">bundle_defs</span><span class="p">[</span><span class="n">bundle_name</span><span class="p">]</span>
 
         <span class="n">merged</span> <span class="o">=</span> <span class="n">abu</span><span class="o">.</span><span class="n">SlsBeingRecognized</span><span class="o">.</span><span class="n">from_selected</span><span class="p">(</span>
@@ -1252,13 +1248,13 @@
             <span class="n">save_intermediates</span><span class="p">,</span>
             <span class="n">bundle_name</span><span class="p">,</span>
             <span class="n">img</span><span class="p">,</span>
-            <span class="nb">len</span><span class="p">(</span><span class="n">bundle_def</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;include&quot;</span><span class="p">,</span> <span class="p">[])),</span>
+            <span class="nb">len</span><span class="p">(</span><span class="n">bundle_def</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"include"</span><span class="p">,</span> <span class="p">[])),</span>
         <span class="p">)</span>
         <span class="n">survivor_dicts</span><span class="p">[</span><span class="n">bundle_name</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># free per-chunk dicts</span>
 
         <span class="k">if</span> <span class="n">merged</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">tqdm</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Bundle </span><span class="si">{</span><span class="n">bundle_name</span><span class="si">}</span><span class="s2">: 0 candidates after chunk-local filtering&quot;</span>
+                <span class="sa">f</span><span class="s2">"Bundle </span><span class="si">{</span><span class="n">bundle_name</span><span class="si">}</span><span class="s2">: 0 candidates after chunk-local filtering"</span>
             <span class="p">)</span>
             <span class="k">continue</span>
 
@@ -1267,11 +1263,11 @@
         <span class="p">)</span>
 
         <span class="n">tqdm</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Bundle </span><span class="si">{</span><span class="n">bundle_name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">merged</span><span class="p">)</span><span class="si">}</span><span class="s2"> candidates after &quot;</span>
-            <span class="s2">&quot;chunk-local filtering&quot;</span>
+            <span class="sa">f</span><span class="s2">"Bundle </span><span class="si">{</span><span class="n">bundle_name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">merged</span><span class="p">)</span><span class="si">}</span><span class="s2"> candidates after "</span>
+            <span class="s2">"chunk-local filtering"</span>
         <span class="p">)</span>
 
-        <span class="n">need_fgarray</span> <span class="o">=</span> <span class="s2">&quot;cross_midline&quot;</span> <span class="ow">in</span> <span class="n">bundle_def</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">bundle_def</span><span class="p">[</span><span class="s2">&quot;cross_midline&quot;</span><span class="p">]</span>
+        <span class="n">need_fgarray</span> <span class="o">=</span> <span class="s2">"cross_midline"</span> <span class="ow">in</span> <span class="n">bundle_def</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">bundle_def</span><span class="p">[</span><span class="s2">"cross_midline"</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">need_fgarray</span><span class="p">:</span>
             <span class="n">candidate_global_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">merged</span><span class="o">.</span><span class="n">selected_fiber_idxs</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
             <span class="n">cand_streamlines</span> <span class="o">=</span> <span class="p">[</span><span class="n">tg</span><span class="o">.</span><span class="n">streamlines</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">candidate_global_idx</span><span class="p">]</span>
@@ -1279,11 +1275,15 @@
             <span class="n">fgarray_for_candidates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
                 <span class="n">resample_tg</span><span class="p">(</span><span class="n">cand_streamlines</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span>
             <span class="p">)</span>
-            <span class="n">tqdm</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Resampling took </span><span class="si">{</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start_time</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> seconds&quot;</span><span class="p">)</span>
+            <span class="n">tqdm</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Resampling took </span><span class="si">{</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start_time</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> seconds"</span><span class="p">)</span>
             <span class="k">del</span> <span class="n">cand_streamlines</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">candidate_global_idx</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="n">fgarray_for_candidates</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="n">clip_for_clean</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">segmentation_params</span><span class="p">[</span><span class="s2">"clean_unclipped"</span><span class="p">]</span> <span class="ow">and</span> <span class="p">(</span>
+            <span class="n">segmentation_params</span><span class="p">[</span><span class="s2">"clip_edges"</span><span class="p">]</span> <span class="ow">or</span> <span class="p">(</span><span class="s2">"bundlesection"</span> <span class="ow">in</span> <span class="n">bundle_def</span><span class="p">)</span>
+        <span class="p">)</span>
 
         <span class="n">_run_global_phase</span><span class="p">(</span>
             <span class="n">bundle_def</span><span class="p">,</span>
@@ -1300,6 +1300,7 @@
             <span class="n">tol</span><span class="p">,</span>
             <span class="n">dist_to_atlas</span><span class="p">,</span>
             <span class="n">save_intermediates</span><span class="o">=</span><span class="n">save_intermediates</span><span class="p">,</span>
+            <span class="n">clip_for_clean</span><span class="o">=</span><span class="n">clip_for_clean</span><span class="p">,</span>
             <span class="o">**</span><span class="n">segmentation_params</span><span class="p">,</span>
         <span class="p">)</span>
 
@@ -1334,8 +1335,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../../_static/scripts/bootstrap.js?digest=0790524f97105ba85085"></script>
-<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085"></script>
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0"></script>
 
 
   <footer class="bd-footer">
@@ -1357,7 +1358,6 @@
 
   <p class="sphinx-version">
     Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
-    <br/>
   </p>
 </div>
       

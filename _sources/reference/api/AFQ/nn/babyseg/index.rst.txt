@@ -1,0 +1,241 @@
+AFQ.nn.babyseg
+==============
+
+.. py:module:: AFQ.nn.babyseg
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   AFQ.nn.babyseg.logger
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   AFQ.nn.babyseg.BabySegLabels
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   AFQ.nn.babyseg._get_model
+   AFQ.nn.babyseg.run_babyseg
+   AFQ.nn.babyseg.pve_from_babyseg
+
+
+Module Contents
+---------------
+
+.. py:data:: logger
+
+.. py:class:: BabySegLabels
+
+   Bases: :py:obj:`enum.IntEnum`
+
+
+   
+   Enum where members are also (and must be) ints
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+   .. py:attribute:: BACKGROUND
+      :value: 0
+
+
+
+   .. py:attribute:: LEFT_CEREBRAL_WHITE_MATTER
+      :value: 1
+
+
+
+   .. py:attribute:: LEFT_CEREBRAL_CORTEX
+      :value: 2
+
+
+
+   .. py:attribute:: LEFT_LATERAL_VENTRICLE
+      :value: 3
+
+
+
+   .. py:attribute:: LEFT_CEREBELLUM_CORTEX
+      :value: 4
+
+
+
+   .. py:attribute:: LEFT_THALAMUS
+      :value: 5
+
+
+
+   .. py:attribute:: LEFT_CAUDATE
+      :value: 6
+
+
+
+   .. py:attribute:: BRAIN_STEM
+      :value: 7
+
+
+
+   .. py:attribute:: LEFT_HIPPOCAMPUS
+      :value: 8
+
+
+
+   .. py:attribute:: LEFT_AMYGDALA
+      :value: 9
+
+
+
+   .. py:attribute:: LEFT_VENTRAL_DC
+      :value: 10
+
+
+
+   .. py:attribute:: RIGHT_CEREBRAL_WHITE_MATTER
+      :value: 11
+
+
+
+   .. py:attribute:: RIGHT_CEREBRAL_CORTEX
+      :value: 12
+
+
+
+   .. py:attribute:: RIGHT_LATERAL_VENTRICLE
+      :value: 13
+
+
+
+   .. py:attribute:: RIGHT_CEREBELLUM_CORTEX
+      :value: 14
+
+
+
+   .. py:attribute:: RIGHT_THALAMUS
+      :value: 15
+
+
+
+   .. py:attribute:: RIGHT_CAUDATE
+      :value: 16
+
+
+
+   .. py:attribute:: RIGHT_HIPPOCAMPUS
+      :value: 17
+
+
+
+   .. py:attribute:: RIGHT_AMYGDALA
+      :value: 18
+
+
+
+   .. py:attribute:: RIGHT_VENTRAL_DC
+      :value: 19
+
+
+
+   .. py:attribute:: LEFT_BASAL_GANGLIA
+      :value: 20
+
+
+
+   .. py:attribute:: RIGHT_BASAL_GANGLIA
+      :value: 21
+
+
+
+.. py:function:: _get_model(model_name)
+
+.. py:function:: run_babyseg(ort, t1_img, onnx_kwargs)
+
+   
+   Run the BabySeg Model
+
+
+
+
+
+
+
+
+
+
+
+
+   .. rubric:: References
+
+   .. [Rcd0b7f21bbab-1] Hoffmann M, Zöllei L, Dalca AV. Deep infant brain segmentation from
+          multi-contrast MRI. Asilomar Conference on Signals, Systems, and
+          Computers, 2025, pp. 974-981. https://arxiv.org/abs/2512.05114
+   .. [Rcd0b7f21bbab-2] Hoffmann M. Domain-randomized deep learning for neuroimage analysis.
+          IEEE Signal Processing Magazine, 42(4):78-90, 2025.
+          https://arxiv.org/abs/2507.13458
+
+   .. only:: latex
+
+      [Rcd0b7f21bbab-1]_, [Rcd0b7f21bbab-2]_
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: pve_from_babyseg(babyseg_data)
+
+   
+   Compute partial volume estimates from BabySeg segmentation.
+
+
+   :Parameters:
+
+       **babyseg_data** : ndarray
+           The output segmentation from BabySeg.
+
+   :Returns:
+
+       **pve** : ndarray
+           PVE data with CSF, GM, and WM segmentations.
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+

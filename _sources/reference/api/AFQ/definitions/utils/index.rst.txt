@@ -60,10 +60,10 @@ Module Contents
    .. py:method:: find_path(bids_layout, from_path, subject, session, required=True)
 
 
-   .. py:method:: str_for_toml()
+   .. py:method:: str_formal()
 
       
-      Uses __init__ in str_for_toml to make string that will instantiate
+      Uses __init__ in str_formal to make string that will instantiate
       itself. Assumes object will have attributes of same name as
       __init__ args. This is important for reading/writing definitions
       as arguments to config files.

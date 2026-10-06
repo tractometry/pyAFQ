@@ -37,7 +37,7 @@ Module Contents
 
 .. py:data:: logger
 
-.. py:function:: segment(structural_imap, data_imap, mapping_imap, tractography_imap, segmentation_params)
+.. py:function:: segment(data_imap, mapping_imap, tractography_imap, segmentation_params, citations)
 
    
    full path to a trk/trx file containing containing

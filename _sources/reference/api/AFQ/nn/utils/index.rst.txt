@@ -12,6 +12,7 @@ Functions
    AFQ.nn.utils.crop_to_nonzero
    AFQ.nn.utils.prepare_t1_for_nn
    AFQ.nn.utils.resample_output
+   AFQ.nn.utils.merge_PVEs
 
 
 Module Contents
@@ -40,7 +41,33 @@ Module Contents
    ..
        !! processed by numpydoc !!
 
-.. py:function:: prepare_t1_for_nn(t1_img)
+.. py:function:: prepare_t1_for_nn(t1_img, orientation='RAS', out_shape_dynamic=False)
 
 .. py:function:: resample_output(output, conformed_affine, t1_img)
+
+.. py:function:: merge_PVEs(PVE_a, PVE_b)
+
+   
+   Merge two PVE (Partial Volume Estimation) images, PVE_a and PVE_b,
+   into a single PVE image. The merging is done by taking the maximum
+   WM estimate from both images, then the maximum GM estimate, and
+   finally normalizing.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
 

@@ -14,23 +14,21 @@ Currently, there are three different images that pyAFQ uses for tractometry:
    models. By default, it is calculated using :class:`AFQ.definitions.image.B0Image`.
 
 #. The tractography seed image. This image determines where tractography is
-   seeded. If it is floating point, the image is thresholded interally after
+   seeded. If it is floating point, the image is thresholded internally after
    interpolation using the seed_threshold parameter. This is recommended.
-   However, the seed image can aslo be a binary image. By default, the
+   However, the seed image can also be a binary image. By default, the
    seed image is :class:`AFQ.definitions.image.ScalarImage` (best_scalar) where best_scalar is chosen by the API
    based on valid scalars (typically "dti_fa"). 
 
 #. The tractography stop image. This image determines where tractography stops.
-   If it is floating point, the image is thresholded interally after
+   If it is floating point, the image is thresholded internally after
    interpolation using the stop_threshold parameter. This is recommended.
-   However, the stop image can aslo be a binary image. By default, the
+   However, the stop image can also be a binary image. By default, the
    stop image is :class:`AFQ.definitions.image.ScalarImage` (best_scalar) where best_scalar is chosen by the API
    based on valid scalars (typically "dti_fa"). 
 
 In AFQ/definitions/image.py, there are several image classes one can use to specify images.
-As a user, one should initialize image classes and pass them to the AFQ.api objects,
-or write out the initialization as a string inside of one's configuration file
-for use with the CLI.
+As a user, one should initialize image classes and pass them to the AFQ.api objects.
 
 - :class:`AFQ.definitions.image.ImageFile`: The simplest image class is :class:`AFQ.definitions.image.ImageFile`. If the image you want to use
   is already generated, use this class. It is initialized using BIDS filters,

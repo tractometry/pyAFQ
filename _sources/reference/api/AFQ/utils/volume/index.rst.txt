@@ -17,6 +17,8 @@ Functions
 
 .. autoapisummary::
 
+   AFQ.utils.volume._signed_distance
+   AFQ.utils.volume._betti
    AFQ.utils.volume.transform_roi
    AFQ.utils.volume.density_map
    AFQ.utils.volume.dice_coeff
@@ -27,12 +29,65 @@ Module Contents
 
 .. py:data:: logger
 
-.. py:function:: transform_roi(roi, mapping, is_boolean)
+.. py:function:: _signed_distance(mask, max_tol)
 
    
-   After being non-linearly transformed, ROIs tend to have holes in them.
-   We perform a couple of computational geometry operations on the ROI to
-   fix that up.
+   Compute the signed distance transform of a binary mask, with a maximum
+   tolerance for the distance values. This allows us to only have to
+   calculated edt in a bounding box, which is faster.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: _betti(mask)
+
+   
+   Calculate Betti numbers
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: transform_roi(roi, mapping, is_boolean, max_tol=3.0, return_tol=False)
+
+   
+   After being non-linearly transformed, ROIs can have holes in them,
+   or even disappear entirely, depending on the mapping, domain, and codomain.
+   This method gives transformed ROIs that preserve, as close as possible,
+   the topology of the original ROI: its number of connected components,
+   the tunnels through it, and the cavities inside it. Specifically,
+   using Betti numbers. Holes are repaired by dilating the warped ROI,
+   up to a maximum tolerance. When the topology can be preserved, it
+   will be preserved with minimal dilation.
 
 
    :Parameters:
@@ -47,9 +102,19 @@ Module Contents
        **is_boolean** : bool
            Whether the ROI is boolean or not.
 
+       **max_tol** : float, optional
+           Maximum tolerance for the signed distance field used to warp
+           boolean masks.
+           Default: 3.0
+
+       **return_tol** : bool, optional
+           Whether to return the tolerance used to warp the boolean mask.
+           If is_boolean is False, this parameter is ignored.
+           Default: False
+
    :Returns:
 
-       ROI after dilation and hole-filling
+       The transformed ROI, as a Nifti1Image.
            ..
 
 

@@ -109,15 +109,15 @@ Module Contents
 
 .. py:function:: recobundles(b_sls, mapping, bundle_def, reg_template, img, refine_reco, save_intermediates, rng, rb_recognize_params, **kwargs)
 
-.. py:function:: qb_thresh(b_sls, bundle_def, clip_edges, **kwargs)
+.. py:function:: qb_thresh(b_sls, bundle_def, clip_for_clean, **kwargs)
 
 .. py:function:: clean_by_other_bundle(b_sls, bundle_def, img, other_bundle_name, other_bundle_sls, **kwargs)
 
-.. py:function:: orient_mahal(b_sls, bundle_def, **kwargs)
+.. py:function:: orient_mahal(b_sls, bundle_def, clip_for_clean, **kwargs)
 
-.. py:function:: isolation_forest(b_sls, bundle_def, rng, **kwargs)
+.. py:function:: isolation_forest(b_sls, bundle_def, clip_for_clean, rng, **kwargs)
 
-.. py:function:: mahalanobis(b_sls, bundle_def, clip_edges, cleaning_params, **kwargs)
+.. py:function:: mahalanobis(b_sls, bundle_def, clip_for_clean, cleaning_params, **kwargs)
 
 .. py:function:: _prepare_bundle_def(bundle_dict, bundle_name, mapping, img)
 

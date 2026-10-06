@@ -1,0 +1,231 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "2c4d9860",
+   "metadata": {},
+   "source": [
+    "# How to add new bundles into pyAFQ (Acoustic Radiations Example)\n",
+    "\n",
+    "pyAFQ is designed to be customizable and extensible. This example shows how you\n",
+    "can customize it to define a new bundle based on a definition of waypoint and\n",
+    "endpoint ROIs of your design. In this case, we add the acoustic radiations.\n",
+    "\n",
+    "We start by importing some of the components that we need for this example and\n",
+    "fixing the random seed for reproducibility"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "a94f7171",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import os.path as op\n",
+    "import plotly\n",
+    "import numpy as np\n",
+    "\n",
+    "from AFQ.api.group import GroupAFQ\n",
+    "import AFQ.api.bundle_dict as abd\n",
+    "import AFQ.data.fetch as afd\n",
+    "from AFQ.definitions.image import ImageFile, RoiImage\n",
+    "np.random.seed(1234)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "f529a3c2",
+   "metadata": {},
+   "source": [
+    "## Get dMRI data\n",
+    "\n",
+    "We will analyze one subject from the Healthy Brain Network Processed Open\n",
+    "Diffusion Derivatives dataset (HBN-POD2) [^1], [^2]. We'll use a fetcher to\n",
+    "get preprocessed dMRI data for one of the >2,000 subjects in that study. The\n",
+    "data gets organized into a BIDS-compatible format in the `~/AFQ_data/HBN`\n",
+    "folder:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "ed25151f",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "study_dir = afd.fetch_hbn_preproc([\"NDARAA948VFH\"])[1]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "f69df3c5",
+   "metadata": {},
+   "source": [
+    "## Define custom `BundleDict` object\n",
+    "The `BundleDict` object holds information about \"include\" and \"exclude\" ROIs,\n",
+    "as well as endpoint ROIS, and whether the bundle crosses the midline. In this\n",
+    "case, the ROIs are all defined in the MNI template space that is used as the\n",
+    "default template space in pyAFQ, but, in principle, other template spaces\n",
+    "could be used.\n",
+    "\n",
+    "The ROIs for this case can be downloaded using a custom fetcher which saves\n",
+    "the ROIs to a folder and creates a dictionary of paths to the ROIs."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "b5f0dbde",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "ar_rois = afd.read_ar_templates()\n",
+    "\n",
+    "path_to_thal_l = ar_rois[\"AAL_Thal_L\"]\n",
+    "path_to_sup_temp_l = ar_rois[\"AAL_TempSup_L\"]\n",
+    "path_to_thal_r = ar_rois[\"AAL_Thal_R\"]\n",
+    "path_to_sup_temp_r = ar_rois[\"AAL_TempSup_R\"]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "c02eb248",
+   "metadata": {},
+   "source": [
+    "However, if you have ROIs that you would like to use as start/end ROIs for a\n",
+    "bundle, you can provide a file-system path to the files that contain these\n",
+    "ROIs. These paths are then provided as inputs to create a bundle dictionary:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "9e6684a2",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "bundles = abd.BundleDict({\n",
+    "    \"Left Acoustic Radiation\": {\n",
+    "        \"start\": path_to_thal_l,\n",
+    "        \"end\": path_to_sup_temp_l,\n",
+    "        \"cross_midline\": False,\n",
+    "    },\n",
+    "    \"Right Acoustic Radiation\": {\n",
+    "        \"start\": path_to_thal_r,\n",
+    "        \"end\": path_to_sup_temp_r,\n",
+    "        \"cross_midline\": False\n",
+    "    }\n",
+    "})"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "b3c94c4c",
+   "metadata": {},
+   "source": [
+    "## Define GroupAFQ object\n",
+    "\n",
+    "HBN POD2 have been processed with qsiprep [^3]. This means that a brain mask\n",
+    "has already been computer for them. As you can see in other examples, these\n",
+    "data also have a mapping calculated for them, which can also be incorporated\n",
+    "into processing. However, in this case, we will let pyAFQ calculate its own\n",
+    "SyN-based mapping so that the `combine_bundle` method can be used below to\n",
+    "create a montage visualization.\n",
+    "\n",
+    "For tractography, we use CSD-based probabilistic tractography seeding\n",
+    "extensively (`n_seeds=4` means 81 seeds per voxel!), but only within the ROIs\n",
+    "and not throughout the white matter. This is controlled by passing\n",
+    "`\"seed_mask\": RoiImage()` in the `tracking_params` dict. The custom bundles\n",
+    "are passed as `bundle_info=bundles`. The call to `my_afq.export_all()`\n",
+    "initiates the pipeline."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "e3626c30",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "my_afq = GroupAFQ(\n",
+    "    bids_path=study_dir,\n",
+    "    dwi_preproc_pipeline=\"qsiprep\",\n",
+    "    participant_labels=[\"NDARAA948VFH\"],\n",
+    "    output_dir=op.join(study_dir, \"derivatives\", \"afq_ar\"),\n",
+    "    tracking_params={\"n_seeds\": 4,\n",
+    "                     \"random_seeds\": False,\n",
+    "                     \"directions\": \"prob\",\n",
+    "                     \"odf_model\": \"CSD\",\n",
+    "                     \"seed_mask\": RoiImage(use_endpoints=True)},\n",
+    "    bundle_info=bundles)\n",
+    "\n",
+    "my_afq.export_all()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "0d0ceee5",
+   "metadata": {},
+   "source": [
+    "## Interactive bundle visualization\n",
+    "Another way to examine the outputs is to export the individual bundle\n",
+    "figures, which show the streamlines, as well as the ROIs used to define the\n",
+    "bundle. This is an html file, which contains an interactive figure that can\n",
+    "be navigated, zoomed, rotated, etc."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "46fa3ea4",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "bundle_html = my_afq.export(\"indiv_bundles_figures\")\n",
+    "plotly.io.show(bundle_html[\"NDARAA948VFH\"][\"Left Acoustic Radiation\"])"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "d1e541a9",
+   "metadata": {},
+   "source": [
+    "## References\n",
+    "\n",
+    "[^1]: Alexander LM, Escalera J, Ai L, et al. An open resource for\n",
+    "    transdiagnostic research in pediatric mental health and learning\n",
+    "    disorders. Sci Data. 2017;4:170181.\n",
+    "\n",
+    "[^2]: Richie-Halford A, Cieslak M, Ai L, et al. An analysis-ready and quality\n",
+    "    controlled resource for pediatric brain white-matter research. Scientific\n",
+    "    Data. 2022;9(1):1-27.\n",
+    "\n",
+    "[^3]: Cieslak M, Cook PA, He X, et al. QSIPrep: an integrative platform for\n",
+    "    preprocessing and reconstructing diffusion MRI data. Nat Methods.\n",
+    "    2021;18(7):775-778.\n",
+    "\n",
+    ":::{only} html\n",
+    "{download}`Download as Jupyter Notebook <acoustic_radiations.ipynb>`\n",
+    ":::"
+   ]
+  }
+ ],
+ "metadata": {
+  "file_format": "mystnb",
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "name": "python",
+   "pygments_lexer": "ipython3"
+  },
+  "mystnb": {
+   "execution_mode": "off"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}

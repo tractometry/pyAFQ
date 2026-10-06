@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>How pyAFQ uses BIDS &#8212; AFQ 3.4 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=efc0aa2d" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=64cc4de3f052d77215f0"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
+
+    <script src="../../_static/documentation_options.js?v=ed7fbdb4"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/tutorial_examples/plot_006_bids_layout';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Plotting Default Regions of Interest (ROIs) to Understand the Tracts" href="plot_007_rois.html" />
+    <link rel="prev" title="Visualizing AFQ derivatives" href="plot_005_viz.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button type="button" class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="AFQ 3.4 documentation - Home"/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="AFQ 3.4 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../guides_index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="index.html">
+    Tutorials: Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../howto_examples/index.html">
+    How to examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../developing/index.html">
+    Developing pyAFQ
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../bib.html">
+    Bibliography
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../reference/api/index.html">
+    API Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/tractometry/pyAFQ" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button type="button" class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../guides_index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="index.html">
+    Tutorials: Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../howto_examples/index.html">
+    How to examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../developing/index.html">
+    Developing pyAFQ
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../bib.html">
+    Bibliography
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../reference/api/index.html">
+    API Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/tractometry/pyAFQ" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+        <div class="sidebar-primary-item">
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../tutorials/index.html">Getting started with pyAFQ</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="index.html">Tutorials: Getting started</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="plot_001_group_afq_api.html">Getting started with pyAFQ - GroupAFQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_002_participant_afq_api.html">Getting started with pyAFQ - ParticipantAFQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_003_rerun.html">Re-running pyAFQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_004_export.html">Exporting pyAFQ Results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_005_viz.html">Visualizing AFQ derivatives</a></li>
+<li class="toctree-l3 current active"><a aria-current="page" class="current reference internal" href="#">How pyAFQ uses BIDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_007_rois.html">Plotting Default Regions of Interest (ROIs) to Understand the Tracts</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../howto/index.html">How To</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/installation_guide.html">How to install <code class="docutils literal notranslate"><span class="pre">pyAFQ</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/getting_help.html">How to get help using pyAFQ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/cite.html">How to cite our work</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/data.html">Organizing your data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/rerun.html">Re-running pyAFQ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/scalars.html">How to add custom tissue properties from another pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/converter.html">Tractography from other pipelines</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../howto/docker.html">The pyAFQ docker image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/singularity.html">The pyAFQ singularity image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/image.html">The pyAFQ Image API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/tractography_params.html">Tractography Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/segmentation_params.html">Segmentation Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/cleaning_params.html">Cleaning Parameters</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../howto_examples/index.html">How to examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../howto_examples/acoustic_radiations.html">How to add new bundles into pyAFQ (Acoustic Radiations Example)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto_examples/afq_callosal.html">Creating tract density maps of callosal bundles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto_examples/afq_fwdti.html">How to use Free water DTI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto_examples/baby_afq.html">BabyAFQ : tractometry for infant dMRI data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto_examples/cerebellar_peduncles.html">Delineating cerebellar peduncles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto_examples/cloudknot_example.html">Using cloudknot to run pyAFQ on AWS batch:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto_examples/cloudknot_hcp_example.html">AFQ with HCP data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto_examples/optic_radiations.html">How to add new bundles into pyAFQ (Optic Radiations Example)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto_examples/optic_tract.html">How to track the Optic Tract and Posterior Optic Nerve in pyAFQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto_examples/plot_stages_of_tractometry.html">Understanding the different stages of tractometry with videos</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto_examples/plot_trx.html">How to use TRX in pyAFQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto_examples/pyAFQ_with_GPU.html">Running pyAFQ using the GPU for tractography</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto_examples/pyafq_2.html">Running pyAFQ 2.x defaults in pyAFQ 3.x</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto_examples/recobundles.html">Using RecoBundles for bundle recognition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto_examples/use_subject_space_rois_from_freesurfer.html">Using Subject Space ROIs from Freesurfer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto_examples/vof_example.html">How to segment out only some bundles</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../explanations/index.html">Explanations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../explanations/bundle_orientation.html">Bundle Orientation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../explanations/modeling.html">Modeling White Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../explanations/profiling.html">Profiling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../explanations/recognition.html">Bundle Recognition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../explanations/tractography.html">Tractography</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../explanations/whats_new_3.html">What’s new in PyAFQ 3.0</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../reference/index.html">Reference Documentation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../reference/api/index.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../reference/api/AFQ/index.html">AFQ</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/api/index.html">AFQ.api</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/data/index.html">AFQ.data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/definitions/index.html">AFQ.definitions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/models/index.html">AFQ.models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/nn/index.html">AFQ.nn</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/recognition/index.html">AFQ.recognition</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/registration/index.html">AFQ.registration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/tasks/index.html">AFQ.tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/tractography/index.html">AFQ.tractography</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/utils/index.html">AFQ.utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/AFQ/viz/index.html">AFQ.viz</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../../reference/bundledict.html">Defining Custom Bundle Dictionaries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../reference/fibertracts.html">Major Fiber Tracts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../reference/tissue_properties.html">Tissue Properties in pyAFQ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../reference/methods.html">The pyAFQ API methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../reference/kwargs.html">The pyAFQ API optional arguments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../reference/viz_backend.html">Visualization Backends</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../reference/mapping.html">The pyAFQ Mapping API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../reference/cli.html">The pyAFQ CLI</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../guides_index.html" class="nav-link">User Guide</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../tutorials/index.html" class="nav-link">Getting started with pyAFQ</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Tutorials: Getting started</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">How pyAFQ uses BIDS</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="how-pyafq-uses-bids">
+<h1>How pyAFQ uses BIDS<a class="headerlink" href="#how-pyafq-uses-bids" title="Link to this heading">#</a></h1>
+<p>The pyAFQ API relies heavily on the
+<a class="reference external" href="https://bids-specification.readthedocs.io/en/stable/">Brain Imaging Data Standard (BIDS)</a>,
+a widely used standard for organizing and describing neuroimaging data. This
+means that the software assumes that its inputs are organized according to the
+BIDS specification and its outputs conform where possible with BIDS.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Derivatives of processing diffusion MRI are not currently fully
+described in the existing BIDS specification, but describing these
+is part of an ongoing effort. Wherever possible, we conform with
+the draft implementation of the BIDS DWI derivatives available
+<a class="reference external" href="https://bids-specification.readthedocs.io/en/wip-derivatives/05-derivatives/05-diffusion-derivatives.html">here</a>.</p>
+</div>
+<p>In this example, we will explore the use of BIDS in pyAFQ and see
+how BIDS allows us to extend and provide flexibility to the users
+of the software.</p>
+<div class="cell config_scroll_outputs docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">op</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">AFQ.api.bundle_dict</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">abd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.api.group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GroupAFQ</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">AFQ.data.fetch</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">afd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">AFQ.definitions.image</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">afm</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>To interact with and query BIDS datasets, we use
+<a class="reference external" href="https://bids-standard.github.io/pybids/">pyBIDS</a>, which we import here:</p>
+<div class="cell config_scroll_outputs docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">bids</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bids.layout</span><span class="w"> </span><span class="kn">import</span> <span class="n">BIDSLayout</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We start with some example data. The data we will use here is
+generated from the
+<a class="reference external" href="https://purl.stanford.edu/ng782rw8378">Stanford HARDI dataset</a>.
+The call below fetches
+this dataset and organized it within the <code class="docutils literal notranslate"><span class="pre">~/AFQ_data</span></code> folder in the BIDS
+format.</p>
+<div class="cell config_scroll_outputs docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">afd</span><span class="o">.</span><span class="n">organize_stanford_data</span><span class="p">(</span><span class="n">clear_previous_afq</span><span class="o">=</span><span class="s2">"all"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>After doing that, we should have a folder that looks like this:</p>
+<p>| stanford_hardi
+| ├── dataset_description.json
+| └── derivatives
+|     ├── freesurfer
+|     │   ├── dataset_description.json
+|     │   └── sub-01
+|     │       └── ses-01
+|     │           └── anat
+|     │               ├── sub-01_ses-01_T1w.nii.gz
+|     │               └── sub-01_ses-01_seg.nii.gz
+|     └── vistasoft
+|         ├── dataset_description.json
+|         └── sub-01
+|             └── ses-01
+|                 └── dwi
+|                     ├── sub-01_ses-01_dwi.bvals
+|                     ├── sub-01_ses-01_dwi.bvecs
+|                     └── sub-01_ses-01_dwi.nii.gz</p>
+<p>The top level directory (<code class="docutils literal notranslate"><span class="pre">stanford_hardi</span></code>) is our overall BIDS dataset folder.
+In many cases, this folder will include folders with raw data for each subject
+in the dataset. In this case, we do not include the raw data folders and only
+have the outputs of pipelines that were used to preprocess the data (e.g.,
+correct the data for subject motion, eddy currents, and so forth).
+In general, only the preprocessed diffusion data is required for pyAFQ to run.
+See the <a class="reference internal" href="../../howto/data.html"><span class="doc std std-doc">“Organizing your data”</span></a> section of the
+documentation for more details.
+In this case, one folder contains derivative of the Freesurfer software and
+another folder contains the DWI data that has been preprocessed with the
+Vistasoft software.
+pyAFQ provides facilities to segment tractography results obtained
+using other software as well. For example, we often use
+<a class="reference external" href="https://qsiprep.readthedocs.io/en/latest/">qsiprep</a> to preprocess
+our data and reconstruct tractographies with software such as
+<a class="reference external" href="https://www.mrtrix.org/">MRTRIX</a>. Here, we will demonstrate how to use
+these reconstructions in the pyAFQ segmentation and tractometry pipeline
+We fetch this data and add it as a separate pipeline
+The following code will download a previously-created tractography and
+organize it by adding it to the BIDS dataset folder and renaming them to be
+BIDS-compliant (e.g., <code class="docutils literal notranslate"><span class="pre">sub-01_ses_01_dwi_tractography.trk</span></code>).</p>
+<div class="cell config_scroll_outputs docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">afd</span><span class="o">.</span><span class="n">fetch_stanford_hardi_tractography</span><span class="p">()</span>
+
+<span class="n">bids_path</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">'~'</span><span class="p">),</span> <span class="s1">'AFQ_data'</span><span class="p">,</span> <span class="s1">'stanford_hardi'</span><span class="p">)</span>
+<span class="n">tractography_path</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">bids_path</span><span class="p">,</span> <span class="s1">'derivatives'</span><span class="p">,</span> <span class="s1">'my_tractography'</span><span class="p">)</span>
+<span class="n">sub_path</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tractography_path</span><span class="p">,</span> <span class="s1">'sub-01'</span><span class="p">,</span> <span class="s1">'ses-01'</span><span class="p">,</span> <span class="s1">'dwi'</span><span class="p">)</span>
+
+<span class="n">seg_file</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">afd</span><span class="o">.</span><span class="n">afq_home</span><span class="p">,</span> <span class="s2">"stanford_hardi"</span><span class="p">,</span> <span class="s2">"derivatives"</span><span class="p">,</span>
+                   <span class="s2">"freesurfer"</span><span class="p">,</span> <span class="s2">"sub-01"</span><span class="p">,</span> <span class="s2">"ses-01"</span><span class="p">,</span> <span class="s2">"anat"</span><span class="p">,</span>
+                   <span class="s2">"sub-01_ses-01_seg.nii.gz"</span><span class="p">)</span>
+<span class="n">pve</span> <span class="o">=</span> <span class="n">afm</span><span class="o">.</span><span class="n">PVEImages</span><span class="p">(</span>
+    <span class="n">afm</span><span class="o">.</span><span class="n">LabelledImageFile</span><span class="p">(</span>
+        <span class="n">path</span><span class="o">=</span><span class="n">seg_file</span><span class="p">,</span>
+        <span class="n">inclusive_labels</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+    <span class="n">afm</span><span class="o">.</span><span class="n">LabelledImageFile</span><span class="p">(</span>
+        <span class="n">path</span><span class="o">=</span><span class="n">seg_file</span><span class="p">,</span>
+        <span class="n">exclusive_labels</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">combine</span><span class="o">=</span><span class="s2">"and"</span><span class="p">),</span>
+    <span class="n">afm</span><span class="o">.</span><span class="n">LabelledImageFile</span><span class="p">(</span>
+        <span class="n">path</span><span class="o">=</span><span class="n">seg_file</span><span class="p">,</span>
+        <span class="n">inclusive_labels</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]))</span>
+
+<span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">sub_path</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
+    <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="n">op</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">'~'</span><span class="p">),</span>
+        <span class="s1">'AFQ_data'</span><span class="p">,</span>
+        <span class="s1">'stanford_hardi_tractography'</span><span class="p">,</span>
+        <span class="s1">'full_segmented_cleaned_tractography.trk'</span><span class="p">),</span>
+    <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="n">sub_path</span><span class="p">,</span>
+        <span class="s1">'sub-01_ses-01-dwi_tractography.trk'</span><span class="p">))</span>
+
+<span class="n">afd</span><span class="o">.</span><span class="n">to_bids_description</span><span class="p">(</span>
+    <span class="n">tractography_path</span><span class="p">,</span>
+    <span class="o">**</span><span class="p">{</span><span class="s2">"Name"</span><span class="p">:</span> <span class="s2">"my_tractography"</span><span class="p">,</span>
+       <span class="s2">"PipelineDescription"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"Name"</span><span class="p">:</span> <span class="s2">"my_tractography"</span><span class="p">},</span>
+       <span class="s2">"GeneratedBy"</span><span class="p">:</span> <span class="p">[{</span><span class="s2">"Name"</span><span class="p">:</span> <span class="s2">"my_tractography"</span><span class="p">}]})</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>After we do that, our dataset folder should look like this:</p>
+<p>| stanford_hardi
+| ├── dataset_description.json
+| └── derivatives
+|     ├── freesurfer
+|     │   ├── dataset_description.json
+|     │   └── sub-01
+|     │       └── ses-01
+|     │           └── anat
+|     │               ├── sub-01_ses-01_T1w.nii.gz
+|     │               └── sub-01_ses-01_seg.nii.gz
+|     ├── my_tractography
+|     |   ├── dataset_description.json
+|     │   └── sub-01
+|     │       └── ses-01
+|     │           └── dwi
+|     │               └── sub-01_ses-01-dwi_tractography.trk
+|     └── vistasoft
+|         ├── dataset_description.json
+|         └── sub-01
+|             └── ses-01
+|                 └── dwi
+|                     ├── sub-01_ses-01_dwi.bvals
+|                     ├── sub-01_ses-01_dwi.bvecs
+|                     └── sub-01_ses-01_dwi.nii.gz</p>
+<p>To explore the layout of these derivatives, we will initialize a
+<code class="docutils literal notranslate"><span class="pre">BIDSLayout</span></code> class instance to help us see what is in this dataset</p>
+<div class="cell config_scroll_outputs docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">layout</span> <span class="o">=</span> <span class="n">bids</span><span class="o">.</span><span class="n">BIDSLayout</span><span class="p">(</span><span class="n">bids_path</span><span class="p">,</span> <span class="n">derivatives</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Because there is no raw data in this BIDS layout (only derivatives),
+pybids will report that there are no subjects and sessions:</p>
+<div class="cell config_scroll_outputs docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">layout</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>But a query on the derivatives will reveal the different derivatives that
+are stored here:</p>
+<div class="cell config_scroll_outputs docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">layout</span><span class="o">.</span><span class="n">derivatives</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can use a <code class="docutils literal notranslate"><span class="pre">bids.BIDSValidator</span></code> object to make sure that the
+files within our data set are BIDS-compliant. For example, we can
+extract the tractography derivatives part of our layout using:</p>
+<div class="cell config_scroll_outputs docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_tractography</span> <span class="o">=</span> <span class="n">layout</span><span class="o">.</span><span class="n">derivatives</span><span class="p">[</span><span class="s2">"my_tractography"</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>This variable is also a BIDS layout object. This object has a <code class="docutils literal notranslate"><span class="pre">get</span></code>
+method, which allows us to query and find specific items within the
+layout. For example, we can ask for files that have a suffix consistent
+with tractography results:</p>
+<div class="cell config_scroll_outputs docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tractography_files</span> <span class="o">=</span> <span class="n">my_tractography</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s1">'tractography'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Or ask for files that have a <code class="docutils literal notranslate"><span class="pre">.trk</span></code> extension:</p>
+<div class="cell config_scroll_outputs docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tractography_files</span> <span class="o">=</span> <span class="n">my_tractography</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">extension</span><span class="o">=</span><span class="s1">'.trk'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>In this case, both of these would produce the same result.</p>
+<div class="cell config_scroll_outputs docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tractography_file</span> <span class="o">=</span> <span class="n">tractography_files</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tractography_file</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can also get some more structured information about this file:</p>
+<div class="cell config_scroll_outputs docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">tractography_file</span><span class="o">.</span><span class="n">get_entities</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can use a <code class="docutils literal notranslate"><span class="pre">bids.BIDSValidator</span></code> class instance to validate that
+this file is compliant with the specification. Note that the validator
+requires that the filename be provided relative to the root of the BIDS
+dataset, so we have to split the string that contains the full path
+of the tractography to extract only the part that is relative to the
+root of the entire BIDS <code class="docutils literal notranslate"><span class="pre">layout</span></code> object:</p>
+<div class="cell config_scroll_outputs docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tractography_full_path</span> <span class="o">=</span> <span class="n">tractography_file</span><span class="o">.</span><span class="n">path</span>
+<span class="n">tractography_relative_path</span> <span class="o">=</span> <span class="n">tractography_full_path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">layout</span><span class="o">.</span><span class="n">root</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">validator</span> <span class="o">=</span> <span class="n">bids</span><span class="o">.</span><span class="n">BIDSValidator</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">validator</span><span class="o">.</span><span class="n">is_bids</span><span class="p">(</span><span class="n">tractography_relative_path</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Next, we specify the information we need to define the bundles that we are
+interested in segmenting. In this case, we are going to use a list of
+bundle names for the bundle info. These names refer to bundles for
+which we already have clear definitions of the information
+needed to segment them (e.g., waypoint ROIs and probability maps).
+For an example that includes custom definition of bundle info, see the
+<a class="reference external" href="http://tractometry.org/pyAFQ/auto_examples/plot_callosal_tract_profile.html">plot_callosal_tract_profile example</a>.</p>
+<div class="cell config_scroll_outputs docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bundle_info</span> <span class="o">=</span> <span class="n">abd</span><span class="o">.</span><span class="n">default_bd</span><span class="p">()[</span>
+    <span class="s2">"Left Inferior Longitudinal"</span><span class="p">,</span>
+    <span class="s2">"Right Inferior Longitudinal"</span><span class="p">,</span>
+    <span class="s2">"Left Arcuate"</span><span class="p">,</span>
+    <span class="s2">"Right Arcuate"</span><span class="p">,</span>
+    <span class="s2">"Left Corticospinal"</span><span class="p">,</span>
+    <span class="s2">"Right Corticospinal"</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now, we can define our GroupAFQ object, pointing to the derivatives of the
+<code class="docutils literal notranslate"><span class="pre">'my_tractography'</span></code> pipeline as inputs. This is done by setting the
+<code class="docutils literal notranslate"><span class="pre">import_tract</span></code> key-word argument. We pass the
+<code class="docutils literal notranslate"><span class="pre">bundle_info</span></code> defined above. We also point to the preprocessed
+data that is in a <code class="docutils literal notranslate"><span class="pre">'dmriprep'</span></code> pipeline. Note that the pipeline name
+is not necessarily the name of the folder it is in; the pipeline name is
+defined in each pipeline’s <code class="docutils literal notranslate"><span class="pre">dataset_description.json</span></code>. These data were
+preprocessed with ‘vistasoft’, so this is the pipeline we’ll point to
+If we were using <code class="docutils literal notranslate"><span class="pre">'qsiprep'</span></code>, this is where we would pass that
+string instead. If we did that, AFQ would look for a derivatives
+folder called <code class="docutils literal notranslate"><span class="pre">'stanford_hardi/derivatives/qsiprep'</span></code> and find the
+preprocessed DWI data within it. Finally, to speed things up
+a bit, we also sub-sample the provided tractography. This is
+done by defining the segmentation_params dictionary input.
+To sub-sample to 10,000 streamlines, we define
+<code class="docutils literal notranslate"><span class="pre">'nb_streamlines'</span> <span class="pre">=</span> <span class="pre">10000</span></code>.</p>
+<div class="cell config_scroll_outputs docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_afq</span> <span class="o">=</span> <span class="n">GroupAFQ</span><span class="p">(</span>
+    <span class="n">bids_path</span><span class="p">,</span>
+    <span class="n">dwi_preproc_pipeline</span><span class="o">=</span><span class="s1">'vistasoft'</span><span class="p">,</span>
+    <span class="n">t1_preproc_pipeline</span><span class="o">=</span><span class="s1">'freesurfer'</span><span class="p">,</span>
+    <span class="n">bundle_info</span><span class="o">=</span><span class="n">bundle_info</span><span class="p">,</span>
+    <span class="n">import_tract</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">"suffix"</span><span class="p">:</span> <span class="s2">"tractography"</span><span class="p">,</span>
+        <span class="s2">"scope"</span><span class="p">:</span> <span class="s2">"my_tractography"</span>
+    <span class="p">},</span>
+    <span class="n">pve</span><span class="o">=</span><span class="n">pve</span><span class="p">,</span>
+    <span class="n">segmentation_params</span><span class="o">=</span><span class="p">{</span><span class="s1">'nb_streamlines'</span><span class="p">:</span> <span class="mi">10000</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Finally, to run the segmentation and extract tract profiles, we call
+The <code class="docutils literal notranslate"><span class="pre">export_all</span></code> method. This creates all of the derivative outputs of
+AFQ within the ‘stanford_hardi/derivatives/afq’ folder.</p>
+<div class="cell config_scroll_outputs docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_afq</span><span class="o">.</span><span class="n">export_all</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>A few common issues that can hinder BIDS from working properly are:</p>
+<ol class="arabic simple">
+<li><p>Faulty <code class="docutils literal notranslate"><span class="pre">dataset_description.json</span></code> file. You need to make sure that the
+file contains the right names for the pipeline. See above for an example
+of that.</p></li>
+<li><p>File naming convention doesn’t uniquely identify file with bids filters.</p></li>
+</ol>
+<p>The outputs of AFQ are also BIDS compatible. Here we demonstrate how
+to load the afq entities and show all files with the key-value pair
+desc-bundles</p>
+<div class="cell config_scroll_outputs docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">layout</span> <span class="o">=</span> <span class="n">BIDSLayout</span><span class="p">(</span><span class="n">bids_path</span><span class="p">)</span>
+<span class="n">layout</span><span class="o">.</span><span class="n">add_derivatives</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">bids_path</span><span class="si">}</span><span class="s1">/derivatives/afq'</span><span class="p">,</span>
+    <span class="n">config</span><span class="o">=</span><span class="p">[</span><span class="s1">'bids'</span><span class="p">,</span> <span class="s1">'derivatives'</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">layout</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s2">"bundles"</span><span class="p">,</span> <span class="n">return_type</span><span class="o">=</span><span class="s2">"filename"</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a class="reference download internal" download="" href="../../_downloads/eca0c191db44cee0fa40b6dbaaf1f4df/plot_006_bids_layout.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">as</span> <span class="pre">Jupyter</span> <span class="pre">Notebook</span></code></a></p>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="plot_005_viz.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Visualizing AFQ derivatives</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="plot_007_rois.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Plotting Default Regions of Interest (ROIs) to Understand the Tracts</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+
+  
+  <div class="tocsection editthispage">
+    <a href="https://github.com/tractometry/pyAFQ/edit/master/docs/source/examples/tutorial_examples/plot_006_bids_layout.ipynb">
+      <i class="fa-solid fa-pencil"></i>
+      
+      
+        
+          Edit on GitHub
+        
+      
+    </a>
+  </div>
+</div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../../_sources/examples/tutorial_examples/plot_006_bids_layout.ipynb.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0"></script>
+
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2018--, The pyAFQ Contributors.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+  <div class="footer-content">
+    <div class="copyright">
+      Please Cite the following papers:
+    </div>
+    <div class="citation">
+      <a href="https://doi.org/10.1371/journal.pcbi.1013323">
+        Kruper et al. (2025)
+      </a><br>
+      <a href="https://doi.org/10.52294/e6198273-b8e3-4b63-babb-6e6b0da10669">
+        Kruper et al. (2021)
+      </a>
+    </div>
+  </div>
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-156363454-2");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+  </body>
+</html>

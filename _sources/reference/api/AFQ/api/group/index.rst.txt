@@ -136,7 +136,7 @@ Module Contents
    .. py:method:: export_up_to(attr_name='help')
 
 
-   .. py:method:: export_all(viz=True, afqbrowser=True, xforms=True, indiv=True)
+   .. py:method:: export_all(viz=True, afqbrowser=True, xforms=True, indiv=True, delete_full_tractogram=False)
 
       
       Exports all the possible outputs
@@ -166,6 +166,41 @@ Module Contents
               the AFQ segmentation algorithm, individual ROIs are also
               output.
               Default: True
+
+          **delete_full_tractogram** : bool
+              Whether to delete the full, unsegmented tractogram (and its
+              associated json) after all other outputs have been generated.
+              This can be useful for saving disk space, as the full
+              tractogram is typically over 90 percent of the total output size.
+              Only the full tractogram and its json are deleted; all other
+              outputs are left in place.
+              Default: False
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: delete_full_tractogram()
+
+      
+      Delete the full, unsegmented tractogram (and its associated json)
+      for every subject and session. Only the full tractogram and its
+      json are deleted; all other outputs are left in place.
+
+
 
 
 

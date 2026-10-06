@@ -17,8 +17,7 @@ methods are described below:
    the :class:`AFQ.api.group.GroupAFQ` object. These `__init__` methods
    must be thoroughly documented as they are what the user interacts
    with. The class must have attributes of same name as the `__init__`
-   args. This is important for reading/writing `Definition`-inherited
-   classes as arguments to config files.
+   args.
 
 -  The api calls `find_path` during the :class:`AFQ.api.group.GroupAFQ`
    object initialization to let the definition find relevant files for
@@ -50,7 +49,7 @@ Image definitions require `get_name`, `get_image_getter`,
 
 -  `get_image_getter` returns a method which can be called as task in
    the task workflow specified by its one input, `task_name`. This
-   method can have any valid inputs for its task module and ouputs an
+   method can have any valid inputs for its task module and outputs an
    image.
 
 -  `get_image_direct` returns the image. It is similar to

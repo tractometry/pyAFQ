@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 
 
@@ -7,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.data.utils &#8212; AFQ 3.2 documentation</title>
+    <title>AFQ.data.utils &#8212; AFQ 3.4 documentation</title>
   
   
   
@@ -26,29 +25,24 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=fd6457a4" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=efc0aa2d" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../../_static/scripts/fontawesome.js?digest=0790524f97105ba85085"></script>
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=64cc4de3f052d77215f0"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=0790524f97105ba85085" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085" />
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../../../_static/documentation_options.js?v=828ea960"></script>
+    <script src="../../../_static/documentation_options.js?v=ed7fbdb4"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
-    <script src="../../../_static/sg-tags.js?v=d80f6fa4"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/AFQ/data/utils';</script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
@@ -104,7 +98,7 @@
   
     <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
-  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+  <button type="button" class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
   </button>
   
@@ -128,8 +122,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 3.2 documentation - Home"/>
-    <img src="../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="AFQ 3.2 documentation - Home"/>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 3.4 documentation - Home"/>
+    <img src="../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="AFQ 3.4 documentation - Home"/>
   
   
 </a></div>
@@ -152,14 +146,14 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../tutorials/tutorial_examples/index.html">
+  <a class="nav-link nav-internal" href="../../../examples/tutorial_examples/index.html">
     Tutorials: Getting started
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../howto/howto_examples/index.html">
+  <a class="nav-link nav-internal" href="../../../examples/howto_examples/index.html">
     How to examples
   </a>
 </li>
@@ -196,7 +190,7 @@
         <div class="navbar-item navbar-persistent--container">
           
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
  <i class="fa-solid fa-magnifying-glass"></i>
  <span class="search-button__default-text">Search</span>
  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
@@ -207,15 +201,15 @@
         <div class="navbar-item">
 
 <div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
     <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
     <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
     <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
   <ul class="dropdown-menu dropdown-menu-end">
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
   </ul>
 </div></div>
       
@@ -241,7 +235,7 @@
   
     <div class="navbar-persistent--mobile">
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
  <i class="fa-solid fa-magnifying-glass"></i>
  <span class="search-button__default-text">Search</span>
  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
@@ -286,14 +280,14 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../tutorials/tutorial_examples/index.html">
+  <a class="nav-link nav-internal" href="../../../examples/tutorial_examples/index.html">
     Tutorials: Getting started
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../howto/howto_examples/index.html">
+  <a class="nav-link nav-internal" href="../../../examples/howto_examples/index.html">
     How to examples
   </a>
 </li>
@@ -332,15 +326,15 @@
           <div class="navbar-item">
 
 <div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
     <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
     <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
     <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
   <ul class="dropdown-menu dropdown-menu-end">
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
   </ul>
 </div></div>
         
@@ -444,18 +438,18 @@
 <div class="viewcode-block" id="BUNDLE_RECO_2_AFQ">
 <a class="viewcode-back" href="../../../reference/api/AFQ/data/utils/index.html#AFQ.data.utils.BUNDLE_RECO_2_AFQ">[docs]</a>
 <span></span><span class="n">BUNDLE_RECO_2_AFQ</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;AF_L&quot;</span><span class="p">:</span> <span class="s2">&quot;Left Arcuate&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;AF_R&quot;</span><span class="p">:</span> <span class="s2">&quot;Right Arcuate&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;UF_L&quot;</span><span class="p">:</span> <span class="s2">&quot;Left Uncinate&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;UF_R&quot;</span><span class="p">:</span> <span class="s2">&quot;Right Uncinate&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;IFOF_L&quot;</span><span class="p">:</span> <span class="s2">&quot;Left Inferior Fronto-occipital&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;IFOF_R&quot;</span><span class="p">:</span> <span class="s2">&quot;Right Inferior Fronto-occipital&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;CST_L&quot;</span><span class="p">:</span> <span class="s2">&quot;Left Corticospinal&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;CST_R&quot;</span><span class="p">:</span> <span class="s2">&quot;Right Corticospinal&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;ILF_L&quot;</span><span class="p">:</span> <span class="s2">&quot;Left Inferior Longitudinal&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;ILF_R&quot;</span><span class="p">:</span> <span class="s2">&quot;Right Inferior Longitudinal&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;SLF_L&quot;</span><span class="p">:</span> <span class="s2">&quot;Left Superior Longitudinal&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;SLF_R&quot;</span><span class="p">:</span> <span class="s2">&quot;Right Superior Longitudinal&quot;</span><span class="p">,</span>
+    <span class="s2">"AF_L"</span><span class="p">:</span> <span class="s2">"Left Arcuate"</span><span class="p">,</span>
+    <span class="s2">"AF_R"</span><span class="p">:</span> <span class="s2">"Right Arcuate"</span><span class="p">,</span>
+    <span class="s2">"UF_L"</span><span class="p">:</span> <span class="s2">"Left Uncinate"</span><span class="p">,</span>
+    <span class="s2">"UF_R"</span><span class="p">:</span> <span class="s2">"Right Uncinate"</span><span class="p">,</span>
+    <span class="s2">"IFOF_L"</span><span class="p">:</span> <span class="s2">"Left Inferior Fronto-occipital"</span><span class="p">,</span>
+    <span class="s2">"IFOF_R"</span><span class="p">:</span> <span class="s2">"Right Inferior Fronto-occipital"</span><span class="p">,</span>
+    <span class="s2">"CST_L"</span><span class="p">:</span> <span class="s2">"Left Corticospinal"</span><span class="p">,</span>
+    <span class="s2">"CST_R"</span><span class="p">:</span> <span class="s2">"Right Corticospinal"</span><span class="p">,</span>
+    <span class="s2">"ILF_L"</span><span class="p">:</span> <span class="s2">"Left Inferior Longitudinal"</span><span class="p">,</span>
+    <span class="s2">"ILF_R"</span><span class="p">:</span> <span class="s2">"Right Inferior Longitudinal"</span><span class="p">,</span>
+    <span class="s2">"SLF_L"</span><span class="p">:</span> <span class="s2">"Left Superior Longitudinal"</span><span class="p">,</span>
+    <span class="s2">"SLF_R"</span><span class="p">:</span> <span class="s2">"Right Superior Longitudinal"</span><span class="p">,</span>
 <span class="p">}</span></div>
 
 
@@ -463,36 +457,36 @@
 <div class="viewcode-block" id="BUNDLE_MAT_2_PYTHON">
 <a class="viewcode-back" href="../../../reference/api/AFQ/data/utils/index.html#AFQ.data.utils.BUNDLE_MAT_2_PYTHON">[docs]</a>
 <span class="n">BUNDLE_MAT_2_PYTHON</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;RightCorticospinal&quot;</span><span class="p">:</span> <span class="s2">&quot;Right Corticospinal&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;LeftCorticospinal&quot;</span><span class="p">:</span> <span class="s2">&quot;Left Corticospinal&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;RightUncinate&quot;</span><span class="p">:</span> <span class="s2">&quot;Right Uncinate&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;LeftUncinate&quot;</span><span class="p">:</span> <span class="s2">&quot;Left Uncinate&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;Left IFOF&quot;</span><span class="p">:</span> <span class="s2">&quot;Left Inferior Fronto-occipital&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;Right IFOF&quot;</span><span class="p">:</span> <span class="s2">&quot;Right Inferior Fronto-occipital&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;LeftIFOF&quot;</span><span class="p">:</span> <span class="s2">&quot;Left Inferior Fronto-occipital&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;RightIFOF&quot;</span><span class="p">:</span> <span class="s2">&quot;Right Inferior Fronto-occipital&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;RightArcuate&quot;</span><span class="p">:</span> <span class="s2">&quot;Right Arcuate&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;LeftArcuate&quot;</span><span class="p">:</span> <span class="s2">&quot;Left Arcuate&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;Right Thalamic Radiation&quot;</span><span class="p">:</span> <span class="s2">&quot;Right Anterior Thalamic&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;Left Thalamic Radiation&quot;</span><span class="p">:</span> <span class="s2">&quot;Left Anterior Thalamic&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;RightThalamicRadiation&quot;</span><span class="p">:</span> <span class="s2">&quot;Right Anterior Thalamic&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;LeftThalamicRadiation&quot;</span><span class="p">:</span> <span class="s2">&quot;Left Anterior Thalamic&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;Right Cingulum Cingulate&quot;</span><span class="p">:</span> <span class="s2">&quot;Right Cingulum Cingulate&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;Left Cingulum Cingulate&quot;</span><span class="p">:</span> <span class="s2">&quot;Left Cingulum Cingulate&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;RightCingulumCingulate&quot;</span><span class="p">:</span> <span class="s2">&quot;Right Cingulum Cingulate&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;LeftCingulumCingulate&quot;</span><span class="p">:</span> <span class="s2">&quot;Left Cingulum Cingulate&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;Callosum Forceps Major&quot;</span><span class="p">:</span> <span class="s2">&quot;Forceps Major&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;Callosum Forceps Minor&quot;</span><span class="p">:</span> <span class="s2">&quot;Forceps Minor&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;CallosumForcepsMajor&quot;</span><span class="p">:</span> <span class="s2">&quot;Forceps Major&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;CallosumForcepsMinor&quot;</span><span class="p">:</span> <span class="s2">&quot;Forceps Minor&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;Right ILF&quot;</span><span class="p">:</span> <span class="s2">&quot;Right Inferior Longitudinal&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;Left ILF&quot;</span><span class="p">:</span> <span class="s2">&quot;Left Inferior Longitudinal&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;RightILF&quot;</span><span class="p">:</span> <span class="s2">&quot;Right Inferior Longitudinal&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;LeftILF&quot;</span><span class="p">:</span> <span class="s2">&quot;Left Inferior Longitudinal&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;Right SLF&quot;</span><span class="p">:</span> <span class="s2">&quot;Right Superior Longitudinal&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;Left SLF&quot;</span><span class="p">:</span> <span class="s2">&quot;Left Superior Longitudinal&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;RightSLF&quot;</span><span class="p">:</span> <span class="s2">&quot;Right Superior Longitudinal&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;LeftSLF&quot;</span><span class="p">:</span> <span class="s2">&quot;Left Superior Longitudinal&quot;</span><span class="p">,</span>
+    <span class="s2">"RightCorticospinal"</span><span class="p">:</span> <span class="s2">"Right Corticospinal"</span><span class="p">,</span>
+    <span class="s2">"LeftCorticospinal"</span><span class="p">:</span> <span class="s2">"Left Corticospinal"</span><span class="p">,</span>
+    <span class="s2">"RightUncinate"</span><span class="p">:</span> <span class="s2">"Right Uncinate"</span><span class="p">,</span>
+    <span class="s2">"LeftUncinate"</span><span class="p">:</span> <span class="s2">"Left Uncinate"</span><span class="p">,</span>
+    <span class="s2">"Left IFOF"</span><span class="p">:</span> <span class="s2">"Left Inferior Fronto-occipital"</span><span class="p">,</span>
+    <span class="s2">"Right IFOF"</span><span class="p">:</span> <span class="s2">"Right Inferior Fronto-occipital"</span><span class="p">,</span>
+    <span class="s2">"LeftIFOF"</span><span class="p">:</span> <span class="s2">"Left Inferior Fronto-occipital"</span><span class="p">,</span>
+    <span class="s2">"RightIFOF"</span><span class="p">:</span> <span class="s2">"Right Inferior Fronto-occipital"</span><span class="p">,</span>
+    <span class="s2">"RightArcuate"</span><span class="p">:</span> <span class="s2">"Right Arcuate"</span><span class="p">,</span>
+    <span class="s2">"LeftArcuate"</span><span class="p">:</span> <span class="s2">"Left Arcuate"</span><span class="p">,</span>
+    <span class="s2">"Right Thalamic Radiation"</span><span class="p">:</span> <span class="s2">"Right Anterior Thalamic"</span><span class="p">,</span>
+    <span class="s2">"Left Thalamic Radiation"</span><span class="p">:</span> <span class="s2">"Left Anterior Thalamic"</span><span class="p">,</span>
+    <span class="s2">"RightThalamicRadiation"</span><span class="p">:</span> <span class="s2">"Right Anterior Thalamic"</span><span class="p">,</span>
+    <span class="s2">"LeftThalamicRadiation"</span><span class="p">:</span> <span class="s2">"Left Anterior Thalamic"</span><span class="p">,</span>
+    <span class="s2">"Right Cingulum Cingulate"</span><span class="p">:</span> <span class="s2">"Right Cingulum Cingulate"</span><span class="p">,</span>
+    <span class="s2">"Left Cingulum Cingulate"</span><span class="p">:</span> <span class="s2">"Left Cingulum Cingulate"</span><span class="p">,</span>
+    <span class="s2">"RightCingulumCingulate"</span><span class="p">:</span> <span class="s2">"Right Cingulum Cingulate"</span><span class="p">,</span>
+    <span class="s2">"LeftCingulumCingulate"</span><span class="p">:</span> <span class="s2">"Left Cingulum Cingulate"</span><span class="p">,</span>
+    <span class="s2">"Callosum Forceps Major"</span><span class="p">:</span> <span class="s2">"Forceps Major"</span><span class="p">,</span>
+    <span class="s2">"Callosum Forceps Minor"</span><span class="p">:</span> <span class="s2">"Forceps Minor"</span><span class="p">,</span>
+    <span class="s2">"CallosumForcepsMajor"</span><span class="p">:</span> <span class="s2">"Forceps Major"</span><span class="p">,</span>
+    <span class="s2">"CallosumForcepsMinor"</span><span class="p">:</span> <span class="s2">"Forceps Minor"</span><span class="p">,</span>
+    <span class="s2">"Right ILF"</span><span class="p">:</span> <span class="s2">"Right Inferior Longitudinal"</span><span class="p">,</span>
+    <span class="s2">"Left ILF"</span><span class="p">:</span> <span class="s2">"Left Inferior Longitudinal"</span><span class="p">,</span>
+    <span class="s2">"RightILF"</span><span class="p">:</span> <span class="s2">"Right Inferior Longitudinal"</span><span class="p">,</span>
+    <span class="s2">"LeftILF"</span><span class="p">:</span> <span class="s2">"Left Inferior Longitudinal"</span><span class="p">,</span>
+    <span class="s2">"Right SLF"</span><span class="p">:</span> <span class="s2">"Right Superior Longitudinal"</span><span class="p">,</span>
+    <span class="s2">"Left SLF"</span><span class="p">:</span> <span class="s2">"Left Superior Longitudinal"</span><span class="p">,</span>
+    <span class="s2">"RightSLF"</span><span class="p">:</span> <span class="s2">"Right Superior Longitudinal"</span><span class="p">,</span>
+    <span class="s2">"LeftSLF"</span><span class="p">:</span> <span class="s2">"Left Superior Longitudinal"</span><span class="p">,</span>
 <span class="p">}</span></div>
 
 
@@ -500,11 +494,11 @@
 <div class="viewcode-block" id="aws_import_msg_error">
 <a class="viewcode-back" href="../../../reference/api/AFQ/data/utils/index.html#AFQ.data.utils.aws_import_msg_error">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">aws_import_msg_error</span><span class="p">(</span><span class="n">module</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Alerts user to install the appropriate aws module&quot;&quot;&quot;</span>
-    <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;To use </span><span class="si">{</span><span class="n">module</span><span class="si">}</span><span class="s2"> in pyAFQ, you will &quot;</span>
-    <span class="n">msg</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;need to have </span><span class="si">{</span><span class="n">module</span><span class="si">}</span><span class="s2"> installed. &quot;</span>
-    <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot;You can do that by installing pyAFQ with &quot;</span>
-    <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot;`pip install pyAFQ[aws]`&quot;</span>
+<span class="w">    </span><span class="sd">"""Alerts user to install the appropriate aws module"""</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"To use </span><span class="si">{</span><span class="n">module</span><span class="si">}</span><span class="s2"> in pyAFQ, you will "</span>
+    <span class="n">msg</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">"need to have </span><span class="si">{</span><span class="n">module</span><span class="si">}</span><span class="s2"> installed. "</span>
+    <span class="n">msg</span> <span class="o">+=</span> <span class="s2">"You can do that by installing pyAFQ with "</span>
+    <span class="n">msg</span> <span class="o">+=</span> <span class="s2">"`pip install pyAFQ[aws]`"</span>
     <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
 
 </pre></div>
@@ -536,8 +530,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../../_static/scripts/bootstrap.js?digest=0790524f97105ba85085"></script>
-<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085"></script>
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0"></script>
 
 
   <footer class="bd-footer">
@@ -559,7 +553,6 @@
 
   <p class="sphinx-version">
     Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
-    <br/>
   </p>
 </div>
       

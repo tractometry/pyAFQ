@@ -18,6 +18,7 @@ Classes
 .. autoapisummary::
 
    AFQ.utils.streamlines.SegmentedSFT
+   AFQ.utils.streamlines.SegmentedTRX
 
 
 Functions
@@ -38,6 +39,11 @@ Module Contents
 
 .. py:class:: SegmentedSFT(bundles, sidecar_info=None)
 
+   .. py:attribute:: sidecar_info
+      :value: None
+
+
+
    .. py:attribute:: bundle_names
       :value: []
 
@@ -46,12 +52,16 @@ Module Contents
    .. py:attribute:: bundle_idxs
 
 
-   .. py:attribute:: sidecar_info
-      :value: None
-
-
-
    .. py:attribute:: sft
+
+
+   .. py:method:: get_lengths()
+
+
+   .. py:method:: to_rasmm()
+
+
+   .. py:method:: get_bundle_idxs(b_name)
 
 
    .. py:method:: get_bundle(b_name)
@@ -63,6 +73,34 @@ Module Contents
    .. py:method:: fromfile(trk_or_trx_file, reference='same', sidecar_file=None)
       :classmethod:
 
+
+
+.. py:class:: SegmentedTRX(trx, sidecar_info=None)
+
+   Bases: :py:obj:`SegmentedSFT`
+
+
+   .. py:attribute:: sidecar_info
+      :value: None
+
+
+
+   .. py:attribute:: bundle_names
+
+
+   .. py:attribute:: sft
+
+
+   .. py:method:: get_lengths()
+
+
+   .. py:method:: to_rasmm()
+
+
+   .. py:method:: get_bundle_idxs(b_name)
+
+
+   .. py:method:: get_bundle(b_name)
 
 
 .. py:function:: split_streamline(streamlines, sl_to_split, split_idx)

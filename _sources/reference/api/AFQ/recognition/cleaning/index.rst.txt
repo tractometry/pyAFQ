@@ -72,6 +72,72 @@ Module Contents
 
 .. py:function:: clean_by_orientation_mahalanobis(streamlines, n_points=100, core_only=0, min_sl=20, distance_threshold=3, length_threshold=4, clean_rounds=5, remove_lengths='long')
 
+   
+   Clean a segmented fiber group based on the Mahalanobis distance of
+   each streamline's local orientation (the step between consecutive
+   nodes), rather than its position.
+
+
+   :Parameters:
+
+       **streamlines** : ArraySequence or sequence of N by 3 arrays
+           The streamlines of the bundle to be cleaned.
+
+       **n_points** : int, optional
+           Number of points to resample streamlines to.
+           Default: 100
+
+       **core_only** : float, optional
+           If non-zero, only the core of the bundle is used for cleaning.
+           For example, 0.6 uses the middle 60% of each streamline, allowing
+           streamlines to deviate in the starting and ending 20%.
+           Default: 0
+
+       **min_sl** : int, optional.
+           Minimum number of streamlines to keep. If a round of cleaning would
+           leave fewer than this, the `min_sl` streamlines with the smallest
+           total Mahalanobis distance are kept instead. Default: 20.
+
+       **distance_threshold** : float, optional.
+           Threshold of cleaning based on the Mahalanobis distance (the units are
+           standard deviations). Default: 3.
+
+       **length_threshold: float, optional**
+           Threshold for cleaning based on length (in standard deviations), where
+           length is the number of points in each streamline. If 0, no cleaning
+           by length is done. Default: 4.
+
+       **clean_rounds** : int, optional.
+           Number of rounds of cleaning based on the Mahalanobis distance from
+           the mean orientation of each node. Default: 5
+
+       **remove_lengths** : str
+           Specifies which streamlines to remove based on their length.
+           Options are "long" (remove long streamlines), "short"
+           (remove short streamlines), or "both"
+           (remove both long and short streamlines).
+           Default: "long"
+
+   :Returns:
+
+       **idx** : ndarray
+           Indices of the streamlines that passed cleaning.
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
 .. py:function:: clean_bundle(tg, n_points=100, clean_rounds=5, distance_threshold=4, length_threshold=4, min_sl=20, stat=np.mean, core_only=0.6, return_idx=False, remove_lengths='long')
 
    

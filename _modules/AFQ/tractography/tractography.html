@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 
 
@@ -7,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.tractography.tractography &#8212; AFQ 3.2 documentation</title>
+    <title>AFQ.tractography.tractography &#8212; AFQ 3.4 documentation</title>
   
   
   
@@ -26,29 +25,24 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=fd6457a4" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=efc0aa2d" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../../_static/scripts/fontawesome.js?digest=0790524f97105ba85085"></script>
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=64cc4de3f052d77215f0"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=0790524f97105ba85085" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085" />
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../../../_static/documentation_options.js?v=828ea960"></script>
+    <script src="../../../_static/documentation_options.js?v=ed7fbdb4"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
-    <script src="../../../_static/sg-tags.js?v=d80f6fa4"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/AFQ/tractography/tractography';</script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
@@ -104,7 +98,7 @@
   
     <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
-  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+  <button type="button" class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
   </button>
   
@@ -128,8 +122,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 3.2 documentation - Home"/>
-    <img src="../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="AFQ 3.2 documentation - Home"/>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 3.4 documentation - Home"/>
+    <img src="../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="AFQ 3.4 documentation - Home"/>
   
   
 </a></div>
@@ -152,14 +146,14 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../tutorials/tutorial_examples/index.html">
+  <a class="nav-link nav-internal" href="../../../examples/tutorial_examples/index.html">
     Tutorials: Getting started
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../howto/howto_examples/index.html">
+  <a class="nav-link nav-internal" href="../../../examples/howto_examples/index.html">
     How to examples
   </a>
 </li>
@@ -196,7 +190,7 @@
         <div class="navbar-item navbar-persistent--container">
           
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
  <i class="fa-solid fa-magnifying-glass"></i>
  <span class="search-button__default-text">Search</span>
  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
@@ -207,15 +201,15 @@
         <div class="navbar-item">
 
 <div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
     <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
     <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
     <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
   <ul class="dropdown-menu dropdown-menu-end">
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
   </ul>
 </div></div>
       
@@ -241,7 +235,7 @@
   
     <div class="navbar-persistent--mobile">
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
  <i class="fa-solid fa-magnifying-glass"></i>
  <span class="search-button__default-text">Search</span>
  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
@@ -286,14 +280,14 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../tutorials/tutorial_examples/index.html">
+  <a class="nav-link nav-internal" href="../../../examples/tutorial_examples/index.html">
     Tutorials: Getting started
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../howto/howto_examples/index.html">
+  <a class="nav-link nav-internal" href="../../../examples/howto_examples/index.html">
     How to examples
   </a>
 </li>
@@ -332,15 +326,15 @@
           <div class="navbar-item">
 
 <div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
     <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
     <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
     <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
   <ul class="dropdown-menu dropdown-menu-end">
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
   </ul>
 </div></div>
         
@@ -461,7 +455,7 @@
 <span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">nibabel.streamlines.tractogram</span><span class="w"> </span><span class="kn">import</span> <span class="n">LazyTractogram</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">skimage.segmentation</span><span class="w"> </span><span class="kn">import</span> <span class="n">find_boundaries</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">tqdm</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tqdm.auto</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">AFQ._fixes</span><span class="w"> </span><span class="kn">import</span> <span class="n">tensor_odf</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">AFQ.tractography.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">gen_seeds</span>
@@ -473,9 +467,9 @@
     <span class="n">params_file</span><span class="p">,</span>
     <span class="n">pve</span><span class="p">,</span>
     <span class="n">n_threads</span><span class="p">,</span>
-    <span class="n">directions</span><span class="o">=</span><span class="s2">&quot;prob&quot;</span><span class="p">,</span>
+    <span class="n">directions</span><span class="o">=</span><span class="s2">"prob"</span><span class="p">,</span>
     <span class="n">max_angle</span><span class="o">=</span><span class="mf">30.0</span><span class="p">,</span>
-    <span class="n">sphere</span><span class="o">=</span><span class="s2">&quot;repulsion724&quot;</span><span class="p">,</span>
+    <span class="n">sphere</span><span class="o">=</span><span class="s2">"repulsion724"</span><span class="p">,</span>
     <span class="n">seed_mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">seed_threshold</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
     <span class="n">gm_threshold</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span>
@@ -486,14 +480,14 @@
     <span class="n">step_size</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
     <span class="n">minlen</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
     <span class="n">maxlen</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
-    <span class="n">odf_model</span><span class="o">=</span><span class="s2">&quot;CSD_AODF&quot;</span><span class="p">,</span>
-    <span class="n">basis_type</span><span class="o">=</span><span class="s2">&quot;descoteaux07&quot;</span><span class="p">,</span>
+    <span class="n">odf_model</span><span class="o">=</span><span class="s2">"CSD_AODF"</span><span class="p">,</span>
+    <span class="n">basis_type</span><span class="o">=</span><span class="s2">"descoteaux07"</span><span class="p">,</span>
     <span class="n">legacy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">trx</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">jit_backend</span><span class="o">=</span><span class="s2">&quot;numba&quot;</span><span class="p">,</span>
+    <span class="n">jit_backend</span><span class="o">=</span><span class="s2">"numba"</span><span class="p">,</span>
     <span class="n">jit_chunk_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Tractography</span>
 
 <span class="sd">    Parameters</span>
@@ -510,22 +504,23 @@
 <span class="sd">        If 0 or -1, uses all available threads.</span>
 <span class="sd">    directions : str</span>
 <span class="sd">        How tracking directions are determined.</span>
-<span class="sd">        One of: {&quot;det&quot; | &quot;prob&quot; | &quot;pft&quot;}</span>
+<span class="sd">        One of: {"det" | "prob" | "pft"}</span>
 <span class="sd">        pft refers to Particle Filtering Tracking ([Girard2014]_).</span>
-<span class="sd">        Default: &quot;prob&quot;</span>
+<span class="sd">        Default: "prob"</span>
 <span class="sd">    max_angle : float, optional.</span>
-<span class="sd">        The maximum turning angle in each step. Default: 30</span>
+<span class="sd">        The maximum turning angle in each step.</span>
+<span class="sd">        Default: 30</span>
 <span class="sd">    sphere : str or DIPY Sphere</span>
 <span class="sd">        The discretization of the ODF. Can be a DIPY Sphere or</span>
 <span class="sd">        a string name of a DIPY Sphere.</span>
-<span class="sd">        Default: &quot;repulsion724&quot;</span>
+<span class="sd">        Default: "repulsion724"</span>
 <span class="sd">    seed_mask : array, optional.</span>
 <span class="sd">        Float or binary mask describing the ROI within which we seed for</span>
-<span class="sd">        tracking.</span>
-<span class="sd">        Default to the entire volume (all ones).</span>
+<span class="sd">        tracking. If None, use the entire volume (all ones).</span>
+<span class="sd">        Default: None</span>
 <span class="sd">    seed_threshold : float, optional.</span>
 <span class="sd">        A value of the seed_mask above which tracking is seeded.</span>
-<span class="sd">        Default to 0.</span>
+<span class="sd">        Default: 0.5</span>
 <span class="sd">    gm_threshold : float, optional.</span>
 <span class="sd">        A value of the pve_gm_data above which we consider a voxel to be GM</span>
 <span class="sd">        for the purposes of ACT stopping criterion. Default: 0.4.</span>
@@ -553,16 +548,16 @@
 <span class="sd">    minlen: int, optional</span>
 <span class="sd">        The minimal length (mm) in a streamline. Default: 20</span>
 <span class="sd">    maxlen: int, optional</span>
-<span class="sd">        The maximum length (mm) in a streamline. Default: 250</span>
+<span class="sd">        The maximum length (mm) in a streamline. Default: 500</span>
 <span class="sd">    odf_model : str or Definition, optional</span>
 <span class="sd">        Can be either a string or Definition. If a string, it must be one of</span>
-<span class="sd">        {&quot;DTI&quot;, &quot;CSD&quot;, &quot;DKI&quot;, &quot;GQ&quot;, &quot;RUMBA&quot;, &quot;MSMT_AODF&quot;, &quot;CSD_AODF&quot;, &quot;MSMTCSD&quot;}.</span>
+<span class="sd">        {"DTI", "CSD", "DKI", "GQ", "RUMBA", "MSMT_AODF", "CSD_AODF", "MSMTCSD"}.</span>
 <span class="sd">        If a Definition, we assume it is a definition of a file containing</span>
 <span class="sd">        Spherical Harmonics coefficients.</span>
-<span class="sd">        Defaults to use &quot;CSD_AODF&quot;</span>
+<span class="sd">        Default: "CSD_AODF"</span>
 <span class="sd">    basis_type : str, optional</span>
 <span class="sd">        The spherical harmonic basis type used to represent the coefficients.</span>
-<span class="sd">        One of {&quot;descoteaux07&quot;, &quot;tournier07&quot;}. Default: &quot;descoteaux07&quot;</span>
+<span class="sd">        One of {"descoteaux07", "tournier07"}. Default: "descoteaux07"</span>
 <span class="sd">    legacy : bool, optional</span>
 <span class="sd">        Whether the legacy SH basis definition should be used.</span>
 <span class="sd">        See Dipy documentation for more details. Default: True</span>
@@ -571,11 +566,11 @@
 <span class="sd">        (i.e., as a LazyTractogram class instance).</span>
 <span class="sd">        Default: True</span>
 <span class="sd">    jit_backend : str, optional</span>
-<span class="sd">        If directions is &quot;prob&quot; or &quot;ptt&quot;, the JIT backend to use.</span>
-<span class="sd">        One of {&quot;auto&quot;, &quot;cuda&quot;, &quot;metal&quot;, &quot;webgpu&quot;, or &quot;numba&quot;}.</span>
-<span class="sd">        Default: &quot;numba&quot;</span>
+<span class="sd">        If directions is "prob" or "ptt", the JIT backend to use.</span>
+<span class="sd">        One of {"auto", "cuda", "metal", "webgpu", or "numba"}.</span>
+<span class="sd">        Default: "numba"</span>
 <span class="sd">    jit_chunk_size : int, optional</span>
-<span class="sd">        If directions is &quot;prob&quot; or &quot;ptt&quot;, the chunk size to use</span>
+<span class="sd">        If directions is "prob" or "ptt", the chunk size to use</span>
 <span class="sd">        for JIT tracking. If None, chooses 25000 for numba backend</span>
 <span class="sd">        and 5000 for other backends.</span>
 <span class="sd">        Default: None</span>
@@ -594,10 +589,10 @@
 <span class="sd">        MRI streamlines tractography through effective use of anatomical</span>
 <span class="sd">        information. Neuroimage. 2012 Sep;62(3):1924-38.</span>
 <span class="sd">        doi: 10.1016/j.neuroimage.2012.06.005. Epub 2012 Jun 13.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;AFQ&quot;</span><span class="p">)</span>
+<span class="sd">    """</span>
+    <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">"AFQ"</span><span class="p">)</span>
 
-    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Loading Image...&quot;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Loading Image..."</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">params_file</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">params_img</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">params_file</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
@@ -625,8 +620,8 @@
 
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">pve_data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">4</span> <span class="ow">or</span> <span class="n">pve_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
-            <span class="s2">&quot;For pve, expected pve_data with shape [x, y, z, 3]. &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;Instead, got </span><span class="si">{</span><span class="n">pve_data</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="s2">"For pve, expected pve_data with shape [x, y, z, 3]. "</span>
+            <span class="sa">f</span><span class="s2">"Instead, got </span><span class="si">{</span><span class="n">pve_data</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">."</span>
         <span class="p">)</span>
 
     <span class="n">pve_csf_data</span> <span class="o">=</span> <span class="n">pve_data</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
@@ -657,7 +652,7 @@
     <span class="c1"># (presumably masked) fodf are treated as valid</span>
     <span class="c1"># (think brain stem)</span>
     <span class="n">brain_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">model_params</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
-    <span class="n">edge</span> <span class="o">=</span> <span class="n">find_boundaries</span><span class="p">(</span><span class="n">brain_mask</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;inner&quot;</span><span class="p">)</span>
+    <span class="n">edge</span> <span class="o">=</span> <span class="n">find_boundaries</span><span class="p">(</span><span class="n">brain_mask</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"inner"</span><span class="p">)</span>
     <span class="n">pve_gm_data</span><span class="p">[</span><span class="n">edge</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
     <span class="n">pve_wm_data</span><span class="p">[</span><span class="n">edge</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
     <span class="n">pve_csf_data</span><span class="p">[</span><span class="n">edge</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
@@ -670,7 +665,7 @@
         <span class="n">pve_wm_data</span><span class="p">,</span> <span class="n">pve_gm_data</span><span class="p">,</span> <span class="n">pve_csf_data</span>
     <span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">odf_model</span> <span class="o">==</span> <span class="s2">&quot;DTI&quot;</span> <span class="ow">or</span> <span class="n">odf_model</span> <span class="o">==</span> <span class="s2">&quot;DKI&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">odf_model</span> <span class="o">==</span> <span class="s2">"DTI"</span> <span class="ow">or</span> <span class="n">odf_model</span> <span class="o">==</span> <span class="s2">"DKI"</span><span class="p">:</span>
         <span class="n">evals</span><span class="p">,</span> <span class="n">evecs</span> <span class="o">=</span> <span class="n">decompose_tensor</span><span class="p">(</span><span class="n">from_lower_triangular</span><span class="p">(</span><span class="n">model_params</span><span class="p">))</span>
         <span class="n">odf</span> <span class="o">=</span> <span class="n">tensor_odf</span><span class="p">(</span><span class="n">evals</span><span class="p">,</span> <span class="n">evecs</span><span class="p">,</span> <span class="n">sphere</span><span class="p">)</span>
         <span class="n">model_params</span> <span class="o">=</span> <span class="n">shm</span><span class="o">.</span><span class="n">sf_to_sh</span><span class="p">(</span>
@@ -678,8 +673,8 @@
         <span class="p">)</span>
 
     <span class="n">tracking_kwargs</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">if</span> <span class="n">directions</span> <span class="o">==</span> <span class="s2">&quot;pft&quot;</span> <span class="ow">and</span> <span class="p">(</span><span class="n">odf_model</span> <span class="o">==</span> <span class="s2">&quot;DTI&quot;</span> <span class="ow">or</span> <span class="n">odf_model</span> <span class="o">==</span> <span class="s2">&quot;DKI&quot;</span><span class="p">):</span>
-        <span class="n">tracking_kwargs</span><span class="p">[</span><span class="s2">&quot;sf&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">odf</span>
+    <span class="k">if</span> <span class="n">directions</span> <span class="o">==</span> <span class="s2">"pft"</span> <span class="ow">and</span> <span class="p">(</span><span class="n">odf_model</span> <span class="o">==</span> <span class="s2">"DTI"</span> <span class="ow">or</span> <span class="n">odf_model</span> <span class="o">==</span> <span class="s2">"DKI"</span><span class="p">):</span>
+        <span class="n">tracking_kwargs</span><span class="p">[</span><span class="s2">"sf"</span><span class="p">]</span> <span class="o">=</span> <span class="n">odf</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">sym_order</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">3.0</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="mf">8.0</span> <span class="o">*</span> <span class="n">model_params</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">3</span><span class="p">]))</span> <span class="o">/</span> <span class="mf">2.0</span>
         <span class="k">if</span> <span class="n">sym_order</span><span class="o">.</span><span class="n">is_integer</span><span class="p">():</span>
@@ -693,12 +688,12 @@
             <span class="n">model_params</span><span class="p">,</span> <span class="n">sphere</span><span class="p">,</span> <span class="n">sh_order_max</span><span class="o">=</span><span class="n">sh_order_max</span><span class="p">,</span> <span class="n">full_basis</span><span class="o">=</span><span class="n">full_basis</span>
         <span class="p">)</span>
         <span class="n">pmf</span><span class="p">[</span><span class="n">pmf</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">tracking_kwargs</span><span class="p">[</span><span class="s2">&quot;sf&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pmf</span>
+        <span class="n">tracking_kwargs</span><span class="p">[</span><span class="s2">"sf"</span><span class="p">]</span> <span class="o">=</span> <span class="n">pmf</span>
 
     <span class="k">if</span> <span class="n">rng_seed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">tracking_kwargs</span><span class="p">[</span><span class="s2">&quot;random_seed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">rng_seed</span><span class="p">)</span>
+        <span class="n">tracking_kwargs</span><span class="p">[</span><span class="s2">"random_seed"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">rng_seed</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">tracking_kwargs</span><span class="p">[</span><span class="s2">&quot;random_seed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="mi">31</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">tracking_kwargs</span><span class="p">[</span><span class="s2">"random_seed"</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="mi">31</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
 
     <span class="n">seeds</span> <span class="o">=</span> <span class="n">gen_seeds</span><span class="p">(</span>
         <span class="n">seed_mask</span><span class="p">,</span>
@@ -710,15 +705,15 @@
         <span class="n">params_img</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span>
     <span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">directions</span> <span class="o">==</span> <span class="s2">&quot;prob&quot;</span> <span class="ow">or</span> <span class="n">directions</span> <span class="o">==</span> <span class="s2">&quot;ptt&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">directions</span> <span class="o">==</span> <span class="s2">"prob"</span> <span class="ow">or</span> <span class="n">directions</span> <span class="o">==</span> <span class="s2">"ptt"</span><span class="p">:</span>
         <span class="n">jit_backend</span> <span class="o">=</span> <span class="n">jit_backend</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">jit_backend</span> <span class="o">==</span> <span class="s2">&quot;auto&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">jit_backend</span> <span class="o">==</span> <span class="s2">"auto"</span><span class="p">:</span>
             <span class="kn">from</span><span class="w"> </span><span class="nn">cuslines</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
                 <span class="n">ProbDirectionGetter</span><span class="p">,</span>
                 <span class="n">PttDirectionGetter</span><span class="p">,</span>
                 <span class="n">Tracker</span><span class="p">,</span>
             <span class="p">)</span>
-        <span class="k">elif</span> <span class="n">jit_backend</span> <span class="o">==</span> <span class="s2">&quot;cuda&quot;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">jit_backend</span> <span class="o">==</span> <span class="s2">"cuda"</span><span class="p">:</span>
             <span class="kn">from</span><span class="w"> </span><span class="nn">cuslines.cuda_python</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
                 <span class="n">GPUTracker</span> <span class="k">as</span> <span class="n">Tracker</span><span class="p">,</span>
             <span class="p">)</span>
@@ -726,7 +721,7 @@
                 <span class="n">ProbDirectionGetter</span><span class="p">,</span>
                 <span class="n">PttDirectionGetter</span><span class="p">,</span>
             <span class="p">)</span>
-        <span class="k">elif</span> <span class="n">jit_backend</span> <span class="o">==</span> <span class="s2">&quot;metal&quot;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">jit_backend</span> <span class="o">==</span> <span class="s2">"metal"</span><span class="p">:</span>
             <span class="kn">from</span><span class="w"> </span><span class="nn">cuslines.metal</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
                 <span class="n">MetalGPUTracker</span> <span class="k">as</span> <span class="n">Tracker</span><span class="p">,</span>
             <span class="p">)</span>
@@ -736,7 +731,7 @@
             <span class="kn">from</span><span class="w"> </span><span class="nn">cuslines.metal</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
                 <span class="n">MetalPttDirectionGetter</span> <span class="k">as</span> <span class="n">PttDirectionGetter</span><span class="p">,</span>
             <span class="p">)</span>
-        <span class="k">elif</span> <span class="n">jit_backend</span> <span class="o">==</span> <span class="s2">&quot;webgpu&quot;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">jit_backend</span> <span class="o">==</span> <span class="s2">"webgpu"</span><span class="p">:</span>
             <span class="kn">from</span><span class="w"> </span><span class="nn">cuslines.webgpu</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
                 <span class="n">WebGPUProbDirectionGetter</span> <span class="k">as</span> <span class="n">ProbDirectionGetter</span><span class="p">,</span>
             <span class="p">)</span>
@@ -746,7 +741,7 @@
             <span class="kn">from</span><span class="w"> </span><span class="nn">cuslines.webgpu</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
                 <span class="n">WebGPUTracker</span> <span class="k">as</span> <span class="n">Tracker</span><span class="p">,</span>
             <span class="p">)</span>
-        <span class="k">elif</span> <span class="n">jit_backend</span> <span class="o">==</span> <span class="s2">&quot;numba&quot;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">jit_backend</span> <span class="o">==</span> <span class="s2">"numba"</span><span class="p">:</span>
             <span class="kn">from</span><span class="w"> </span><span class="nn">cuslines.numba</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
                 <span class="n">CPUProbDirectionGetter</span> <span class="k">as</span> <span class="n">ProbDirectionGetter</span><span class="p">,</span>
             <span class="p">)</span>
@@ -758,11 +753,11 @@
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;jit_backend must be one of &#39;auto&#39;, &#39;cuda&#39;, &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;&#39;metal&#39;, &#39;numba&#39;, or &#39;webgpu&#39;, not </span><span class="si">{</span><span class="n">jit_backend</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="s2">"jit_backend must be one of 'auto', 'cuda', "</span>
+                <span class="sa">f</span><span class="s2">"'metal', 'numba', or 'webgpu', not </span><span class="si">{</span><span class="n">jit_backend</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">directions</span> <span class="o">==</span> <span class="s2">&quot;ptt&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">directions</span> <span class="o">==</span> <span class="s2">"ptt"</span><span class="p">:</span>
             <span class="n">dg</span> <span class="o">=</span> <span class="n">PttDirectionGetter</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">dg</span> <span class="o">=</span> <span class="n">ProbDirectionGetter</span><span class="p">()</span>
@@ -779,7 +774,7 @@
         <span class="n">step_size</span> <span class="o">=</span> <span class="n">step_size</span> <span class="o">/</span> <span class="n">vox_dim</span>
 
         <span class="k">if</span> <span class="n">jit_chunk_size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">jit_backend</span> <span class="o">==</span> <span class="s2">&quot;numba&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">jit_backend</span> <span class="o">==</span> <span class="s2">"numba"</span><span class="p">:</span>
                 <span class="n">jit_chunk_size</span> <span class="o">=</span> <span class="mi">25000</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">jit_chunk_size</span> <span class="o">=</span> <span class="mi">5000</span>
@@ -790,7 +785,7 @@
 
         <span class="k">with</span> <span class="n">Tracker</span><span class="p">(</span>
             <span class="n">dg</span><span class="p">,</span>
-            <span class="n">tracking_kwargs</span><span class="p">[</span><span class="s2">&quot;sf&quot;</span><span class="p">],</span>
+            <span class="n">tracking_kwargs</span><span class="p">[</span><span class="s2">"sf"</span><span class="p">],</span>
             <span class="n">pve_wm_data</span><span class="p">,</span>
             <span class="n">gm_threshold</span><span class="p">,</span>
             <span class="n">sphere</span><span class="o">.</span><span class="n">vertices</span><span class="p">,</span>
@@ -800,9 +795,12 @@
             <span class="n">step_size</span><span class="o">=</span><span class="n">step_size</span><span class="p">,</span>
             <span class="n">min_pts</span><span class="o">=</span><span class="n">minlen</span><span class="p">,</span>
             <span class="n">max_pts</span><span class="o">=</span><span class="n">maxlen</span><span class="p">,</span>
-            <span class="n">rng_seed</span><span class="o">=</span><span class="n">tracking_kwargs</span><span class="p">[</span><span class="s2">&quot;random_seed&quot;</span><span class="p">],</span>
+            <span class="n">rng_seed</span><span class="o">=</span><span class="n">tracking_kwargs</span><span class="p">[</span><span class="s2">"random_seed"</span><span class="p">],</span>
             <span class="n">chunk_size</span><span class="o">=</span><span class="n">jit_chunk_size</span><span class="p">,</span>
         <span class="p">)</span> <span class="k">as</span> <span class="n">jit_tracker</span><span class="p">:</span>
+            <span class="n">jit_tracker</span><span class="o">.</span><span class="n">set_compression_parameters</span><span class="p">(</span>
+                <span class="n">pos_dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float16</span><span class="p">,</span> <span class="n">linearize</span><span class="o">=</span><span class="kc">False</span>
+            <span class="p">)</span>
             <span class="k">if</span> <span class="n">trx</span><span class="p">:</span>
                 <span class="n">res</span> <span class="o">=</span> <span class="n">jit_tracker</span><span class="o">.</span><span class="n">generate_trx</span><span class="p">(</span><span class="n">seeds</span><span class="p">,</span> <span class="n">params_img</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
@@ -812,14 +810,14 @@
             <span class="n">numba</span><span class="o">.</span><span class="n">set_num_threads</span><span class="p">(</span><span class="n">old_numba_n_threads</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">res</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">directions</span> <span class="o">==</span> <span class="s2">&quot;det&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">directions</span> <span class="o">==</span> <span class="s2">"det"</span><span class="p">:</span>
             <span class="n">tracker</span> <span class="o">=</span> <span class="n">deterministic_tracking</span>
-        <span class="k">elif</span> <span class="n">directions</span> <span class="o">==</span> <span class="s2">&quot;pft&quot;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">directions</span> <span class="o">==</span> <span class="s2">"pft"</span><span class="p">:</span>
             <span class="n">tracker</span> <span class="o">=</span> <span class="n">pft_tracking</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unrecognized direction &#39;</span><span class="si">{</span><span class="n">directions</span><span class="si">}</span><span class="s2">&#39;.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unrecognized direction '</span><span class="si">{</span><span class="n">directions</span><span class="si">}</span><span class="s2">'."</span><span class="p">)</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Note there will be a long initial delay as seeds are initialized&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Note there will be a long initial delay as seeds are initialized"</span><span class="p">)</span>
 
         <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
         <span class="n">tracker</span> <span class="o">=</span> <span class="n">tqdm</span><span class="p">(</span>
@@ -839,9 +837,9 @@
                 <span class="o">**</span><span class="n">tracking_kwargs</span><span class="p">,</span>
             <span class="p">),</span>
             <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">seeds</span><span class="p">),</span>
-            <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Tracking, note that the total is an overestimate...&quot;</span><span class="p">,</span>
+            <span class="n">desc</span><span class="o">=</span><span class="s2">"Tracking, note that the total is an overestimate..."</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">((</span><span class="sa">f</span><span class="s2">&quot;Seed initialization took </span><span class="si">{</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start_time</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> seconds.&quot;</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">((</span><span class="sa">f</span><span class="s2">"Seed initialization took </span><span class="si">{</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start_time</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> seconds."</span><span class="p">))</span>
 
         <span class="k">if</span> <span class="n">trx</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">LazyTractogram</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">tracker</span><span class="p">,</span> <span class="n">affine_to_rasmm</span><span class="o">=</span><span class="n">params_img</span><span class="o">.</span><span class="n">affine</span><span class="p">)</span>
@@ -877,8 +875,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../../_static/scripts/bootstrap.js?digest=0790524f97105ba85085"></script>
-<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085"></script>
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0"></script>
 
 
   <footer class="bd-footer">
@@ -900,7 +898,6 @@
 
   <p class="sphinx-version">
     Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
-    <br/>
   </p>
 </div>
       

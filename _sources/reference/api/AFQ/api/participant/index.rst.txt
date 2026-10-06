@@ -68,7 +68,33 @@ Module Contents
    .. py:method:: export_up_to(attr_name='help')
 
 
-   .. py:method:: export_all(viz=True, xforms=True, indiv=True)
+   .. py:method:: export_all(viz=True, xforms=True, indiv=True, delete_full_tractogram=False)
+
+
+   .. py:method:: delete_full_tractogram()
+
+      
+      Delete the full, unsegmented tractogram (and its associated json).
+      Only the full tractogram and its json are deleted; all other
+      outputs are left in place.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
 
 
    .. py:method:: participant_montage(images_per_row=3, anatomy=True, bundle_names=None)

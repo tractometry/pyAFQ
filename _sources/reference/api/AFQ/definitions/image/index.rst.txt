@@ -11,6 +11,7 @@ Classes
 
    AFQ.definitions.image.ImageFile
    AFQ.definitions.image.FullImage
+   AFQ.definitions.image.BabyBrainMask
    AFQ.definitions.image.RoiImage
    AFQ.definitions.image.LabelledImageFile
    AFQ.definitions.image.ThresholdedImageFile
@@ -119,6 +120,38 @@ Module Contents
    .. rubric:: Examples
 
    brain_image_definition = FullImage()
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+   .. py:method:: get_name()
+
+
+   .. py:method:: get_image_getter(task_name)
+
+
+.. py:class:: BabyBrainMask
+
+   Bases: :py:obj:`ImageDefinition`
+
+
+   
+   All Image Definitions should inherit this.
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

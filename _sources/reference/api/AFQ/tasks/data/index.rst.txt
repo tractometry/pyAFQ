@@ -22,6 +22,7 @@ Functions
    AFQ.tasks.data.get_data_gtab
    AFQ.tasks.data.b0
    AFQ.tasks.data.t1w_over_b0
+   AFQ.tasks.data.t1w_over_log_b0
    AFQ.tasks.data.b0_mask
    AFQ.tasks.data.dti_fit
    AFQ.tasks.data.dti_params
@@ -189,6 +190,45 @@ Module Contents
    .. only:: latex
 
       [Rf2229f7a2e07-1]_
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: t1w_over_log_b0(structural_imap, b0, citations, min_b0_for_logr1_approximation=1.05)
+
+   
+   full path to a nifti file containing the T1w over log(mean b0)
+   which is a proxy for R1 [R14588a3dab63-1]_
+
+
+   :Parameters:
+
+       **min_b0_for_logr1_approximation** : float, optional
+           The minimum value of b0 to consider when doing the division.
+           This is to avoid dividing by small numbers.
+           Default: 1.05
+
+
+
+
+
+
+
+
+
+
+   .. rubric:: References
+
+   .. [R14588a3dab63-1] Moskovich, S., Shtangel, O., & Mezer, A. (2024).
+            Approximating R1 and R2: A quantitative approach to
+            clinical weighted MRI. Hum. Brain Mapp., 45(18), e70102.
+
+   .. only:: latex
+
+      [R14588a3dab63-1]_
 
 
 

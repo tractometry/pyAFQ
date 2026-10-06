@@ -19,6 +19,7 @@ Functions
 
    AFQ.tasks.structural.configure_ncpus_nthreads
    AFQ.tasks.structural.onnx_kwargs
+   AFQ.tasks.structural.babyseg_model
    AFQ.tasks.structural.synthseg_model
    AFQ.tasks.structural.mx_model
    AFQ.tasks.structural.t1w_brain_mask
@@ -100,6 +101,41 @@ Module Contents
 
 
 
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: babyseg_model(t1_file, citations, onnx_kwargs)
+
+   
+   full path to the babyseg model segmentations
+
+
+
+
+
+
+
+
+
+
+
+
+   .. rubric:: References
+
+   [1] Hoffmann M, Zöllei L, Dalca AV. "Deep infant brain segmentation from
+       multi-contrast MRI." Asilomar Conference on Signals, Systems, and
+       Computers, 2025, pp. 974-981. https://arxiv.org/abs/2512.05114
+   [2] Hoffmann M. "Domain-randomized deep learning for neuroimage analysis."
+       IEEE Signal Processing Magazine, 42(4):78-90, 2025.
+       https://arxiv.org/abs/2507.13458
+
+   .. only:: latex
+
+      
 
 
 

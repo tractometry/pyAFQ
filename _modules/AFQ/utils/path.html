@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 
 
@@ -7,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.utils.path &#8212; AFQ 3.2 documentation</title>
+    <title>AFQ.utils.path &#8212; AFQ 3.4 documentation</title>
   
   
   
@@ -26,29 +25,24 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=fd6457a4" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=efc0aa2d" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../../_static/scripts/fontawesome.js?digest=0790524f97105ba85085"></script>
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=64cc4de3f052d77215f0"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=0790524f97105ba85085" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085" />
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../../../_static/documentation_options.js?v=828ea960"></script>
+    <script src="../../../_static/documentation_options.js?v=ed7fbdb4"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
-    <script src="../../../_static/sg-tags.js?v=d80f6fa4"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/AFQ/utils/path';</script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
@@ -104,7 +98,7 @@
   
     <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
-  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+  <button type="button" class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
   </button>
   
@@ -128,8 +122,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 3.2 documentation - Home"/>
-    <img src="../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="AFQ 3.2 documentation - Home"/>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 3.4 documentation - Home"/>
+    <img src="../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="AFQ 3.4 documentation - Home"/>
   
   
 </a></div>
@@ -152,14 +146,14 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../tutorials/tutorial_examples/index.html">
+  <a class="nav-link nav-internal" href="../../../examples/tutorial_examples/index.html">
     Tutorials: Getting started
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../howto/howto_examples/index.html">
+  <a class="nav-link nav-internal" href="../../../examples/howto_examples/index.html">
     How to examples
   </a>
 </li>
@@ -196,7 +190,7 @@
         <div class="navbar-item navbar-persistent--container">
           
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
  <i class="fa-solid fa-magnifying-glass"></i>
  <span class="search-button__default-text">Search</span>
  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
@@ -207,15 +201,15 @@
         <div class="navbar-item">
 
 <div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
     <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
     <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
     <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
   <ul class="dropdown-menu dropdown-menu-end">
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
   </ul>
 </div></div>
       
@@ -241,7 +235,7 @@
   
     <div class="navbar-persistent--mobile">
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
  <i class="fa-solid fa-magnifying-glass"></i>
  <span class="search-button__default-text">Search</span>
  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
@@ -286,14 +280,14 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../tutorials/tutorial_examples/index.html">
+  <a class="nav-link nav-internal" href="../../../examples/tutorial_examples/index.html">
     Tutorials: Getting started
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../howto/howto_examples/index.html">
+  <a class="nav-link nav-internal" href="../../../examples/howto_examples/index.html">
     How to examples
   </a>
 </li>
@@ -332,15 +326,15 @@
           <div class="navbar-item">
 
 <div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
     <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
     <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
     <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
   <ul class="dropdown-menu dropdown-menu-end">
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
   </ul>
 </div></div>
         
@@ -449,7 +443,7 @@
 <div class="viewcode-block" id="write_json">
 <a class="viewcode-back" href="../../../reference/api/AFQ/utils/path/index.html#AFQ.utils.path.write_json">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">write_json</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Write data to JSON file.</span>
 
 <span class="sd">    Parameters</span>
@@ -463,16 +457,16 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    None</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ff</span><span class="p">:</span>
-        <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ff</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="k">lambda</span> <span class="n">obj</span><span class="p">:</span> <span class="s2">&quot;Not Serializable&quot;</span><span class="p">)</span></div>
+<span class="sd">    """</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">ff</span><span class="p">:</span>
+        <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ff</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="k">lambda</span> <span class="n">obj</span><span class="p">:</span> <span class="s2">"Not Serializable"</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="read_json">
 <a class="viewcode-back" href="../../../reference/api/AFQ/utils/path/index.html#AFQ.utils.path.read_json">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">read_json</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Read data from a JSON file.</span>
 
 <span class="sd">    Parameters</span>
@@ -483,8 +477,8 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    dict</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ff</span><span class="p">:</span>
+<span class="sd">    """</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">ff</span><span class="p">:</span>
         <span class="n">out</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ff</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">out</span></div>
 
@@ -493,7 +487,7 @@
 <div class="viewcode-block" id="drop_extension">
 <a class="viewcode-back" href="../../../reference/api/AFQ/utils/path/index.html#AFQ.utils.path.drop_extension">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">drop_extension</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
-    <span class="n">base_fname</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">base_fname</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">base_fname</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">base_fname</span></div>
 
 
@@ -501,10 +495,10 @@
 <div class="viewcode-block" id="space_from_fname">
 <a class="viewcode-back" href="../../../reference/api/AFQ/utils/path/index.html#AFQ.utils.path.space_from_fname">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">space_from_fname</span><span class="p">(</span><span class="n">dwi_fname</span><span class="p">):</span>
-    <span class="k">if</span> <span class="s2">&quot;space-&quot;</span> <span class="ow">in</span> <span class="n">dwi_fname</span><span class="p">:</span>
-        <span class="n">subject_space</span> <span class="o">=</span> <span class="n">dwi_fname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;space-&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="s2">"space-"</span> <span class="ow">in</span> <span class="n">dwi_fname</span><span class="p">:</span>
+        <span class="n">subject_space</span> <span class="o">=</span> <span class="n">dwi_fname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"space-"</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"_"</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">subject_space</span> <span class="o">=</span> <span class="s2">&quot;subject&quot;</span>
+        <span class="n">subject_space</span> <span class="o">=</span> <span class="s2">"subject"</span>
     <span class="k">return</span> <span class="n">subject_space</span></div>
 
 
@@ -514,32 +508,32 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">apply_cmd_to_afq_derivs</span><span class="p">(</span>
     <span class="n">derivs_dir</span><span class="p">,</span>
     <span class="n">base_fname</span><span class="p">,</span>
-    <span class="n">cmd</span><span class="o">=</span><span class="s2">&quot;rm&quot;</span><span class="p">,</span>
+    <span class="n">cmd</span><span class="o">=</span><span class="s2">"rm"</span><span class="p">,</span>
     <span class="n">exception_file_names</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">suffix</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span>
     <span class="n">dependent_on</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">up_to</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="k">if</span> <span class="n">exception_file_names</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">exception_file_names</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">dependent_options</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="kc">None</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;dwi&quot;</span><span class="p">,</span> <span class="s2">&quot;trk&quot;</span><span class="p">,</span> <span class="s2">&quot;rec&quot;</span><span class="p">,</span> <span class="s2">&quot;prof&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;track&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;trk&quot;</span><span class="p">,</span> <span class="s2">&quot;rec&quot;</span><span class="p">,</span> <span class="s2">&quot;prof&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;recog&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;rec&quot;</span><span class="p">,</span> <span class="s2">&quot;prof&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;prof&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;prof&quot;</span><span class="p">],</span>
+        <span class="kc">None</span><span class="p">:</span> <span class="p">[</span><span class="s2">"dwi"</span><span class="p">,</span> <span class="s2">"trk"</span><span class="p">,</span> <span class="s2">"rec"</span><span class="p">,</span> <span class="s2">"prof"</span><span class="p">],</span>
+        <span class="s2">"track"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"trk"</span><span class="p">,</span> <span class="s2">"rec"</span><span class="p">,</span> <span class="s2">"prof"</span><span class="p">],</span>
+        <span class="s2">"recog"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"rec"</span><span class="p">,</span> <span class="s2">"prof"</span><span class="p">],</span>
+        <span class="s2">"prof"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"prof"</span><span class="p">],</span>
     <span class="p">}</span>
     <span class="k">if</span> <span class="n">dependent_on</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">dependent_on</span> <span class="o">=</span> <span class="n">dependent_on</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
     <span class="n">dependent_on_list</span> <span class="o">=</span> <span class="n">dependent_options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dependent_on</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">dependent_on_list</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="p">(</span><span class="s2">&quot;dependent_on must be one of None, &#39;track&#39;, &#39;recog&#39;, &#39;prof&#39;.&quot;</span><span class="p">)</span>
+            <span class="p">(</span><span class="s2">"dependent_on must be one of None, 'track', 'recog', 'prof'."</span><span class="p">)</span>
         <span class="p">)</span>
 
     <span class="n">removal_patterns</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;track&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;trk&quot;</span><span class="p">,</span> <span class="s2">&quot;rec&quot;</span><span class="p">,</span> <span class="s2">&quot;prof&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;recog&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;rec&quot;</span><span class="p">,</span> <span class="s2">&quot;prof&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;prof&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;prof&quot;</span><span class="p">],</span>
+        <span class="s2">"track"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"trk"</span><span class="p">,</span> <span class="s2">"rec"</span><span class="p">,</span> <span class="s2">"prof"</span><span class="p">],</span>
+        <span class="s2">"recog"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"rec"</span><span class="p">,</span> <span class="s2">"prof"</span><span class="p">],</span>
+        <span class="s2">"prof"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"prof"</span><span class="p">],</span>
     <span class="p">}</span>
     <span class="k">if</span> <span class="n">up_to</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">up_to</span> <span class="o">=</span> <span class="n">up_to</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
@@ -550,10 +544,10 @@
                 <span class="k">if</span> <span class="n">item</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">removal_patterns</span><span class="p">[</span><span class="n">up_to</span><span class="p">]</span>
             <span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">((</span><span class="s2">&quot;up_to must be one of None, &#39;track&#39;, &#39;recog&#39;, &#39;prof&#39;.&quot;</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">((</span><span class="s2">"up_to must be one of None, 'track', 'recog', 'prof'."</span><span class="p">))</span>
 
-    <span class="k">if</span> <span class="n">cmd</span> <span class="o">==</span> <span class="s2">&quot;rm&quot;</span> <span class="ow">or</span> <span class="n">cmd</span> <span class="o">==</span> <span class="s2">&quot;cp&quot;</span><span class="p">:</span>
-        <span class="n">cmd</span> <span class="o">=</span> <span class="n">cmd</span> <span class="o">+</span> <span class="s2">&quot; -r&quot;</span>
+    <span class="k">if</span> <span class="n">cmd</span> <span class="o">==</span> <span class="s2">"rm"</span> <span class="ow">or</span> <span class="n">cmd</span> <span class="o">==</span> <span class="s2">"cp"</span><span class="p">:</span>
+        <span class="n">cmd</span> <span class="o">=</span> <span class="n">cmd</span> <span class="o">+</span> <span class="s2">" -r"</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">op</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">derivs_dir</span><span class="p">):</span>
         <span class="k">return</span>
@@ -564,40 +558,40 @@
             <span class="k">if</span> <span class="p">(</span>
                 <span class="p">(</span><span class="n">full_path</span> <span class="ow">in</span> <span class="n">exception_file_names</span><span class="p">)</span>
                 <span class="ow">or</span> <span class="p">(</span><span class="ow">not</span> <span class="n">full_path</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">base_fname</span><span class="p">))</span>
-                <span class="ow">or</span> <span class="n">filename</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;json&quot;</span><span class="p">)</span>
+                <span class="ow">or</span> <span class="n">filename</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">"json"</span><span class="p">)</span>
             <span class="p">):</span>
                 <span class="k">continue</span>
-            <span class="n">sidecar_file</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">drop_extension</span><span class="p">(</span><span class="n">full_path</span><span class="p">)</span><span class="si">}</span><span class="s2">.json&quot;</span>
+            <span class="n">sidecar_file</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">drop_extension</span><span class="p">(</span><span class="n">full_path</span><span class="p">)</span><span class="si">}</span><span class="s2">.json"</span>
             <span class="k">if</span> <span class="n">op</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">sidecar_file</span><span class="p">):</span>
                 <span class="n">sidecar_info</span> <span class="o">=</span> <span class="n">read_json</span><span class="p">(</span><span class="n">sidecar_file</span><span class="p">)</span>
                 <span class="k">if</span> <span class="p">(</span>
-                    <span class="s2">&quot;dependent&quot;</span> <span class="ow">in</span> <span class="n">sidecar_info</span>
-                    <span class="ow">and</span> <span class="n">sidecar_info</span><span class="p">[</span><span class="s2">&quot;dependent&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">dependent_on_list</span>
+                    <span class="s2">"dependent"</span> <span class="ow">in</span> <span class="n">sidecar_info</span>
+                    <span class="ow">and</span> <span class="n">sidecar_info</span><span class="p">[</span><span class="s2">"dependent"</span><span class="p">]</span> <span class="ow">in</span> <span class="n">dependent_on_list</span>
                 <span class="p">):</span>
-                    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cmd</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">full_path</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-                    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cmd</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">sidecar_file</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">cmd</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">full_path</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">cmd</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">sidecar_file</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cmd</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">full_path</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">cmd</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">full_path</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">full_path</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">dependent_on</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cmd</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">full_path</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">cmd</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">full_path</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">filename</span> <span class="o">==</span> <span class="s2">&quot;ROIs&quot;</span> <span class="ow">and</span> <span class="s2">&quot;rec&quot;</span> <span class="ow">in</span> <span class="n">dependent_on_list</span><span class="p">:</span>
-                    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cmd</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">full_path</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">filename</span> <span class="o">==</span> <span class="s2">&quot;stats&quot;</span> <span class="ow">and</span> <span class="s2">&quot;rec&quot;</span> <span class="ow">in</span> <span class="n">dependent_on_list</span><span class="p">:</span>
-                    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cmd</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">full_path</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">filename</span> <span class="o">==</span> <span class="s2">&quot;tractography&quot;</span> <span class="ow">and</span> <span class="s2">&quot;trk&quot;</span> <span class="ow">in</span> <span class="n">dependent_on_list</span><span class="p">:</span>
-                    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cmd</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">full_path</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">filename</span> <span class="o">==</span> <span class="s2">&quot;models&quot;</span> <span class="ow">and</span> <span class="s2">&quot;dwi&quot;</span> <span class="ow">in</span> <span class="n">dependent_on_list</span><span class="p">:</span>
-                    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cmd</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">full_path</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">filename</span> <span class="o">==</span> <span class="s2">&quot;bundles&quot;</span> <span class="ow">and</span> <span class="s2">&quot;rec&quot;</span> <span class="ow">in</span> <span class="n">dependent_on_list</span><span class="p">:</span>
-                    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cmd</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">full_path</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">filename</span> <span class="o">==</span> <span class="s2">&quot;viz_bundles&quot;</span> <span class="ow">and</span> <span class="s2">&quot;rec&quot;</span> <span class="ow">in</span> <span class="n">dependent_on_list</span><span class="p">:</span>
-                    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cmd</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">full_path</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">filename</span> <span class="o">==</span> <span class="s2">&quot;viz_core_bundles&quot;</span> <span class="ow">and</span> <span class="s2">&quot;prof&quot;</span> <span class="ow">in</span> <span class="n">dependent_on_list</span><span class="p">:</span>
-                    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cmd</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">full_path</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">filename</span> <span class="o">==</span> <span class="s2">&quot;tract_profile_plots&quot;</span> <span class="ow">and</span> <span class="s2">&quot;prof&quot;</span> <span class="ow">in</span> <span class="n">dependent_on_list</span><span class="p">:</span>
-                    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cmd</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">full_path</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+                <span class="k">if</span> <span class="n">filename</span> <span class="o">==</span> <span class="s2">"ROIs"</span> <span class="ow">and</span> <span class="s2">"rec"</span> <span class="ow">in</span> <span class="n">dependent_on_list</span><span class="p">:</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">cmd</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">full_path</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">filename</span> <span class="o">==</span> <span class="s2">"stats"</span> <span class="ow">and</span> <span class="s2">"rec"</span> <span class="ow">in</span> <span class="n">dependent_on_list</span><span class="p">:</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">cmd</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">full_path</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">filename</span> <span class="o">==</span> <span class="s2">"tractography"</span> <span class="ow">and</span> <span class="s2">"trk"</span> <span class="ow">in</span> <span class="n">dependent_on_list</span><span class="p">:</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">cmd</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">full_path</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">filename</span> <span class="o">==</span> <span class="s2">"models"</span> <span class="ow">and</span> <span class="s2">"dwi"</span> <span class="ow">in</span> <span class="n">dependent_on_list</span><span class="p">:</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">cmd</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">full_path</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">filename</span> <span class="o">==</span> <span class="s2">"bundles"</span> <span class="ow">and</span> <span class="s2">"rec"</span> <span class="ow">in</span> <span class="n">dependent_on_list</span><span class="p">:</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">cmd</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">full_path</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">filename</span> <span class="o">==</span> <span class="s2">"viz_bundles"</span> <span class="ow">and</span> <span class="s2">"rec"</span> <span class="ow">in</span> <span class="n">dependent_on_list</span><span class="p">:</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">cmd</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">full_path</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">filename</span> <span class="o">==</span> <span class="s2">"viz_core_bundles"</span> <span class="ow">and</span> <span class="s2">"prof"</span> <span class="ow">in</span> <span class="n">dependent_on_list</span><span class="p">:</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">cmd</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">full_path</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">filename</span> <span class="o">==</span> <span class="s2">"tract_profile_plots"</span> <span class="ow">and</span> <span class="s2">"prof"</span> <span class="ow">in</span> <span class="n">dependent_on_list</span><span class="p">:</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">cmd</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">full_path</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span></div>
 
 </pre></div>
 
@@ -628,8 +622,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../../_static/scripts/bootstrap.js?digest=0790524f97105ba85085"></script>
-<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085"></script>
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0"></script>
 
 
   <footer class="bd-footer">
@@ -651,7 +645,6 @@
 
   <p class="sphinx-version">
     Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
-    <br/>
   </p>
 </div>
       

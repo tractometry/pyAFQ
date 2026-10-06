@@ -10,6 +10,8 @@ Attributes
 .. autoapisummary::
 
    AFQ.utils.bin.qsi_prep_ignore_params
+   AFQ.utils.bin._PARTICIPANT_CLI_ONLY
+   AFQ.utils.bin._BIDS_CLI_ONLY
 
 
 Functions
@@ -17,30 +19,28 @@ Functions
 
 .. autoapisummary::
 
-   AFQ.utils.bin.model_input_parser
-   AFQ.utils.bin.model_predict_input_parser
    AFQ.utils.bin.pyafq_str_to_val
-   AFQ.utils.bin.val_to_toml
-   AFQ.utils.bin.dict_to_toml
+   AFQ.utils.bin.val_to_formal
+   AFQ.utils.bin.arg_dict_formatted
    AFQ.utils.bin.dict_to_json
    AFQ.utils.bin.func_dict_to_arg_dict
+   AFQ.utils.bin.cli_args_to_kwargs
+   AFQ.utils.bin._find_gradient_file
+   AFQ.utils.bin._start_metadata
+   AFQ.utils.bin._write_metadata
    AFQ.utils.bin.parse_config_run_afq
-   AFQ.utils.bin.generate_config
+   AFQ.utils.bin.run_bids_afq
    AFQ.utils.bin.generate_json
 
 
 Module Contents
 ---------------
 
-.. py:function:: model_input_parser(usage)
-
-.. py:function:: model_predict_input_parser(usage)
-
 .. py:function:: pyafq_str_to_val(t)
 
-.. py:function:: val_to_toml(v)
+.. py:function:: val_to_formal(v)
 
-.. py:function:: dict_to_toml(dictionary)
+.. py:function:: arg_dict_formatted(dictionary)
 
 .. py:data:: qsi_prep_ignore_params
    :value: ['bids_path', 'bids_filters', 'dwi_preproc_pipeline', 'participant_labels', 'output_dir']
@@ -50,9 +50,93 @@ Module Contents
 
 .. py:function:: func_dict_to_arg_dict(func_dict=None, logger=None)
 
-.. py:function:: parse_config_run_afq(toml_file, default_arg_dict, to_call='export_all', overwrite=False, logger=None, verbose=False, dry_run=False, special_args=None)
+.. py:data:: _PARTICIPANT_CLI_ONLY
+   :value: ['dwi', 'bvec', 'bval', 't1', 'o_folder', 'verbose', 'dry_run', 'to_call']
 
-.. py:function:: generate_config(toml_file, default_arg_dict, overwrite=False, logger=None)
+
+.. py:data:: _BIDS_CLI_ONLY
+   :value: ['bids_dir', 'analysis_level', 'participant_label', 'session_id', 'dwi_preproc_pipeline',...
+
+
+.. py:function:: cli_args_to_kwargs(cli_args, default_arg_dict, cli_only_args)
+
+   
+   Convert parsed argparse arguments into kwargs for the AFQ API.
+
+
+   :Parameters:
+
+       **cli_args** : argparse.Namespace
+           Parsed command line arguments.
+
+       **default_arg_dict** : dict
+           Output of func_dict_to_arg_dict. Updated in place.
+
+       **cli_only_args** : list of str
+           Arguments for the CLI and mandatory arguments for AFQ
+           that are not passed into the AFQ tasks system.
+
+   :Returns:
+
+       **kwargs** : dict
+           Keyword arguments to pass to ParticipantAFQ or GroupAFQ.
+           Tractography and segmentation parameters are nested under
+           ``tracking_params`` and ``segmentation_params`` respectively.
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: _find_gradient_file(dwi, exts, name)
+
+.. py:function:: _start_metadata(default_arg_dict)
+
+.. py:function:: _write_metadata(afq_metadata_file, default_arg_dict)
+
+.. py:function:: parse_config_run_afq(dwi, bval, bvec, t1, o_folder, default_arg_dict, cli_args, to_call='export_all', logger=None, verbose=False, dry_run=False)
+
+.. py:function:: run_bids_afq(bids_dir, analysis_level, default_arg_dict, cli_args, participant_label=None, session_id=None, dwi_preproc_pipeline='all', t1_preproc_pipeline=None, bids_filter_file=None, nprocs=1, parallel_engine='serial', skip_bids_validation=False, to_call='all', logger=None, verbose=False, dry_run=False)
+
+   
+   BIDS-App style entry point
+
+
+   :Parameters:
+
+       **bids_dir** : str
+           Root of the BIDS dataset (containing ``derivatives/``).
+
+       **analysis_level** : {"participant", "group"}
+           ``participant`` runs the pipeline for each subject/session.
+           ``group`` runs all and combines participant-level tract
+           profiles into a single ``tract_profiles.csv``.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
 
 .. py:function:: generate_json(json_folder, overwrite=False, logger=None)
 

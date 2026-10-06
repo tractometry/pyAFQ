@@ -1,0 +1,137 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "0b74e8f1",
+   "metadata": {},
+   "source": [
+    "# Running pyAFQ using the GPU for tractography\n",
+    "Running pyAFQ using the GPU for tractography is as simple as\n",
+    "(1) Installing GPUStreamlines using `pip install` and\n",
+    "(2) passing in the `jit_backend` parameter when you create your\n",
+    "    GroupAFQ object.\n",
+    "To install GPUStreamlines, do:\n",
+    "    `pip install git+https://github.com/dipy/GPUStreamlines.git`\n",
+    "That's step 1 complete! The rest of this example is the same as the GroupAFQ\n",
+    "example except with the `jit_backend` parameter set."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "41b382a4",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from AFQ.api.group import GroupAFQ\n",
+    "import AFQ.data.fetch as afd\n",
+    "import os.path as op\n",
+    "import plotly"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "0e606ff8",
+   "metadata": {},
+   "source": [
+    "We start with some example data. The data we will use here is\n",
+    "generated from the\n",
+    "[Stanford HARDI dataset](https://purl.stanford.edu/ng782rw8378).\n",
+    "We then setup our myafq object which we will use to demonstrate\n",
+    "the clobber method."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "592391f5",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "afd.organize_stanford_data()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "bc8ecd9b",
+   "metadata": {},
+   "source": [
+    "## Set tractography parameters\n",
+    "We make create a `tracking_params` variable to define the parameters for tractography.\n",
+    "The only parameter we need to set to use the GPU is `jit_backend`,\n",
+    "which we set to \"cuda\". Other backends include: \"metal\", \"webgpu\", or \"numba\".\n",
+    "Numba is the default.\n",
+    "Note that the GPU backend will only run for probabilistic tracking,\n",
+    "which is the default."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "45ef6096",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "tracking_params = dict(n_seeds=1e7,\n",
+    "                       random_seeds=True,\n",
+    "                       rng_seed=2025,\n",
+    "                       jit_backend=\"cuda\",\n",
+    "                       trx=True)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "eb2a2978",
+   "metadata": {},
+   "source": [
+    "## Running with the GPU\n",
+    "Then, run pyAFQ normally.\n",
+    "That's it!"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "b3e96951",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "myafq = GroupAFQ(\n",
+    "    bids_path=op.join(afd.afq_home, 'stanford_hardi'),\n",
+    "    dwi_preproc_pipeline='vistasoft',\n",
+    "    t1_preproc_pipeline='freesurfer',\n",
+    "    tracking_params=tracking_params)\n",
+    "\n",
+    "bundle_html = myafq.export(\"all_bundles_figure\")\n",
+    "plotly.io.show(bundle_html[\"01\"][0])"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "3c0d2baa",
+   "metadata": {},
+   "source": [
+    ":::{only} html\n",
+    "{download}`Download as Jupyter Notebook <pyAFQ_with_GPU.ipynb>`\n",
+    ":::"
+   ]
+  }
+ ],
+ "metadata": {
+  "file_format": "mystnb",
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "name": "python",
+   "pygments_lexer": "ipython3"
+  },
+  "mystnb": {
+   "execution_mode": "off"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}

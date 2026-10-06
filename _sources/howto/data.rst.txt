@@ -4,7 +4,7 @@ Organizing your data
 ~~~~~~~~~~~~~~~~~~~~
 
 pyAFQ works with `BIDS compliant <http://bids.neuroimaging.io/>`_ diffusion data.
-While not required it is the prefered data format for neuroimaging interoperability.
+While not required it is the preferred data format for neuroimaging interoperability.
 Anatomical data and segmentation are optional. If a T1-weighted anatomical image and its
 segmentation are not provided, the software will use the diffusion data to
 estimate the parts of the image that comprise the white matter.
@@ -59,7 +59,7 @@ diffusion data is required for pyAFQ::
                 ├── sub-01_ses-01_dwi.bvec
                 └── sub-01_ses-01_dwi.nii.gz
 
-See `How pyAFQ uses BIDS <tutorials/tutorial_examples/plot_006_bids_layout.html>`_
+See `How pyAFQ uses BIDS <../examples/tutorial_examples/plot_006_bids_layout.html>`_
 for a more extensive example.
 
 

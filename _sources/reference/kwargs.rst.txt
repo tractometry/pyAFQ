@@ -48,6 +48,9 @@ b0_threshold: int
 min_b0_for_r1_approximation: float
 	The minimum value of b0 to consider when doing the division. This is to avoid dividing by small numbers. Default: 1e-2
 
+min_b0_for_logr1_approximation: float
+	The minimum value of b0 to consider when doing the division. This is to avoid dividing by small numbers. Default: 1.05
+
 robust_tensor_fitting: bool
 	Whether to use robust_tensor_fitting when doing dti. Only applies to dti. Default: False
 
@@ -104,7 +107,7 @@ reg_template_space_name: str
 TISSUE
 ==========================================================
 pve: str or PVEImage
-	Method to use for PVE estimation. Can be a string defining a built-in method from neural networks, or a Definition object to import the PVE. Importing a PVE from software like Freesurfer or FSL FAST is recommended if they are available. The built-in methods are "synthseg" or "multiaxial+brainchop". "synthseg" uses SynthSeg2 [1] to get the PVE. "multiaxial+brainchop" uses MultiAxial [2] and BrainChop [3] segmentations to get the PVE. Note this requires downloading the pre-trained multi-axial model which is licensed with Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. Default: "synthseg"
+	Method to use for PVE estimation. Can be a string defining a built-in method from neural networks, or a Definition object to import the PVE. Importing a PVE from software like Freesurfer or FSL FAST is recommended if they are available. The built-in methods are "synthseg", "multiaxial+brainchop", "multiaxial+brainchop+synthseg", and "babyseg". "synthseg" uses SynthSeg2 [1] to get the PVE. "multiaxial+brainchop" uses MultiAxial [2] and BrainChop [3] segmentations to get the PVE. Note this requires downloading the pre-trained multi-axial model which is licensed with Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. "multiaxial+brainchop+synthseg" combines all three. Finally, "babyseg" uses BabySeg [4] to get the PVE for baby brain data. Default: "synthseg"
 
 msmt_sh_order: int
 	Spherical harmonic order to use for the MSMT CSD fit. Default: 8
@@ -126,9 +129,6 @@ reg_subject_spec: str
 ==========================================================
 SEGMENTATION
 ==========================================================
-segmentation_params: dict
-	The parameters for segmentation. Defaults to using the default behavior of the seg.Segmentation object.
-
 profile_weights: str
 	How to weight each streamline (1D) or each node (2D) when calculating the tract-profiles. If callable, this is a function that calculates weights. If None, no weighting will be applied. If "gauss", gaussian weights will be used. If "median", the median of values at each node will be used instead of a mean or weighted mean. Default: "gauss"
 
@@ -142,9 +142,6 @@ scalars: list of strings and/or scalar definitions
 ==========================================================
 TRACTOGRAPHY
 ==========================================================
-tracking_params: dict
-	The parameters for tracking. Defaults to using the default behavior of the aft.track function. Seed mask and seed threshold, if not specified, are replaced with scalar masks from scalar[0] thresholded to 0.2. The ``seed_mask`` items of this dict may be ``AFQ.definitions.image.ImageFile`` instances.
-
 import_tract: dict or str or None
 	BIDS filters for inputing a user made tractography file, or a path to the tractography file. If None, DIPY is used to generate the tractography. Default: None
 
@@ -171,5 +168,5 @@ n_points_indiv: int or None
 	n_points to resample streamlines to before plotting. If None, no resampling is done. Default: 40
 
 viz_backend_spec: str
-	Which visualization backend to use. See Visualization Backends page in documentation for details https://tractometry.org/pyAFQ/reference/viz_backend.html One of {"fury", "plotly", "plotly_no_gif"}. Default: "plotly_no_gif"
+	Which visualization backend to use. See Visualization Backends page in documentation for details https://tractometry.org/pyAFQ/reference/viz_backend.html One of {"fury", "plotly", "plotly_no_mp4"}. Default: "plotly_no_mp4"
 

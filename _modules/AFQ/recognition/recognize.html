@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 
 
@@ -7,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.recognition.recognize &#8212; AFQ 3.2 documentation</title>
+    <title>AFQ.recognition.recognize &#8212; AFQ 3.4 documentation</title>
   
   
   
@@ -26,29 +25,24 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=fd6457a4" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=efc0aa2d" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../../_static/scripts/fontawesome.js?digest=0790524f97105ba85085"></script>
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=64cc4de3f052d77215f0"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=0790524f97105ba85085" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085" />
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../../../_static/documentation_options.js?v=828ea960"></script>
+    <script src="../../../_static/documentation_options.js?v=ed7fbdb4"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
-    <script src="../../../_static/sg-tags.js?v=d80f6fa4"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/AFQ/recognition/recognize';</script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
@@ -104,7 +98,7 @@
   
     <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
-  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+  <button type="button" class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
   </button>
   
@@ -128,8 +122,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 3.2 documentation - Home"/>
-    <img src="../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="AFQ 3.2 documentation - Home"/>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 3.4 documentation - Home"/>
+    <img src="../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="AFQ 3.4 documentation - Home"/>
   
   
 </a></div>
@@ -152,14 +146,14 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../tutorials/tutorial_examples/index.html">
+  <a class="nav-link nav-internal" href="../../../examples/tutorial_examples/index.html">
     Tutorials: Getting started
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../howto/howto_examples/index.html">
+  <a class="nav-link nav-internal" href="../../../examples/howto_examples/index.html">
     How to examples
   </a>
 </li>
@@ -196,7 +190,7 @@
         <div class="navbar-item navbar-persistent--container">
           
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
  <i class="fa-solid fa-magnifying-glass"></i>
  <span class="search-button__default-text">Search</span>
  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
@@ -207,15 +201,15 @@
         <div class="navbar-item">
 
 <div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
     <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
     <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
     <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
   <ul class="dropdown-menu dropdown-menu-end">
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
   </ul>
 </div></div>
       
@@ -241,7 +235,7 @@
   
     <div class="navbar-persistent--mobile">
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
  <i class="fa-solid fa-magnifying-glass"></i>
  <span class="search-button__default-text">Search</span>
  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
@@ -286,14 +280,14 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../tutorials/tutorial_examples/index.html">
+  <a class="nav-link nav-internal" href="../../../examples/tutorial_examples/index.html">
     Tutorials: Getting started
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../howto/howto_examples/index.html">
+  <a class="nav-link nav-internal" href="../../../examples/howto_examples/index.html">
     How to examples
   </a>
 </li>
@@ -332,15 +326,15 @@
           <div class="navbar-item">
 
 <div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
     <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
     <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
     <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
   <ul class="dropdown-menu dropdown-menu-end">
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
   </ul>
 </div></div>
         
@@ -458,7 +452,7 @@
 
 <div class="viewcode-block" id="logger">
 <a class="viewcode-back" href="../../../reference/api/AFQ/recognition/recognize/index.html#AFQ.recognition.recognize.logger">[docs]</a>
-<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;AFQ&quot;</span><span class="p">)</span></div>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">"AFQ"</span><span class="p">)</span></div>
 
 
 
@@ -473,10 +467,11 @@
     <span class="n">nb_points</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">nb_streamlines</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">clip_edges</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">clean_unclipped</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">rb_recognize_params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">refine_reco</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">prob_threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-    <span class="n">dist_to_waypoint</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">dist_to_waypoint</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
     <span class="n">rng</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">return_idx</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">filter_by_endpoints</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -485,7 +480,7 @@
     <span class="n">cleaning_params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">chunk_size</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e6</span><span class="p">),</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Segment streamlines into bundles.</span>
 
 <span class="sd">    Parameters</span>
@@ -513,9 +508,14 @@
 <span class="sd">    clip_edges : bool</span>
 <span class="sd">        Whether to clip the streamlines to be only in between the ROIs.</span>
 <span class="sd">        Default: False</span>
+<span class="sd">    clean_unclipped : bool</span>
+<span class="sd">        Whether to use the unclipped streamlines when cleaning.</span>
+<span class="sd">        Only considered if clip_edges is True or bundlesection</span>
+<span class="sd">        is in the bundle_dict.</span>
+<span class="sd">        Default: False</span>
 <span class="sd">    rb_recognize_params : dict</span>
 <span class="sd">        RecoBundles parameters for the recognize function.</span>
-<span class="sd">        Default: dict(model_clust_thr=1.25, reduction_thr=25, pruning_thr=12)</span>
+<span class="sd">        Default: None</span>
 <span class="sd">    refine_reco : bool</span>
 <span class="sd">        Whether to refine the RecoBundles segmentation.</span>
 <span class="sd">        Default: False</span>
@@ -528,16 +528,14 @@
 <span class="sd">    dist_to_waypoint : float.</span>
 <span class="sd">        The distance that a streamline node has to be from the waypoint</span>
 <span class="sd">        ROI in order to be included or excluded.</span>
-<span class="sd">        If set to None (default), will be calculated as the</span>
-<span class="sd">        center-to-corner distance of the voxel in the diffusion data.</span>
 <span class="sd">        If a bundle has inc_addtol or exc_addtol in its bundle_dict, that</span>
 <span class="sd">        tolerance will be added to this distance.</span>
 <span class="sd">        For example, if you wanted to increase tolerance for the right</span>
 <span class="sd">        arcuate waypoint ROIs by 3 each, you could make the following</span>
 <span class="sd">        modification to your bundle_dict:</span>
-<span class="sd">        bundle_dict[&quot;Right Arcuate&quot;][&quot;inc_addtol&quot;] = [3, 3]</span>
+<span class="sd">        bundle_dict["Right Arcuate"]["inc_addtol"] = [3, 3]</span>
 <span class="sd">        Additional tolerances can also be negative.</span>
-<span class="sd">        Default: None.</span>
+<span class="sd">        Default: 0.</span>
 <span class="sd">    rng : RandomState or int</span>
 <span class="sd">        If None, creates RandomState.</span>
 <span class="sd">        If int, creates RandomState with seed rng.</span>
@@ -556,18 +554,20 @@
 <span class="sd">        Default: 4</span>
 <span class="sd">    save_intermediates : str, optional</span>
 <span class="sd">        The full path to a folder into which intermediate products</span>
-<span class="sd">        are saved. Default: None, means no saving of intermediates.</span>
+<span class="sd">        are saved. If None, means no saving of intermediates.</span>
+<span class="sd">        Default: None.</span>
 <span class="sd">    cleaning_params : dict, optional</span>
 <span class="sd">        Cleaning params to pass to seg.clean_bundle. This will</span>
 <span class="sd">        override the default parameters of that method. However, this</span>
 <span class="sd">        can be overridden by setting the cleaning parameters in the</span>
-<span class="sd">        bundle_dict. Default: {}.</span>
+<span class="sd">        bundle_dict.</span>
+<span class="sd">        Default: None.</span>
 <span class="sd">    chunk_size : int, optional</span>
 <span class="sd">        Number of streamlines to preprocess at a time. The full</span>
 <span class="sd">        tractogram is processed in chunks of this size to keep peak</span>
 <span class="sd">        memory bounded. Per-chunk surviving candidates are merged</span>
 <span class="sd">        before the global per-bundle filtering steps run.</span>
-<span class="sd">        Default: 1e6.</span>
+<span class="sd">        Default: int(1e6).</span>
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
@@ -577,14 +577,14 @@
 <span class="sd">        336-347</span>
 
 <span class="sd">    .. [Yeatman2012] Yeatman, Jason D., Robert F. Dougherty, Nathaniel J.</span>
-<span class="sd">        Myall, Brian A. Wandell, and Heidi M. Feldman. 2012. &quot;Tract Profiles</span>
-<span class="sd">        of White Matter Properties: Automating Fiber-Tract Quantification&quot;</span>
+<span class="sd">        Myall, Brian A. Wandell, and Heidi M. Feldman. 2012. "Tract Profiles</span>
+<span class="sd">        of White Matter Properties: Automating Fiber-Tract Quantification"</span>
 <span class="sd">        PloS One 7 (11): e49790.</span>
 
 <span class="sd">    .. [Garyfallidis2018] Garyfallidis et al. Recognition of white matter</span>
 <span class="sd">        bundles using local and global streamline-based registration and</span>
 <span class="sd">        clustering, Neuroimage, 2017.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">cleaning_params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">cleaning_params</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">if</span> <span class="n">rb_recognize_params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -599,7 +599,7 @@
     <span class="k">if</span> <span class="p">(</span><span class="n">save_intermediates</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="n">op</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">save_intermediates</span><span class="p">)):</span>
         <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">save_intermediates</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Preprocessing Streamlines&quot;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Preprocessing Streamlines"</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bundle_dict</span><span class="p">,</span> <span class="n">BundleDict</span><span class="p">):</span>
         <span class="n">bundle_dict</span> <span class="o">=</span> <span class="n">BundleDict</span><span class="p">(</span><span class="n">bundle_dict</span><span class="p">)</span>
 
@@ -634,6 +634,7 @@
         <span class="n">dist_to_atlas</span><span class="o">=</span><span class="n">dist_to_atlas</span><span class="p">,</span>
         <span class="n">save_intermediates</span><span class="o">=</span><span class="n">save_intermediates</span><span class="p">,</span>
         <span class="n">clip_edges</span><span class="o">=</span><span class="n">clip_edges</span><span class="p">,</span>
+        <span class="n">clean_unclipped</span><span class="o">=</span><span class="n">clean_unclipped</span><span class="p">,</span>
         <span class="n">rb_recognize_params</span><span class="o">=</span><span class="n">rb_recognize_params</span><span class="p">,</span>
         <span class="n">prob_threshold</span><span class="o">=</span><span class="n">prob_threshold</span><span class="p">,</span>
         <span class="n">refine_reco</span><span class="o">=</span><span class="n">refine_reco</span><span class="p">,</span>
@@ -645,7 +646,7 @@
 
     <span class="k">if</span> <span class="n">save_intermediates</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">save_intermediates</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">bc_path</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">save_intermediates</span><span class="p">,</span> <span class="s2">&quot;sls_bundle_decisions.json&quot;</span><span class="p">)</span>
+        <span class="n">bc_path</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">save_intermediates</span><span class="p">,</span> <span class="s2">"sls_bundle_decisions.json"</span><span class="p">)</span>
         <span class="n">write_json</span><span class="p">(</span>
             <span class="n">bc_path</span><span class="p">,</span>
             <span class="p">{</span>
@@ -660,12 +661,12 @@
     <span class="k">if</span> <span class="n">conflicts</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
             <span class="p">(</span>
-                <span class="s2">&quot;Conflicts in bundle assignment detected. &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">conflicts</span><span class="si">}</span><span class="s2"> conflicts detected in total out of &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">n_streamlines</span><span class="si">}</span><span class="s2"> total streamlines. &quot;</span>
-                <span class="s2">&quot;Defaulting to whichever bundle is closest to the include ROI,&quot;</span>
-                <span class="s2">&quot;followed by whichever appears first &quot;</span>
-                <span class="s2">&quot;in the bundle_dict.&quot;</span>
+                <span class="s2">"Conflicts in bundle assignment detected. "</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">conflicts</span><span class="si">}</span><span class="s2"> conflicts detected in total out of "</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">n_streamlines</span><span class="si">}</span><span class="s2"> total streamlines. "</span>
+                <span class="s2">"Defaulting to whichever bundle is closest to the include ROI,"</span>
+                <span class="s2">"followed by whichever appears first "</span>
+                <span class="s2">"in the bundle_dict."</span>
             <span class="p">)</span>
         <span class="p">)</span>
 
@@ -674,22 +675,22 @@
     <span class="c1"># We do another round through, so that we can:</span>
     <span class="c1"># 1. Clip streamlines according to ROIs</span>
     <span class="c1"># 2. Re-orient streamlines</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Re-orienting streamlines to consistent directions&quot;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Re-orienting streamlines to consistent directions"</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">b_name</span><span class="p">,</span> <span class="n">r_bd</span> <span class="ow">in</span> <span class="n">recognized_bundles_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Processing </span><span class="si">{</span><span class="n">b_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Processing </span><span class="si">{</span><span class="n">b_name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">r_bd</span><span class="o">.</span><span class="n">selected_fiber_idxs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="c1"># There&#39;s nothing here, set and move to the next bundle:</span>
-            <span class="k">if</span> <span class="s2">&quot;bundlesection&quot;</span> <span class="ow">in</span> <span class="n">bundle_dict</span><span class="o">.</span><span class="n">get_b_info</span><span class="p">(</span><span class="n">b_name</span><span class="p">):</span>
-                <span class="k">for</span> <span class="n">sb_name</span> <span class="ow">in</span> <span class="n">bundle_dict</span><span class="o">.</span><span class="n">get_b_info</span><span class="p">(</span><span class="n">b_name</span><span class="p">)[</span><span class="s2">&quot;bundlesection&quot;</span><span class="p">]:</span>
+            <span class="c1"># There's nothing here, set and move to the next bundle:</span>
+            <span class="k">if</span> <span class="s2">"bundlesection"</span> <span class="ow">in</span> <span class="n">bundle_dict</span><span class="o">.</span><span class="n">get_b_info</span><span class="p">(</span><span class="n">b_name</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">sb_name</span> <span class="ow">in</span> <span class="n">bundle_dict</span><span class="o">.</span><span class="n">get_b_info</span><span class="p">(</span><span class="n">b_name</span><span class="p">)[</span><span class="s2">"bundlesection"</span><span class="p">]:</span>
                     <span class="n">_return_empty</span><span class="p">(</span><span class="n">sb_name</span><span class="p">,</span> <span class="n">return_idx</span><span class="p">,</span> <span class="n">fiber_groups</span><span class="p">,</span> <span class="n">img</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">_return_empty</span><span class="p">(</span><span class="n">b_name</span><span class="p">,</span> <span class="n">return_idx</span><span class="p">,</span> <span class="n">fiber_groups</span><span class="p">,</span> <span class="n">img</span><span class="p">)</span>
             <span class="k">continue</span>
 
         <span class="n">b_def</span> <span class="o">=</span> <span class="n">r_bd</span><span class="o">.</span><span class="n">bundle_def</span>
-        <span class="k">if</span> <span class="s2">&quot;bundlesection&quot;</span> <span class="ow">in</span> <span class="n">b_def</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">sb_name</span><span class="p">,</span> <span class="n">sb_include_cuts</span> <span class="ow">in</span> <span class="n">b_def</span><span class="p">[</span><span class="s2">&quot;bundlesection&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="s2">"bundlesection"</span> <span class="ow">in</span> <span class="n">b_def</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">sb_name</span><span class="p">,</span> <span class="n">sb_include_cuts</span> <span class="ow">in</span> <span class="n">b_def</span><span class="p">[</span><span class="s2">"bundlesection"</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="n">bundlesection_select_sl</span> <span class="o">=</span> <span class="n">abu</span><span class="o">.</span><span class="n">cut_sls_by_closest</span><span class="p">(</span>
                     <span class="n">r_bd</span><span class="o">.</span><span class="n">get_selected_sls</span><span class="p">(),</span>
                     <span class="n">r_bd</span><span class="o">.</span><span class="n">roi_closest</span><span class="p">,</span>
@@ -725,14 +726,14 @@
 <div class="viewcode-block" id="_return_empty">
 <a class="viewcode-back" href="../../../reference/api/AFQ/recognition/recognize/index.html#AFQ.recognition.recognize._return_empty">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">_return_empty</span><span class="p">(</span><span class="n">bundle_name</span><span class="p">,</span> <span class="n">return_idx</span><span class="p">,</span> <span class="n">fiber_groups</span><span class="p">,</span> <span class="n">img</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Helper function to return an empty dict under</span>
 <span class="sd">    some conditions.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">return_idx</span><span class="p">:</span>
         <span class="n">fiber_groups</span><span class="p">[</span><span class="n">bundle_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">fiber_groups</span><span class="p">[</span><span class="n">bundle_name</span><span class="p">][</span><span class="s2">&quot;sl&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">StatefulTractogram</span><span class="p">([],</span> <span class="n">img</span><span class="p">,</span> <span class="n">Space</span><span class="o">.</span><span class="n">RASMM</span><span class="p">)</span>
-        <span class="n">fiber_groups</span><span class="p">[</span><span class="n">bundle_name</span><span class="p">][</span><span class="s2">&quot;idx&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+        <span class="n">fiber_groups</span><span class="p">[</span><span class="n">bundle_name</span><span class="p">][</span><span class="s2">"sl"</span><span class="p">]</span> <span class="o">=</span> <span class="n">StatefulTractogram</span><span class="p">([],</span> <span class="n">img</span><span class="p">,</span> <span class="n">Space</span><span class="o">.</span><span class="n">RASMM</span><span class="p">)</span>
+        <span class="n">fiber_groups</span><span class="p">[</span><span class="n">bundle_name</span><span class="p">][</span><span class="s2">"idx"</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">fiber_groups</span><span class="p">[</span><span class="n">bundle_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">StatefulTractogram</span><span class="p">([],</span> <span class="n">img</span><span class="p">,</span> <span class="n">Space</span><span class="o">.</span><span class="n">RASMM</span><span class="p">)</span></div>
 
@@ -741,17 +742,17 @@
 <div class="viewcode-block" id="_add_bundle_to_fiber_group">
 <a class="viewcode-back" href="../../../reference/api/AFQ/recognition/recognize/index.html#AFQ.recognition.recognize._add_bundle_to_fiber_group">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">_add_bundle_to_fiber_group</span><span class="p">(</span><span class="n">b_name</span><span class="p">,</span> <span class="n">sl</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">to_flip</span><span class="p">,</span> <span class="n">return_idx</span><span class="p">,</span> <span class="n">fiber_groups</span><span class="p">,</span> <span class="n">img</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Helper function to add a bundle to a fiber group.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">sl</span> <span class="o">=</span> <span class="n">abu</span><span class="o">.</span><span class="n">flip_sls</span><span class="p">(</span><span class="n">sl</span><span class="p">,</span> <span class="n">to_flip</span><span class="p">,</span> <span class="n">in_place</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="n">sl</span> <span class="o">=</span> <span class="n">StatefulTractogram</span><span class="p">(</span><span class="n">sl</span><span class="p">,</span> <span class="n">img</span><span class="p">,</span> <span class="n">Space</span><span class="o">.</span><span class="n">RASMM</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">return_idx</span><span class="p">:</span>
         <span class="n">fiber_groups</span><span class="p">[</span><span class="n">b_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">fiber_groups</span><span class="p">[</span><span class="n">b_name</span><span class="p">][</span><span class="s2">&quot;sl&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sl</span>
-        <span class="n">fiber_groups</span><span class="p">[</span><span class="n">b_name</span><span class="p">][</span><span class="s2">&quot;idx&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">idx</span>
+        <span class="n">fiber_groups</span><span class="p">[</span><span class="n">b_name</span><span class="p">][</span><span class="s2">"sl"</span><span class="p">]</span> <span class="o">=</span> <span class="n">sl</span>
+        <span class="n">fiber_groups</span><span class="p">[</span><span class="n">b_name</span><span class="p">][</span><span class="s2">"idx"</span><span class="p">]</span> <span class="o">=</span> <span class="n">idx</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">fiber_groups</span><span class="p">[</span><span class="n">b_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">sl</span></div>
 
@@ -761,7 +762,7 @@
 <a class="viewcode-back" href="../../../reference/api/AFQ/recognition/recognize/index.html#AFQ.recognition.recognize._add_bundle_to_meta">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">_add_bundle_to_meta</span><span class="p">(</span><span class="n">bundle_name</span><span class="p">,</span> <span class="n">b_def</span><span class="p">,</span> <span class="n">meta</span><span class="p">):</span>
     <span class="c1"># remove keys that can never be serialized</span>
-    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;include&quot;</span><span class="p">,</span> <span class="s2">&quot;exclude&quot;</span><span class="p">,</span> <span class="s2">&quot;prob_map&quot;</span><span class="p">,</span> <span class="s2">&quot;start&quot;</span><span class="p">,</span> <span class="s2">&quot;end&quot;</span><span class="p">,</span> <span class="s2">&quot;curvature&quot;</span><span class="p">]:</span>
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"include"</span><span class="p">,</span> <span class="s2">"exclude"</span><span class="p">,</span> <span class="s2">"prob_map"</span><span class="p">,</span> <span class="s2">"start"</span><span class="p">,</span> <span class="s2">"end"</span><span class="p">,</span> <span class="s2">"curvature"</span><span class="p">]:</span>
         <span class="n">b_def</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
     <span class="n">meta</span><span class="p">[</span><span class="n">bundle_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">b_def</span></div>
 
@@ -794,8 +795,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../../_static/scripts/bootstrap.js?digest=0790524f97105ba85085"></script>
-<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085"></script>
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0"></script>
 
 
   <footer class="bd-footer">
@@ -817,7 +818,6 @@
 
   <p class="sphinx-version">
     Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
-    <br/>
   </p>
 </div>
       

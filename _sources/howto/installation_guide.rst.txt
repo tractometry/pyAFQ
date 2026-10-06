@@ -60,7 +60,7 @@ On some platforms, you may need to add quotes around the ``.[]`` part:
 .. note::
 
    It is also recommended that you utilize python virtual environment and
-   package mangagement tools (e.g., conda) and begin with a clean environment.
+   package management tools (e.g., conda) and begin with a clean environment.
 
 .. note::
 
@@ -106,7 +106,7 @@ specific commit or tag as well:
 ***********************************************
 
 If the user intends to execute pyAFQ as a program from the command line
-(``$pyAFQ /path/to/config.toml``) in an administered environment where root
+in an administered environment where root
 access is not available (e.g., High Performance Computing cluster) then one
 solution is to build an Apptainer (also known as Singularity) image from a local
 pull of the pyAFQ docker container.

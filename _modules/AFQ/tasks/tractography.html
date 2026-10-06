@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 
 
@@ -7,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.tasks.tractography &#8212; AFQ 3.2 documentation</title>
+    <title>AFQ.tasks.tractography &#8212; AFQ 3.4 documentation</title>
   
   
   
@@ -26,29 +25,24 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=fd6457a4" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=efc0aa2d" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../../_static/scripts/fontawesome.js?digest=0790524f97105ba85085"></script>
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=64cc4de3f052d77215f0"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=0790524f97105ba85085" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085" />
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../../../_static/documentation_options.js?v=828ea960"></script>
+    <script src="../../../_static/documentation_options.js?v=ed7fbdb4"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
-    <script src="../../../_static/sg-tags.js?v=d80f6fa4"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/AFQ/tasks/tractography';</script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
@@ -104,7 +98,7 @@
   
     <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
-  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+  <button type="button" class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
   </button>
   
@@ -128,8 +122,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 3.2 documentation - Home"/>
-    <img src="../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="AFQ 3.2 documentation - Home"/>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 3.4 documentation - Home"/>
+    <img src="../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="AFQ 3.4 documentation - Home"/>
   
   
 </a></div>
@@ -152,14 +146,14 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../tutorials/tutorial_examples/index.html">
+  <a class="nav-link nav-internal" href="../../../examples/tutorial_examples/index.html">
     Tutorials: Getting started
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../howto/howto_examples/index.html">
+  <a class="nav-link nav-internal" href="../../../examples/howto_examples/index.html">
     How to examples
   </a>
 </li>
@@ -196,7 +190,7 @@
         <div class="navbar-item navbar-persistent--container">
           
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
  <i class="fa-solid fa-magnifying-glass"></i>
  <span class="search-button__default-text">Search</span>
  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
@@ -207,15 +201,15 @@
         <div class="navbar-item">
 
 <div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
     <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
     <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
     <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
   <ul class="dropdown-menu dropdown-menu-end">
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
   </ul>
 </div></div>
       
@@ -241,7 +235,7 @@
   
     <div class="navbar-persistent--mobile">
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
  <i class="fa-solid fa-magnifying-glass"></i>
  <span class="search-button__default-text">Search</span>
  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
@@ -286,14 +280,14 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../tutorials/tutorial_examples/index.html">
+  <a class="nav-link nav-internal" href="../../../examples/tutorial_examples/index.html">
     Tutorials: Getting started
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../howto/howto_examples/index.html">
+  <a class="nav-link nav-internal" href="../../../examples/howto_examples/index.html">
     How to examples
   </a>
 </li>
@@ -332,15 +326,15 @@
           <div class="navbar-item">
 
 <div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
     <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
     <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
     <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
   <ul class="dropdown-menu dropdown-menu-end">
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
   </ul>
 </div></div>
         
@@ -457,36 +451,36 @@
 
 <div class="viewcode-block" id="logger">
 <a class="viewcode-back" href="../../../reference/api/AFQ/tasks/tractography/index.html#AFQ.tasks.tractography.logger">[docs]</a>
-<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;AFQ&quot;</span><span class="p">)</span></div>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">"AFQ"</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="_meta_from_tracking_params">
 <a class="viewcode-back" href="../../../reference/api/AFQ/tasks/tractography/index.html#AFQ.tasks.tractography._meta_from_tracking_params">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">_meta_from_tracking_params</span><span class="p">(</span><span class="n">tracking_params</span><span class="p">,</span> <span class="n">start_time</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">pve</span><span class="p">,</span> <span class="n">n_streamlines</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="n">meta_directions</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;det&quot;</span><span class="p">:</span> <span class="s2">&quot;deterministic&quot;</span><span class="p">,</span> <span class="s2">&quot;prob&quot;</span><span class="p">:</span> <span class="s2">&quot;probabilistic&quot;</span><span class="p">}</span>
+    <span class="n">meta_directions</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"det"</span><span class="p">:</span> <span class="s2">"deterministic"</span><span class="p">,</span> <span class="s2">"prob"</span><span class="p">:</span> <span class="s2">"probabilistic"</span><span class="p">}</span>
     <span class="n">meta</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
-        <span class="n">TractographyClass</span><span class="o">=</span><span class="s2">&quot;local&quot;</span><span class="p">,</span>
+        <span class="n">TractographyClass</span><span class="o">=</span><span class="s2">"local"</span><span class="p">,</span>
         <span class="n">TractographyMethod</span><span class="o">=</span><span class="n">meta_directions</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-            <span class="n">tracking_params</span><span class="p">[</span><span class="s2">&quot;directions&quot;</span><span class="p">],</span> <span class="n">tracking_params</span><span class="p">[</span><span class="s2">&quot;directions&quot;</span><span class="p">]</span>
+            <span class="n">tracking_params</span><span class="p">[</span><span class="s2">"directions"</span><span class="p">],</span> <span class="n">tracking_params</span><span class="p">[</span><span class="s2">"directions"</span><span class="p">]</span>
         <span class="p">),</span>
         <span class="n">Seeding</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
             <span class="n">ROI</span><span class="o">=</span><span class="n">seed</span><span class="p">,</span>
-            <span class="n">n_seeds</span><span class="o">=</span><span class="n">tracking_params</span><span class="p">[</span><span class="s2">&quot;n_seeds&quot;</span><span class="p">],</span>
-            <span class="n">random_seeds</span><span class="o">=</span><span class="n">tracking_params</span><span class="p">[</span><span class="s2">&quot;random_seeds&quot;</span><span class="p">],</span>
+            <span class="n">n_seeds</span><span class="o">=</span><span class="n">tracking_params</span><span class="p">[</span><span class="s2">"n_seeds"</span><span class="p">],</span>
+            <span class="n">random_seeds</span><span class="o">=</span><span class="n">tracking_params</span><span class="p">[</span><span class="s2">"random_seeds"</span><span class="p">],</span>
         <span class="p">),</span>
         <span class="n">Constraints</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">PVE</span><span class="o">=</span><span class="n">pve</span><span class="p">),</span>
         <span class="n">Parameters</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
-            <span class="n">Units</span><span class="o">=</span><span class="s2">&quot;mm&quot;</span><span class="p">,</span>
-            <span class="n">StepSize</span><span class="o">=</span><span class="n">tracking_params</span><span class="p">[</span><span class="s2">&quot;step_size&quot;</span><span class="p">],</span>
-            <span class="n">MinimumLength</span><span class="o">=</span><span class="n">tracking_params</span><span class="p">[</span><span class="s2">&quot;minlen&quot;</span><span class="p">],</span>
-            <span class="n">MaximumLength</span><span class="o">=</span><span class="n">tracking_params</span><span class="p">[</span><span class="s2">&quot;maxlen&quot;</span><span class="p">],</span>
+            <span class="n">Units</span><span class="o">=</span><span class="s2">"mm"</span><span class="p">,</span>
+            <span class="n">StepSize</span><span class="o">=</span><span class="n">tracking_params</span><span class="p">[</span><span class="s2">"step_size"</span><span class="p">],</span>
+            <span class="n">MinimumLength</span><span class="o">=</span><span class="n">tracking_params</span><span class="p">[</span><span class="s2">"minlen"</span><span class="p">],</span>
+            <span class="n">MaximumLength</span><span class="o">=</span><span class="n">tracking_params</span><span class="p">[</span><span class="s2">"maxlen"</span><span class="p">],</span>
             <span class="n">Unidirectional</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Timing</span><span class="o">=</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="k">if</span> <span class="n">n_streamlines</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">meta</span><span class="p">[</span><span class="s2">&quot;Count&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">n_streamlines</span>
+        <span class="n">meta</span><span class="p">[</span><span class="s2">"Count"</span><span class="p">]</span> <span class="o">=</span> <span class="n">n_streamlines</span>
     <span class="k">return</span> <span class="n">meta</span></div>
 
 
@@ -494,30 +488,30 @@
 <div class="viewcode-block" id="_fiber_odf">
 <a class="viewcode-back" href="../../../reference/api/AFQ/tasks/tractography/index.html#AFQ.tasks.tractography._fiber_odf">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">_fiber_odf</span><span class="p">(</span><span class="n">data_imap</span><span class="p">,</span> <span class="n">tissue_imap</span><span class="p">,</span> <span class="n">tracking_params</span><span class="p">):</span>
-    <span class="n">odf_model</span> <span class="o">=</span> <span class="n">tracking_params</span><span class="p">[</span><span class="s2">&quot;odf_model&quot;</span><span class="p">]</span>
+    <span class="n">odf_model</span> <span class="o">=</span> <span class="n">tracking_params</span><span class="p">[</span><span class="s2">"odf_model"</span><span class="p">]</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">odf_model</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="n">calc_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">odf_model</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">_params&quot;</span>
+        <span class="n">calc_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">odf_model</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">_params"</span>
         <span class="k">if</span> <span class="n">calc_name</span> <span class="ow">in</span> <span class="n">data_imap</span><span class="p">:</span>
             <span class="n">params_file</span> <span class="o">=</span> <span class="n">data_imap</span><span class="p">[</span><span class="n">calc_name</span><span class="p">]</span>
         <span class="k">elif</span> <span class="n">calc_name</span> <span class="ow">in</span> <span class="n">tissue_imap</span><span class="p">:</span>
             <span class="n">params_file</span> <span class="o">=</span> <span class="n">tissue_imap</span><span class="p">[</span><span class="n">calc_name</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">((</span><span class="sa">f</span><span class="s2">&quot;Could not find </span><span class="si">{</span><span class="n">odf_model</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">((</span><span class="sa">f</span><span class="s2">"Could not find </span><span class="si">{</span><span class="n">odf_model</span><span class="si">}</span><span class="s2">"</span><span class="p">))</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">((</span><span class="s2">&quot;odf_model must be a string or Definition&quot;</span><span class="p">))</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">((</span><span class="s2">"odf_model must be a string or Definition"</span><span class="p">))</span>
 
     <span class="k">return</span> <span class="n">params_file</span></div>
 
 
 
-<span class="nd">@immlib</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;streamlines&quot;</span><span class="p">)</span>
-<span class="nd">@as_file</span><span class="p">(</span><span class="s2">&quot;_tractography&quot;</span><span class="p">,</span> <span class="n">subfolder</span><span class="o">=</span><span class="s2">&quot;tractography&quot;</span><span class="p">)</span>
+<span class="nd">@immlib</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">"streamlines"</span><span class="p">)</span>
+<span class="nd">@as_file</span><span class="p">(</span><span class="s2">"_tractography"</span><span class="p">,</span> <span class="n">subfolder</span><span class="o">=</span><span class="s2">"tractography"</span><span class="p">)</span>
 <div class="viewcode-block" id="streamlines">
 <a class="viewcode-back" href="../../../reference/api/AFQ/tasks/tractography/index.html#AFQ.tasks.tractography.streamlines">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">streamlines</span><span class="p">(</span>
     <span class="n">structural_imap</span><span class="p">,</span> <span class="n">data_imap</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">tissue_imap</span><span class="p">,</span> <span class="n">citations</span><span class="p">,</span> <span class="n">tracking_params</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    full path to the complete, unsegmented tractography file</span>
 
 <span class="sd">    Parameters</span>
@@ -528,32 +522,32 @@
 <span class="sd">        specified, are replaced with scalar masks from scalar[0]</span>
 <span class="sd">        thresholded to 0.2. The ``seed_mask`` items of</span>
 <span class="sd">        this dict may be ``AFQ.definitions.image.ImageFile`` instances.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">citations</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;girard2014towards&quot;</span><span class="p">)</span>
-    <span class="n">citations</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;smith2012anatomically&quot;</span><span class="p">)</span>
+<span class="sd">    """</span>
+    <span class="n">citations</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">"girard2014towards"</span><span class="p">)</span>
+    <span class="n">citations</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">"smith2012anatomically"</span><span class="p">)</span>
 
     <span class="n">this_tracking_params</span> <span class="o">=</span> <span class="n">tracking_params</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="n">fodf</span> <span class="o">=</span> <span class="n">_fiber_odf</span><span class="p">(</span><span class="n">data_imap</span><span class="p">,</span> <span class="n">tissue_imap</span><span class="p">,</span> <span class="n">tracking_params</span><span class="p">)</span>
 
     <span class="c1"># get masks</span>
-    <span class="n">this_tracking_params</span><span class="p">[</span><span class="s2">&quot;seed_mask&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
+    <span class="n">this_tracking_params</span><span class="p">[</span><span class="s2">"seed_mask"</span><span class="p">]</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
 
-    <span class="n">is_trx</span> <span class="o">=</span> <span class="n">this_tracking_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;trx&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="n">is_trx</span> <span class="o">=</span> <span class="n">this_tracking_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"trx"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">is_trx</span><span class="p">:</span>
         <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
-        <span class="n">dtype_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;positions&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="s2">&quot;offsets&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">}</span>
+        <span class="n">dtype_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"positions"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="s2">"offsets"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">uint64</span><span class="p">}</span>
 
         <span class="n">lazyt</span> <span class="o">=</span> <span class="n">aft</span><span class="o">.</span><span class="n">track</span><span class="p">(</span>
             <span class="n">fodf</span><span class="p">,</span>
-            <span class="n">tissue_imap</span><span class="p">[</span><span class="s2">&quot;pve_internal&quot;</span><span class="p">],</span>
-            <span class="n">structural_imap</span><span class="p">[</span><span class="s2">&quot;n_threads&quot;</span><span class="p">],</span>
+            <span class="n">tissue_imap</span><span class="p">[</span><span class="s2">"pve_internal"</span><span class="p">],</span>
+            <span class="n">structural_imap</span><span class="p">[</span><span class="s2">"n_threads"</span><span class="p">],</span>
             <span class="o">**</span><span class="n">this_tracking_params</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="k">if</span> <span class="p">(</span>
-            <span class="n">this_tracking_params</span><span class="p">[</span><span class="s2">&quot;directions&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;prob&quot;</span>
-            <span class="ow">or</span> <span class="n">this_tracking_params</span><span class="p">[</span><span class="s2">&quot;directions&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;ptt&quot;</span>
+            <span class="n">this_tracking_params</span><span class="p">[</span><span class="s2">"directions"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"prob"</span>
+            <span class="ow">or</span> <span class="n">this_tracking_params</span><span class="p">[</span><span class="s2">"directions"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"ptt"</span>
         <span class="p">):</span>
             <span class="c1"># We do not count these as we go yet,</span>
             <span class="c1"># this needs to be implemented in GPUStreamlines</span>
@@ -574,35 +568,35 @@
         <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
         <span class="n">sft</span> <span class="o">=</span> <span class="n">aft</span><span class="o">.</span><span class="n">track</span><span class="p">(</span>
             <span class="n">fodf</span><span class="p">,</span>
-            <span class="n">tissue_imap</span><span class="p">[</span><span class="s2">&quot;pve_internal&quot;</span><span class="p">],</span>
-            <span class="n">structural_imap</span><span class="p">[</span><span class="s2">&quot;n_threads&quot;</span><span class="p">],</span>
+            <span class="n">tissue_imap</span><span class="p">[</span><span class="s2">"pve_internal"</span><span class="p">],</span>
+            <span class="n">structural_imap</span><span class="p">[</span><span class="s2">"n_threads"</span><span class="p">],</span>
             <span class="o">**</span><span class="n">this_tracking_params</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">n_streamlines</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sft</span><span class="o">.</span><span class="n">streamlines</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sft</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="s2">&quot;No streamlines were generated. &quot;</span>
-            <span class="s2">&quot;This is likely due to errors in defining the tractography &quot;</span>
-            <span class="s2">&quot;parameters or the seed/PVE masks. &quot;</span>
-            <span class="s2">&quot;Please check your tracking parameters and input data.&quot;</span>
+            <span class="s2">"No streamlines were generated. "</span>
+            <span class="s2">"This is likely due to errors in defining the tractography "</span>
+            <span class="s2">"parameters or the seed/PVE masks. "</span>
+            <span class="s2">"Please check your tracking parameters and input data."</span>
         <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">sft</span><span class="p">,</span> <span class="n">_meta_from_tracking_params</span><span class="p">(</span>
         <span class="n">tracking_params</span><span class="p">,</span>
         <span class="n">start_time</span><span class="p">,</span>
         <span class="n">seed</span><span class="p">,</span>
-        <span class="n">tissue_imap</span><span class="p">[</span><span class="s2">&quot;pve_internal&quot;</span><span class="p">],</span>
+        <span class="n">tissue_imap</span><span class="p">[</span><span class="s2">"pve_internal"</span><span class="p">],</span>
         <span class="n">n_streamlines</span><span class="p">,</span>
     <span class="p">)</span></div>
 
 
 
-<span class="nd">@immlib</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;streamlines&quot;</span><span class="p">)</span>
+<span class="nd">@immlib</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">"streamlines"</span><span class="p">)</span>
 <div class="viewcode-block" id="custom_tractography">
 <a class="viewcode-back" href="../../../reference/api/AFQ/tasks/tractography/index.html#AFQ.tasks.tractography.custom_tractography">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">custom_tractography</span><span class="p">(</span><span class="n">import_tract</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    full path to the complete, unsegmented tractography file</span>
 
 <span class="sd">    Parameters</span>
@@ -612,9 +606,9 @@
 <span class="sd">        or a path to the tractography file. If None, DIPY is used</span>
 <span class="sd">        to generate the tractography.</span>
 <span class="sd">        Default: None</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">import_tract</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;import_tract must be&quot;</span> <span class="o">+</span> <span class="s2">&quot; either a dict or a str&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"import_tract must be"</span> <span class="o">+</span> <span class="s2">" either a dict or a str"</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">import_tract</span></div>
 
 
@@ -622,91 +616,91 @@
 <div class="viewcode-block" id="get_tractography_plan">
 <a class="viewcode-back" href="../../../reference/api/AFQ/tasks/tractography/index.html#AFQ.tasks.tractography.get_tractography_plan">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_tractography_plan</span><span class="p">(</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="k">if</span> <span class="s2">&quot;tracking_params&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;tracking_params&quot;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;tracking_params a dict&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s2">"tracking_params"</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">"tracking_params"</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"tracking_params a dict"</span><span class="p">)</span>
 
     <span class="n">tractography_tasks</span> <span class="o">=</span> <span class="n">with_name</span><span class="p">([</span><span class="n">streamlines</span><span class="p">])</span>
 
     <span class="c1"># use imported tractography if given</span>
-    <span class="k">if</span> <span class="s2">&quot;import_tract&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;import_tract&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">tractography_tasks</span><span class="p">[</span><span class="s2">&quot;streamlines_res&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">custom_tractography</span>
-        <span class="k">if</span> <span class="s2">&quot;trx&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;tracking_params&quot;</span><span class="p">,</span> <span class="p">{}):</span>
-            <span class="k">if</span> <span class="s2">&quot;tracking_params&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-                <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;tracking_params&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;tracking_params&quot;</span><span class="p">][</span><span class="s2">&quot;trx&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;import_tract&quot;</span><span class="p">][</span><span class="o">-</span><span class="mi">4</span><span class="p">:]</span> <span class="o">==</span> <span class="s2">&quot;.trx&quot;</span>
+    <span class="k">if</span> <span class="s2">"import_tract"</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">"import_tract"</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">tractography_tasks</span><span class="p">[</span><span class="s2">"streamlines_res"</span><span class="p">]</span> <span class="o">=</span> <span class="n">custom_tractography</span>
+        <span class="k">if</span> <span class="s2">"trx"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"tracking_params"</span><span class="p">,</span> <span class="p">{}):</span>
+            <span class="k">if</span> <span class="s2">"tracking_params"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="s2">"tracking_params"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">"tracking_params"</span><span class="p">][</span><span class="s2">"trx"</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">"import_tract"</span><span class="p">][</span><span class="o">-</span><span class="mi">4</span><span class="p">:]</span> <span class="o">==</span> <span class="s2">".trx"</span>
 
     <span class="c1"># determine reasonable defaults</span>
-    <span class="n">best_scalar</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;scalars&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">best_scalar</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">"scalars"</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">fa_found</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="k">for</span> <span class="n">scalar</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;scalars&quot;</span><span class="p">]:</span>
+    <span class="k">for</span> <span class="n">scalar</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">"scalars"</span><span class="p">]:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">scalar</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="k">if</span> <span class="s2">&quot;fa&quot;</span> <span class="ow">in</span> <span class="n">scalar</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">"fa"</span> <span class="ow">in</span> <span class="n">scalar</span><span class="p">:</span>
                 <span class="n">best_scalar</span> <span class="o">=</span> <span class="n">scalar</span>
                 <span class="n">fa_found</span> <span class="o">=</span> <span class="kc">True</span>
                 <span class="k">break</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="s2">&quot;fa&quot;</span> <span class="ow">in</span> <span class="n">scalar</span><span class="o">.</span><span class="n">get_name</span><span class="p">():</span>
+            <span class="k">if</span> <span class="s2">"fa"</span> <span class="ow">in</span> <span class="n">scalar</span><span class="o">.</span><span class="n">get_name</span><span class="p">():</span>
                 <span class="n">best_scalar</span> <span class="o">=</span> <span class="n">scalar</span>
                 <span class="n">fa_found</span> <span class="o">=</span> <span class="kc">True</span>
                 <span class="k">break</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">fa_found</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-            <span class="s2">&quot;FA not found in list of scalars, will use first scalar&quot;</span>
-            <span class="s2">&quot; for visualizations&quot;</span>
-            <span class="s2">&quot; unless these are also specified&quot;</span>
+            <span class="s2">"FA not found in list of scalars, will use first scalar"</span>
+            <span class="s2">" for visualizations"</span>
+            <span class="s2">" unless these are also specified"</span>
         <span class="p">)</span>
-    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;best_scalar&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">best_scalar</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s2">"best_scalar"</span><span class="p">]</span> <span class="o">=</span> <span class="n">best_scalar</span>
 
     <span class="n">default_tracking_params</span> <span class="o">=</span> <span class="n">get_default_args</span><span class="p">(</span><span class="n">aft</span><span class="o">.</span><span class="n">track</span><span class="p">)</span>
 
     <span class="c1"># Replace the defaults only for kwargs for which a non-default value</span>
     <span class="c1"># was given:</span>
-    <span class="k">if</span> <span class="s2">&quot;tracking_params&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;tracking_params&quot;</span><span class="p">]:</span>
-            <span class="n">default_tracking_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;tracking_params&quot;</span><span class="p">][</span><span class="n">k</span><span class="p">]</span>
+    <span class="k">if</span> <span class="s2">"tracking_params"</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">"tracking_params"</span><span class="p">]:</span>
+            <span class="n">default_tracking_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">"tracking_params"</span><span class="p">][</span><span class="n">k</span><span class="p">]</span>
 
-    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;tracking_params&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">default_tracking_params</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;tracking_params&quot;</span><span class="p">][</span><span class="s2">&quot;odf_model&quot;</span><span class="p">],</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;tracking_params&quot;</span><span class="p">][</span><span class="s2">&quot;odf_model&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;tracking_params&quot;</span><span class="p">][</span>
-            <span class="s2">&quot;odf_model&quot;</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s2">"tracking_params"</span><span class="p">]</span> <span class="o">=</span> <span class="n">default_tracking_params</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">"tracking_params"</span><span class="p">][</span><span class="s2">"odf_model"</span><span class="p">],</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">"tracking_params"</span><span class="p">][</span><span class="s2">"odf_model"</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">"tracking_params"</span><span class="p">][</span>
+            <span class="s2">"odf_model"</span>
         <span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
 
-    <span class="k">if</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;tracking_params&quot;</span><span class="p">][</span><span class="s2">&quot;seed_mask&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;tracking_params&quot;</span><span class="p">][</span><span class="s2">&quot;seed_mask&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ScalarImage</span><span class="p">(</span><span class="s2">&quot;wm_gm_interface&quot;</span><span class="p">)</span>
-        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;tracking_params&quot;</span><span class="p">][</span><span class="s2">&quot;seed_threshold&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="k">if</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">"tracking_params"</span><span class="p">][</span><span class="s2">"seed_mask"</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">"tracking_params"</span><span class="p">][</span><span class="s2">"seed_mask"</span><span class="p">]</span> <span class="o">=</span> <span class="n">ScalarImage</span><span class="p">(</span><span class="s2">"wm_gm_interface"</span><span class="p">)</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">"tracking_params"</span><span class="p">][</span><span class="s2">"seed_threshold"</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span>
 
-    <span class="n">seed_mask</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;tracking_params&quot;</span><span class="p">][</span><span class="s2">&quot;seed_mask&quot;</span><span class="p">]</span>
-    <span class="n">odf_model</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;tracking_params&quot;</span><span class="p">][</span><span class="s2">&quot;odf_model&quot;</span><span class="p">]</span>
+    <span class="n">seed_mask</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">"tracking_params"</span><span class="p">][</span><span class="s2">"seed_mask"</span><span class="p">]</span>
+    <span class="n">odf_model</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">"tracking_params"</span><span class="p">][</span><span class="s2">"odf_model"</span><span class="p">]</span>
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">seed_mask</span><span class="p">,</span> <span class="n">Definition</span><span class="p">):</span>
-        <span class="n">tractography_tasks</span><span class="p">[</span><span class="s2">&quot;export_seed_mask_res&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">immlib</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;seed&quot;</span><span class="p">)(</span>
-            <span class="n">as_file</span><span class="p">(</span><span class="s2">&quot;_desc-seed_mask.nii.gz&quot;</span><span class="p">,</span> <span class="n">subfolder</span><span class="o">=</span><span class="s2">&quot;tractography&quot;</span><span class="p">)(</span>
-                <span class="n">seed_mask</span><span class="o">.</span><span class="n">get_image_getter</span><span class="p">(</span><span class="s2">&quot;tractography&quot;</span><span class="p">)</span>
+        <span class="n">tractography_tasks</span><span class="p">[</span><span class="s2">"export_seed_mask_res"</span><span class="p">]</span> <span class="o">=</span> <span class="n">immlib</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">"seed"</span><span class="p">)(</span>
+            <span class="n">as_file</span><span class="p">(</span><span class="s2">"_desc-seed_mask.nii.gz"</span><span class="p">,</span> <span class="n">subfolder</span><span class="o">=</span><span class="s2">"tractography"</span><span class="p">)(</span>
+                <span class="n">seed_mask</span><span class="o">.</span><span class="n">get_image_getter</span><span class="p">(</span><span class="s2">"tractography"</span><span class="p">)</span>
             <span class="p">)</span>
         <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-            <span class="s2">&quot;seed_mask must be an AFQ Definition when using the GroupAFQ or &quot;</span>
-            <span class="s2">&quot;ParticipantAFQ API. Consider using &quot;</span>
-            <span class="s1">&#39;ScalarImage(&quot;wm_gm_interface&quot;), ThresholdedScalarImage, &#39;</span>
-            <span class="s2">&quot;RoiImage, or another AFQ Image definition.&quot;</span>
+            <span class="s2">"seed_mask must be an AFQ Definition when using the GroupAFQ or "</span>
+            <span class="s2">"ParticipantAFQ API. Consider using "</span>
+            <span class="s1">'ScalarImage("wm_gm_interface"), ThresholdedScalarImage, '</span>
+            <span class="s2">"RoiImage, or another AFQ Image definition."</span>
         <span class="p">)</span>
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">odf_model</span><span class="p">,</span> <span class="n">Definition</span><span class="p">):</span>
-        <span class="n">tractography_tasks</span><span class="p">[</span><span class="s2">&quot;fiber_odf_res&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">immlib</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;fodf&quot;</span><span class="p">)(</span>
-            <span class="n">odf_model</span><span class="o">.</span><span class="n">get_image_getter</span><span class="p">(</span><span class="s2">&quot;tractography&quot;</span><span class="p">)</span>
+        <span class="n">tractography_tasks</span><span class="p">[</span><span class="s2">"fiber_odf_res"</span><span class="p">]</span> <span class="o">=</span> <span class="n">immlib</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">"fodf"</span><span class="p">)(</span>
+            <span class="n">odf_model</span><span class="o">.</span><span class="n">get_image_getter</span><span class="p">(</span><span class="s2">"tractography"</span><span class="p">)</span>
         <span class="p">)</span>
 
-    <span class="n">n_seeds</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;tracking_params&quot;</span><span class="p">][</span><span class="s2">&quot;n_seeds&quot;</span><span class="p">]</span>
+    <span class="n">n_seeds</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">"tracking_params"</span><span class="p">][</span><span class="s2">"n_seeds"</span><span class="p">]</span>
     <span class="k">if</span> <span class="p">(</span>
-        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;tracking_params&quot;</span><span class="p">][</span><span class="s2">&quot;random_seeds&quot;</span><span class="p">]</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">"tracking_params"</span><span class="p">][</span><span class="s2">"random_seeds"</span><span class="p">]</span>
         <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">n_seeds</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
         <span class="ow">and</span> <span class="n">n_seeds</span> <span class="o">&lt;=</span> <span class="mi">20</span>
     <span class="p">):</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="s2">&quot;Using random seeds with a low number of seeds is not recommended.&quot;</span>
-            <span class="s2">&quot; Please increase n_seeds or set random_seeds to False.&quot;</span>
-            <span class="s2">&quot; A recommended number of seeds when using random seeds is 1e7.&quot;</span>
+            <span class="s2">"Using random seeds with a low number of seeds is not recommended."</span>
+            <span class="s2">" Please increase n_seeds or set random_seeds to False."</span>
+            <span class="s2">" A recommended number of seeds when using random seeds is 1e7."</span>
         <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">immlib</span><span class="o">.</span><span class="n">plan</span><span class="p">(</span><span class="o">**</span><span class="n">tractography_tasks</span><span class="p">)</span></div>
@@ -740,8 +734,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../../_static/scripts/bootstrap.js?digest=0790524f97105ba85085"></script>
-<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085"></script>
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0"></script>
 
 
   <footer class="bd-footer">
@@ -763,7 +757,6 @@
 
   <p class="sphinx-version">
     Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
-    <br/>
   </p>
 </div>
       

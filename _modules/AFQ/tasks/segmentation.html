@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 
 
@@ -7,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.tasks.segmentation &#8212; AFQ 3.2 documentation</title>
+    <title>AFQ.tasks.segmentation &#8212; AFQ 3.4 documentation</title>
   
   
   
@@ -26,29 +25,24 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=fd6457a4" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=efc0aa2d" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../../_static/scripts/fontawesome.js?digest=0790524f97105ba85085"></script>
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=64cc4de3f052d77215f0"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=0790524f97105ba85085" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085" />
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../../../_static/documentation_options.js?v=828ea960"></script>
+    <script src="../../../_static/documentation_options.js?v=ed7fbdb4"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
-    <script src="../../../_static/sg-tags.js?v=d80f6fa4"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/AFQ/tasks/segmentation';</script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
@@ -104,7 +98,7 @@
   
     <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
-  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+  <button type="button" class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
   </button>
   
@@ -128,8 +122,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 3.2 documentation - Home"/>
-    <img src="../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="AFQ 3.2 documentation - Home"/>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 3.4 documentation - Home"/>
+    <img src="../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="AFQ 3.4 documentation - Home"/>
   
   
 </a></div>
@@ -152,14 +146,14 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../tutorials/tutorial_examples/index.html">
+  <a class="nav-link nav-internal" href="../../../examples/tutorial_examples/index.html">
     Tutorials: Getting started
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../howto/howto_examples/index.html">
+  <a class="nav-link nav-internal" href="../../../examples/howto_examples/index.html">
     How to examples
   </a>
 </li>
@@ -196,7 +190,7 @@
         <div class="navbar-item navbar-persistent--container">
           
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
  <i class="fa-solid fa-magnifying-glass"></i>
  <span class="search-button__default-text">Search</span>
  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
@@ -207,15 +201,15 @@
         <div class="navbar-item">
 
 <div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
     <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
     <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
     <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
   <ul class="dropdown-menu dropdown-menu-end">
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
   </ul>
 </div></div>
       
@@ -241,7 +235,7 @@
   
     <div class="navbar-persistent--mobile">
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
  <i class="fa-solid fa-magnifying-glass"></i>
  <span class="search-button__default-text">Search</span>
  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
@@ -286,14 +280,14 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../tutorials/tutorial_examples/index.html">
+  <a class="nav-link nav-internal" href="../../../examples/tutorial_examples/index.html">
     Tutorials: Getting started
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../howto/howto_examples/index.html">
+  <a class="nav-link nav-internal" href="../../../examples/howto_examples/index.html">
     How to examples
   </a>
 </li>
@@ -332,15 +326,15 @@
           <div class="navbar-item">
 
 <div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
     <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
     <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
     <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
   <ul class="dropdown-menu dropdown-menu-end">
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
   </ul>
 </div></div>
         
@@ -481,18 +475,16 @@
 
 <div class="viewcode-block" id="logger">
 <a class="viewcode-back" href="../../../reference/api/AFQ/tasks/segmentation/index.html#AFQ.tasks.segmentation.logger">[docs]</a>
-<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;AFQ&quot;</span><span class="p">)</span></div>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">"AFQ"</span><span class="p">)</span></div>
 
 
 
-<span class="nd">@immlib</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;bundles&quot;</span><span class="p">)</span>
-<span class="nd">@as_file</span><span class="p">(</span><span class="s2">&quot;_desc-bundles_tractography&quot;</span><span class="p">)</span>
+<span class="nd">@immlib</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">"bundles"</span><span class="p">)</span>
+<span class="nd">@as_file</span><span class="p">(</span><span class="s2">"_desc-bundles_tractography"</span><span class="p">)</span>
 <div class="viewcode-block" id="segment">
 <a class="viewcode-back" href="../../../reference/api/AFQ/tasks/segmentation/index.html#AFQ.tasks.segmentation.segment">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">segment</span><span class="p">(</span>
-    <span class="n">structural_imap</span><span class="p">,</span> <span class="n">data_imap</span><span class="p">,</span> <span class="n">mapping_imap</span><span class="p">,</span> <span class="n">tractography_imap</span><span class="p">,</span> <span class="n">segmentation_params</span>
-<span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">segment</span><span class="p">(</span><span class="n">data_imap</span><span class="p">,</span> <span class="n">mapping_imap</span><span class="p">,</span> <span class="n">tractography_imap</span><span class="p">,</span> <span class="n">segmentation_params</span><span class="p">,</span> <span class="n">citations</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    full path to a trk/trx file containing containing</span>
 <span class="sd">    segmented streamlines, labeled by bundle</span>
 
@@ -501,59 +493,64 @@
 <span class="sd">    segmentation_params : dict, optional</span>
 <span class="sd">        The parameters for segmentation.</span>
 <span class="sd">        Defaults to using the default behavior of the seg.Segmentation object.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">bundle_dict</span> <span class="o">=</span> <span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;bundle_dict&quot;</span><span class="p">]</span>
-    <span class="n">reg_template</span> <span class="o">=</span> <span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;reg_template&quot;</span><span class="p">]</span>
-    <span class="n">streamlines</span> <span class="o">=</span> <span class="n">tractography_imap</span><span class="p">[</span><span class="s2">&quot;streamlines&quot;</span><span class="p">]</span>
+<span class="sd">    """</span>
+    <span class="n">citations</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">"Chandio2020"</span><span class="p">)</span>
+    <span class="n">citations</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">"kruper2025software"</span><span class="p">)</span>
+    <span class="n">citations</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">"Kruper2021-xb"</span><span class="p">)</span>
+    <span class="n">citations</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">"garyfallidis2014dipy"</span><span class="p">)</span>
+    <span class="n">citations</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">"Yeatman2012"</span><span class="p">)</span>
+
+    <span class="n">bundle_dict</span> <span class="o">=</span> <span class="n">data_imap</span><span class="p">[</span><span class="s2">"bundle_dict"</span><span class="p">]</span>
+    <span class="n">reg_template</span> <span class="o">=</span> <span class="n">data_imap</span><span class="p">[</span><span class="s2">"reg_template"</span><span class="p">]</span>
+    <span class="n">streamlines</span> <span class="o">=</span> <span class="n">tractography_imap</span><span class="p">[</span><span class="s2">"streamlines"</span><span class="p">]</span>
     <span class="k">if</span> <span class="p">(</span>
-        <span class="n">streamlines</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.trk&quot;</span><span class="p">)</span>
-        <span class="ow">or</span> <span class="n">streamlines</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.tck&quot;</span><span class="p">)</span>
-        <span class="ow">or</span> <span class="n">streamlines</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.vtk&quot;</span><span class="p">)</span>
+        <span class="n">streamlines</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">".trk"</span><span class="p">)</span>
+        <span class="ow">or</span> <span class="n">streamlines</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">".tck"</span><span class="p">)</span>
+        <span class="ow">or</span> <span class="n">streamlines</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">".vtk"</span><span class="p">)</span>
     <span class="p">):</span>
-        <span class="n">tg</span> <span class="o">=</span> <span class="n">load_tractogram</span><span class="p">(</span><span class="n">streamlines</span><span class="p">,</span> <span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;dwi&quot;</span><span class="p">],</span> <span class="n">bbox_valid_check</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">tg</span> <span class="o">=</span> <span class="n">load_tractogram</span><span class="p">(</span><span class="n">streamlines</span><span class="p">,</span> <span class="n">data_imap</span><span class="p">[</span><span class="s2">"dwi"</span><span class="p">],</span> <span class="n">bbox_valid_check</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="n">is_trx</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="k">elif</span> <span class="n">streamlines</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.trx&quot;</span><span class="p">):</span>
+    <span class="k">elif</span> <span class="n">streamlines</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">".trx"</span><span class="p">):</span>
         <span class="n">is_trx</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="k">if</span> <span class="n">segmentation_params</span><span class="p">[</span><span class="s2">&quot;nb_streamlines&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="n">segmentation_params</span><span class="p">[</span><span class="s2">&quot;nb_points&quot;</span><span class="p">]:</span>
-            <span class="n">tg</span> <span class="o">=</span> <span class="n">load_trx</span><span class="p">(</span><span class="n">streamlines</span><span class="p">,</span> <span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;dwi&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">segmentation_params</span><span class="p">[</span><span class="s2">"nb_streamlines"</span><span class="p">]</span> <span class="ow">or</span> <span class="n">segmentation_params</span><span class="p">[</span><span class="s2">"nb_points"</span><span class="p">]:</span>
+            <span class="n">tg</span> <span class="o">=</span> <span class="n">load_trx</span><span class="p">(</span><span class="n">streamlines</span><span class="p">,</span> <span class="n">data_imap</span><span class="p">[</span><span class="s2">"dwi"</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">tg</span> <span class="o">=</span> <span class="n">streamlines</span>
-    <span class="k">elif</span> <span class="n">streamlines</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.tck.gz&quot;</span><span class="p">):</span>
+    <span class="k">elif</span> <span class="n">streamlines</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">".tck.gz"</span><span class="p">):</span>
         <span class="c1"># uncompress tck.gz to a temporary tck:</span>
-        <span class="n">temp_tck</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">mkdtemp</span><span class="p">(),</span> <span class="n">op</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">streamlines</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.gz&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))[</span><span class="mi">1</span><span class="p">])</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Temporary tck file created at: </span><span class="si">{</span><span class="n">temp_tck</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">with</span> <span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">streamlines</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f_in</span><span class="p">:</span>
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">temp_tck</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f_out</span><span class="p">:</span>
+        <span class="n">temp_tck</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">mkdtemp</span><span class="p">(),</span> <span class="n">op</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">streamlines</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">".gz"</span><span class="p">,</span> <span class="s2">""</span><span class="p">))[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Temporary tck file created at: </span><span class="si">{</span><span class="n">temp_tck</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">streamlines</span><span class="p">,</span> <span class="s2">"rb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f_in</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">temp_tck</span><span class="p">,</span> <span class="s2">"wb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f_out</span><span class="p">:</span>
                 <span class="n">shutil</span><span class="o">.</span><span class="n">copyfileobj</span><span class="p">(</span><span class="n">f_in</span><span class="p">,</span> <span class="n">f_out</span><span class="p">)</span>
         <span class="c1"># initialize stateful tractogram from tck file:</span>
-        <span class="n">tg</span> <span class="o">=</span> <span class="n">load_tractogram</span><span class="p">(</span><span class="n">temp_tck</span><span class="p">,</span> <span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;dwi&quot;</span><span class="p">],</span> <span class="n">bbox_valid_check</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">tg</span> <span class="o">=</span> <span class="n">load_tractogram</span><span class="p">(</span><span class="n">temp_tck</span><span class="p">,</span> <span class="n">data_imap</span><span class="p">[</span><span class="s2">"dwi"</span><span class="p">],</span> <span class="n">bbox_valid_check</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="n">is_trx</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">is_trx</span><span class="p">:</span>
         <span class="n">indices_to_remove</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">tg</span><span class="o">.</span><span class="n">remove_invalid_streamlines</span><span class="p">()</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">indices_to_remove</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">((</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">indices_to_remove</span><span class="p">)</span><span class="si">}</span><span class="s2"> invalid streamlines removed&quot;</span><span class="p">))</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">((</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">indices_to_remove</span><span class="p">)</span><span class="si">}</span><span class="s2"> invalid streamlines removed"</span><span class="p">))</span>
 
     <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
     <span class="n">bundles</span><span class="p">,</span> <span class="n">bundle_meta</span> <span class="o">=</span> <span class="n">recognize</span><span class="p">(</span>
         <span class="n">tg</span><span class="p">,</span>
-        <span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;dwi&quot;</span><span class="p">],</span>
-        <span class="n">mapping_imap</span><span class="p">[</span><span class="s2">&quot;mapping&quot;</span><span class="p">],</span>
+        <span class="n">data_imap</span><span class="p">[</span><span class="s2">"dwi"</span><span class="p">],</span>
+        <span class="n">mapping_imap</span><span class="p">[</span><span class="s2">"mapping"</span><span class="p">],</span>
         <span class="n">bundle_dict</span><span class="p">,</span>
         <span class="n">reg_template</span><span class="p">,</span>
         <span class="o">**</span><span class="n">segmentation_params</span><span class="p">,</span>
     <span class="p">)</span>
 
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">bundles</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Fatal: No bundles recognized."</span><span class="p">)</span>
+
     <span class="n">seg_sft</span> <span class="o">=</span> <span class="n">aus</span><span class="o">.</span><span class="n">SegmentedSFT</span><span class="p">(</span><span class="n">bundles</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">seg_sft</span><span class="o">.</span><span class="n">sft</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Fatal: No bundles recognized.&quot;</span><span class="p">)</span>
-
     <span class="k">if</span> <span class="n">is_trx</span><span class="p">:</span>
-        <span class="n">seg_sft</span><span class="o">.</span><span class="n">sft</span><span class="o">.</span><span class="n">dtype_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;positions&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="s2">&quot;offsets&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">}</span>
+        <span class="n">seg_sft</span><span class="o">.</span><span class="n">sft</span><span class="o">.</span><span class="n">dtype_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"positions"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">float16</span><span class="p">,</span> <span class="s2">"offsets"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">}</span>
         <span class="n">tgram</span> <span class="o">=</span> <span class="n">TrxFile</span><span class="o">.</span><span class="n">from_sft</span><span class="p">(</span><span class="n">seg_sft</span><span class="o">.</span><span class="n">sft</span><span class="p">)</span>
         <span class="n">tgram</span><span class="o">.</span><span class="n">groups</span> <span class="o">=</span> <span class="n">seg_sft</span><span class="o">.</span><span class="n">bundle_idxs</span>
-
     <span class="k">else</span><span class="p">:</span>
         <span class="n">tgram</span> <span class="o">=</span> <span class="n">seg_sft</span><span class="o">.</span><span class="n">sft</span>
 
@@ -571,68 +568,68 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">seg_params_out</span><span class="p">[</span><span class="n">arg_name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
-    <span class="n">meta</span><span class="p">[</span><span class="s2">&quot;source&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">streamlines</span>
-    <span class="n">meta</span><span class="p">[</span><span class="s2">&quot;Recognition Parameters&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">seg_params_out</span>
-    <span class="n">meta</span><span class="p">[</span><span class="s2">&quot;Bundle Parameters&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bundle_meta</span>
-    <span class="n">meta</span><span class="p">[</span><span class="s2">&quot;Timing&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
+    <span class="n">meta</span><span class="p">[</span><span class="s2">"source"</span><span class="p">]</span> <span class="o">=</span> <span class="n">streamlines</span>
+    <span class="n">meta</span><span class="p">[</span><span class="s2">"Recognition Parameters"</span><span class="p">]</span> <span class="o">=</span> <span class="n">seg_params_out</span>
+    <span class="n">meta</span><span class="p">[</span><span class="s2">"Bundle Parameters"</span><span class="p">]</span> <span class="o">=</span> <span class="n">bundle_meta</span>
+    <span class="n">meta</span><span class="p">[</span><span class="s2">"Timing"</span><span class="p">]</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
     <span class="k">return</span> <span class="n">tgram</span><span class="p">,</span> <span class="n">meta</span></div>
 
 
 
-<span class="nd">@immlib</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;indiv_bundles&quot;</span><span class="p">)</span>
+<span class="nd">@immlib</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">"indiv_bundles"</span><span class="p">)</span>
 <div class="viewcode-block" id="export_bundles">
 <a class="viewcode-back" href="../../../reference/api/AFQ/tasks/segmentation/index.html#AFQ.tasks.segmentation.export_bundles">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">export_bundles</span><span class="p">(</span><span class="n">base_fname</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">,</span> <span class="n">bundles</span><span class="p">,</span> <span class="n">tracking_params</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    dictionary of paths, where each path is</span>
 <span class="sd">    a full path to a trk file containing the streamlines of a given bundle.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">is_trx</span> <span class="o">=</span> <span class="n">tracking_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;trx&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+<span class="sd">    """</span>
+    <span class="n">is_trx</span> <span class="o">=</span> <span class="n">tracking_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"trx"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">is_trx</span><span class="p">:</span>
-        <span class="n">extension</span> <span class="o">=</span> <span class="s2">&quot;.trx&quot;</span>
+        <span class="n">extension</span> <span class="o">=</span> <span class="s2">".trx"</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">extension</span> <span class="o">=</span> <span class="s2">&quot;.trk&quot;</span>
+        <span class="n">extension</span> <span class="o">=</span> <span class="s2">".trk"</span>
 
     <span class="n">base_fname</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">op</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">base_fname</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
     <span class="n">seg_sft</span> <span class="o">=</span> <span class="n">aus</span><span class="o">.</span><span class="n">SegmentedSFT</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="n">bundles</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">bundle</span> <span class="ow">in</span> <span class="n">seg_sft</span><span class="o">.</span><span class="n">bundle_names</span><span class="p">:</span>
         <span class="n">fname</span> <span class="o">=</span> <span class="n">get_fname</span><span class="p">(</span>
             <span class="n">base_fname</span><span class="p">,</span>
-            <span class="sa">f</span><span class="s2">&quot;_desc-</span><span class="si">{</span><span class="n">str_to_desc</span><span class="p">(</span><span class="n">bundle</span><span class="p">)</span><span class="si">}</span><span class="s2">_tractography</span><span class="si">{</span><span class="n">extension</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-            <span class="n">subfolder</span><span class="o">=</span><span class="s2">&quot;bundles&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">"_desc-</span><span class="si">{</span><span class="n">str_to_desc</span><span class="p">(</span><span class="n">bundle</span><span class="p">)</span><span class="si">}</span><span class="s2">_tractography</span><span class="si">{</span><span class="n">extension</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+            <span class="n">subfolder</span><span class="o">=</span><span class="s2">"bundles"</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">op</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Bundle </span><span class="si">{</span><span class="n">bundle</span><span class="si">}</span><span class="s2"> already exists at </span><span class="si">{</span><span class="n">fname</span><span class="si">}</span><span class="s2">. Skipping export.&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Bundle </span><span class="si">{</span><span class="n">bundle</span><span class="si">}</span><span class="s2"> already exists at </span><span class="si">{</span><span class="n">fname</span><span class="si">}</span><span class="s2">. Skipping export."</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">bundle_sft</span> <span class="o">=</span> <span class="n">seg_sft</span><span class="o">.</span><span class="n">get_bundle</span><span class="p">(</span><span class="n">bundle</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">bundle_sft</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Saving </span><span class="si">{</span><span class="n">fname</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Saving </span><span class="si">{</span><span class="n">fname</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">is_trx</span><span class="p">:</span>
-                    <span class="n">seg_sft</span><span class="o">.</span><span class="n">sft</span><span class="o">.</span><span class="n">dtype_dict</span> <span class="o">=</span> <span class="p">{</span>
-                        <span class="s2">&quot;positions&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span>
-                        <span class="s2">&quot;offsets&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">,</span>
+                    <span class="n">bundle_sft</span><span class="o">.</span><span class="n">dtype_dict</span> <span class="o">=</span> <span class="p">{</span>
+                        <span class="s2">"positions"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">float16</span><span class="p">,</span>
+                        <span class="s2">"offsets"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">,</span>
                     <span class="p">}</span>
                     <span class="n">trxfile</span> <span class="o">=</span> <span class="n">TrxFile</span><span class="o">.</span><span class="n">from_sft</span><span class="p">(</span><span class="n">bundle_sft</span><span class="p">)</span>
                     <span class="n">save_trx</span><span class="p">(</span><span class="n">trxfile</span><span class="p">,</span> <span class="n">fname</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">save_tractogram</span><span class="p">(</span><span class="n">bundle_sft</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">bbox_valid_check</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No bundle to save for </span><span class="si">{</span><span class="n">bundle</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"No bundle to save for </span><span class="si">{</span><span class="n">bundle</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
             <span class="n">meta</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">bundles</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">seg_sft</span><span class="o">.</span><span class="n">get_bundle_param_info</span><span class="p">(</span><span class="n">bundle</span><span class="p">))</span>
-            <span class="n">meta_fname</span> <span class="o">=</span> <span class="n">drop_extension</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;.json&quot;</span>
+            <span class="n">meta_fname</span> <span class="o">=</span> <span class="n">drop_extension</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span> <span class="o">+</span> <span class="s2">".json"</span>
             <span class="n">write_json</span><span class="p">(</span><span class="n">meta_fname</span><span class="p">,</span> <span class="n">meta</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">op</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span></div>
 
 
 
-<span class="nd">@immlib</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;sl_counts&quot;</span><span class="p">)</span>
-<span class="nd">@as_file</span><span class="p">(</span><span class="s2">&quot;_desc-slCount_tractography.csv&quot;</span><span class="p">,</span> <span class="n">subfolder</span><span class="o">=</span><span class="s2">&quot;stats&quot;</span><span class="p">)</span>
+<span class="nd">@immlib</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">"sl_counts"</span><span class="p">)</span>
+<span class="nd">@as_file</span><span class="p">(</span><span class="s2">"_desc-slCount_tractography.csv"</span><span class="p">,</span> <span class="n">subfolder</span><span class="o">=</span><span class="s2">"stats"</span><span class="p">)</span>
 <div class="viewcode-block" id="export_sl_counts">
 <a class="viewcode-back" href="../../../reference/api/AFQ/tasks/segmentation/index.html#AFQ.tasks.segmentation.export_sl_counts">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">export_sl_counts</span><span class="p">(</span><span class="n">bundles</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    full path to a JSON file containing streamline counts</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">sl_counts</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">seg_sft</span> <span class="o">=</span> <span class="n">aus</span><span class="o">.</span><span class="n">SegmentedSFT</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="n">bundles</span><span class="p">)</span>
 
@@ -642,42 +639,36 @@
 
     <span class="n">counts_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
         <span class="n">data</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">n_streamlines</span><span class="o">=</span><span class="n">sl_counts</span><span class="p">),</span>
-        <span class="n">index</span><span class="o">=</span><span class="n">seg_sft</span><span class="o">.</span><span class="n">bundle_names</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;Total Recognized&quot;</span><span class="p">],</span>
+        <span class="n">index</span><span class="o">=</span><span class="n">seg_sft</span><span class="o">.</span><span class="n">bundle_names</span> <span class="o">+</span> <span class="p">[</span><span class="s2">"Total Recognized"</span><span class="p">],</span>
     <span class="p">)</span>
     <span class="k">return</span> <span class="n">counts_df</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">bundles</span><span class="p">)</span></div>
 
 
 
-<span class="nd">@immlib</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;bundle_lengths&quot;</span><span class="p">)</span>
-<span class="nd">@as_file</span><span class="p">(</span><span class="s2">&quot;_desc-medianBundleLengths_tractography.csv&quot;</span><span class="p">,</span> <span class="n">subfolder</span><span class="o">=</span><span class="s2">&quot;stats&quot;</span><span class="p">)</span>
+<span class="nd">@immlib</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">"bundle_lengths"</span><span class="p">)</span>
+<span class="nd">@as_file</span><span class="p">(</span><span class="s2">"_desc-medianBundleLengths_tractography.csv"</span><span class="p">,</span> <span class="n">subfolder</span><span class="o">=</span><span class="s2">"stats"</span><span class="p">)</span>
 <div class="viewcode-block" id="export_bundle_lengths">
 <a class="viewcode-back" href="../../../reference/api/AFQ/tasks/segmentation/index.html#AFQ.tasks.segmentation.export_bundle_lengths">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">export_bundle_lengths</span><span class="p">(</span><span class="n">bundles</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    full path to a CSV file containing median + min + max bundle lengths</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">len_data</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">seg_sft</span> <span class="o">=</span> <span class="n">aus</span><span class="o">.</span><span class="n">SegmentedSFT</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="n">bundles</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">bundle</span> <span class="ow">in</span> <span class="n">seg_sft</span><span class="o">.</span><span class="n">bundle_names</span><span class="p">:</span>
         <span class="n">these_lengths</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">length</span><span class="p">(</span><span class="n">seg_sft</span><span class="o">.</span><span class="n">get_bundle</span><span class="p">(</span><span class="n">bundle</span><span class="p">)</span><span class="o">.</span><span class="n">streamlines</span><span class="p">))</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">these_lengths</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">len_data</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bundle</span><span class="si">}</span><span class="s2"> Median&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">these_lengths</span><span class="p">)</span>
-            <span class="n">len_data</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bundle</span><span class="si">}</span><span class="s2"> Min&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">these_lengths</span><span class="p">)</span>
-            <span class="n">len_data</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bundle</span><span class="si">}</span><span class="s2"> Max&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">these_lengths</span><span class="p">)</span>
+            <span class="n">len_data</span><span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">bundle</span><span class="si">}</span><span class="s2"> Median"</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">these_lengths</span><span class="p">)</span>
+            <span class="n">len_data</span><span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">bundle</span><span class="si">}</span><span class="s2"> Min"</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">these_lengths</span><span class="p">)</span>
+            <span class="n">len_data</span><span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">bundle</span><span class="si">}</span><span class="s2"> Max"</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">these_lengths</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">len_data</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bundle</span><span class="si">}</span><span class="s2"> Median&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="n">len_data</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bundle</span><span class="si">}</span><span class="s2"> Min&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="n">len_data</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bundle</span><span class="si">}</span><span class="s2"> Max&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">len_data</span><span class="p">[</span><span class="s2">&quot;Total Recognized Median&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span>
-        <span class="n">seg_sft</span><span class="o">.</span><span class="n">sft</span><span class="o">.</span><span class="n">_tractogram</span><span class="o">.</span><span class="n">_streamlines</span><span class="o">.</span><span class="n">_lengths</span>
-    <span class="p">)</span>
-    <span class="n">len_data</span><span class="p">[</span><span class="s2">&quot;Total Recognized Min&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span>
-        <span class="n">seg_sft</span><span class="o">.</span><span class="n">sft</span><span class="o">.</span><span class="n">_tractogram</span><span class="o">.</span><span class="n">_streamlines</span><span class="o">.</span><span class="n">_lengths</span>
-    <span class="p">)</span>
-    <span class="n">len_data</span><span class="p">[</span><span class="s2">&quot;Total Recognized Max&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span>
-        <span class="n">seg_sft</span><span class="o">.</span><span class="n">sft</span><span class="o">.</span><span class="n">_tractogram</span><span class="o">.</span><span class="n">_streamlines</span><span class="o">.</span><span class="n">_lengths</span>
-    <span class="p">)</span>
+            <span class="n">len_data</span><span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">bundle</span><span class="si">}</span><span class="s2"> Median"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">len_data</span><span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">bundle</span><span class="si">}</span><span class="s2"> Min"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">len_data</span><span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">bundle</span><span class="si">}</span><span class="s2"> Max"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">len_data</span><span class="p">[</span><span class="s2">"Total Recognized Median"</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">seg_sft</span><span class="o">.</span><span class="n">get_lengths</span><span class="p">())</span>
+    <span class="n">len_data</span><span class="p">[</span><span class="s2">"Total Recognized Min"</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">seg_sft</span><span class="o">.</span><span class="n">get_lengths</span><span class="p">())</span>
+    <span class="n">len_data</span><span class="p">[</span><span class="s2">"Total Recognized Max"</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">seg_sft</span><span class="o">.</span><span class="n">get_lengths</span><span class="p">())</span>
 
     <span class="n">counts_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
         <span class="n">data</span><span class="o">=</span><span class="n">len_data</span><span class="p">,</span>
@@ -687,38 +678,38 @@
 
 
 
-<span class="nd">@immlib</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;density_maps&quot;</span><span class="p">)</span>
-<span class="nd">@as_file</span><span class="p">(</span><span class="s2">&quot;_desc-density_tractography.nii.gz&quot;</span><span class="p">)</span>
+<span class="nd">@immlib</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">"density_maps"</span><span class="p">)</span>
+<span class="nd">@as_file</span><span class="p">(</span><span class="s2">"_desc-density_tractography.nii.gz"</span><span class="p">)</span>
 <div class="viewcode-block" id="export_density_maps">
 <a class="viewcode-back" href="../../../reference/api/AFQ/tasks/segmentation/index.html#AFQ.tasks.segmentation.export_density_maps">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">export_density_maps</span><span class="p">(</span><span class="n">bundles</span><span class="p">,</span> <span class="n">data_imap</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    full path to 4d nifti file containing streamline counts per voxel</span>
 <span class="sd">    per bundle, where the 4th dimension encodes the bundle</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">seg_sft</span> <span class="o">=</span> <span class="n">aus</span><span class="o">.</span><span class="n">SegmentedSFT</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="n">bundles</span><span class="p">)</span>
     <span class="n">entire_density_map</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
-        <span class="p">(</span><span class="o">*</span><span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">3</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">seg_sft</span><span class="o">.</span><span class="n">bundle_names</span><span class="p">))</span>
+        <span class="p">(</span><span class="o">*</span><span class="n">data_imap</span><span class="p">[</span><span class="s2">"data"</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">3</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">seg_sft</span><span class="o">.</span><span class="n">bundle_names</span><span class="p">))</span>
     <span class="p">)</span>
     <span class="k">for</span> <span class="n">ii</span><span class="p">,</span> <span class="n">bundle_name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">seg_sft</span><span class="o">.</span><span class="n">bundle_names</span><span class="p">):</span>
         <span class="n">bundle_sl</span> <span class="o">=</span> <span class="n">seg_sft</span><span class="o">.</span><span class="n">get_bundle</span><span class="p">(</span><span class="n">bundle_name</span><span class="p">)</span>
         <span class="n">bundle_density</span> <span class="o">=</span> <span class="n">auv</span><span class="o">.</span><span class="n">density_map</span><span class="p">(</span><span class="n">bundle_sl</span><span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
         <span class="n">entire_density_map</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="n">bundle_density</span>
 
-    <span class="k">return</span> <span class="n">nib</span><span class="o">.</span><span class="n">Nifti1Image</span><span class="p">(</span><span class="n">entire_density_map</span><span class="p">,</span> <span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;dwi_affine&quot;</span><span class="p">]),</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="k">return</span> <span class="n">nib</span><span class="o">.</span><span class="n">Nifti1Image</span><span class="p">(</span><span class="n">entire_density_map</span><span class="p">,</span> <span class="n">data_imap</span><span class="p">[</span><span class="s2">"dwi_affine"</span><span class="p">]),</span> <span class="nb">dict</span><span class="p">(</span>
         <span class="n">source</span><span class="o">=</span><span class="n">bundles</span><span class="p">,</span> <span class="n">bundles</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">seg_sft</span><span class="o">.</span><span class="n">bundle_names</span><span class="p">)</span>
     <span class="p">)</span></div>
 
 
 
-<span class="nd">@immlib</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;profiles&quot;</span><span class="p">)</span>
-<span class="nd">@as_file</span><span class="p">(</span><span class="s2">&quot;_desc-profiles_tractography.csv&quot;</span><span class="p">)</span>
+<span class="nd">@immlib</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">"profiles"</span><span class="p">)</span>
+<span class="nd">@as_file</span><span class="p">(</span><span class="s2">"_desc-profiles_tractography.csv"</span><span class="p">)</span>
 <div class="viewcode-block" id="tract_profiles">
 <a class="viewcode-back" href="../../../reference/api/AFQ/tasks/segmentation/index.html#AFQ.tasks.segmentation.tract_profiles">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">tract_profiles</span><span class="p">(</span>
-    <span class="n">bundles</span><span class="p">,</span> <span class="n">scalar_dict</span><span class="p">,</span> <span class="n">data_imap</span><span class="p">,</span> <span class="n">profile_weights</span><span class="o">=</span><span class="s2">&quot;gauss&quot;</span><span class="p">,</span> <span class="n">n_points_profile</span><span class="o">=</span><span class="mi">100</span>
+    <span class="n">bundles</span><span class="p">,</span> <span class="n">scalar_dict</span><span class="p">,</span> <span class="n">data_imap</span><span class="p">,</span> <span class="n">profile_weights</span><span class="o">=</span><span class="s2">"gauss"</span><span class="p">,</span> <span class="n">n_points_profile</span><span class="o">=</span><span class="mi">100</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    full path to a CSV file containing tract profiles</span>
 
 <span class="sd">    Parameters</span>
@@ -727,33 +718,33 @@
 <span class="sd">        How to weight each streamline (1D) or each node (2D)</span>
 <span class="sd">        when calculating the tract-profiles. If callable, this is a</span>
 <span class="sd">        function that calculates weights. If None, no weighting will</span>
-<span class="sd">        be applied. If &quot;gauss&quot;, gaussian weights will be used.</span>
-<span class="sd">        If &quot;median&quot;, the median of values at each node will be used</span>
+<span class="sd">        be applied. If "gauss", gaussian weights will be used.</span>
+<span class="sd">        If "median", the median of values at each node will be used</span>
 <span class="sd">        instead of a mean or weighted mean.</span>
-<span class="sd">        Default: &quot;gauss&quot;</span>
+<span class="sd">        Default: "gauss"</span>
 <span class="sd">    n_points_profile : int, optional</span>
 <span class="sd">        Number of points to resample each streamline to before</span>
 <span class="sd">        calculating the tract-profiles.</span>
 <span class="sd">        Default: 100</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span>
         <span class="n">profile_weights</span> <span class="ow">is</span> <span class="kc">None</span>
         <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">profile_weights</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
         <span class="ow">or</span> <span class="nb">callable</span><span class="p">(</span><span class="n">profile_weights</span><span class="p">)</span>
-        <span class="ow">or</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">profile_weights</span><span class="p">,</span> <span class="s2">&quot;__len__&quot;</span><span class="p">)</span>
+        <span class="ow">or</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">profile_weights</span><span class="p">,</span> <span class="s2">"__len__"</span><span class="p">)</span>
     <span class="p">):</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-            <span class="s2">&quot;profile_weights must be string, None, callable, or&quot;</span> <span class="o">+</span> <span class="s2">&quot;a 1D or 2D array&quot;</span>
+            <span class="s2">"profile_weights must be string, None, callable, or"</span> <span class="o">+</span> <span class="s2">"a 1D or 2D array"</span>
         <span class="p">)</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">profile_weights</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">profile_weights</span> <span class="o">=</span> <span class="n">profile_weights</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
     <span class="k">if</span> <span class="p">(</span>
         <span class="nb">isinstance</span><span class="p">(</span><span class="n">profile_weights</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
-        <span class="ow">and</span> <span class="n">profile_weights</span> <span class="o">!=</span> <span class="s2">&quot;gauss&quot;</span>
-        <span class="ow">and</span> <span class="n">profile_weights</span> <span class="o">!=</span> <span class="s2">&quot;median&quot;</span>
+        <span class="ow">and</span> <span class="n">profile_weights</span> <span class="o">!=</span> <span class="s2">"gauss"</span>
+        <span class="ow">and</span> <span class="n">profile_weights</span> <span class="o">!=</span> <span class="s2">"median"</span>
     <span class="p">):</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-            <span class="s2">&quot;if profile_weights is a string,&quot;</span> <span class="o">+</span> <span class="s2">&quot; it must be &#39;gauss&#39; or &#39;median&#39;&quot;</span>
+            <span class="s2">"if profile_weights is a string,"</span> <span class="o">+</span> <span class="s2">" it must be 'gauss' or 'median'"</span>
         <span class="p">)</span>
 
     <span class="n">bundle_names</span> <span class="o">=</span> <span class="p">[]</span>
@@ -763,12 +754,12 @@
     <span class="n">reference</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">scalar_dict</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">scalar_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]])</span>
     <span class="n">seg_sft</span> <span class="o">=</span> <span class="n">aus</span><span class="o">.</span><span class="n">SegmentedSFT</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="n">bundles</span><span class="p">,</span> <span class="n">reference</span><span class="o">=</span><span class="n">reference</span><span class="p">)</span>
 
-    <span class="n">seg_sft</span><span class="o">.</span><span class="n">sft</span><span class="o">.</span><span class="n">to_rasmm</span><span class="p">()</span>
+    <span class="n">seg_sft</span><span class="o">.</span><span class="n">to_rasmm</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">bundle_name</span> <span class="ow">in</span> <span class="n">seg_sft</span><span class="o">.</span><span class="n">bundle_names</span><span class="p">:</span>
         <span class="n">this_sl</span> <span class="o">=</span> <span class="n">seg_sft</span><span class="o">.</span><span class="n">get_bundle</span><span class="p">(</span><span class="n">bundle_name</span><span class="p">)</span><span class="o">.</span><span class="n">streamlines</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">this_sl</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">continue</span>
-        <span class="k">if</span> <span class="n">profile_weights</span> <span class="o">==</span> <span class="s2">&quot;gauss&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">profile_weights</span> <span class="o">==</span> <span class="s2">"gauss"</span><span class="p">:</span>
             <span class="c1"># calculate only once per bundle</span>
             <span class="n">bundle_profile_weights</span> <span class="o">=</span> <span class="n">gaussian_weights</span><span class="p">(</span>
                 <span class="n">this_sl</span><span class="p">,</span> <span class="n">n_points</span><span class="o">=</span><span class="n">n_points_profile</span>
@@ -778,9 +769,9 @@
                 <span class="n">scalar_file</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">scalar_file</span><span class="p">)</span>
             <span class="n">scalar_data</span> <span class="o">=</span> <span class="n">scalar_file</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">profile_weights</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-                <span class="k">if</span> <span class="n">profile_weights</span> <span class="o">==</span> <span class="s2">&quot;gauss&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">profile_weights</span> <span class="o">==</span> <span class="s2">"gauss"</span><span class="p">:</span>
                     <span class="n">this_prof_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">bundle_profile_weights</span><span class="p">)</span>
-                <span class="k">elif</span> <span class="n">profile_weights</span> <span class="o">==</span> <span class="s2">&quot;median&quot;</span><span class="p">:</span>
+                <span class="k">elif</span> <span class="n">profile_weights</span> <span class="o">==</span> <span class="s2">"median"</span><span class="p">:</span>
                     <span class="c1"># weights bundle to only return the mean</span>
                     <span class="k">def</span><span class="w"> </span><span class="nf">_median_weight</span><span class="p">(</span><span class="n">bundle</span><span class="p">):</span>
                         <span class="n">fgarray</span> <span class="o">=</span> <span class="n">set_number_of_points</span><span class="p">(</span><span class="n">bundle</span><span class="p">,</span> <span class="n">n_points_profile</span><span class="p">)</span>
@@ -788,7 +779,7 @@
                             <span class="n">values_from_volume</span><span class="p">(</span>
                                 <span class="n">scalar_data</span><span class="p">,</span>  <span class="c1"># noqa B023</span>
                                 <span class="n">fgarray</span><span class="p">,</span>
-                                <span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;dwi_affine&quot;</span><span class="p">],</span>
+                                <span class="n">data_imap</span><span class="p">[</span><span class="s2">"dwi_affine"</span><span class="p">],</span>
                             <span class="p">)</span>
                         <span class="p">)</span>
                         <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">values</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
@@ -806,18 +797,20 @@
             <span class="p">):</span>  <span class="c1"># fit failed</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
                     <span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;Even weighting used for &quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot;bundle </span><span class="si">{</span><span class="n">bundle_name</span><span class="si">}</span><span class="s2">, scalar </span><span class="si">{</span><span class="n">scalar</span><span class="si">}</span><span class="s2"> &quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot;in profiling due inability to estimate weights. &quot;</span>
-                        <span class="s2">&quot;This is often caused by low streamline count or &quot;</span>
-                        <span class="s2">&quot;low variance in the scalar data.&quot;</span>
+                        <span class="sa">f</span><span class="s2">"Even weighting used for "</span>
+                        <span class="sa">f</span><span class="s2">"bundle </span><span class="si">{</span><span class="n">bundle_name</span><span class="si">}</span><span class="s2">, scalar </span><span class="si">{</span><span class="n">scalar</span><span class="si">}</span><span class="s2"> "</span>
+                        <span class="sa">f</span><span class="s2">"in profiling due inability to estimate weights. "</span>
+                        <span class="s2">"This is often caused by low streamline count or "</span>
+                        <span class="s2">"low variance in the scalar data."</span>
                     <span class="p">)</span>
                 <span class="p">)</span>
-                <span class="n">this_prof_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">this_prof_weights</span><span class="p">)</span>
+                <span class="n">this_prof_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">this_prof_weights</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span>
+                    <span class="n">this_prof_weights</span>
+                <span class="p">)</span>
             <span class="n">this_profile</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="n">afq_profile</span><span class="p">(</span>
                 <span class="n">scalar_data</span><span class="p">,</span>
                 <span class="n">this_sl</span><span class="p">,</span>
-                <span class="n">data_imap</span><span class="p">[</span><span class="s2">&quot;dwi_affine&quot;</span><span class="p">],</span>
+                <span class="n">data_imap</span><span class="p">[</span><span class="s2">"dwi_affine"</span><span class="p">],</span>
                 <span class="n">weights</span><span class="o">=</span><span class="n">this_prof_weights</span><span class="p">,</span>
                 <span class="n">n_points</span><span class="o">=</span><span class="n">n_points_profile</span><span class="p">,</span>
             <span class="p">)</span>
@@ -827,8 +820,8 @@
         <span class="n">node_numbers</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
 
     <span class="n">profile_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-    <span class="n">profile_dict</span><span class="p">[</span><span class="s2">&quot;tractID&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bundle_names</span>
-    <span class="n">profile_dict</span><span class="p">[</span><span class="s2">&quot;nodeID&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">node_numbers</span>
+    <span class="n">profile_dict</span><span class="p">[</span><span class="s2">"tractID"</span><span class="p">]</span> <span class="o">=</span> <span class="n">bundle_names</span>
+    <span class="n">profile_dict</span><span class="p">[</span><span class="s2">"nodeID"</span><span class="p">]</span> <span class="o">=</span> <span class="n">node_numbers</span>
     <span class="k">for</span> <span class="n">ii</span><span class="p">,</span> <span class="n">scalar</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">scalar_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
         <span class="n">profile_dict</span><span class="p">[</span><span class="n">scalar</span><span class="p">]</span> <span class="o">=</span> <span class="n">profiles</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
 
@@ -844,7 +837,7 @@
 
 
 
-<span class="nd">@immlib</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;scalar_dict&quot;</span><span class="p">)</span>
+<span class="nd">@immlib</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">"scalar_dict"</span><span class="p">)</span>
 <div class="viewcode-block" id="get_scalar_dict">
 <a class="viewcode-back" href="../../../reference/api/AFQ/tasks/segmentation/index.html#AFQ.tasks.segmentation.get_scalar_dict">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_scalar_dict</span><span class="p">(</span>
@@ -855,7 +848,7 @@
     <span class="n">t1_file</span><span class="p">,</span>
     <span class="n">scalars</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    dictionary mapping scalar names</span>
 <span class="sd">    to their respective file paths</span>
 
@@ -863,44 +856,44 @@
 <span class="sd">    ----------</span>
 <span class="sd">    scalars : list of strings and/or scalar definitions, optional</span>
 <span class="sd">        List of scalars to use.</span>
-<span class="sd">        Can be any of: &quot;dti_fa&quot;, &quot;dti_md&quot;, &quot;dki_fa&quot;, &quot;dki_md&quot;, &quot;dki_awf&quot;,</span>
-<span class="sd">        &quot;dki_mk&quot;, or other scalars found in AFQ.tasks.data.</span>
+<span class="sd">        Can be any of: "dti_fa", "dti_md", "dki_fa", "dki_md", "dki_awf",</span>
+<span class="sd">        "dki_mk", or other scalars found in AFQ.tasks.data.</span>
 <span class="sd">        Can also be a scalar from AFQ.definitions.image.</span>
-<span class="sd">        Finally, can also be &quot;t1w&quot;.</span>
-<span class="sd">        Defaults for single shell data to [&quot;dti_fa&quot;, &quot;dti_md&quot;, &quot;t1w_over_b0&quot;],</span>
-<span class="sd">        and for multi-shell data to [&quot;dti_fa&quot;, &quot;dti_md&quot;, &quot;t1w_over_b0&quot;,</span>
-<span class="sd">        &quot;msdki_msd&quot;, &quot;msdki_msk&quot;].</span>
-<span class="sd">        Default: [&#39;dti_fa&#39;, &#39;dti_md&#39;, &#39;t1w_over_b0&#39;]</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        Finally, can also be "t1w".</span>
+<span class="sd">        Defaults for single shell data to ["dti_fa", "dti_md", "t1w_over_b0"],</span>
+<span class="sd">        and for multi-shell data to ["dti_fa", "dti_md", "t1w_over_b0",</span>
+<span class="sd">        "msdki_msd", "msdki_msk"].</span>
+<span class="sd">        Default: ['dti_fa', 'dti_md', 't1w_over_b0']</span>
+<span class="sd">    """</span>
     <span class="c1"># Note: some scalars preprocessing done in data plan, before this step</span>
     <span class="k">if</span> <span class="n">scalars</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">scalars</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;dti_fa&quot;</span><span class="p">,</span> <span class="s2">&quot;dti_md&quot;</span><span class="p">,</span> <span class="s2">&quot;t1w_over_b0&quot;</span><span class="p">]</span>
+        <span class="n">scalars</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"dti_fa"</span><span class="p">,</span> <span class="s2">"dti_md"</span><span class="p">,</span> <span class="s2">"t1w_over_b0"</span><span class="p">]</span>
     <span class="n">scalar_dict</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">scalar</span> <span class="ow">in</span> <span class="n">scalars</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">scalar</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="n">sc</span> <span class="o">=</span> <span class="n">scalar</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">sc</span> <span class="o">==</span> <span class="s2">&quot;t1w&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">sc</span> <span class="o">==</span> <span class="s2">"t1w"</span><span class="p">:</span>
                 <span class="n">scalar_dict</span><span class="p">[</span><span class="n">sc</span><span class="p">]</span> <span class="o">=</span> <span class="n">t1_file</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">scalar_dict</span><span class="p">[</span><span class="n">sc</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_tp</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sc</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">structural_imap</span><span class="p">,</span> <span class="n">data_imap</span><span class="p">,</span> <span class="n">tissue_imap</span>
+                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">sc</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">structural_imap</span><span class="p">,</span> <span class="n">data_imap</span><span class="p">,</span> <span class="n">tissue_imap</span>
                 <span class="p">)</span>
-        <span class="k">elif</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">scalar</span><span class="o">.</span><span class="n">get_name</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span> <span class="ow">in</span> <span class="n">mapping_imap</span><span class="p">:</span>
-            <span class="n">scalar_dict</span><span class="p">[</span><span class="n">scalar</span><span class="o">.</span><span class="n">get_name</span><span class="p">()]</span> <span class="o">=</span> <span class="n">mapping_imap</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">scalar</span><span class="o">.</span><span class="n">get_name</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
-    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;scalar_dict&quot;</span><span class="p">:</span> <span class="n">scalar_dict</span><span class="p">}</span></div>
+        <span class="k">elif</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">scalar</span><span class="o">.</span><span class="n">get_name</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span> <span class="ow">in</span> <span class="n">mapping_imap</span><span class="p">:</span>
+            <span class="n">scalar_dict</span><span class="p">[</span><span class="n">scalar</span><span class="o">.</span><span class="n">get_name</span><span class="p">()]</span> <span class="o">=</span> <span class="n">mapping_imap</span><span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">scalar</span><span class="o">.</span><span class="n">get_name</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">"scalar_dict"</span><span class="p">:</span> <span class="n">scalar_dict</span><span class="p">}</span></div>
 
 
 
 <div class="viewcode-block" id="get_segmentation_plan">
 <a class="viewcode-back" href="../../../reference/api/AFQ/tasks/segmentation/index.html#AFQ.tasks.segmentation.get_segmentation_plan">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_segmentation_plan</span><span class="p">(</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="k">if</span> <span class="s2">&quot;segmentation_params&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span>
-        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;segmentation_params&quot;</span><span class="p">],</span> <span class="nb">dict</span>
+    <span class="k">if</span> <span class="s2">"segmentation_params"</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">"segmentation_params"</span><span class="p">],</span> <span class="nb">dict</span>
     <span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;segmentation_params a dict&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="s2">&quot;cleaning_params&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"segmentation_params a dict"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s2">"cleaning_params"</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="s2">&quot;cleaning_params should be passed inside ofsegmentation_params&quot;</span>
+            <span class="s2">"cleaning_params should be passed inside ofsegmentation_params"</span>
         <span class="p">)</span>
     <span class="n">segmentation_tasks</span> <span class="o">=</span> <span class="n">with_name</span><span class="p">(</span>
         <span class="p">[</span>
@@ -915,11 +908,11 @@
     <span class="p">)</span>
 
     <span class="n">default_seg_params</span> <span class="o">=</span> <span class="n">get_default_args</span><span class="p">(</span><span class="n">recognize</span><span class="p">)</span>
-    <span class="k">if</span> <span class="s2">&quot;segmentation_params&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;segmentation_params&quot;</span><span class="p">]:</span>
-            <span class="n">default_seg_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;segmentation_params&quot;</span><span class="p">][</span><span class="n">k</span><span class="p">]</span>
+    <span class="k">if</span> <span class="s2">"segmentation_params"</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">"segmentation_params"</span><span class="p">]:</span>
+            <span class="n">default_seg_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">"segmentation_params"</span><span class="p">][</span><span class="n">k</span><span class="p">]</span>
 
-    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;segmentation_params&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">default_seg_params</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s2">"segmentation_params"</span><span class="p">]</span> <span class="o">=</span> <span class="n">default_seg_params</span>
     <span class="k">return</span> <span class="n">immlib</span><span class="o">.</span><span class="n">plan</span><span class="p">(</span><span class="o">**</span><span class="n">segmentation_tasks</span><span class="p">)</span></div>
 
 </pre></div>
@@ -951,8 +944,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../../_static/scripts/bootstrap.js?digest=0790524f97105ba85085"></script>
-<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085"></script>
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0"></script>
 
 
   <footer class="bd-footer">
@@ -974,7 +967,6 @@
 
   <p class="sphinx-version">
     Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
-    <br/>
   </p>
 </div>
       

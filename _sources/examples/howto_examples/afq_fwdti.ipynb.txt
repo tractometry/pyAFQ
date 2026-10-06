@@ -1,0 +1,261 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "8c29d22d",
+   "metadata": {},
+   "source": [
+    "# How to use Free water DTI\n",
+    "\n",
+    "The free-water DTI model [^1], [^2] fits a two compartment model to dMRI data\n",
+    "with more than one non-zero shell. One compartment is a spherical compartment\n",
+    "with the diffusivity of water, which accounts for free water in the tissue.\n",
+    "The other compartment is the standard diffusion tensor.\n",
+    "\n",
+    "In this example, we will compare the results of the fwDTI model and the\n",
+    "standard DTI model."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "bdfb8a30",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import os.path as op\n",
+    "\n",
+    "import matplotlib.pyplot as plt\n",
+    "import nibabel as nib\n",
+    "\n",
+    "from AFQ.api.group import GroupAFQ\n",
+    "import AFQ.data.fetch as afd\n",
+    "\n",
+    "from AFQ.definitions.image import ImageFile, RoiImage\n",
+    "import AFQ.api.bundle_dict as abd\n",
+    "\n",
+    "import pandas as pd"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "22e9b884",
+   "metadata": {},
+   "source": [
+    "## Get some data\n",
+    "\n",
+    "In this example, we will look at one subject from the Healthy Brain Network\n",
+    "Processed Open Diffusion Derivatives dataset (HBN-POD2) [^3], [^4]. The data in\n",
+    "this study were collected with a multi-shell sequence, meaning that most\n",
+    "subjects in this study have data with more than one non-zero b-value. This\n",
+    "means that we can fit the fwDTI model to their data.\n",
+    "\n",
+    "We'll use a fetcher to get preprocessd dMRI data for one of the >2,000\n",
+    "subjects in that study. The data gets organized into a BIDS-compatible\n",
+    "format in the `~/AFQ_data/HBN` folder."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "20d29210",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "study_dir = afd.fetch_hbn_preproc([\"NDARAA948VFH\"])[1]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "fa2ab8d2",
+   "metadata": {},
+   "source": [
+    "## Define an AFQ object\n",
+    "In addition to preprocessd dMRI data, HBN-POD2 contains brain mask and mapping\n",
+    "information for each subject. We can use this information in our pipeline, by\n",
+    "inserting this information as `mapping_definition` inputs to the `GroupAFQ` class\n",
+    "initializer. When initializing this object, we will also ask for the fwDTI scalars\n",
+    "to be computed. For expedience, we will limit our investigation to the bilateral\n",
+    "arcuate fasciculus and track only around that bundle. If you would like to do this\n",
+    "for all bundles, you would remove the `bundle_dict` and `tracking_params` inputs\n",
+    "to the initializer that\n",
+    "are provided below."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "3fff1b3a",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "bundle_names = [\"Left Arcuate\", \"Right Arcuate\"]\n",
+    "bundle_dict = abd.default_bd()[bundle_names]\n",
+    "\n",
+    "myafq = GroupAFQ(\n",
+    "    bids_path=study_dir,\n",
+    "    dwi_preproc_pipeline='qsiprep',\n",
+    "    output_dir=op.join(study_dir, \"derivatives\", \"afq_fwdti\"),\n",
+    "    bundle_info=bundle_dict,\n",
+    "    tracking_params={\n",
+    "        \"n_seeds\": 50000,\n",
+    "        \"random_seeds\": True,\n",
+    "        \"seed_mask\": RoiImage(use_waypoints=True, use_endpoints=True),\n",
+    "    },\n",
+    "    scalars=[\"fwdti_fa\", \"fwdti_md\", \"fwdti_fwf\", \"dti_fa\", \"dti_md\"])"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "9efe9511",
+   "metadata": {},
+   "source": [
+    "## Compare fwDTI and DTI maps\n",
+    "First, we take a look at the maps for the FA and MD calculated using the two\n",
+    "models"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "5205e3e3",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "fwFA = nib.load(myafq.export(\"fwdti_fa\")[\"NDARAA948VFH\"]).get_fdata()\n",
+    "FA = nib.load(myafq.export(\"dti_fa\")[\"NDARAA948VFH\"]).get_fdata()\n",
+    "\n",
+    "fig, ax = plt.subplots(1, 2)\n",
+    "ax[0].matshow(FA[:, :, FA.shape[-1] // 2], cmap='gray')\n",
+    "ax[0].axis(\"off\")\n",
+    "\n",
+    "ax[1].matshow(fwFA[:, :, fwFA.shape[-1] // 2], cmap='gray')\n",
+    "ax[1].axis(\"off\")\n",
+    "\n",
+    "\n",
+    "fwMD = nib.load(myafq.export(\"fwdti_md\")[\"NDARAA948VFH\"]).get_fdata()\n",
+    "MD = nib.load(myafq.export(\"dti_md\")[\"NDARAA948VFH\"]).get_fdata()\n",
+    "\n",
+    "fig, ax = plt.subplots(1, 2)\n",
+    "ax[0].matshow(MD[:, :, MD.shape[-1] // 2], cmap='gray', vmax=0.005)\n",
+    "ax[0].axis(\"off\")\n",
+    "\n",
+    "ax[1].matshow(fwMD[:, :, fwMD.shape[-1] // 2], cmap='gray', vmax=0.005)\n",
+    "ax[1].axis(\"off\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "76bbfb0d",
+   "metadata": {},
+   "source": [
+    "## Free-water fraction map\n",
+    "In addition to the standard tensor scalars, provided by the fwDTI model, this\n",
+    "model also computes a free-water fraction, which is a number between 0 and 1\n",
+    "that assesses the fraction of the voxel signal that is explained by the free\n",
+    "water compartment."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "3af1e089",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "fwf = nib.load(myafq.export(\"fwdti_fwf\")[\"NDARAA948VFH\"]).get_fdata()\n",
+    "fig, ax = plt.subplots()\n",
+    "ax.matshow(fwf[:, :, fwf.shape[-1] // 2], cmap='gray')\n",
+    "ax.axis(\"off\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "69089562",
+   "metadata": {},
+   "source": [
+    "## Comparing bundle profiles\n",
+    "Exporting the profiles will create a CSV file that contains information about\n",
+    "node-by-node values of the scalars computed with both models. Here, we read in\n",
+    "this information with Pandas and plot a comparison. As you can see, when free\n",
+    "water is accounted for with the fwDTI model, FA along the bundle is higher and\n",
+    "MD is lower than that estimated with the standard DTI model."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "e72cb5c3",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "profiles_csv = myafq.export(\"profiles\")['NDARAA948VFH']\n",
+    "profiles = pd.read_csv(profiles_csv)\n",
+    "\n",
+    "fig, ax = plt.subplots(3, 2)\n",
+    "for ii, bundle in enumerate([\"Left Arcuate\", \"Right Arcuate\"]):\n",
+    "    ax[0, ii].plot(profiles[profiles[\"tractID\"] == bundle][\"fwdti_fa\"],\n",
+    "                   label=\"fwDTI\")\n",
+    "    ax[0, ii].plot(profiles[profiles[\"tractID\"] == bundle][\"dti_fa\"],\n",
+    "                   label=\"DTI\")\n",
+    "    ax[0, ii].set_ylabel(\"FA\")\n",
+    "    ax[0, ii].legend()\n",
+    "    ax[1, ii].plot(profiles[profiles[\"tractID\"] == bundle][\"fwdti_md\"],\n",
+    "                   label=\"fwDTI\")\n",
+    "    ax[1, ii].plot(profiles[profiles[\"tractID\"] == bundle][\"dti_md\"],\n",
+    "                   label=\"DTI\")\n",
+    "    ax[1, ii].set_ylabel(\"MD\")\n",
+    "    ax[1, ii].legend()\n",
+    "    ax[2, ii].plot(profiles[profiles[\"tractID\"] == bundle][\"fwdti_fwf\"])\n",
+    "    ax[2, ii].set_ylabel(\"Free water fraction\")\n",
+    "    ax[2, ii].set_xlabel(\"Distance along the bundle (A => P)\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "2937af7e",
+   "metadata": {},
+   "source": [
+    "## References\n",
+    "\n",
+    "[^1]: Hoy AR, Koay CG, Kecskemeti SR, Alexander AL. Optimization of a free\n",
+    "    water elimination two-compartment model for diffusion tensor imaging.\n",
+    "    Neuroimage. 2014;103:323-333.\n",
+    "\n",
+    "[^2]: Henriques RN, Rokem A, Garyfallidis E, St-Jean S, Peterson ET, Correia\n",
+    "    MM. [Re] Optimization of a free water elimination two-compartment model\n",
+    "    for diffusion tensor imaging. bioRxiv. February 2017:108795.\n",
+    "    doi:10.1101/108795\n",
+    "\n",
+    "[^3]: Alexander LM, Escalera J, Ai L, et al. An open resource for\n",
+    "    transdiagnostic research in pediatric mental health and learning\n",
+    "    disorders. Sci Data. 2017;4:170181.\n",
+    "\n",
+    "[^4]: Richie-Halford A, Cieslak M, Ai L, et al. An analysis-ready and\n",
+    "    quality controlled resource for pediatric brain white-matter research.\n",
+    "    Scientific Data. 2022;9(1):1-27.\n",
+    "\n",
+    ":::{only} html\n",
+    "{download}`Download as Jupyter Notebook <afq_fwdti.ipynb>`\n",
+    ":::"
+   ]
+  }
+ ],
+ "metadata": {
+  "file_format": "mystnb",
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "name": "python",
+   "pygments_lexer": "ipython3"
+  },
+  "mystnb": {
+   "execution_mode": "off"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 
 
@@ -7,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFQ.viz.fury_backend &#8212; AFQ 3.2 documentation</title>
+    <title>AFQ.viz.fury_backend &#8212; AFQ 3.4 documentation</title>
   
   
   
@@ -26,29 +25,24 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=fd6457a4" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=efc0aa2d" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../../_static/scripts/fontawesome.js?digest=0790524f97105ba85085"></script>
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=64cc4de3f052d77215f0"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=0790524f97105ba85085" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085" />
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../../../_static/documentation_options.js?v=828ea960"></script>
+    <script src="../../../_static/documentation_options.js?v=ed7fbdb4"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
-    <script src="../../../_static/sg-tags.js?v=d80f6fa4"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/AFQ/viz/fury_backend';</script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
@@ -104,7 +98,7 @@
   
     <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
-  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+  <button type="button" class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
   </button>
   
@@ -128,8 +122,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 3.2 documentation - Home"/>
-    <img src="../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="AFQ 3.2 documentation - Home"/>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="AFQ 3.4 documentation - Home"/>
+    <img src="../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="AFQ 3.4 documentation - Home"/>
   
   
 </a></div>
@@ -152,14 +146,14 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../tutorials/tutorial_examples/index.html">
+  <a class="nav-link nav-internal" href="../../../examples/tutorial_examples/index.html">
     Tutorials: Getting started
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../howto/howto_examples/index.html">
+  <a class="nav-link nav-internal" href="../../../examples/howto_examples/index.html">
     How to examples
   </a>
 </li>
@@ -196,7 +190,7 @@
         <div class="navbar-item navbar-persistent--container">
           
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
  <i class="fa-solid fa-magnifying-glass"></i>
  <span class="search-button__default-text">Search</span>
  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
@@ -207,15 +201,15 @@
         <div class="navbar-item">
 
 <div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
     <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
     <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
     <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
   <ul class="dropdown-menu dropdown-menu-end">
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
   </ul>
 </div></div>
       
@@ -241,7 +235,7 @@
   
     <div class="navbar-persistent--mobile">
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
  <i class="fa-solid fa-magnifying-glass"></i>
  <span class="search-button__default-text">Search</span>
  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
@@ -286,14 +280,14 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../tutorials/tutorial_examples/index.html">
+  <a class="nav-link nav-internal" href="../../../examples/tutorial_examples/index.html">
     Tutorials: Getting started
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../howto/howto_examples/index.html">
+  <a class="nav-link nav-internal" href="../../../examples/howto_examples/index.html">
     How to examples
   </a>
 </li>
@@ -332,15 +326,15 @@
           <div class="navbar-item">
 
 <div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
     <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
     <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
     <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
   <ul class="dropdown-menu dropdown-menu-end">
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
   </ul>
 </div></div>
         
@@ -448,39 +442,39 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">dipy.tracking.streamline</span><span class="w"> </span><span class="kn">import</span> <span class="n">set_number_of_points</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">AFQ.viz.utils</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">vut</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ._fixes</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_gif</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">AFQ._fixes</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_mp4</span>
 
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">fury</span><span class="w"> </span><span class="kn">import</span> <span class="n">actor</span><span class="p">,</span> <span class="n">window</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">fury.colormap</span><span class="w"> </span><span class="kn">import</span> <span class="n">line_colors</span>
 <span class="k">except</span> <span class="p">(</span><span class="ne">ImportError</span><span class="p">,</span> <span class="ne">ModuleNotFoundError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="n">vut</span><span class="o">.</span><span class="n">viz_import_msg_error</span><span class="p">(</span><span class="s2">&quot;fury&quot;</span><span class="p">))</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+    <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="n">vut</span><span class="o">.</span><span class="n">viz_import_msg_error</span><span class="p">(</span><span class="s2">"fury"</span><span class="p">))</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
 <div class="viewcode-block" id="viz_logger">
 <a class="viewcode-back" href="../../../reference/api/AFQ/viz/fury_backend/index.html#AFQ.viz.fury_backend.viz_logger">[docs]</a>
-<span class="n">viz_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;AFQ&quot;</span><span class="p">)</span></div>
+<span class="n">viz_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">"AFQ"</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="_inline_interact">
 <a class="viewcode-back" href="../../../reference/api/AFQ/viz/fury_backend/index.html#AFQ.viz.fury_backend._inline_interact">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">_inline_interact</span><span class="p">(</span><span class="n">scene</span><span class="p">,</span> <span class="n">inline</span><span class="p">,</span> <span class="n">interact</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Helper function to reuse across viz functions</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">interact</span><span class="p">:</span>
-        <span class="n">viz_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Showing interactive scene...&quot;</span><span class="p">)</span>
+        <span class="n">viz_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Showing interactive scene..."</span><span class="p">)</span>
         <span class="n">show_m</span> <span class="o">=</span> <span class="n">window</span><span class="o">.</span><span class="n">ShowManager</span><span class="p">(</span>
-            <span class="n">scene</span><span class="o">=</span><span class="n">scene</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">1200</span><span class="p">,</span> <span class="mi">1200</span><span class="p">),</span> <span class="n">window_type</span><span class="o">=</span><span class="s2">&quot;default&quot;</span>
+            <span class="n">scene</span><span class="o">=</span><span class="n">scene</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">1200</span><span class="p">,</span> <span class="mi">1200</span><span class="p">),</span> <span class="n">window_type</span><span class="o">=</span><span class="s2">"default"</span>
         <span class="p">)</span>
         <span class="n">show_m</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 
     <span class="k">if</span> <span class="n">inline</span><span class="p">:</span>
-        <span class="n">viz_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Showing inline scene...&quot;</span><span class="p">)</span>
+        <span class="n">viz_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Showing inline scene..."</span><span class="p">)</span>
         <span class="n">show_m</span> <span class="o">=</span> <span class="n">window</span><span class="o">.</span><span class="n">ShowManager</span><span class="p">(</span>
             <span class="n">scene</span><span class="o">=</span><span class="n">scene</span><span class="p">,</span>
             <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">1200</span><span class="p">,</span> <span class="mi">1200</span><span class="p">),</span>
-            <span class="n">window_type</span><span class="o">=</span><span class="s2">&quot;jupyter&quot;</span><span class="p">,</span>
+            <span class="n">window_type</span><span class="o">=</span><span class="s2">"jupyter"</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">show_m</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 
@@ -497,6 +491,7 @@
     <span class="n">bundle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">colors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">color_by_direction</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">n_sls_viz</span><span class="o">=</span><span class="mi">65536</span><span class="p">,</span>
     <span class="n">opacity</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
     <span class="n">line_width</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span>
     <span class="n">flip_axes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -506,7 +501,7 @@
     <span class="n">inline</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Visualize bundles in 3D using VTK.</span>
 <span class="sd">    Parameters not described below are extras to conform fury and plotly APIs.</span>
 
@@ -537,6 +532,11 @@
 <span class="sd">    color_by_direction : bool</span>
 <span class="sd">        Whether to color by direction instead of by bundle. Default: False</span>
 
+<span class="sd">    n_sls_viz : int</span>
+<span class="sd">        Maximum number of streamlines to visualize. If there are more than</span>
+<span class="sd">        this number of streamlines, a random subset of streamlines will be</span>
+<span class="sd">        visualized. Default: 65536</span>
+
 <span class="sd">    opacity : float</span>
 <span class="sd">        Float between 0 and 1 defining the opacity of the bundle.</span>
 <span class="sd">        Default: 1.0</span>
@@ -560,7 +560,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    Fury Scene object</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">if</span> <span class="n">flip_axes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">flip_axes</span> <span class="o">=</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">]</span>
@@ -570,10 +570,15 @@
     <span class="n">figure</span><span class="o">.</span><span class="n">background</span> <span class="o">=</span> <span class="p">(</span><span class="n">background</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">background</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">background</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
 
     <span class="k">for</span> <span class="n">sls</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">dimensions</span> <span class="ow">in</span> <span class="n">vut</span><span class="o">.</span><span class="n">tract_generator</span><span class="p">(</span>
-        <span class="n">seg_sft</span><span class="p">,</span> <span class="n">bundle</span><span class="p">,</span> <span class="n">colors</span><span class="p">,</span> <span class="n">n_points</span><span class="p">,</span> <span class="n">img</span>
+        <span class="n">seg_sft</span><span class="p">,</span>
+        <span class="n">bundle</span><span class="p">,</span>
+        <span class="n">colors</span><span class="p">,</span>
+        <span class="n">n_points</span><span class="p">,</span>
+        <span class="n">img</span><span class="p">,</span>
+        <span class="n">n_sls_viz</span><span class="o">=</span><span class="n">n_sls_viz</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="n">sls</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sls</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;all_bundles&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">"all_bundles"</span><span class="p">:</span>
             <span class="n">color</span> <span class="o">=</span> <span class="n">line_colors</span><span class="p">(</span><span class="n">sls</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">sl</span> <span class="ow">in</span> <span class="n">sls</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">flip_axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
@@ -605,17 +610,17 @@
 
 
 
-<div class="viewcode-block" id="create_gif">
-<a class="viewcode-back" href="../../../reference/api/AFQ/viz/fury_backend/index.html#AFQ.viz.fury_backend.create_gif">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">create_gif</span><span class="p">(</span>
+<div class="viewcode-block" id="create_mp4">
+<a class="viewcode-back" href="../../../reference/api/AFQ/viz/fury_backend/index.html#AFQ.viz.fury_backend.create_mp4">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_mp4</span><span class="p">(</span>
     <span class="n">figure</span><span class="p">,</span>
     <span class="n">file_name</span><span class="p">,</span>
-    <span class="n">n_frames</span><span class="o">=</span><span class="mi">36</span><span class="p">,</span>
-    <span class="n">az_ang</span><span class="o">=-</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">fps</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+    <span class="n">az_ang</span><span class="o">=-</span><span class="mf">0.5</span><span class="p">,</span>
     <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span> <span class="mi">600</span><span class="p">),</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Convert a Fury Scene object into a gif</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Convert a Fury Scene object into a mp4</span>
 
 <span class="sd">    Make a video from a Fury Show Manager.</span>
 
@@ -627,26 +632,26 @@
 <span class="sd">    file_name : str</span>
 <span class="sd">        The name of the output file.</span>
 
-<span class="sd">    n_frames : int</span>
-<span class="sd">        The number of frames to render.</span>
-<span class="sd">        Default: 36</span>
+<span class="sd">    fps : int</span>
+<span class="sd">        The frames per second for the output video.</span>
+<span class="sd">        Default: 30</span>
 
 <span class="sd">    az_ang : float</span>
 <span class="sd">        The angle to rotate the camera around the</span>
 <span class="sd">        z-axis for each frame, in degrees.</span>
-<span class="sd">        Default: -10</span>
+<span class="sd">        Default: -0.5</span>
 
 <span class="sd">    size : tuple</span>
-<span class="sd">        The size of the output gif, in pixels.</span>
+<span class="sd">        The size of the output mp4, in pixels.</span>
 <span class="sd">        Default: (600, 600)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">show_m</span> <span class="o">=</span> <span class="n">window</span><span class="o">.</span><span class="n">ShowManager</span><span class="p">(</span>
         <span class="n">scene</span><span class="o">=</span><span class="n">figure</span><span class="p">,</span>
-        <span class="n">window_type</span><span class="o">=</span><span class="s2">&quot;offscreen&quot;</span><span class="p">,</span>
+        <span class="n">window_type</span><span class="o">=</span><span class="s2">"offscreen"</span><span class="p">,</span>
         <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">scene_rotate_forward</span><span class="p">(</span><span class="n">show_m</span><span class="p">,</span> <span class="n">figure</span><span class="p">)</span>
-    <span class="n">make_gif</span><span class="p">(</span><span class="n">show_m</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">n_frames</span><span class="o">=</span><span class="n">n_frames</span><span class="p">,</span> <span class="n">az_ang</span><span class="o">=</span><span class="n">az_ang</span><span class="p">)</span></div>
+    <span class="n">make_mp4</span><span class="p">(</span><span class="n">show_m</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="n">fps</span><span class="p">,</span> <span class="n">az_ang</span><span class="o">=</span><span class="n">az_ang</span><span class="p">)</span></div>
 
 
 
@@ -655,7 +660,7 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">visualize_roi</span><span class="p">(</span>
     <span class="n">roi</span><span class="p">,</span>
     <span class="n">resample_to</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;ROI&quot;</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"ROI"</span><span class="p">,</span>
     <span class="n">figure</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">color</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">flip_axes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -663,7 +668,7 @@
     <span class="n">inline</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">interact</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Render a region of interest into a VTK viz as a volume</span>
 
 <span class="sd">    Parameters</span>
@@ -677,7 +682,7 @@
 
 <span class="sd">    name: str, optional</span>
 <span class="sd">        Name of ROI for the legend.</span>
-<span class="sd">        Default: &#39;ROI&#39;</span>
+<span class="sd">        Default: 'ROI'</span>
 
 <span class="sd">    color : ndarray, optional</span>
 <span class="sd">        RGB color for ROI.</span>
@@ -705,7 +710,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    Fury Scene object</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">color</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">color</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
     <span class="n">roi</span> <span class="o">=</span> <span class="n">vut</span><span class="o">.</span><span class="n">prepare_roi</span><span class="p">(</span><span class="n">roi</span><span class="p">,</span> <span class="n">resample_to</span><span class="p">)</span>
@@ -735,7 +740,7 @@
     <span class="n">inline</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">interact</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Visualize a volume</span>
 
 <span class="sd">    Parameters</span>
@@ -765,7 +770,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    Fury Scene object</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">volume</span> <span class="o">=</span> <span class="n">vut</span><span class="o">.</span><span class="n">load_volume</span><span class="p">(</span><span class="n">volume</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">figure</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -861,7 +866,7 @@
     <span class="n">figure</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">include_profile</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Visualize a single bundle in 3D with core bundle and associated profile</span>
 
 <span class="sd">    Parameters</span>
@@ -904,7 +909,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    Fury Figure object</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">labelled_nodes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">labelled_nodes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">flip_axes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -960,8 +965,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../../_static/scripts/bootstrap.js?digest=0790524f97105ba85085"></script>
-<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085"></script>
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0"></script>
 
 
   <footer class="bd-footer">
@@ -983,7 +988,6 @@
 
   <p class="sphinx-version">
     Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
-    <br/>
   </p>
 </div>
       

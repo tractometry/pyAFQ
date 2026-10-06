@@ -3,9 +3,8 @@ Cleaning Parameters
 ==========================
 
 This page documents the configuration options for controlling
-bundle cleaning in pyAFQ. These parameters can be set in your
-configuration file or passed as arguments when using the API.
-Note that this goes inside of segmentation_params.
+bundle cleaning in pyAFQ. Note that this goes inside of
+segmentation_params.
 
 Example Usage
 =============

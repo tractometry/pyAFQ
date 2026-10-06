@@ -17,7 +17,7 @@ Functions
 Module Contents
 ---------------
 
-.. py:function:: altair_color_dict(names_to_include=None)
+.. py:function:: altair_color_dict(bundle_names)
 
    
    Given a list of bundle names, return a dictionary of colors for each

@@ -11,6 +11,7 @@ Attributes
 
    AFQ.data.fetch.fetch_callosum_templates
    AFQ.data.fetch.fetch_synthseg_models
+   AFQ.data.fetch.fetch_babyseg_models
    AFQ.data.fetch.fetch_multiaxial_models
    AFQ.data.fetch.fetch_brainchop_models
    AFQ.data.fetch.fetch_templates
@@ -77,6 +78,8 @@ Module Contents
        !! processed by numpydoc !!
 
 .. py:data:: fetch_synthseg_models
+
+.. py:data:: fetch_babyseg_models
 
 .. py:data:: fetch_multiaxial_models
 

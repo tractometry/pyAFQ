@@ -14,14 +14,14 @@ of the major long-range brain white matter connections.
 
   - This example shows you how to run pyAFQ on a BIDS dataset, where pyAFQ
     uses the BIDS structure to find necessary files:
-    `Getting started with pyAFQ - GroupAFQ <tutorials/tutorial_examples/plot_001_group_afq_api.html>`_
+    `Getting started with pyAFQ - GroupAFQ <examples/tutorial_examples/plot_001_group_afq_api.html>`_
   - This example shows you how to run pyAFQ on any dataset,
     where input file paths are given explicitly:
-    `Getting started with pyAFQ - ParticipantAFQ <tutorials/tutorial_examples/plot_002_participant_afq_api.html>`_
+    `Getting started with pyAFQ - ParticipantAFQ <examples/tutorial_examples/plot_002_participant_afq_api.html>`_
 - What is the difference between tractography and tractometry? See in the `explanations <explanations/index.html>`_ page.
 - For more detailed information on the variety of uses of pyAFQ, see the `how to <howto/index.html>`_ page. In particular, this one example is useful for understanding tractometry:
 
-  - `Understanding the different stages of tractometry with videos <howto/howto_examples/plot_stages_of_tractometry.html>`_
+  - `Understanding the different stages of tractometry with videos <examples/howto_examples/plot_stages_of_tractometry.html>`_
 - For a detailed description of the methods and objects used in pyAFQ, see the `reference documentation <reference/index.html>`_ page.
 
 Here are some useful reference pages:
@@ -152,7 +152,7 @@ and by a grant from the
     :maxdepth: 2
 
     guides_index
-    tutorials/tutorial_examples/index
-    howto/howto_examples/index
+    examples/tutorial_examples/index
+    examples/howto_examples/index
     developing/index
     bib
