@@ -49,6 +49,7 @@ def visualize_bundles(
     n_sls_viz=65536,
     opacity=1.0,
     line_width=2.0,
+    outline_thickness=1.0,
     flip_axes=None,
     figure=None,
     background=(1, 1, 1),
@@ -94,6 +95,14 @@ def visualize_bundles(
 
     opacity : float
         Float between 0 and 1 defining the opacity of the bundle.
+        Default: 1.0
+
+    line_width : float
+        Float defining the width of the bundle lines.
+        Default: 2.0
+
+    outline_thickness : float
+        Float defining the thickness of the outline around the bundle lines.
         Default: 1.0
 
     background : tuple, optional
@@ -144,10 +153,19 @@ def visualize_bundles(
                 sl[:, 2] = dimensions[2] - sl[:, 2]
 
         if color_by_direction:
-            sl_actor = actor.streamlines(sls, opacity=opacity, thickness=line_width)
+            sl_actor = actor.streamlines(
+                sls,
+                opacity=opacity,
+                thickness=line_width,
+                outline_thickness=outline_thickness,
+            )
         else:
             sl_actor = actor.streamlines(
-                sls, colors=color, opacity=opacity, thickness=line_width
+                sls,
+                colors=color,
+                opacity=opacity,
+                thickness=line_width,
+                outline_thickness=outline_thickness,
             )
         figure.add(sl_actor)
 
