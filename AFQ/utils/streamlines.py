@@ -90,7 +90,9 @@ class SegmentedSFT:
         return self.sidecar_info.get("Bundle Parameters", {}).get(b_name, {})
 
     @classmethod
-    def fromfile(cls, trk_or_trx_file, reference="same", sidecar_file=None):
+    def fromfile(
+        cls, trk_or_trx_file, reference="same", sidecar_file=None, data_dtype=np.float32
+    ):
         if sidecar_file is None:
             sidecar_file = f"{drop_extension(trk_or_trx_file)}.json"
             if not op.exists(sidecar_file):
@@ -103,7 +105,8 @@ class SegmentedSFT:
         sidecar_info = read_json(sidecar_file)
         if trk_or_trx_file.endswith(".trx"):
             bundles = load_trx(trk_or_trx_file, reference)
-            bundles.streamlines._data = bundles.streamlines._data.astype(np.float32)
+            if data_dtype is not None:
+                bundles.streamlines._data = bundles.streamlines._data.astype(data_dtype)
             return SegmentedTRX(bundles, sidecar_info)
         else:
             sft = load_tractogram(trk_or_trx_file, reference, to_space=Space.RASMM)

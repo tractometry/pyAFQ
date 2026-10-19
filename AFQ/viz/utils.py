@@ -12,6 +12,7 @@ from dipy.align import resample
 from dipy.io.stateful_tractogram import StatefulTractogram
 from dipy.tracking.streamline import transform_streamlines
 from PIL import Image, ImageChops
+from tqdm import tqdm
 
 import AFQ.utils.streamlines as aus
 
@@ -602,7 +603,7 @@ def tract_generator(
         if bundle is None:
             # No selection: visualize all of them:
             streamlines = seg_sft.sft.streamlines
-            for bundle_name in sorted(seg_sft.bundle_names):
+            for bundle_name in tqdm(sorted(seg_sft.bundle_names)):
                 idx = seg_sft.get_bundle_idxs(bundle_name)
                 if len(idx) == 0:
                     continue
