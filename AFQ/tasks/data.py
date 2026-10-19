@@ -1,4 +1,5 @@
 import logging
+from pathlib import Path
 
 import dipy.core.gradients as dpg
 import dipy.reconst.dki as dpy_dki
@@ -19,6 +20,7 @@ from dipy.reconst.weights_method import weights_method_wls_m_est
 
 import AFQ.api.bundle_dict as abd
 import AFQ.data.fetch as afd
+import AFQ.models.mkcurve as afq_mkcurve
 from AFQ._fixes import gwi_odf
 from AFQ.definitions.utils import Definition
 from AFQ.models.asym_filtering import (
@@ -337,6 +339,62 @@ def dki_fit(dki_params, gtab):
     return dpy_dki.DiffusionKurtosisFit(tm, dki_params)
 
 
+# NOTE: this is temporary and for testing
+@immlib.calc("test_curve_params", "test_curve_fa", "test_curve_md", "test_curve_mkt")
+@as_file(
+    suffix=[
+        "_model-curve_param-diffusivity_dwimap.nii.gz",
+        "_model-curve_param-fa_dwimap.nii.gz",
+        "_model-curve_param-md_dwimap.nii.gz",
+        "_model-curve_param-mkt_dwimap.nii.gz",
+    ],
+    subfolder="models",
+)
+@as_img
+def test_mkcurve(brain_mask, gtab, data, citations):
+    """
+    curve fit, curve fa, curve md, curve mkt
+    """
+    citations.add("henriques2021diffusional")
+
+    dkimodel_kwargs = dict()
+    fit_method = "wls"
+
+    mask = nib.load(brain_mask).get_fdata()
+
+    citations.add("zhang2019mk")
+    data, gtab, _ = afq_mkcurve.mkcurve_correct(data, gtab, mask > 0)
+    outlier_rejection_method = "MK-Curve"
+    dkimodel = dpy_dki.DiffusionKurtosisModel(
+        gtab,
+        return_S0_hat=True,
+        **dkimodel_kwargs,
+    )
+    dkf = dkimodel.fit(
+        data,
+        mask=mask > 0,
+    )
+
+    meta = dict(
+        Description=(
+            "Diffusion Coefficient, encoded as a kurtosis tensor representation"
+        ),
+        Units="mm^2/s",
+        Model=dict(
+            Parameters=dict(
+                FitMethod=fit_method,
+                OutlierRejectionMethod=outlier_rejection_method,
+            ),
+            ModelURL=f"{DIPY_GH}reconst/dki.py",
+        ),
+        OrientationEncoding=dict(
+            EncodingAxis=3, Reference="ijk", TensorRank=4, Type="tensor"
+        ),
+    )
+
+    return [(dkf.model_params, meta), (dkf.fa, meta), (dkf.md, meta), (dkf.mkt(), meta)]
+
+
 @immlib.calc("dki_params", "dki_s0")
 @as_file(
     suffix=[
@@ -346,7 +404,7 @@ def dki_fit(dki_params, gtab):
     subfolder="models",
 )
 @as_img
-def dki_params(brain_mask, gtab, data, citations, use_robust=True):
+def dki_params(brain_mask, gtab, data, citations, use_robust=False, use_mkcurve=False):
     """
     full path to a nifti file containing
     parameters for the DKI fit, s0 values of DKI fit
@@ -355,7 +413,10 @@ def dki_params(brain_mask, gtab, data, citations, use_robust=True):
     ----------
     use_robust : bool, optional
         Whether to use robust fitting when doing dki [1]_.
-        Default: True
+        Default: False
+    use_mkcurve : bool, optional
+        Whether to correct implausible voxels with MK-Curve [2]_
+        before fitting DKI. Default: False
 
     References
     ----------
@@ -363,6 +424,9 @@ def dki_params(brain_mask, gtab, data, citations, use_robust=True):
            Jones DK, Schneider JE. Robust constrained weighted least squares
            for in vivo human cardiac diffusion kurtosis imaging.
            Magn Reson Med. 2026 Jan;95(1):220-233. doi: 10.1002/mrm.70037.
+    .. [2] Zhang F, Ning L, O'Donnell LJ, Pasternak O. MK-curve -
+           Characterizing the relation between mean kurtosis and alterations
+           in the diffusion MRI signal. NeuroImage 196 (2019): 68-80.
     """
     citations.add("henriques2021diffusional")
     if use_robust:
@@ -383,6 +447,24 @@ def dki_params(brain_mask, gtab, data, citations, use_robust=True):
         fit_method = "wls"
 
     mask = nib.load(brain_mask).get_fdata()
+
+    if use_mkcurve:
+        citations.add("zhang2019mk")
+        try:
+            logger.info(
+                Path(afq_mkcurve.__file__).with_name("LICENSE_MKCURVE.txt").read_text()
+            )
+        except OSError:
+            logger.warning(
+                "MK-Curve is used under license from The Brigham and Women's "
+                "Hospital, Inc. (https://github.com/zhangfanmark/MK-Curve); "
+                "the full license text, LICENSE_MKCURVE.txt, could not be read."
+            )
+        data, gtab, _ = afq_mkcurve.mkcurve_correct(data, gtab, mask > 0)
+        outlier_rejection_method = "MK-Curve"
+    else:
+        outlier_rejection_method = _or_to_text(False)
+
     dkimodel = dpy_dki.DiffusionKurtosisModel(
         gtab,
         return_S0_hat=True,
@@ -400,7 +482,8 @@ def dki_params(brain_mask, gtab, data, citations, use_robust=True):
         Units="mm^2/s",
         Model=dict(
             Parameters=dict(
-                FitMethod=fit_method, OutlierRejectionMethod=_or_to_text(False)
+                FitMethod=fit_method,
+                OutlierRejectionMethod=outlier_rejection_method,
             ),
             ModelURL=f"{DIPY_GH}reconst/dki.py",
         ),
@@ -1562,6 +1645,7 @@ def get_data_plan(kwargs):
             dki_ad,
             dki_rk,
             dki_ak,
+            test_mkcurve,
             dti_params,
             dki_params,
             fwdti_params,
