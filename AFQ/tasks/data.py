@@ -351,7 +351,7 @@ def dki_fit(dki_params, gtab):
     subfolder="models",
 )
 @as_img
-def test_mkcurve(brain_mask, gtab, data, citations):
+def test_mkcurve(brain_mask, gtab, data, structural_imap, citations):
     """
     curve fit, curve fa, curve md, curve mkt
     """
@@ -363,7 +363,9 @@ def test_mkcurve(brain_mask, gtab, data, citations):
     mask = nib.load(brain_mask).get_fdata()
 
     citations.add("zhang2019mk")
-    data, gtab, _ = afq_mkcurve.mkcurve_correct(data, gtab, mask > 0)
+    data, gtab, _ = afq_mkcurve.mkcurve_correct(
+        data, gtab, mask > 0, n_threads=structural_imap["n_threads"]
+    )
     outlier_rejection_method = "MK-Curve"
     dkimodel = dpy_dki.DiffusionKurtosisModel(
         gtab,
@@ -404,7 +406,15 @@ def test_mkcurve(brain_mask, gtab, data, citations):
     subfolder="models",
 )
 @as_img
-def dki_params(brain_mask, gtab, data, citations, use_robust=False, use_mkcurve=False):
+def dki_params(
+    brain_mask,
+    gtab,
+    data,
+    citations,
+    structural_imap,
+    use_robust=False,
+    use_mkcurve=False,
+):
     """
     full path to a nifti file containing
     parameters for the DKI fit, s0 values of DKI fit
@@ -460,7 +470,9 @@ def dki_params(brain_mask, gtab, data, citations, use_robust=False, use_mkcurve=
                 "Hospital, Inc. (https://github.com/zhangfanmark/MK-Curve); "
                 "the full license text, LICENSE_MKCURVE.txt, could not be read."
             )
-        data, gtab, _ = afq_mkcurve.mkcurve_correct(data, gtab, mask > 0)
+        data, gtab, _ = afq_mkcurve.mkcurve_correct(
+            data, gtab, mask > 0, n_threads=structural_imap["n_threads"]
+        )
         outlier_rejection_method = "MK-Curve"
     else:
         outlier_rejection_method = _or_to_text(False)

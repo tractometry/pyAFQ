@@ -26,35 +26,52 @@ from tqdm.auto import tqdm
 __all__ = ["mkcurve_correct"]
 
 
-def _mk_curves(Y, B, syn, tile=8192):
+from concurrent.futures import ThreadPoolExecutor
+
+from threadpoolctl import threadpool_limits
+
+
+def _mk_curves(Y, B, syn, n_threads=1, tile=4096, progress=True):
     """MK for every voxel (rows of Y, b0 in column 0) at each synthetic b0."""
     scale = np.sqrt((B**2).sum(0))
     B = B / scale  # equilibrate columns: keeps the normal equations stable
-    P = np.linalg.pinv(B)
+    H = B @ np.linalg.pinv(B)  # hat matrix: log OLS-predicted signal = L @ H.T
     BB = (B[:, :, None] * B[:, None, :]).reshape(len(B), -1)
     n = get_sphere(name="repulsion200").vertices
     Bd = design_matrix(gradient_table(np.ones(len(n)), bvecs=n, b0_threshold=0))
     T2, T4 = -Bd[:, :6] / scale[:6], 6 * Bd[:, 6:21] / scale[6:21]
+    logs = np.log(syn)
     out = np.empty((len(syn), len(Y)))
     tiles = range(0, len(Y), tile)
-    with tqdm(total=len(tiles) * len(syn), desc="MK-Curve sweep", unit="b0") as pbar:
-        for aa in tiles:
-            L = np.log(np.maximum(Y[aa : aa + tile], np.finfo(float).eps))
-            for i, s in enumerate(syn):
-                L[:, 0] = np.log(s)
-                lw = L @ P.T @ B.T  # log of the OLS-predicted signal
-                w2 = np.exp(2 * (lw - lw.max(1, keepdims=True)))  # WLS weights
-                G = (w2 @ BB).reshape(-1, 22, 22)
-                r = ((w2 * L) @ B)[..., None]
-                try:
-                    x = np.linalg.solve(G, r)[..., 0]
-                except np.linalg.LinAlgError:  # rare exactly singular voxel
-                    x = (np.linalg.pinv(G) @ r)[..., 0]
-                # MK = mean over directions of W(n) MD^2 / ADC(n)^2; x[6:21] = W MD^2
-                out[i, aa : aa + tile] = (
-                    (x[:, 6:21] @ T4.T) / (x[:, :6] @ T2.T) ** 2
-                ).mean(1)
-                pbar.update()
+    pbar = tqdm(
+        total=len(tiles) * len(syn), desc="MK-Curve sweep", disable=not progress
+    )
+
+    def sweep(a):
+        L = np.log(np.maximum(Y[a : a + tile], np.finfo(float).eps))
+        L[:, 0] = 0.0
+        lw0 = L @ H.T  # only the b0 changes; it adds logs[i] * H[:, 0] below
+        for i, t in enumerate(logs):
+            L[:, 0] = t
+            lw = lw0 + t * H[:, 0]
+            w2 = np.exp(2 * (lw - lw.max(1, keepdims=True)))  # WLS weights
+            G = (w2 @ BB).reshape(-1, 22, 22)
+            r = ((w2 * L) @ B)[..., None]
+            try:
+                x = np.linalg.solve(G, r)[..., 0]
+            except np.linalg.LinAlgError:  # rare exactly singular voxel
+                x = (np.linalg.pinv(G) @ r)[..., 0]
+            # MK = mean over directions of W(n) MD^2 / ADC(n)^2; x[6:21] = W MD^2
+            out[i, a : a + tile] = ((x[:, 6:21] @ T4.T) / (x[:, :6] @ T2.T) ** 2).mean(
+                1
+            )
+            pbar.update()
+
+    # NumPy releases the GIL in matmul, exp and solve, so threads scale;
+    # BLAS is pinned to 1 thread per worker to avoid oversubscription.
+    with threadpool_limits(1), ThreadPoolExecutor(n_threads) as ex:
+        list(ex.map(sweep, tiles))
+    pbar.close()
     return out
 
 
@@ -91,7 +108,7 @@ def _fill_nonpositive(data, mask):
     return data
 
 
-def mkcurve_correct(data, gtab, mask, threshold=0.5, syn_b0=None):
+def mkcurve_correct(data, gtab, mask, threshold=0.5, syn_b0=None, n_threads=1):
     """Correct implausible DKI voxels with MK-Curve.
 
     Parameters
@@ -127,7 +144,7 @@ def mkcurve_correct(data, gtab, mask, threshold=0.5, syn_b0=None):
         syn_b0 = lo + step * np.arange(int(np.floor((hi - lo) / step)) + 1)
     syn_b0 = np.asarray(syn_b0, float)
 
-    curves = _mk_curves(Y, design_matrix(new_gtab), syn_b0)
+    curves = _mk_curves(Y, design_matrix(new_gtab), syn_b0, n_threads=n_threads)
     flag, fixed = _detect(curves, Y[:, 0], syn_b0, threshold)
     out[mask, 0] = fixed
     flagged = np.zeros(mask.shape, bool)
