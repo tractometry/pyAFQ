@@ -14,6 +14,7 @@ from dipy.data import get_sphere
 from dipy.io.gradients import read_bvals_bvecs
 from dipy.reconst import shm
 from dipy.reconst.dki_micro import axonal_water_fraction
+from dipy.reconst.force import FORCEModel, force_peaks
 from dipy.reconst.gqi import GeneralizedQSamplingModel
 from dipy.reconst.rumba import RumbaSDModel
 from dipy.reconst.weights_method import weights_method_wls_m_est
@@ -1508,6 +1509,126 @@ def dki_ak(dki_tf):
     return dki_tf.ak(), {"Description": "Axial Kurtosis"}
 
 
+@immlib.calc(
+    "force_fa",
+    "force_md",
+    "force_rd",
+    "force_wm_fraction",
+    "force_gm_fraction",
+    "force_csf_fraction",
+    "force_num_fibers",
+    "force_dispersion",
+    "force_nd",
+    "force_ufa_wm",
+    "force_ufa_voxel",
+    "force_uncertainty",
+    "force_ambiguity",
+    "force_odf_params",
+)
+@as_file(
+    suffix=[
+        "_model-force_param-fa_dwimap.nii.gz",
+        "_model-force_param-md_dwimap.nii.gz",
+        "_model-force_param-rd_dwimap.nii.gz",
+        "_model-force_param-wm_probseg.nii.gz",
+        "_model-force_param-gm_probseg.nii.gz",
+        "_model-force_param-csf_probseg.nii.gz",
+        "_model-force_param-nfibers_dwimap.nii.gz",
+        "_model-force_param-odi_dwimap.nii.gz",
+        "_model-force_param-nd_dwimap.nii.gz",
+        "_model-force_param-ufawm_dwimap.nii.gz",
+        "_model-force_param-ufa_dwimap.nii.gz",
+        "_model-force_param-uncertainty_dwimap.nii.gz",
+        "_model-force_param-ambiguity_dwimap.nii.gz",
+        "_model-force_param-odf_dwimap.nii.gz",
+    ],
+    subfolder="models",
+)
+@as_img
+def force_params(
+    gtab,
+    data,
+    brain_mask,
+    citations,
+    structural_imap,
+    force_num_simulations=500000,
+    force_n_neighbors=50,
+    force_sh_order_max=8,
+):
+    """
+    full paths to nifti files containing the FORCE
+    FA, MD, RD, WM fraction, GM fraction, CSF fraction,
+    number of fibers, dispersion, neurite density, microFA WM,
+    microFA voxel, match uncertainty, match ambiguity,
+    and the ODF as SH coefficients
+
+    Parameters
+    ----------
+    force_num_simulations : int, optional
+        Number of simulated voxels in the FORCE library. The library is
+        cached in ${DIPY_HOME}/force_simulations and reused across subjects
+        with the same gradient table.
+        Default: 500000
+    force_n_neighbors : int, optional
+        Number of nearest library entries considered per voxel.
+        Default: 50
+    force_sh_order_max : int, optional
+        Maximum spherical harmonic order for the FORCE ODF.
+        Default: 8
+    """
+    citations.add("Shah2026")
+
+    model = FORCEModel(gtab, n_neighbors=force_n_neighbors, use_posterior=False)
+    model.generate(
+        num_simulations=force_num_simulations,
+        num_cpus=structural_imap["n_threads"],
+        verbose=True,
+    )
+    fit = model.fit(data, mask=nib.load(brain_mask).get_fdata() > 0, verbose=True)
+    odf_sh = force_peaks(fit, sh_order=force_sh_order_max).shm_coeff
+
+    model_meta = dict(
+        Description="FORCE (best match, no posterior)",
+        Parameters=dict(
+            NumSimulations=force_num_simulations,
+            NNeighbors=force_n_neighbors,
+        ),
+        ModelURL=f"{DIPY_GH}reconst/force.py",
+    )
+
+    def meta(description, **extra):
+        return dict(Model=model_meta, Description=description, **extra)
+
+    return [
+        (fit.fa, meta("Fractional anisotropy")),
+        (fit.md, meta("Mean diffusivity", Units="mm^2/s")),
+        (fit.rd, meta("Radial diffusivity", Units="mm^2/s")),
+        (fit.wm_fraction, meta("White matter volume fraction")),
+        (fit.gm_fraction, meta("Gray matter volume fraction")),
+        (fit.csf_fraction, meta("Cerebro-spinal fluid volume fraction")),
+        (fit.num_fibers, meta("Number of fiber populations")),
+        (fit.dispersion, meta("Orientation dispersion index")),
+        (fit.nd, meta("Neurite density")),
+        (fit.ufa_wm, meta("Microscopic FA, white matter compartment")),
+        (fit.ufa_voxel, meta("Microscopic FA, voxel average")),
+        (fit.uncertainty, meta("IQR of penalized match scores")),
+        (fit.ambiguity, meta("Fraction of neighbors above half-max score")),
+        (
+            odf_sh,
+            meta(
+                "FORCE ODF",
+                OrientationEncoding=dict(
+                    EncodingAxis=3,
+                    Reference="xyz",
+                    Type="sh",
+                    SphericalHarmonicBasis="descoteaux07",
+                    SphericalHarmonicDegree=force_sh_order_max,
+                ),
+            ),
+        ),
+    ]
+
+
 @immlib.calc("brain_mask")
 @as_file("_desc-brain_mask.nii.gz")
 def brain_mask(structural_imap, b0):
@@ -1667,6 +1788,7 @@ def get_data_plan(kwargs):
             rumba_params,
             csd_params,
             get_bundle_dict,
+            force_params,
         ]
     )
 
