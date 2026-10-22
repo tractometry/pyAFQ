@@ -1,4 +1,6 @@
+import hashlib
 import logging
+import os
 from pathlib import Path
 
 import dipy.core.gradients as dpg
@@ -10,18 +12,26 @@ import immlib
 import nibabel as nib
 import numpy as np
 from dipy.align import resample
-from dipy.data import get_sphere
+from dipy.data import default_sphere, get_sphere
 from dipy.io.gradients import read_bvals_bvecs
 from dipy.reconst import shm
 from dipy.reconst.dki_micro import axonal_water_fraction
-from dipy.reconst.force import FORCEModel, force_peaks
+from dipy.reconst.force import (
+    FORCEModel,
+    _get_force_cache_dir,
+    compute_uncertainty_ambiguity,
+)
+from dipy.reconst.force_csd import force_informed_fodf, force_informed_fodf_ssst
 from dipy.reconst.gqi import GeneralizedQSamplingModel
 from dipy.reconst.rumba import RumbaSDModel
 from dipy.reconst.weights_method import weights_method_wls_m_est
+from dipy.sims.force import generate_force_simulations, save_force_simulations
+from tqdm.auto import tqdm
 
 import AFQ.api.bundle_dict as abd
 import AFQ.data.fetch as afd
 import AFQ.models.mkcurve as afq_mkcurve
+import AFQ.models.msmt  # noqa: F401 (OSQP MSMT fit, used by force_informed_fodf)
 from AFQ._fixes import gwi_odf
 from AFQ.definitions.utils import Definition
 from AFQ.models.asym_filtering import (
@@ -1509,93 +1519,242 @@ def dki_ak(dki_tf):
     return dki_tf.ak(), {"Description": "Axial Kurtosis"}
 
 
-@immlib.calc(
-    "force_fa",
-    "force_md",
-    "force_rd",
-    "force_wm_fraction",
-    "force_gm_fraction",
-    "force_csf_fraction",
-    "force_num_fibers",
-    "force_dispersion",
-    "force_nd",
-    "force_ufa_wm",
-    "force_ufa_voxel",
-    "force_uncertainty",
-    "force_ambiguity",
-    "force_odf_params",
-    "force_rtop",
-    "force_rtap",
-    "force_rtpp",
-    "force_msd",
-    "force_qiv",
-    "force_ng",
-    "force_ngpar",
-    "force_ngperp",
-    "force_pa",
-    "force_micro_fa",
-    "force_coherence",
-    "force_k_bulk",
-    "force_k_shear",
-    "force_rnt",
-    "force_rn0",
-    "force_rnd",
-    "force_hnt",
-    "force_hn0",
-    "force_hnd",
-    "force_fnt",
-    "force_gfa",
-    "force_qa",
-    "force_ak",
-    "force_rk",
-    "force_mk",
-    "force_mkt",
-    "force_kfa",
+_FORCE_OUTPUTS = [
+    ("fa", "fa_dwimap"),
+    ("md", "md_dwimap"),
+    ("rd", "rd_dwimap"),
+    ("wm_fraction", "wm_probseg"),
+    ("gm_fraction", "gm_probseg"),
+    ("csf_fraction", "csf_probseg"),
+    ("num_fibers", "nfibers_dwimap"),
+    ("dispersion", "odi_dwimap"),
+    ("nd", "nd_dwimap"),
+    ("ufa_wm", "ufawm_dwimap"),
+    ("ufa_voxel", "ufa_dwimap"),
+    ("uncertainty", "uncertainty_dwimap"),
+    ("ambiguity", "ambiguity_dwimap"),
+    ("odf_params", "odf_dwimap"),
+    ("rtop", "rtop_dwimap"),
+    ("rtap", "rtap_dwimap"),
+    ("rtpp", "rtpp_dwimap"),
+    ("msd", "msd_dwimap"),
+    ("qiv", "qiv_dwimap"),
+    ("micro_fa", "qtiufa_dwimap"),
+    ("coherence", "coherence_dwimap"),
+    ("k_bulk", "kbulk_dwimap"),
+    ("k_shear", "kshear_dwimap"),
+    ("rnt", "rnt_dwimap"),
+    ("rn0", "rn0_dwimap"),
+    ("rnd", "rnd_dwimap"),
+    ("hnt", "hnt_dwimap"),
+    ("hn0", "hn0_dwimap"),
+    ("hnd", "hnd_dwimap"),
+    ("fnt", "fnt_dwimap"),
+    ("gfa", "gfa_dwimap"),
+    ("qa", "qa_dwimap"),
+    ("ak", "ak_dwimap"),
+    ("rk", "rk_dwimap"),
+    ("mk", "mk_dwimap"),
+    ("mkt", "mkt_dwimap"),
+    ("kfa", "kfa_dwimap"),
+    ("kernel", "kernel_dwimap"),
+]
+
+# volumes of the force_kernel output, in the order force_informed_fodf expects
+_FORCE_KERNEL = (
+    "WM axial diffusivity",
+    "WM extra-axonal radial diffusivity",
+    "WM intra-axonal fraction",
+    "CSF diffusivity",
+    "GM diffusivity",
 )
+
+
+def _load_force_library(model, gtab, force_num_simulations, n_threads):
+    """
+    Generate (or load from cache) the FORCE library into `model`.
+
+    Uses dipy.sims.force directly because FORCEModel.generate does not
+    expose store_mixture, which the FORCE-informed fODF kernels need.
+    The cache key includes everything that changes the library, unlike
+    DIPY's own FORCE cache, which ignores the compute flags.
+    """
+    key = hashlib.sha1()
+    key.update(b"afq-force-v1:dki,mapmri,qti,rsi,gqi,mixture,cumulant")
+    key.update(str(int(force_num_simulations)).encode())
+    key.update((np.round(gtab.bvals) + 0.0).tobytes())
+    key.update((np.round(gtab.bvecs, 4) + 0.0).tobytes())
+    path = Path(_get_force_cache_dir()) / f"afq_force_{key.hexdigest()[:16]}.npz"
+    if not path.exists():
+        sims = generate_force_simulations(
+            gtab,
+            num_simulations=force_num_simulations,
+            num_cpus=n_threads,
+            compute_dki=True,
+            compute_mapmri=True,
+            compute_qti=True,
+            compute_rsi=True,
+            compute_gqi=True,
+            metric_method="cumulant",
+            store_mixture=True,
+            verbose=True,
+        )
+        # write then rename, so a parallel subject never reads a partial file
+        tmp = path.with_name(f"{path.stem}.{os.getpid()}.tmp.npz")
+        save_force_simulations(sims, str(tmp))
+        os.replace(tmp, path)
+        del sims
+    logger.info(f"Loading FORCE library from {path}")
+    model.load(str(path))
+    # per-entry mixture ODFs are large and not needed for matching
+    for k in ("intra_odf", "extra_odf"):
+        model.simulations.pop(k, None)
+
+
+def _force_outputs(
+    gtab,
+    data,
+    mask,
+    n_threads,
+    force_num_simulations,
+    force_n_neighbors,
+    force_sh_order_max,
+):
+    """
+    Fit FORCE and return its outputs in _FORCE_OUTPUTS order.
+
+    Matches in chunks and writes each chunk straight into float32 volumes,
+    instead of using FORCEModel.fit, which keeps every chunk's results,
+    builds one Python object per voxel and computes per-parameter
+    uncertainty maps that are not saved here.
+    """
+    model = FORCEModel(gtab, n_neighbors=force_n_neighbors, use_posterior=False)
+    _load_force_library(model, gtab, force_num_simulations, n_threads)
+    sims = model.simulations
+    _, inv_b = shm.sh_to_sf_matrix(default_sphere, sh_order_max=force_sh_order_max)
+    extra_dims = {"odf_params": (inv_b.shape[1],), "kernel": (len(_FORCE_KERNEL),)}
+    vols = {
+        name: np.zeros(mask.shape + extra_dims.get(name, ()), dtype=np.float32)
+        for name, _ in _FORCE_OUTPUTS
+    }
+    vox = np.argwhere(mask)
+    chunk_size = 10_000
+    for start in tqdm(range(0, len(vox), chunk_size), desc="FORCE matching"):
+        idx = tuple(vox[start : start + chunk_size].T)
+        chunk = np.asarray(data[idx], dtype=np.float32)
+        norms = np.linalg.norm(chunk, axis=1, keepdims=True)
+        norms[norms == 0] = 1.0
+        sim, nbrs = model._index.search(chunk / norms, k=model.n_neighbors)
+        scores = sim - model._penalty_array[nbrs]
+        lib_idx = nbrs[np.arange(len(nbrs)), np.argmax(scores, axis=1)]
+
+        unc, amb = compute_uncertainty_ambiguity(scores)
+        vols["uncertainty"][idx] = unc
+        vols["ambiguity"][idx] = amb
+        for name, _ in _FORCE_OUTPUTS:
+            if name in sims:
+                vols[name][idx] = sims[name][lib_idx]
+
+        # nd = wm_fraction * intra-axonal fraction (GM contributes no nd)
+        wm_frac = sims["wm_fraction"][lib_idx]
+        f_intra = np.divide(
+            sims["nd"][lib_idx], wm_frac, out=np.zeros_like(wm_frac), where=wm_frac > 0
+        )
+        vols["kernel"][idx] = np.stack(
+            [
+                sims["wm_d_par"][lib_idx],
+                sims["wm_d_perp"][lib_idx],
+                f_intra,
+                sims["csf_d"][lib_idx],
+                sims["gm_d"][lib_idx],
+            ],
+            axis=-1,
+        )
+
+        # same ODF scaling as dipy's force_peaks
+        odf = sims["odfs"][lib_idx].astype(np.float32)
+        v_max = odf.max(axis=1, keepdims=True)
+        v_min = odf.min(axis=1, keepdims=True)
+        odf = np.where(v_max > 1.0, (odf - v_min) / (v_max - v_min + 1e-12), odf)
+        vols["odf_params"][idx] = odf @ inv_b
+
+    model_meta = dict(
+        Description="FORCE (best match, no posterior)",
+        Parameters=dict(
+            NumSimulations=force_num_simulations,
+            NNeighbors=force_n_neighbors,
+            MetricMethod="cumulant",
+        ),
+        ModelURL=f"{DIPY_GH}reconst/force.py",
+    )
+
+    def meta(description, **extra):
+        return dict(Model=model_meta, Description=description, **extra)
+
+    return [
+        (vols["fa"], meta("Fractional anisotropy")),
+        (vols["md"], meta("Mean diffusivity", Units="mm^2/s")),
+        (vols["rd"], meta("Radial diffusivity", Units="mm^2/s")),
+        (vols["wm_fraction"], meta("White matter volume fraction")),
+        (vols["gm_fraction"], meta("Gray matter volume fraction")),
+        (vols["csf_fraction"], meta("Cerebro-spinal fluid volume fraction")),
+        (vols["num_fibers"], meta("Number of fiber populations")),
+        (vols["dispersion"], meta("Orientation dispersion index")),
+        (vols["nd"], meta("Neurite density")),
+        (vols["ufa_wm"], meta("Microscopic FA, white matter compartment")),
+        (vols["ufa_voxel"], meta("Microscopic FA, voxel average")),
+        (vols["uncertainty"], meta("IQR of penalized match scores")),
+        (vols["ambiguity"], meta("Fraction of neighbors above half-max score")),
+        (
+            vols["odf_params"],
+            meta(
+                "FORCE ODF",
+                OrientationEncoding=dict(
+                    EncodingAxis=3,
+                    Reference="xyz",
+                    Type="sh",
+                    SphericalHarmonicBasis="descoteaux07",
+                    SphericalHarmonicDegree=force_sh_order_max,
+                ),
+            ),
+        ),
+        (vols["rtop"], meta("Return-to-origin probability (MAP-MRI, closed form)")),
+        (vols["rtap"], meta("Return-to-axis probability (MAP-MRI, closed form)")),
+        (vols["rtpp"], meta("Return-to-plane probability (MAP-MRI, closed form)")),
+        (vols["msd"], meta("Mean squared displacement (MAP-MRI, closed form)")),
+        (vols["qiv"], meta("Q-space inverse variance (MAP-MRI, closed form)")),
+        (vols["micro_fa"], meta("Microscopic FA (QTI, closed form)")),
+        (vols["coherence"], meta("Microscopic orientation coherence (QTI)")),
+        (vols["k_bulk"], meta("Isotropic (bulk) kurtosis (QTI)")),
+        (vols["k_shear"], meta("Anisotropic (shear) kurtosis (QTI)")),
+        (vols["rnt"], meta("RSI restricted total")),
+        (vols["rn0"], meta("RSI restricted isotropic")),
+        (vols["rnd"], meta("RSI restricted directional")),
+        (vols["hnt"], meta("RSI hindered total")),
+        (vols["hn0"], meta("RSI hindered isotropic")),
+        (vols["hnd"], meta("RSI hindered directional")),
+        (vols["fnt"], meta("RSI free-water total")),
+        (vols["gfa"], meta("Generalized fractional anisotropy (GQI, mixture ODF)")),
+        (vols["qa"], meta("Quantitative anisotropy (GQI, mixture ODF)")),
+        (vols["ak"], meta("Axial kurtosis (DKI)")),
+        (vols["rk"], meta("Radial kurtosis (DKI)")),
+        (vols["mk"], meta("Mean kurtosis (DKI)")),
+        (vols["mkt"], meta("Mean kurtosis tensor (DKI)")),
+        (vols["kfa"], meta("Kurtosis fractional anisotropy (DKI)")),
+        (
+            vols["kernel"],
+            meta(
+                "Per-voxel FORCE response kernel, one volume each: "
+                + "; ".join(_FORCE_KERNEL),
+                Units="mm^2/s for diffusivities",
+            ),
+        ),
+    ]
+
+
+@immlib.calc(*[f"force_{name}" for name, _ in _FORCE_OUTPUTS])
 @as_file(
-    suffix=[
-        "_model-force_param-fa_dwimap.nii.gz",
-        "_model-force_param-md_dwimap.nii.gz",
-        "_model-force_param-rd_dwimap.nii.gz",
-        "_model-force_param-wm_probseg.nii.gz",
-        "_model-force_param-gm_probseg.nii.gz",
-        "_model-force_param-csf_probseg.nii.gz",
-        "_model-force_param-nfibers_dwimap.nii.gz",
-        "_model-force_param-odi_dwimap.nii.gz",
-        "_model-force_param-nd_dwimap.nii.gz",
-        "_model-force_param-ufawm_dwimap.nii.gz",
-        "_model-force_param-ufa_dwimap.nii.gz",
-        "_model-force_param-uncertainty_dwimap.nii.gz",
-        "_model-force_param-ambiguity_dwimap.nii.gz",
-        "_model-force_param-odf_dwimap.nii.gz",
-        "_model-force_param-rtop_dwimap.nii.gz",
-        "_model-force_param-rtap_dwimap.nii.gz",
-        "_model-force_param-rtpp_dwimap.nii.gz",
-        "_model-force_param-msd_dwimap.nii.gz",
-        "_model-force_param-qiv_dwimap.nii.gz",
-        "_model-force_param-ng_dwimap.nii.gz",
-        "_model-force_param-ngpar_dwimap.nii.gz",
-        "_model-force_param-ngperp_dwimap.nii.gz",
-        "_model-force_param-pa_dwimap.nii.gz",
-        "_model-force_param-qtiufa_dwimap.nii.gz",
-        "_model-force_param-coherence_dwimap.nii.gz",
-        "_model-force_param-kbulk_dwimap.nii.gz",
-        "_model-force_param-kshear_dwimap.nii.gz",
-        "_model-force_param-rnt_dwimap.nii.gz",
-        "_model-force_param-rn0_dwimap.nii.gz",
-        "_model-force_param-rnd_dwimap.nii.gz",
-        "_model-force_param-hnt_dwimap.nii.gz",
-        "_model-force_param-hn0_dwimap.nii.gz",
-        "_model-force_param-hnd_dwimap.nii.gz",
-        "_model-force_param-fnt_dwimap.nii.gz",
-        "_model-force_param-gfa_dwimap.nii.gz",
-        "_model-force_param-qa_dwimap.nii.gz",
-        "_model-force_param-ak_dwimap.nii.gz",
-        "_model-force_param-rk_dwimap.nii.gz",
-        "_model-force_param-mk_dwimap.nii.gz",
-        "_model-force_param-mkt_dwimap.nii.gz",
-        "_model-force_param-kfa_dwimap.nii.gz",
-    ],
+    suffix=[f"_model-force_param-{suffix}.nii.gz" for _, suffix in _FORCE_OUTPUTS],
     subfolder="models",
 )
 @as_img
@@ -1615,21 +1774,21 @@ def force_params(
     number of fibers, dispersion, neurite density, microFA WM,
     microFA voxel, match uncertainty, match ambiguity,
     the ODF as SH coefficients,
-    MAP-MRI RTOP, RTAP, RTPP, MSD, QIV,
-    non-Gaussianity (total, parallel, perpendicular),
-    propagator anisotropy,
-    QTI microFA, coherence, bulk kurtosis, shear kurtosis,
-    RSI restricted (total, isotropic, directional),
-    RSI hindered (total, isotropic, directional),
-    RSI free-water total,
-    GQI GFA, GQI QA,
-    and DKI AK, RK, MK, MKT, KFA
+    MAP-MRI RTOP, MAP-MRI RTAP, MAP-MRI RTPP, MAP-MRI MSD, MAP-MRI QIV,
+    QTI microFA, QTI coherence, QTI bulk kurtosis, QTI shear kurtosis,
+    RSI restricted total, RSI restricted isotropic,
+    RSI restricted directional, RSI hindered total,
+    RSI hindered isotropic, RSI hindered directional,
+    RSI free-water total, GQI GFA, GQI QA,
+    DKI AK, DKI RK, DKI MK, DKI MKT, DKI KFA,
+    and the FORCE response kernel
 
     Parameters
     ----------
     force_num_simulations : int, optional
         Number of simulated voxels in the FORCE library. The library is
-        cached in ${DIPY_HOME}/force_simulations and reused across subjects
+        cached in ${DIPY_FORCE_CACHE_DIR}, or else
+        ${DIPY_HOME}/force_simulations, and reused across subjects
         with the same gradient table.
         Default: 500000
     force_n_neighbors : int, optional
@@ -1640,89 +1799,155 @@ def force_params(
         Default: 8
     """
     citations.add("Shah2026")
-
-    model = FORCEModel(gtab, n_neighbors=force_n_neighbors, use_posterior=False)
-    model.generate(
-        num_simulations=force_num_simulations,
-        num_cpus=structural_imap["n_threads"],
-        compute_dki=True,
-        compute_mapmri=True,
-        compute_ng=True,
-        compute_qti=True,
-        compute_rsi=True,
-        compute_gqi=True,
-        verbose=True,
+    return _force_outputs(
+        gtab,
+        data,
+        nib.load(brain_mask).get_fdata() > 0,
+        structural_imap["n_threads"],
+        force_num_simulations,
+        force_n_neighbors,
+        force_sh_order_max,
     )
-    fit = model.fit(data, mask=nib.load(brain_mask).get_fdata() > 0, verbose=True)
-    odf_sh = force_peaks(fit, sh_order=force_sh_order_max).shm_coeff
 
-    model_meta = dict(
-        Description="FORCE (best match, no posterior)",
-        Parameters=dict(
-            NumSimulations=force_num_simulations,
-            NNeighbors=force_n_neighbors,
+
+def _force_fodf_inputs(gtab, data, brain_mask, kernel_file):
+    """S0-normalized in-mask signals and kernels for FORCE-informed CSD."""
+    mask = nib.load(brain_mask).get_fdata() > 0
+    s0 = data[..., gtab.b0s_mask].mean(-1)
+    keep = mask & (s0 > 0)
+    # the FORCE responses use S0 = 1
+    signals = data[keep] / s0[keep, None]
+    kernel = nib.load(kernel_file).get_fdata()[keep]
+    return keep, signals, kernel
+
+
+def _force_fodf_meta(description, kernel_file, sh_order_max):
+    return dict(
+        Model=dict(
+            Description=description,
+            ModelURL=f"{DIPY_GH}reconst/force_csd.py",
         ),
-        ModelURL=f"{DIPY_GH}reconst/force.py",
+        Description="White matter fODF",
+        OrientationEncoding=dict(
+            EncodingAxis=3,
+            Reference="xyz",
+            Type="sh",
+            SphericalHarmonicBasis="descoteaux07",
+            SphericalHarmonicDegree=sh_order_max,
+        ),
+        Source=kernel_file,
     )
 
-    def meta(description, **extra):
-        return dict(Model=model_meta, Description=description, **extra)
 
-    return [
-        (fit.fa, meta("Fractional anisotropy")),
-        (fit.md, meta("Mean diffusivity", Units="mm^2/s")),
-        (fit.rd, meta("Radial diffusivity", Units="mm^2/s")),
-        (fit.wm_fraction, meta("White matter volume fraction")),
-        (fit.gm_fraction, meta("Gray matter volume fraction")),
-        (fit.csf_fraction, meta("Cerebro-spinal fluid volume fraction")),
-        (fit.num_fibers, meta("Number of fiber populations")),
-        (fit.dispersion, meta("Orientation dispersion index")),
-        (fit.nd, meta("Neurite density")),
-        (fit.ufa_wm, meta("Microscopic FA, white matter compartment")),
-        (fit.ufa_voxel, meta("Microscopic FA, voxel average")),
-        (fit.uncertainty, meta("IQR of penalized match scores")),
-        (fit.ambiguity, meta("Fraction of neighbors above half-max score")),
-        (
-            odf_sh,
-            meta(
-                "FORCE ODF",
-                OrientationEncoding=dict(
-                    EncodingAxis=3,
-                    Reference="xyz",
-                    Type="sh",
-                    SphericalHarmonicBasis="descoteaux07",
-                    SphericalHarmonicDegree=force_sh_order_max,
-                ),
+@immlib.calc("force_msmt_fodf_params")
+@as_file(suffix="_model-force_param-msmtfodf_dwimap.nii.gz", subfolder="models")
+@as_img
+def force_msmt_fodf(
+    gtab, data, brain_mask, force_kernel, citations, force_sh_order_max=8
+):
+    """
+    full path to a nifti file containing the FORCE-informed
+    multi-shell multi-tissue CSD fODF
+    """
+    citations.add("Shah2026")
+    shells = dpg.unique_bvals_tolerance(gtab.bvals, tol=50)
+    if np.sum(shells > gtab.b0_threshold) < 2:
+        raise ValueError(
+            "FORCE-informed MSMT CSD needs at least 2 non-zero b-value shells; "
+            "use force_ssst_fodf for single-shell data."
+        )
+    keep, signals, kernel = _force_fodf_inputs(gtab, data, brain_mask, force_kernel)
+    sh, _ = force_informed_fodf(signals, gtab, kernel, sh_order_max=force_sh_order_max)
+    fodf = np.zeros(keep.shape + (sh.shape[-1],), dtype=np.float32)
+    fodf[keep] = sh
+    return fodf, _force_fodf_meta(
+        "FORCE-informed multi-shell multi-tissue CSD, "
+        "with per-voxel FORCE response kernels",
+        force_kernel,
+        force_sh_order_max,
+    )
+
+
+@immlib.calc("force_ssst_fodf_params")
+@as_file(suffix="_model-force_param-ssstfodf_dwimap.nii.gz", subfolder="models")
+@as_img
+def force_ssst_fodf(
+    gtab, data, brain_mask, force_kernel, citations, force_sh_order_max=8
+):
+    """
+    full path to a nifti file containing the FORCE-informed
+    single-shell CSD fODF, fit to the b0s and the lowest shell
+    """
+    citations.add("Shah2026")
+    keep, signals, kernel = _force_fodf_inputs(gtab, data, brain_mask, force_kernel)
+    # force_informed_fodf_ssst builds its response at the lowest shell,
+    # so only fit those volumes (and the b0s) on multi-shell data
+    shells = dpg.unique_bvals_tolerance(gtab.bvals, tol=50)
+    shell = shells[shells > gtab.b0_threshold][0]
+    sel = gtab.b0s_mask | (np.abs(gtab.bvals - shell) <= 50)
+    shell_gtab = dpg.gradient_table(
+        gtab.bvals[sel], bvecs=gtab.bvecs[sel], b0_threshold=gtab.b0_threshold
+    )
+    sh, _ = force_informed_fodf_ssst(
+        signals[:, sel], shell_gtab, kernel, sh_order_max=force_sh_order_max
+    )
+    fodf = np.zeros(keep.shape + (sh.shape[-1],), dtype=np.float32)
+    fodf[keep] = sh
+    return fodf, _force_fodf_meta(
+        f"FORCE-informed single-shell CSD at b={shell:.0f}, "
+        "with per-voxel FORCE response kernels",
+        force_kernel,
+        force_sh_order_max,
+    )
+
+
+@immlib.calc("force_ssst_aodf_params")
+@as_file(suffix="_model-force_param-ssstaodf_dwimap.nii.gz", subfolder="models")
+@as_img
+def force_ssst_aodf(
+    structural_imap, force_ssst_fodf_params, tracking_params, citations
+):
+    """
+    full path to a nifti file containing
+    FORCE-informed SSST CSD fODFs filtered by unified filtering [1]
+
+    References
+    ----------
+    [1] Poirier and Descoteaux, 2024, "A Unified Filtering Method for
+        Estimating Asymmetric Orientation Distribution Functions",
+        Neuroimage, https://doi.org/10.1016/j.neuroimage.2024.120516
+    """
+    citations.add("poirier2024unified")
+    citations.add("renauld2026tractography")
+    sh_coeff = nib.load(force_ssst_fodf_params).get_fdata()
+
+    logger.info("Applying unified filtering to generate asymmetric FORCE fODFs...")
+    aodf = unified_filtering(
+        sh_coeff,
+        get_sphere(name=tracking_params["sphere"]),
+        n_threads=structural_imap["n_threads"],
+        low_mem=structural_imap["low_mem"],
+    )
+
+    return aodf, dict(
+        Model=dict(
+            Description=(
+                "Asymmetric fODFs from unified filtering of "
+                "FORCE-informed SSST CSD fODFs"
             ),
+            URL="https://doi.org/10.1016/j.neuroimage.2024.120516",
         ),
-        (fit.rtop, meta("Return-to-origin probability (MAP-MRI, closed form)")),
-        (fit.rtap, meta("Return-to-axis probability (MAP-MRI, closed form)")),
-        (fit.rtpp, meta("Return-to-plane probability (MAP-MRI, closed form)")),
-        (fit.msd, meta("Mean squared displacement (MAP-MRI, closed form)")),
-        (fit.qiv, meta("Q-space inverse variance (MAP-MRI, closed form)")),
-        (fit.ng, meta("Non-Gaussianity")),
-        (fit.ngpar, meta("Parallel non-Gaussianity")),
-        (fit.ngperp, meta("Perpendicular non-Gaussianity")),
-        (fit.pa, meta("Propagator anisotropy")),
-        (fit.micro_fa, meta("Microscopic FA (QTI, closed form)")),
-        (fit.coherence, meta("Microscopic orientation coherence (QTI)")),
-        (fit.k_bulk, meta("Isotropic (bulk) kurtosis (QTI)")),
-        (fit.k_shear, meta("Anisotropic (shear) kurtosis (QTI)")),
-        (fit.rnt, meta("RSI restricted total")),
-        (fit.rn0, meta("RSI restricted isotropic")),
-        (fit.rnd, meta("RSI restricted directional")),
-        (fit.hnt, meta("RSI hindered total")),
-        (fit.hn0, meta("RSI hindered isotropic")),
-        (fit.hnd, meta("RSI hindered directional")),
-        (fit.fnt, meta("RSI free-water total")),
-        (fit.gfa, meta("Generalized fractional anisotropy (GQI, mixture ODF)")),
-        (fit.qa, meta("Quantitative anisotropy (GQI, mixture ODF)")),
-        (fit.ak, meta("Axial kurtosis (DKI)")),
-        (fit.rk, meta("Radial kurtosis (DKI)")),
-        (fit.mk, meta("Mean kurtosis (DKI)")),
-        (fit.mkt, meta("Mean kurtosis tensor (DKI)")),
-        (fit.kfa, meta("Kurtosis fractional anisotropy (DKI)")),
-    ]
+        Description="White matter",
+        OrientationEncoding=dict(
+            EncodingAxis=3,
+            Reference="xyz",
+            AntipodalSymmetry=False,
+            Type="sh",
+            SphericalHarmonicBasis="descoteaux07",
+            Sphere=tracking_params["sphere"],
+        ),
+        Source=force_ssst_fodf_params,
+    )
 
 
 @immlib.calc("brain_mask")
@@ -1885,6 +2110,9 @@ def get_data_plan(kwargs):
             csd_params,
             get_bundle_dict,
             force_params,
+            force_msmt_fodf,
+            force_ssst_fodf,
+            force_ssst_aodf,
         ]
     )
 
