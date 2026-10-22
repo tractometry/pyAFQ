@@ -239,7 +239,7 @@ def as_img(func):
         for data, meta in outputs:
             meta["timing"] = elapsed
 
-            img = nib.Nifti1Image(data.astype(np.float32, copy=False), dwi_affine)
+            img = nib.Nifti1Image(data.astype(np.float32), dwi_affine)
             processed_outputs.append((img, meta))
 
         return processed_outputs[0] if is_single_output else processed_outputs
