@@ -33,6 +33,7 @@ from AFQ.api.group import GroupAFQ
 import AFQ.api.bundle_dict as abd
 import AFQ.data.fetch as afd
 from AFQ.definitions.image import ImageFile, RoiImage
+from AFQ.definitions.mapping import AntsMap
 np.random.seed(1234)
 ```
 
@@ -89,11 +90,11 @@ bundles = abd.BundleDict({
 ## Define GroupAFQ object
 
 HBN POD2 have been processed with qsiprep [^3]. This means that a brain mask
-has already been computer for them. As you can see in other examples, these
-data also have a mapping calculated for them, which can also be incorporated
-into processing. However, in this case, we will let pyAFQ calculate its own
-SyN-based mapping so that the `combine_bundle` method can be used below to
-create a montage visualization.
+has already been computed for them. These data also have a mapping to the MNI
+template calculated for them, which we use here instead of having pyAFQ
+calculate its own, by passing `mapping_definition=AntsMap(sub_space="T1w")`.
+(HBN POD2 was processed with an older version of qsiprep, which labels the
+subject space "T1w" rather than "ACPC").
 
 For tractography, we use CSD-based probabilistic tractography seeding
 extensively (`n_seeds=4` means 81 seeds per voxel!), but only within the ROIs
@@ -107,6 +108,7 @@ my_afq = GroupAFQ(
     bids_path=study_dir,
     dwi_preproc_pipeline="qsiprep",
     participant_labels=["NDARAA948VFH"],
+    mapping_definition=AntsMap(sub_space="T1w"),
     output_dir=op.join(study_dir, "derivatives", "afq_ar"),
     tracking_params={"n_seeds": 4,
                      "random_seeds": False,

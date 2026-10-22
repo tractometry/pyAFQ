@@ -6,7 +6,7 @@ pyAFQ has a system for users to specify how to register an image from each
 subject to a given template, called the mapping. The mapping API is similar to
 our Mask API.
 
-In the :mod:`AFQ.definitions.mapping` module, there are four mapping classes one
+In the :mod:`AFQ.definitions.mapping` module, there are several mapping classes one
 can use to specify the mapping. As a user, one should initialize mapping classes
 and pass them to the AFQ.api objects, or write out the initialization as a
 string inside to pass into the CLI.
@@ -29,3 +29,9 @@ string inside to pass into the CLI.
    calculated using Fnirt, you can pass bids filters to
    :class:`AFQ.definitions.mapping.FnirtMap` and pyAFQ will find and use that
    mapping.
+
+-  :class:`AFQ.definitions.mapping.AntsMap`: If you have existing ANTs
+   transforms, such as the ``from-ACPC_to-MNI152NLin2009cAsym`` and
+   ``from-MNI152NLin2009cAsym_to-ACPC`` ``.h5`` files from QSIPrep,
+   :class:`AFQ.definitions.mapping.AntsMap` will find them with BIDS and
+   use them. Requires ``pip install antspyx`` (or ``pip install pyAFQ[ants]``).

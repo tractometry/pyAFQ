@@ -31,7 +31,7 @@ from AFQ.definitions.image import (
     ScalarImage,
     TemplateImage,
 )
-from AFQ.definitions.mapping import AffMap, IdentityMap, SlrMap, SynMap
+from AFQ.definitions.mapping import AffMap, AntsMap, IdentityMap, SlrMap, SynMap
 
 
 def touch(fname, times=None):
@@ -663,6 +663,7 @@ def test_AFQ_pydra():
         output_dir=op.join(bids_path, "derivatives", "pydra_afq"),
         participant_labels=participants,
         dwi_preproc_pipeline="qsiprep",
+        mapping_definition=AntsMap(sub_space="T1w"),
     )
     pga.export("dti_fa")
     pga.export("wm_gm_interface")

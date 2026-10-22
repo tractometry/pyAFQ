@@ -35,6 +35,7 @@ from AFQ.api.group import GroupAFQ
 import AFQ.data.fetch as afd
 
 from AFQ.definitions.image import ImageFile, RoiImage
+from AFQ.definitions.mapping import AntsMap
 import AFQ.api.bundle_dict as abd
 
 import pandas as pd
@@ -75,6 +76,7 @@ myafq = GroupAFQ(
     bids_path=study_dir,
     dwi_preproc_pipeline='qsiprep',
     output_dir=op.join(study_dir, "derivatives", "afq_fwdti"),
+    mapping_definition=AntsMap(sub_space="T1w"),
     bundle_info=bundle_dict,
     tracking_params={
         "n_seeds": 50000,

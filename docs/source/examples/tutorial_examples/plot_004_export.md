@@ -28,6 +28,7 @@ import plotly
 from AFQ.api.participant import ParticipantAFQ
 import AFQ.data.fetch as afd
 import AFQ.definitions.image as afm
+from AFQ.definitions.mapping import AntsMap
 ```
 
 ## Preparing the ParticipantAFQ object
@@ -72,6 +73,14 @@ pve = afm.PVEImages(
         path=op.join(sub_dir, "anat", 
                      "sub-NDARAA948VFH_label-WM_probseg.nii.gz")))
 
+mapping_definition = AntsMap(
+    sub_to_tmpl_path=op.join(sub_dir, "anat", (
+        "sub-NDARAA948VFH_"
+        "from-T1w_to-MNI152NLin2009cAsym_mode-image_xfm.h5")),
+    tmpl_to_sub_path=op.join(sub_dir, "anat", (
+        "sub-NDARAA948VFH_"
+        "from-MNI152NLin2009cAsym_to-T1w_mode-image_xfm.h5")))
+
 # Initialize the ParticipantAFQ object
 myafq = ParticipantAFQ(
     dwi_data_file=dwi_data_file,
@@ -80,6 +89,7 @@ myafq = ParticipantAFQ(
     t1_file=t1_file,
     output_dir=output_dir,
     pve=pve,
+    mapping_definition=mapping_definition,
     tracking_params={
         "n_seeds": 10000,
         "random_seeds": True,
