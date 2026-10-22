@@ -1580,7 +1580,7 @@ def _load_force_library(model, gtab, force_num_simulations, n_threads):
     DIPY's own FORCE cache, which ignores the compute flags.
     """
     key = hashlib.sha1()
-    key.update(b"afq-force-v1:dki,mapmri,qti,rsi,gqi,mixture,cumulant")
+    key.update(b"afq-force-v1:dki,mapmri,qti,rsi,gqi,mixture,canonical")
     key.update(str(int(force_num_simulations)).encode())
     key.update((np.round(gtab.bvals) + 0.0).tobytes())
     key.update((np.round(gtab.bvecs, 4) + 0.0).tobytes())
@@ -1595,7 +1595,7 @@ def _load_force_library(model, gtab, force_num_simulations, n_threads):
             compute_qti=True,
             compute_rsi=True,
             compute_gqi=True,
-            metric_method="cumulant",
+            metric_method="canonical",
             store_mixture=True,
             verbose=True,
         )
@@ -1683,7 +1683,7 @@ def _force_outputs(
         Parameters=dict(
             NumSimulations=force_num_simulations,
             NNeighbors=force_n_neighbors,
-            MetricMethod="cumulant",
+            MetricMethod="canonical",
         ),
         ModelURL=f"{DIPY_GH}reconst/force.py",
     )
