@@ -1286,16 +1286,22 @@ def read_org800_templates(load_npy=True, load_trx=True):
 massp_fnames = [
     "left_VTA.nii.gz",
     "right_VTA.nii.gz",
+    "left_SN.nii.gz",
+    "right_SN.nii.gz",
 ]
 
 massp_remote_fnames = [
     "34892325",
     "34892319",
+    "34892433",
+    "34892427",
 ]
 
 massp_md5_hashes = [
     "03d65d85abb161ea25501c343c136e40",
     "440874b899d2c1057e5fd77b8b350bc4",
+    "481bd3acf0835306982d924c8f8852ab",
+    "b48b8e25f1c4dd118c5c2b8e25f61c34",
 ]
 
 fetch_massp_templates = _make_reusable_fetcher(
