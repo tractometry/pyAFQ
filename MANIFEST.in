@@ -1,1 +1,2 @@
 include AFQ/tests/data/ds000102-mimic/**
+include AFQ/models/LICENSE_MKCURVE.txt
