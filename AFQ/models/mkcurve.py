@@ -31,7 +31,7 @@ from concurrent.futures import ThreadPoolExecutor
 from threadpoolctl import threadpool_limits
 
 
-def _mk_curves(Y, B, syn, n_threads=1, tile=4096, progress=True):
+def _mk_curves(Y, B, syn, n_threads=1, tile=4096, min_log_weight=-600.0, progress=True):
     """MK for every voxel (rows of Y, b0 in column 0) at each synthetic b0."""
     scale = np.sqrt((B**2).sum(0))
     B = B / scale  # equilibrate columns: keeps the normal equations stable
@@ -54,7 +54,9 @@ def _mk_curves(Y, B, syn, n_threads=1, tile=4096, progress=True):
         for i, t in enumerate(logs):
             L[:, 0] = t
             lw = lw0 + t * H[:, 0]
-            w2 = np.exp(2 * (lw - lw.max(1, keepdims=True)))  # WLS weights
+            # WLS weights; clamp avoids slow subnormals, which would change how
+            # numpy does solve, slowing it down
+            w2 = np.exp(np.maximum(2 * (lw - lw.max(1, keepdims=True)), min_log_weight))
             G = (w2 @ BB).reshape(-1, 22, 22)
             r = ((w2 * L) @ B)[..., None]
             try:
