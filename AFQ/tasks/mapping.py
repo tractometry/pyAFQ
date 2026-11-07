@@ -10,7 +10,7 @@ from dipy.io.streamline import load_tractogram
 
 import AFQ.data.fetch as afd
 from AFQ.definitions.image import ImageDefinition
-from AFQ.definitions.mapping import SynMap
+from AFQ.definitions.mapping import FireANTsMap, SynMap
 from AFQ.definitions.utils import Definition
 from AFQ.tasks.decorators import as_file
 from AFQ.tasks.utils import get_fname, get_tp, str_to_desc, with_name
@@ -102,7 +102,14 @@ def export_rois(base_fname, output_dir, dwi_data_file, data_imap, mapping):
 
 
 @immlib.calc("mapping")
-def mapping(base_fname, dwi_data_file, reg_subject, data_imap, mapping_definition=None):
+def mapping(
+    base_fname,
+    dwi_data_file,
+    reg_subject,
+    data_imap,
+    citations,
+    mapping_definition=None,
+):
     """
     mapping from subject to template space.
 
@@ -121,6 +128,8 @@ def mapping(base_fname, dwi_data_file, reg_subject, data_imap, mapping_definitio
 
     if mapping_definition is None:
         mapping_definition = SynMap()
+    if isinstance(mapping_definition, FireANTsMap):
+        citations.add("jena2026adaptive")
 
     if isinstance(reg_subject, str):
         reg_subject = nib.load(reg_subject)
