@@ -6,7 +6,7 @@ pyAFQ has a system for users to specify how to register an image from each
 subject to a given template, called the mapping. The mapping API is similar to
 our Mask API.
 
-In the :mod:`AFQ.definitions.mapping` module, there are four mapping classes one
+In the :mod:`AFQ.definitions.mapping` module, there are five mapping classes one
 can use to specify the mapping. As a user, one should initialize mapping classes
 and pass them to the AFQ.api objects, or write out the initialization as a
 string inside to pass into the CLI.
@@ -15,6 +15,12 @@ string inside to pass into the CLI.
    Symmetric Diffeomorphic Image Registration (SyN). This is done with an
    optional linear pre-alignment by default. The parameters of the pre-alginment
    can be specified when initializing the SynMap.
+
+-  :class:`AFQ.definitions.mapping.FireANTsMap`: SyN registration computed with
+   FireANTs, on a GPU. On CPU, SynMap is faster. Requires
+   ``pip install pyAFQ[fireants]``. On Python 3.12+, install FireANTs from
+   GitHub until a release after 1.5.0:
+   ``pip install git+https://github.com/rohitrango/FireANTs``.
 
 -  :class:`AFQ.definitions.mapping.SlrMap`: Use this class to tell pyAFQ to use
    Streamline-based Linear Registration (SLR) for registration. Note that the

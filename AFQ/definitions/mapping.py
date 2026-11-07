@@ -1,10 +1,12 @@
 import logging
 import os.path as op
+import tempfile
 from time import time
 
 import nibabel as nib
 import numpy as np
 from dipy.align import affine_registration, syn_registration
+from dipy.align.imaffine import AffineMap
 from dipy.align.streamlinear import whole_brain_slr
 
 import AFQ.registration as reg
@@ -22,7 +24,7 @@ try:
 except ModuleNotFoundError:
     has_fslpy = False
 
-__all__ = ["FnirtMap", "SynMap", "SlrMap", "AffMap", "IdentityMap"]
+__all__ = ["FnirtMap", "SynMap", "FireANTsMap", "SlrMap", "AffMap", "IdentityMap"]
 
 
 logger = logging.getLogger("AFQ")
@@ -341,15 +343,7 @@ class SynMap(GeneratedMapMixin, Definition):
                 reg_prealign = None
 
             logger.info("Calculating SyN registration...")
-            _, mapping = syn_registration(
-                reg_subject.get_fdata(),
-                reg_template.get_fdata(),
-                moving_affine=reg_subject.affine,
-                static_affine=reg_template.affine,
-                prealign=reg_prealign,
-                **self.syn_kwargs,
-            )
-            mapping = get_simplified_transform(mapping)
+            mapping = self.gen_mapping(reg_subject, reg_template, reg_prealign)
 
             total_time = time() - start_time
             meta["total_time"] = total_time
@@ -368,6 +362,110 @@ class SynMap(GeneratedMapMixin, Definition):
             write_json(meta_backward_fname, meta)
         mapping = reg.read_syn_mapping(mapping_file_forward, mapping_file_backward)
         return mapping
+
+    def gen_mapping(self, reg_subject, reg_template, reg_prealign):
+        _, mapping = syn_registration(
+            reg_subject.get_fdata(),
+            reg_template.get_fdata(),
+            moving_affine=reg_subject.affine,
+            static_affine=reg_template.affine,
+            prealign=reg_prealign,
+            **self.syn_kwargs,
+        )
+        return get_simplified_transform(mapping)
+
+
+class FireANTsMap(SynMap):
+    """
+    Calculate a SyN registration for each subject/session
+    using FireANTs, which can run on a GPU.
+
+    Parameters
+    ----------
+    use_prealign : bool
+        Whether to perform a linear pre-registration.
+        Default: True
+    affine_kwargs : dictionary, optional
+        Parameters to pass to affine_registration
+        in dipy.align, which does the linear pre-alignment.
+        Only used if use_prealign is True.
+        Default: {}
+    fireants_kwargs : dictionary, optional
+        Parameters to pass to SyNRegistration
+        in fireants, which does the SyN alignment.
+        Default: {"scales": [4, 2, 1], "iterations": [100, 50, 20],
+        "optimizer_lr": 0.4}
+    device : str, optional
+        Torch device to register on, e.g. "cuda" or "cpu".
+        Default: "cuda"
+
+    Notes
+    -----
+    Requires fireants. On CPU, SynMap is faster;
+    use FireANTsMap with a GPU. The FireANTs paper reports that
+    registration is insensitive to the learning rate for lr >= 0.4.
+
+    Examples
+    --------
+    api.GroupAFQ(mapping=FireANTsMap())
+    """
+
+    def __init__(
+        self, use_prealign=True, affine_kwargs=None, fireants_kwargs=None, device="cuda"
+    ):
+        super().__init__(use_prealign=use_prealign, affine_kwargs=affine_kwargs)
+        self.fireants_kwargs = {
+            "scales": [4, 2, 1],
+            "iterations": [100, 50, 20],
+            "optimizer_lr": 0.4,
+        }
+        if fireants_kwargs is not None:
+            self.fireants_kwargs.update(fireants_kwargs)
+        self.device = device
+
+    def gen_mapping(self, reg_subject, reg_template, reg_prealign):
+        try:
+            from fireants.io.image import BatchedImages, Image
+            from fireants.registration.syn import SyNRegistration
+        except ImportError as e:
+            raise ImportError(
+                "Please install fireants if you want to use FireANTsMap"
+            ) from e
+
+        # FireANTs registers images on one grid, so resample the
+        # (prealigned) subject onto the template grid first
+        moving = AffineMap(
+            reg_prealign,
+            domain_grid_shape=reg_template.shape,
+            domain_grid2world=reg_template.affine,
+            codomain_grid_shape=reg_subject.shape,
+            codomain_grid2world=reg_subject.affine,
+        ).transform(reg_subject.get_fdata(dtype=np.float32))
+        images = []
+        with tempfile.TemporaryDirectory() as tmpdir:
+            for name, data in (
+                ("fixed", reg_template.get_fdata(dtype=np.float32)),
+                ("moving", moving),
+            ):
+                fname = op.join(tmpdir, f"{name}.nii")
+                nib.save(
+                    nib.Nifti1Image(data.astype(np.float32), reg_template.affine),
+                    fname,
+                )
+                images.append(
+                    BatchedImages([Image.load_file(fname, device=self.device)])
+                )
+        fixed, moving = images
+
+        registration = SyNRegistration(
+            fixed_images=fixed, moving_images=moving, **self.fireants_kwargs
+        )
+        registration.optimize()
+        coords = registration.get_warped_coordinates(fixed, moving)
+        mapping = reg.read_fireants_mapping(
+            coords.detach().cpu().numpy(), reg_subject, reg_template, reg_prealign
+        )
+        return get_simplified_transform(mapping)
 
 
 class SlrMap(AffineMapMixin, Definition):
