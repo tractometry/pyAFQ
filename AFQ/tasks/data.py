@@ -865,7 +865,7 @@ def rumba_params(
     subfolder="models",
 )
 @as_img
-def ss3t_params(gtab, data, brain_mask, citations, ss3t_sh_order=8):
+def ss3t_params(gtab, data, brain_mask, citations, ss3t_sh_order_max=8):
     """
     full path to a nifti file containing
     parameters for the SS3T CSD white matter fit,
@@ -876,7 +876,7 @@ def ss3t_params(gtab, data, brain_mask, citations, ss3t_sh_order=8):
 
     Parameters
     ----------
-    ss3t_sh_order : int, optional.
+    ss3t_sh_order_max : int, optional.
         Spherical harmonic order to use for the SS3T CSD fit.
         Default: 8
 
@@ -895,11 +895,11 @@ def ss3t_params(gtab, data, brain_mask, citations, ss3t_sh_order=8):
     citations.add("dhollander2016novel")
 
     dwi = cs_dmri.DWI(data, gtab, mask=nib.load(brain_mask).get_fdata())
-    responses = dwi.estimate_responses(lmax_wm=ss3t_sh_order)
+    responses = dwi.estimate_responses(lmax_wm=ss3t_sh_order_max)
     logger.info("Fitting Single-Shell 3-Tissue CSD model...")
     ss3t_fit = (
         cs_dmri.SS3TModel(
-            dwi.gtab, responses, lmax_wm=ss3t_sh_order, bvec_frame="image"
+            dwi.gtab, responses, lmax_wm=ss3t_sh_order_max, bvec_frame="image"
         )
         .fit(dwi)
         .mtnormalise()
