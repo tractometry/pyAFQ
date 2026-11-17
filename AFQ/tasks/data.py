@@ -890,7 +890,7 @@ def ss3t_params(gtab, data, brain_mask, citations, ss3t_sh_order=8):
         import cs_dmri
     except ImportError as err:
         raise ImportError(
-            "SS3T CSD requires cs_dmri: pip install 'pyAFQ[ss3t]'"
+            "SS3T CSD requires cs_dmri: pip install 'pyAFQ[cs_dmri]'"
         ) from err
     citations.add("dhollander2016novel")
 
