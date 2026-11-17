@@ -855,6 +855,24 @@ def rumba_params(
     ]
 
 
+def _tournier07_to_descoteaux07(sh):
+    """
+    Project SH coefficients in the tournier07 basis (MRtrix3's, which
+    cs_dmri fits in) onto the legacy descoteaux07 basis pyAFQ uses
+    """
+    sh_order = shm.order_from_ncoef(sh.shape[-1])
+    sphere = get_sphere(name="repulsion724")
+    B = shm.sh_to_sf_matrix(
+        sphere,
+        sh_order_max=sh_order,
+        basis_type="tournier07",
+        legacy=False,
+        return_inv=False,
+    )
+    _, invB = shm.sh_to_sf_matrix(sphere, sh_order_max=sh_order)
+    return sh @ (B @ invB)
+
+
 @immlib.calc("ss3tcsd_params", "ss3tcsd_gm", "ss3tcsd_csf")
 @as_file(
     suffix=[
@@ -905,17 +923,7 @@ def ss3t_params(gtab, data, brain_mask, citations, ss3t_sh_order_max=8):
         .mtnormalise()
     )
 
-    # cs_dmri fits in the tournier07 basis; project onto descoteaux07
-    sh_order = shm.order_from_ncoef(ss3t_fit.wm.shape[-1])
-    sphere = get_sphere(name="repulsion724")
-    B = shm.sh_to_sf_matrix(
-        sphere,
-        sh_order_max=sh_order,
-        basis_type="tournier07",
-        legacy=False,
-        return_inv=False,
-    )
-    _, invB = shm.sh_to_sf_matrix(sphere, sh_order_max=sh_order)
+    sh_order = ss3t_fit.lmax_wm
 
     def _get_meta(desc, sh_order, response):
         return dict(
@@ -939,7 +947,10 @@ def ss3t_params(gtab, data, brain_mask, citations, ss3t_sh_order_max=8):
         )
 
     return [
-        (ss3t_fit.wm @ (B @ invB), _get_meta("White matter", sh_order, responses.wm)),
+        (
+            _tournier07_to_descoteaux07(ss3t_fit.wm),
+            _get_meta("White matter", sh_order, responses.wm),
+        ),
         (ss3t_fit.gm, _get_meta("Gray matter", 0, responses.gm)),
         (ss3t_fit.csf, _get_meta("Cerebro-spinal fluid", 0, responses.csf)),
     ]
