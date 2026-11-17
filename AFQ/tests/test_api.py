@@ -14,7 +14,9 @@ import numpy as np
 import numpy.testing as npt
 import pandas as pd
 import pytest
+from dipy.data import get_sphere
 from dipy.io.streamline import load_tractogram
+from dipy.reconst.shm import order_from_ncoef, sh_to_sf
 from dipy.segment.metric import mdf
 from pandas.testing import assert_series_equal
 from pcollections._lazy import LazyError
@@ -367,6 +369,28 @@ def test_AFQ_data():
         myafq.export("rois")
         myafq.cmd_outputs()
         assert len(os.listdir(op.join(myafq.afq_path, "sub-01", "ses-01", "dwi"))) == 0
+
+
+def test_AFQ_ss3t():
+    """
+    Test if SS3T CSD fODF peaks agree with CSD's in white matter
+    """
+    pytest.importorskip("cs_dmri")
+    _, bids_path, _ = get_temp_hardi()
+    myafq = GroupAFQ(
+        bids_path=bids_path,
+        dwi_preproc_pipeline="vistasoft",
+        t1_preproc_pipeline="freesurfer",
+    )
+    wm = nib.load(myafq.export("dti_fa")["01"]).get_fdata() > 0.5
+    sphere = get_sphere(name="repulsion724")
+    peaks = []
+    for model in ["ss3tcsd_params", "csd_params"]:
+        sh = nib.load(myafq.export(model)["01"]).get_fdata()[wm]
+        sf = sh_to_sf(sh, sphere, sh_order_max=order_from_ncoef(sh.shape[-1]))
+        peaks.append(sphere.vertices[np.argmax(sf, -1)])
+    agreement = np.mean(np.abs(np.sum(peaks[0] * peaks[1], -1)))
+    npt.assert_array_less(0.9, agreement)
 
 
 def test_AFQ_seed_array():
