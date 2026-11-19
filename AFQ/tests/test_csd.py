@@ -6,6 +6,7 @@ import nibabel.tmpdirs as nbtmp
 import numpy as np
 import numpy.testing as npt
 import pytest
+from dipy.reconst import shm
 from dipy.reconst.shm import calculate_max_order
 
 from AFQ.models import csd
@@ -82,3 +83,41 @@ def test_afod():
         )
 
         npt.assert_allclose(aodf_pyafq, aodf_scilpy, atol=1e-6)
+
+
+def test_tournier07_to_descoteaux07():
+    """
+    The projection matches, on the sphere, cs_dmri's own export of an SS3T
+    fit to DIPY's descoteaux07 basis
+    """
+    cs = pytest.importorskip("cs_dmri")
+    from dipy.io.peaks import load_pam
+
+    from AFQ.tasks.data import _tournier07_to_descoteaux07
+
+    shape, lmax = (5, 5, 4), 8
+    rng = np.random.default_rng(0)
+    wm = rng.normal(size=shape + (45,)).astype(np.float32)
+    responses = cs.ResponseSet(
+        wm=cs.TissueResponse(
+            np.array([[3.5, 0, 0, 0, 0], [1.2, -0.6, 0.2, -0.05, 0.01]]), lmax
+        ),
+        gm=cs.TissueResponse(np.array([[3.0], [1.0]]), 0),
+        csf=cs.TissueResponse(np.array([[4.0], [0.3]]), 0),
+    )
+    # on a RAS+ grid cs_dmri's world frame is the image frame
+    fit = cs.SS3TFit(
+        wm=wm,
+        gm=np.full(shape, 0.05, np.float32),
+        csf=np.full(shape, 0.02, np.float32),
+        lmax_wm=lmax,
+        mask=np.ones(shape, bool),
+        affine=np.diag([2.0, 2.0, 2.0, 1.0]),
+        frame="world",
+        responses=responses,
+    )
+    with nbtmp.InTemporaryDirectory() as tmpdir:
+        fit.export(op.join(tmpdir, "fit.pam5"))
+        ref = load_pam(op.join(tmpdir, "fit.pam5")).shm_coeff
+    B, _ = shm.sh_to_sf_matrix(dpd.get_sphere(name="symmetric362"), sh_order_max=lmax)
+    npt.assert_allclose(_tournier07_to_descoteaux07(wm) @ B, ref @ B, atol=1e-4)

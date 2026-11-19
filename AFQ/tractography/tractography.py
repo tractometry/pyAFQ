@@ -112,7 +112,8 @@ def track(
         The maximum length (mm) in a streamline. Default: 500
     odf_model : str or Definition, optional
         Can be either a string or Definition. If a string, it must be one of
-        {"DTI", "CSD", "DKI", "GQ", "RUMBA", "MSMT_AODF", "CSD_AODF", "MSMTCSD"}.
+        {"DTI", "CSD", "DKI", "GQ", "RUMBA", "MSMT_AODF", "CSD_AODF", "MSMTCSD",
+        "SS3TCSD"}.
         If a Definition, we assume it is a definition of a file containing
         Spherical Harmonics coefficients.
         Default: "CSD_AODF"

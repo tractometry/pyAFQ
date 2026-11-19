@@ -855,6 +855,107 @@ def rumba_params(
     ]
 
 
+def _tournier07_to_descoteaux07(sh):
+    """
+    Project SH coefficients in the tournier07 basis (MRtrix3's, which
+    cs_dmri fits in) onto the legacy descoteaux07 basis pyAFQ uses
+    """
+    sh_order = shm.order_from_ncoef(sh.shape[-1])
+    sphere = get_sphere(name="repulsion724")
+    B = shm.sh_to_sf_matrix(
+        sphere,
+        sh_order_max=sh_order,
+        basis_type="tournier07",
+        legacy=False,
+        return_inv=False,
+    )
+    _, invB = shm.sh_to_sf_matrix(sphere, sh_order_max=sh_order)
+    return sh @ (B @ invB)
+
+
+@immlib.calc("ss3tcsd_params", "ss3tcsd_gm", "ss3tcsd_csf")
+@as_file(
+    suffix=[
+        "_model-ss3tcsd_param-wm_dwimap.nii.gz",
+        "_model-ss3tcsd_param-gm_dwimap.nii.gz",
+        "_model-ss3tcsd_param-csf_dwimap.nii.gz",
+    ],
+    subfolder="models",
+)
+@as_img
+def ss3t_params(gtab, data, brain_mask, citations, ss3t_sh_order_max=8):
+    """
+    full path to a nifti file containing
+    parameters for the SS3T CSD white matter fit,
+    full path to a nifti file containing
+    parameters for the SS3T CSD gray matter fit,
+    full path to a nifti file containing
+    parameters for the SS3T CSD cerebrospinal fluid fit
+
+    Parameters
+    ----------
+    ss3t_sh_order_max : int, optional.
+        Spherical harmonic order to use for the SS3T CSD fit.
+        Default: 8
+
+    References
+    ----------
+    .. [1] T. Dhollander and A. Connelly. A novel iterative approach
+            to reap the benefits of multi-tissue CSD from just
+            single-shell (+b=0) diffusion MRI data. ISMRM (2016), p. 3010
+    """
+    try:
+        import cs_dmri
+    except ImportError as err:
+        raise ImportError(
+            "SS3T CSD requires cs_dmri: pip install 'pyAFQ[cs_dmri]'"
+        ) from err
+    citations.add("dhollander2016novel")
+
+    dwi = cs_dmri.DWI(data, gtab, mask=nib.load(brain_mask).get_fdata())
+    responses = dwi.estimate_responses(lmax_wm=ss3t_sh_order_max)
+    logger.info("Fitting Single-Shell 3-Tissue CSD model...")
+    ss3t_fit = (
+        cs_dmri.SS3TModel(
+            dwi.gtab, responses, lmax_wm=ss3t_sh_order_max, bvec_frame="image"
+        )
+        .fit(dwi)
+        .mtnormalise()
+    )
+
+    sh_order = ss3t_fit.lmax_wm
+
+    def _get_meta(desc, sh_order, response):
+        return dict(
+            Model=dict(
+                Description=(
+                    "Single-Shell 3-Tissue (SS3T) "
+                    "Constrained Spherical Deconvolution (CSD)"
+                ),
+                URL="https://github.com/PennLINC/cs_dmri",
+            ),
+            Description=desc,
+            NonNegativity="constrained",
+            OrientationEncoding=dict(
+                EncodingAxis=3,
+                Reference="xyz",
+                SphericalHarmonicBasis="descoteaux",
+                SphericalHarmonicDegree=sh_order,
+                Type="sh",
+            ),
+            ResponseFunction=dict(Coefficients=response.coeffs.tolist(), Type="zonal"),
+        )
+
+    return [
+        (
+            _tournier07_to_descoteaux07(ss3t_fit.wm),
+            _get_meta("White matter", sh_order, responses.wm),
+        ),
+        (ss3t_fit.gm, _get_meta("Gray matter", 0, responses.gm)),
+        (ss3t_fit.csf, _get_meta("Cerebro-spinal fluid", 0, responses.csf)),
+    ]
+
+
 @immlib.calc("opdt_params", "opdt_gfa")
 @as_file(
     suffix=[
@@ -1529,6 +1630,7 @@ def get_data_plan(kwargs):
             dki_cp,
             dki_cs,
             rumba_params,
+            ss3t_params,
             csd_params,
             get_bundle_dict,
         ]
