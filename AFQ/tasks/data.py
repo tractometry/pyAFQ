@@ -15,6 +15,7 @@ from dipy.reconst import shm
 from dipy.reconst.dki_micro import axonal_water_fraction
 from dipy.reconst.gqi import GeneralizedQSamplingModel
 from dipy.reconst.rumba import RumbaSDModel
+from dipy.reconst.weights_method import weights_method_wls_m_est
 
 import AFQ.api.bundle_dict as abd
 import AFQ.data.fetch as afd
@@ -112,7 +113,7 @@ def b0(dwi, gtab):
 @immlib.calc("t1w_over_b0")
 @as_file("_desc-T1wOverB0.nii.gz")
 @as_img
-def t1w_over_b0(structural_imap, b0, citations, min_b0_for_r1_approximation=1e-2):
+def t1w_over_b0(structural_imap, b0, citations, min_b0_for_r1_approximation=1.05):
     """
     full path to a nifti file containing the T1w over mean b0
     which is a proxy for R1 [1]_
@@ -120,9 +121,8 @@ def t1w_over_b0(structural_imap, b0, citations, min_b0_for_r1_approximation=1e-2
     Parameters
     ----------
     min_b0_for_r1_approximation : float, optional
-        The minimum value of b0 to consider when doing the division.
-        This is to avoid dividing by small numbers.
-        Default: 1e-2
+        The minimum value of b0 to consider.
+        Default: 1.05
 
     References
     ----------
@@ -160,8 +160,7 @@ def t1w_over_log_b0(
     Parameters
     ----------
     min_b0_for_logr1_approximation : float, optional
-        The minimum value of b0 to consider when doing the division.
-        This is to avoid dividing by small numbers.
+        The minimum value of b0 to consider.
         Default: 1.05
 
     References
@@ -347,12 +346,27 @@ def dki_fit(dki_params, gtab):
     subfolder="models",
 )
 @as_img
-def dki_params(brain_mask, gtab, data, citations):
+def dki_params(brain_mask, gtab, data, citations, use_robust=True):
     """
     full path to a nifti file containing
     parameters for the DKI fit, s0 values of DKI fit
+
+    Parameters
+    ----------
+    use_robust : bool, optional
+        Whether to use robust fitting when doing dki [1]_.
+        Default: True
+
+    References
+    ----------
+    .. [1] Coveney S, Afzali M, Mueller L, Teh I, Szczepankiewicz F,
+           Jones DK, Schneider JE. Robust constrained weighted least squares
+           for in vivo human cardiac diffusion kurtosis imaging.
+           Magn Reson Med. 2026 Jan;95(1):220-233. doi: 10.1002/mrm.70037.
     """
     citations.add("henriques2021diffusional")
+    if use_robust:
+        citations.add("Coveney2026-oa")
     if len(dpg.unique_bvals_magnitude(gtab.bvals)) < 3:
         raise ValueError(
             (
@@ -361,19 +375,33 @@ def dki_params(brain_mask, gtab, data, citations):
                 " b-values (including b=0)."
             )
         )
+    if use_robust:
+        dkimodel_kwargs = dict(weights_method=weights_method_wls_m_est, num_iter=6)
+        fit_method = "rwls"
+    else:
+        dkimodel_kwargs = dict()
+        fit_method = "wls"
+
     mask = nib.load(brain_mask).get_fdata()
-    dkimodel = dpy_dki.DiffusionKurtosisModel(gtab, return_S0_hat=True)
+    dkimodel = dpy_dki.DiffusionKurtosisModel(
+        gtab,
+        return_S0_hat=True,
+        **dkimodel_kwargs,
+    )
     dkf = dkimodel.fit(
         data,
-        mask=mask,
+        mask=mask > 0,
     )
+
     meta = dict(
         Description=(
             "Diffusion Coefficient, encoded as a kurtosis tensor representation"
         ),
         Units="mm^2/s",
         Model=dict(
-            Parameters=dict(FitMethod="wls", OutlierRejectionMethod=_or_to_text(False)),
+            Parameters=dict(
+                FitMethod=fit_method, OutlierRejectionMethod=_or_to_text(False)
+            ),
             ModelURL=f"{DIPY_GH}reconst/dki.py",
         ),
         OrientationEncoding=dict(
@@ -1268,6 +1296,17 @@ def dki_mk(dki_tf):
     return dki_tf.mk(), {"Description": "Mean Kurtosis"}
 
 
+@immlib.calc("dki_mkt")
+@as_file("_model-kurtosis_param-mkt_dwimap.nii.gz", subfolder="models")
+@as_fit_deriv("DKI")
+def dki_mkt(dki_tf):
+    """
+    full path to a nifti file containing
+    the DKI mean kurtosis tensor file
+    """
+    return dki_tf.mkt(), {"Description": "Mean Kurtosis Tensor"}
+
+
 @immlib.calc("dki_kfa")
 @as_file("_model-kurtosis_param-kfa_dwimap.nii.gz", subfolder="models")
 @as_fit_deriv("DKI")
@@ -1512,6 +1551,7 @@ def get_data_plan(kwargs):
             dki_md,
             dki_awf,
             dki_mk,
+            dki_mkt,
             dki_kfa,
             dki_cfa,
             dki_ga,
@@ -1538,14 +1578,13 @@ def get_data_plan(kwargs):
         bvals, _ = read_bvals_bvecs(kwargs["bval_file"], kwargs["bvec_file"])
         if len(dpg.unique_bvals_magnitude(bvals)) > 2:
             kwargs["scalars"] = [
-                "dti_fa",
-                "dti_md",
-                "t1w_over_b0",
-                "msdki_msd",
-                "msdki_msk",
+                "dki_fa",
+                "dki_md",
+                "dki_mkt",
+                "t1w_over_log_b0",
             ]
         else:
-            kwargs["scalars"] = ["dti_fa", "dti_md", "t1w_over_b0"]
+            kwargs["scalars"] = ["dti_fa", "dti_md", "t1w_over_log_b0"]
     else:
         scalars = []
         for scalar in kwargs["scalars"]:
