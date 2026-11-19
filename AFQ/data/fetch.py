@@ -678,7 +678,7 @@ def read_resample_roi(roi, resample_to=None, threshold=False):
         static_affine=resample_to.affine,
     ).get_fdata()
     if threshold:
-        as_array = (as_array > threshold).astype(int)
+        as_array = (as_array > threshold).astype(np.uint8)
 
     img = nib.Nifti1Image(as_array, resample_to.affine)
 

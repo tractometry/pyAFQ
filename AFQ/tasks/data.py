@@ -1380,9 +1380,9 @@ def brain_mask(structural_imap, b0):
     """
     full path to a nifti file containing the brain mask
     """
-    return resample(structural_imap["t1w_brain_mask"], b0), dict(
-        BrainMaskinT1w=structural_imap["t1w_brain_mask"]
-    )
+    return afd.read_resample_roi(
+        structural_imap["t1w_brain_mask"], resample_to=b0, threshold=0.5
+    ), dict(BrainMaskinT1w=structural_imap["t1w_brain_mask"])
 
 
 @immlib.calc("bundle_dict", "reg_template", "tmpl_name")
