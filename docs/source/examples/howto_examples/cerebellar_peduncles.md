@@ -30,6 +30,7 @@ import AFQ.data.fetch as afd
 import AFQ.api.bundle_dict as abd
 from AFQ.api.group import GroupAFQ
 from AFQ.definitions.image import RoiImage, ImageFile
+from AFQ.definitions.mapping import AntsMap
 ```
 
 
@@ -71,6 +72,7 @@ cp_afq = GroupAFQ(
     name="cp_afq",
     bids_path=bids_path,
     dwi_preproc_pipeline="qsiprep",
+    mapping_definition=AntsMap(sub_space="T1w"),
     tracking_params={
         "n_seeds": 4,
         "random_seeds": False,

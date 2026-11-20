@@ -138,5 +138,5 @@ here (``pyAFQ-bids --help`` lists them). Example:
 
 .. code-block:: none
 
-    pyAFQ-bids ~/AFQ_data/HBN participant --dwi-preproc-pipeline qsiprep --participant-label NDARAA948VFH --nprocs 4 --rng_seed=2026
+    pyAFQ-bids ~/AFQ_data/HBN participant --dwi-preproc-pipeline qsiprep --participant-label NDARAA948VFH --nprocs 4 --rng_seed=2026 --mapping_definition='AntsMap(sub_space="T1w")'
     pyAFQ-bids ~/AFQ_data/HBN group
