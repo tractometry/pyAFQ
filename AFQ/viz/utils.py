@@ -32,41 +32,39 @@ def _stable_unit_floats(name, n):
 
 def split_side(bundle):
     """
-    Returns (side, base_name), e.g. "Left Arcuate" -> ("Left", "Arcuate").
-    side is None for bundles without a Left/Right prefix.
+    Returns (side, base_name), e.g. "Left Arcuate" -> ("Left", "Arcuate"),
+    "AF_L" -> ("Left", "AF"). side is None for bundles without a side.
     """
     for side in ("Left", "Right"):
         prefix = side + " "
         if bundle.startswith(prefix):
             return side, bundle[len(prefix) :]
-    for side in ("L", "R"):
-        suffix = "_" + side
+    for short, side in (("L", "Left"), ("R", "Right")):
+        suffix = "_" + short
         if bundle.endswith(suffix):
             return side, bundle[: -len(suffix)]
     return None, bundle
 
 
-def _hashed_rgb(base_name, side=None):
-    hue = _stable_unit_floats(base_name, 1)[0]
+def _spread_hues(base_names):
+    """
+    Evenly space hues around the wheel, ordered by each name's hash and
+    rotated to sit as close as possible to the hashed positions.
+    """
+    k = len(base_names)
+    if k == 0:
+        return {}
+    hashed = {n: _stable_unit_floats(n, 1)[0] for n in base_names}
+    ordered = sorted(base_names, key=lambda n: (hashed[n], n))
+    # circular mean of (hashed hue - grid position) gives the best rotation
+    diffs = np.array([hashed[n] - i / k for i, n in enumerate(ordered)])
+    offset = (np.angle(np.mean(np.exp(2j * np.pi * diffs))) / (2 * np.pi)) % 1.0
+    return {n: (offset + i / k) % 1.0 for i, n in enumerate(ordered)}
 
-    if side == "Right":
-        sat = 0.5
-    elif side == "Left":
-        sat = 0.8
-    else:
-        sat = 0.6
 
-    val = 0.85
-
-    r, g, b = colorsys.hsv_to_rgb(hue, sat, val)
-    if r >= 1.0:
-        r = 0.999
-    if g >= 1.0:
-        g = 0.999
-    if b >= 1.0:
-        b = 0.999
-
-    return (r, g, b)
+def _side_rgb(hue, side=None):
+    lightness = {"Left": 0.42, "Right": 0.68}.get(side, 0.55)
+    return colorsys.hls_to_rgb(hue, lightness, 0.75)
 
 
 def get_distinct_shades(base_rgb, n_steps, hue_shift):
@@ -495,17 +493,16 @@ def gen_color_dict(bundles):
     dict
         A dictionary mapping bundle names to their RGB color values.
     """
+    novel = [b for b in dict.fromkeys(bundles) if b not in _COLOR_DICT]
+    hues = _spread_hues(sorted({split_side(b)[1] for b in novel}))
+
     custom_color_dict = {}
     for bundle in bundles:
-        if bundle in custom_color_dict:
-            continue
         if bundle in _COLOR_DICT:
             custom_color_dict[bundle] = _COLOR_DICT[bundle]
-            continue
-
-        side, base_name = split_side(bundle)
-        custom_color_dict[bundle] = _hashed_rgb(base_name, side)
-
+        else:
+            side, base_name = split_side(bundle)
+            custom_color_dict[bundle] = _side_rgb(hues[base_name], side)
     return custom_color_dict
 
 

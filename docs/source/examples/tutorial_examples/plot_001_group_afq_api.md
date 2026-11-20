@@ -276,11 +276,10 @@ profiles_df = myafq.combine_profiles()
 altair_df = ava.combined_profiles_df_to_altair_df(
     profiles_df,
     tissue_properties=[
-        "dti_fa",
-        "dti_md",
-        "t1w_over_b0",
-        "msdki_msd",
-        "msdki_msk"])
+        "dki_fa",
+        "dki_md",
+        "dki_mkt",
+        "t1w_over_log_b0"])
 altair_chart = ava.altair_df_to_chart(altair_df)
 altair_chart.save("profiles_chart.html")
 ```

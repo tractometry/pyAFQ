@@ -28,7 +28,7 @@ opts = dict(
     scripts=[op.join('bin', op.split(f)[-1]) for f in glob.glob('bin/*')],
     cmdclass={"build_py": build_py_with_references},
     package_data={
-        "AFQ": ["_references.bib"],
+        "AFQ": ["_references.bib", "models/LICENSE_MKCURVE.txt"],
     })
 
 
